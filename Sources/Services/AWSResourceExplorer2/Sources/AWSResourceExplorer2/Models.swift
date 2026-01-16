@@ -364,6 +364,8 @@ extension ResourceExplorer2ClientTypes {
         public var scope: Swift.String?
         /// The [Amazon resource name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the view.
         public var viewArn: Swift.String?
+        /// The name of the view.
+        public var viewName: Swift.String?
 
         public init(
             filters: ResourceExplorer2ClientTypes.SearchFilter? = nil,
@@ -371,7 +373,8 @@ extension ResourceExplorer2ClientTypes {
             lastUpdatedAt: Foundation.Date? = nil,
             owner: Swift.String? = nil,
             scope: Swift.String? = nil,
-            viewArn: Swift.String? = nil
+            viewArn: Swift.String? = nil,
+            viewName: Swift.String? = nil
         ) {
             self.filters = filters
             self.includedProperties = includedProperties
@@ -379,13 +382,14 @@ extension ResourceExplorer2ClientTypes {
             self.owner = owner
             self.scope = scope
             self.viewArn = viewArn
+            self.viewName = viewName
         }
     }
 }
 
 extension ResourceExplorer2ClientTypes.View: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "View(includedProperties: \(Swift.String(describing: includedProperties)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), owner: \(Swift.String(describing: owner)), scope: \(Swift.String(describing: scope)), viewArn: \(Swift.String(describing: viewArn)), filters: \"CONTENT_REDACTED\")"}
+        "View(includedProperties: \(Swift.String(describing: includedProperties)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), owner: \(Swift.String(describing: owner)), scope: \(Swift.String(describing: scope)), viewArn: \(Swift.String(describing: viewArn)), viewName: \(Swift.String(describing: viewName)), filters: \"CONTENT_REDACTED\")"}
 }
 
 public struct BatchGetViewOutput: Swift.Sendable {
@@ -1302,6 +1306,8 @@ extension ResourceExplorer2ClientTypes {
         /// The Amazon Resource Name (ARN) of the service view.
         /// This member is required.
         public var serviceViewArn: Swift.String?
+        /// The name of the service view.
+        public var serviceViewName: Swift.String?
         /// The Amazon Web Services service that has streaming access to this view's data.
         public var streamingAccessForService: Swift.String?
 
@@ -1310,12 +1316,14 @@ extension ResourceExplorer2ClientTypes {
             includedProperties: [ResourceExplorer2ClientTypes.IncludedProperty]? = nil,
             scopeType: Swift.String? = nil,
             serviceViewArn: Swift.String? = nil,
+            serviceViewName: Swift.String? = nil,
             streamingAccessForService: Swift.String? = nil
         ) {
             self.filters = filters
             self.includedProperties = includedProperties
             self.scopeType = scopeType
             self.serviceViewArn = serviceViewArn
+            self.serviceViewName = serviceViewName
             self.streamingAccessForService = streamingAccessForService
         }
     }
@@ -1323,7 +1331,7 @@ extension ResourceExplorer2ClientTypes {
 
 extension ResourceExplorer2ClientTypes.ServiceView: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "ServiceView(includedProperties: \(Swift.String(describing: includedProperties)), scopeType: \(Swift.String(describing: scopeType)), serviceViewArn: \(Swift.String(describing: serviceViewArn)), streamingAccessForService: \(Swift.String(describing: streamingAccessForService)), filters: \"CONTENT_REDACTED\")"}
+        "ServiceView(includedProperties: \(Swift.String(describing: includedProperties)), scopeType: \(Swift.String(describing: scopeType)), serviceViewArn: \(Swift.String(describing: serviceViewArn)), serviceViewName: \(Swift.String(describing: serviceViewName)), streamingAccessForService: \(Swift.String(describing: streamingAccessForService)), filters: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetServiceViewOutput: Swift.Sendable {
@@ -3443,6 +3451,7 @@ extension ResourceExplorer2ClientTypes.View {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ResourceExplorer2ClientTypes.View()
         value.viewArn = try reader["ViewArn"].readIfPresent()
+        value.viewName = try reader["ViewName"].readIfPresent()
         value.owner = try reader["Owner"].readIfPresent()
         value.lastUpdatedAt = try reader["LastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.scope = try reader["Scope"].readIfPresent()
@@ -3588,6 +3597,7 @@ extension ResourceExplorer2ClientTypes.ServiceView {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ResourceExplorer2ClientTypes.ServiceView()
         value.serviceViewArn = try reader["ServiceViewArn"].readIfPresent() ?? ""
+        value.serviceViewName = try reader["ServiceViewName"].readIfPresent()
         value.filters = try reader["Filters"].readIfPresent(with: ResourceExplorer2ClientTypes.SearchFilter.read(from:))
         value.includedProperties = try reader["IncludedProperties"].readListIfPresent(memberReadingClosure: ResourceExplorer2ClientTypes.IncludedProperty.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.streamingAccessForService = try reader["StreamingAccessForService"].readIfPresent()

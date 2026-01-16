@@ -153,11 +153,15 @@ public struct MissingParameterValueException: ClientRuntime.ModeledError, AWSCli
     }
 }
 
+/// Returned if the request was made by a customer with no Amazon Glacier storage. The request is denied as the API is no longer supported for new customers. Please use Amazon S3 Glacier storage classes instead.
 public struct NoLongerSupportedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
+        /// 400 Bad Request
         public internal(set) var code: Swift.String? = nil
+        /// This API is no longer supported for new accounts. Please use Amazon S3 Glacier storage classes instead.
         public internal(set) var message: Swift.String? = nil
+        /// Client
         public internal(set) var type: Swift.String? = nil
     }
 
