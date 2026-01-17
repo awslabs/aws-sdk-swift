@@ -193,6 +193,11 @@ extension LaunchWizardClientTypes {
         case deleteInProgress
         case failed
         case inProgress
+        case updateCompleted
+        case updateFailed
+        case updateInProgress
+        case updateRollbackCompleted
+        case updateRollbackFailed
         case validating
         case sdkUnknown(Swift.String)
 
@@ -206,6 +211,11 @@ extension LaunchWizardClientTypes {
                 .deleteInProgress,
                 .failed,
                 .inProgress,
+                .updateCompleted,
+                .updateFailed,
+                .updateInProgress,
+                .updateRollbackCompleted,
+                .updateRollbackFailed,
                 .validating
             ]
         }
@@ -225,6 +235,11 @@ extension LaunchWizardClientTypes {
             case .deleteInProgress: return "DELETE_IN_PROGRESS"
             case .failed: return "FAILED"
             case .inProgress: return "IN_PROGRESS"
+            case .updateCompleted: return "UPDATE_COMPLETED"
+            case .updateFailed: return "UPDATE_FAILED"
+            case .updateInProgress: return "UPDATE_IN_PROGRESS"
+            case .updateRollbackCompleted: return "UPDATE_ROLLBACK_COMPLETED"
+            case .updateRollbackFailed: return "UPDATE_ROLLBACK_FAILED"
             case .validating: return "VALIDATING"
             case let .sdkUnknown(s): return s
             }
@@ -384,6 +399,8 @@ extension LaunchWizardClientTypes {
         public var deploymentArn: Swift.String?
         /// The ID of the deployment.
         public var id: Swift.String?
+        /// The time the deployment was last modified.
+        public var modifiedAt: Foundation.Date?
         /// The name of the deployment.
         public var name: Swift.String?
         /// The pattern name of the deployment.
@@ -404,6 +421,7 @@ extension LaunchWizardClientTypes {
             deletedAt: Foundation.Date? = nil,
             deploymentArn: Swift.String? = nil,
             id: Swift.String? = nil,
+            modifiedAt: Foundation.Date? = nil,
             name: Swift.String? = nil,
             patternName: Swift.String? = nil,
             resourceGroup: Swift.String? = nil,
@@ -416,6 +434,7 @@ extension LaunchWizardClientTypes {
             self.deletedAt = deletedAt
             self.deploymentArn = deploymentArn
             self.id = id
+            self.modifiedAt = modifiedAt
             self.name = name
             self.patternName = patternName
             self.resourceGroup = resourceGroup
@@ -429,7 +448,7 @@ extension LaunchWizardClientTypes {
 
 extension LaunchWizardClientTypes.DeploymentData: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "DeploymentData(createdAt: \(Swift.String(describing: createdAt)), deletedAt: \(Swift.String(describing: deletedAt)), deploymentArn: \(Swift.String(describing: deploymentArn)), id: \(Swift.String(describing: id)), name: \(Swift.String(describing: name)), patternName: \(Swift.String(describing: patternName)), resourceGroup: \(Swift.String(describing: resourceGroup)), status: \(Swift.String(describing: status)), tags: \(Swift.String(describing: tags)), workloadName: \(Swift.String(describing: workloadName)), specifications: \"CONTENT_REDACTED\")"}
+        "DeploymentData(createdAt: \(Swift.String(describing: createdAt)), deletedAt: \(Swift.String(describing: deletedAt)), deploymentArn: \(Swift.String(describing: deploymentArn)), id: \(Swift.String(describing: id)), modifiedAt: \(Swift.String(describing: modifiedAt)), name: \(Swift.String(describing: name)), patternName: \(Swift.String(describing: patternName)), resourceGroup: \(Swift.String(describing: resourceGroup)), status: \(Swift.String(describing: status)), tags: \(Swift.String(describing: tags)), workloadName: \(Swift.String(describing: workloadName)), specifications: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetDeploymentOutput: Swift.Sendable {
@@ -522,6 +541,8 @@ extension LaunchWizardClientTypes {
         public var createdAt: Foundation.Date?
         /// The ID of the deployment.
         public var id: Swift.String?
+        /// The time the deployment was last modified.
+        public var modifiedAt: Foundation.Date?
         /// The name of the deployment
         public var name: Swift.String?
         /// The name of the workload deployment pattern.
@@ -534,6 +555,7 @@ extension LaunchWizardClientTypes {
         public init(
             createdAt: Foundation.Date? = nil,
             id: Swift.String? = nil,
+            modifiedAt: Foundation.Date? = nil,
             name: Swift.String? = nil,
             patternName: Swift.String? = nil,
             status: LaunchWizardClientTypes.DeploymentStatus? = nil,
@@ -541,6 +563,7 @@ extension LaunchWizardClientTypes {
         ) {
             self.createdAt = createdAt
             self.id = id
+            self.modifiedAt = modifiedAt
             self.name = name
             self.patternName = patternName
             self.status = status
@@ -564,6 +587,55 @@ public struct ListDeploymentsOutput: Swift.Sendable {
     }
 }
 
+public struct UpdateDeploymentInput: Swift.Sendable {
+    /// The ID of the deployment.
+    /// This member is required.
+    public var deploymentId: Swift.String?
+    /// The name of the deployment pattern version.
+    public var deploymentPatternVersionName: Swift.String?
+    /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+    public var dryRun: Swift.Bool?
+    /// Forces the update even if validation warnings are present.
+    public var force: Swift.Bool?
+    /// The settings specified for the deployment. These settings define how to deploy and configure your resources created by the deployment. For more information about the specifications required for creating a deployment for a SAP workload, see [SAP deployment specifications](https://docs.aws.amazon.com/launchwizard/latest/APIReference/launch-wizard-specifications-sap.html). To retrieve the specifications required to create a deployment for other workloads, use the [GetWorkloadDeploymentPattern](https://docs.aws.amazon.com/launchwizard/latest/APIReference/API_GetWorkloadDeploymentPattern.html) operation.
+    /// This member is required.
+    public var specifications: [Swift.String: Swift.String]?
+    /// The name of the workload version.
+    public var workloadVersionName: Swift.String?
+
+    public init(
+        deploymentId: Swift.String? = nil,
+        deploymentPatternVersionName: Swift.String? = nil,
+        dryRun: Swift.Bool? = nil,
+        force: Swift.Bool? = nil,
+        specifications: [Swift.String: Swift.String]? = nil,
+        workloadVersionName: Swift.String? = nil
+    ) {
+        self.deploymentId = deploymentId
+        self.deploymentPatternVersionName = deploymentPatternVersionName
+        self.dryRun = dryRun
+        self.force = force
+        self.specifications = specifications
+        self.workloadVersionName = workloadVersionName
+    }
+}
+
+extension UpdateDeploymentInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateDeploymentInput(deploymentId: \(Swift.String(describing: deploymentId)), deploymentPatternVersionName: \(Swift.String(describing: deploymentPatternVersionName)), dryRun: \(Swift.String(describing: dryRun)), force: \(Swift.String(describing: force)), workloadVersionName: \(Swift.String(describing: workloadVersionName)), specifications: \"CONTENT_REDACTED\")"}
+}
+
+public struct UpdateDeploymentOutput: Swift.Sendable {
+    /// The deployment.
+    public var deployment: LaunchWizardClientTypes.DeploymentDataSummary?
+
+    public init(
+        deployment: LaunchWizardClientTypes.DeploymentDataSummary? = nil
+    ) {
+        self.deployment = deployment
+    }
+}
+
 extension LaunchWizardClientTypes {
 
     /// A field that details a condition of the specifications for a deployment.
@@ -584,6 +656,161 @@ extension LaunchWizardClientTypes {
             self.name = name
             self.value = value
         }
+    }
+}
+
+public struct GetDeploymentPatternVersionInput: Swift.Sendable {
+    /// The name of the deployment pattern. You can use the [ListWorkloadDeploymentPatterns](https://docs.aws.amazon.com/launchwizard/latest/APIReference/API_ListWorkloadDeploymentPatterns.html) operation to discover supported values for this parameter.
+    /// This member is required.
+    public var deploymentPatternName: Swift.String?
+    /// The name of the deployment pattern version.
+    /// This member is required.
+    public var deploymentPatternVersionName: Swift.String?
+    /// The name of the workload. You can use the [ListWorkloads](https://docs.aws.amazon.com/launchwizard/latest/APIReference/API_ListWorkloads.html) operation to discover supported values for this parameter.
+    /// This member is required.
+    public var workloadName: Swift.String?
+
+    public init(
+        deploymentPatternName: Swift.String? = nil,
+        deploymentPatternVersionName: Swift.String? = nil,
+        workloadName: Swift.String? = nil
+    ) {
+        self.deploymentPatternName = deploymentPatternName
+        self.deploymentPatternVersionName = deploymentPatternVersionName
+        self.workloadName = workloadName
+    }
+}
+
+extension LaunchWizardClientTypes {
+
+    /// Describes a deployment pattern version summary.
+    public struct DeploymentPatternVersionDataSummary: Swift.Sendable {
+        /// The name of the deployment pattern.
+        public var deploymentPatternName: Swift.String?
+        /// The name of the deployment pattern version.
+        public var deploymentPatternVersionName: Swift.String?
+        /// The description of the deployment pattern version.
+        public var description: Swift.String?
+        /// The URL of the documentation for the deployment pattern version.
+        public var documentationUrl: Swift.String?
+        /// The name of the workload.
+        public var workloadName: Swift.String?
+
+        public init(
+            deploymentPatternName: Swift.String? = nil,
+            deploymentPatternVersionName: Swift.String? = nil,
+            description: Swift.String? = nil,
+            documentationUrl: Swift.String? = nil,
+            workloadName: Swift.String? = nil
+        ) {
+            self.deploymentPatternName = deploymentPatternName
+            self.deploymentPatternVersionName = deploymentPatternVersionName
+            self.description = description
+            self.documentationUrl = documentationUrl
+            self.workloadName = workloadName
+        }
+    }
+}
+
+public struct GetDeploymentPatternVersionOutput: Swift.Sendable {
+    /// The deployment pattern version.
+    public var deploymentPatternVersion: LaunchWizardClientTypes.DeploymentPatternVersionDataSummary?
+
+    public init(
+        deploymentPatternVersion: LaunchWizardClientTypes.DeploymentPatternVersionDataSummary? = nil
+    ) {
+        self.deploymentPatternVersion = deploymentPatternVersion
+    }
+}
+
+extension LaunchWizardClientTypes {
+
+    public enum DeploymentPatternVersionFilterKey: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case deploymentPatternVersionName
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DeploymentPatternVersionFilterKey] {
+            return [
+                .deploymentPatternVersionName
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .deploymentPatternVersionName: return "updateFromVersion"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension LaunchWizardClientTypes {
+
+    /// A filter for deployment pattern versions. Use this filter to specify criteria for querying deployment pattern versions in Launch Wizard.
+    public struct DeploymentPatternVersionFilter: Swift.Sendable {
+        /// The name of the filter attribute. Specifies which attribute to filter on when querying deployment pattern versions.
+        /// This member is required.
+        public var name: LaunchWizardClientTypes.DeploymentPatternVersionFilterKey?
+        /// The values to filter by. Contains the specific values to match against when filtering deployment pattern versions.
+        /// This member is required.
+        public var values: [Swift.String]?
+
+        public init(
+            name: LaunchWizardClientTypes.DeploymentPatternVersionFilterKey? = nil,
+            values: [Swift.String]? = nil
+        ) {
+            self.name = name
+            self.values = values
+        }
+    }
+}
+
+public struct ListDeploymentPatternVersionsInput: Swift.Sendable {
+    /// The name of the deployment pattern. You can use the [ListWorkloadDeploymentPatterns](https://docs.aws.amazon.com/launchwizard/latest/APIReference/API_ListWorkloadDeploymentPatterns.html) operation to discover supported values for this parameter.
+    /// This member is required.
+    public var deploymentPatternName: Swift.String?
+    /// Filters to apply when listing deployment pattern versions.
+    public var filters: [LaunchWizardClientTypes.DeploymentPatternVersionFilter]?
+    /// The maximum number of deployment pattern versions to list.
+    public var maxResults: Swift.Int?
+    /// The token for the next set of results.
+    public var nextToken: Swift.String?
+    /// The name of the workload. You can use the [ListWorkloads](https://docs.aws.amazon.com/launchwizard/latest/APIReference/API_ListWorkloads.html) operation to discover supported values for this parameter.
+    /// This member is required.
+    public var workloadName: Swift.String?
+
+    public init(
+        deploymentPatternName: Swift.String? = nil,
+        filters: [LaunchWizardClientTypes.DeploymentPatternVersionFilter]? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        workloadName: Swift.String? = nil
+    ) {
+        self.deploymentPatternName = deploymentPatternName
+        self.filters = filters
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.workloadName = workloadName
+    }
+}
+
+public struct ListDeploymentPatternVersionsOutput: Swift.Sendable {
+    /// The deployment pattern versions.
+    public var deploymentPatternVersions: [LaunchWizardClientTypes.DeploymentPatternVersionDataSummary]?
+    /// The token for the next set of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        deploymentPatternVersions: [LaunchWizardClientTypes.DeploymentPatternVersionDataSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.deploymentPatternVersions = deploymentPatternVersions
+        self.nextToken = nextToken
     }
 }
 
@@ -677,7 +904,7 @@ extension LaunchWizardClientTypes {
         public var documentationUrl: Swift.String?
         /// The URL of a workload icon.
         public var iconUrl: Swift.String?
-        /// The status of a workload.
+        /// The status of a workload. You can list deployments in the DISABLED status.
         public var status: LaunchWizardClientTypes.WorkloadStatus?
         /// The message about a workload's status.
         public var statusMessage: Swift.String?
@@ -773,6 +1000,8 @@ extension LaunchWizardClientTypes {
     public struct WorkloadDeploymentPatternData: Swift.Sendable {
         /// The name of the deployment pattern.
         public var deploymentPatternName: Swift.String?
+        /// The version name of the deployment pattern.
+        public var deploymentPatternVersionName: Swift.String?
         /// The description of the deployment pattern.
         public var description: Swift.String?
         /// The display name of the deployment pattern.
@@ -790,6 +1019,7 @@ extension LaunchWizardClientTypes {
 
         public init(
             deploymentPatternName: Swift.String? = nil,
+            deploymentPatternVersionName: Swift.String? = nil,
             description: Swift.String? = nil,
             displayName: Swift.String? = nil,
             specifications: [LaunchWizardClientTypes.DeploymentSpecificationsField]? = nil,
@@ -799,6 +1029,7 @@ extension LaunchWizardClientTypes {
             workloadVersionName: Swift.String? = nil
         ) {
             self.deploymentPatternName = deploymentPatternName
+            self.deploymentPatternVersionName = deploymentPatternVersionName
             self.description = description
             self.displayName = displayName
             self.specifications = specifications
@@ -909,14 +1140,18 @@ extension LaunchWizardClientTypes {
     public struct WorkloadDataSummary: Swift.Sendable {
         /// The display name of the workload data.
         public var displayName: Swift.String?
+        /// The status of the workload.
+        public var status: LaunchWizardClientTypes.WorkloadStatus?
         /// The name of the workload.
         public var workloadName: Swift.String?
 
         public init(
             displayName: Swift.String? = nil,
+            status: LaunchWizardClientTypes.WorkloadStatus? = nil,
             workloadName: Swift.String? = nil
         ) {
             self.displayName = displayName
+            self.status = status
             self.workloadName = workloadName
         }
     }
@@ -963,6 +1198,8 @@ extension LaunchWizardClientTypes {
     public struct WorkloadDeploymentPatternDataSummary: Swift.Sendable {
         /// The name of a workload deployment pattern.
         public var deploymentPatternName: Swift.String?
+        /// The version name of a workload deployment pattern.
+        public var deploymentPatternVersionName: Swift.String?
         /// The description of a workload deployment pattern.
         public var description: Swift.String?
         /// The display name of a workload deployment pattern.
@@ -978,6 +1215,7 @@ extension LaunchWizardClientTypes {
 
         public init(
             deploymentPatternName: Swift.String? = nil,
+            deploymentPatternVersionName: Swift.String? = nil,
             description: Swift.String? = nil,
             displayName: Swift.String? = nil,
             status: LaunchWizardClientTypes.WorkloadDeploymentPatternStatus? = nil,
@@ -986,6 +1224,7 @@ extension LaunchWizardClientTypes {
             workloadVersionName: Swift.String? = nil
         ) {
             self.deploymentPatternName = deploymentPatternName
+            self.deploymentPatternVersionName = deploymentPatternVersionName
             self.description = description
             self.displayName = displayName
             self.status = status
@@ -1032,6 +1271,13 @@ extension GetDeploymentInput {
     }
 }
 
+extension GetDeploymentPatternVersionInput {
+
+    static func urlPathProvider(_ value: GetDeploymentPatternVersionInput) -> Swift.String? {
+        return "/getDeploymentPatternVersion"
+    }
+}
+
 extension GetWorkloadInput {
 
     static func urlPathProvider(_ value: GetWorkloadInput) -> Swift.String? {
@@ -1050,6 +1296,13 @@ extension ListDeploymentEventsInput {
 
     static func urlPathProvider(_ value: ListDeploymentEventsInput) -> Swift.String? {
         return "/listDeploymentEvents"
+    }
+}
+
+extension ListDeploymentPatternVersionsInput {
+
+    static func urlPathProvider(_ value: ListDeploymentPatternVersionsInput) -> Swift.String? {
+        return "/listDeploymentPatternVersions"
     }
 }
 
@@ -1120,6 +1373,13 @@ extension UntagResourceInput {
     }
 }
 
+extension UpdateDeploymentInput {
+
+    static func urlPathProvider(_ value: UpdateDeploymentInput) -> Swift.String? {
+        return "/updateDeployment"
+    }
+}
+
 extension CreateDeploymentInput {
 
     static func write(value: CreateDeploymentInput?, to writer: SmithyJSON.Writer) throws {
@@ -1149,6 +1409,16 @@ extension GetDeploymentInput {
     }
 }
 
+extension GetDeploymentPatternVersionInput {
+
+    static func write(value: GetDeploymentPatternVersionInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["deploymentPatternName"].write(value.deploymentPatternName)
+        try writer["deploymentPatternVersionName"].write(value.deploymentPatternVersionName)
+        try writer["workloadName"].write(value.workloadName)
+    }
+}
+
 extension GetWorkloadInput {
 
     static func write(value: GetWorkloadInput?, to writer: SmithyJSON.Writer) throws {
@@ -1173,6 +1443,18 @@ extension ListDeploymentEventsInput {
         try writer["deploymentId"].write(value.deploymentId)
         try writer["maxResults"].write(value.maxResults)
         try writer["nextToken"].write(value.nextToken)
+    }
+}
+
+extension ListDeploymentPatternVersionsInput {
+
+    static func write(value: ListDeploymentPatternVersionsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["deploymentPatternName"].write(value.deploymentPatternName)
+        try writer["filters"].writeList(value.filters, memberWritingClosure: LaunchWizardClientTypes.DeploymentPatternVersionFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
+        try writer["workloadName"].write(value.workloadName)
     }
 }
 
@@ -1213,6 +1495,19 @@ extension TagResourceInput {
     }
 }
 
+extension UpdateDeploymentInput {
+
+    static func write(value: UpdateDeploymentInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["deploymentId"].write(value.deploymentId)
+        try writer["deploymentPatternVersionName"].write(value.deploymentPatternVersionName)
+        try writer["dryRun"].write(value.dryRun)
+        try writer["force"].write(value.force)
+        try writer["specifications"].writeMap(value.specifications, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["workloadVersionName"].write(value.workloadVersionName)
+    }
+}
+
 extension CreateDeploymentOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateDeploymentOutput {
@@ -1250,6 +1545,18 @@ extension GetDeploymentOutput {
     }
 }
 
+extension GetDeploymentPatternVersionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetDeploymentPatternVersionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetDeploymentPatternVersionOutput()
+        value.deploymentPatternVersion = try reader["deploymentPatternVersion"].readIfPresent(with: LaunchWizardClientTypes.DeploymentPatternVersionDataSummary.read(from:))
+        return value
+    }
+}
+
 extension GetWorkloadOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetWorkloadOutput {
@@ -1282,6 +1589,19 @@ extension ListDeploymentEventsOutput {
         let reader = responseReader
         var value = ListDeploymentEventsOutput()
         value.deploymentEvents = try reader["deploymentEvents"].readListIfPresent(memberReadingClosure: LaunchWizardClientTypes.DeploymentEventDataSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListDeploymentPatternVersionsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListDeploymentPatternVersionsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListDeploymentPatternVersionsOutput()
+        value.deploymentPatternVersions = try reader["deploymentPatternVersions"].readListIfPresent(memberReadingClosure: LaunchWizardClientTypes.DeploymentPatternVersionDataSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.nextToken = try reader["nextToken"].readIfPresent()
         return value
     }
@@ -1352,6 +1672,18 @@ extension UntagResourceOutput {
     }
 }
 
+extension UpdateDeploymentOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateDeploymentOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateDeploymentOutput()
+        value.deployment = try reader["deployment"].readIfPresent(with: LaunchWizardClientTypes.DeploymentDataSummary.read(from:))
+        return value
+    }
+}
+
 enum CreateDeploymentOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -1402,6 +1734,21 @@ enum GetDeploymentOutputError {
     }
 }
 
+enum GetDeploymentPatternVersionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum GetWorkloadOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -1435,6 +1782,22 @@ enum GetWorkloadDeploymentPatternOutputError {
 }
 
 enum ListDeploymentEventsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListDeploymentPatternVersionsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -1544,6 +1907,23 @@ enum UntagResourceOutputError {
     }
 }
 
+enum UpdateDeploymentOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceLimitException": return try ResourceLimitException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 extension InternalServerException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InternalServerException {
@@ -1607,11 +1987,26 @@ extension LaunchWizardClientTypes.DeploymentData {
         value.patternName = try reader["patternName"].readIfPresent()
         value.status = try reader["status"].readIfPresent()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.modifiedAt = try reader["modifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.specifications = try reader["specifications"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.resourceGroup = try reader["resourceGroup"].readIfPresent()
         value.deletedAt = try reader["deletedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.deploymentArn = try reader["deploymentArn"].readIfPresent()
+        return value
+    }
+}
+
+extension LaunchWizardClientTypes.DeploymentPatternVersionDataSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LaunchWizardClientTypes.DeploymentPatternVersionDataSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LaunchWizardClientTypes.DeploymentPatternVersionDataSummary()
+        value.deploymentPatternVersionName = try reader["deploymentPatternVersionName"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.documentationUrl = try reader["documentationUrl"].readIfPresent()
+        value.workloadName = try reader["workloadName"].readIfPresent()
+        value.deploymentPatternName = try reader["deploymentPatternName"].readIfPresent()
         return value
     }
 }
@@ -1623,10 +2018,10 @@ extension LaunchWizardClientTypes.WorkloadData {
         var value = LaunchWizardClientTypes.WorkloadData()
         value.workloadName = try reader["workloadName"].readIfPresent()
         value.displayName = try reader["displayName"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
         value.description = try reader["description"].readIfPresent()
         value.documentationUrl = try reader["documentationUrl"].readIfPresent()
         value.iconUrl = try reader["iconUrl"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
         value.statusMessage = try reader["statusMessage"].readIfPresent()
         return value
     }
@@ -1640,6 +2035,7 @@ extension LaunchWizardClientTypes.WorkloadDeploymentPatternData {
         value.workloadName = try reader["workloadName"].readIfPresent()
         value.deploymentPatternName = try reader["deploymentPatternName"].readIfPresent()
         value.workloadVersionName = try reader["workloadVersionName"].readIfPresent()
+        value.deploymentPatternVersionName = try reader["deploymentPatternVersionName"].readIfPresent()
         value.displayName = try reader["displayName"].readIfPresent()
         value.description = try reader["description"].readIfPresent()
         value.status = try reader["status"].readIfPresent()
@@ -1700,6 +2096,7 @@ extension LaunchWizardClientTypes.DeploymentDataSummary {
         value.patternName = try reader["patternName"].readIfPresent()
         value.status = try reader["status"].readIfPresent()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.modifiedAt = try reader["modifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }
@@ -1712,6 +2109,7 @@ extension LaunchWizardClientTypes.WorkloadDeploymentPatternDataSummary {
         value.workloadName = try reader["workloadName"].readIfPresent()
         value.deploymentPatternName = try reader["deploymentPatternName"].readIfPresent()
         value.workloadVersionName = try reader["workloadVersionName"].readIfPresent()
+        value.deploymentPatternVersionName = try reader["deploymentPatternVersionName"].readIfPresent()
         value.displayName = try reader["displayName"].readIfPresent()
         value.description = try reader["description"].readIfPresent()
         value.status = try reader["status"].readIfPresent()
@@ -1727,7 +2125,17 @@ extension LaunchWizardClientTypes.WorkloadDataSummary {
         var value = LaunchWizardClientTypes.WorkloadDataSummary()
         value.workloadName = try reader["workloadName"].readIfPresent()
         value.displayName = try reader["displayName"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
         return value
+    }
+}
+
+extension LaunchWizardClientTypes.DeploymentPatternVersionFilter {
+
+    static func write(value: LaunchWizardClientTypes.DeploymentPatternVersionFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["name"].write(value.name)
+        try writer["values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 

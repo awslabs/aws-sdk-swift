@@ -20885,20 +20885,68 @@ extension DataZoneClientTypes {
 
 extension DataZoneClientTypes {
 
+    public enum FilterOperator: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case eq
+        case ge
+        case gt
+        case le
+        case lt
+        case textSearch
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FilterOperator] {
+            return [
+                .eq,
+                .ge,
+                .gt,
+                .le,
+                .lt,
+                .textSearch
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .eq: return "EQ"
+            case .ge: return "GE"
+            case .gt: return "GT"
+            case .le: return "LE"
+            case .lt: return "LT"
+            case .textSearch: return "TEXT_SEARCH"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
     /// A search filter in Amazon DataZone.
     public struct Filter: Swift.Sendable {
         /// A search filter attribute in Amazon DataZone.
         /// This member is required.
         public var attribute: Swift.String?
-        /// A search filter value in Amazon DataZone.
-        /// This member is required.
+        /// A search filter integer value in Amazon DataZone.
+        public var intValue: Swift.Int?
+        /// Specifies the search filter operator.
+        public var `operator`: DataZoneClientTypes.FilterOperator?
+        /// A search filter string value in Amazon DataZone.
         public var value: Swift.String?
 
         public init(
             attribute: Swift.String? = nil,
-            value: Swift.String? = nil
+            intValue: Swift.Int? = nil,
+            `operator`: DataZoneClientTypes.FilterOperator? = .eq,
+            value: Swift.String? = ""
         ) {
             self.attribute = attribute
+            self.intValue = intValue
+            self.`operator` = `operator`
             self.value = value
         }
     }
@@ -38854,6 +38902,8 @@ extension DataZoneClientTypes.Filter {
     static func write(value: DataZoneClientTypes.Filter?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["attribute"].write(value.attribute)
+        try writer["intValue"].write(value.intValue)
+        try writer["operator"].write(value.`operator`)
         try writer["value"].write(value.value)
     }
 }

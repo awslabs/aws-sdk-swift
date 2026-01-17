@@ -94,18 +94,18 @@ extension DeadlineClientTypes {
 
     /// Describes a specific GPU accelerator required for an Amazon Elastic Compute Cloud worker host.
     public struct AcceleratorSelection: Swift.Sendable {
-        /// The name of the chip used by the GPU accelerator. If you specify l4 as the name of the accelerator, you must specify latest or grid:r570 as the runtime. The available GPU accelerators are:
+        /// The name of the chip used by the GPU accelerator. The available GPU accelerators are:
         ///
-        /// * t4 - NVIDIA T4 Tensor Core GPU
+        /// * t4 - NVIDIA T4 Tensor Core GPU (16 GiB memory)
         ///
-        /// * a10g - NVIDIA A10G Tensor Core GPU
+        /// * a10g - NVIDIA A10G Tensor Core GPU (24 GiB memory)
         ///
-        /// * l4 - NVIDIA L4 Tensor Core GPU
+        /// * l4 - NVIDIA L4 Tensor Core GPU (24 GiB memory)
         ///
-        /// * l40s - NVIDIA L40S Tensor Core GPU
+        /// * l40s - NVIDIA L40S Tensor Core GPU (48 GiB memory)
         /// This member is required.
         public var name: DeadlineClientTypes.AcceleratorName?
-        /// Specifies the runtime driver to use for the GPU accelerator. You must use the same runtime for all GPUs. You can choose from the following runtimes:
+        /// Specifies the runtime driver to use for the GPU accelerator. You must use the same runtime for all GPUs in a fleet. You can choose from the following runtimes:
         ///
         /// * latest - Use the latest runtime available for the chip. If you specify latest and a new version of the runtime is released, the new version of the runtime is used.
         ///
@@ -114,7 +114,14 @@ extension DeadlineClientTypes {
         /// * grid:r535 - [NVIDIA vGPU software 16](https://docs.nvidia.com/vgpu/16.0/index.html)
         ///
         ///
-        /// If you don't specify a runtime, Deadline Cloud uses latest as the default. However, if you have multiple accelerators and specify latest for some and leave others blank, Deadline Cloud raises an exception.
+        /// If you don't specify a runtime, Amazon Web Services Deadline Cloud uses latest as the default. However, if you have multiple accelerators and specify latest for some and leave others blank, Amazon Web Services Deadline Cloud raises an exception. Not all runtimes are compatible with all accelerator types:
+        ///
+        /// * t4 and a10g: Support all runtimes (grid:r570, grid:r535)
+        ///
+        /// * l4 and l40s: Only support grid:r570 and newer
+        ///
+        ///
+        /// All accelerators in a fleet must use the same runtime version. You cannot mix different runtime versions within a single fleet. When you specify latest, it resolves to grid:r570 for all currently supported accelerators.
         public var runtime: Swift.String?
 
         public init(
@@ -129,11 +136,25 @@ extension DeadlineClientTypes {
 
 extension DeadlineClientTypes {
 
-    /// Provides information about the GPU accelerators used for jobs processed by a fleet.
+    /// Provides information about the GPU accelerators used for jobs processed by a fleet. Accelerator capabilities cannot be used with wait-and-save fleets. If you specify accelerator capabilities, you must use either spot or on-demand instance market options. Each accelerator type maps to specific EC2 instance families:
+    ///
+    /// * t4: Uses G4dn instance family
+    ///
+    /// * a10g: Uses G5 instance family
+    ///
+    /// * l4: Uses G6 and Gr6 instance families
+    ///
+    /// * l40s: Uses G6e instance family
     public struct AcceleratorCapabilities: Swift.Sendable {
-        /// The number of GPU accelerators specified for worker hosts in this fleet.
+        /// The number of GPU accelerators specified for worker hosts in this fleet. You must specify either acceleratorCapabilities.count.max or allowedInstanceTypes when using accelerator capabilities. If you don't specify a maximum count, Amazon Web Services Deadline Cloud uses the instance types you specify in allowedInstanceTypes to determine the maximum number of accelerators.
         public var count: DeadlineClientTypes.AcceleratorCountRange?
-        /// A list of accelerator capabilities requested for this fleet. Only Amazon Elastic Compute Cloud instances that provide these capabilities will be used. For example, if you specify both L4 and T4 chips, Deadline Cloud will use Amazon EC2 instances that have either the L4 or the T4 chip installed.
+        /// A list of accelerator capabilities requested for this fleet. Only Amazon Elastic Compute Cloud instances that provide these capabilities will be used. For example, if you specify both L4 and T4 chips, Amazon Web Services Deadline Cloud will use Amazon EC2 instances that have either the L4 or the T4 chip installed.
+        ///
+        /// * You must specify at least one accelerator selection.
+        ///
+        /// * You cannot specify the same accelerator name multiple times in the selections list.
+        ///
+        /// * All accelerators in the selections must use the same runtime version.
         /// This member is required.
         public var selections: [DeadlineClientTypes.AcceleratorSelection]?
 
@@ -305,9 +326,9 @@ extension DeadlineClientTypes {
 
 extension DeadlineClientTypes {
 
-    /// The details for an assigned session action as it relates to a job attachment.
+    /// The assigned session action definition for syncing input job attachments.
     public struct AssignedSyncInputJobAttachmentsSessionActionDefinition: Swift.Sendable {
-        /// The step ID.
+        /// The step ID for the assigned sync input job attachments session action.
         public var stepId: Swift.String?
 
         public init(
@@ -376,7 +397,7 @@ extension DeadlineClientTypes {
         case envexit(DeadlineClientTypes.AssignedEnvironmentExitSessionActionDefinition)
         /// The task run.
         case taskrun(DeadlineClientTypes.AssignedTaskRunSessionActionDefinition)
-        /// The job attachment to sync with an assigned session action.
+        /// The job attachments to sync for the assigned session action.
         case syncinputjobattachments(DeadlineClientTypes.AssignedSyncInputJobAttachmentsSessionActionDefinition)
         case sdkUnknown(Swift.String)
     }
@@ -1359,11 +1380,11 @@ extension DeadlineClientTypes.ManifestProperties: Swift.CustomDebugStringConvert
 
 extension DeadlineClientTypes {
 
-    /// The attachments for jobs.
+    /// The job attachments.
     public struct Attachments: Swift.Sendable {
-        /// The file system.
+        /// The file system location for the attachments.
         public var fileSystem: DeadlineClientTypes.JobAttachmentsFileSystem?
-        /// A list of manifests which describe job attachment configurations.
+        /// The manifest properties for the attachments.
         /// This member is required.
         public var manifests: [DeadlineClientTypes.ManifestProperties]?
 
@@ -2218,6 +2239,8 @@ public struct CreateBudgetInput: Swift.Sendable {
     /// The schedule to associate with this budget.
     /// This member is required.
     public var schedule: DeadlineClientTypes.BudgetSchedule?
+    /// Each tag consists of a tag key and a tag value. Tag keys and values are both required, but tag values can be empty strings.
+    public var tags: [Swift.String: Swift.String]?
     /// The queue ID provided to this budget to track usage.
     /// This member is required.
     public var usageTrackingResource: DeadlineClientTypes.UsageTrackingResource?
@@ -2230,6 +2253,7 @@ public struct CreateBudgetInput: Swift.Sendable {
         displayName: Swift.String? = nil,
         farmId: Swift.String? = nil,
         schedule: DeadlineClientTypes.BudgetSchedule? = nil,
+        tags: [Swift.String: Swift.String]? = nil,
         usageTrackingResource: DeadlineClientTypes.UsageTrackingResource? = nil
     ) {
         self.actions = actions
@@ -2239,13 +2263,14 @@ public struct CreateBudgetInput: Swift.Sendable {
         self.displayName = displayName
         self.farmId = farmId
         self.schedule = schedule
+        self.tags = tags
         self.usageTrackingResource = usageTrackingResource
     }
 }
 
 extension CreateBudgetInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateBudgetInput(actions: \(Swift.String(describing: actions)), approximateDollarLimit: \(Swift.String(describing: approximateDollarLimit)), clientToken: \(Swift.String(describing: clientToken)), displayName: \(Swift.String(describing: displayName)), farmId: \(Swift.String(describing: farmId)), schedule: \(Swift.String(describing: schedule)), usageTrackingResource: \(Swift.String(describing: usageTrackingResource)), description: \"CONTENT_REDACTED\")"}
+        "CreateBudgetInput(actions: \(Swift.String(describing: actions)), approximateDollarLimit: \(Swift.String(describing: approximateDollarLimit)), clientToken: \(Swift.String(describing: clientToken)), displayName: \(Swift.String(describing: displayName)), farmId: \(Swift.String(describing: farmId)), schedule: \(Swift.String(describing: schedule)), tags: \(Swift.String(describing: tags)), usageTrackingResource: \(Swift.String(describing: usageTrackingResource)), description: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateBudgetOutput: Swift.Sendable {
@@ -2635,6 +2660,8 @@ public struct UpdateBudgetOutput: Swift.Sendable {
 extension DeadlineClientTypes {
 
     public enum ComparisonOperator: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case allNotEquals
+        case anyEquals
         case equal
         case greaterThan
         case greaterThanEqualTo
@@ -2645,6 +2672,8 @@ extension DeadlineClientTypes {
 
         public static var allCases: [ComparisonOperator] {
             return [
+                .allNotEquals,
+                .anyEquals,
                 .equal,
                 .greaterThan,
                 .greaterThanEqualTo,
@@ -2661,6 +2690,8 @@ extension DeadlineClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .allNotEquals: return "ALL_NOT_EQUALS"
+            case .anyEquals: return "ANY_EQUALS"
             case .equal: return "EQUAL"
             case .greaterThan: return "GREATER_THAN"
             case .greaterThanEqualTo: return "GREATER_THAN_EQUAL_TO"
@@ -3074,16 +3105,16 @@ extension DeadlineClientTypes {
 
 extension DeadlineClientTypes {
 
-    /// The details of a customer managed fleet configuration.
+    /// The configuration details for a customer managed fleet.
     public struct CustomerManagedFleetConfiguration: Swift.Sendable {
-        /// The Auto Scaling mode for the customer managed fleet configuration.
+        /// The Auto Scaling mode for the customer managed fleet.
         /// This member is required.
         public var mode: DeadlineClientTypes.AutoScalingMode?
-        /// The storage profile ID.
+        /// The storage profile ID for the customer managed fleet.
         public var storageProfileId: Swift.String?
-        /// Specifies whether tags associated with a fleet are attached to workers when the worker is launched. When the tagPropagationMode is set to PROPAGATE_TAGS_TO_WORKERS_AT_LAUNCH any tag associated with a fleet is attached to workers when they launch. If the tags for a fleet change, the tags associated with running workers do not change. If you don't specify tagPropagationMode, the default is NO_PROPAGATION.
+        /// The tag propagation mode for the customer managed fleet.
         public var tagPropagationMode: DeadlineClientTypes.TagPropagationMode?
-        /// The worker capabilities for a customer managed fleet configuration.
+        /// The worker capabilities for the customer managed fleet.
         /// This member is required.
         public var workerCapabilities: DeadlineClientTypes.CustomerManagedWorkerCapabilities?
 
@@ -3273,17 +3304,17 @@ extension DeadlineClientTypes {
 
 extension DeadlineClientTypes {
 
-    /// The configuration details for a service managed Amazon EC2 fleet.
+    /// The configuration details for a service managed EC2 fleet.
     public struct ServiceManagedEc2FleetConfiguration: Swift.Sendable {
-        /// The Amazon EC2 instance capabilities.
+        /// The instance capabilities for the service managed EC2 fleet.
         /// This member is required.
         public var instanceCapabilities: DeadlineClientTypes.ServiceManagedEc2InstanceCapabilities?
-        /// The Amazon EC2 market type.
+        /// The instance market options for the service managed EC2 fleet.
         /// This member is required.
         public var instanceMarketOptions: DeadlineClientTypes.ServiceManagedEc2InstanceMarketOptions?
-        /// The storage profile ID.
+        /// The storage profile ID for the service managed EC2 fleet.
         public var storageProfileId: Swift.String?
-        /// The VPC configuration details for a service managed Amazon EC2 fleet.
+        /// The VPC configuration for the service managed EC2 fleet.
         public var vpcConfiguration: DeadlineClientTypes.VpcConfiguration?
 
         public init(
@@ -3618,10 +3649,10 @@ public struct CreateMonitorInput: Swift.Sendable {
     /// The name that you give the monitor that is displayed in the Deadline Cloud console. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
     /// This member is required.
     public var displayName: Swift.String?
-    /// The Amazon Resource Name (ARN) of the IAM Identity Center instance that authenticates monitor users.
+    /// The Amazon Resource Name of the IAM Identity Center instance that authenticates monitor users.
     /// This member is required.
     public var identityCenterInstanceArn: Swift.String?
-    /// The Amazon Resource Name (ARN) of the IAM role that the monitor uses to connect to Deadline Cloud. Every user that signs in to the monitor using IAM Identity Center uses this role to access Deadline Cloud resources.
+    /// The Amazon Resource Name of the IAM role that the monitor uses to connect to Deadline Cloud. Every user that signs in to the monitor using IAM Identity Center uses this role to access Deadline Cloud resources.
     /// This member is required.
     public var roleArn: Swift.String?
     /// The subdomain to use when creating the monitor URL. The full URL of the monitor is subdomain.Region.deadlinecloud.amazonaws.com.
@@ -3648,7 +3679,7 @@ public struct CreateMonitorInput: Swift.Sendable {
 }
 
 public struct CreateMonitorOutput: Swift.Sendable {
-    /// The Amazon Resource Name (ARN) that IAM Identity Center assigns to the monitor.
+    /// The Amazon Resource Name that IAM Identity Center assigns to the monitor.
     /// This member is required.
     public var identityCenterApplicationArn: Swift.String?
     /// The unique identifier of the monitor.
@@ -5528,7 +5559,6 @@ public struct GetFarmOutput: Swift.Sendable {
     /// This member is required.
     public var farmId: Swift.String?
     /// The ARN of the KMS key used on the farm.
-    /// This member is required.
     public var kmsKeyArn: Swift.String?
     /// The date and time the resource was updated.
     public var updatedAt: Foundation.Date?
@@ -6852,9 +6882,9 @@ extension DeadlineClientTypes {
 
 extension DeadlineClientTypes {
 
-    /// The job attachment in a session action to sync.
+    /// The session action definition for syncing input job attachments.
     public struct SyncInputJobAttachmentsSessionActionDefinition: Swift.Sendable {
-        /// The step ID for the step in the job attachment.
+        /// The step ID for the sync input job attachments session action.
         public var stepId: Swift.String?
 
         public init(
@@ -6905,7 +6935,7 @@ extension DeadlineClientTypes {
         case envexit(DeadlineClientTypes.EnvironmentExitSessionActionDefinition)
         /// The task run in the session.
         case taskrun(DeadlineClientTypes.TaskRunSessionActionDefinition)
-        /// The job attachments to sync with a session action.
+        /// The session action definition for syncing input job attachments.
         case syncinputjobattachments(DeadlineClientTypes.SyncInputJobAttachmentsSessionActionDefinition)
         case sdkUnknown(Swift.String)
     }
@@ -7145,6 +7175,60 @@ extension DeadlineClientTypes {
 
 extension DeadlineClientTypes {
 
+    public enum RangeConstraint: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case contiguous
+        case noncontiguous
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RangeConstraint] {
+            return [
+                .contiguous,
+                .noncontiguous
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .contiguous: return "CONTIGUOUS"
+            case .noncontiguous: return "NONCONTIGUOUS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DeadlineClientTypes {
+
+    /// Defines how a step parameter range should be divided into chunks.
+    public struct StepParameterChunks: Swift.Sendable {
+        /// The number of tasks to combine into a single chunk by default.
+        /// This member is required.
+        public var defaultTaskCount: Swift.Int?
+        /// Specifies whether the chunked ranges must be contiguous or can have gaps between them.
+        /// This member is required.
+        public var rangeConstraint: DeadlineClientTypes.RangeConstraint?
+        /// The number of seconds to aim for when forming chunks.
+        public var targetRuntimeSeconds: Swift.Int?
+
+        public init(
+            defaultTaskCount: Swift.Int? = nil,
+            rangeConstraint: DeadlineClientTypes.RangeConstraint? = nil,
+            targetRuntimeSeconds: Swift.Int? = nil
+        ) {
+            self.defaultTaskCount = defaultTaskCount
+            self.rangeConstraint = rangeConstraint
+            self.targetRuntimeSeconds = targetRuntimeSeconds
+        }
+    }
+}
+
+extension DeadlineClientTypes {
+
     public enum StepParameterType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case chunkInt
         case float
@@ -7185,6 +7269,8 @@ extension DeadlineClientTypes {
 
     /// The details of a step parameter.
     public struct StepParameter: Swift.Sendable {
+        /// The configuration for task chunking.
+        public var chunks: DeadlineClientTypes.StepParameterChunks?
         /// The name of the parameter.
         /// This member is required.
         public var name: Swift.String?
@@ -7193,9 +7279,11 @@ extension DeadlineClientTypes {
         public var type: DeadlineClientTypes.StepParameterType?
 
         public init(
+            chunks: DeadlineClientTypes.StepParameterChunks? = nil,
             name: Swift.String? = nil,
             type: DeadlineClientTypes.StepParameterType? = nil
         ) {
+            self.chunks = chunks
             self.name = name
             self.type = type
         }
@@ -7511,7 +7599,7 @@ public struct GetTaskOutput: Swift.Sendable {
     public var endedAt: Foundation.Date?
     /// The number of times that the task failed and was retried.
     public var failureRetryCount: Swift.Int?
-    /// The latest session ID for the task.
+    /// The latest session action ID for the task.
     public var latestSessionActionId: Swift.String?
     /// The parameters for the task.
     public var parameters: [Swift.String: DeadlineClientTypes.TaskParameterValue]?
@@ -7768,7 +7856,7 @@ extension DeadlineClientTypes {
         public var sourceJobId: Swift.String?
         /// The date and time the resource started running.
         public var startedAt: Foundation.Date?
-        /// The task status to start with on the job.
+        /// The task status to update the job's tasks to.
         public var targetTaskRunStatus: DeadlineClientTypes.JobTargetTaskRunStatus?
         /// The total number of times tasks from the job failed and were retried.
         public var taskFailureRetryCount: Swift.Int?
@@ -7933,9 +8021,9 @@ extension DeadlineClientTypes {
 
 extension DeadlineClientTypes {
 
-    /// The details of a synced job attachment.
+    /// The summary of the session action definition for syncing input job attachments.
     public struct SyncInputJobAttachmentsSessionActionDefinitionSummary: Swift.Sendable {
-        /// The step ID of the step in the job attachment.
+        /// The step ID for the sync input job attachments session action summary.
         public var stepId: Swift.String?
 
         public init(
@@ -7985,7 +8073,7 @@ extension DeadlineClientTypes {
         case envexit(DeadlineClientTypes.EnvironmentExitSessionActionDefinitionSummary)
         /// The task run.
         case taskrun(DeadlineClientTypes.TaskRunSessionActionDefinitionSummary)
-        /// The job attachments to sync with the session action definition.
+        /// The session action definition summary for syncing input job attachments.
         case syncinputjobattachments(DeadlineClientTypes.SyncInputJobAttachmentsSessionActionDefinitionSummary)
         case sdkUnknown(Swift.String)
     }
@@ -8381,7 +8469,7 @@ extension DeadlineClientTypes {
         /// The step ID.
         /// This member is required.
         public var stepId: Swift.String?
-        /// The task status to start with on the job.
+        /// The task status to update the job's tasks to.
         public var targetTaskRunStatus: DeadlineClientTypes.StepTargetTaskRunStatus?
         /// The total number of times tasks from the step failed and were retried.
         public var taskFailureRetryCount: Swift.Int?
@@ -8517,7 +8605,7 @@ extension DeadlineClientTypes {
         public var endedAt: Foundation.Date?
         /// The number of times that the task failed and was retried.
         public var failureRetryCount: Swift.Int?
-        /// The latest session action for the task.
+        /// The latest session action ID for the task.
         public var latestSessionActionId: Swift.String?
         /// The task parameters.
         public var parameters: [Swift.String: DeadlineClientTypes.TaskParameterValue]?
@@ -9746,6 +9834,28 @@ public struct DeleteLicenseEndpointOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct DeleteMeteredProductInput: Swift.Sendable {
+    /// The ID of the license endpoint from which to remove the metered product.
+    /// This member is required.
+    public var licenseEndpointId: Swift.String?
+    /// The product ID to remove from the license endpoint.
+    /// This member is required.
+    public var productId: Swift.String?
+
+    public init(
+        licenseEndpointId: Swift.String? = nil,
+        productId: Swift.String? = nil
+    ) {
+        self.licenseEndpointId = licenseEndpointId
+        self.productId = productId
+    }
+}
+
+public struct DeleteMeteredProductOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct GetLicenseEndpointInput: Swift.Sendable {
     /// The license endpoint ID.
     /// This member is required.
@@ -9809,7 +9919,7 @@ public struct GetLicenseEndpointOutput: Swift.Sendable {
     public var statusMessage: Swift.String?
     /// The subnet IDs.
     public var subnetIds: [Swift.String]?
-    /// The VCP(virtual private cloud) ID associated with the license endpoint.
+    /// The VPC (virtual private cloud) ID associated with the license endpoint.
     public var vpcId: Swift.String?
 
     public init(
@@ -9856,7 +9966,7 @@ extension DeadlineClientTypes {
         public var status: DeadlineClientTypes.LicenseEndpointStatus?
         /// The status message of the license endpoint.
         public var statusMessage: Swift.String?
-        /// The VCP(virtual private cloud) ID associated with the license endpoint.
+        /// The VPC (virtual private cloud) ID associated with the license endpoint.
         public var vpcId: Swift.String?
 
         public init(
@@ -9887,28 +9997,6 @@ public struct ListLicenseEndpointsOutput: Swift.Sendable {
         self.licenseEndpoints = licenseEndpoints
         self.nextToken = nextToken
     }
-}
-
-public struct DeleteMeteredProductInput: Swift.Sendable {
-    /// The ID of the license endpoint from which to remove the metered product.
-    /// This member is required.
-    public var licenseEndpointId: Swift.String?
-    /// The product ID to remove from the license endpoint.
-    /// This member is required.
-    public var productId: Swift.String?
-
-    public init(
-        licenseEndpointId: Swift.String? = nil,
-        productId: Swift.String? = nil
-    ) {
-        self.licenseEndpointId = licenseEndpointId
-        self.productId = productId
-    }
-}
-
-public struct DeleteMeteredProductOutput: Swift.Sendable {
-
-    public init() { }
 }
 
 public struct ListMeteredProductsInput: Swift.Sendable {
@@ -10285,16 +10373,16 @@ public struct GetMonitorOutput: Swift.Sendable {
     /// The name used to identify the monitor on the Deadline Cloud console. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
     /// This member is required.
     public var displayName: Swift.String?
-    /// The Amazon Resource Name (ARN) that the IAM Identity Center assigned to the monitor when it was created.
+    /// The Amazon Resource Name that the IAM Identity Center assigned to the monitor when it was created.
     /// This member is required.
     public var identityCenterApplicationArn: Swift.String?
-    /// The Amazon Resource Name (ARN) of the IAM Identity Center instance responsible for authenticating monitor users.
+    /// The Amazon Resource Name of the IAM Identity Center instance responsible for authenticating monitor users.
     /// This member is required.
     public var identityCenterInstanceArn: Swift.String?
     /// The unique identifier for the monitor.
     /// This member is required.
     public var monitorId: Swift.String?
-    /// The Amazon Resource Name (ARN) of the IAM role for the monitor. Users of the monitor use this role to access Deadline Cloud resources.
+    /// The Amazon Resource Name of the IAM role for the monitor. Users of the monitor use this role to access Deadline Cloud resources.
     /// This member is required.
     public var roleArn: Swift.String?
     /// The subdomain used for the monitor URL. The full URL of the monitor is subdomain.Region.deadlinecloud.amazonaws.com.
@@ -10363,16 +10451,16 @@ extension DeadlineClientTypes {
         /// The name of the monitor that displays on the Deadline Cloud console. This field can store any content. Escape or encode this content before displaying it on a webpage or any other system that might interpret the content of this field.
         /// This member is required.
         public var displayName: Swift.String?
-        /// The Amazon Resource Name (ARN) that the IAM Identity Center assigned to the monitor when it was created.
+        /// The Amazon Resource Name that the IAM Identity Center assigned to the monitor when it was created.
         /// This member is required.
         public var identityCenterApplicationArn: Swift.String?
-        /// The Amazon Resource Name (ARN) of the IAM Identity Center instance responsible for authenticating monitor users.
+        /// The Amazon Resource Name of the IAM Identity Center instance responsible for authenticating monitor users.
         /// This member is required.
         public var identityCenterInstanceArn: Swift.String?
         /// The unique identifier for the monitor.
         /// This member is required.
         public var monitorId: Swift.String?
-        /// The Amazon Resource Name (ARN) of the IAM role for the monitor. Users of the monitor use this role to access Deadline Cloud resources.
+        /// The Amazon Resource Name of the IAM role for the monitor. Users of the monitor use this role to access Deadline Cloud resources.
         /// This member is required.
         public var roleArn: Swift.String?
         /// The subdomain used for the monitor URL. The full URL of the monitor is subdomain.Region.deadlinecloud.amazonaws.com.
@@ -10436,7 +10524,7 @@ public struct UpdateMonitorInput: Swift.Sendable {
     /// The unique identifier of the monitor to update.
     /// This member is required.
     public var monitorId: Swift.String?
-    /// The Amazon Resource Name (ARN) of the new IAM role to use with the monitor.
+    /// The Amazon Resource Name of the new IAM role to use with the monitor.
     public var roleArn: Swift.String?
     /// The new value of the subdomain to use when forming the monitor URL.
     public var subdomain: Swift.String?
@@ -10560,6 +10648,32 @@ extension DeadlineClientTypes {
             self.name = name
             self.`operator` = `operator`
             self.value = value
+        }
+    }
+}
+
+extension DeadlineClientTypes {
+
+    /// Searches for a match within a list of strings.
+    public struct StringListFilterExpression: Swift.Sendable {
+        /// The field name to search.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The type of comparison to use for this search. ANY_EQUALS and ALL_NOT_EQUALS are supported.
+        /// This member is required.
+        public var `operator`: DeadlineClientTypes.ComparisonOperator?
+        /// The list of string values to search for.
+        /// This member is required.
+        public var values: [Swift.String]?
+
+        public init(
+            name: Swift.String? = nil,
+            `operator`: DeadlineClientTypes.ComparisonOperator? = nil,
+            values: [Swift.String]? = nil
+        ) {
+            self.name = name
+            self.`operator` = `operator`
+            self.values = values
         }
     }
 }
@@ -10728,7 +10842,7 @@ extension DeadlineClientTypes {
         public var sourceJobId: Swift.String?
         /// The date and time the resource started running.
         public var startedAt: Foundation.Date?
-        /// The task status to start with on the job.
+        /// The task status to update the job's tasks to.
         public var targetTaskRunStatus: DeadlineClientTypes.JobTargetTaskRunStatus?
         /// The total number of times tasks from the job failed and were retried.
         public var taskFailureRetryCount: Swift.Int?
@@ -10818,7 +10932,7 @@ public struct SearchJobsOutput: Swift.Sendable {
     /// The jobs in the search.
     /// This member is required.
     public var jobs: [DeadlineClientTypes.JobSearchSummary]?
-    /// The next incremental starting point after the defined itemOffset.
+    /// The next item offset for the search results.
     public var nextItemOffset: Swift.Int?
     /// The total number of results in the search.
     /// This member is required.
@@ -10861,7 +10975,7 @@ extension DeadlineClientTypes {
         public var startedAt: Foundation.Date?
         /// The step ID.
         public var stepId: Swift.String?
-        /// The task status to start with on the job.
+        /// The task status to update the job's tasks to.
         public var targetTaskRunStatus: DeadlineClientTypes.StepTargetTaskRunStatus?
         /// The total number of times tasks from the step failed and were retried.
         public var taskFailureRetryCount: Swift.Int?
@@ -10935,7 +11049,7 @@ extension DeadlineClientTypes {
 }
 
 public struct SearchStepsOutput: Swift.Sendable {
-    /// The next incremental starting point after the defined itemOffset.
+    /// The next item offset for the search results.
     public var nextItemOffset: Swift.Int?
     /// The steps in the search.
     /// This member is required.
@@ -10965,6 +11079,8 @@ extension DeadlineClientTypes {
         public var failureRetryCount: Swift.Int?
         /// The job ID.
         public var jobId: Swift.String?
+        /// The latest session action ID for the task.
+        public var latestSessionActionId: Swift.String?
         /// The parameters to search for.
         public var parameters: [Swift.String: DeadlineClientTypes.TaskParameterValue]?
         /// The queue ID.
@@ -10988,6 +11104,7 @@ extension DeadlineClientTypes {
             endedAt: Foundation.Date? = nil,
             failureRetryCount: Swift.Int? = nil,
             jobId: Swift.String? = nil,
+            latestSessionActionId: Swift.String? = nil,
             parameters: [Swift.String: DeadlineClientTypes.TaskParameterValue]? = nil,
             queueId: Swift.String? = nil,
             runStatus: DeadlineClientTypes.TaskRunStatus? = nil,
@@ -11001,6 +11118,7 @@ extension DeadlineClientTypes {
             self.endedAt = endedAt
             self.failureRetryCount = failureRetryCount
             self.jobId = jobId
+            self.latestSessionActionId = latestSessionActionId
             self.parameters = parameters
             self.queueId = queueId
             self.runStatus = runStatus
@@ -11016,11 +11134,11 @@ extension DeadlineClientTypes {
 
 extension DeadlineClientTypes.TaskSearchSummary: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "TaskSearchSummary(endedAt: \(Swift.String(describing: endedAt)), failureRetryCount: \(Swift.String(describing: failureRetryCount)), jobId: \(Swift.String(describing: jobId)), queueId: \(Swift.String(describing: queueId)), runStatus: \(Swift.String(describing: runStatus)), startedAt: \(Swift.String(describing: startedAt)), stepId: \(Swift.String(describing: stepId)), targetRunStatus: \(Swift.String(describing: targetRunStatus)), taskId: \(Swift.String(describing: taskId)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), parameters: \"CONTENT_REDACTED\")"}
+        "TaskSearchSummary(endedAt: \(Swift.String(describing: endedAt)), failureRetryCount: \(Swift.String(describing: failureRetryCount)), jobId: \(Swift.String(describing: jobId)), latestSessionActionId: \(Swift.String(describing: latestSessionActionId)), queueId: \(Swift.String(describing: queueId)), runStatus: \(Swift.String(describing: runStatus)), startedAt: \(Swift.String(describing: startedAt)), stepId: \(Swift.String(describing: stepId)), targetRunStatus: \(Swift.String(describing: targetRunStatus)), taskId: \(Swift.String(describing: taskId)), updatedAt: \(Swift.String(describing: updatedAt)), updatedBy: \(Swift.String(describing: updatedBy)), parameters: \"CONTENT_REDACTED\")"}
 }
 
 public struct SearchTasksOutput: Swift.Sendable {
-    /// The next incremental starting point after the defined itemOffset.
+    /// The next item offset for the search results.
     public var nextItemOffset: Swift.Int?
     /// Tasks in the search.
     /// This member is required.
@@ -11084,7 +11202,7 @@ extension DeadlineClientTypes {
 }
 
 public struct SearchWorkersOutput: Swift.Sendable {
-    /// The next incremental starting point after the defined itemOffset.
+    /// The next item offset for the search results.
     public var nextItemOffset: Swift.Int?
     /// The total number of results in the search.
     /// This member is required.
@@ -11470,6 +11588,8 @@ extension DeadlineClientTypes {
         case searchtermfilter(DeadlineClientTypes.SearchTermFilterExpression)
         /// Filters by a string.
         case stringfilter(DeadlineClientTypes.StringFilterExpression)
+        /// Filters by a list of string values.
+        case stringlistfilter(DeadlineClientTypes.StringListFilterExpression)
         /// Filters by group.
         case groupfilter(DeadlineClientTypes.SearchGroupedFilterExpressions)
         case sdkUnknown(Swift.String)
@@ -11478,7 +11598,7 @@ extension DeadlineClientTypes {
 
 extension DeadlineClientTypes {
 
-    /// The filter expression, AND or OR, to use when searching among a group of search strings in a resource. You can use two groupings per search each within parenthesis ().
+    /// The search terms for a resource.
     public struct SearchGroupedFilterExpressions: Swift.Sendable {
         /// The filters to use for the search.
         /// This member is required.
@@ -11501,12 +11621,12 @@ public struct SearchJobsInput: Swift.Sendable {
     /// The farm ID of the job.
     /// This member is required.
     public var farmId: Swift.String?
-    /// The filter expression, AND or OR, to use when searching among a group of search strings in a resource. You can use two groupings per search each within parenthesis ().
+    /// The search terms for a resource.
     public var filterExpressions: DeadlineClientTypes.SearchGroupedFilterExpressions?
-    /// Defines how far into the scrollable list to start the return of results.
+    /// The offset for the search results.
     /// This member is required.
     public var itemOffset: Swift.Int?
-    /// Specifies the number of items per page for the resource.
+    /// Specifies the number of results to return.
     public var pageSize: Swift.Int?
     /// The queue ID to use in the job search.
     /// This member is required.
@@ -11535,14 +11655,14 @@ public struct SearchStepsInput: Swift.Sendable {
     /// The farm ID to use for the step search.
     /// This member is required.
     public var farmId: Swift.String?
-    /// The filter expression, AND or OR, to use when searching among a group of search strings in a resource. You can use two groupings per search each within parenthesis ().
+    /// The search terms for a resource.
     public var filterExpressions: DeadlineClientTypes.SearchGroupedFilterExpressions?
-    /// Defines how far into the scrollable list to start the return of results.
+    /// The offset for the search results.
     /// This member is required.
     public var itemOffset: Swift.Int?
     /// The job ID to use in the step search.
     public var jobId: Swift.String?
-    /// Specifies the number of items per page for the resource.
+    /// Specifies the number of results to return.
     public var pageSize: Swift.Int?
     /// The queue IDs in the step search.
     /// This member is required.
@@ -11573,14 +11693,14 @@ public struct SearchTasksInput: Swift.Sendable {
     /// The farm ID of the task.
     /// This member is required.
     public var farmId: Swift.String?
-    /// The filter expression, AND or OR, to use when searching among a group of search strings in a resource. You can use two groupings per search each within parenthesis ().
+    /// The search terms for a resource.
     public var filterExpressions: DeadlineClientTypes.SearchGroupedFilterExpressions?
-    /// Defines how far into the scrollable list to start the return of results.
+    /// The offset for the search results.
     /// This member is required.
     public var itemOffset: Swift.Int?
     /// The job ID for the task search.
     public var jobId: Swift.String?
-    /// Specifies the number of items per page for the resource.
+    /// Specifies the number of results to return.
     public var pageSize: Swift.Int?
     /// The queue IDs to include in the search.
     /// This member is required.
@@ -11611,15 +11731,15 @@ public struct SearchWorkersInput: Swift.Sendable {
     /// The farm ID in the workers search.
     /// This member is required.
     public var farmId: Swift.String?
-    /// The filter expression, AND or OR, to use when searching among a group of search strings in a resource. You can use two groupings per search each within parenthesis ().
+    /// The search terms for a resource.
     public var filterExpressions: DeadlineClientTypes.SearchGroupedFilterExpressions?
     /// The fleet ID of the workers to search for.
     /// This member is required.
     public var fleetIds: [Swift.String]?
-    /// Defines how far into the scrollable list to start the return of results.
+    /// The offset for the search results.
     /// This member is required.
     public var itemOffset: Swift.Int?
-    /// Specifies the number of items per page for the resource.
+    /// Specifies the number of results to return.
     public var pageSize: Swift.Int?
     /// The search terms for a resource.
     public var sortExpressions: [DeadlineClientTypes.SearchSortExpression]?
@@ -13989,6 +14109,7 @@ extension CreateBudgetInput {
         try writer["description"].write(value.description)
         try writer["displayName"].write(value.displayName)
         try writer["schedule"].write(value.schedule, with: DeadlineClientTypes.BudgetSchedule.write(value:to:))
+        try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["usageTrackingResource"].write(value.usageTrackingResource, with: DeadlineClientTypes.UsageTrackingResource.write(value:to:))
     }
 }
@@ -14788,7 +14909,7 @@ extension GetFarmOutput {
         value.description = try reader["description"].readIfPresent()
         value.displayName = try reader["displayName"].readIfPresent() ?? ""
         value.farmId = try reader["farmId"].readIfPresent() ?? ""
-        value.kmsKeyArn = try reader["kmsKeyArn"].readIfPresent() ?? ""
+        value.kmsKeyArn = try reader["kmsKeyArn"].readIfPresent()
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.updatedBy = try reader["updatedBy"].readIfPresent()
         return value
@@ -18944,6 +19065,19 @@ extension DeadlineClientTypes.StepParameter {
         var value = DeadlineClientTypes.StepParameter()
         value.name = try reader["name"].readIfPresent() ?? ""
         value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.chunks = try reader["chunks"].readIfPresent(with: DeadlineClientTypes.StepParameterChunks.read(from:))
+        return value
+    }
+}
+
+extension DeadlineClientTypes.StepParameterChunks {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DeadlineClientTypes.StepParameterChunks {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DeadlineClientTypes.StepParameterChunks()
+        value.defaultTaskCount = try reader["defaultTaskCount"].readIfPresent() ?? 0
+        value.targetRuntimeSeconds = try reader["targetRuntimeSeconds"].readIfPresent()
+        value.rangeConstraint = try reader["rangeConstraint"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -19527,6 +19661,7 @@ extension DeadlineClientTypes.TaskSearchSummary {
         value.endedAt = try reader["endedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.updatedBy = try reader["updatedBy"].readIfPresent()
+        value.latestSessionActionId = try reader["latestSessionActionId"].readIfPresent()
         return value
     }
 }
@@ -19750,9 +19885,21 @@ extension DeadlineClientTypes.SearchFilterExpression {
                 try writer["searchTermFilter"].write(searchtermfilter, with: DeadlineClientTypes.SearchTermFilterExpression.write(value:to:))
             case let .stringfilter(stringfilter):
                 try writer["stringFilter"].write(stringfilter, with: DeadlineClientTypes.StringFilterExpression.write(value:to:))
+            case let .stringlistfilter(stringlistfilter):
+                try writer["stringListFilter"].write(stringlistfilter, with: DeadlineClientTypes.StringListFilterExpression.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
+    }
+}
+
+extension DeadlineClientTypes.StringListFilterExpression {
+
+    static func write(value: DeadlineClientTypes.StringListFilterExpression?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["name"].write(value.name)
+        try writer["operator"].write(value.`operator`)
+        try writer["values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 

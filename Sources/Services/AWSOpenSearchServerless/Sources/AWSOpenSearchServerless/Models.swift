@@ -51,7 +51,7 @@ extension OpenSearchServerlessClientTypes {
     }
 }
 
-/// When creating a resource, thrown when a resource with the same name already exists or is being created. When deleting a resource, thrown when the resource is not in the ACTIVE or FAILED state.
+/// When creating a resource, thrown when a resource with the same name already exists or is being created.
 public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -686,6 +686,8 @@ extension OpenSearchServerlessClientTypes {
         public var arn: Swift.String?
         /// Collection-specific endpoint used to submit index, search, and data upload requests to an OpenSearch Serverless collection.
         public var collectionEndpoint: Swift.String?
+        /// The name of the collection group that contains this collection.
+        public var collectionGroupName: Swift.String?
         /// The Epoch time when the collection was created.
         public var createdDate: Swift.Int?
         /// Collection-specific endpoint used to access OpenSearch Dashboards.
@@ -718,6 +720,7 @@ extension OpenSearchServerlessClientTypes {
         public init(
             arn: Swift.String? = nil,
             collectionEndpoint: Swift.String? = nil,
+            collectionGroupName: Swift.String? = nil,
             createdDate: Swift.Int? = nil,
             dashboardEndpoint: Swift.String? = nil,
             description: Swift.String? = nil,
@@ -735,6 +738,7 @@ extension OpenSearchServerlessClientTypes {
         ) {
             self.arn = arn
             self.collectionEndpoint = collectionEndpoint
+            self.collectionGroupName = collectionGroupName
             self.createdDate = createdDate
             self.dashboardEndpoint = dashboardEndpoint
             self.description = description
@@ -792,6 +796,158 @@ public struct BatchGetCollectionOutput: Swift.Sendable {
     ) {
         self.collectionDetails = collectionDetails
         self.collectionErrorDetails = collectionErrorDetails
+    }
+}
+
+public struct BatchGetCollectionGroupInput: Swift.Sendable {
+    /// A list of collection group IDs. You can't provide names and IDs in the same request.
+    public var ids: [Swift.String]?
+    /// A list of collection group names. You can't provide names and IDs in the same request.
+    public var names: [Swift.String]?
+
+    public init(
+        ids: [Swift.String]? = nil,
+        names: [Swift.String]? = nil
+    ) {
+        self.ids = ids
+        self.names = names
+    }
+}
+
+extension OpenSearchServerlessClientTypes {
+
+    /// Capacity limits for a collection group. These limits define the minimum and maximum OpenSearch Compute Units (OCUs) for indexing and search operations that can be used by collections in the group.
+    public struct CollectionGroupCapacityLimits: Swift.Sendable {
+        /// The maximum indexing capacity for collections in the group.
+        public var maxIndexingCapacityInOCU: Swift.Float?
+        /// The maximum search capacity for collections in the group.
+        public var maxSearchCapacityInOCU: Swift.Float?
+        /// The minimum indexing capacity for collections in the group.
+        public var minIndexingCapacityInOCU: Swift.Float?
+        /// The minimum search capacity for collections in the group.
+        public var minSearchCapacityInOCU: Swift.Float?
+
+        public init(
+            maxIndexingCapacityInOCU: Swift.Float? = nil,
+            maxSearchCapacityInOCU: Swift.Float? = nil,
+            minIndexingCapacityInOCU: Swift.Float? = nil,
+            minSearchCapacityInOCU: Swift.Float? = nil
+        ) {
+            self.maxIndexingCapacityInOCU = maxIndexingCapacityInOCU
+            self.maxSearchCapacityInOCU = maxSearchCapacityInOCU
+            self.minIndexingCapacityInOCU = minIndexingCapacityInOCU
+            self.minSearchCapacityInOCU = minSearchCapacityInOCU
+        }
+    }
+}
+
+extension OpenSearchServerlessClientTypes {
+
+    /// A map of key-value pairs associated to an OpenSearch Serverless resource.
+    public struct Tag: Swift.Sendable {
+        /// The key to use in the tag.
+        /// This member is required.
+        public var key: Swift.String?
+        /// The value of the tag.
+        /// This member is required.
+        public var value: Swift.String?
+
+        public init(
+            key: Swift.String? = nil,
+            value: Swift.String? = nil
+        ) {
+            self.key = key
+            self.value = value
+        }
+    }
+}
+
+extension OpenSearchServerlessClientTypes {
+
+    /// Details about a collection group.
+    public struct CollectionGroupDetail: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the collection group.
+        public var arn: Swift.String?
+        /// The capacity limits for the collection group, in OpenSearch Compute Units (OCUs).
+        public var capacityLimits: OpenSearchServerlessClientTypes.CollectionGroupCapacityLimits?
+        /// The Epoch time when the collection group was created.
+        public var createdDate: Swift.Int?
+        /// The description of the collection group.
+        public var description: Swift.String?
+        /// The unique identifier of the collection group.
+        public var id: Swift.String?
+        /// The name of the collection group.
+        public var name: Swift.String?
+        /// The number of collections associated with the collection group.
+        public var numberOfCollections: Swift.Int?
+        /// Indicates whether standby replicas are used for the collection group.
+        public var standbyReplicas: OpenSearchServerlessClientTypes.StandbyReplicas?
+        /// A map of key-value pairs associated with the collection group.
+        public var tags: [OpenSearchServerlessClientTypes.Tag]?
+
+        public init(
+            arn: Swift.String? = nil,
+            capacityLimits: OpenSearchServerlessClientTypes.CollectionGroupCapacityLimits? = nil,
+            createdDate: Swift.Int? = nil,
+            description: Swift.String? = nil,
+            id: Swift.String? = nil,
+            name: Swift.String? = nil,
+            numberOfCollections: Swift.Int? = nil,
+            standbyReplicas: OpenSearchServerlessClientTypes.StandbyReplicas? = nil,
+            tags: [OpenSearchServerlessClientTypes.Tag]? = nil
+        ) {
+            self.arn = arn
+            self.capacityLimits = capacityLimits
+            self.createdDate = createdDate
+            self.description = description
+            self.id = id
+            self.name = name
+            self.numberOfCollections = numberOfCollections
+            self.standbyReplicas = standbyReplicas
+            self.tags = tags
+        }
+    }
+}
+
+extension OpenSearchServerlessClientTypes {
+
+    /// Error details for a collection group operation.
+    public struct CollectionGroupErrorDetail: Swift.Sendable {
+        /// The error code for the request. For example, NOT_FOUND.
+        public var errorCode: Swift.String?
+        /// A description of the error. For example, The specified Collection Group is not found.
+        public var errorMessage: Swift.String?
+        /// If the request contains collection group IDs, the response includes the IDs provided in the request.
+        public var id: Swift.String?
+        /// If the request contains collection group names, the response includes the names provided in the request.
+        public var name: Swift.String?
+
+        public init(
+            errorCode: Swift.String? = nil,
+            errorMessage: Swift.String? = nil,
+            id: Swift.String? = nil,
+            name: Swift.String? = nil
+        ) {
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+            self.id = id
+            self.name = name
+        }
+    }
+}
+
+public struct BatchGetCollectionGroupOutput: Swift.Sendable {
+    /// Details about each collection group.
+    public var collectionGroupDetails: [OpenSearchServerlessClientTypes.CollectionGroupDetail]?
+    /// Error information for the request.
+    public var collectionGroupErrorDetails: [OpenSearchServerlessClientTypes.CollectionGroupErrorDetail]?
+
+    public init(
+        collectionGroupDetails: [OpenSearchServerlessClientTypes.CollectionGroupDetail]? = nil,
+        collectionGroupErrorDetails: [OpenSearchServerlessClientTypes.CollectionGroupErrorDetail]? = nil
+    ) {
+        self.collectionGroupDetails = collectionGroupDetails
+        self.collectionGroupErrorDetails = collectionGroupErrorDetails
     }
 }
 
@@ -1236,21 +1392,19 @@ public struct OcuLimitExceededException: ClientRuntime.ModeledError, AWSClientRu
 
 extension OpenSearchServerlessClientTypes {
 
-    /// A map of key-value pairs associated to an OpenSearch Serverless resource.
-    public struct Tag: Swift.Sendable {
-        /// The key to use in the tag.
-        /// This member is required.
-        public var key: Swift.String?
-        /// The value of the tag.
-        /// This member is required.
-        public var value: Swift.String?
+    /// Encryption settings for a collection.
+    public struct EncryptionConfig: Swift.Sendable {
+        /// Indicates whether to use an Amazon Web Services-owned key for encryption.
+        public var aWSOwnedKey: Swift.Bool?
+        /// The ARN of the Amazon Web Services Key Management Service key used to encrypt the collection.
+        public var kmsKeyArn: Swift.String?
 
         public init(
-            key: Swift.String? = nil,
-            value: Swift.String? = nil
+            aWSOwnedKey: Swift.Bool? = nil,
+            kmsKeyArn: Swift.String? = nil
         ) {
-            self.key = key
-            self.value = value
+            self.aWSOwnedKey = aWSOwnedKey
+            self.kmsKeyArn = kmsKeyArn
         }
     }
 }
@@ -1258,8 +1412,12 @@ extension OpenSearchServerlessClientTypes {
 public struct CreateCollectionInput: Swift.Sendable {
     /// Unique, case-sensitive identifier to ensure idempotency of the request.
     public var clientToken: Swift.String?
+    /// The name of the collection group to associate with the collection.
+    public var collectionGroupName: Swift.String?
     /// Description of the collection.
     public var description: Swift.String?
+    /// Encryption settings for the collection.
+    public var encryptionConfig: OpenSearchServerlessClientTypes.EncryptionConfig?
     /// Name of the collection.
     /// This member is required.
     public var name: Swift.String?
@@ -1274,7 +1432,9 @@ public struct CreateCollectionInput: Swift.Sendable {
 
     public init(
         clientToken: Swift.String? = nil,
+        collectionGroupName: Swift.String? = nil,
         description: Swift.String? = nil,
+        encryptionConfig: OpenSearchServerlessClientTypes.EncryptionConfig? = nil,
         name: Swift.String? = nil,
         standbyReplicas: OpenSearchServerlessClientTypes.StandbyReplicas? = nil,
         tags: [OpenSearchServerlessClientTypes.Tag]? = nil,
@@ -1282,7 +1442,9 @@ public struct CreateCollectionInput: Swift.Sendable {
         vectorOptions: OpenSearchServerlessClientTypes.VectorOptions? = nil
     ) {
         self.clientToken = clientToken
+        self.collectionGroupName = collectionGroupName
         self.description = description
+        self.encryptionConfig = encryptionConfig
         self.name = name
         self.standbyReplicas = standbyReplicas
         self.tags = tags
@@ -1297,6 +1459,8 @@ extension OpenSearchServerlessClientTypes {
     public struct CreateCollectionDetail: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the collection.
         public var arn: Swift.String?
+        /// The name of the collection group that contains this collection.
+        public var collectionGroupName: Swift.String?
         /// The Epoch time when the collection was created.
         public var createdDate: Swift.Int?
         /// A description of the collection.
@@ -1320,6 +1484,7 @@ extension OpenSearchServerlessClientTypes {
 
         public init(
             arn: Swift.String? = nil,
+            collectionGroupName: Swift.String? = nil,
             createdDate: Swift.Int? = nil,
             description: Swift.String? = nil,
             id: Swift.String? = nil,
@@ -1332,6 +1497,7 @@ extension OpenSearchServerlessClientTypes {
             vectorOptions: OpenSearchServerlessClientTypes.VectorOptions? = nil
         ) {
             self.arn = arn
+            self.collectionGroupName = collectionGroupName
             self.createdDate = createdDate
             self.description = description
             self.id = id
@@ -1411,15 +1577,19 @@ extension OpenSearchServerlessClientTypes {
 
     /// A list of filter keys that you can use for LIST, UPDATE, and DELETE requests to OpenSearch Serverless collections.
     public struct CollectionFilters: Swift.Sendable {
+        /// The name of the collection group to filter by.
+        public var collectionGroupName: Swift.String?
         /// The name of the collection.
         public var name: Swift.String?
         /// The current status of the collection.
         public var status: OpenSearchServerlessClientTypes.CollectionStatus?
 
         public init(
+            collectionGroupName: Swift.String? = nil,
             name: Swift.String? = nil,
             status: OpenSearchServerlessClientTypes.CollectionStatus? = nil
         ) {
+            self.collectionGroupName = collectionGroupName
             self.name = name
             self.status = status
         }
@@ -1451,8 +1621,12 @@ extension OpenSearchServerlessClientTypes {
     public struct CollectionSummary: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the collection.
         public var arn: Swift.String?
+        /// The name of the collection group that contains this collection.
+        public var collectionGroupName: Swift.String?
         /// The unique identifier of the collection.
         public var id: Swift.String?
+        /// The ARN of the Amazon Web Services Key Management Service key used to encrypt the collection.
+        public var kmsKeyArn: Swift.String?
         /// The name of the collection.
         public var name: Swift.String?
         /// The current status of the collection.
@@ -1460,12 +1634,16 @@ extension OpenSearchServerlessClientTypes {
 
         public init(
             arn: Swift.String? = nil,
+            collectionGroupName: Swift.String? = nil,
             id: Swift.String? = nil,
+            kmsKeyArn: Swift.String? = nil,
             name: Swift.String? = nil,
             status: OpenSearchServerlessClientTypes.CollectionStatus? = nil
         ) {
             self.arn = arn
+            self.collectionGroupName = collectionGroupName
             self.id = id
+            self.kmsKeyArn = kmsKeyArn
             self.name = name
             self.status = status
         }
@@ -1558,6 +1736,253 @@ public struct UpdateCollectionOutput: Swift.Sendable {
         updateCollectionDetail: OpenSearchServerlessClientTypes.UpdateCollectionDetail? = nil
     ) {
         self.updateCollectionDetail = updateCollectionDetail
+    }
+}
+
+public struct CreateCollectionGroupInput: Swift.Sendable {
+    /// The capacity limits for the collection group, in OpenSearch Compute Units (OCUs). These limits control the maximum and minimum capacity for collections within the group.
+    public var capacityLimits: OpenSearchServerlessClientTypes.CollectionGroupCapacityLimits?
+    /// Unique, case-sensitive identifier to ensure idempotency of the request.
+    public var clientToken: Swift.String?
+    /// A description of the collection group.
+    public var description: Swift.String?
+    /// The name of the collection group.
+    /// This member is required.
+    public var name: Swift.String?
+    /// Indicates whether standby replicas should be used for a collection group.
+    /// This member is required.
+    public var standbyReplicas: OpenSearchServerlessClientTypes.StandbyReplicas?
+    /// An arbitrary set of tags (key–value pairs) to associate with the OpenSearch Serverless collection group.
+    public var tags: [OpenSearchServerlessClientTypes.Tag]?
+
+    public init(
+        capacityLimits: OpenSearchServerlessClientTypes.CollectionGroupCapacityLimits? = nil,
+        clientToken: Swift.String? = nil,
+        description: Swift.String? = nil,
+        name: Swift.String? = nil,
+        standbyReplicas: OpenSearchServerlessClientTypes.StandbyReplicas? = nil,
+        tags: [OpenSearchServerlessClientTypes.Tag]? = nil
+    ) {
+        self.capacityLimits = capacityLimits
+        self.clientToken = clientToken
+        self.description = description
+        self.name = name
+        self.standbyReplicas = standbyReplicas
+        self.tags = tags
+    }
+}
+
+extension OpenSearchServerlessClientTypes {
+
+    /// Details about the created collection group.
+    public struct CreateCollectionGroupDetail: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the collection group.
+        public var arn: Swift.String?
+        /// The capacity limits for the collection group, in OpenSearch Compute Units (OCUs).
+        public var capacityLimits: OpenSearchServerlessClientTypes.CollectionGroupCapacityLimits?
+        /// The Epoch time when the collection group was created.
+        public var createdDate: Swift.Int?
+        /// The description of the collection group.
+        public var description: Swift.String?
+        /// The unique identifier of the collection group.
+        public var id: Swift.String?
+        /// The name of the collection group.
+        public var name: Swift.String?
+        /// Indicates whether standby replicas are used for the collection group.
+        public var standbyReplicas: OpenSearchServerlessClientTypes.StandbyReplicas?
+        /// A map of key-value pairs associated with the collection group.
+        public var tags: [OpenSearchServerlessClientTypes.Tag]?
+
+        public init(
+            arn: Swift.String? = nil,
+            capacityLimits: OpenSearchServerlessClientTypes.CollectionGroupCapacityLimits? = nil,
+            createdDate: Swift.Int? = nil,
+            description: Swift.String? = nil,
+            id: Swift.String? = nil,
+            name: Swift.String? = nil,
+            standbyReplicas: OpenSearchServerlessClientTypes.StandbyReplicas? = nil,
+            tags: [OpenSearchServerlessClientTypes.Tag]? = nil
+        ) {
+            self.arn = arn
+            self.capacityLimits = capacityLimits
+            self.createdDate = createdDate
+            self.description = description
+            self.id = id
+            self.name = name
+            self.standbyReplicas = standbyReplicas
+            self.tags = tags
+        }
+    }
+}
+
+public struct CreateCollectionGroupOutput: Swift.Sendable {
+    /// Details about the created collection group.
+    public var createCollectionGroupDetail: OpenSearchServerlessClientTypes.CreateCollectionGroupDetail?
+
+    public init(
+        createCollectionGroupDetail: OpenSearchServerlessClientTypes.CreateCollectionGroupDetail? = nil
+    ) {
+        self.createCollectionGroupDetail = createCollectionGroupDetail
+    }
+}
+
+public struct DeleteCollectionGroupInput: Swift.Sendable {
+    /// Unique, case-sensitive identifier to ensure idempotency of the request.
+    public var clientToken: Swift.String?
+    /// The unique identifier of the collection group to delete.
+    /// This member is required.
+    public var id: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        id: Swift.String? = nil
+    ) {
+        self.clientToken = clientToken
+        self.id = id
+    }
+}
+
+public struct DeleteCollectionGroupOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct ListCollectionGroupsInput: Swift.Sendable {
+    /// The maximum number of results to return. Default is 20. You can use nextToken to get the next page of results.
+    public var maxResults: Swift.Int?
+    /// If your initial ListCollectionGroups operation returns a nextToken, you can include the returned nextToken in subsequent ListCollectionGroups operations, which returns results in the next page.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension OpenSearchServerlessClientTypes {
+
+    /// Summary information about a collection group.
+    public struct CollectionGroupSummary: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the collection group.
+        public var arn: Swift.String?
+        /// Capacity limits for a collection group. These limits define the minimum and maximum OpenSearch Compute Units (OCUs) for indexing and search operations that can be used by collections in the group.
+        public var capacityLimits: OpenSearchServerlessClientTypes.CollectionGroupCapacityLimits?
+        /// The Epoch time when the collection group was created.
+        public var createdDate: Swift.Int?
+        /// The unique identifier of the collection group.
+        public var id: Swift.String?
+        /// The name of the collection group.
+        public var name: Swift.String?
+        /// The number of collections within the collection group.
+        public var numberOfCollections: Swift.Int?
+
+        public init(
+            arn: Swift.String? = nil,
+            capacityLimits: OpenSearchServerlessClientTypes.CollectionGroupCapacityLimits? = nil,
+            createdDate: Swift.Int? = nil,
+            id: Swift.String? = nil,
+            name: Swift.String? = nil,
+            numberOfCollections: Swift.Int? = nil
+        ) {
+            self.arn = arn
+            self.capacityLimits = capacityLimits
+            self.createdDate = createdDate
+            self.id = id
+            self.name = name
+            self.numberOfCollections = numberOfCollections
+        }
+    }
+}
+
+public struct ListCollectionGroupsOutput: Swift.Sendable {
+    /// Details about each collection group.
+    public var collectionGroupSummaries: [OpenSearchServerlessClientTypes.CollectionGroupSummary]?
+    /// When nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page.
+    public var nextToken: Swift.String?
+
+    public init(
+        collectionGroupSummaries: [OpenSearchServerlessClientTypes.CollectionGroupSummary]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.collectionGroupSummaries = collectionGroupSummaries
+        self.nextToken = nextToken
+    }
+}
+
+public struct UpdateCollectionGroupInput: Swift.Sendable {
+    /// Updated capacity limits for the collection group, in OpenSearch Compute Units (OCUs).
+    public var capacityLimits: OpenSearchServerlessClientTypes.CollectionGroupCapacityLimits?
+    /// Unique, case-sensitive identifier to ensure idempotency of the request.
+    public var clientToken: Swift.String?
+    /// A new description for the collection group.
+    public var description: Swift.String?
+    /// The unique identifier of the collection group to update.
+    /// This member is required.
+    public var id: Swift.String?
+
+    public init(
+        capacityLimits: OpenSearchServerlessClientTypes.CollectionGroupCapacityLimits? = nil,
+        clientToken: Swift.String? = nil,
+        description: Swift.String? = nil,
+        id: Swift.String? = nil
+    ) {
+        self.capacityLimits = capacityLimits
+        self.clientToken = clientToken
+        self.description = description
+        self.id = id
+    }
+}
+
+extension OpenSearchServerlessClientTypes {
+
+    /// Details about the updated collection group.
+    public struct UpdateCollectionGroupDetail: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the collection group.
+        public var arn: Swift.String?
+        /// The capacity limits for the collection group, in OpenSearch Compute Units (OCUs).
+        public var capacityLimits: OpenSearchServerlessClientTypes.CollectionGroupCapacityLimits?
+        /// The Epoch time when the collection group was created.
+        public var createdDate: Swift.Int?
+        /// The description of the collection group.
+        public var description: Swift.String?
+        /// The unique identifier of the collection group.
+        public var id: Swift.String?
+        /// The date and time when the collection group was last modified.
+        public var lastModifiedDate: Swift.Int?
+        /// The name of the collection group.
+        public var name: Swift.String?
+
+        public init(
+            arn: Swift.String? = nil,
+            capacityLimits: OpenSearchServerlessClientTypes.CollectionGroupCapacityLimits? = nil,
+            createdDate: Swift.Int? = nil,
+            description: Swift.String? = nil,
+            id: Swift.String? = nil,
+            lastModifiedDate: Swift.Int? = nil,
+            name: Swift.String? = nil
+        ) {
+            self.arn = arn
+            self.capacityLimits = capacityLimits
+            self.createdDate = createdDate
+            self.description = description
+            self.id = id
+            self.lastModifiedDate = lastModifiedDate
+            self.name = name
+        }
+    }
+}
+
+public struct UpdateCollectionGroupOutput: Swift.Sendable {
+    /// Details about the updated collection group.
+    public var updateCollectionGroupDetail: OpenSearchServerlessClientTypes.UpdateCollectionGroupDetail?
+
+    public init(
+        updateCollectionGroupDetail: OpenSearchServerlessClientTypes.UpdateCollectionGroupDetail? = nil
+    ) {
+        self.updateCollectionGroupDetail = updateCollectionGroupDetail
     }
 }
 
@@ -1816,7 +2241,7 @@ public struct CreateSecurityConfigInput: Swift.Sendable {
     /// The name of the security configuration.
     /// This member is required.
     public var name: Swift.String?
-    /// Describes SAML options in in the form of a key-value map. This field is required if you specify SAML for the type parameter.
+    /// Describes SAML options in the form of a key-value map. This field is required if you specify SAML for the type parameter.
     public var samlOptions: OpenSearchServerlessClientTypes.SamlConfigOptions?
     /// The type of security configuration.
     /// This member is required.
@@ -3077,6 +3502,13 @@ extension BatchGetCollectionInput {
     }
 }
 
+extension BatchGetCollectionGroupInput {
+
+    static func urlPathProvider(_ value: BatchGetCollectionGroupInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension BatchGetEffectiveLifecyclePolicyInput {
 
     static func urlPathProvider(_ value: BatchGetEffectiveLifecyclePolicyInput) -> Swift.String? {
@@ -3108,6 +3540,13 @@ extension CreateAccessPolicyInput {
 extension CreateCollectionInput {
 
     static func urlPathProvider(_ value: CreateCollectionInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension CreateCollectionGroupInput {
+
+    static func urlPathProvider(_ value: CreateCollectionGroupInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3157,6 +3596,13 @@ extension DeleteAccessPolicyInput {
 extension DeleteCollectionInput {
 
     static func urlPathProvider(_ value: DeleteCollectionInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension DeleteCollectionGroupInput {
+
+    static func urlPathProvider(_ value: DeleteCollectionGroupInput) -> Swift.String? {
         return "/"
     }
 }
@@ -3245,6 +3691,13 @@ extension ListAccessPoliciesInput {
     }
 }
 
+extension ListCollectionGroupsInput {
+
+    static func urlPathProvider(_ value: ListCollectionGroupsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension ListCollectionsInput {
 
     static func urlPathProvider(_ value: ListCollectionsInput) -> Swift.String? {
@@ -3322,6 +3775,13 @@ extension UpdateCollectionInput {
     }
 }
 
+extension UpdateCollectionGroupInput {
+
+    static func urlPathProvider(_ value: UpdateCollectionGroupInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension UpdateIndexInput {
 
     static func urlPathProvider(_ value: UpdateIndexInput) -> Swift.String? {
@@ -3360,6 +3820,15 @@ extension UpdateVpcEndpointInput {
 extension BatchGetCollectionInput {
 
     static func write(value: BatchGetCollectionInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ids"].writeList(value.ids, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["names"].writeList(value.names, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension BatchGetCollectionGroupInput {
+
+    static func write(value: BatchGetCollectionGroupInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["ids"].writeList(value.ids, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["names"].writeList(value.names, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -3407,12 +3876,27 @@ extension CreateCollectionInput {
     static func write(value: CreateCollectionInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["clientToken"].write(value.clientToken)
+        try writer["collectionGroupName"].write(value.collectionGroupName)
         try writer["description"].write(value.description)
+        try writer["encryptionConfig"].write(value.encryptionConfig, with: OpenSearchServerlessClientTypes.EncryptionConfig.write(value:to:))
         try writer["name"].write(value.name)
         try writer["standbyReplicas"].write(value.standbyReplicas)
         try writer["tags"].writeList(value.tags, memberWritingClosure: OpenSearchServerlessClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["type"].write(value.type)
         try writer["vectorOptions"].write(value.vectorOptions, with: OpenSearchServerlessClientTypes.VectorOptions.write(value:to:))
+    }
+}
+
+extension CreateCollectionGroupInput {
+
+    static func write(value: CreateCollectionGroupInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["capacityLimits"].write(value.capacityLimits, with: OpenSearchServerlessClientTypes.CollectionGroupCapacityLimits.write(value:to:))
+        try writer["clientToken"].write(value.clientToken)
+        try writer["description"].write(value.description)
+        try writer["name"].write(value.name)
+        try writer["standbyReplicas"].write(value.standbyReplicas)
+        try writer["tags"].writeList(value.tags, memberWritingClosure: OpenSearchServerlessClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -3489,6 +3973,15 @@ extension DeleteAccessPolicyInput {
 extension DeleteCollectionInput {
 
     static func write(value: DeleteCollectionInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["id"].write(value.id)
+    }
+}
+
+extension DeleteCollectionGroupInput {
+
+    static func write(value: DeleteCollectionGroupInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["clientToken"].write(value.clientToken)
         try writer["id"].write(value.id)
@@ -3604,6 +4097,15 @@ extension ListAccessPoliciesInput {
     }
 }
 
+extension ListCollectionGroupsInput {
+
+    static func write(value: ListCollectionGroupsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
+    }
+}
+
 extension ListCollectionsInput {
 
     static func write(value: ListCollectionsInput?, to writer: SmithyJSON.Writer) throws {
@@ -3713,6 +4215,17 @@ extension UpdateCollectionInput {
     }
 }
 
+extension UpdateCollectionGroupInput {
+
+    static func write(value: UpdateCollectionGroupInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["capacityLimits"].write(value.capacityLimits, with: OpenSearchServerlessClientTypes.CollectionGroupCapacityLimits.write(value:to:))
+        try writer["clientToken"].write(value.clientToken)
+        try writer["description"].write(value.description)
+        try writer["id"].write(value.id)
+    }
+}
+
 extension UpdateIndexInput {
 
     static func write(value: UpdateIndexInput?, to writer: SmithyJSON.Writer) throws {
@@ -3789,6 +4302,19 @@ extension BatchGetCollectionOutput {
     }
 }
 
+extension BatchGetCollectionGroupOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> BatchGetCollectionGroupOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = BatchGetCollectionGroupOutput()
+        value.collectionGroupDetails = try reader["collectionGroupDetails"].readListIfPresent(memberReadingClosure: OpenSearchServerlessClientTypes.CollectionGroupDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.collectionGroupErrorDetails = try reader["collectionGroupErrorDetails"].readListIfPresent(memberReadingClosure: OpenSearchServerlessClientTypes.CollectionGroupErrorDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension BatchGetEffectiveLifecyclePolicyOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> BatchGetEffectiveLifecyclePolicyOutput {
@@ -3848,6 +4374,18 @@ extension CreateCollectionOutput {
         let reader = responseReader
         var value = CreateCollectionOutput()
         value.createCollectionDetail = try reader["createCollectionDetail"].readIfPresent(with: OpenSearchServerlessClientTypes.CreateCollectionDetail.read(from:))
+        return value
+    }
+}
+
+extension CreateCollectionGroupOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateCollectionGroupOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateCollectionGroupOutput()
+        value.createCollectionGroupDetail = try reader["createCollectionGroupDetail"].readIfPresent(with: OpenSearchServerlessClientTypes.CreateCollectionGroupDetail.read(from:))
         return value
     }
 }
@@ -3923,6 +4461,13 @@ extension DeleteCollectionOutput {
         var value = DeleteCollectionOutput()
         value.deleteCollectionDetail = try reader["deleteCollectionDetail"].readIfPresent(with: OpenSearchServerlessClientTypes.DeleteCollectionDetail.read(from:))
         return value
+    }
+}
+
+extension DeleteCollectionGroupOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteCollectionGroupOutput {
+        return DeleteCollectionGroupOutput()
     }
 }
 
@@ -4055,6 +4600,19 @@ extension ListAccessPoliciesOutput {
     }
 }
 
+extension ListCollectionGroupsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListCollectionGroupsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListCollectionGroupsOutput()
+        value.collectionGroupSummaries = try reader["collectionGroupSummaries"].readListIfPresent(memberReadingClosure: OpenSearchServerlessClientTypes.CollectionGroupSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
 extension ListCollectionsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListCollectionsOutput {
@@ -4182,6 +4740,18 @@ extension UpdateCollectionOutput {
     }
 }
 
+extension UpdateCollectionGroupOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateCollectionGroupOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateCollectionGroupOutput()
+        value.updateCollectionGroupDetail = try reader["updateCollectionGroupDetail"].readIfPresent(with: OpenSearchServerlessClientTypes.UpdateCollectionGroupDetail.read(from:))
+        return value
+    }
+}
+
 extension UpdateIndexOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateIndexOutput {
@@ -4238,6 +4808,21 @@ extension UpdateVpcEndpointOutput {
 }
 
 enum BatchGetCollectionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum BatchGetCollectionGroupOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -4325,6 +4910,23 @@ enum CreateCollectionOutputError {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "OcuLimitExceededException": return try OcuLimitExceededException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum CreateCollectionGroupOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -4435,6 +5037,23 @@ enum DeleteAccessPolicyOutputError {
 }
 
 enum DeleteCollectionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteCollectionGroupOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -4643,6 +5262,21 @@ enum ListAccessPoliciesOutputError {
     }
 }
 
+enum ListCollectionGroupsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListCollectionsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -4812,6 +5446,23 @@ enum UpdateCollectionOutputError {
         switch baseError.code {
             case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum UpdateCollectionGroupOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -5006,6 +5657,7 @@ extension OpenSearchServerlessClientTypes.CollectionDetail {
         value.fipsEndpoints = try reader["fipsEndpoints"].readIfPresent(with: OpenSearchServerlessClientTypes.FipsEndpoints.read(from:))
         value.failureCode = try reader["failureCode"].readIfPresent()
         value.failureMessage = try reader["failureMessage"].readIfPresent()
+        value.collectionGroupName = try reader["collectionGroupName"].readIfPresent()
         return value
     }
 }
@@ -5041,6 +5693,75 @@ extension OpenSearchServerlessClientTypes.CollectionErrorDetail {
     static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchServerlessClientTypes.CollectionErrorDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = OpenSearchServerlessClientTypes.CollectionErrorDetail()
+        value.id = try reader["id"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        value.errorMessage = try reader["errorMessage"].readIfPresent()
+        value.errorCode = try reader["errorCode"].readIfPresent()
+        return value
+    }
+}
+
+extension OpenSearchServerlessClientTypes.CollectionGroupDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchServerlessClientTypes.CollectionGroupDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OpenSearchServerlessClientTypes.CollectionGroupDetail()
+        value.id = try reader["id"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        value.standbyReplicas = try reader["standbyReplicas"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.tags = try reader["tags"].readListIfPresent(memberReadingClosure: OpenSearchServerlessClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.createdDate = try reader["createdDate"].readIfPresent()
+        value.capacityLimits = try reader["capacityLimits"].readIfPresent(with: OpenSearchServerlessClientTypes.CollectionGroupCapacityLimits.read(from:))
+        value.numberOfCollections = try reader["numberOfCollections"].readIfPresent()
+        return value
+    }
+}
+
+extension OpenSearchServerlessClientTypes.CollectionGroupCapacityLimits {
+
+    static func write(value: OpenSearchServerlessClientTypes.CollectionGroupCapacityLimits?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["maxIndexingCapacityInOCU"].write(value.maxIndexingCapacityInOCU)
+        try writer["maxSearchCapacityInOCU"].write(value.maxSearchCapacityInOCU)
+        try writer["minIndexingCapacityInOCU"].write(value.minIndexingCapacityInOCU)
+        try writer["minSearchCapacityInOCU"].write(value.minSearchCapacityInOCU)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchServerlessClientTypes.CollectionGroupCapacityLimits {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OpenSearchServerlessClientTypes.CollectionGroupCapacityLimits()
+        value.maxIndexingCapacityInOCU = try reader["maxIndexingCapacityInOCU"].readIfPresent()
+        value.maxSearchCapacityInOCU = try reader["maxSearchCapacityInOCU"].readIfPresent()
+        value.minIndexingCapacityInOCU = try reader["minIndexingCapacityInOCU"].readIfPresent()
+        value.minSearchCapacityInOCU = try reader["minSearchCapacityInOCU"].readIfPresent()
+        return value
+    }
+}
+
+extension OpenSearchServerlessClientTypes.Tag {
+
+    static func write(value: OpenSearchServerlessClientTypes.Tag?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["key"].write(value.key)
+        try writer["value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchServerlessClientTypes.Tag {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OpenSearchServerlessClientTypes.Tag()
+        value.key = try reader["key"].readIfPresent() ?? ""
+        value.value = try reader["value"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension OpenSearchServerlessClientTypes.CollectionGroupErrorDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchServerlessClientTypes.CollectionGroupErrorDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OpenSearchServerlessClientTypes.CollectionGroupErrorDetail()
         value.id = try reader["id"].readIfPresent()
         value.name = try reader["name"].readIfPresent()
         value.errorMessage = try reader["errorMessage"].readIfPresent()
@@ -5168,6 +5889,24 @@ extension OpenSearchServerlessClientTypes.CreateCollectionDetail {
         value.vectorOptions = try reader["vectorOptions"].readIfPresent(with: OpenSearchServerlessClientTypes.VectorOptions.read(from:))
         value.createdDate = try reader["createdDate"].readIfPresent()
         value.lastModifiedDate = try reader["lastModifiedDate"].readIfPresent()
+        value.collectionGroupName = try reader["collectionGroupName"].readIfPresent()
+        return value
+    }
+}
+
+extension OpenSearchServerlessClientTypes.CreateCollectionGroupDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchServerlessClientTypes.CreateCollectionGroupDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OpenSearchServerlessClientTypes.CreateCollectionGroupDetail()
+        value.id = try reader["id"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        value.standbyReplicas = try reader["standbyReplicas"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.tags = try reader["tags"].readListIfPresent(memberReadingClosure: OpenSearchServerlessClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.createdDate = try reader["createdDate"].readIfPresent()
+        value.capacityLimits = try reader["capacityLimits"].readIfPresent(with: OpenSearchServerlessClientTypes.CollectionGroupCapacityLimits.read(from:))
         return value
     }
 }
@@ -5380,6 +6119,21 @@ extension OpenSearchServerlessClientTypes.AccessPolicySummary {
     }
 }
 
+extension OpenSearchServerlessClientTypes.CollectionGroupSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchServerlessClientTypes.CollectionGroupSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OpenSearchServerlessClientTypes.CollectionGroupSummary()
+        value.id = try reader["id"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        value.numberOfCollections = try reader["numberOfCollections"].readIfPresent()
+        value.createdDate = try reader["createdDate"].readIfPresent()
+        value.capacityLimits = try reader["capacityLimits"].readIfPresent(with: OpenSearchServerlessClientTypes.CollectionGroupCapacityLimits.read(from:))
+        return value
+    }
+}
+
 extension OpenSearchServerlessClientTypes.CollectionSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchServerlessClientTypes.CollectionSummary {
@@ -5389,6 +6143,8 @@ extension OpenSearchServerlessClientTypes.CollectionSummary {
         value.name = try reader["name"].readIfPresent()
         value.status = try reader["status"].readIfPresent()
         value.arn = try reader["arn"].readIfPresent()
+        value.kmsKeyArn = try reader["kmsKeyArn"].readIfPresent()
+        value.collectionGroupName = try reader["collectionGroupName"].readIfPresent()
         return value
     }
 }
@@ -5438,23 +6194,6 @@ extension OpenSearchServerlessClientTypes.SecurityPolicySummary {
     }
 }
 
-extension OpenSearchServerlessClientTypes.Tag {
-
-    static func write(value: OpenSearchServerlessClientTypes.Tag?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["key"].write(value.key)
-        try writer["value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchServerlessClientTypes.Tag {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OpenSearchServerlessClientTypes.Tag()
-        value.key = try reader["key"].readIfPresent() ?? ""
-        value.value = try reader["value"].readIfPresent() ?? ""
-        return value
-    }
-}
-
 extension OpenSearchServerlessClientTypes.VpcEndpointSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchServerlessClientTypes.VpcEndpointSummary {
@@ -5478,6 +6217,22 @@ extension OpenSearchServerlessClientTypes.UpdateCollectionDetail {
         value.type = try reader["type"].readIfPresent()
         value.description = try reader["description"].readIfPresent()
         value.arn = try reader["arn"].readIfPresent()
+        value.createdDate = try reader["createdDate"].readIfPresent()
+        value.lastModifiedDate = try reader["lastModifiedDate"].readIfPresent()
+        return value
+    }
+}
+
+extension OpenSearchServerlessClientTypes.UpdateCollectionGroupDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OpenSearchServerlessClientTypes.UpdateCollectionGroupDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OpenSearchServerlessClientTypes.UpdateCollectionGroupDetail()
+        value.id = try reader["id"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.capacityLimits = try reader["capacityLimits"].readIfPresent(with: OpenSearchServerlessClientTypes.CollectionGroupCapacityLimits.read(from:))
         value.createdDate = try reader["createdDate"].readIfPresent()
         value.lastModifiedDate = try reader["lastModifiedDate"].readIfPresent()
         return value
@@ -5517,6 +6272,15 @@ extension OpenSearchServerlessClientTypes.LifecyclePolicyIdentifier {
     }
 }
 
+extension OpenSearchServerlessClientTypes.EncryptionConfig {
+
+    static func write(value: OpenSearchServerlessClientTypes.EncryptionConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["aWSOwnedKey"].write(value.aWSOwnedKey)
+        try writer["kmsKeyArn"].write(value.kmsKeyArn)
+    }
+}
+
 extension OpenSearchServerlessClientTypes.CreateIamIdentityCenterConfigOptions {
 
     static func write(value: OpenSearchServerlessClientTypes.CreateIamIdentityCenterConfigOptions?, to writer: SmithyJSON.Writer) throws {
@@ -5531,6 +6295,7 @@ extension OpenSearchServerlessClientTypes.CollectionFilters {
 
     static func write(value: OpenSearchServerlessClientTypes.CollectionFilters?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["collectionGroupName"].write(value.collectionGroupName)
         try writer["name"].write(value.name)
         try writer["status"].write(value.status)
     }

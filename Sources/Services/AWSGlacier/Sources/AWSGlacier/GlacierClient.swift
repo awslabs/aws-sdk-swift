@@ -388,7 +388,7 @@ extension GlacierClient {
     /// __Possible Exceptions:__
     /// - `InvalidParameterValueException` : Returned if a parameter of the request is incorrectly specified.
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
-    /// - `NoLongerSupportedException` : [no documentation found]
+    /// - `NoLongerSupportedException` : Returned if the request was made by a customer with no Amazon Glacier storage. The request is denied as the API is no longer supported for new customers. Please use Amazon S3 Glacier storage classes instead.
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
     public func abortMultipartUpload(input: AbortMultipartUploadInput) async throws -> AbortMultipartUploadOutput {
@@ -468,7 +468,7 @@ extension GlacierClient {
     /// __Possible Exceptions:__
     /// - `InvalidParameterValueException` : Returned if a parameter of the request is incorrectly specified.
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
-    /// - `NoLongerSupportedException` : [no documentation found]
+    /// - `NoLongerSupportedException` : Returned if the request was made by a customer with no Amazon Glacier storage. The request is denied as the API is no longer supported for new customers. Please use Amazon S3 Glacier storage classes instead.
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
     public func abortVaultLock(input: AbortVaultLockInput) async throws -> AbortVaultLockOutput {
@@ -549,7 +549,7 @@ extension GlacierClient {
     /// - `InvalidParameterValueException` : Returned if a parameter of the request is incorrectly specified.
     /// - `LimitExceededException` : Returned if the request results in a vault or account limit being exceeded.
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
-    /// - `NoLongerSupportedException` : [no documentation found]
+    /// - `NoLongerSupportedException` : Returned if the request was made by a customer with no Amazon Glacier storage. The request is denied as the API is no longer supported for new customers. Please use Amazon S3 Glacier storage classes instead.
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
     public func addTagsToVault(input: AddTagsToVaultInput) async throws -> AddTagsToVaultOutput {
@@ -633,7 +633,7 @@ extension GlacierClient {
     /// __Possible Exceptions:__
     /// - `InvalidParameterValueException` : Returned if a parameter of the request is incorrectly specified.
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
-    /// - `NoLongerSupportedException` : [no documentation found]
+    /// - `NoLongerSupportedException` : Returned if the request was made by a customer with no Amazon Glacier storage. The request is denied as the API is no longer supported for new customers. Please use Amazon S3 Glacier storage classes instead.
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
     public func completeMultipartUpload(input: CompleteMultipartUploadInput) async throws -> CompleteMultipartUploadOutput {
@@ -714,7 +714,7 @@ extension GlacierClient {
     /// __Possible Exceptions:__
     /// - `InvalidParameterValueException` : Returned if a parameter of the request is incorrectly specified.
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
-    /// - `NoLongerSupportedException` : [no documentation found]
+    /// - `NoLongerSupportedException` : Returned if the request was made by a customer with no Amazon Glacier storage. The request is denied as the API is no longer supported for new customers. Please use Amazon S3 Glacier storage classes instead.
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
     public func completeVaultLock(input: CompleteVaultLockInput) async throws -> CompleteVaultLockOutput {
@@ -802,7 +802,7 @@ extension GlacierClient {
     /// - `InvalidParameterValueException` : Returned if a parameter of the request is incorrectly specified.
     /// - `LimitExceededException` : Returned if the request results in a vault or account limit being exceeded.
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
-    /// - `NoLongerSupportedException` : [no documentation found]
+    /// - `NoLongerSupportedException` : Returned if the request was made by a customer with no Amazon Glacier storage. The request is denied as the API is no longer supported for new customers. Please use Amazon S3 Glacier storage classes instead.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
     public func createVault(input: CreateVaultInput) async throws -> CreateVaultOutput {
         let context = Smithy.ContextBuilder()
@@ -888,7 +888,7 @@ extension GlacierClient {
     /// __Possible Exceptions:__
     /// - `InvalidParameterValueException` : Returned if a parameter of the request is incorrectly specified.
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
-    /// - `NoLongerSupportedException` : [no documentation found]
+    /// - `NoLongerSupportedException` : Returned if the request was made by a customer with no Amazon Glacier storage. The request is denied as the API is no longer supported for new customers. Please use Amazon S3 Glacier storage classes instead.
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
     public func deleteArchive(input: DeleteArchiveInput) async throws -> DeleteArchiveOutput {
@@ -968,7 +968,7 @@ extension GlacierClient {
     /// __Possible Exceptions:__
     /// - `InvalidParameterValueException` : Returned if a parameter of the request is incorrectly specified.
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
-    /// - `NoLongerSupportedException` : [no documentation found]
+    /// - `NoLongerSupportedException` : Returned if the request was made by a customer with no Amazon Glacier storage. The request is denied as the API is no longer supported for new customers. Please use Amazon S3 Glacier storage classes instead.
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
     public func deleteVault(input: DeleteVaultInput) async throws -> DeleteVaultOutput {
@@ -1048,7 +1048,7 @@ extension GlacierClient {
     /// __Possible Exceptions:__
     /// - `InvalidParameterValueException` : Returned if a parameter of the request is incorrectly specified.
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
-    /// - `NoLongerSupportedException` : [no documentation found]
+    /// - `NoLongerSupportedException` : Returned if the request was made by a customer with no Amazon Glacier storage. The request is denied as the API is no longer supported for new customers. Please use Amazon S3 Glacier storage classes instead.
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
     public func deleteVaultAccessPolicy(input: DeleteVaultAccessPolicyInput) async throws -> DeleteVaultAccessPolicyOutput {
@@ -1128,7 +1128,7 @@ extension GlacierClient {
     /// __Possible Exceptions:__
     /// - `InvalidParameterValueException` : Returned if a parameter of the request is incorrectly specified.
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
-    /// - `NoLongerSupportedException` : [no documentation found]
+    /// - `NoLongerSupportedException` : Returned if the request was made by a customer with no Amazon Glacier storage. The request is denied as the API is no longer supported for new customers. Please use Amazon S3 Glacier storage classes instead.
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
     public func deleteVaultNotifications(input: DeleteVaultNotificationsInput) async throws -> DeleteVaultNotificationsOutput {
@@ -1208,7 +1208,7 @@ extension GlacierClient {
     /// __Possible Exceptions:__
     /// - `InvalidParameterValueException` : Returned if a parameter of the request is incorrectly specified.
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
-    /// - `NoLongerSupportedException` : [no documentation found]
+    /// - `NoLongerSupportedException` : Returned if the request was made by a customer with no Amazon Glacier storage. The request is denied as the API is no longer supported for new customers. Please use Amazon S3 Glacier storage classes instead.
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
     public func describeJob(input: DescribeJobInput) async throws -> DescribeJobOutput {
@@ -1288,7 +1288,7 @@ extension GlacierClient {
     /// __Possible Exceptions:__
     /// - `InvalidParameterValueException` : Returned if a parameter of the request is incorrectly specified.
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
-    /// - `NoLongerSupportedException` : [no documentation found]
+    /// - `NoLongerSupportedException` : Returned if the request was made by a customer with no Amazon Glacier storage. The request is denied as the API is no longer supported for new customers. Please use Amazon S3 Glacier storage classes instead.
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
     public func describeVault(input: DescribeVaultInput) async throws -> DescribeVaultOutput {
@@ -1368,7 +1368,7 @@ extension GlacierClient {
     /// __Possible Exceptions:__
     /// - `InvalidParameterValueException` : Returned if a parameter of the request is incorrectly specified.
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
-    /// - `NoLongerSupportedException` : [no documentation found]
+    /// - `NoLongerSupportedException` : Returned if the request was made by a customer with no Amazon Glacier storage. The request is denied as the API is no longer supported for new customers. Please use Amazon S3 Glacier storage classes instead.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
     public func getDataRetrievalPolicy(input: GetDataRetrievalPolicyInput) async throws -> GetDataRetrievalPolicyOutput {
         let context = Smithy.ContextBuilder()
@@ -1447,7 +1447,7 @@ extension GlacierClient {
     /// __Possible Exceptions:__
     /// - `InvalidParameterValueException` : Returned if a parameter of the request is incorrectly specified.
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
-    /// - `NoLongerSupportedException` : [no documentation found]
+    /// - `NoLongerSupportedException` : Returned if the request was made by a customer with no Amazon Glacier storage. The request is denied as the API is no longer supported for new customers. Please use Amazon S3 Glacier storage classes instead.
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
     public func getJobOutput(input: GetJobOutputInput) async throws -> GetJobOutputOutput {
@@ -1528,7 +1528,7 @@ extension GlacierClient {
     /// __Possible Exceptions:__
     /// - `InvalidParameterValueException` : Returned if a parameter of the request is incorrectly specified.
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
-    /// - `NoLongerSupportedException` : [no documentation found]
+    /// - `NoLongerSupportedException` : Returned if the request was made by a customer with no Amazon Glacier storage. The request is denied as the API is no longer supported for new customers. Please use Amazon S3 Glacier storage classes instead.
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
     public func getVaultAccessPolicy(input: GetVaultAccessPolicyInput) async throws -> GetVaultAccessPolicyOutput {
@@ -1619,7 +1619,7 @@ extension GlacierClient {
     /// __Possible Exceptions:__
     /// - `InvalidParameterValueException` : Returned if a parameter of the request is incorrectly specified.
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
-    /// - `NoLongerSupportedException` : [no documentation found]
+    /// - `NoLongerSupportedException` : Returned if the request was made by a customer with no Amazon Glacier storage. The request is denied as the API is no longer supported for new customers. Please use Amazon S3 Glacier storage classes instead.
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
     public func getVaultLock(input: GetVaultLockInput) async throws -> GetVaultLockOutput {
@@ -1699,7 +1699,7 @@ extension GlacierClient {
     /// __Possible Exceptions:__
     /// - `InvalidParameterValueException` : Returned if a parameter of the request is incorrectly specified.
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
-    /// - `NoLongerSupportedException` : [no documentation found]
+    /// - `NoLongerSupportedException` : Returned if the request was made by a customer with no Amazon Glacier storage. The request is denied as the API is no longer supported for new customers. Please use Amazon S3 Glacier storage classes instead.
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
     public func getVaultNotifications(input: GetVaultNotificationsInput) async throws -> GetVaultNotificationsOutput {
@@ -1780,7 +1780,7 @@ extension GlacierClient {
     /// - `InsufficientCapacityException` : Returned if there is insufficient capacity to process this expedited request. This error only applies to expedited retrievals and not to standard or bulk retrievals.
     /// - `InvalidParameterValueException` : Returned if a parameter of the request is incorrectly specified.
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
-    /// - `NoLongerSupportedException` : [no documentation found]
+    /// - `NoLongerSupportedException` : Returned if the request was made by a customer with no Amazon Glacier storage. The request is denied as the API is no longer supported for new customers. Please use Amazon S3 Glacier storage classes instead.
     /// - `PolicyEnforcedException` : Returned if a retrieval job would exceed the current data policy's retrieval rate limit. For more information about data retrieval policies,
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
@@ -1864,7 +1864,7 @@ extension GlacierClient {
     /// __Possible Exceptions:__
     /// - `InvalidParameterValueException` : Returned if a parameter of the request is incorrectly specified.
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
-    /// - `NoLongerSupportedException` : [no documentation found]
+    /// - `NoLongerSupportedException` : Returned if the request was made by a customer with no Amazon Glacier storage. The request is denied as the API is no longer supported for new customers. Please use Amazon S3 Glacier storage classes instead.
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
     public func initiateMultipartUpload(input: InitiateMultipartUploadInput) async throws -> InitiateMultipartUploadOutput {
@@ -1954,7 +1954,7 @@ extension GlacierClient {
     /// __Possible Exceptions:__
     /// - `InvalidParameterValueException` : Returned if a parameter of the request is incorrectly specified.
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
-    /// - `NoLongerSupportedException` : [no documentation found]
+    /// - `NoLongerSupportedException` : Returned if the request was made by a customer with no Amazon Glacier storage. The request is denied as the API is no longer supported for new customers. Please use Amazon S3 Glacier storage classes instead.
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
     public func initiateVaultLock(input: InitiateVaultLockInput) async throws -> InitiateVaultLockOutput {
@@ -2037,7 +2037,7 @@ extension GlacierClient {
     /// __Possible Exceptions:__
     /// - `InvalidParameterValueException` : Returned if a parameter of the request is incorrectly specified.
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
-    /// - `NoLongerSupportedException` : [no documentation found]
+    /// - `NoLongerSupportedException` : Returned if the request was made by a customer with no Amazon Glacier storage. The request is denied as the API is no longer supported for new customers. Please use Amazon S3 Glacier storage classes instead.
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
     public func listJobs(input: ListJobsInput) async throws -> ListJobsOutput {
@@ -2118,7 +2118,7 @@ extension GlacierClient {
     /// __Possible Exceptions:__
     /// - `InvalidParameterValueException` : Returned if a parameter of the request is incorrectly specified.
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
-    /// - `NoLongerSupportedException` : [no documentation found]
+    /// - `NoLongerSupportedException` : Returned if the request was made by a customer with no Amazon Glacier storage. The request is denied as the API is no longer supported for new customers. Please use Amazon S3 Glacier storage classes instead.
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
     public func listMultipartUploads(input: ListMultipartUploadsInput) async throws -> ListMultipartUploadsOutput {
@@ -2199,7 +2199,7 @@ extension GlacierClient {
     /// __Possible Exceptions:__
     /// - `InvalidParameterValueException` : Returned if a parameter of the request is incorrectly specified.
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
-    /// - `NoLongerSupportedException` : [no documentation found]
+    /// - `NoLongerSupportedException` : Returned if the request was made by a customer with no Amazon Glacier storage. The request is denied as the API is no longer supported for new customers. Please use Amazon S3 Glacier storage classes instead.
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
     public func listParts(input: ListPartsInput) async throws -> ListPartsOutput {
@@ -2280,7 +2280,7 @@ extension GlacierClient {
     /// __Possible Exceptions:__
     /// - `InvalidParameterValueException` : Returned if a parameter of the request is incorrectly specified.
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
-    /// - `NoLongerSupportedException` : [no documentation found]
+    /// - `NoLongerSupportedException` : Returned if the request was made by a customer with no Amazon Glacier storage. The request is denied as the API is no longer supported for new customers. Please use Amazon S3 Glacier storage classes instead.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
     public func listProvisionedCapacity(input: ListProvisionedCapacityInput) async throws -> ListProvisionedCapacityOutput {
         let context = Smithy.ContextBuilder()
@@ -2359,7 +2359,7 @@ extension GlacierClient {
     /// __Possible Exceptions:__
     /// - `InvalidParameterValueException` : Returned if a parameter of the request is incorrectly specified.
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
-    /// - `NoLongerSupportedException` : [no documentation found]
+    /// - `NoLongerSupportedException` : Returned if the request was made by a customer with no Amazon Glacier storage. The request is denied as the API is no longer supported for new customers. Please use Amazon S3 Glacier storage classes instead.
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
     public func listTagsForVault(input: ListTagsForVaultInput) async throws -> ListTagsForVaultOutput {
@@ -2439,7 +2439,7 @@ extension GlacierClient {
     /// __Possible Exceptions:__
     /// - `InvalidParameterValueException` : Returned if a parameter of the request is incorrectly specified.
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
-    /// - `NoLongerSupportedException` : [no documentation found]
+    /// - `NoLongerSupportedException` : Returned if the request was made by a customer with no Amazon Glacier storage. The request is denied as the API is no longer supported for new customers. Please use Amazon S3 Glacier storage classes instead.
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
     public func listVaults(input: ListVaultsInput) async throws -> ListVaultsOutput {
@@ -2521,7 +2521,7 @@ extension GlacierClient {
     /// - `InvalidParameterValueException` : Returned if a parameter of the request is incorrectly specified.
     /// - `LimitExceededException` : Returned if the request results in a vault or account limit being exceeded.
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
-    /// - `NoLongerSupportedException` : [no documentation found]
+    /// - `NoLongerSupportedException` : Returned if the request was made by a customer with no Amazon Glacier storage. The request is denied as the API is no longer supported for new customers. Please use Amazon S3 Glacier storage classes instead.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
     public func purchaseProvisionedCapacity(input: PurchaseProvisionedCapacityInput) async throws -> PurchaseProvisionedCapacityOutput {
         let context = Smithy.ContextBuilder()
@@ -2600,7 +2600,7 @@ extension GlacierClient {
     /// __Possible Exceptions:__
     /// - `InvalidParameterValueException` : Returned if a parameter of the request is incorrectly specified.
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
-    /// - `NoLongerSupportedException` : [no documentation found]
+    /// - `NoLongerSupportedException` : Returned if the request was made by a customer with no Amazon Glacier storage. The request is denied as the API is no longer supported for new customers. Please use Amazon S3 Glacier storage classes instead.
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
     public func removeTagsFromVault(input: RemoveTagsFromVaultInput) async throws -> RemoveTagsFromVaultOutput {
@@ -2684,7 +2684,7 @@ extension GlacierClient {
     /// __Possible Exceptions:__
     /// - `InvalidParameterValueException` : Returned if a parameter of the request is incorrectly specified.
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
-    /// - `NoLongerSupportedException` : [no documentation found]
+    /// - `NoLongerSupportedException` : Returned if the request was made by a customer with no Amazon Glacier storage. The request is denied as the API is no longer supported for new customers. Please use Amazon S3 Glacier storage classes instead.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
     public func setDataRetrievalPolicy(input: SetDataRetrievalPolicyInput) async throws -> SetDataRetrievalPolicyOutput {
         let context = Smithy.ContextBuilder()
@@ -2766,7 +2766,7 @@ extension GlacierClient {
     /// __Possible Exceptions:__
     /// - `InvalidParameterValueException` : Returned if a parameter of the request is incorrectly specified.
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
-    /// - `NoLongerSupportedException` : [no documentation found]
+    /// - `NoLongerSupportedException` : Returned if the request was made by a customer with no Amazon Glacier storage. The request is denied as the API is no longer supported for new customers. Please use Amazon S3 Glacier storage classes instead.
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
     public func setVaultAccessPolicy(input: SetVaultAccessPolicyInput) async throws -> SetVaultAccessPolicyOutput {
@@ -2856,7 +2856,7 @@ extension GlacierClient {
     /// __Possible Exceptions:__
     /// - `InvalidParameterValueException` : Returned if a parameter of the request is incorrectly specified.
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
-    /// - `NoLongerSupportedException` : [no documentation found]
+    /// - `NoLongerSupportedException` : Returned if the request was made by a customer with no Amazon Glacier storage. The request is denied as the API is no longer supported for new customers. Please use Amazon S3 Glacier storage classes instead.
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
     public func setVaultNotifications(input: SetVaultNotificationsInput) async throws -> SetVaultNotificationsOutput {
@@ -2939,7 +2939,7 @@ extension GlacierClient {
     /// __Possible Exceptions:__
     /// - `InvalidParameterValueException` : Returned if a parameter of the request is incorrectly specified.
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
-    /// - `NoLongerSupportedException` : [no documentation found]
+    /// - `NoLongerSupportedException` : Returned if the request was made by a customer with no Amazon Glacier storage. The request is denied as the API is no longer supported for new customers. Please use Amazon S3 Glacier storage classes instead.
     /// - `RequestTimeoutException` : Returned if, when uploading an archive, Amazon Glacier times out while receiving the upload.
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
@@ -3033,7 +3033,7 @@ extension GlacierClient {
     /// __Possible Exceptions:__
     /// - `InvalidParameterValueException` : Returned if a parameter of the request is incorrectly specified.
     /// - `MissingParameterValueException` : Returned if a required header or parameter is missing from the request.
-    /// - `NoLongerSupportedException` : [no documentation found]
+    /// - `NoLongerSupportedException` : Returned if the request was made by a customer with no Amazon Glacier storage. The request is denied as the API is no longer supported for new customers. Please use Amazon S3 Glacier storage classes instead.
     /// - `RequestTimeoutException` : Returned if, when uploading an archive, Amazon Glacier times out while receiving the upload.
     /// - `ResourceNotFoundException` : Returned if the specified resource (such as a vault, upload ID, or job ID) doesn't exist.
     /// - `ServiceUnavailableException` : Returned if the service cannot complete the request.
