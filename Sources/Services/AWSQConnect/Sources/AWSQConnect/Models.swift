@@ -2878,22 +2878,22 @@ extension QConnectClientTypes {
 
 extension QConnectClientTypes {
 
-    /// Inference configuration for text-based AI Prompts.
-    public struct TextAIPromptInferenceConfiguration: Swift.Sendable {
+    /// The configuration for inference parameters when using AI Prompts.
+    public struct AIPromptInferenceConfiguration: Swift.Sendable {
         /// The maximum number of tokens to generate in the response.
-        public var maxTokensToSample: Swift.Int
+        public var maxTokensToSample: Swift.Int?
         /// The temperature setting for controlling randomness in the generated response.
-        public var temperature: Swift.Float
+        public var temperature: Swift.Float?
         /// The top-K sampling parameter for token selection.
-        public var topk: Swift.Int
+        public var topk: Swift.Int?
         /// The top-P sampling parameter for nucleus sampling.
-        public var topp: Swift.Float
+        public var topp: Swift.Float?
 
         public init(
-            maxTokensToSample: Swift.Int = 0,
-            temperature: Swift.Float = 0.0,
-            topk: Swift.Int = 0,
-            topp: Swift.Float = 0.0
+            maxTokensToSample: Swift.Int? = nil,
+            temperature: Swift.Float? = nil,
+            topk: Swift.Int? = nil,
+            topp: Swift.Float? = nil
         ) {
             self.maxTokensToSample = maxTokensToSample
             self.temperature = temperature
@@ -2903,19 +2903,9 @@ extension QConnectClientTypes {
     }
 }
 
-extension QConnectClientTypes.TextAIPromptInferenceConfiguration: Swift.CustomDebugStringConvertible {
+extension QConnectClientTypes.AIPromptInferenceConfiguration: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "TextAIPromptInferenceConfiguration(maxTokensToSample: \"CONTENT_REDACTED\", temperature: \"CONTENT_REDACTED\", topk: \"CONTENT_REDACTED\", topp: \"CONTENT_REDACTED\")"}
-}
-
-extension QConnectClientTypes {
-
-    /// The configuration for inference parameters when using AI Prompts.
-    public enum AIPromptInferenceConfiguration: Swift.Sendable {
-        /// The inference configuration for text-based AI Prompts.
-        case textaipromptinferenceconfiguration(QConnectClientTypes.TextAIPromptInferenceConfiguration)
-        case sdkUnknown(Swift.String)
-    }
+        "AIPromptInferenceConfiguration(maxTokensToSample: \"CONTENT_REDACTED\", temperature: \"CONTENT_REDACTED\", topk: \"CONTENT_REDACTED\", topp: \"CONTENT_REDACTED\")"}
 }
 
 extension QConnectClientTypes {
@@ -18753,43 +18743,19 @@ extension QConnectClientTypes.AIPromptInferenceConfiguration {
 
     static func write(value: QConnectClientTypes.AIPromptInferenceConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        switch value {
-            case let .textaipromptinferenceconfiguration(textaipromptinferenceconfiguration):
-                try writer["textAIPromptInferenceConfiguration"].write(textaipromptinferenceconfiguration, with: QConnectClientTypes.TextAIPromptInferenceConfiguration.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.AIPromptInferenceConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "textAIPromptInferenceConfiguration":
-                return .textaipromptinferenceconfiguration(try reader["textAIPromptInferenceConfiguration"].read(with: QConnectClientTypes.TextAIPromptInferenceConfiguration.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension QConnectClientTypes.TextAIPromptInferenceConfiguration {
-
-    static func write(value: QConnectClientTypes.TextAIPromptInferenceConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
         try writer["maxTokensToSample"].write(value.maxTokensToSample)
         try writer["temperature"].write(value.temperature)
         try writer["topK"].write(value.topk)
         try writer["topP"].write(value.topp)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.TextAIPromptInferenceConfiguration {
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.AIPromptInferenceConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.TextAIPromptInferenceConfiguration()
-        value.temperature = try reader["temperature"].readIfPresent() ?? 0
-        value.topp = try reader["topP"].readIfPresent() ?? 0
-        value.topk = try reader["topK"].readIfPresent() ?? 0
-        value.maxTokensToSample = try reader["maxTokensToSample"].readIfPresent() ?? 0
+        var value = QConnectClientTypes.AIPromptInferenceConfiguration()
+        value.temperature = try reader["temperature"].readIfPresent()
+        value.topp = try reader["topP"].readIfPresent()
+        value.topk = try reader["topK"].readIfPresent()
+        value.maxTokensToSample = try reader["maxTokensToSample"].readIfPresent()
         return value
     }
 }

@@ -6577,6 +6577,88 @@ extension ConnectClientTypes {
 
 extension ConnectClientTypes {
 
+    public enum EvaluationReviewNotificationRecipientType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case userId
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EvaluationReviewNotificationRecipientType] {
+            return [
+                .userId
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .userId: return "USER_ID"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// The value information for an evaluation review notification recipient.
+    public struct EvaluationReviewNotificationRecipientValue: Swift.Sendable {
+        /// The user identifier for the notification recipient.
+        public var userId: Swift.String?
+
+        public init(
+            userId: Swift.String? = nil
+        ) {
+            self.userId = userId
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// Information about a recipient who should be notified when an evaluation review is requested.
+    public struct EvaluationReviewNotificationRecipient: Swift.Sendable {
+        /// The type of notification recipient.
+        /// This member is required.
+        public var type: ConnectClientTypes.EvaluationReviewNotificationRecipientType?
+        /// The value associated with the notification recipient type.
+        /// This member is required.
+        public var value: ConnectClientTypes.EvaluationReviewNotificationRecipientValue?
+
+        public init(
+            type: ConnectClientTypes.EvaluationReviewNotificationRecipientType? = nil,
+            value: ConnectClientTypes.EvaluationReviewNotificationRecipientValue? = nil
+        ) {
+            self.type = type
+            self.value = value
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// Configuration settings for evaluation reviews.
+    public struct EvaluationReviewConfiguration: Swift.Sendable {
+        /// Number of days during which a request for review can be submitted for evaluations created from this form.
+        public var eligibilityDays: Swift.Int
+        /// List of recipients who should be notified when a review is requested.
+        /// This member is required.
+        public var reviewNotificationRecipients: [ConnectClientTypes.EvaluationReviewNotificationRecipient]?
+
+        public init(
+            eligibilityDays: Swift.Int = 0,
+            reviewNotificationRecipients: [ConnectClientTypes.EvaluationReviewNotificationRecipient]? = nil
+        ) {
+            self.eligibilityDays = eligibilityDays
+            self.reviewNotificationRecipients = reviewNotificationRecipients
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
     public enum EvaluationFormScoringMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case questionOnly
         case sectionOnly
@@ -12897,6 +12979,59 @@ extension ConnectClientTypes {
 
 extension ConnectClientTypes {
 
+    /// A comment provided when requesting an evaluation review.
+    public struct EvaluationReviewRequestComment: Swift.Sendable {
+        /// The text content of the review request comment.
+        public var comment: Swift.String?
+        /// The user who created the review request comment.
+        public var createdBy: Swift.String?
+        /// The timestamp when the review request comment was created.
+        public var createdTime: Foundation.Date?
+
+        public init(
+            comment: Swift.String? = nil,
+            createdBy: Swift.String? = nil,
+            createdTime: Foundation.Date? = nil
+        ) {
+            self.comment = comment
+            self.createdBy = createdBy
+            self.createdTime = createdTime
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// Metadata information about an evaluation review.
+    public struct EvaluationReviewMetadata: Swift.Sendable {
+        /// The user who created the evaluation review.
+        /// This member is required.
+        public var createdBy: Swift.String?
+        /// The timestamp when the evaluation review was created.
+        /// This member is required.
+        public var createdTime: Foundation.Date?
+        /// The unique identifier for the evaluation review.
+        public var reviewId: Swift.String?
+        /// Comments provided when requesting the evaluation review.
+        /// This member is required.
+        public var reviewRequestComments: [ConnectClientTypes.EvaluationReviewRequestComment]?
+
+        public init(
+            createdBy: Swift.String? = nil,
+            createdTime: Foundation.Date? = nil,
+            reviewId: Swift.String? = nil,
+            reviewRequestComments: [ConnectClientTypes.EvaluationReviewRequestComment]? = nil
+        ) {
+            self.createdBy = createdBy
+            self.createdTime = createdTime
+            self.reviewId = reviewId
+            self.reviewRequestComments = reviewRequestComments
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
     /// Information about scores of a contact evaluation item (section or question).
     public struct EvaluationScore: Swift.Sendable {
         /// Weight applied to this evaluation score.
@@ -12942,6 +13077,8 @@ extension ConnectClientTypes {
         /// The Amazon Resource Name (ARN) of the user who last updated the evaluation.
         /// This member is required.
         public var evaluatorArn: Swift.String?
+        /// Information about reviews of this evaluation.
+        public var review: ConnectClientTypes.EvaluationReviewMetadata?
         /// Identifier of the sampling job.
         public var samplingJobId: Swift.String?
         /// The overall score of the contact evaluation.
@@ -12955,6 +13092,7 @@ extension ConnectClientTypes {
             contactId: Swift.String? = nil,
             contactParticipant: ConnectClientTypes.EvaluationContactParticipant? = nil,
             evaluatorArn: Swift.String? = nil,
+            review: ConnectClientTypes.EvaluationReviewMetadata? = nil,
             samplingJobId: Swift.String? = nil,
             score: ConnectClientTypes.EvaluationScore? = nil
         ) {
@@ -12965,6 +13103,7 @@ extension ConnectClientTypes {
             self.contactId = contactId
             self.contactParticipant = contactParticipant
             self.evaluatorArn = evaluatorArn
+            self.review = review
             self.samplingJobId = samplingJobId
             self.score = score
         }
@@ -12990,13 +13129,17 @@ extension ConnectClientTypes {
 
     public enum EvaluationStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case draft
+        case reviewRequested
         case submitted
+        case underReview
         case sdkUnknown(Swift.String)
 
         public static var allCases: [EvaluationStatus] {
             return [
                 .draft,
-                .submitted
+                .reviewRequested,
+                .submitted,
+                .underReview
             ]
         }
 
@@ -13008,7 +13151,9 @@ extension ConnectClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .draft: return "DRAFT"
+            case .reviewRequested: return "REVIEW_REQUESTED"
             case .submitted: return "SUBMITTED"
+            case .underReview: return "UNDER_REVIEW"
             case let .sdkUnknown(s): return s
             }
         }
@@ -33074,6 +33219,8 @@ extension ConnectClientTypes {
         /// The flag indicating whether the evaluation form is locked for changes.
         /// This member is required.
         public var locked: Swift.Bool
+        /// Configuration for evaluation review settings of this evaluation form.
+        public var reviewConfiguration: ConnectClientTypes.EvaluationReviewConfiguration?
         /// A scoring strategy of the evaluation form.
         public var scoringStrategy: ConnectClientTypes.EvaluationFormScoringStrategy?
         /// The status of the evaluation form.
@@ -33100,6 +33247,7 @@ extension ConnectClientTypes {
             lastModifiedBy: Swift.String? = nil,
             lastModifiedTime: Foundation.Date? = nil,
             locked: Swift.Bool = false,
+            reviewConfiguration: ConnectClientTypes.EvaluationReviewConfiguration? = nil,
             scoringStrategy: ConnectClientTypes.EvaluationFormScoringStrategy? = nil,
             status: ConnectClientTypes.EvaluationFormVersionStatus? = nil,
             tags: [Swift.String: Swift.String]? = nil,
@@ -33118,6 +33266,7 @@ extension ConnectClientTypes {
             self.lastModifiedBy = lastModifiedBy
             self.lastModifiedTime = lastModifiedTime
             self.locked = locked
+            self.reviewConfiguration = reviewConfiguration
             self.scoringStrategy = scoringStrategy
             self.status = status
             self.tags = tags
@@ -33149,6 +33298,8 @@ extension ConnectClientTypes {
         public var items: [ConnectClientTypes.EvaluationFormItem]?
         /// Configuration for language settings of this evaluation form content.
         public var languageConfiguration: ConnectClientTypes.EvaluationFormLanguageConfiguration?
+        /// Configuration for evaluation review settings of this evaluation form content.
+        public var reviewConfiguration: ConnectClientTypes.EvaluationReviewConfiguration?
         /// A scoring strategy of the evaluation form.
         public var scoringStrategy: ConnectClientTypes.EvaluationFormScoringStrategy?
         /// Configuration that specifies the target for this evaluation form content.
@@ -33165,6 +33316,7 @@ extension ConnectClientTypes {
             evaluationFormVersion: Swift.Int = 0,
             items: [ConnectClientTypes.EvaluationFormItem]? = nil,
             languageConfiguration: ConnectClientTypes.EvaluationFormLanguageConfiguration? = nil,
+            reviewConfiguration: ConnectClientTypes.EvaluationReviewConfiguration? = nil,
             scoringStrategy: ConnectClientTypes.EvaluationFormScoringStrategy? = nil,
             targetConfiguration: ConnectClientTypes.EvaluationFormTargetConfiguration? = nil,
             title: Swift.String? = nil
@@ -33176,6 +33328,7 @@ extension ConnectClientTypes {
             self.evaluationFormVersion = evaluationFormVersion
             self.items = items
             self.languageConfiguration = languageConfiguration
+            self.reviewConfiguration = reviewConfiguration
             self.scoringStrategy = scoringStrategy
             self.targetConfiguration = targetConfiguration
             self.title = title
@@ -33200,6 +33353,8 @@ public struct CreateEvaluationFormInput: Swift.Sendable {
     public var items: [ConnectClientTypes.EvaluationFormItem]?
     /// Configuration for language settings of the evaluation form.
     public var languageConfiguration: ConnectClientTypes.EvaluationFormLanguageConfiguration?
+    /// Configuration information about evaluation reviews.
+    public var reviewConfiguration: ConnectClientTypes.EvaluationReviewConfiguration?
     /// A scoring strategy of the evaluation form.
     public var scoringStrategy: ConnectClientTypes.EvaluationFormScoringStrategy?
     /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
@@ -33218,6 +33373,7 @@ public struct CreateEvaluationFormInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         items: [ConnectClientTypes.EvaluationFormItem]? = nil,
         languageConfiguration: ConnectClientTypes.EvaluationFormLanguageConfiguration? = nil,
+        reviewConfiguration: ConnectClientTypes.EvaluationReviewConfiguration? = nil,
         scoringStrategy: ConnectClientTypes.EvaluationFormScoringStrategy? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         targetConfiguration: ConnectClientTypes.EvaluationFormTargetConfiguration? = nil,
@@ -33230,6 +33386,7 @@ public struct CreateEvaluationFormInput: Swift.Sendable {
         self.instanceId = instanceId
         self.items = items
         self.languageConfiguration = languageConfiguration
+        self.reviewConfiguration = reviewConfiguration
         self.scoringStrategy = scoringStrategy
         self.tags = tags
         self.targetConfiguration = targetConfiguration
@@ -33291,6 +33448,8 @@ public struct UpdateEvaluationFormInput: Swift.Sendable {
     public var items: [ConnectClientTypes.EvaluationFormItem]?
     /// Configuration for language settings of the evaluation form.
     public var languageConfiguration: ConnectClientTypes.EvaluationFormLanguageConfiguration?
+    /// Configuration for evaluation review settings of the evaluation form.
+    public var reviewConfiguration: ConnectClientTypes.EvaluationReviewConfiguration?
     /// A scoring strategy of the evaluation form.
     public var scoringStrategy: ConnectClientTypes.EvaluationFormScoringStrategy?
     /// Configuration that specifies the target for the evaluation form.
@@ -33310,6 +33469,7 @@ public struct UpdateEvaluationFormInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         items: [ConnectClientTypes.EvaluationFormItem]? = nil,
         languageConfiguration: ConnectClientTypes.EvaluationFormLanguageConfiguration? = nil,
+        reviewConfiguration: ConnectClientTypes.EvaluationReviewConfiguration? = nil,
         scoringStrategy: ConnectClientTypes.EvaluationFormScoringStrategy? = nil,
         targetConfiguration: ConnectClientTypes.EvaluationFormTargetConfiguration? = nil,
         title: Swift.String? = nil
@@ -33324,6 +33484,7 @@ public struct UpdateEvaluationFormInput: Swift.Sendable {
         self.instanceId = instanceId
         self.items = items
         self.languageConfiguration = languageConfiguration
+        self.reviewConfiguration = reviewConfiguration
         self.scoringStrategy = scoringStrategy
         self.targetConfiguration = targetConfiguration
         self.title = title
@@ -39305,6 +39466,7 @@ extension CreateEvaluationFormInput {
         try writer["Description"].write(value.description)
         try writer["Items"].writeList(value.items, memberWritingClosure: ConnectClientTypes.EvaluationFormItem.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["LanguageConfiguration"].write(value.languageConfiguration, with: ConnectClientTypes.EvaluationFormLanguageConfiguration.write(value:to:))
+        try writer["ReviewConfiguration"].write(value.reviewConfiguration, with: ConnectClientTypes.EvaluationReviewConfiguration.write(value:to:))
         try writer["ScoringStrategy"].write(value.scoringStrategy, with: ConnectClientTypes.EvaluationFormScoringStrategy.write(value:to:))
         try writer["Tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["TargetConfiguration"].write(value.targetConfiguration, with: ConnectClientTypes.EvaluationFormTargetConfiguration.write(value:to:))
@@ -40738,6 +40900,7 @@ extension UpdateEvaluationFormInput {
         try writer["EvaluationFormVersion"].write(value.evaluationFormVersion)
         try writer["Items"].writeList(value.items, memberWritingClosure: ConnectClientTypes.EvaluationFormItem.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["LanguageConfiguration"].write(value.languageConfiguration, with: ConnectClientTypes.EvaluationFormLanguageConfiguration.write(value:to:))
+        try writer["ReviewConfiguration"].write(value.reviewConfiguration, with: ConnectClientTypes.EvaluationReviewConfiguration.write(value:to:))
         try writer["ScoringStrategy"].write(value.scoringStrategy, with: ConnectClientTypes.EvaluationFormScoringStrategy.write(value:to:))
         try writer["TargetConfiguration"].write(value.targetConfiguration, with: ConnectClientTypes.EvaluationFormTargetConfiguration.write(value:to:))
         try writer["Title"].write(value.title)
@@ -52920,6 +53083,7 @@ extension ConnectClientTypes.EvaluationMetadata {
         value.score = try reader["Score"].readIfPresent(with: ConnectClientTypes.EvaluationScore.read(from:))
         value.autoEvaluation = try reader["AutoEvaluation"].readIfPresent(with: ConnectClientTypes.AutoEvaluationDetails.read(from:))
         value.acknowledgement = try reader["Acknowledgement"].readIfPresent(with: ConnectClientTypes.EvaluationAcknowledgement.read(from:))
+        value.review = try reader["Review"].readIfPresent(with: ConnectClientTypes.EvaluationReviewMetadata.read(from:))
         value.contactParticipant = try reader["ContactParticipant"].readIfPresent(with: ConnectClientTypes.EvaluationContactParticipant.read(from:))
         value.samplingJobId = try reader["SamplingJobId"].readIfPresent()
         return value
@@ -52933,6 +53097,31 @@ extension ConnectClientTypes.EvaluationContactParticipant {
         var value = ConnectClientTypes.EvaluationContactParticipant()
         value.contactParticipantRole = try reader["ContactParticipantRole"].readIfPresent()
         value.contactParticipantId = try reader["ContactParticipantId"].readIfPresent()
+        return value
+    }
+}
+
+extension ConnectClientTypes.EvaluationReviewMetadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.EvaluationReviewMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.EvaluationReviewMetadata()
+        value.reviewId = try reader["ReviewId"].readIfPresent()
+        value.createdTime = try reader["CreatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.createdBy = try reader["CreatedBy"].readIfPresent() ?? ""
+        value.reviewRequestComments = try reader["ReviewRequestComments"].readListIfPresent(memberReadingClosure: ConnectClientTypes.EvaluationReviewRequestComment.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension ConnectClientTypes.EvaluationReviewRequestComment {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.EvaluationReviewRequestComment {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.EvaluationReviewRequestComment()
+        value.comment = try reader["Comment"].readIfPresent()
+        value.createdTime = try reader["CreatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.createdBy = try reader["CreatedBy"].readIfPresent()
         return value
     }
 }
@@ -52975,6 +53164,56 @@ extension ConnectClientTypes.EvaluationFormContent {
         value.autoEvaluationConfiguration = try reader["AutoEvaluationConfiguration"].readIfPresent(with: ConnectClientTypes.EvaluationFormAutoEvaluationConfiguration.read(from:))
         value.targetConfiguration = try reader["TargetConfiguration"].readIfPresent(with: ConnectClientTypes.EvaluationFormTargetConfiguration.read(from:))
         value.languageConfiguration = try reader["LanguageConfiguration"].readIfPresent(with: ConnectClientTypes.EvaluationFormLanguageConfiguration.read(from:))
+        value.reviewConfiguration = try reader["ReviewConfiguration"].readIfPresent(with: ConnectClientTypes.EvaluationReviewConfiguration.read(from:))
+        return value
+    }
+}
+
+extension ConnectClientTypes.EvaluationReviewConfiguration {
+
+    static func write(value: ConnectClientTypes.EvaluationReviewConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["EligibilityDays"].write(value.eligibilityDays)
+        try writer["ReviewNotificationRecipients"].writeList(value.reviewNotificationRecipients, memberWritingClosure: ConnectClientTypes.EvaluationReviewNotificationRecipient.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.EvaluationReviewConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.EvaluationReviewConfiguration()
+        value.reviewNotificationRecipients = try reader["ReviewNotificationRecipients"].readListIfPresent(memberReadingClosure: ConnectClientTypes.EvaluationReviewNotificationRecipient.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.eligibilityDays = try reader["EligibilityDays"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension ConnectClientTypes.EvaluationReviewNotificationRecipient {
+
+    static func write(value: ConnectClientTypes.EvaluationReviewNotificationRecipient?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Type"].write(value.type)
+        try writer["Value"].write(value.value, with: ConnectClientTypes.EvaluationReviewNotificationRecipientValue.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.EvaluationReviewNotificationRecipient {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.EvaluationReviewNotificationRecipient()
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
+        value.value = try reader["Value"].readIfPresent(with: ConnectClientTypes.EvaluationReviewNotificationRecipientValue.read(from:))
+        return value
+    }
+}
+
+extension ConnectClientTypes.EvaluationReviewNotificationRecipientValue {
+
+    static func write(value: ConnectClientTypes.EvaluationReviewNotificationRecipientValue?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["UserId"].write(value.userId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.EvaluationReviewNotificationRecipientValue {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.EvaluationReviewNotificationRecipientValue()
+        value.userId = try reader["UserId"].readIfPresent()
         return value
     }
 }
@@ -53830,6 +54069,7 @@ extension ConnectClientTypes.EvaluationForm {
         value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.lastModifiedBy = try reader["LastModifiedBy"].readIfPresent() ?? ""
         value.autoEvaluationConfiguration = try reader["AutoEvaluationConfiguration"].readIfPresent(with: ConnectClientTypes.EvaluationFormAutoEvaluationConfiguration.read(from:))
+        value.reviewConfiguration = try reader["ReviewConfiguration"].readIfPresent(with: ConnectClientTypes.EvaluationReviewConfiguration.read(from:))
         value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.targetConfiguration = try reader["TargetConfiguration"].readIfPresent(with: ConnectClientTypes.EvaluationFormTargetConfiguration.read(from:))
         value.languageConfiguration = try reader["LanguageConfiguration"].readIfPresent(with: ConnectClientTypes.EvaluationFormLanguageConfiguration.read(from:))

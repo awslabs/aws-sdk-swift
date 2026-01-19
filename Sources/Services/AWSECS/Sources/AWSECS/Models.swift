@@ -1190,6 +1190,8 @@ extension ECSClientTypes {
         /// The Amazon Resource Name (ARN) of the instance profile that Amazon ECS applies to Amazon ECS Managed Instances. This instance profile must include the necessary permissions for your tasks to access Amazon Web Services services and resources. For more information, see [Amazon ECS instance profile for Managed Instances](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/managed-instances-instance-profile.html) in the Amazon ECS Developer Guide.
         /// This member is required.
         public var ec2InstanceProfileArn: Swift.String?
+        /// Determines whether to enable FIPS 140-2 validated cryptographic modules on EC2 instances launched by the capacity provider. If true, instances use FIPS-compliant cryptographic algorithms and modules for enhanced security compliance. If false, instances use standard cryptographic implementations. If not specified, instances are launched with FIPS enabled in AWS GovCloud (US) regions and FIPS disabled in other regions.
+        public var fipsEnabled: Swift.Bool?
         /// The instance requirements. You can specify:
         ///
         /// * The instance types
@@ -1210,6 +1212,7 @@ extension ECSClientTypes {
         public init(
             capacityOptionType: ECSClientTypes.CapacityOptionType? = nil,
             ec2InstanceProfileArn: Swift.String? = nil,
+            fipsEnabled: Swift.Bool? = nil,
             instanceRequirements: ECSClientTypes.InstanceRequirementsRequest? = nil,
             monitoring: ECSClientTypes.ManagedInstancesMonitoringOptions? = nil,
             networkConfiguration: ECSClientTypes.ManagedInstancesNetworkConfiguration? = nil,
@@ -1217,6 +1220,7 @@ extension ECSClientTypes {
         ) {
             self.capacityOptionType = capacityOptionType
             self.ec2InstanceProfileArn = ec2InstanceProfileArn
+            self.fipsEnabled = fipsEnabled
             self.instanceRequirements = instanceRequirements
             self.monitoring = monitoring
             self.networkConfiguration = networkConfiguration
@@ -16176,6 +16180,7 @@ extension ECSClientTypes.InstanceLaunchTemplate {
         guard let value else { return }
         try writer["capacityOptionType"].write(value.capacityOptionType)
         try writer["ec2InstanceProfileArn"].write(value.ec2InstanceProfileArn)
+        try writer["fipsEnabled"].write(value.fipsEnabled)
         try writer["instanceRequirements"].write(value.instanceRequirements, with: ECSClientTypes.InstanceRequirementsRequest.write(value:to:))
         try writer["monitoring"].write(value.monitoring)
         try writer["networkConfiguration"].write(value.networkConfiguration, with: ECSClientTypes.ManagedInstancesNetworkConfiguration.write(value:to:))
@@ -16191,6 +16196,7 @@ extension ECSClientTypes.InstanceLaunchTemplate {
         value.monitoring = try reader["monitoring"].readIfPresent()
         value.capacityOptionType = try reader["capacityOptionType"].readIfPresent()
         value.instanceRequirements = try reader["instanceRequirements"].readIfPresent(with: ECSClientTypes.InstanceRequirementsRequest.read(from:))
+        value.fipsEnabled = try reader["fipsEnabled"].readIfPresent()
         return value
     }
 }
