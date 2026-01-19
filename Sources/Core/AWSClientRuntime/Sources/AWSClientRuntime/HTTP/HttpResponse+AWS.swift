@@ -9,7 +9,7 @@ public extension HTTPResponse {
 
     /// The value of the x-amz-request-id header.
     var requestID: String? {
-        return headers.value(for: "x-amz-request-id")
+        return headers.value(for: "x-amz-request-id") ?? headers.value(for: "x-amzn-RequestId")
     }
 
     /// The value of the x-amz-id-2 header.

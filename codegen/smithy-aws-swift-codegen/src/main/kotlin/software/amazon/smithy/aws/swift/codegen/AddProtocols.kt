@@ -29,24 +29,27 @@ class AddProtocols : SwiftIntegration {
      */
     override val order: Byte = -10
 
-    override val protocolGenerators: List<ProtocolGenerator> =
-        listOf(
-            AWSRestJson1ProtocolGenerator(),
-            AWSJSON1_0ProtocolGenerator(),
-            AWSJSON1_1ProtocolGenerator(),
-            RestXMLProtocolGenerator(),
-            AWSQueryProtocolGenerator(),
-            EC2QueryProtocolGenerator(),
-            RpcV2CborProtocolGenerator(
-                customizations = AWSRpcV2CborCustomizations(),
-                operationEndpointResolverMiddlewareFactory = { ctx, endpointMiddlewareSymbol ->
-                    AWSOperationEndpointResolverMiddleware(ctx, endpointMiddlewareSymbol)
-                },
-                userAgentMiddlewareFactory = { ctx ->
-                    UserAgentMiddleware(
-                        ctx.settings,
-                    )
-                },
-            ),
-        )
+    override val protocolGenerators: List<ProtocolGenerator>
+        get() {
+            // Return the list of all supported protocols
+            return listOf(
+                AWSRestJson1ProtocolGenerator(),
+                AWSJSON1_0ProtocolGenerator(),
+                AWSJSON1_1ProtocolGenerator(),
+                RestXMLProtocolGenerator(),
+                AWSQueryProtocolGenerator(),
+                EC2QueryProtocolGenerator(),
+                RpcV2CborProtocolGenerator(
+                    customizations = AWSRpcV2CborCustomizations(),
+                    operationEndpointResolverMiddlewareFactory = { ctx, endpointMiddlewareSymbol ->
+                        AWSOperationEndpointResolverMiddleware(ctx, endpointMiddlewareSymbol)
+                    },
+                    userAgentMiddlewareFactory = { ctx ->
+                        UserAgentMiddleware(
+                            ctx.settings,
+                        )
+                    },
+                ),
+            )
+        }
 }

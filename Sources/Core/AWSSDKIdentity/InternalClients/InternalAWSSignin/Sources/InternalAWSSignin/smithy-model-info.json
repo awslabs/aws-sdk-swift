@@ -1,0 +1,4 @@
+{
+    "service": "com.amazonaws.signin#Signin",
+    "path": "codegen/sdk-codegen/aws-models/signin.json"
+}
