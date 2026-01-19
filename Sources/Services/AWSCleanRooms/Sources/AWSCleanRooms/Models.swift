@@ -735,7 +735,7 @@ extension CleanRoomsClientTypes {
     public struct AnalysisParameter: Swift.Sendable {
         /// Optional. The default value that is applied in the analysis template. The member who can query can override this value in the query editor.
         public var defaultValue: Swift.String?
-        /// The name of the parameter. The name must use only alphanumeric, underscore (_), or hyphen (-) characters but cannot start or end with a hyphen.
+        /// The name of the parameter. The name must use only alphanumeric or underscore (_) characters.
         /// This member is required.
         public var name: Swift.String?
         /// The type of parameter.
@@ -8880,13 +8880,22 @@ extension CleanRoomsClientTypes {
         /// The ARN of the analysis template.
         /// This member is required.
         public var analysisTemplateArn: Swift.String?
+        /// Runtime configuration values passed to the PySpark analysis script. Parameter names and types must match those defined in the analysis template.
+        public var parameters: [Swift.String: Swift.String]?
 
         public init(
-            analysisTemplateArn: Swift.String? = nil
+            analysisTemplateArn: Swift.String? = nil,
+            parameters: [Swift.String: Swift.String]? = nil
         ) {
             self.analysisTemplateArn = analysisTemplateArn
+            self.parameters = parameters
         }
     }
+}
+
+extension CleanRoomsClientTypes.ProtectedJobParameters: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ProtectedJobParameters(analysisTemplateArn: \(Swift.String(describing: analysisTemplateArn)), parameters: \"CONTENT_REDACTED\")"}
 }
 
 extension CleanRoomsClientTypes {
@@ -17469,12 +17478,14 @@ extension CleanRoomsClientTypes.ProtectedJobParameters {
     static func write(value: CleanRoomsClientTypes.ProtectedJobParameters?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["analysisTemplateArn"].write(value.analysisTemplateArn)
+        try writer["parameters"].writeMap(value.parameters, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.ProtectedJobParameters {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CleanRoomsClientTypes.ProtectedJobParameters()
         value.analysisTemplateArn = try reader["analysisTemplateArn"].readIfPresent() ?? ""
+        value.parameters = try reader["parameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }

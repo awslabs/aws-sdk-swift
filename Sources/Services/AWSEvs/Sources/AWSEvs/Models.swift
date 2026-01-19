@@ -24,6 +24,7 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import protocol SmithyReadWrite.SmithyWriter
 @_spi(SmithyReadWrite) import struct AWSClientRuntime.AWSJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
+@_spi(SmithyReadWrite) import struct SmithyReadWrite.ReadingClosureBox
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
 
 /// A service resource associated with the request could not be found. The resource might not be specified correctly, or it may have a state of DELETED.
@@ -61,7 +62,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-/// The operation couldn't be performed because the service is throttling requests. This exception is thrown when there are too many requests accepted concurrently from the service endpoint.
+/// The operation could not be performed because the service is throttling requests. This exception is thrown when the service endpoint receives too many concurrent requests.
 public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -388,7 +389,7 @@ extension EvsClientTypes {
         /// The DNS hostname of the host. DNS hostnames for hosts must be unique across Amazon EVS environments and within VCF.
         /// This member is required.
         public var hostName: Swift.String?
-        /// The EC2 instance type that represents the host.
+        /// The EC2 instance type that represents the host. Currently, Amazon EVS supports only the i4i.metal instance type.
         /// This member is required.
         public var instanceType: EvsClientTypes.InstanceType?
         /// The name of the SSH key that is used to access the host.
@@ -448,7 +449,7 @@ extension EvsClientTypes {
         ///
         /// * The HCX public VLAN CIDR block must be added to the VPC as a secondary CIDR block.
         ///
-        /// * Must have at least three Elastic IP addresses to be allocated from the public IPAM pool for HCX components.
+        /// * Must have at least two Elastic IP addresses to be allocated from the public IPAM pool for HCX components.
         /// This member is required.
         public var hcx: EvsClientTypes.InitialVlanInfo?
         /// A unique ID for a network access control list that the HCX VLAN uses. Required when isHcxPublic is set to true.
@@ -461,7 +462,7 @@ extension EvsClientTypes {
         /// The vMotion VLAN subnet. This VLAN subnet carries traffic for vSphere vMotion.
         /// This member is required.
         public var vMotion: EvsClientTypes.InitialVlanInfo?
-        /// The vSAN VLAN subnet. This VLAN subnet carries the communication between ESXi hosts to implement a vSAN shared storage pool.
+        /// The vSAN VLAN subnet. This VLAN subnet carries the communication between ESX hosts to implement a vSAN shared storage pool.
         /// This member is required.
         public var vSan: EvsClientTypes.InitialVlanInfo?
         /// The VTEP VLAN subnet. This VLAN subnet handles internal network traffic between virtual machines within a VCF instance.
@@ -470,7 +471,7 @@ extension EvsClientTypes {
         /// The VM management VLAN subnet. This VLAN subnet carries traffic for vSphere virtual machines.
         /// This member is required.
         public var vmManagement: EvsClientTypes.InitialVlanInfo?
-        /// The host VMkernel management VLAN subnet. This VLAN subnet carries traffic for managing ESXi hosts and communicating with VMware vCenter Server.
+        /// The host VMkernel management VLAN subnet. This VLAN subnet carries traffic for managing ESX hosts and communicating with VMware vCenter Server.
         /// This member is required.
         public var vmkManagement: EvsClientTypes.InitialVlanInfo?
 
@@ -600,11 +601,13 @@ extension EvsClientTypes {
 
     public enum VcfVersion: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case vcf521
+        case vcf522
         case sdkUnknown(Swift.String)
 
         public static var allCases: [VcfVersion] {
             return [
-                .vcf521
+                .vcf521,
+                .vcf522
             ]
         }
 
@@ -616,6 +619,7 @@ extension EvsClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .vcf521: return "VCF-5.2.1"
+            case .vcf522: return "VCF-5.2.2"
             case let .sdkUnknown(s): return s
             }
         }
@@ -630,7 +634,7 @@ public struct CreateEnvironmentInput: Swift.Sendable {
     public var connectivityInfo: EvsClientTypes.ConnectivityInfo?
     /// The name to give to your environment. The name can contain only alphanumeric characters (case-sensitive), hyphens, and underscores. It must start with an alphanumeric character, and can't be longer than 100 characters. The name must be unique within the Amazon Web Services Region and Amazon Web Services account that you're creating the environment in.
     public var environmentName: Swift.String?
-    /// The ESXi hosts to add to the environment. Amazon EVS requires that you provide details for a minimum of 4 hosts during environment creation. For each host, you must provide the desired hostname, EC2 SSH keypair name, and EC2 instance type. Optionally, you can also provide a partition or cluster placement group to use, or use Amazon EC2 Dedicated Hosts.
+    /// The ESX hosts to add to the environment. Amazon EVS requires that you provide details for a minimum of 4 hosts during environment creation. For each host, you must provide the desired hostname, EC2 SSH keypair name, and EC2 instance type. Optionally, you can also provide a partition or cluster placement group to use, or use Amazon EC2 Dedicated Hosts.
     /// This member is required.
     public var hosts: [EvsClientTypes.HostInfoForCreate]?
     /// The initial VLAN subnets for the Amazon EVS environment. For each Amazon EVS VLAN subnet, you must specify a non-overlapping CIDR block. Amazon EVS VLAN subnets have a minimum CIDR block size of /28 and a maximum size of /24.
@@ -666,10 +670,10 @@ public struct CreateEnvironmentInput: Swift.Sendable {
     /// The DNS hostnames for the virtual machines that host the VCF management appliances. Amazon EVS requires that you provide DNS hostnames for the following appliances: vCenter, NSX Manager, SDDC Manager, and Cloud Builder.
     /// This member is required.
     public var vcfHostnames: EvsClientTypes.VcfHostnames?
-    /// The VCF version to use for the environment. Amazon EVS only supports VCF version 5.2.1 at this time.
+    /// The VCF version to use for the environment.
     /// This member is required.
     public var vcfVersion: EvsClientTypes.VcfVersion?
-    /// A unique ID for the VPC that the environment is deployed inside. Amazon EVS requires that all VPC subnets exist in a single Availability Zone in a Region where the service is available. The VPC that you specify must have a valid DHCP option set with domain name, at least two DNS servers, and an NTP server. These settings are used to configure your VCF appliances and hosts. The VPC cannot be used with any other deployed Amazon EVS environment. Amazon EVS does not provide multi-VPC support for environments at this time. Amazon EVS does not support the following Amazon Web Services networking options for NSX overlay connectivity: cross-Region VPC peering, Amazon S3 gateway endpoints, or Amazon Web Services Direct Connect virtual private gateway associations. Ensure that you specify a VPC that is adequately sized to accommodate the {evws} subnets.
+    /// A unique ID for the VPC that the environment is deployed inside. Amazon EVS requires that all VPC subnets exist in a single Availability Zone in a Region where the service is available. The VPC that you specify must have a valid DHCP option set with domain name, at least two DNS servers, and an NTP server. These settings are used to configure your VCF appliances and hosts. The VPC cannot be used with any other deployed Amazon EVS environment. Amazon EVS does not provide multi-VPC support for environments at this time. Amazon EVS does not support the following Amazon Web Services networking options for NSX overlay connectivity: cross-Region VPC peering, Amazon S3 gateway endpoints, or Amazon Web Services Direct Connect virtual private gateway associations. Ensure that you specify a VPC that is adequately sized to accommodate the Amazon EVS subnets.
     /// This member is required.
     public var vpcId: Swift.String?
 
@@ -791,7 +795,7 @@ extension EvsClientTypes {
         ///
         /// * REACHABILITY: checks that the Amazon EVS control plane has a persistent connection to SDDC Manager. If Amazon EVS cannot reach the environment, this check fails.
         ///
-        /// * HOST_COUNT: Checks that your environment has a minimum of 4 hosts, which is a requirement for VCF 5.2.1. If this check fails, you will need to add hosts so that your environment meets this minimum requirement. Amazon EVS only supports environments with 4-16 hosts.
+        /// * HOST_COUNT: Checks that your environment has a minimum of 4 hosts. If this check fails, you will need to add hosts so that your environment meets this minimum requirement. Amazon EVS only supports environments with 4-16 hosts.
         public var type: EvsClientTypes.CheckType?
 
         public init(
@@ -967,6 +971,8 @@ public struct CreateEnvironmentHostInput: Swift.Sendable {
     /// A unique ID for the environment that the host is added to.
     /// This member is required.
     public var environmentId: Swift.String?
+    /// The ESX version to use for the host.
+    public var esxVersion: Swift.String?
     /// The host that is created and added to the environment.
     /// This member is required.
     public var host: EvsClientTypes.HostInfoForCreate?
@@ -974,10 +980,12 @@ public struct CreateEnvironmentHostInput: Swift.Sendable {
     public init(
         clientToken: Swift.String? = nil,
         environmentId: Swift.String? = nil,
+        esxVersion: Swift.String? = nil,
         host: EvsClientTypes.HostInfoForCreate? = nil
     ) {
         self.clientToken = clientToken
         self.environmentId = environmentId
+        self.esxVersion = esxVersion
         self.host = host
     }
 }
@@ -1086,7 +1094,7 @@ extension EvsClientTypes {
 
 extension EvsClientTypes {
 
-    /// An ESXi host that runs on an Amazon EC2 bare metal instance. Four hosts are created in an Amazon EVS environment during environment creation. You can add hosts to an environment using the CreateEnvironmentHost operation. Amazon EVS supports 4-16 hosts per environment.
+    /// An ESX host that runs on an Amazon EC2 bare metal instance. Four hosts are created in an Amazon EVS environment during environment creation. You can add hosts to an environment using the CreateEnvironmentHost operation. Amazon EVS supports 4-16 hosts per environment.
     public struct Host: Swift.Sendable {
         /// The date and time that the host was created.
         public var createdAt: Foundation.Date?
@@ -1098,7 +1106,7 @@ extension EvsClientTypes {
         public var hostName: Swift.String?
         /// The state of the host.
         public var hostState: EvsClientTypes.HostState?
-        /// The EC2 instance type of the host. EC2 instances created through Amazon EVS do not support associating an IAM instance profile.
+        /// The EC2 instance type of the host. Currently, Amazon EVS supports only the i4i.metal instance type. EC2 instances created through Amazon EVS do not support associating an IAM instance profile.
         public var instanceType: EvsClientTypes.InstanceType?
         /// The IP address of the host.
         public var ipAddress: Swift.String?
@@ -1385,6 +1393,112 @@ public struct ListEnvironmentVlansOutput: Swift.Sendable {
     }
 }
 
+/// An internal server error occurred. Retry your request.
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// Describes the error encountered.
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InternalServerException" }
+    public static var fault: ClientRuntime.ErrorFault { .server }
+    public static var isRetryable: Swift.Bool { true }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+public struct GetVersionsInput: Swift.Sendable {
+
+    public init() { }
+}
+
+extension EvsClientTypes {
+
+    /// Information about ESX versions offered for each EC2 instance type.
+    public struct InstanceTypeEsxVersionsInfo: Swift.Sendable {
+        /// The list of ESX versions offered for this instance type.
+        /// This member is required.
+        public var esxVersions: [Swift.String]?
+        /// The EC2 instance type.
+        /// This member is required.
+        public var instanceType: EvsClientTypes.InstanceType?
+
+        public init(
+            esxVersions: [Swift.String]? = nil,
+            instanceType: EvsClientTypes.InstanceType? = nil
+        ) {
+            self.esxVersions = esxVersions
+            self.instanceType = instanceType
+        }
+    }
+}
+
+extension EvsClientTypes {
+
+    /// Information about a VCF versions provided by Amazon EVS, including its status, default ESX version, and EC2 instance types.
+    public struct VcfVersionInfo: Swift.Sendable {
+        /// The default ESX version for this VCF version. It is based on Broadcom's Bill Of Materials (BOM).
+        /// This member is required.
+        public var defaultEsxVersion: Swift.String?
+        /// EC2 instance types provided by Amazon EVS for this VCF version for creating environments.
+        /// This member is required.
+        public var instanceTypes: [EvsClientTypes.InstanceType]?
+        /// The status for this VCF version. Valid values are:
+        ///
+        /// * AVAILABLE - This VCF version is available to you.
+        ///
+        /// * RESTRICTED - This VCF version has limited availability.
+        ///
+        ///
+        /// If the version you need shows RESTRICTED, and you require, check out [VCF versions and EC2 instance types provided by Amazon EVS](https://docs.aws.amazon.com/evs/latest/userguide/versions-provided.html) for more information.
+        /// This member is required.
+        public var status: Swift.String?
+        /// The VCF version number.
+        /// This member is required.
+        public var vcfVersion: EvsClientTypes.VcfVersion?
+
+        public init(
+            defaultEsxVersion: Swift.String? = nil,
+            instanceTypes: [EvsClientTypes.InstanceType]? = nil,
+            status: Swift.String? = nil,
+            vcfVersion: EvsClientTypes.VcfVersion? = nil
+        ) {
+            self.defaultEsxVersion = defaultEsxVersion
+            self.instanceTypes = instanceTypes
+            self.status = status
+            self.vcfVersion = vcfVersion
+        }
+    }
+}
+
+public struct GetVersionsOutput: Swift.Sendable {
+    /// A list of EC2 instance types and their available ESX versions.
+    /// This member is required.
+    public var instanceTypeEsxVersions: [EvsClientTypes.InstanceTypeEsxVersionsInfo]?
+    /// A list of VCF versions with their availability status, default ESX version, and instance types.
+    /// This member is required.
+    public var vcfVersions: [EvsClientTypes.VcfVersionInfo]?
+
+    public init(
+        instanceTypeEsxVersions: [EvsClientTypes.InstanceTypeEsxVersionsInfo]? = nil,
+        vcfVersions: [EvsClientTypes.VcfVersionInfo]? = nil
+    ) {
+        self.instanceTypeEsxVersions = instanceTypeEsxVersions
+        self.vcfVersions = vcfVersions
+    }
+}
+
 public struct ListTagsForResourceInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) that identifies the resource to list tags for.
     /// This member is required.
@@ -1576,6 +1690,13 @@ extension GetEnvironmentInput {
     }
 }
 
+extension GetVersionsInput {
+
+    static func urlPathProvider(_ value: GetVersionsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension ListEnvironmentHostsInput {
 
     static func urlPathProvider(_ value: ListEnvironmentHostsInput) -> Swift.String? {
@@ -1657,6 +1778,7 @@ extension CreateEnvironmentHostInput {
         guard let value else { return }
         try writer["clientToken"].write(value.clientToken)
         try writer["environmentId"].write(value.environmentId)
+        try writer["esxVersion"].write(value.esxVersion)
         try writer["host"].write(value.host, with: EvsClientTypes.HostInfoForCreate.write(value:to:))
     }
 }
@@ -1696,6 +1818,14 @@ extension GetEnvironmentInput {
     static func write(value: GetEnvironmentInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["environmentId"].write(value.environmentId)
+    }
+}
+
+extension GetVersionsInput {
+
+    static func write(value: GetVersionsInput?, to writer: SmithyJSON.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
     }
 }
 
@@ -1837,6 +1967,19 @@ extension GetEnvironmentOutput {
         let reader = responseReader
         var value = GetEnvironmentOutput()
         value.environment = try reader["environment"].readIfPresent(with: EvsClientTypes.Environment.read(from:))
+        return value
+    }
+}
+
+extension GetVersionsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetVersionsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetVersionsOutput()
+        value.instanceTypeEsxVersions = try reader["instanceTypeEsxVersions"].readListIfPresent(memberReadingClosure: EvsClientTypes.InstanceTypeEsxVersionsInfo.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.vcfVersions = try reader["vcfVersions"].readListIfPresent(memberReadingClosure: EvsClientTypes.VcfVersionInfo.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -2012,6 +2155,21 @@ enum GetEnvironmentOutputError {
     }
 }
 
+enum GetVersionsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListEnvironmentHostsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -2142,6 +2300,19 @@ extension ValidationException {
         value.properties.fieldList = try reader["fieldList"].readListIfPresent(memberReadingClosure: EvsClientTypes.ValidationExceptionField.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.properties.reason = try reader["reason"].readIfPresent() ?? .sdkUnknown("")
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InternalServerException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> InternalServerException {
+        let reader = baseError.errorBodyReader
+        var value = InternalServerException()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -2394,6 +2565,30 @@ extension EvsClientTypes.NetworkInterface {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = EvsClientTypes.NetworkInterface()
         value.networkInterfaceId = try reader["networkInterfaceId"].readIfPresent()
+        return value
+    }
+}
+
+extension EvsClientTypes.VcfVersionInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EvsClientTypes.VcfVersionInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EvsClientTypes.VcfVersionInfo()
+        value.vcfVersion = try reader["vcfVersion"].readIfPresent() ?? .sdkUnknown("")
+        value.status = try reader["status"].readIfPresent() ?? ""
+        value.defaultEsxVersion = try reader["defaultEsxVersion"].readIfPresent() ?? ""
+        value.instanceTypes = try reader["instanceTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<EvsClientTypes.InstanceType>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension EvsClientTypes.InstanceTypeEsxVersionsInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EvsClientTypes.InstanceTypeEsxVersionsInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EvsClientTypes.InstanceTypeEsxVersionsInfo()
+        value.instanceType = try reader["instanceType"].readIfPresent() ?? .sdkUnknown("")
+        value.esxVersions = try reader["esxVersions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
