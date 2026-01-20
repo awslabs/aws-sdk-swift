@@ -1159,7 +1159,7 @@ extension AutoScalingClientTypes {
 
     /// Defines the specific triggers that cause instances to be retained in a Retained state rather than terminated. Each trigger corresponds to a different failure scenario during the instance lifecycle. This allows fine-grained control over when to preserve instances for manual intervention.
     public struct RetentionTriggers: Swift.Sendable {
-        /// Specifies the action when a termination lifecycle hook is abandoned due to failure, timeout, or explicit abandonment (calling CompleteLifecycleAction). Set to Retain to move instances to a Retained state. Set to Terminate for default termination behavior. Retained instances don't count toward desired capacity and remain until you call TerminateInstanceInAutoScalingGroup.
+        /// Specifies the action when a termination lifecycle hook is abandoned due to failure, timeout, or explicit abandonment (calling CompleteLifecycleAction). Set to retain to move instances to a retained state. Set to terminate for default termination behavior. Retained instances don't count toward desired capacity and remain until you call TerminateInstanceInAutoScalingGroup.
         public var terminateHookAbandon: AutoScalingClientTypes.RetentionAction?
 
         public init(
@@ -1172,9 +1172,9 @@ extension AutoScalingClientTypes {
 
 extension AutoScalingClientTypes {
 
-    /// Defines the lifecycle policy for instances in an Auto Scaling group. This policy controls instance behavior when lifecycles transition and operations fail. Use lifecycle policies to ensure graceful shutdown for stateful workloads or applications requiring extended draining periods.
+    /// The instance lifecycle policy for the Auto Scaling group. This policy controls instance behavior when an instance transitions through its lifecycle states. Configure retention triggers to specify when instances should move to a Retained state instead of automatic termination. For more information, see [ Control instance retention with instance lifecycle policies](https://docs.aws.amazon.com/autoscaling/ec2/userguide/instance-lifecycle-policy.html) in the Amazon EC2 Auto Scaling User Guide.
     public struct InstanceLifecyclePolicy: Swift.Sendable {
-        /// Specifies the conditions that trigger instance retention behavior. These triggers determine when instances should move to a Retained state instead of being terminated. This allows you to maintain control over instance management when lifecycle operations fail.
+        /// Specifies the conditions that trigger instance retention behavior. These triggers determine when instances should move to a Retained state instead of automatic termination. This allows you to maintain control over instance management when lifecycles transition and operations fail.
         public var retentionTriggers: AutoScalingClientTypes.RetentionTriggers?
 
         public init(
@@ -2021,7 +2021,7 @@ public struct CreateAutoScalingGroupInput: Swift.Sendable {
     public var healthCheckType: Swift.String?
     /// The ID of the instance used to base the launch configuration on. If specified, Amazon EC2 Auto Scaling uses the configuration values from the specified instance to create a new launch configuration. To get the instance ID, use the Amazon EC2 [DescribeInstances](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeInstances.html) API operation. For more information, see [Create an Auto Scaling group using parameters from an existing instance](https://docs.aws.amazon.com/autoscaling/ec2/userguide/create-asg-from-instance.html) in the Amazon EC2 Auto Scaling User Guide.
     public var instanceId: Swift.String?
-    /// The instance lifecycle policy for the Auto Scaling group. This policy controls instance behavior when an instance transitions through its lifecycle states. Configure retention triggers to specify when instances should move to a Retained state for manual intervention instead of automatic termination. Instances in a Retained state will continue to incur standard EC2 charges until terminated.
+    /// The instance lifecycle policy for the Auto Scaling group. This policy controls instance behavior when an instance transitions through its lifecycle states. Configure retention triggers to specify when instances should move to a Retained state instead of automatic termination. For more information, see [ Control instance retention with instance lifecycle policies](https://docs.aws.amazon.com/autoscaling/ec2/userguide/instance-lifecycle-policy.html) in the Amazon EC2 Auto Scaling User Guide. Instances in a Retained state will continue to incur standard EC2 charges until terminated.
     public var instanceLifecyclePolicy: AutoScalingClientTypes.InstanceLifecyclePolicy?
     /// An instance maintenance policy. For more information, see [Set instance maintenance policy](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-instance-maintenance-policy.html) in the Amazon EC2 Auto Scaling User Guide.
     public var instanceMaintenancePolicy: AutoScalingClientTypes.InstanceMaintenancePolicy?
@@ -2653,7 +2653,7 @@ extension AutoScalingClientTypes {
 
     /// Describes a filter that is used to return a more specific list of results from a describe operation. If you specify multiple filters, the filters are automatically logically joined with an AND, and the request returns only the results that match all of the specified filters. For more information, see [Tag Auto Scaling groups and instances](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-tagging.html) in the Amazon EC2 Auto Scaling User Guide.
     public struct Filter: Swift.Sendable {
-        /// The name of the filter. The valid values for Name depend on which API operation you're using with the filter ([DescribeAutoScalingGroups](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_DescribeAutoScalingGroups.html) or [DescribeTags](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_DescribeTags.html)). DescribeAutoScalingGroups Valid values for Name include the following:
+        /// The name of the filter. The valid values for Name depend on which API operation you're using with the filter. [DescribeAutoScalingGroups](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_DescribeAutoScalingGroups.html) Valid values for Name include the following:
         ///
         /// * tag-key - Accepts tag keys. The results only include information about the Auto Scaling groups associated with these tag keys.
         ///
@@ -2662,7 +2662,7 @@ extension AutoScalingClientTypes {
         /// * tag: - Accepts the key/value combination of the tag. Use the tag key in the filter name and the tag value as the filter value. The results only include information about the Auto Scaling groups associated with the specified key/value combination.
         ///
         ///
-        /// DescribeTags Valid values for Name include the following:
+        /// [DescribeTags](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_DescribeTags.html) Valid values for Name include the following:
         ///
         /// * auto-scaling-group - Accepts the names of Auto Scaling groups. The results only include information about the tags associated with these Auto Scaling groups.
         ///
@@ -2671,8 +2671,17 @@ extension AutoScalingClientTypes {
         /// * value - Accepts tag values. The results only include information about the tags associated with these tag values.
         ///
         /// * propagate-at-launch - Accepts a Boolean value, which specifies whether tags propagate to instances at launch. The results only include information about the tags associated with the specified Boolean value.
+        ///
+        ///
+        /// [DescribeScalingActivities](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_DescribeScalingActivities.html) Valid values for Name include the following:
+        ///
+        /// * StartTimeLowerBound - The earliest scaling activities to return based on the activity start time. Scaling activities with a start time earlier than this value are not included in the results. Only activities started within the last six weeks can be returned regardless of the value specified.
+        ///
+        /// * StartTimeUpperBound - The latest scaling activities to return based on the activity start time. Scaling activities with a start time later than this value are not included in the results. Only activities started within the last six weeks can be returned regardless of the value specified.
+        ///
+        /// * Status - The StatusCode value of the scaling activity. This filter can only be used in combination with the AutoScalingGroupName parameter. For valid StatusCode values, see [Activity](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_Activity.html) in the Amazon EC2 Auto Scaling API Reference.
         public var name: Swift.String?
-        /// One or more filter values. Filter values are case-sensitive. If you specify multiple values for a filter, the values are automatically logically joined with an OR, and the request returns all results that match any of the specified values. For example, specify "tag:environment" for the filter name and "production,development" for the filter values to find Auto Scaling groups with the tag "environment=production" or "environment=development".
+        /// One or more filter values. Filter values are case-sensitive. If you specify multiple values for a filter, the values are automatically logically joined with an OR, and the request returns all results that match any of the specified values. DescribeAutoScalingGroups example: Specify "tag:environment" for the filter name and "production,development" for the filter values to find Auto Scaling groups with the tag "environment=production" or "environment=development". DescribeScalingActivities example: Specify "Status" for the filter name and "Successful,Failed" for the filter values to find scaling activities with a status of either "Successful" or "Failed".
         public var values: [Swift.String]?
 
         public init(
@@ -3096,82 +3105,82 @@ extension AutoScalingClientTypes {
         /// The name of the Auto Scaling group.
         /// This member is required.
         public var autoScalingGroupName: Swift.String?
-        /// The instance capacity distribution across Availability Zones.
+        /// The EC2 instance capacity distribution across Availability Zones for the Auto Scaling group.
         public var availabilityZoneDistribution: AutoScalingClientTypes.AvailabilityZoneDistribution?
-        /// The Availability Zone impairment policy.
+        /// The Availability Zone impairment policy for the Auto Scaling group.
         public var availabilityZoneImpairmentPolicy: AutoScalingClientTypes.AvailabilityZoneImpairmentPolicy?
-        /// One or more Availability Zones for the group.
+        /// One or more Availability Zones for the Auto Scaling group.
         /// This member is required.
         public var availabilityZones: [Swift.String]?
         /// Indicates whether Capacity Rebalancing is enabled.
         public var capacityRebalance: Swift.Bool?
-        /// The capacity reservation specification.
+        /// The capacity reservation specification for the Auto Scaling group.
         public var capacityReservationSpecification: AutoScalingClientTypes.CapacityReservationSpecification?
         /// Reserved.
         public var context: Swift.String?
-        /// The date and time the group was created.
+        /// The date and time the Auto Scaling group was created.
         /// This member is required.
         public var createdTime: Foundation.Date?
-        /// The duration of the default cooldown period, in seconds.
+        /// The duration of the default cooldown period, in seconds, for the Auto Scaling group.
         /// This member is required.
         public var defaultCooldown: Swift.Int?
-        /// The duration of the default instance warmup, in seconds.
+        /// The duration of the default EC2 instance warmup time, in seconds, for the Auto Scaling group.
         public var defaultInstanceWarmup: Swift.Int?
-        /// The desired size of the group.
+        /// The desired size of the Auto Scaling group.
         /// This member is required.
         public var desiredCapacity: Swift.Int?
         /// The unit of measurement for the value specified for desired capacity. Amazon EC2 Auto Scaling supports DesiredCapacityType for attribute-based instance type selection only.
         public var desiredCapacityType: Swift.String?
-        /// The metrics enabled for the group.
+        /// The metrics enabled for the Auto Scaling group.
         public var enabledMetrics: [AutoScalingClientTypes.EnabledMetric]?
-        /// The duration of the health check grace period, in seconds.
+        /// The duration of the health check grace period, in seconds, for the Auto Scaling group.
         public var healthCheckGracePeriod: Swift.Int?
-        /// A comma-separated value string of one or more health check types.
+        /// One or more comma-separated health check types for the Auto Scaling group.
         /// This member is required.
         public var healthCheckType: Swift.String?
-        /// The instance lifecycle policy applied to this Auto Scaling group. This policy determines instance behavior when an instance transitions through its lifecycle states. It provides additional control over graceful instance management processes.
+        /// The instance lifecycle policy for the Auto Scaling group.
         public var instanceLifecyclePolicy: AutoScalingClientTypes.InstanceLifecyclePolicy?
         /// An instance maintenance policy.
         public var instanceMaintenancePolicy: AutoScalingClientTypes.InstanceMaintenancePolicy?
-        /// The EC2 instances associated with the group.
+        /// The EC2 instances associated with the Auto Scaling group.
         public var instances: [AutoScalingClientTypes.Instance]?
-        /// The name of the associated launch configuration.
+        /// The name of the associated launch configuration for the Auto Scaling group.
         public var launchConfigurationName: Swift.String?
-        /// The launch template for the group.
+        /// The launch template for the Auto Scaling group.
         public var launchTemplate: AutoScalingClientTypes.LaunchTemplateSpecification?
         /// One or more load balancers associated with the group.
         public var loadBalancerNames: [Swift.String]?
-        /// The maximum amount of time, in seconds, that an instance can be in service. Valid Range: Minimum value of 0.
+        /// The maximum amount of time, in seconds, that an EC2 instance can be in service for the Auto Scaling group.
         public var maxInstanceLifetime: Swift.Int?
-        /// The maximum size of the group.
+        /// The maximum size of the Auto Scaling group.
         /// This member is required.
         public var maxSize: Swift.Int?
-        /// The minimum size of the group.
+        /// The minimum size of the Auto Scaling group.
         /// This member is required.
         public var minSize: Swift.Int?
         /// The mixed instances policy for the group.
         public var mixedInstancesPolicy: AutoScalingClientTypes.MixedInstancesPolicy?
-        /// Indicates whether newly launched instances are protected from termination by Amazon EC2 Auto Scaling when scaling in. For more information about preventing instances from terminating on scale in, see [Use instance scale-in protection](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-instance-protection.html) in the Amazon EC2 Auto Scaling User Guide.
+        /// Indicates whether newly launched EC2 instances are protected from termination when scaling in for the Auto Scaling group. For more information about preventing instances from terminating on scale in, see [Use instance scale-in protection](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-instance-protection.html) in the Amazon EC2 Auto Scaling User Guide.
         public var newInstancesProtectedFromScaleIn: Swift.Bool?
-        /// The name of the placement group into which to launch your instances, if any.
+        /// The name of the placement group into which to launch EC2 instances for the Auto Scaling group.
         public var placementGroup: Swift.String?
         /// The predicted capacity of the group when it has a predictive scaling policy.
         public var predictedCapacity: Swift.Int?
         /// The Amazon Resource Name (ARN) of the service-linked role that the Auto Scaling group uses to call other Amazon Web Services on your behalf.
         public var serviceLinkedRoleARN: Swift.String?
-        /// The current state of the group when the [DeleteAutoScalingGroup](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_DeleteAutoScalingGroup.html) operation is in progress.
+        /// The current state of the Auto Scaling group when the [DeleteAutoScalingGroup](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_DeleteAutoScalingGroup.html) operation is in progress.
         public var status: Swift.String?
-        /// The suspended processes associated with the group.
+        /// The suspended processes associated with the Auto Scaling group.
         public var suspendedProcesses: [AutoScalingClientTypes.SuspendedProcess]?
-        /// The tags for the group.
+        /// The tags for the Auto Scaling group.
         public var tags: [AutoScalingClientTypes.TagDescription]?
         /// The Amazon Resource Names (ARN) of the target groups for your load balancer.
         public var targetGroupARNs: [Swift.String]?
-        /// The termination policies for the group.
+        /// The termination policies for the Auto Scaling group.
         public var terminationPolicies: [Swift.String]?
         /// The traffic sources associated with this Auto Scaling group.
         public var trafficSources: [AutoScalingClientTypes.TrafficSourceIdentifier]?
-        /// One or more subnet IDs, if applicable, separated by commas.
+        /// One or more comma-separated subnet IDs for the Auto Scaling group.
         public var vpcZoneIdentifier: Swift.String?
         /// The warm pool for the group.
         public var warmPoolConfiguration: AutoScalingClientTypes.WarmPoolConfiguration?
@@ -3332,7 +3341,7 @@ extension AutoScalingClientTypes {
         public var launchConfigurationName: Swift.String?
         /// The launch template for the instance.
         public var launchTemplate: AutoScalingClientTypes.LaunchTemplateSpecification?
-        /// The lifecycle state for the instance. The Quarantined state is not used. For more information, see [Amazon EC2 Auto Scaling instance lifecycle](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-lifecycle.html) in the Amazon EC2 Auto Scaling User Guide. Valid values: Pending | Pending:Wait | Pending:Proceed | Quarantined | InService | Terminating | Terminating:Wait | Terminating:Proceed | Terminated | Detaching | Detached | EnteringStandby | Standby | Warmed:Pending | Warmed:Pending:Wait | Warmed:Pending:Proceed | Warmed:Terminating | Warmed:Terminating:Wait | Warmed:Terminating:Proceed | Warmed:Terminated | Warmed:Stopped | Warmed:Running
+        /// The lifecycle state for the instance. The Quarantined state is not used. For more information, see [Amazon EC2 Auto Scaling instance lifecycle](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-lifecycle.html) in the Amazon EC2 Auto Scaling User Guide. Valid values: Pending | Pending:Wait | Pending:Proceed | Quarantined | InService | Terminating | Terminating:Wait | Terminating:Proceed | Terminating:Retained | Terminated | Detaching | Detached | EnteringStandby | Standby | Warmed:Pending | Warmed:Pending:Wait | Warmed:Pending:Proceed | Warmed:Pending:Retained | Warmed:Terminating | Warmed:Terminating:Wait | Warmed:Terminating:Proceed | Warmed:Terminating:Retained | Warmed:Terminated | Warmed:Stopped | Warmed:Running
         /// This member is required.
         public var lifecycleState: Swift.String?
         /// Indicates whether the instance is protected from termination by Amazon EC2 Auto Scaling when scaling in.
@@ -5240,10 +5249,18 @@ public struct DescribePoliciesOutput: Swift.Sendable {
 }
 
 public struct DescribeScalingActivitiesInput: Swift.Sendable {
-    /// The activity IDs of the desired scaling activities. If you omit this property, all activities for the past six weeks are described. If unknown activities are requested, they are ignored with no error. If you specify an Auto Scaling group, the results are limited to that group. Array Members: Maximum number of 50 IDs.
+    /// The activity IDs of the desired scaling activities. If unknown activity IDs are requested, they are ignored with no error. Only activities started within the last six weeks can be returned regardless of the activity IDs specified. If other filters are specified with the request, only results matching all filter criteria can be returned. Array Members: Maximum number of 50 IDs.
     public var activityIds: [Swift.String]?
-    /// The name of the Auto Scaling group.
+    /// The name of the Auto Scaling group. Omitting this property performs an account-wide operation, which can result in slower or timed-out requests.
     public var autoScalingGroupName: Swift.String?
+    /// One or more filters to limit the results based on specific criteria. The following filters are supported:
+    ///
+    /// * StartTimeLowerBound - The earliest scaling activities to return based on the activity start time. Scaling activities with a start time earlier than this value are not included in the results. Only activities started within the last six weeks can be returned regardless of the value specified.
+    ///
+    /// * StartTimeUpperBound - The latest scaling activities to return based on the activity start time. Scaling activities with a start time later than this value are not included in the results. Only activities started within the last six weeks can be returned regardless of the value specified.
+    ///
+    /// * Status - The StatusCode value of the scaling activity. This filter can only be used in combination with the AutoScalingGroupName parameter. For valid StatusCode values, see [Activity](https://docs.aws.amazon.com/autoscaling/ec2/APIReference/API_Activity.html) in the Amazon EC2 Auto Scaling API Reference.
+    public var filters: [AutoScalingClientTypes.Filter]?
     /// Indicates whether to include scaling activity from deleted Auto Scaling groups.
     public var includeDeletedGroups: Swift.Bool?
     /// The maximum number of items to return with this call. The default value is 100 and the maximum value is 100.
@@ -5254,12 +5271,14 @@ public struct DescribeScalingActivitiesInput: Swift.Sendable {
     public init(
         activityIds: [Swift.String]? = nil,
         autoScalingGroupName: Swift.String? = nil,
+        filters: [AutoScalingClientTypes.Filter]? = nil,
         includeDeletedGroups: Swift.Bool? = nil,
         maxRecords: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     ) {
         self.activityIds = activityIds
         self.autoScalingGroupName = autoScalingGroupName
+        self.filters = filters
         self.includeDeletedGroups = includeDeletedGroups
         self.maxRecords = maxRecords
         self.nextToken = nextToken
@@ -6653,7 +6672,7 @@ public struct StartInstanceRefreshInput: Swift.Sendable {
     ///
     /// * Bake time
     public var preferences: AutoScalingClientTypes.RefreshPreferences?
-    /// The strategy to use for the instance refresh. The only valid value is Rolling.
+    /// The strategy to use for the instance refresh. The default value is Rolling.
     public var strategy: AutoScalingClientTypes.RefreshStrategy?
 
     public init(
@@ -6773,7 +6792,7 @@ public struct UpdateAutoScalingGroupInput: Swift.Sendable {
     public var healthCheckGracePeriod: Swift.Int?
     /// A comma-separated value string of one or more health check types. The valid values are EC2, EBS, ELB, and VPC_LATTICE. EC2 is the default health check and cannot be disabled. For more information, see [Health checks for instances in an Auto Scaling group](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-health-checks.html) in the Amazon EC2 Auto Scaling User Guide. Only specify EC2 if you must clear a value that was previously set.
     public var healthCheckType: Swift.String?
-    /// The instance lifecycle policy for the Auto Scaling group. Use this to add, modify, or remove lifecycle policies that control instance behavior when an instance transitions through its lifecycle states. Configure retention triggers to specify when to preserve instances for manual intervention.
+    /// The instance lifecycle policy for the Auto Scaling group. This policy controls instance behavior when an instance transitions through its lifecycle states. Configure retention triggers to specify when instances should move to a Retained state instead of automatic termination. For more information, see [ Control instance retention with instance lifecycle policies](https://docs.aws.amazon.com/autoscaling/ec2/userguide/instance-lifecycle-policy.html) in the Amazon EC2 Auto Scaling User Guide.
     public var instanceLifecyclePolicy: AutoScalingClientTypes.InstanceLifecyclePolicy?
     /// An instance maintenance policy. For more information, see [Set instance maintenance policy](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-instance-maintenance-policy.html) in the Amazon EC2 Auto Scaling User Guide.
     public var instanceMaintenancePolicy: AutoScalingClientTypes.InstanceMaintenancePolicy?
@@ -7749,6 +7768,7 @@ extension DescribeScalingActivitiesInput {
         guard let value else { return }
         try writer["ActivityIds"].writeList(value.activityIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["AutoScalingGroupName"].write(value.autoScalingGroupName)
+        try writer["Filters"].writeList(value.filters, memberWritingClosure: AutoScalingClientTypes.Filter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["IncludeDeletedGroups"].write(value.includeDeletedGroups)
         try writer["MaxRecords"].write(value.maxRecords)
         try writer["NextToken"].write(value.nextToken)
