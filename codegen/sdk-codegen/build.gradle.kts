@@ -256,10 +256,3 @@ tasks["build"]
     .dependsOn(tasks["generate-smithy-build"])
     .finalizedBy(tasks["buildSdk"])
 
-//val modelFileName =
-//    serviceTrait
-//        .sdkId
-//        .lowercase()
-//        .replace(",", "")
-//        .replace(" ", "-")
-//val contents = "codegen/sdk-codegen/aws-models/$modelFileName.json"
