@@ -444,7 +444,7 @@ extension SocialMessagingClient {
 
     /// Performs the `CreateWhatsAppMessageTemplate` operation on the `SocialMessaging` service.
     ///
-    /// Creates a new WhatsApp message template from a custom definition.
+    /// Creates a new WhatsApp message template from a custom definition. Amazon Web Services End User Messaging Social does not store any WhatsApp message template content.
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateWhatsAppMessageTemplateInput`)
     ///
@@ -954,7 +954,7 @@ extension SocialMessagingClient {
 
     /// Performs the `GetLinkedWhatsAppBusinessAccountPhoneNumber` operation on the `SocialMessaging` service.
     ///
-    /// Use your WhatsApp phone number id to get the WABA account id and phone number details.
+    /// Retrieve the WABA account id and phone number details of a WhatsApp business account phone number.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetLinkedWhatsAppBusinessAccountPhoneNumberInput`)
     ///

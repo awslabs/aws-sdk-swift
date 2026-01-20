@@ -42,6 +42,11 @@ public struct AssociateBotOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct AssociateHoursOfOperationsOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct AssociateLambdaFunctionOutput: Swift.Sendable {
 
     public init() { }
@@ -173,6 +178,11 @@ public struct DisassociateApprovedOriginOutput: Swift.Sendable {
 }
 
 public struct DisassociateBotOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct DisassociateHoursOfOperationsOutput: Swift.Sendable {
 
     public init() { }
 }
@@ -2470,6 +2480,66 @@ public struct AssociateFlowOutput: Swift.Sendable {
     public init() { }
 }
 
+/// Request processing failed because dependent condition failed.
+public struct ConditionalOperationFailedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ConditionalOperationFailedException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// Contains configuration for the parent hours of operation.
+    public struct ParentHoursOfOperationConfig: Swift.Sendable {
+        /// The identifier for the hours of operation.
+        public var hoursOfOperationId: Swift.String?
+
+        public init(
+            hoursOfOperationId: Swift.String? = nil
+        ) {
+            self.hoursOfOperationId = hoursOfOperationId
+        }
+    }
+}
+
+public struct AssociateHoursOfOperationsInput: Swift.Sendable {
+    /// The identifier of the child hours of operation.
+    /// This member is required.
+    public var hoursOfOperationId: Swift.String?
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The Amazon Resource Names (ARNs) of the parent hours of operation resources to associate with the child hours of operation resource.
+    /// This member is required.
+    public var parentHoursOfOperationConfigs: [ConnectClientTypes.ParentHoursOfOperationConfig]?
+
+    public init(
+        hoursOfOperationId: Swift.String? = nil,
+        instanceId: Swift.String? = nil,
+        parentHoursOfOperationConfigs: [ConnectClientTypes.ParentHoursOfOperationConfig]? = nil
+    ) {
+        self.hoursOfOperationId = hoursOfOperationId
+        self.instanceId = instanceId
+        self.parentHoursOfOperationConfigs = parentHoursOfOperationConfigs
+    }
+}
+
 extension ConnectClientTypes {
 
     public enum InstanceStorageResourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
@@ -2930,7 +3000,7 @@ public struct AssociateRoutingProfileQueuesInput: Swift.Sendable {
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
-    /// The manual assignment queues to associate with this routing profile.
+    /// The manual assignment queues to associate with this routing profile. Note: Use this config for chat, email, and task contacts. It does not support voice contacts.
     public var manualAssignmentQueueConfigs: [ConnectClientTypes.RoutingProfileManualAssignmentQueueConfig]?
     /// The queues to associate with this routing profile.
     public var queueConfigs: [ConnectClientTypes.RoutingProfileQueueConfig]?
@@ -2980,29 +3050,6 @@ public struct AssociateSecurityKeyOutput: Swift.Sendable {
         associationId: Swift.String? = nil
     ) {
         self.associationId = associationId
-    }
-}
-
-/// Request processing failed because dependent condition failed.
-public struct ConditionalOperationFailedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ConditionalOperationFailedException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
     }
 }
 
@@ -6530,6 +6577,88 @@ extension ConnectClientTypes {
 
 extension ConnectClientTypes {
 
+    public enum EvaluationReviewNotificationRecipientType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case userId
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EvaluationReviewNotificationRecipientType] {
+            return [
+                .userId
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .userId: return "USER_ID"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// The value information for an evaluation review notification recipient.
+    public struct EvaluationReviewNotificationRecipientValue: Swift.Sendable {
+        /// The user identifier for the notification recipient.
+        public var userId: Swift.String?
+
+        public init(
+            userId: Swift.String? = nil
+        ) {
+            self.userId = userId
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// Information about a recipient who should be notified when an evaluation review is requested.
+    public struct EvaluationReviewNotificationRecipient: Swift.Sendable {
+        /// The type of notification recipient.
+        /// This member is required.
+        public var type: ConnectClientTypes.EvaluationReviewNotificationRecipientType?
+        /// The value associated with the notification recipient type.
+        /// This member is required.
+        public var value: ConnectClientTypes.EvaluationReviewNotificationRecipientValue?
+
+        public init(
+            type: ConnectClientTypes.EvaluationReviewNotificationRecipientType? = nil,
+            value: ConnectClientTypes.EvaluationReviewNotificationRecipientValue? = nil
+        ) {
+            self.type = type
+            self.value = value
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// Configuration settings for evaluation reviews.
+    public struct EvaluationReviewConfiguration: Swift.Sendable {
+        /// Number of days during which a request for review can be submitted for evaluations created from this form.
+        public var eligibilityDays: Swift.Int
+        /// List of recipients who should be notified when a review is requested.
+        /// This member is required.
+        public var reviewNotificationRecipients: [ConnectClientTypes.EvaluationReviewNotificationRecipient]?
+
+        public init(
+            eligibilityDays: Swift.Int = 0,
+            reviewNotificationRecipients: [ConnectClientTypes.EvaluationReviewNotificationRecipient]? = nil
+        ) {
+            self.eligibilityDays = eligibilityDays
+            self.reviewNotificationRecipients = reviewNotificationRecipients
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
     public enum EvaluationFormScoringMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case questionOnly
         case sectionOnly
@@ -6772,6 +6901,8 @@ public struct CreateHoursOfOperationInput: Swift.Sendable {
     /// The name of the hours of operation.
     /// This member is required.
     public var name: Swift.String?
+    /// Configuration for parent hours of operations. Eg: ResourceArn. For more information about parent hours of operations, see [Link overrides from different hours of operation](https://docs.aws.amazon.com/https:/docs.aws.amazon.com/connect/latest/adminguide/hours-of-operation-overrides.html) in the Administrator Guide.
+    public var parentHoursOfOperationConfigs: [ConnectClientTypes.ParentHoursOfOperationConfig]?
     /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
     public var tags: [Swift.String: Swift.String]?
     /// The time zone of the hours of operation.
@@ -6783,6 +6914,7 @@ public struct CreateHoursOfOperationInput: Swift.Sendable {
         description: Swift.String? = nil,
         instanceId: Swift.String? = nil,
         name: Swift.String? = nil,
+        parentHoursOfOperationConfigs: [ConnectClientTypes.ParentHoursOfOperationConfig]? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         timeZone: Swift.String? = nil
     ) {
@@ -6790,6 +6922,7 @@ public struct CreateHoursOfOperationInput: Swift.Sendable {
         self.description = description
         self.instanceId = instanceId
         self.name = name
+        self.parentHoursOfOperationConfigs = parentHoursOfOperationConfigs
         self.tags = tags
         self.timeZone = timeZone
     }
@@ -6898,6 +7031,119 @@ extension ConnectClientTypes {
     }
 }
 
+extension ConnectClientTypes {
+
+    public enum OverrideType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case closed
+        case `open`
+        case standard
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [OverrideType] {
+            return [
+                .closed,
+                .open,
+                .standard
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .closed: return "CLOSED"
+            case .open: return "OPEN"
+            case .standard: return "STANDARD"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    public enum RecurrenceFrequency: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case monthly
+        case weekly
+        case yearly
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RecurrenceFrequency] {
+            return [
+                .monthly,
+                .weekly,
+                .yearly
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .monthly: return "MONTHLY"
+            case .weekly: return "WEEKLY"
+            case .yearly: return "YEARLY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// Specifies the detailed pattern for event recurrence. Use this to define complex scheduling rules such as "every 2nd Tuesday of the month" or "every 3 months on the 15th".
+    public struct RecurrencePattern: Swift.Sendable {
+        /// Specifies which month the event should occur in (1-12, where 1=January, 12=December). Used with YEARLY frequency to schedule events in specific month. Note: It does not accept multiple values in the same list
+        public var byMonth: [Swift.Int]?
+        /// Specifies which day of the month the event should occur on (1-31). Used with MONTHLY or YEARLY frequency to schedule events on specific date within a month. Examples: [15] for events on the 15th of each month, [-1] for events on the last day of month. Note: It does not accept multiple values in the same list. If a specified day doesn't exist in a particular month (e.g., day 31 in February), the event will be skipped for that month. This field cannot be used simultaneously with ByWeekdayOccurrence as they represent different scheduling approaches (specific dates vs. relative weekday positions).
+        public var byMonthDay: [Swift.Int]?
+        /// Specifies which occurrence of a weekday within the month the event should occur on. Must be used with MONTHLY or YEARLY frequency. Example: 2 corresponds to second occurrence of the weekday in the month. -1 corresponds to last occurrence of the weekday in the month The weekday itself is specified separately in the HoursOfOperationConfig. Example: To schedule the recurring event for the 2nd Thursday of April every year, set ByWeekdayOccurrence=[2], Day=THURSDAY, ByMonth=[4], Frequency: YEARLY and INTERVAL=1.
+        public var byWeekdayOccurrence: [Swift.Int]?
+        /// Defines how often the pattern repeats. This is the base unit for the recurrence schedule and works in conjunction with the Interval field to determine the exact repetition sequence.
+        /// This member is required.
+        public var frequency: ConnectClientTypes.RecurrenceFrequency?
+        /// Specifies the number of frequency units between each occurrence. Must be a positive integer. Examples: To repeat every week, set Interval=1 with WEEKLY frequency. To repeat every two months, set Interval=2 with MONTHLY frequency.
+        /// This member is required.
+        public var interval: Swift.Int?
+
+        public init(
+            byMonth: [Swift.Int]? = nil,
+            byMonthDay: [Swift.Int]? = nil,
+            byWeekdayOccurrence: [Swift.Int]? = nil,
+            frequency: ConnectClientTypes.RecurrenceFrequency? = nil,
+            interval: Swift.Int? = nil
+        ) {
+            self.byMonth = byMonth
+            self.byMonthDay = byMonthDay
+            self.byWeekdayOccurrence = byWeekdayOccurrence
+            self.frequency = frequency
+            self.interval = interval
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// Defines the recurrence configuration for overrides. This configuration uses a recurrence pattern to specify when and how frequently an event should repeat.
+    public struct RecurrenceConfig: Swift.Sendable {
+        /// The recurrence pattern that defines how the event repeats. Example: Frequency, Interval, ByMonth, ByMonthDay, ByWeekdayOccurrence
+        /// This member is required.
+        public var recurrencePattern: ConnectClientTypes.RecurrencePattern?
+
+        public init(
+            recurrencePattern: ConnectClientTypes.RecurrencePattern? = nil
+        ) {
+            self.recurrencePattern = recurrencePattern
+        }
+    }
+}
+
 public struct CreateHoursOfOperationOverrideInput: Swift.Sendable {
     /// Configuration information for the hours of operation override: day, start time, and end time.
     /// This member is required.
@@ -6919,6 +7165,10 @@ public struct CreateHoursOfOperationOverrideInput: Swift.Sendable {
     /// The name of the hours of operation override.
     /// This member is required.
     public var name: Swift.String?
+    /// Whether the override will be defined as a standard or as a recurring event. For more information about how override types are applied, see [Build your list of overrides](https://docs.aws.amazon.com/https:/docs.aws.amazon.com/connect/latest/adminguide/hours-of-operation-overrides.html) in the Administrator Guide.
+    public var overrideType: ConnectClientTypes.OverrideType?
+    /// Configuration for a recurring event.
+    public var recurrenceConfig: ConnectClientTypes.RecurrenceConfig?
 
     public init(
         config: [ConnectClientTypes.HoursOfOperationOverrideConfig]? = nil,
@@ -6927,7 +7177,9 @@ public struct CreateHoursOfOperationOverrideInput: Swift.Sendable {
         effectiveTill: Swift.String? = nil,
         hoursOfOperationId: Swift.String? = nil,
         instanceId: Swift.String? = nil,
-        name: Swift.String? = nil
+        name: Swift.String? = nil,
+        overrideType: ConnectClientTypes.OverrideType? = nil,
+        recurrenceConfig: ConnectClientTypes.RecurrenceConfig? = nil
     ) {
         self.config = config
         self.description = description
@@ -6936,6 +7188,8 @@ public struct CreateHoursOfOperationOverrideInput: Swift.Sendable {
         self.hoursOfOperationId = hoursOfOperationId
         self.instanceId = instanceId
         self.name = name
+        self.overrideType = overrideType
+        self.recurrenceConfig = recurrenceConfig
     }
 }
 
@@ -7998,7 +8252,7 @@ public struct CreateRoutingProfileInput: Swift.Sendable {
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
-    /// The manual assignment queues associated with the routing profile. If no queue is added, agents and supervisors can't pick or assign any contacts from this routing profile. The limit of 10 array members applies to the maximum number of RoutingProfileManualAssignmentQueueConfig objects that can be passed during a CreateRoutingProfile API request. It is different from the quota of 50 queues per routing profile per instance that is listed in Amazon Connect service quotas.
+    /// The manual assignment queues associated with the routing profile. If no queue is added, agents and supervisors can't pick or assign any contacts from this routing profile. The limit of 10 array members applies to the maximum number of RoutingProfileManualAssignmentQueueConfig objects that can be passed during a CreateRoutingProfile API request. It is different from the quota of 50 queues per routing profile per instance that is listed in Amazon Connect service quotas. Note: Use this config for chat, email, and task contacts. It does not support voice contacts.
     public var manualAssignmentQueueConfigs: [ConnectClientTypes.RoutingProfileManualAssignmentQueueConfig]?
     /// The channels that agents can handle in the Contact Control Panel (CCP) for this routing profile.
     /// This member is required.
@@ -12725,6 +12979,59 @@ extension ConnectClientTypes {
 
 extension ConnectClientTypes {
 
+    /// A comment provided when requesting an evaluation review.
+    public struct EvaluationReviewRequestComment: Swift.Sendable {
+        /// The text content of the review request comment.
+        public var comment: Swift.String?
+        /// The user who created the review request comment.
+        public var createdBy: Swift.String?
+        /// The timestamp when the review request comment was created.
+        public var createdTime: Foundation.Date?
+
+        public init(
+            comment: Swift.String? = nil,
+            createdBy: Swift.String? = nil,
+            createdTime: Foundation.Date? = nil
+        ) {
+            self.comment = comment
+            self.createdBy = createdBy
+            self.createdTime = createdTime
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// Metadata information about an evaluation review.
+    public struct EvaluationReviewMetadata: Swift.Sendable {
+        /// The user who created the evaluation review.
+        /// This member is required.
+        public var createdBy: Swift.String?
+        /// The timestamp when the evaluation review was created.
+        /// This member is required.
+        public var createdTime: Foundation.Date?
+        /// The unique identifier for the evaluation review.
+        public var reviewId: Swift.String?
+        /// Comments provided when requesting the evaluation review.
+        /// This member is required.
+        public var reviewRequestComments: [ConnectClientTypes.EvaluationReviewRequestComment]?
+
+        public init(
+            createdBy: Swift.String? = nil,
+            createdTime: Foundation.Date? = nil,
+            reviewId: Swift.String? = nil,
+            reviewRequestComments: [ConnectClientTypes.EvaluationReviewRequestComment]? = nil
+        ) {
+            self.createdBy = createdBy
+            self.createdTime = createdTime
+            self.reviewId = reviewId
+            self.reviewRequestComments = reviewRequestComments
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
     /// Information about scores of a contact evaluation item (section or question).
     public struct EvaluationScore: Swift.Sendable {
         /// Weight applied to this evaluation score.
@@ -12770,6 +13077,8 @@ extension ConnectClientTypes {
         /// The Amazon Resource Name (ARN) of the user who last updated the evaluation.
         /// This member is required.
         public var evaluatorArn: Swift.String?
+        /// Information about reviews of this evaluation.
+        public var review: ConnectClientTypes.EvaluationReviewMetadata?
         /// Identifier of the sampling job.
         public var samplingJobId: Swift.String?
         /// The overall score of the contact evaluation.
@@ -12783,6 +13092,7 @@ extension ConnectClientTypes {
             contactId: Swift.String? = nil,
             contactParticipant: ConnectClientTypes.EvaluationContactParticipant? = nil,
             evaluatorArn: Swift.String? = nil,
+            review: ConnectClientTypes.EvaluationReviewMetadata? = nil,
             samplingJobId: Swift.String? = nil,
             score: ConnectClientTypes.EvaluationScore? = nil
         ) {
@@ -12793,6 +13103,7 @@ extension ConnectClientTypes {
             self.contactId = contactId
             self.contactParticipant = contactParticipant
             self.evaluatorArn = evaluatorArn
+            self.review = review
             self.samplingJobId = samplingJobId
             self.score = score
         }
@@ -12818,13 +13129,17 @@ extension ConnectClientTypes {
 
     public enum EvaluationStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case draft
+        case reviewRequested
         case submitted
+        case underReview
         case sdkUnknown(Swift.String)
 
         public static var allCases: [EvaluationStatus] {
             return [
                 .draft,
-                .submitted
+                .reviewRequested,
+                .submitted,
+                .underReview
             ]
         }
 
@@ -12836,7 +13151,9 @@ extension ConnectClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .draft: return "DRAFT"
+            case .reviewRequested: return "REVIEW_REQUESTED"
             case .submitted: return "SUBMITTED"
+            case .underReview: return "UNDER_REVIEW"
             case let .sdkUnknown(s): return s
             }
         }
@@ -13608,6 +13925,31 @@ public struct DescribeHoursOfOperationInput: Swift.Sendable {
 
 extension ConnectClientTypes {
 
+    /// Identifier for a hours of operations resource: ARN, ID, Name
+    public struct HoursOfOperationsIdentifier: Swift.Sendable {
+        /// Amazon Resource Name (ARN) of the hours of operations.
+        public var arn: Swift.String?
+        /// Unique identifier of the hours of operation.
+        /// This member is required.
+        public var id: Swift.String?
+        /// Name of the hours of operation
+        /// This member is required.
+        public var name: Swift.String?
+
+        public init(
+            arn: Swift.String? = nil,
+            id: Swift.String? = nil,
+            name: Swift.String? = nil
+        ) {
+            self.arn = arn
+            self.id = id
+            self.name = name
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
     /// Information about of the hours of operation.
     public struct HoursOfOperation: Swift.Sendable {
         /// Configuration information for the hours of operation.
@@ -13624,6 +13966,8 @@ extension ConnectClientTypes {
         public var lastModifiedTime: Foundation.Date?
         /// The name for the hours of operation.
         public var name: Swift.String?
+        /// Information about parent hours of operations.
+        public var parentHoursOfOperations: [ConnectClientTypes.HoursOfOperationsIdentifier]?
         /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
         public var tags: [Swift.String: Swift.String]?
         /// The time zone for the hours of operation.
@@ -13637,6 +13981,7 @@ extension ConnectClientTypes {
             lastModifiedRegion: Swift.String? = nil,
             lastModifiedTime: Foundation.Date? = nil,
             name: Swift.String? = nil,
+            parentHoursOfOperations: [ConnectClientTypes.HoursOfOperationsIdentifier]? = nil,
             tags: [Swift.String: Swift.String]? = nil,
             timeZone: Swift.String? = nil
         ) {
@@ -13647,6 +13992,7 @@ extension ConnectClientTypes {
             self.lastModifiedRegion = lastModifiedRegion
             self.lastModifiedTime = lastModifiedTime
             self.name = name
+            self.parentHoursOfOperations = parentHoursOfOperations
             self.tags = tags
             self.timeZone = timeZone
         }
@@ -13706,6 +14052,10 @@ extension ConnectClientTypes {
         public var hoursOfOperationOverrideId: Swift.String?
         /// The name of the hours of operation override.
         public var name: Swift.String?
+        /// Whether the override will be defined as a standard or as a recurring event.
+        public var overrideType: ConnectClientTypes.OverrideType?
+        /// Configuration for a recurring event.
+        public var recurrenceConfig: ConnectClientTypes.RecurrenceConfig?
 
         public init(
             config: [ConnectClientTypes.HoursOfOperationOverrideConfig]? = nil,
@@ -13715,7 +14065,9 @@ extension ConnectClientTypes {
             hoursOfOperationArn: Swift.String? = nil,
             hoursOfOperationId: Swift.String? = nil,
             hoursOfOperationOverrideId: Swift.String? = nil,
-            name: Swift.String? = nil
+            name: Swift.String? = nil,
+            overrideType: ConnectClientTypes.OverrideType? = nil,
+            recurrenceConfig: ConnectClientTypes.RecurrenceConfig? = nil
         ) {
             self.config = config
             self.description = description
@@ -13725,6 +14077,8 @@ extension ConnectClientTypes {
             self.hoursOfOperationId = hoursOfOperationId
             self.hoursOfOperationOverrideId = hoursOfOperationOverrideId
             self.name = name
+            self.overrideType = overrideType
+            self.recurrenceConfig = recurrenceConfig
         }
     }
 }
@@ -16435,6 +16789,28 @@ public struct DisassociateFlowOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct DisassociateHoursOfOperationsInput: Swift.Sendable {
+    /// The identifier of the child hours of operation.
+    /// This member is required.
+    public var hoursOfOperationId: Swift.String?
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The Amazon Resource Names (ARNs) of the parent hours of operation resources to disassociate with the child hours of operation resource.
+    /// This member is required.
+    public var parentHoursOfOperationIds: [Swift.String]?
+
+    public init(
+        hoursOfOperationId: Swift.String? = nil,
+        instanceId: Swift.String? = nil,
+        parentHoursOfOperationIds: [Swift.String]? = nil
+    ) {
+        self.hoursOfOperationId = hoursOfOperationId
+        self.instanceId = instanceId
+        self.parentHoursOfOperationIds = parentHoursOfOperationIds
+    }
+}
+
 public struct DisassociateInstanceStorageConfigInput: Swift.Sendable {
     /// The existing association identifier that uniquely identifies the resource type and storage config for the given instance ID.
     /// This member is required.
@@ -17830,17 +18206,96 @@ extension ConnectClientTypes {
     }
 }
 
+extension ConnectClientTypes {
+
+    public enum OperationalStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case closed
+        case `open`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [OperationalStatus] {
+            return [
+                .closed,
+                .open
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .closed: return "CLOSED"
+            case .open: return "OPEN"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// Information about hours of operation override
+    public struct OverrideHour: Swift.Sendable {
+        /// The start time or end time for an hours of operation override.
+        public var end: ConnectClientTypes.OverrideTimeSlice?
+        /// Indicates whether the status is open or closed during the override period. This status determines how the override modifies the base hours of operation schedule.
+        public var operationalStatus: ConnectClientTypes.OperationalStatus?
+        /// Unique identifier name for the override.
+        public var overrideName: Swift.String?
+        /// The start time or end time for an hours of operation override.
+        public var start: ConnectClientTypes.OverrideTimeSlice?
+
+        public init(
+            end: ConnectClientTypes.OverrideTimeSlice? = nil,
+            operationalStatus: ConnectClientTypes.OperationalStatus? = nil,
+            overrideName: Swift.String? = nil,
+            start: ConnectClientTypes.OverrideTimeSlice? = nil
+        ) {
+            self.end = end
+            self.operationalStatus = operationalStatus
+            self.overrideName = overrideName
+            self.start = start
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// Information about the hours of operation overrides which contribute to effective hours of operations.
+    public struct EffectiveOverrideHours: Swift.Sendable {
+        /// The date that the hours of operation override applies to.
+        public var date: Swift.String?
+        /// Information about the hours of operation overrides that apply to a specific date.
+        public var overrideHours: [ConnectClientTypes.OverrideHour]?
+
+        public init(
+            date: Swift.String? = nil,
+            overrideHours: [ConnectClientTypes.OverrideHour]? = nil
+        ) {
+            self.date = date
+            self.overrideHours = overrideHours
+        }
+    }
+}
+
 public struct GetEffectiveHoursOfOperationsOutput: Swift.Sendable {
     /// Information about the effective hours of operations.
     public var effectiveHoursOfOperationList: [ConnectClientTypes.EffectiveHoursOfOperations]?
+    /// Information about override configurations applied to the base hours of operation to calculate the effective hours. For more information about how override types are applied, see [Build your list of overrides](https://docs.aws.amazon.com/https:/docs.aws.amazon.com/connect/latest/adminguide/hours-of-operation-overrides.html) in the Administrator Guide.
+    public var effectiveOverrideHoursList: [ConnectClientTypes.EffectiveOverrideHours]?
     /// The time zone for the hours of operation.
     public var timeZone: Swift.String?
 
     public init(
         effectiveHoursOfOperationList: [ConnectClientTypes.EffectiveHoursOfOperations]? = nil,
+        effectiveOverrideHoursList: [ConnectClientTypes.EffectiveOverrideHours]? = nil,
         timeZone: Swift.String? = nil
     ) {
         self.effectiveHoursOfOperationList = effectiveHoursOfOperationList
+        self.effectiveOverrideHoursList = effectiveOverrideHoursList
         self.timeZone = timeZone
     }
 }
@@ -19390,6 +19845,54 @@ public struct ListBotsOutput: Swift.Sendable {
         nextToken: Swift.String? = nil
     ) {
         self.lexBots = lexBots
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListChildHoursOfOperationsInput: Swift.Sendable {
+    /// The identifier of the parent hours of operation.
+    /// This member is required.
+    public var hoursOfOperationId: Swift.String?
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The maximum number of results to return per page. The default MaxResult size is 100.
+    public var maxResults: Swift.Int?
+    /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        hoursOfOperationId: Swift.String? = nil,
+        instanceId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.hoursOfOperationId = hoursOfOperationId
+        self.instanceId = instanceId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListChildHoursOfOperationsOutput: Swift.Sendable {
+    /// Information about the hours of operation.
+    public var childHoursOfOperationsSummaryList: [ConnectClientTypes.HoursOfOperationsIdentifier]?
+    /// The Amazon Web Services Region where this resource was last modified.
+    public var lastModifiedRegion: Swift.String?
+    /// The timestamp when this resource was last modified.
+    public var lastModifiedTime: Foundation.Date?
+    /// If there are additional results, this is the token for the next set of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        childHoursOfOperationsSummaryList: [ConnectClientTypes.HoursOfOperationsIdentifier]? = nil,
+        lastModifiedRegion: Swift.String? = nil,
+        lastModifiedTime: Foundation.Date? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.childHoursOfOperationsSummaryList = childHoursOfOperationsSummaryList
+        self.lastModifiedRegion = lastModifiedRegion
+        self.lastModifiedTime = lastModifiedTime
         self.nextToken = nextToken
     }
 }
@@ -29481,6 +29984,10 @@ public struct UpdateHoursOfOperationOverrideInput: Swift.Sendable {
     public var instanceId: Swift.String?
     /// The name of the hours of operation override.
     public var name: Swift.String?
+    /// Whether the override will be defined as a standard or as a recurring event. For more information about how override types are applied, see [Build your list of overrides](https://docs.aws.amazon.com/https:/docs.aws.amazon.com/connect/latest/adminguide/hours-of-operation-overrides.html) in the Administrator Guide.
+    public var overrideType: ConnectClientTypes.OverrideType?
+    /// Configuration for a recurring event.
+    public var recurrenceConfig: ConnectClientTypes.RecurrenceConfig?
 
     public init(
         config: [ConnectClientTypes.HoursOfOperationOverrideConfig]? = nil,
@@ -29490,7 +29997,9 @@ public struct UpdateHoursOfOperationOverrideInput: Swift.Sendable {
         hoursOfOperationId: Swift.String? = nil,
         hoursOfOperationOverrideId: Swift.String? = nil,
         instanceId: Swift.String? = nil,
-        name: Swift.String? = nil
+        name: Swift.String? = nil,
+        overrideType: ConnectClientTypes.OverrideType? = nil,
+        recurrenceConfig: ConnectClientTypes.RecurrenceConfig? = nil
     ) {
         self.config = config
         self.description = description
@@ -29500,6 +30009,8 @@ public struct UpdateHoursOfOperationOverrideInput: Swift.Sendable {
         self.hoursOfOperationOverrideId = hoursOfOperationOverrideId
         self.instanceId = instanceId
         self.name = name
+        self.overrideType = overrideType
+        self.recurrenceConfig = recurrenceConfig
     }
 }
 
@@ -32708,6 +33219,8 @@ extension ConnectClientTypes {
         /// The flag indicating whether the evaluation form is locked for changes.
         /// This member is required.
         public var locked: Swift.Bool
+        /// Configuration for evaluation review settings of this evaluation form.
+        public var reviewConfiguration: ConnectClientTypes.EvaluationReviewConfiguration?
         /// A scoring strategy of the evaluation form.
         public var scoringStrategy: ConnectClientTypes.EvaluationFormScoringStrategy?
         /// The status of the evaluation form.
@@ -32734,6 +33247,7 @@ extension ConnectClientTypes {
             lastModifiedBy: Swift.String? = nil,
             lastModifiedTime: Foundation.Date? = nil,
             locked: Swift.Bool = false,
+            reviewConfiguration: ConnectClientTypes.EvaluationReviewConfiguration? = nil,
             scoringStrategy: ConnectClientTypes.EvaluationFormScoringStrategy? = nil,
             status: ConnectClientTypes.EvaluationFormVersionStatus? = nil,
             tags: [Swift.String: Swift.String]? = nil,
@@ -32752,6 +33266,7 @@ extension ConnectClientTypes {
             self.lastModifiedBy = lastModifiedBy
             self.lastModifiedTime = lastModifiedTime
             self.locked = locked
+            self.reviewConfiguration = reviewConfiguration
             self.scoringStrategy = scoringStrategy
             self.status = status
             self.tags = tags
@@ -32783,6 +33298,8 @@ extension ConnectClientTypes {
         public var items: [ConnectClientTypes.EvaluationFormItem]?
         /// Configuration for language settings of this evaluation form content.
         public var languageConfiguration: ConnectClientTypes.EvaluationFormLanguageConfiguration?
+        /// Configuration for evaluation review settings of this evaluation form content.
+        public var reviewConfiguration: ConnectClientTypes.EvaluationReviewConfiguration?
         /// A scoring strategy of the evaluation form.
         public var scoringStrategy: ConnectClientTypes.EvaluationFormScoringStrategy?
         /// Configuration that specifies the target for this evaluation form content.
@@ -32799,6 +33316,7 @@ extension ConnectClientTypes {
             evaluationFormVersion: Swift.Int = 0,
             items: [ConnectClientTypes.EvaluationFormItem]? = nil,
             languageConfiguration: ConnectClientTypes.EvaluationFormLanguageConfiguration? = nil,
+            reviewConfiguration: ConnectClientTypes.EvaluationReviewConfiguration? = nil,
             scoringStrategy: ConnectClientTypes.EvaluationFormScoringStrategy? = nil,
             targetConfiguration: ConnectClientTypes.EvaluationFormTargetConfiguration? = nil,
             title: Swift.String? = nil
@@ -32810,6 +33328,7 @@ extension ConnectClientTypes {
             self.evaluationFormVersion = evaluationFormVersion
             self.items = items
             self.languageConfiguration = languageConfiguration
+            self.reviewConfiguration = reviewConfiguration
             self.scoringStrategy = scoringStrategy
             self.targetConfiguration = targetConfiguration
             self.title = title
@@ -32834,6 +33353,8 @@ public struct CreateEvaluationFormInput: Swift.Sendable {
     public var items: [ConnectClientTypes.EvaluationFormItem]?
     /// Configuration for language settings of the evaluation form.
     public var languageConfiguration: ConnectClientTypes.EvaluationFormLanguageConfiguration?
+    /// Configuration information about evaluation reviews.
+    public var reviewConfiguration: ConnectClientTypes.EvaluationReviewConfiguration?
     /// A scoring strategy of the evaluation form.
     public var scoringStrategy: ConnectClientTypes.EvaluationFormScoringStrategy?
     /// The tags used to organize, track, or control access for this resource. For example, { "Tags": {"key1":"value1", "key2":"value2"} }.
@@ -32852,6 +33373,7 @@ public struct CreateEvaluationFormInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         items: [ConnectClientTypes.EvaluationFormItem]? = nil,
         languageConfiguration: ConnectClientTypes.EvaluationFormLanguageConfiguration? = nil,
+        reviewConfiguration: ConnectClientTypes.EvaluationReviewConfiguration? = nil,
         scoringStrategy: ConnectClientTypes.EvaluationFormScoringStrategy? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         targetConfiguration: ConnectClientTypes.EvaluationFormTargetConfiguration? = nil,
@@ -32864,6 +33386,7 @@ public struct CreateEvaluationFormInput: Swift.Sendable {
         self.instanceId = instanceId
         self.items = items
         self.languageConfiguration = languageConfiguration
+        self.reviewConfiguration = reviewConfiguration
         self.scoringStrategy = scoringStrategy
         self.tags = tags
         self.targetConfiguration = targetConfiguration
@@ -32925,6 +33448,8 @@ public struct UpdateEvaluationFormInput: Swift.Sendable {
     public var items: [ConnectClientTypes.EvaluationFormItem]?
     /// Configuration for language settings of the evaluation form.
     public var languageConfiguration: ConnectClientTypes.EvaluationFormLanguageConfiguration?
+    /// Configuration for evaluation review settings of the evaluation form.
+    public var reviewConfiguration: ConnectClientTypes.EvaluationReviewConfiguration?
     /// A scoring strategy of the evaluation form.
     public var scoringStrategy: ConnectClientTypes.EvaluationFormScoringStrategy?
     /// Configuration that specifies the target for the evaluation form.
@@ -32944,6 +33469,7 @@ public struct UpdateEvaluationFormInput: Swift.Sendable {
         instanceId: Swift.String? = nil,
         items: [ConnectClientTypes.EvaluationFormItem]? = nil,
         languageConfiguration: ConnectClientTypes.EvaluationFormLanguageConfiguration? = nil,
+        reviewConfiguration: ConnectClientTypes.EvaluationReviewConfiguration? = nil,
         scoringStrategy: ConnectClientTypes.EvaluationFormScoringStrategy? = nil,
         targetConfiguration: ConnectClientTypes.EvaluationFormTargetConfiguration? = nil,
         title: Swift.String? = nil
@@ -32958,6 +33484,7 @@ public struct UpdateEvaluationFormInput: Swift.Sendable {
         self.instanceId = instanceId
         self.items = items
         self.languageConfiguration = languageConfiguration
+        self.reviewConfiguration = reviewConfiguration
         self.scoringStrategy = scoringStrategy
         self.targetConfiguration = targetConfiguration
         self.title = title
@@ -33397,6 +33924,19 @@ extension AssociateFlowInput {
             return nil
         }
         return "/flow-associations/\(instanceId.urlPercentEncoding())"
+    }
+}
+
+extension AssociateHoursOfOperationsInput {
+
+    static func urlPathProvider(_ value: AssociateHoursOfOperationsInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        guard let hoursOfOperationId = value.hoursOfOperationId else {
+            return nil
+        }
+        return "/hours-of-operations/\(instanceId.urlPercentEncoding())/\(hoursOfOperationId.urlPercentEncoding())/associate-hours"
     }
 }
 
@@ -35079,6 +35619,19 @@ extension DisassociateFlowInput {
     }
 }
 
+extension DisassociateHoursOfOperationsInput {
+
+    static func urlPathProvider(_ value: DisassociateHoursOfOperationsInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        guard let hoursOfOperationId = value.hoursOfOperationId else {
+            return nil
+        }
+        return "/hours-of-operations/\(instanceId.urlPercentEncoding())/\(hoursOfOperationId.urlPercentEncoding())/disassociate-hours"
+    }
+}
+
 extension DisassociateInstanceStorageConfigInput {
 
     static func urlPathProvider(_ value: DisassociateInstanceStorageConfigInput) -> Swift.String? {
@@ -35762,6 +36315,35 @@ extension ListBotsInput {
         }
         let lexVersionQueryItem = Smithy.URIQueryItem(name: "lexVersion".urlPercentEncoding(), value: Swift.String(lexVersion.rawValue).urlPercentEncoding())
         items.append(lexVersionQueryItem)
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListChildHoursOfOperationsInput {
+
+    static func urlPathProvider(_ value: ListChildHoursOfOperationsInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        guard let hoursOfOperationId = value.hoursOfOperationId else {
+            return nil
+        }
+        return "/hours-of-operations/\(instanceId.urlPercentEncoding())/\(hoursOfOperationId.urlPercentEncoding())/hours"
+    }
+}
+
+extension ListChildHoursOfOperationsInput {
+
+    static func queryItemProvider(_ value: ListChildHoursOfOperationsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
         if let nextToken = value.nextToken {
             let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
@@ -38551,6 +39133,14 @@ extension AssociateFlowInput {
     }
 }
 
+extension AssociateHoursOfOperationsInput {
+
+    static func write(value: AssociateHoursOfOperationsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ParentHoursOfOperationConfigs"].writeList(value.parentHoursOfOperationConfigs, memberWritingClosure: ConnectClientTypes.ParentHoursOfOperationConfig.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension AssociateInstanceStorageConfigInput {
 
     static func write(value: AssociateInstanceStorageConfigInput?, to writer: SmithyJSON.Writer) throws {
@@ -38876,6 +39466,7 @@ extension CreateEvaluationFormInput {
         try writer["Description"].write(value.description)
         try writer["Items"].writeList(value.items, memberWritingClosure: ConnectClientTypes.EvaluationFormItem.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["LanguageConfiguration"].write(value.languageConfiguration, with: ConnectClientTypes.EvaluationFormLanguageConfiguration.write(value:to:))
+        try writer["ReviewConfiguration"].write(value.reviewConfiguration, with: ConnectClientTypes.EvaluationReviewConfiguration.write(value:to:))
         try writer["ScoringStrategy"].write(value.scoringStrategy, with: ConnectClientTypes.EvaluationFormScoringStrategy.write(value:to:))
         try writer["Tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["TargetConfiguration"].write(value.targetConfiguration, with: ConnectClientTypes.EvaluationFormTargetConfiguration.write(value:to:))
@@ -38890,6 +39481,7 @@ extension CreateHoursOfOperationInput {
         try writer["Config"].writeList(value.config, memberWritingClosure: ConnectClientTypes.HoursOfOperationConfig.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Description"].write(value.description)
         try writer["Name"].write(value.name)
+        try writer["ParentHoursOfOperationConfigs"].writeList(value.parentHoursOfOperationConfigs, memberWritingClosure: ConnectClientTypes.ParentHoursOfOperationConfig.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["TimeZone"].write(value.timeZone)
     }
@@ -38904,6 +39496,8 @@ extension CreateHoursOfOperationOverrideInput {
         try writer["EffectiveFrom"].write(value.effectiveFrom)
         try writer["EffectiveTill"].write(value.effectiveTill)
         try writer["Name"].write(value.name)
+        try writer["OverrideType"].write(value.overrideType)
+        try writer["RecurrenceConfig"].write(value.recurrenceConfig, with: ConnectClientTypes.RecurrenceConfig.write(value:to:))
     }
 }
 
@@ -39214,6 +39808,14 @@ extension DisassociateEmailAddressAliasInput {
         guard let value else { return }
         try writer["AliasConfiguration"].write(value.aliasConfiguration, with: ConnectClientTypes.AliasConfiguration.write(value:to:))
         try writer["ClientToken"].write(value.clientToken)
+    }
+}
+
+extension DisassociateHoursOfOperationsInput {
+
+    static func write(value: DisassociateHoursOfOperationsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ParentHoursOfOperationIds"].writeList(value.parentHoursOfOperationIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -40298,6 +40900,7 @@ extension UpdateEvaluationFormInput {
         try writer["EvaluationFormVersion"].write(value.evaluationFormVersion)
         try writer["Items"].writeList(value.items, memberWritingClosure: ConnectClientTypes.EvaluationFormItem.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["LanguageConfiguration"].write(value.languageConfiguration, with: ConnectClientTypes.EvaluationFormLanguageConfiguration.write(value:to:))
+        try writer["ReviewConfiguration"].write(value.reviewConfiguration, with: ConnectClientTypes.EvaluationReviewConfiguration.write(value:to:))
         try writer["ScoringStrategy"].write(value.scoringStrategy, with: ConnectClientTypes.EvaluationFormScoringStrategy.write(value:to:))
         try writer["TargetConfiguration"].write(value.targetConfiguration, with: ConnectClientTypes.EvaluationFormTargetConfiguration.write(value:to:))
         try writer["Title"].write(value.title)
@@ -40324,6 +40927,8 @@ extension UpdateHoursOfOperationOverrideInput {
         try writer["EffectiveFrom"].write(value.effectiveFrom)
         try writer["EffectiveTill"].write(value.effectiveTill)
         try writer["Name"].write(value.name)
+        try writer["OverrideType"].write(value.overrideType)
+        try writer["RecurrenceConfig"].write(value.recurrenceConfig, with: ConnectClientTypes.RecurrenceConfig.write(value:to:))
     }
 }
 
@@ -40750,6 +41355,13 @@ extension AssociateFlowOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> AssociateFlowOutput {
         return AssociateFlowOutput()
+    }
+}
+
+extension AssociateHoursOfOperationsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> AssociateHoursOfOperationsOutput {
+        return AssociateHoursOfOperationsOutput()
     }
 }
 
@@ -42105,6 +42717,13 @@ extension DisassociateFlowOutput {
     }
 }
 
+extension DisassociateHoursOfOperationsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DisassociateHoursOfOperationsOutput {
+        return DisassociateHoursOfOperationsOutput()
+    }
+}
+
 extension DisassociateInstanceStorageConfigOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DisassociateInstanceStorageConfigOutput {
@@ -42293,6 +42912,7 @@ extension GetEffectiveHoursOfOperationsOutput {
         let reader = responseReader
         var value = GetEffectiveHoursOfOperationsOutput()
         value.effectiveHoursOfOperationList = try reader["EffectiveHoursOfOperationList"].readListIfPresent(memberReadingClosure: ConnectClientTypes.EffectiveHoursOfOperations.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.effectiveOverrideHoursList = try reader["EffectiveOverrideHoursList"].readListIfPresent(memberReadingClosure: ConnectClientTypes.EffectiveOverrideHours.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.timeZone = try reader["TimeZone"].readIfPresent()
         return value
     }
@@ -42514,6 +43134,21 @@ extension ListBotsOutput {
         let reader = responseReader
         var value = ListBotsOutput()
         value.lexBots = try reader["LexBots"].readListIfPresent(memberReadingClosure: ConnectClientTypes.LexBotConfig.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListChildHoursOfOperationsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListChildHoursOfOperationsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListChildHoursOfOperationsOutput()
+        value.childHoursOfOperationsSummaryList = try reader["ChildHoursOfOperationsSummaryList"].readListIfPresent(memberReadingClosure: ConnectClientTypes.HoursOfOperationsIdentifier.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.lastModifiedRegion = try reader["LastModifiedRegion"].readIfPresent()
+        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
@@ -44528,6 +45163,26 @@ enum AssociateFlowOutputError {
     }
 }
 
+enum AssociateHoursOfOperationsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ConditionalOperationFailedException": return try ConditionalOperationFailedException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum AssociateInstanceStorageConfigOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -45196,6 +45851,7 @@ enum CreateHoursOfOperationOutputError {
             case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
             case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -46965,6 +47621,25 @@ enum DisassociateFlowOutputError {
     }
 }
 
+enum DisassociateHoursOfOperationsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ConditionalOperationFailedException": return try ConditionalOperationFailedException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DisassociateInstanceStorageConfigOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -47594,6 +48269,24 @@ enum ListBotsOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListChildHoursOfOperationsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
             case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
@@ -52390,6 +53083,7 @@ extension ConnectClientTypes.EvaluationMetadata {
         value.score = try reader["Score"].readIfPresent(with: ConnectClientTypes.EvaluationScore.read(from:))
         value.autoEvaluation = try reader["AutoEvaluation"].readIfPresent(with: ConnectClientTypes.AutoEvaluationDetails.read(from:))
         value.acknowledgement = try reader["Acknowledgement"].readIfPresent(with: ConnectClientTypes.EvaluationAcknowledgement.read(from:))
+        value.review = try reader["Review"].readIfPresent(with: ConnectClientTypes.EvaluationReviewMetadata.read(from:))
         value.contactParticipant = try reader["ContactParticipant"].readIfPresent(with: ConnectClientTypes.EvaluationContactParticipant.read(from:))
         value.samplingJobId = try reader["SamplingJobId"].readIfPresent()
         return value
@@ -52403,6 +53097,31 @@ extension ConnectClientTypes.EvaluationContactParticipant {
         var value = ConnectClientTypes.EvaluationContactParticipant()
         value.contactParticipantRole = try reader["ContactParticipantRole"].readIfPresent()
         value.contactParticipantId = try reader["ContactParticipantId"].readIfPresent()
+        return value
+    }
+}
+
+extension ConnectClientTypes.EvaluationReviewMetadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.EvaluationReviewMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.EvaluationReviewMetadata()
+        value.reviewId = try reader["ReviewId"].readIfPresent()
+        value.createdTime = try reader["CreatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.createdBy = try reader["CreatedBy"].readIfPresent() ?? ""
+        value.reviewRequestComments = try reader["ReviewRequestComments"].readListIfPresent(memberReadingClosure: ConnectClientTypes.EvaluationReviewRequestComment.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension ConnectClientTypes.EvaluationReviewRequestComment {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.EvaluationReviewRequestComment {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.EvaluationReviewRequestComment()
+        value.comment = try reader["Comment"].readIfPresent()
+        value.createdTime = try reader["CreatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.createdBy = try reader["CreatedBy"].readIfPresent()
         return value
     }
 }
@@ -52445,6 +53164,56 @@ extension ConnectClientTypes.EvaluationFormContent {
         value.autoEvaluationConfiguration = try reader["AutoEvaluationConfiguration"].readIfPresent(with: ConnectClientTypes.EvaluationFormAutoEvaluationConfiguration.read(from:))
         value.targetConfiguration = try reader["TargetConfiguration"].readIfPresent(with: ConnectClientTypes.EvaluationFormTargetConfiguration.read(from:))
         value.languageConfiguration = try reader["LanguageConfiguration"].readIfPresent(with: ConnectClientTypes.EvaluationFormLanguageConfiguration.read(from:))
+        value.reviewConfiguration = try reader["ReviewConfiguration"].readIfPresent(with: ConnectClientTypes.EvaluationReviewConfiguration.read(from:))
+        return value
+    }
+}
+
+extension ConnectClientTypes.EvaluationReviewConfiguration {
+
+    static func write(value: ConnectClientTypes.EvaluationReviewConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["EligibilityDays"].write(value.eligibilityDays)
+        try writer["ReviewNotificationRecipients"].writeList(value.reviewNotificationRecipients, memberWritingClosure: ConnectClientTypes.EvaluationReviewNotificationRecipient.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.EvaluationReviewConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.EvaluationReviewConfiguration()
+        value.reviewNotificationRecipients = try reader["ReviewNotificationRecipients"].readListIfPresent(memberReadingClosure: ConnectClientTypes.EvaluationReviewNotificationRecipient.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.eligibilityDays = try reader["EligibilityDays"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension ConnectClientTypes.EvaluationReviewNotificationRecipient {
+
+    static func write(value: ConnectClientTypes.EvaluationReviewNotificationRecipient?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Type"].write(value.type)
+        try writer["Value"].write(value.value, with: ConnectClientTypes.EvaluationReviewNotificationRecipientValue.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.EvaluationReviewNotificationRecipient {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.EvaluationReviewNotificationRecipient()
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
+        value.value = try reader["Value"].readIfPresent(with: ConnectClientTypes.EvaluationReviewNotificationRecipientValue.read(from:))
+        return value
+    }
+}
+
+extension ConnectClientTypes.EvaluationReviewNotificationRecipientValue {
+
+    static func write(value: ConnectClientTypes.EvaluationReviewNotificationRecipientValue?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["UserId"].write(value.userId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.EvaluationReviewNotificationRecipientValue {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.EvaluationReviewNotificationRecipientValue()
+        value.userId = try reader["UserId"].readIfPresent()
         return value
     }
 }
@@ -53300,6 +54069,7 @@ extension ConnectClientTypes.EvaluationForm {
         value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.lastModifiedBy = try reader["LastModifiedBy"].readIfPresent() ?? ""
         value.autoEvaluationConfiguration = try reader["AutoEvaluationConfiguration"].readIfPresent(with: ConnectClientTypes.EvaluationFormAutoEvaluationConfiguration.read(from:))
+        value.reviewConfiguration = try reader["ReviewConfiguration"].readIfPresent(with: ConnectClientTypes.EvaluationReviewConfiguration.read(from:))
         value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.targetConfiguration = try reader["TargetConfiguration"].readIfPresent(with: ConnectClientTypes.EvaluationFormTargetConfiguration.read(from:))
         value.languageConfiguration = try reader["LanguageConfiguration"].readIfPresent(with: ConnectClientTypes.EvaluationFormLanguageConfiguration.read(from:))
@@ -53318,9 +54088,22 @@ extension ConnectClientTypes.HoursOfOperation {
         value.description = try reader["Description"].readIfPresent()
         value.timeZone = try reader["TimeZone"].readIfPresent()
         value.config = try reader["Config"].readListIfPresent(memberReadingClosure: ConnectClientTypes.HoursOfOperationConfig.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.parentHoursOfOperations = try reader["ParentHoursOfOperations"].readListIfPresent(memberReadingClosure: ConnectClientTypes.HoursOfOperationsIdentifier.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.lastModifiedRegion = try reader["LastModifiedRegion"].readIfPresent()
+        return value
+    }
+}
+
+extension ConnectClientTypes.HoursOfOperationsIdentifier {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.HoursOfOperationsIdentifier {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.HoursOfOperationsIdentifier()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.id = try reader["Id"].readIfPresent() ?? ""
+        value.arn = try reader["Arn"].readIfPresent()
         return value
     }
 }
@@ -53374,6 +54157,46 @@ extension ConnectClientTypes.HoursOfOperationOverride {
         value.config = try reader["Config"].readListIfPresent(memberReadingClosure: ConnectClientTypes.HoursOfOperationOverrideConfig.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.effectiveFrom = try reader["EffectiveFrom"].readIfPresent()
         value.effectiveTill = try reader["EffectiveTill"].readIfPresent()
+        value.recurrenceConfig = try reader["RecurrenceConfig"].readIfPresent(with: ConnectClientTypes.RecurrenceConfig.read(from:))
+        value.overrideType = try reader["OverrideType"].readIfPresent()
+        return value
+    }
+}
+
+extension ConnectClientTypes.RecurrenceConfig {
+
+    static func write(value: ConnectClientTypes.RecurrenceConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["RecurrencePattern"].write(value.recurrencePattern, with: ConnectClientTypes.RecurrencePattern.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.RecurrenceConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.RecurrenceConfig()
+        value.recurrencePattern = try reader["RecurrencePattern"].readIfPresent(with: ConnectClientTypes.RecurrencePattern.read(from:))
+        return value
+    }
+}
+
+extension ConnectClientTypes.RecurrencePattern {
+
+    static func write(value: ConnectClientTypes.RecurrencePattern?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ByMonth"].writeList(value.byMonth, memberWritingClosure: SmithyReadWrite.WritingClosures.writeInt(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ByMonthDay"].writeList(value.byMonthDay, memberWritingClosure: SmithyReadWrite.WritingClosures.writeInt(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ByWeekdayOccurrence"].writeList(value.byWeekdayOccurrence, memberWritingClosure: SmithyReadWrite.WritingClosures.writeInt(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Frequency"].write(value.frequency)
+        try writer["Interval"].write(value.interval)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.RecurrencePattern {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.RecurrencePattern()
+        value.frequency = try reader["Frequency"].readIfPresent() ?? .sdkUnknown("")
+        value.interval = try reader["Interval"].readIfPresent() ?? 0
+        value.byMonth = try reader["ByMonth"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false)
+        value.byMonthDay = try reader["ByMonthDay"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false)
+        value.byWeekdayOccurrence = try reader["ByWeekdayOccurrence"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -54968,6 +55791,30 @@ extension ConnectClientTypes.OperationalHour {
         var value = ConnectClientTypes.OperationalHour()
         value.start = try reader["Start"].readIfPresent(with: ConnectClientTypes.OverrideTimeSlice.read(from:))
         value.end = try reader["End"].readIfPresent(with: ConnectClientTypes.OverrideTimeSlice.read(from:))
+        return value
+    }
+}
+
+extension ConnectClientTypes.EffectiveOverrideHours {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.EffectiveOverrideHours {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.EffectiveOverrideHours()
+        value.date = try reader["Date"].readIfPresent()
+        value.overrideHours = try reader["OverrideHours"].readListIfPresent(memberReadingClosure: ConnectClientTypes.OverrideHour.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ConnectClientTypes.OverrideHour {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.OverrideHour {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.OverrideHour()
+        value.start = try reader["Start"].readIfPresent(with: ConnectClientTypes.OverrideTimeSlice.read(from:))
+        value.end = try reader["End"].readIfPresent(with: ConnectClientTypes.OverrideTimeSlice.read(from:))
+        value.overrideName = try reader["OverrideName"].readIfPresent()
+        value.operationalStatus = try reader["OperationalStatus"].readIfPresent()
         return value
     }
 }
@@ -56787,6 +57634,14 @@ extension ConnectClientTypes.PropertyValidationExceptionProperty {
         value.reason = try reader["Reason"].readIfPresent() ?? .sdkUnknown("")
         value.message = try reader["Message"].readIfPresent() ?? ""
         return value
+    }
+}
+
+extension ConnectClientTypes.ParentHoursOfOperationConfig {
+
+    static func write(value: ConnectClientTypes.ParentHoursOfOperationConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["HoursOfOperationId"].write(value.hoursOfOperationId)
     }
 }
 

@@ -1971,6 +1971,7 @@ extension IoTManagedIntegrationsClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : User is not authorized.
+    /// - `ConflictException` : There is a conflict with the request.
     /// - `InternalServerException` : Internal error from the service that indicates an unexpected error or that the service is unavailable.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ThrottlingException` : The rate exceeds the limit.
@@ -4983,7 +4984,7 @@ extension IoTManagedIntegrationsClient {
 
     /// Performs the `PutRuntimeLogConfiguration` operation on the `IoTManagedIntegrations` service.
     ///
-    /// Set the runtime log configuration for a specific managed thing or for all managed things as a group.
+    /// Set the runtime log configuration for a specific managed thing.
     ///
     /// - Parameter input: [no documentation found] (Type: `PutRuntimeLogConfigurationInput`)
     ///

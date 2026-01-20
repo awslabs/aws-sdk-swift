@@ -2690,6 +2690,88 @@ extension LakeFormationClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `GetTemporaryDataLocationCredentials` operation on the `LakeFormation` service.
+    ///
+    /// Allows a user or application in a secure environment to access data in a specific Amazon S3 location registered with Lake Formation by providing temporary scoped credentials that are limited to the requested data location and the caller's authorized access level. The API operation returns an error in the following scenarios:
+    ///
+    /// * The data location is not registered with Lake Formation.
+    ///
+    /// * No Glue table is associated with the data location.
+    ///
+    /// * The caller doesn't have required permissions on the associated table. The caller must have SELECT or SUPER permissions on the associated table, and credential vending for full table access must be enabled in the data lake settings. For more information, see [Application integration for full table access](https://docs.aws.amazon.com/lake-formation/latest/dg/full-table-credential-vending.html).
+    ///
+    /// * The data location is in a different Amazon Web Services Region. Lake Formation doesn't support cross-Region access when vending credentials for a data location. Lake Formation only supports Amazon S3 paths registered within the same Region as the API call.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `GetTemporaryDataLocationCredentialsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `GetTemporaryDataLocationCredentialsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `ConflictException` : Multiple resources exist with the same Amazon S3 location
+    /// - `EntityNotFoundException` : A specified entity does not exist.
+    /// - `GlueEncryptionException` : An encryption operation failed.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    public func getTemporaryDataLocationCredentials(input: GetTemporaryDataLocationCredentialsInput) async throws -> GetTemporaryDataLocationCredentialsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getTemporaryDataLocationCredentials")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "lakeformation")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<GetTemporaryDataLocationCredentialsInput, GetTemporaryDataLocationCredentialsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetTemporaryDataLocationCredentialsInput, GetTemporaryDataLocationCredentialsOutput>(GetTemporaryDataLocationCredentialsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetTemporaryDataLocationCredentialsInput, GetTemporaryDataLocationCredentialsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<GetTemporaryDataLocationCredentialsInput, GetTemporaryDataLocationCredentialsOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<GetTemporaryDataLocationCredentialsInput, GetTemporaryDataLocationCredentialsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: GetTemporaryDataLocationCredentialsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetTemporaryDataLocationCredentialsInput, GetTemporaryDataLocationCredentialsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetTemporaryDataLocationCredentialsOutput>(GetTemporaryDataLocationCredentialsOutput.httpOutput(from:), GetTemporaryDataLocationCredentialsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetTemporaryDataLocationCredentialsInput, GetTemporaryDataLocationCredentialsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetTemporaryDataLocationCredentialsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("LakeFormation", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetTemporaryDataLocationCredentialsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetTemporaryDataLocationCredentialsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<GetTemporaryDataLocationCredentialsInput, GetTemporaryDataLocationCredentialsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<GetTemporaryDataLocationCredentialsInput, GetTemporaryDataLocationCredentialsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetTemporaryDataLocationCredentialsInput, GetTemporaryDataLocationCredentialsOutput>(serviceID: serviceName, version: LakeFormationClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "LakeFormation")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "GetTemporaryDataLocationCredentials")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `GetTemporaryGluePartitionCredentials` operation on the `LakeFormation` service.
     ///
     /// This API is identical to GetTemporaryTableCredentials except that this is used when the target Data Catalog resource is of type Partition. Lake Formation restricts the permission of the vended credentials with the same scope down policy which restricts access to a single Amazon S3 prefix.
