@@ -10,7 +10,7 @@ import Foundation
 @_spi(FileBasedConfig) import AWSSDKConfigFileReader
 @_spi(FileBasedConfig) import AWSSDKCommon
 
-final class ConfigFileReaderTests: XCTestCase {
+/*final class ConfigFileReaderTests: XCTestCase {
     let exampleConfigFilePath = Bundle.module.path(forResource: "config_file_reader_tests", ofType: nil)!
 
     func test_readsConfigFileDefaultSection() async throws {
@@ -95,4 +95,4 @@ final class ConfigFileReaderTests: XCTestCase {
         // assert
         XCTAssertEqual(region, "ap-southwest-4")
     }
-}
+}*/

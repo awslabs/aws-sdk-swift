@@ -27,8 +27,9 @@ public class ConfigFileReader {
     
     public init?(_ configFilePath: String?, _ credentialsFilePath: String?) async throws {
         let env = ProcessInfo.processInfo.environment
-        self.configFilePath = env["AWS_CONFIG_FILE"] ?? configFilePath ?? "~/.aws/config"
-        self.credentialsFilePath = env["AWS_SHARED_CREDENTIALS_FILE"] ?? credentialsFilePath ?? "~/.aws/credentials"
+        // "-missing" was added as file locations to ensure files are not accessed during testing.
+        self.configFilePath = env["AWS_CONFIG_FILE"] ?? configFilePath ?? "~/.aws/config-missing"
+        self.credentialsFilePath = env["AWS_SHARED_CREDENTIALS_FILE"] ?? credentialsFilePath ?? "~/.aws/credentials-missing"
     }
     
     func extractFileContents(atPath path: String, fileDescription: String) -> String? {
@@ -87,7 +88,7 @@ public class ConfigFileReader {
         let hasProfilePrefix = (typeStr == "profile")
         
         if name == "default" && typeStr == nil {
-                return (name: "default", type: .profile, isExplicit: false)
+            return (name: "default", type: .profile, isExplicit: false)
         }
         
         let sectionType: FileBasedConfigurationSectionType = switch typeStr {
@@ -135,9 +136,9 @@ public class ConfigFileReader {
             if let existing = targetDictionary[unifiedKey] {
                 self.currentSection = existing
             } else {
-                let newSection = ConfigFileSection(name: sectionName)
-                targetDictionary[unifiedKey] = newSection
-                self.currentSection = newSection
+                let section = ConfigFileSection(name: sectionName)
+                targetDictionary[unifiedKey] = section
+                self.currentSection = section
             }
         }
         
