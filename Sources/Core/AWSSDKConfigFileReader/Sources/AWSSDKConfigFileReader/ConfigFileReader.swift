@@ -12,7 +12,6 @@ public class ConfigFileReader {
     public let credentialsFilePath: String
     
     var currentSection: ConfigFileSection?
-    var isCurrentSectionValid = false
     var newSection = false
     var sections: [String: ConfigFileSection] = [:]
     var currentSubSection: String?
@@ -21,12 +20,15 @@ public class ConfigFileReader {
     var currentSubProperty: String?
     var currentLineNumber: Int = 0
     var currentFullSectionKey: String?
+    var isCurrentSectionExplicit: Bool = false
+    var state: ParserState? = nil
+    var hasExplicitDefaultInConfig: Bool = false
+    var currentSource: String?
     
     public init?(_ configFilePath: String?, _ credentialsFilePath: String?) async throws {
         let env = ProcessInfo.processInfo.environment
         self.configFilePath = env["AWS_CONFIG_FILE"] ?? configFilePath ?? "~/.aws/config"
         self.credentialsFilePath = env["AWS_SHARED_CREDENTIALS_FILE"] ?? credentialsFilePath ?? "~/.aws/credentials"
-        
     }
     
     func extractFileContents(atPath path: String, fileDescription: String) -> String? {
@@ -50,7 +52,7 @@ public class ConfigFileReader {
         print("Successfully read \(fileDescription) file at: \(path)")
         return decodedString
     }
-    
+        
     private func handleParseError(_ error: Error, line: String) {
         print("Local Error: '\(error.localizedDescription)'")
         print("The line that caused the error was: '\(line)' on line number: '\(currentLineNumber)'")
@@ -60,18 +62,12 @@ public class ConfigFileReader {
         
         static let sectionRegex: NSRegularExpression? = {
             // pattern matches: [ (optional type) (name) (optional comment) ] (optional comment)
-            let pattern = #"^\[\s*(?:(?<type>[A-Za-z0-9_-]+)\s+)?(?<name>[A-Za-z0-9_-]+)\s*\]\s*(?:[#;].*)?$"#
-            return try? NSRegularExpression(pattern: pattern)
-        }()
-        
-        static let propertiesRegex: NSRegularExpression? = {
-            // pattern matches: (key) (=) (optional value)
-            let pattern = #"^\s*(?<key>\S+)\s*(?:=\s*(?<value>\S+)?\s*)?(?:[#;].*)?$"#
+            let pattern = #"^\[\s*(?:(?<type>[A-Za-z0-9_\-/.%@:+]+)\s+)?(?<name>[A-Za-z0-9_\-/.%@:+]+)\s*\]\s*(?:[#;].*)?$"#
             return try? NSRegularExpression(pattern: pattern)
         }()
     }
     
-    static func parseSectionHeader(from line: String) -> (name: String, type: FileBasedConfigurationSectionType,                                    isExplicit: Bool)? {
+    static func parseSectionHeader(from line: String) -> (name: String, type: FileBasedConfigurationSectionType, isExplicit: Bool)? {
         guard let sectionRegex = lineTypeRegexPattern.sectionRegex else { return nil }
         
         let typeAndNameRange = NSRange(line.startIndex..., in: line)
@@ -108,46 +104,43 @@ public class ConfigFileReader {
                                        type sectionType: FileBasedConfigurationSectionType,
                                        isExplicit: Bool,
                                        lineNumber: Int,
+                                       source: String,
                                        targetDictionary: inout [String: ConfigFileSection]) -> Bool {
         
-        let isExplicitProfileDefault = (sectionName == "default" && isExplicit)
-
         let typePrefix: String = switch sectionType {
             case .profile: "profile"
             case .ssoSession: "sso-session"
             case .services: "services"
         }
-        let currentKey: String
-        if sectionName == "default" {
-                currentKey = isExplicit ? "profile default" : "default"
-        } else {
-            currentKey = "\(typePrefix) \(sectionName)"
-        }
-        
-        if sectionName == "default" {
-            if isExplicitProfileDefault {
-                if targetDictionary["default"] != nil {
-                    targetDictionary.removeValue(forKey: "default")
+
+        let unifiedKey = (sectionName == "default") ? "profile default" : "\(typePrefix) \(sectionName)"
+        currentFullSectionKey = unifiedKey
+
+        if source == "config" && sectionName == "default" {
+            if isExplicit {
+                if self.hasExplicitDefaultInConfig, let existing = targetDictionary[unifiedKey] {
+                    self.currentSection = existing
+                } else {
+                    targetDictionary[unifiedKey] = ConfigFileSection(name: sectionName)
+                    self.currentSection = targetDictionary[unifiedKey]
                 }
+                self.hasExplicitDefaultInConfig = true
             } else {
-                if targetDictionary["profile default"] != nil {
-                    isCurrentSectionValid = false
-                    return false
-                }
+                if self.hasExplicitDefaultInConfig { return false }
+                
+                self.currentSection = targetDictionary[unifiedKey] ?? ConfigFileSection(name: sectionName)
+                targetDictionary[unifiedKey] = self.currentSection
+            }
+        } else {
+            if let existing = targetDictionary[unifiedKey] {
+                self.currentSection = existing
+            } else {
+                let newSection = ConfigFileSection(name: sectionName)
+                targetDictionary[unifiedKey] = newSection
+                self.currentSection = newSection
             }
         }
-
-        self.currentFullSectionKey = currentKey
-
-        if let existingSection = targetDictionary[currentKey] {
-            currentSection = existingSection
-        } else {
-            let section = ConfigFileSection(name: sectionName)
-            targetDictionary[currentKey] = section
-            currentSection = section
-        }
         
-        isCurrentSectionValid = true
         currentProperty = nil
         currentSubProperty = nil
         return true
@@ -174,7 +167,6 @@ public class ConfigFileReader {
     }
     
     private func processProperty(_ rawString: String, into targetDictionary: inout [String: ConfigFileSection]) throws {
-        guard isCurrentSectionValid || !newSection else { return }
         
         let components = rawString.split(separator: "=", maxSplits: 1, omittingEmptySubsequences: false).map(String.init)
         let key = strippedCommentsAndWhitespace(from: components[0].lowercased())
@@ -204,6 +196,7 @@ public class ConfigFileReader {
             
         print("Added new property '\(key)' = '\(value)' to section '\(fullKey)'")
         print("The current section contains '\(currentSection!)'")
+        print("'\(fullKey)' will be the sections key tracked")
     }
     
     private func handleSubProperty(key: String, value: String, lineNumber: Int, targetDictionary: inout [String: ConfigFileSection]) throws {
@@ -266,7 +259,6 @@ public class ConfigFileReader {
     }
     
     private func processContinuation(_ rawString: String, into targetDictionary: inout [String: ConfigFileSection]) throws {
-        guard isCurrentSectionValid else { return }
         guard let currentPropKey = currentProperty, let currentVal = currentPropertyValue else {
             if isIndented(line: rawString) {
                 throw ParseError("Expected a property definition, found indented continuation")
@@ -342,6 +334,7 @@ public class ConfigFileReader {
         for source in sources {
             print("Source Type: \(source.type), Line Count: \(source.lines.count)")
             var targetDict = (source.type == "config") ? configSections : credentialSections
+            currentSource = source.type
             
             for (index, line) in source.lines.enumerated() {
                 currentLineNumber = index + 1
@@ -391,40 +384,48 @@ public class ConfigFileReader {
             
         case .section(let rawString, let header):
             newSection = true
-            guard rawString.contains("]") else {
-                throw ParseError("Section definition must end with ']'")
-            }
+            guard rawString.contains("]") else { throw ParseError("Section definition must end with ']'") }
                 
             if header?.name == "INVALID_SECTION" {
-                isCurrentSectionValid = false
+                state = .ignore
                 currentProperty = nil
                 currentPropertyValue = nil
             } else {
-                isCurrentSectionValid = handleNewSectionFound(
+                let active = handleNewSectionFound(
                     name: header!.name,
                     type: header!.type,
                     isExplicit: header!.isExplicit,
                     lineNumber: currentLineNumber,
+                    source: currentSource!,
                     targetDictionary: &dict
                 )
+                
+                if active {
+                    state = .active(sectionName: header!.name)
+                } else {
+                    state = .ignore
+                }
             }
             
         case .property(let rawString, _, _):
-            guard isCurrentSectionValid && newSection else { return }
-            guard currentSection != nil else { throw ParseError("Expected a section definition1") }
-            try processProperty(rawString, into: &dict)
+            guard let currentState = state else {
+                throw ParseError("Expected a section definition")
+            }
+                    
+            switch currentState {
+            case .ignore, .invalid:
+                return
+            case .active(_):
+                try processProperty(rawString, into: &dict)
+            }
             
         case .continuation(let rawString, _):
-            guard isCurrentSectionValid && newSection else { return }
-            guard currentSection != nil else { throw ParseError("Expected a section definition2") }
-            guard currentProperty != nil else {
-                if isIndented(line: rawString) {
-                    throw ParseError("Expected a property definition, found indented continuation")
-                } else {
-                    throw ParseError("Expected a property definition")
-                }
+            guard let currentState = state else {
+                throw ParseError("Expected a section definition")
             }
-            try processContinuation(rawString, into: &dict)
+                    
+            if case .ignore = currentState { return }
+                try processContinuation(rawString, into: &dict)
             
         case .unknown(_):
             throw ParseError("Unknown line")
@@ -456,8 +457,10 @@ extension String {
         if self.hasPrefix("[") {
             let invalidSec = "INVALID_SECTION"
             if let header = ConfigFileReader.parseSectionHeader(from: self) {
+                print("'\(self)' is a valid section, it will be tracked as the current section")
                 return .section(rawString: self, header: (name: header.name, type: header.type, isExplicit: header.isExplicit))
             } else {
+                print("'\(invalidSec)' found, it's properties will be ignored")
                 return .section(rawString: self, header: (name: invalidSec, type: .profile, isExplicit: false))
             }
         }
@@ -557,4 +560,10 @@ enum lineType {
     case continuation(rawString: String, value: String)
     case blank
     case unknown(rawString: String)
+}
+
+enum ParserState {
+    case active(sectionName: String)
+    case ignore
+    case invalid
 }
