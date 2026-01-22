@@ -1128,6 +1128,38 @@ extension AutoScalingClientTypes {
 
 extension AutoScalingClientTypes {
 
+    public enum DeletionProtection: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case `none`
+        case preventalldeletion
+        case preventforcedeletion
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DeletionProtection] {
+            return [
+                .none,
+                .preventalldeletion,
+                .preventforcedeletion
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .none: return "none"
+            case .preventalldeletion: return "prevent-all-deletion"
+            case .preventforcedeletion: return "prevent-force-deletion"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension AutoScalingClientTypes {
+
     public enum RetentionAction: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case retain
         case terminate
@@ -2011,6 +2043,8 @@ public struct CreateAutoScalingGroupInput: Swift.Sendable {
     public var defaultCooldown: Swift.Int?
     /// The amount of time, in seconds, until a new instance is considered to have finished initializing and resource consumption to become stable after it enters the InService state. During an instance refresh, Amazon EC2 Auto Scaling waits for the warm-up period after it replaces an instance before it moves on to replacing the next instance. Amazon EC2 Auto Scaling also waits for the warm-up period before aggregating the metrics for new instances with existing instances in the Amazon CloudWatch metrics that are used for scaling, resulting in more reliable usage data. For more information, see [Set the default instance warmup for an Auto Scaling group](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-default-instance-warmup.html) in the Amazon EC2 Auto Scaling User Guide. To manage various warm-up settings at the group level, we recommend that you set the default instance warmup, even if it is set to 0 seconds. To remove a value that you previously set, include the property but specify -1 for the value. However, we strongly recommend keeping the default instance warmup enabled by specifying a value of 0 or other nominal value. Default: None
     public var defaultInstanceWarmup: Swift.Int?
+    /// The deletion protection setting for the Auto Scaling group. This setting helps safeguard your Auto Scaling group and its instances by controlling whether the DeleteAutoScalingGroup operation is allowed. When deletion protection is enabled, users cannot delete the Auto Scaling group according to the specified protection level until the setting is changed back to a less restrictive level. The valid values are none, prevent-force-deletion, and prevent-all-deletion. Default: none
+    public var deletionProtection: AutoScalingClientTypes.DeletionProtection?
     /// The desired capacity is the initial capacity of the Auto Scaling group at the time of its creation and the capacity it attempts to maintain. It can scale beyond this capacity if you configure auto scaling. This number must be greater than or equal to the minimum size of the group and less than or equal to the maximum size of the group. If you do not specify a desired capacity, the default is the minimum size of the group.
     public var desiredCapacity: Swift.Int?
     /// The unit of measurement for the value specified for desired capacity. Amazon EC2 Auto Scaling supports DesiredCapacityType for attribute-based instance type selection only. For more information, see [Create a mixed instances group using attribute-based instance type selection](https://docs.aws.amazon.com/autoscaling/ec2/userguide/create-mixed-instances-group-attribute-based-instance-type-selection.html) in the Amazon EC2 Auto Scaling User Guide. By default, Amazon EC2 Auto Scaling specifies units, which translates into number of instances. Valid values: units | vcpu | memory-mib
@@ -2072,6 +2106,7 @@ public struct CreateAutoScalingGroupInput: Swift.Sendable {
         context: Swift.String? = nil,
         defaultCooldown: Swift.Int? = nil,
         defaultInstanceWarmup: Swift.Int? = nil,
+        deletionProtection: AutoScalingClientTypes.DeletionProtection? = nil,
         desiredCapacity: Swift.Int? = nil,
         desiredCapacityType: Swift.String? = nil,
         healthCheckGracePeriod: Swift.Int? = nil,
@@ -2106,6 +2141,7 @@ public struct CreateAutoScalingGroupInput: Swift.Sendable {
         self.context = context
         self.defaultCooldown = defaultCooldown
         self.defaultInstanceWarmup = defaultInstanceWarmup
+        self.deletionProtection = deletionProtection
         self.desiredCapacity = desiredCapacity
         self.desiredCapacityType = desiredCapacityType
         self.healthCheckGracePeriod = healthCheckGracePeriod
@@ -3126,6 +3162,8 @@ extension AutoScalingClientTypes {
         public var defaultCooldown: Swift.Int?
         /// The duration of the default EC2 instance warmup time, in seconds, for the Auto Scaling group.
         public var defaultInstanceWarmup: Swift.Int?
+        /// The deletion protection setting for the Auto Scaling group.
+        public var deletionProtection: AutoScalingClientTypes.DeletionProtection?
         /// The desired size of the Auto Scaling group.
         /// This member is required.
         public var desiredCapacity: Swift.Int?
@@ -3199,6 +3237,7 @@ extension AutoScalingClientTypes {
             createdTime: Foundation.Date? = nil,
             defaultCooldown: Swift.Int? = nil,
             defaultInstanceWarmup: Swift.Int? = nil,
+            deletionProtection: AutoScalingClientTypes.DeletionProtection? = nil,
             desiredCapacity: Swift.Int? = nil,
             desiredCapacityType: Swift.String? = nil,
             enabledMetrics: [AutoScalingClientTypes.EnabledMetric]? = nil,
@@ -3239,6 +3278,7 @@ extension AutoScalingClientTypes {
             self.createdTime = createdTime
             self.defaultCooldown = defaultCooldown
             self.defaultInstanceWarmup = defaultInstanceWarmup
+            self.deletionProtection = deletionProtection
             self.desiredCapacity = desiredCapacity
             self.desiredCapacityType = desiredCapacityType
             self.enabledMetrics = enabledMetrics
@@ -6784,6 +6824,8 @@ public struct UpdateAutoScalingGroupInput: Swift.Sendable {
     public var defaultCooldown: Swift.Int?
     /// The amount of time, in seconds, until a new instance is considered to have finished initializing and resource consumption to become stable after it enters the InService state. During an instance refresh, Amazon EC2 Auto Scaling waits for the warm-up period after it replaces an instance before it moves on to replacing the next instance. Amazon EC2 Auto Scaling also waits for the warm-up period before aggregating the metrics for new instances with existing instances in the Amazon CloudWatch metrics that are used for scaling, resulting in more reliable usage data. For more information, see [Set the default instance warmup for an Auto Scaling group](https://docs.aws.amazon.com/autoscaling/ec2/userguide/ec2-auto-scaling-default-instance-warmup.html) in the Amazon EC2 Auto Scaling User Guide. To manage various warm-up settings at the group level, we recommend that you set the default instance warmup, even if it is set to 0 seconds. To remove a value that you previously set, include the property but specify -1 for the value. However, we strongly recommend keeping the default instance warmup enabled by specifying a value of 0 or other nominal value.
     public var defaultInstanceWarmup: Swift.Int?
+    /// The deletion protection setting for the Auto Scaling group. This setting helps safeguard your Auto Scaling group and its instances by controlling whether the DeleteAutoScalingGroup operation is allowed. When deletion protection is enabled, users cannot delete the Auto Scaling group according to the specified protection level until the setting is changed back to a less restrictive level. The valid values are none, prevent-force-deletion, and prevent-all-deletion. Default: none
+    public var deletionProtection: AutoScalingClientTypes.DeletionProtection?
     /// The desired capacity is the initial capacity of the Auto Scaling group after this operation completes and the capacity it attempts to maintain. This number must be greater than or equal to the minimum size of the group and less than or equal to the maximum size of the group.
     public var desiredCapacity: Swift.Int?
     /// The unit of measurement for the value specified for desired capacity. Amazon EC2 Auto Scaling supports DesiredCapacityType for attribute-based instance type selection only. For more information, see [Create a mixed instances group using attribute-based instance type selection](https://docs.aws.amazon.com/autoscaling/ec2/userguide/create-mixed-instances-group-attribute-based-instance-type-selection.html) in the Amazon EC2 Auto Scaling User Guide. By default, Amazon EC2 Auto Scaling specifies units, which translates into number of instances. Valid values: units | vcpu | memory-mib
@@ -6831,6 +6873,7 @@ public struct UpdateAutoScalingGroupInput: Swift.Sendable {
         context: Swift.String? = nil,
         defaultCooldown: Swift.Int? = nil,
         defaultInstanceWarmup: Swift.Int? = nil,
+        deletionProtection: AutoScalingClientTypes.DeletionProtection? = nil,
         desiredCapacity: Swift.Int? = nil,
         desiredCapacityType: Swift.String? = nil,
         healthCheckGracePeriod: Swift.Int? = nil,
@@ -6859,6 +6902,7 @@ public struct UpdateAutoScalingGroupInput: Swift.Sendable {
         self.context = context
         self.defaultCooldown = defaultCooldown
         self.defaultInstanceWarmup = defaultInstanceWarmup
+        self.deletionProtection = deletionProtection
         self.desiredCapacity = desiredCapacity
         self.desiredCapacityType = desiredCapacityType
         self.healthCheckGracePeriod = healthCheckGracePeriod
@@ -7447,6 +7491,7 @@ extension CreateAutoScalingGroupInput {
         try writer["Context"].write(value.context)
         try writer["DefaultCooldown"].write(value.defaultCooldown)
         try writer["DefaultInstanceWarmup"].write(value.defaultInstanceWarmup)
+        try writer["DeletionProtection"].write(value.deletionProtection)
         try writer["DesiredCapacity"].write(value.desiredCapacity)
         try writer["DesiredCapacityType"].write(value.desiredCapacityType)
         try writer["HealthCheckGracePeriod"].write(value.healthCheckGracePeriod)
@@ -8186,6 +8231,7 @@ extension UpdateAutoScalingGroupInput {
         try writer["Context"].write(value.context)
         try writer["DefaultCooldown"].write(value.defaultCooldown)
         try writer["DefaultInstanceWarmup"].write(value.defaultInstanceWarmup)
+        try writer["DeletionProtection"].write(value.deletionProtection)
         try writer["DesiredCapacity"].write(value.desiredCapacity)
         try writer["DesiredCapacityType"].write(value.desiredCapacityType)
         try writer["HealthCheckGracePeriod"].write(value.healthCheckGracePeriod)
@@ -10054,6 +10100,7 @@ extension AutoScalingClientTypes.AutoScalingGroup {
         value.defaultInstanceWarmup = try reader["DefaultInstanceWarmup"].readIfPresent()
         value.trafficSources = try reader["TrafficSources"].readListIfPresent(memberReadingClosure: AutoScalingClientTypes.TrafficSourceIdentifier.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.instanceMaintenancePolicy = try reader["InstanceMaintenancePolicy"].readIfPresent(with: AutoScalingClientTypes.InstanceMaintenancePolicy.read(from:))
+        value.deletionProtection = try reader["DeletionProtection"].readIfPresent()
         value.availabilityZoneDistribution = try reader["AvailabilityZoneDistribution"].readIfPresent(with: AutoScalingClientTypes.AvailabilityZoneDistribution.read(from:))
         value.availabilityZoneImpairmentPolicy = try reader["AvailabilityZoneImpairmentPolicy"].readIfPresent(with: AutoScalingClientTypes.AvailabilityZoneImpairmentPolicy.read(from:))
         value.capacityReservationSpecification = try reader["CapacityReservationSpecification"].readIfPresent(with: AutoScalingClientTypes.CapacityReservationSpecification.read(from:))

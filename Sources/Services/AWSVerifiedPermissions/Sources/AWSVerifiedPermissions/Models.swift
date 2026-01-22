@@ -1441,7 +1441,7 @@ extension VerifiedPermissionsClientTypes {
     public enum EncryptionSettings: Swift.Sendable {
         /// The KMS encryption settings for this policy store to encrypt data with. It will contain the customer-managed KMS key, and a user-defined encryption context.
         case kmsencryptionsettings(VerifiedPermissionsClientTypes.KmsEncryptionSettings)
-        /// Use AWS owned encryption keys for encrypting policy store data.
+        /// This is the default encryption setting. The policy store uses an Amazon Web Services owned key for encrypting data.
         case `default`(VerifiedPermissionsClientTypes.Unit)
         case sdkUnknown(Swift.String)
     }
@@ -1754,7 +1754,7 @@ extension VerifiedPermissionsClientTypes {
     public enum EncryptionState: Swift.Sendable {
         /// The KMS encryption settings currently configured for this policy store to encrypt data with. It contains the customer-managed KMS key, and a user-defined encryption context.
         case kmsencryptionstate(VerifiedPermissionsClientTypes.KmsEncryptionState)
-        /// Policy store data is encrypted using AWS owned encryption keys.
+        /// This is the default encryption state. The policy store is encrypted using an Amazon Web Services owned key.
         case `default`(VerifiedPermissionsClientTypes.Unit)
         case sdkUnknown(Swift.String)
     }

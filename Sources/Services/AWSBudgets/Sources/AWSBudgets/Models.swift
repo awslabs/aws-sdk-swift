@@ -2250,60 +2250,6 @@ extension BudgetsClientTypes {
     }
 }
 
-extension BudgetsClientTypes {
-
-    /// A history of the state of a budget at the end of the budget's specified time period.
-    public struct BudgetPerformanceHistory: Swift.Sendable {
-        /// The Amazon Resource Name (ARN) that uniquely identifies a specific billing view. The ARN is used to specify which particular billing view you want to interact with or retrieve information from when making API calls related to Amazon Web Services Billing and Cost Management features. The BillingViewArn can be retrieved by calling the ListBillingViews API.
-        public var billingViewArn: Swift.String?
-        /// A string that represents the budget name. The ":" and "\" characters, and the "/action/" substring, aren't allowed.
-        public var budgetName: Swift.String?
-        /// The type of a budget. It must be one of the following types: COST, USAGE, RI_UTILIZATION, RI_COVERAGE, SAVINGS_PLANS_UTILIZATION, or SAVINGS_PLANS_COVERAGE.
-        public var budgetType: BudgetsClientTypes.BudgetType?
-        /// A list of amounts of cost or usage that you created budgets for, which are compared to your actual costs or usage.
-        public var budgetedAndActualAmountsList: [BudgetsClientTypes.BudgetedAndActualAmounts]?
-        /// The history of the cost filters for a budget during the specified time period.
-        public var costFilters: [Swift.String: [Swift.String]]?
-        /// The history of the cost types for a budget during the specified time period.
-        public var costTypes: BudgetsClientTypes.CostTypes?
-        /// The time unit of the budget, such as MONTHLY or QUARTERLY.
-        public var timeUnit: BudgetsClientTypes.TimeUnit?
-
-        public init(
-            billingViewArn: Swift.String? = nil,
-            budgetName: Swift.String? = nil,
-            budgetType: BudgetsClientTypes.BudgetType? = nil,
-            budgetedAndActualAmountsList: [BudgetsClientTypes.BudgetedAndActualAmounts]? = nil,
-            costFilters: [Swift.String: [Swift.String]]? = nil,
-            costTypes: BudgetsClientTypes.CostTypes? = nil,
-            timeUnit: BudgetsClientTypes.TimeUnit? = nil
-        ) {
-            self.billingViewArn = billingViewArn
-            self.budgetName = budgetName
-            self.budgetType = budgetType
-            self.budgetedAndActualAmountsList = budgetedAndActualAmountsList
-            self.costFilters = costFilters
-            self.costTypes = costTypes
-            self.timeUnit = timeUnit
-        }
-    }
-}
-
-public struct DescribeBudgetPerformanceHistoryOutput: Swift.Sendable {
-    /// The history of how often the budget has gone into an ALARM state. For DAILY budgets, the history saves the state of the budget for the last 60 days. For MONTHLY budgets, the history saves the state of the budget for the current month plus the last 12 months. For QUARTERLY budgets, the history saves the state of the budget for the last four quarters.
-    public var budgetPerformanceHistory: BudgetsClientTypes.BudgetPerformanceHistory?
-    /// A generic string.
-    public var nextToken: Swift.String?
-
-    public init(
-        budgetPerformanceHistory: BudgetsClientTypes.BudgetPerformanceHistory? = nil,
-        nextToken: Swift.String? = nil
-    ) {
-        self.budgetPerformanceHistory = budgetPerformanceHistory
-        self.nextToken = nextToken
-    }
-}
-
 /// Request of DescribeBudgets
 public struct DescribeBudgetsInput: Swift.Sendable {
     /// The accountId that is associated with the budgets that you want to describe.
@@ -2847,6 +2793,53 @@ extension BudgetsClientTypes {
     }
 }
 
+extension BudgetsClientTypes {
+
+    /// A history of the state of a budget at the end of the budget's specified time period.
+    public struct BudgetPerformanceHistory: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) that uniquely identifies a specific billing view. The ARN is used to specify which particular billing view you want to interact with or retrieve information from when making API calls related to Amazon Web Services Billing and Cost Management features. The BillingViewArn can be retrieved by calling the ListBillingViews API.
+        public var billingViewArn: Swift.String?
+        /// A string that represents the budget name. The ":" and "\" characters, and the "/action/" substring, aren't allowed.
+        public var budgetName: Swift.String?
+        /// The type of a budget. It must be one of the following types: COST, USAGE, RI_UTILIZATION, RI_COVERAGE, SAVINGS_PLANS_UTILIZATION, or SAVINGS_PLANS_COVERAGE.
+        public var budgetType: BudgetsClientTypes.BudgetType?
+        /// A list of amounts of cost or usage that you created budgets for, which are compared to your actual costs or usage.
+        public var budgetedAndActualAmountsList: [BudgetsClientTypes.BudgetedAndActualAmounts]?
+        /// The history of the cost filters for a budget during the specified time period.
+        public var costFilters: [Swift.String: [Swift.String]]?
+        /// The history of the cost types for a budget during the specified time period.
+        public var costTypes: BudgetsClientTypes.CostTypes?
+        /// The filtering dimensions for the budget and their corresponding values.
+        public var filterExpression: BudgetsClientTypes.Expression?
+        /// The definition for how the budget data is aggregated.
+        public var metrics: [BudgetsClientTypes.Metric]?
+        /// The time unit of the budget, such as MONTHLY or QUARTERLY.
+        public var timeUnit: BudgetsClientTypes.TimeUnit?
+
+        public init(
+            billingViewArn: Swift.String? = nil,
+            budgetName: Swift.String? = nil,
+            budgetType: BudgetsClientTypes.BudgetType? = nil,
+            budgetedAndActualAmountsList: [BudgetsClientTypes.BudgetedAndActualAmounts]? = nil,
+            costFilters: [Swift.String: [Swift.String]]? = nil,
+            costTypes: BudgetsClientTypes.CostTypes? = nil,
+            filterExpression: BudgetsClientTypes.Expression? = nil,
+            metrics: [BudgetsClientTypes.Metric]? = nil,
+            timeUnit: BudgetsClientTypes.TimeUnit? = nil
+        ) {
+            self.billingViewArn = billingViewArn
+            self.budgetName = budgetName
+            self.budgetType = budgetType
+            self.budgetedAndActualAmountsList = budgetedAndActualAmountsList
+            self.costFilters = costFilters
+            self.costTypes = costTypes
+            self.filterExpression = filterExpression
+            self.metrics = metrics
+            self.timeUnit = timeUnit
+        }
+    }
+}
+
 /// Request of CreateBudget
 public struct CreateBudgetInput: Swift.Sendable {
     /// The accountId that is associated with the budget.
@@ -2882,6 +2875,21 @@ public struct DescribeBudgetOutput: Swift.Sendable {
         budget: BudgetsClientTypes.Budget? = nil
     ) {
         self.budget = budget
+    }
+}
+
+public struct DescribeBudgetPerformanceHistoryOutput: Swift.Sendable {
+    /// The history of how often the budget has gone into an ALARM state. For DAILY budgets, the history saves the state of the budget for the last 60 days. For MONTHLY budgets, the history saves the state of the budget for the current month plus the last 12 months. For QUARTERLY budgets, the history saves the state of the budget for the last four quarters.
+    public var budgetPerformanceHistory: BudgetsClientTypes.BudgetPerformanceHistory?
+    /// A generic string.
+    public var nextToken: Swift.String?
+
+    public init(
+        budgetPerformanceHistory: BudgetsClientTypes.BudgetPerformanceHistory? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.budgetPerformanceHistory = budgetPerformanceHistory
+        self.nextToken = nextToken
     }
 }
 
@@ -4784,6 +4792,8 @@ extension BudgetsClientTypes.BudgetPerformanceHistory {
         value.timeUnit = try reader["TimeUnit"].readIfPresent()
         value.billingViewArn = try reader["BillingViewArn"].readIfPresent()
         value.budgetedAndActualAmountsList = try reader["BudgetedAndActualAmountsList"].readListIfPresent(memberReadingClosure: BudgetsClientTypes.BudgetedAndActualAmounts.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.filterExpression = try reader["FilterExpression"].readIfPresent(with: BudgetsClientTypes.Expression.read(from:))
+        value.metrics = try reader["Metrics"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<BudgetsClientTypes.Metric>().read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
