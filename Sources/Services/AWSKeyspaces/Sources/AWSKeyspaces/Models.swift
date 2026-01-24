@@ -29,7 +29,7 @@ import protocol ClientRuntime.ModeledError
 public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
-        /// Description of the error.
+        /// You don't have the required permissions to perform this operation. Verify your IAM permissions and try again.
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -589,7 +589,7 @@ extension KeyspacesClientTypes {
 public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
-        /// Description of the error.
+        /// The requested operation conflicts with the current state of the resource or another concurrent operation.
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -613,7 +613,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
 public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
-        /// Description of the error.
+        /// An internal service error occurred. Retry your request. If the problem persists, contact Amazon Web Services Support.
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -637,7 +637,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
 public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
-        /// Description of the error.
+        /// The requested operation would exceed the service quota for this resource. Review the service quotas and adjust your request accordingly.
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -661,7 +661,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
 public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
-        /// Description of the error.
+        /// The request parameters are invalid or malformed. Review the API documentation and correct the request format.
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -774,9 +774,9 @@ public struct CreateKeyspaceOutput: Swift.Sendable {
 public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
-        /// Description of the error.
+        /// The specified resource was not found. Verify the resource identifier and ensure the resource exists and is in an ACTIVE state.
         public internal(set) var message: Swift.String? = nil
-        /// The unique identifier in the format of Amazon Resource Name (ARN) for the resource couldn’t be found.
+        /// The unique identifier in the format of Amazon Resource Name (ARN) for the resource couldn't be found.
         public internal(set) var resourceArn: Swift.String? = nil
     }
 
@@ -1043,6 +1043,25 @@ extension KeyspacesClientTypes {
     }
 }
 
+extension KeyspacesClientTypes {
+
+    /// Specifies the warm throughput settings for a table. Pre-warming a table by specifying warm throughput pre-provisions read and write capacity units to help avoid capacity exceeded exceptions and reduce latency when your table starts receiving traffic. For more information about pre-warming in Amazon Keyspaces, see [Pre-warm a table in Amazon Keyspaces](https://docs.aws.amazon.com/keyspaces/latest/devguide/warm-throughput.html) in the Amazon Keyspaces Developer Guide.
+    public struct WarmThroughputSpecification: Swift.Sendable {
+        /// The number of read capacity units per second to pre-warm the table for read capacity throughput. The minimum value is 1.
+        public var readUnitsPerSecond: Swift.Int?
+        /// The number of write capacity units per second to pre-warm the table for write capacity throughput. The minimum value is 1.
+        public var writeUnitsPerSecond: Swift.Int?
+
+        public init(
+            readUnitsPerSecond: Swift.Int? = nil,
+            writeUnitsPerSecond: Swift.Int? = nil
+        ) {
+            self.readUnitsPerSecond = readUnitsPerSecond
+            self.writeUnitsPerSecond = writeUnitsPerSecond
+        }
+    }
+}
+
 public struct CreateTableInput: Swift.Sendable {
     /// The optional auto scaling settings for a table in provisioned capacity mode. Specifies if the service can manage throughput capacity automatically on your behalf. Auto scaling helps you provision throughput capacity for variable workloads efficiently by increasing and decreasing your table's read and write capacity automatically in response to application traffic. For more information, see [Managing throughput capacity automatically with Amazon Keyspaces auto scaling](https://docs.aws.amazon.com/keyspaces/latest/devguide/autoscaling.html) in the Amazon Keyspaces Developer Guide. By default, auto scaling is disabled for a table.
     public var autoScalingSpecification: KeyspacesClientTypes.AutoScalingSpecification?
@@ -1135,6 +1154,8 @@ public struct CreateTableInput: Swift.Sendable {
     ///
     /// The default is status:disabled. After ttl is enabled, you can't disable it for the table. For more information, see [Expiring data by using Amazon Keyspaces Time to Live (TTL)](https://docs.aws.amazon.com/keyspaces/latest/devguide/TTL.html) in the Amazon Keyspaces Developer Guide.
     public var ttl: KeyspacesClientTypes.TimeToLive?
+    /// Specifies the warm throughput settings for the table. Pre-warming a table helps you avoid capacity exceeded exceptions by pre-provisioning read and write capacity units to reduce cold start latency when your table receives traffic. For more information about pre-warming in Amazon Keyspaces, see [Pre-warm a table in Amazon Keyspaces](https://docs.aws.amazon.com/keyspaces/latest/devguide/warm-throughput.html) in the Amazon Keyspaces Developer Guide.
+    public var warmThroughputSpecification: KeyspacesClientTypes.WarmThroughputSpecification?
 
     public init(
         autoScalingSpecification: KeyspacesClientTypes.AutoScalingSpecification? = nil,
@@ -1150,7 +1171,8 @@ public struct CreateTableInput: Swift.Sendable {
         schemaDefinition: KeyspacesClientTypes.SchemaDefinition? = nil,
         tableName: Swift.String? = nil,
         tags: [KeyspacesClientTypes.Tag]? = nil,
-        ttl: KeyspacesClientTypes.TimeToLive? = nil
+        ttl: KeyspacesClientTypes.TimeToLive? = nil,
+        warmThroughputSpecification: KeyspacesClientTypes.WarmThroughputSpecification? = nil
     ) {
         self.autoScalingSpecification = autoScalingSpecification
         self.capacitySpecification = capacitySpecification
@@ -1166,6 +1188,7 @@ public struct CreateTableInput: Swift.Sendable {
         self.tableName = tableName
         self.tags = tags
         self.ttl = ttl
+        self.warmThroughputSpecification = warmThroughputSpecification
     }
 }
 
@@ -1499,6 +1522,61 @@ extension KeyspacesClientTypes {
 
 extension KeyspacesClientTypes {
 
+    public enum WarmThroughputStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case available
+        case updating
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [WarmThroughputStatus] {
+            return [
+                .available,
+                .updating
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .available: return "AVAILABLE"
+            case .updating: return "UPDATING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension KeyspacesClientTypes {
+
+    /// Contains the current warm throughput settings for a table, including the configured capacity units and the current status of the warm throughput configuration.
+    public struct WarmThroughputSpecificationSummary: Swift.Sendable {
+        /// The number of read capacity units per second currently configured for warm throughput.
+        /// This member is required.
+        public var readUnitsPerSecond: Swift.Int?
+        /// The current status of the warm throughput configuration. Valid values are AVAILABLE when the configuration is active, and UPDATING when changes are being applied.
+        /// This member is required.
+        public var status: KeyspacesClientTypes.WarmThroughputStatus?
+        /// The number of write capacity units per second currently configured for warm throughput.
+        /// This member is required.
+        public var writeUnitsPerSecond: Swift.Int?
+
+        public init(
+            readUnitsPerSecond: Swift.Int? = nil,
+            status: KeyspacesClientTypes.WarmThroughputStatus? = nil,
+            writeUnitsPerSecond: Swift.Int? = nil
+        ) {
+            self.readUnitsPerSecond = readUnitsPerSecond
+            self.status = status
+            self.writeUnitsPerSecond = writeUnitsPerSecond
+        }
+    }
+}
+
+extension KeyspacesClientTypes {
+
     /// The Region-specific settings of a multi-Region table in the specified Amazon Web Services Region. If the multi-Region table is using provisioned capacity and has optional auto scaling policies configured, note that the Region specific summary returns both read and write capacity settings. But only Region specific read capacity settings can be configured for a multi-Region table. In a multi-Region table, your write capacity units will be synced across all Amazon Web Services Regions to ensure that there is enough capacity to replicate write events across Regions.
     public struct ReplicaSpecificationSummary: Swift.Sendable {
         /// The read/write throughput capacity mode for a table. The options are:
@@ -1514,15 +1592,19 @@ extension KeyspacesClientTypes {
         public var region: Swift.String?
         /// The status of the multi-Region table in the specified Amazon Web Services Region.
         public var status: KeyspacesClientTypes.TableStatus?
+        /// The warm throughput settings for this replica, including the current status and configured read and write capacity units.
+        public var warmThroughputSpecification: KeyspacesClientTypes.WarmThroughputSpecificationSummary?
 
         public init(
             capacitySpecification: KeyspacesClientTypes.CapacitySpecificationSummary? = nil,
             region: Swift.String? = nil,
-            status: KeyspacesClientTypes.TableStatus? = nil
+            status: KeyspacesClientTypes.TableStatus? = nil,
+            warmThroughputSpecification: KeyspacesClientTypes.WarmThroughputSpecificationSummary? = nil
         ) {
             self.capacitySpecification = capacitySpecification
             self.region = region
             self.status = status
+            self.warmThroughputSpecification = warmThroughputSpecification
         }
     }
 }
@@ -1567,6 +1649,8 @@ public struct GetTableOutput: Swift.Sendable {
     public var tableName: Swift.String?
     /// The custom Time to Live settings of the specified table.
     public var ttl: KeyspacesClientTypes.TimeToLive?
+    /// The warm throughput settings for the table, including the current status and configured read and write capacity units.
+    public var warmThroughputSpecification: KeyspacesClientTypes.WarmThroughputSpecificationSummary?
 
     public init(
         capacitySpecification: KeyspacesClientTypes.CapacitySpecificationSummary? = nil,
@@ -1584,7 +1668,8 @@ public struct GetTableOutput: Swift.Sendable {
         schemaDefinition: KeyspacesClientTypes.SchemaDefinition? = nil,
         status: KeyspacesClientTypes.TableStatus? = nil,
         tableName: Swift.String? = nil,
-        ttl: KeyspacesClientTypes.TimeToLive? = nil
+        ttl: KeyspacesClientTypes.TimeToLive? = nil,
+        warmThroughputSpecification: KeyspacesClientTypes.WarmThroughputSpecificationSummary? = nil
     ) {
         self.capacitySpecification = capacitySpecification
         self.cdcSpecification = cdcSpecification
@@ -1602,6 +1687,7 @@ public struct GetTableOutput: Swift.Sendable {
         self.status = status
         self.tableName = tableName
         self.ttl = ttl
+        self.warmThroughputSpecification = warmThroughputSpecification
     }
 }
 
@@ -2195,6 +2281,8 @@ public struct UpdateTableInput: Swift.Sendable {
     ///
     /// The default is status:disabled. After ttl is enabled, you can't disable it for the table. For more information, see [Expiring data by using Amazon Keyspaces Time to Live (TTL)](https://docs.aws.amazon.com/keyspaces/latest/devguide/TTL.html) in the Amazon Keyspaces Developer Guide.
     public var ttl: KeyspacesClientTypes.TimeToLive?
+    /// Modifies the warm throughput settings for the table. You can update the read and write capacity units to adjust the pre-provisioned throughput.
+    public var warmThroughputSpecification: KeyspacesClientTypes.WarmThroughputSpecification?
 
     public init(
         addColumns: [KeyspacesClientTypes.ColumnDefinition]? = nil,
@@ -2208,7 +2296,8 @@ public struct UpdateTableInput: Swift.Sendable {
         pointInTimeRecovery: KeyspacesClientTypes.PointInTimeRecovery? = nil,
         replicaSpecifications: [KeyspacesClientTypes.ReplicaSpecification]? = nil,
         tableName: Swift.String? = nil,
-        ttl: KeyspacesClientTypes.TimeToLive? = nil
+        ttl: KeyspacesClientTypes.TimeToLive? = nil,
+        warmThroughputSpecification: KeyspacesClientTypes.WarmThroughputSpecification? = nil
     ) {
         self.addColumns = addColumns
         self.autoScalingSpecification = autoScalingSpecification
@@ -2222,6 +2311,7 @@ public struct UpdateTableInput: Swift.Sendable {
         self.replicaSpecifications = replicaSpecifications
         self.tableName = tableName
         self.ttl = ttl
+        self.warmThroughputSpecification = warmThroughputSpecification
     }
 }
 
@@ -2398,6 +2488,7 @@ extension CreateTableInput {
         try writer["tableName"].write(value.tableName)
         try writer["tags"].writeList(value.tags, memberWritingClosure: KeyspacesClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ttl"].write(value.ttl, with: KeyspacesClientTypes.TimeToLive.write(value:to:))
+        try writer["warmThroughputSpecification"].write(value.warmThroughputSpecification, with: KeyspacesClientTypes.WarmThroughputSpecification.write(value:to:))
     }
 }
 
@@ -2573,6 +2664,7 @@ extension UpdateTableInput {
         try writer["replicaSpecifications"].writeList(value.replicaSpecifications, memberWritingClosure: KeyspacesClientTypes.ReplicaSpecification.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["tableName"].write(value.tableName)
         try writer["ttl"].write(value.ttl, with: KeyspacesClientTypes.TimeToLive.write(value:to:))
+        try writer["warmThroughputSpecification"].write(value.warmThroughputSpecification, with: KeyspacesClientTypes.WarmThroughputSpecification.write(value:to:))
     }
 }
 
@@ -2679,6 +2771,7 @@ extension GetTableOutput {
         value.status = try reader["status"].readIfPresent()
         value.tableName = try reader["tableName"].readIfPresent() ?? ""
         value.ttl = try reader["ttl"].readIfPresent(with: KeyspacesClientTypes.TimeToLive.read(from:))
+        value.warmThroughputSpecification = try reader["warmThroughputSpecification"].readIfPresent(with: KeyspacesClientTypes.WarmThroughputSpecificationSummary.read(from:))
         return value
     }
 }
@@ -3443,6 +3536,19 @@ extension KeyspacesClientTypes.ReplicaSpecificationSummary {
         value.region = try reader["region"].readIfPresent()
         value.status = try reader["status"].readIfPresent()
         value.capacitySpecification = try reader["capacitySpecification"].readIfPresent(with: KeyspacesClientTypes.CapacitySpecificationSummary.read(from:))
+        value.warmThroughputSpecification = try reader["warmThroughputSpecification"].readIfPresent(with: KeyspacesClientTypes.WarmThroughputSpecificationSummary.read(from:))
+        return value
+    }
+}
+
+extension KeyspacesClientTypes.WarmThroughputSpecificationSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KeyspacesClientTypes.WarmThroughputSpecificationSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KeyspacesClientTypes.WarmThroughputSpecificationSummary()
+        value.readUnitsPerSecond = try reader["readUnitsPerSecond"].readIfPresent() ?? 0
+        value.writeUnitsPerSecond = try reader["writeUnitsPerSecond"].readIfPresent() ?? 0
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -3647,6 +3753,15 @@ extension KeyspacesClientTypes.CdcSpecification {
         try writer["status"].write(value.status)
         try writer["tags"].writeList(value.tags, memberWritingClosure: KeyspacesClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["viewType"].write(value.viewType)
+    }
+}
+
+extension KeyspacesClientTypes.WarmThroughputSpecification {
+
+    static func write(value: KeyspacesClientTypes.WarmThroughputSpecification?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["readUnitsPerSecond"].write(value.readUnitsPerSecond)
+        try writer["writeUnitsPerSecond"].write(value.writeUnitsPerSecond)
     }
 }
 

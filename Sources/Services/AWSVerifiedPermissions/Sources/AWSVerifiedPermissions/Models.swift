@@ -1409,6 +1409,46 @@ extension VerifiedPermissionsClientTypes {
 
 extension VerifiedPermissionsClientTypes {
 
+    public struct Unit: Swift.Sendable {
+
+        public init() { }
+    }
+}
+
+extension VerifiedPermissionsClientTypes {
+
+    /// A structure that contains the KMS encryption configuration for the policy store. The encryption settings determine what customer-managed KMS key will be used to encrypt all resources within the policy store, and any user-defined context key-value pairs to append during encryption processes. This data type is used as a field that is part of the [EncryptionSettings](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_EncryptionSettings.html) type.
+    public struct KmsEncryptionSettings: Swift.Sendable {
+        /// User-defined, additional context to be added to encryption processes.
+        public var encryptionContext: [Swift.String: Swift.String]?
+        /// The customer-managed KMS key [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html), alias or ID to be used for encryption processes. Users can provide the full KMS key ARN, a KMS key alias, or a KMS key ID, but it will be mapped to the full KMS key ARN after policy store creation, and referenced when encrypting child resources.
+        /// This member is required.
+        public var key: Swift.String?
+
+        public init(
+            encryptionContext: [Swift.String: Swift.String]? = nil,
+            key: Swift.String? = nil
+        ) {
+            self.encryptionContext = encryptionContext
+            self.key = key
+        }
+    }
+}
+
+extension VerifiedPermissionsClientTypes {
+
+    /// A structure that contains the encryption configuration for the policy store and child resources. This data type is used as a request parameter in the [CreatePolicyStore](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_CreatePolicyStore.html) operation.
+    public enum EncryptionSettings: Swift.Sendable {
+        /// The KMS encryption settings for this policy store to encrypt data with. It will contain the customer-managed KMS key, and a user-defined encryption context.
+        case kmsencryptionsettings(VerifiedPermissionsClientTypes.KmsEncryptionSettings)
+        /// This is the default encryption setting. The policy store uses an Amazon Web Services owned key for encrypting data.
+        case `default`(VerifiedPermissionsClientTypes.Unit)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension VerifiedPermissionsClientTypes {
+
     public enum ValidationMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case off
         case strict
@@ -1466,6 +1506,8 @@ public struct CreatePolicyStoreInput: Swift.Sendable {
     public var deletionProtection: VerifiedPermissionsClientTypes.DeletionProtection?
     /// Descriptive text that you can provide to help with identification of the current policy store.
     public var description: Swift.String?
+    /// Specifies the encryption settings used to encrypt the policy store and their child resources. Allows for the ability to use a customer owned KMS key for encryption of data. This is an optional field to be used when providing a customer-managed KMS key for encryption.
+    public var encryptionSettings: VerifiedPermissionsClientTypes.EncryptionSettings?
     /// The list of key-value pairs to associate with the policy store.
     public var tags: [Swift.String: Swift.String]?
     /// Specifies the validation setting for this policy store. Currently, the only valid and required value is Mode. We recommend that you turn on STRICT mode only after you define a schema. If a schema doesn't exist, then STRICT mode causes any policy to fail validation, and Verified Permissions rejects the policy. You can turn off validation by using the [UpdatePolicyStore](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_UpdatePolicyStore). Then, when you have a schema defined, use [UpdatePolicyStore](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_UpdatePolicyStore) again to turn validation back on.
@@ -1476,12 +1518,14 @@ public struct CreatePolicyStoreInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         deletionProtection: VerifiedPermissionsClientTypes.DeletionProtection? = nil,
         description: Swift.String? = nil,
+        encryptionSettings: VerifiedPermissionsClientTypes.EncryptionSettings? = nil,
         tags: [Swift.String: Swift.String]? = nil,
         validationSettings: VerifiedPermissionsClientTypes.ValidationSettings? = nil
     ) {
         self.clientToken = clientToken
         self.deletionProtection = deletionProtection
         self.description = description
+        self.encryptionSettings = encryptionSettings
         self.tags = tags
         self.validationSettings = validationSettings
     }
@@ -1489,7 +1533,7 @@ public struct CreatePolicyStoreInput: Swift.Sendable {
 
 extension CreatePolicyStoreInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreatePolicyStoreInput(clientToken: \(Swift.String(describing: clientToken)), deletionProtection: \(Swift.String(describing: deletionProtection)), tags: \(Swift.String(describing: tags)), validationSettings: \(Swift.String(describing: validationSettings)), description: \"CONTENT_REDACTED\")"}
+        "CreatePolicyStoreInput(clientToken: \(Swift.String(describing: clientToken)), deletionProtection: \(Swift.String(describing: deletionProtection)), encryptionSettings: \(Swift.String(describing: encryptionSettings)), tags: \(Swift.String(describing: tags)), validationSettings: \(Swift.String(describing: validationSettings)), description: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreatePolicyStoreOutput: Swift.Sendable {
@@ -1681,6 +1725,39 @@ public struct DeletePolicyTemplateInput: Swift.Sendable {
 public struct DeletePolicyTemplateOutput: Swift.Sendable {
 
     public init() { }
+}
+
+extension VerifiedPermissionsClientTypes {
+
+    /// A structure that contains the KMS encryption configuration for the policy store. The encryption state shows what customer-managed KMS key is being used to encrypt all resources within the policy store, and any user-defined context key-value pairs added during encryption processes. This data type is used as a field that is part of the [EncryptionState](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_EncryptionState.html) type.
+    public struct KmsEncryptionState: Swift.Sendable {
+        /// User-defined, additional context added to encryption processes.
+        /// This member is required.
+        public var encryptionContext: [Swift.String: Swift.String]?
+        /// The customer-managed KMS key [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) being used for encryption processes.
+        /// This member is required.
+        public var key: Swift.String?
+
+        public init(
+            encryptionContext: [Swift.String: Swift.String]? = nil,
+            key: Swift.String? = nil
+        ) {
+            self.encryptionContext = encryptionContext
+            self.key = key
+        }
+    }
+}
+
+extension VerifiedPermissionsClientTypes {
+
+    /// A structure that contains the encryption configuration for the policy store and child resources. This data type is used as a response parameter field for the [GetPolicyStore](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_GetPolicyStore.html) operation.
+    public enum EncryptionState: Swift.Sendable {
+        /// The KMS encryption settings currently configured for this policy store to encrypt data with. It contains the customer-managed KMS key, and a user-defined encryption context.
+        case kmsencryptionstate(VerifiedPermissionsClientTypes.KmsEncryptionState)
+        /// This is the default encryption state. The policy store is encrypted using an Amazon Web Services owned key.
+        case `default`(VerifiedPermissionsClientTypes.Unit)
+        case sdkUnknown(Swift.String)
+    }
 }
 
 extension VerifiedPermissionsClientTypes {
@@ -1920,6 +1997,8 @@ public struct GetPolicyStoreOutput: Swift.Sendable {
     public var deletionProtection: VerifiedPermissionsClientTypes.DeletionProtection?
     /// Descriptive text that you can provide to help with identification of the current policy store.
     public var description: Swift.String?
+    /// A structure that contains the encryption configuration for the policy store.
+    public var encryptionState: VerifiedPermissionsClientTypes.EncryptionState?
     /// The date and time that the policy store was last updated.
     /// This member is required.
     public var lastUpdatedDate: Foundation.Date?
@@ -1938,6 +2017,7 @@ public struct GetPolicyStoreOutput: Swift.Sendable {
         createdDate: Foundation.Date? = nil,
         deletionProtection: VerifiedPermissionsClientTypes.DeletionProtection? = nil,
         description: Swift.String? = nil,
+        encryptionState: VerifiedPermissionsClientTypes.EncryptionState? = nil,
         lastUpdatedDate: Foundation.Date? = nil,
         policyStoreId: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
@@ -1948,6 +2028,7 @@ public struct GetPolicyStoreOutput: Swift.Sendable {
         self.createdDate = createdDate
         self.deletionProtection = deletionProtection
         self.description = description
+        self.encryptionState = encryptionState
         self.lastUpdatedDate = lastUpdatedDate
         self.policyStoreId = policyStoreId
         self.tags = tags
@@ -1957,7 +2038,7 @@ public struct GetPolicyStoreOutput: Swift.Sendable {
 
 extension GetPolicyStoreOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetPolicyStoreOutput(arn: \(Swift.String(describing: arn)), cedarVersion: \(Swift.String(describing: cedarVersion)), createdDate: \(Swift.String(describing: createdDate)), deletionProtection: \(Swift.String(describing: deletionProtection)), lastUpdatedDate: \(Swift.String(describing: lastUpdatedDate)), policyStoreId: \(Swift.String(describing: policyStoreId)), tags: \(Swift.String(describing: tags)), validationSettings: \(Swift.String(describing: validationSettings)), description: \"CONTENT_REDACTED\")"}
+        "GetPolicyStoreOutput(arn: \(Swift.String(describing: arn)), cedarVersion: \(Swift.String(describing: cedarVersion)), createdDate: \(Swift.String(describing: createdDate)), deletionProtection: \(Swift.String(describing: deletionProtection)), encryptionState: \(Swift.String(describing: encryptionState)), lastUpdatedDate: \(Swift.String(describing: lastUpdatedDate)), policyStoreId: \(Swift.String(describing: policyStoreId)), tags: \(Swift.String(describing: tags)), validationSettings: \(Swift.String(describing: validationSettings)), description: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetPolicyTemplateInput: Swift.Sendable {
@@ -2987,7 +3068,6 @@ public struct UpdatePolicyInput: Swift.Sendable {
     /// * The principal referenced by the policy.
     ///
     /// * The resource referenced by the policy.
-    /// This member is required.
     public var definition: VerifiedPermissionsClientTypes.UpdatePolicyDefinition?
     /// Specifies the ID of the policy that you want to update. To find this value, you can use [ListPolicies](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListPolicies.html).
     /// This member is required.
@@ -4044,6 +4124,7 @@ extension CreatePolicyStoreInput {
         try writer["clientToken"].write(value.clientToken)
         try writer["deletionProtection"].write(value.deletionProtection)
         try writer["description"].write(value.description)
+        try writer["encryptionSettings"].write(value.encryptionSettings, with: VerifiedPermissionsClientTypes.EncryptionSettings.write(value:to:))
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["validationSettings"].write(value.validationSettings, with: VerifiedPermissionsClientTypes.ValidationSettings.write(value:to:))
     }
@@ -4467,6 +4548,7 @@ extension GetPolicyStoreOutput {
         value.createdDate = try reader["createdDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.deletionProtection = try reader["deletionProtection"].readIfPresent()
         value.description = try reader["description"].readIfPresent()
+        value.encryptionState = try reader["encryptionState"].readIfPresent(with: VerifiedPermissionsClientTypes.EncryptionState.read(from:))
         value.lastUpdatedDate = try reader["lastUpdatedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.policyStoreId = try reader["policyStoreId"].readIfPresent() ?? ""
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -5712,6 +5794,46 @@ extension VerifiedPermissionsClientTypes.ValidationSettings {
     }
 }
 
+extension VerifiedPermissionsClientTypes.EncryptionState {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> VerifiedPermissionsClientTypes.EncryptionState {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "kmsEncryptionState":
+                return .kmsencryptionstate(try reader["kmsEncryptionState"].read(with: VerifiedPermissionsClientTypes.KmsEncryptionState.read(from:)))
+            case "default":
+                return .`default`(try reader["default"].read(with: VerifiedPermissionsClientTypes.Unit.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension VerifiedPermissionsClientTypes.Unit {
+
+    static func write(value: VerifiedPermissionsClientTypes.Unit?, to writer: SmithyJSON.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> VerifiedPermissionsClientTypes.Unit {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        return VerifiedPermissionsClientTypes.Unit()
+    }
+}
+
+extension VerifiedPermissionsClientTypes.KmsEncryptionState {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> VerifiedPermissionsClientTypes.KmsEncryptionState {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = VerifiedPermissionsClientTypes.KmsEncryptionState()
+        value.key = try reader["key"].readIfPresent() ?? ""
+        value.encryptionContext = try reader["encryptionContext"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
+        return value
+    }
+}
+
 extension VerifiedPermissionsClientTypes.IdentitySourceItem {
 
     static func read(from reader: SmithyJSON.Reader) throws -> VerifiedPermissionsClientTypes.IdentitySourceItem {
@@ -6132,6 +6254,30 @@ extension VerifiedPermissionsClientTypes.StaticPolicyDefinition {
         guard let value else { return }
         try writer["description"].write(value.description)
         try writer["statement"].write(value.statement)
+    }
+}
+
+extension VerifiedPermissionsClientTypes.EncryptionSettings {
+
+    static func write(value: VerifiedPermissionsClientTypes.EncryptionSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .`default`(`default`):
+                try writer["default"].write(`default`, with: VerifiedPermissionsClientTypes.Unit.write(value:to:))
+            case let .kmsencryptionsettings(kmsencryptionsettings):
+                try writer["kmsEncryptionSettings"].write(kmsencryptionsettings, with: VerifiedPermissionsClientTypes.KmsEncryptionSettings.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension VerifiedPermissionsClientTypes.KmsEncryptionSettings {
+
+    static func write(value: VerifiedPermissionsClientTypes.KmsEncryptionSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["encryptionContext"].writeMap(value.encryptionContext, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["key"].write(value.key)
     }
 }
 

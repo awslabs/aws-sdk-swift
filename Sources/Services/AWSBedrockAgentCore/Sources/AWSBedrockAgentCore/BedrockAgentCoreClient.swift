@@ -682,6 +682,7 @@ extension BedrockAgentCoreClient {
     /// - `AccessDeniedException` : The exception that occurs when you do not have sufficient permissions to perform an action. Verify that your IAM policy includes the necessary permissions for the operation you are trying to perform.
     /// - `InvalidInputException` : The input fails to satisfy the constraints specified by AgentCore. Check your input values and try again.
     /// - `ResourceNotFoundException` : The exception that occurs when the specified resource does not exist. This can happen when using an invalid identifier or when trying to access a resource that has been deleted.
+    /// - `RetryableConflictException` : The exception that occurs when there is a retryable conflict performing an operation. This is a temporary condition that may resolve itself with retries. We recommend implementing exponential backoff retry logic in your application.
     /// - `ServiceException` : The service encountered an internal error. Try your request again later.
     /// - `ServiceQuotaExceededException` : The exception that occurs when the request would cause a service quota to be exceeded. Review your service quotas and either reduce your request rate or request a quota increase.
     /// - `ThrottledException` : The request was denied due to request throttling. Reduce the frequency of requests and try again.

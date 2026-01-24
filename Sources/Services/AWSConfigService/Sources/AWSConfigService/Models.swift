@@ -10150,6 +10150,8 @@ public struct PutConformancePackInput: Swift.Sendable {
     public var deliveryS3Bucket: Swift.String?
     /// The prefix for the Amazon S3 bucket. This field is optional.
     public var deliveryS3KeyPrefix: Swift.String?
+    /// The tags for the conformance pack. Each tag consists of a key and an optional value, both of which you define.
+    public var tags: [ConfigClientTypes.Tag]?
     /// A string that contains the full conformance pack template body. The structure containing the template body has a minimum length of 1 byte and a maximum length of 51,200 bytes. You can use a YAML template with two resource types: Config rule (AWS::Config::ConfigRule) and remediation action (AWS::Config::RemediationConfiguration).
     public var templateBody: Swift.String?
     /// The location of the file containing the template body (s3://bucketname/prefix). The uri must point to a conformance pack template (max size: 300 KB) that is located in an Amazon S3 bucket in the same Region as the conformance pack. You must have access to read Amazon S3 bucket. In addition, in order to ensure a successful deployment, the template object must not be in an [archived storage class](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage-class-intro.html) if this parameter is passed.
@@ -10162,6 +10164,7 @@ public struct PutConformancePackInput: Swift.Sendable {
         conformancePackName: Swift.String? = nil,
         deliveryS3Bucket: Swift.String? = nil,
         deliveryS3KeyPrefix: Swift.String? = nil,
+        tags: [ConfigClientTypes.Tag]? = nil,
         templateBody: Swift.String? = nil,
         templateS3Uri: Swift.String? = nil,
         templateSSMDocumentDetails: ConfigClientTypes.TemplateSSMDocumentDetails? = nil
@@ -10170,6 +10173,7 @@ public struct PutConformancePackInput: Swift.Sendable {
         self.conformancePackName = conformancePackName
         self.deliveryS3Bucket = deliveryS3Bucket
         self.deliveryS3KeyPrefix = deliveryS3KeyPrefix
+        self.tags = tags
         self.templateBody = templateBody
         self.templateS3Uri = templateS3Uri
         self.templateSSMDocumentDetails = templateSSMDocumentDetails
@@ -12272,6 +12276,7 @@ extension PutConformancePackInput {
         try writer["ConformancePackName"].write(value.conformancePackName)
         try writer["DeliveryS3Bucket"].write(value.deliveryS3Bucket)
         try writer["DeliveryS3KeyPrefix"].write(value.deliveryS3KeyPrefix)
+        try writer["Tags"].writeList(value.tags, memberWritingClosure: ConfigClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["TemplateBody"].write(value.templateBody)
         try writer["TemplateS3Uri"].write(value.templateS3Uri)
         try writer["TemplateSSMDocumentDetails"].write(value.templateSSMDocumentDetails, with: ConfigClientTypes.TemplateSSMDocumentDetails.write(value:to:))
