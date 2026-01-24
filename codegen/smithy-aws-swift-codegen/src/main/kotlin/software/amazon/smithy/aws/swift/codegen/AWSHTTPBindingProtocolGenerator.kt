@@ -25,7 +25,6 @@ import software.amazon.smithy.swift.codegen.integration.HttpProtocolUnitTestResp
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.model.getTrait
 import software.amazon.smithy.swift.codegen.model.hasTrait
-import software.amazon.smithy.swift.codegen.testModuleName
 
 abstract class AWSHTTPBindingProtocolGenerator(
     customizations: HTTPProtocolCustomizable,
