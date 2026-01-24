@@ -27,6 +27,8 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import struct Smithy.URIQueryItem
+import struct SmithyHTTPAPI.Header
+import struct SmithyHTTPAPI.Headers
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.ReadingClosureBox
 @_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
 @_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
@@ -9502,6 +9504,197 @@ public struct CreateTaskTemplateOutput: Swift.Sendable {
     }
 }
 
+/// The test is not valid.
+public struct InvalidTestCaseException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// The problems with the test. Please fix before trying again.
+        public internal(set) var problems: [ConnectClientTypes.ProblemDetail]? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidTestCaseException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        problems: [ConnectClientTypes.ProblemDetail]? = nil
+    ) {
+        self.properties.problems = problems
+    }
+}
+
+extension ConnectClientTypes {
+
+    public enum TestCaseEntryPointType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case voiceCall
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TestCaseEntryPointType] {
+            return [
+                .voiceCall
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .voiceCall: return "VOICE_CALL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// Parameters for initiating a voice call test.
+    public struct VoiceCallEntryPointParameters: Swift.Sendable {
+        /// The destination phone number for the test.
+        public var destinationPhoneNumber: Swift.String?
+        /// The flow identifier for the test.
+        public var flowId: Swift.String?
+        /// The source phone number for the test.
+        public var sourcePhoneNumber: Swift.String?
+
+        public init(
+            destinationPhoneNumber: Swift.String? = nil,
+            flowId: Swift.String? = nil,
+            sourcePhoneNumber: Swift.String? = nil
+        ) {
+            self.destinationPhoneNumber = destinationPhoneNumber
+            self.flowId = flowId
+            self.sourcePhoneNumber = sourcePhoneNumber
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// Defines the starting point for a test case.
+    public struct TestCaseEntryPoint: Swift.Sendable {
+        /// The type of entry point.
+        public var type: ConnectClientTypes.TestCaseEntryPointType?
+        /// Parameters for voice call entry point.
+        public var voiceCallEntryPointParameters: ConnectClientTypes.VoiceCallEntryPointParameters?
+
+        public init(
+            type: ConnectClientTypes.TestCaseEntryPointType? = nil,
+            voiceCallEntryPointParameters: ConnectClientTypes.VoiceCallEntryPointParameters? = nil
+        ) {
+            self.type = type
+            self.voiceCallEntryPointParameters = voiceCallEntryPointParameters
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// The status of a test case.
+    public enum TestCaseStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case published
+        case saved
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TestCaseStatus] {
+            return [
+                .published,
+                .saved
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .published: return "PUBLISHED"
+            case .saved: return "SAVED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct CreateTestCaseInput: Swift.Sendable {
+    /// The JSON string that represents the content of the test.
+    /// This member is required.
+    public var content: Swift.String?
+    /// The description of the test.
+    public var description: Swift.String?
+    /// Defines the starting point for your test.
+    public var entryPoint: ConnectClientTypes.TestCaseEntryPoint?
+    /// Defines the initial custom attributes for your test.
+    public var initializationData: Swift.String?
+    /// The identifier of the Amazon Connect instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The region in which the resource was last modified
+    public var lastModifiedRegion: Swift.String?
+    /// The time at which the resource was last modified.
+    public var lastModifiedTime: Foundation.Date?
+    /// The name of the test.
+    /// This member is required.
+    public var name: Swift.String?
+    /// Indicates the test status as either SAVED or PUBLISHED. The PUBLISHED status will initiate validation on the content. The SAVED status does not initiate validation of the content.
+    public var status: ConnectClientTypes.TestCaseStatus?
+    /// The tags used to organize, track, or control access for this resource.
+    public var tags: [Swift.String: Swift.String]?
+    /// Id of the test case if you want to create it in a replica region using Amazon Connect Global Resiliency
+    public var testCaseId: Swift.String?
+
+    public init(
+        content: Swift.String? = nil,
+        description: Swift.String? = nil,
+        entryPoint: ConnectClientTypes.TestCaseEntryPoint? = nil,
+        initializationData: Swift.String? = nil,
+        instanceId: Swift.String? = nil,
+        lastModifiedRegion: Swift.String? = nil,
+        lastModifiedTime: Foundation.Date? = nil,
+        name: Swift.String? = nil,
+        status: ConnectClientTypes.TestCaseStatus? = nil,
+        tags: [Swift.String: Swift.String]? = nil,
+        testCaseId: Swift.String? = nil
+    ) {
+        self.content = content
+        self.description = description
+        self.entryPoint = entryPoint
+        self.initializationData = initializationData
+        self.instanceId = instanceId
+        self.lastModifiedRegion = lastModifiedRegion
+        self.lastModifiedTime = lastModifiedTime
+        self.name = name
+        self.status = status
+        self.tags = tags
+        self.testCaseId = testCaseId
+    }
+}
+
+public struct CreateTestCaseOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the test.
+    public var testCaseArn: Swift.String?
+    /// The identifier of the test.
+    public var testCaseId: Swift.String?
+
+    public init(
+        testCaseArn: Swift.String? = nil,
+        testCaseId: Swift.String? = nil
+    ) {
+        self.testCaseArn = testCaseArn
+        self.testCaseId = testCaseId
+    }
+}
+
 /// The resource is not ready.
 public struct ResourceNotReadyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -11242,6 +11435,28 @@ public struct DeleteTaskTemplateInput: Swift.Sendable {
 }
 
 public struct DeleteTaskTemplateOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct DeleteTestCaseInput: Swift.Sendable {
+    /// The identifier of the Amazon Connect instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The identifier of the test case to delete.
+    /// This member is required.
+    public var testCaseId: Swift.String?
+
+    public init(
+        instanceId: Swift.String? = nil,
+        testCaseId: Swift.String? = nil
+    ) {
+        self.instanceId = instanceId
+        self.testCaseId = testCaseId
+    }
+}
+
+public struct DeleteTestCaseOutput: Swift.Sendable {
 
     public init() { }
 }
@@ -16011,6 +16226,97 @@ public struct DescribeSecurityProfileOutput: Swift.Sendable {
     }
 }
 
+public struct DescribeTestCaseInput: Swift.Sendable {
+    /// The identifier of the Amazon Connect instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The status of the test case version to retrieve. If not specified, returns the published version if available, otherwise returns the saved version.
+    public var status: ConnectClientTypes.TestCaseStatus?
+    /// The identifier of the test case.
+    /// This member is required.
+    public var testCaseId: Swift.String?
+
+    public init(
+        instanceId: Swift.String? = nil,
+        status: ConnectClientTypes.TestCaseStatus? = nil,
+        testCaseId: Swift.String? = nil
+    ) {
+        self.instanceId = instanceId
+        self.status = status
+        self.testCaseId = testCaseId
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// Contains information about a test case.
+    public struct TestCase: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the test case.
+        public var arn: Swift.String?
+        /// The JSON string that represents the content of the test.
+        public var content: Swift.String?
+        /// The description of the test case.
+        public var description: Swift.String?
+        /// Defines the starting point for the test, including channel type and parameters.
+        public var entryPoint: ConnectClientTypes.TestCaseEntryPoint?
+        /// The identifier of the test case.
+        public var id: Swift.String?
+        /// Defines the test attributes for precise data representation.
+        public var initializationData: Swift.String?
+        /// The region in which the test case was last modified.
+        public var lastModifiedRegion: Swift.String?
+        /// The time at which the test case was last modified.
+        public var lastModifiedTime: Foundation.Date?
+        /// The name of the test case.
+        public var name: Swift.String?
+        /// Indicates the test status as either SAVED or PUBLISHED.
+        public var status: ConnectClientTypes.TestCaseStatus?
+        /// The tags used to organize, track, or control access for this resource.
+        public var tags: [Swift.String: Swift.String]?
+        /// The SHA256 hash of the test case content.
+        public var testCaseSha256: Swift.String?
+
+        public init(
+            arn: Swift.String? = nil,
+            content: Swift.String? = nil,
+            description: Swift.String? = nil,
+            entryPoint: ConnectClientTypes.TestCaseEntryPoint? = nil,
+            id: Swift.String? = nil,
+            initializationData: Swift.String? = nil,
+            lastModifiedRegion: Swift.String? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
+            name: Swift.String? = nil,
+            status: ConnectClientTypes.TestCaseStatus? = nil,
+            tags: [Swift.String: Swift.String]? = nil,
+            testCaseSha256: Swift.String? = nil
+        ) {
+            self.arn = arn
+            self.content = content
+            self.description = description
+            self.entryPoint = entryPoint
+            self.id = id
+            self.initializationData = initializationData
+            self.lastModifiedRegion = lastModifiedRegion
+            self.lastModifiedTime = lastModifiedTime
+            self.name = name
+            self.status = status
+            self.tags = tags
+            self.testCaseSha256 = testCaseSha256
+        }
+    }
+}
+
+public struct DescribeTestCaseOutput: Swift.Sendable {
+    /// The test case object containing all test case information.
+    public var testCase: ConnectClientTypes.TestCase?
+
+    public init(
+        testCase: ConnectClientTypes.TestCase? = nil
+    ) {
+        self.testCase = testCase
+    }
+}
+
 public struct DescribeTrafficDistributionGroupInput: Swift.Sendable {
     /// The identifier of the traffic distribution group. This can be the ID or the ARN if the API is being called in the Region where the traffic distribution group was created. The ARN must be provided if the call is from the replicated Region.
     /// This member is required.
@@ -19266,6 +19572,113 @@ public struct GetTaskTemplateOutput: Swift.Sendable {
         self.selfAssignFlowId = selfAssignFlowId
         self.status = status
         self.tags = tags
+    }
+}
+
+public struct GetTestCaseExecutionSummaryInput: Swift.Sendable {
+    /// The identifier of the Amazon Connect instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The identifier of the test case execution.
+    /// This member is required.
+    public var testCaseExecutionId: Swift.String?
+    /// The identifier of the test case.
+    /// This member is required.
+    public var testCaseId: Swift.String?
+
+    public init(
+        instanceId: Swift.String? = nil,
+        testCaseExecutionId: Swift.String? = nil,
+        testCaseId: Swift.String? = nil
+    ) {
+        self.instanceId = instanceId
+        self.testCaseExecutionId = testCaseExecutionId
+        self.testCaseId = testCaseId
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// Contains summary statistics about a test case execution.
+    public struct ObservationSummary: Swift.Sendable {
+        /// The number of observations that failed during execution.
+        public var observationsFailed: Swift.Int?
+        /// The number of observations that passed during execution.
+        public var observationsPassed: Swift.Int?
+        /// The total number of observations in the test case.
+        public var totalObservations: Swift.Int?
+
+        public init(
+            observationsFailed: Swift.Int? = nil,
+            observationsPassed: Swift.Int? = nil,
+            totalObservations: Swift.Int? = nil
+        ) {
+            self.observationsFailed = observationsFailed
+            self.observationsPassed = observationsPassed
+            self.totalObservations = totalObservations
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// The status of a test case execution.
+    public enum TestCaseExecutionStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case failed
+        case initiated
+        case inProgress
+        case passed
+        case stopped
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TestCaseExecutionStatus] {
+            return [
+                .failed,
+                .initiated,
+                .inProgress,
+                .passed,
+                .stopped
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .failed: return "FAILED"
+            case .initiated: return "INITIATED"
+            case .inProgress: return "IN_PROGRESS"
+            case .passed: return "PASSED"
+            case .stopped: return "STOPPED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct GetTestCaseExecutionSummaryOutput: Swift.Sendable {
+    /// The timestamp when the test case execution ended.
+    public var endTime: Foundation.Date?
+    /// Summary statistics for the test case execution.
+    public var observationSummary: ConnectClientTypes.ObservationSummary?
+    /// The timestamp when the test case execution started.
+    public var startTime: Foundation.Date?
+    /// The status of the test case execution.
+    public var status: ConnectClientTypes.TestCaseExecutionStatus?
+
+    public init(
+        endTime: Foundation.Date? = nil,
+        observationSummary: ConnectClientTypes.ObservationSummary? = nil,
+        startTime: Foundation.Date? = nil,
+        status: ConnectClientTypes.TestCaseExecutionStatus? = nil
+    ) {
+        self.endTime = endTime
+        self.observationSummary = observationSummary
+        self.startTime = startTime
+        self.status = status
     }
 }
 
@@ -23624,6 +24037,277 @@ public struct ListTaskTemplatesOutput: Swift.Sendable {
     }
 }
 
+public struct ListTestCaseExecutionRecordsInput: Swift.Sendable {
+    /// The identifier of the Amazon Connect instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The maximum number of results to return per page.
+    public var maxResults: Swift.Int?
+    /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+    public var nextToken: Swift.String?
+    /// Filter execution records by status.
+    public var status: ConnectClientTypes.TestCaseExecutionStatus?
+    /// The identifier of the test case execution.
+    /// This member is required.
+    public var testCaseExecutionId: Swift.String?
+    /// The identifier of the test case.
+    /// This member is required.
+    public var testCaseId: Swift.String?
+
+    public init(
+        instanceId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        status: ConnectClientTypes.TestCaseExecutionStatus? = nil,
+        testCaseExecutionId: Swift.String? = nil,
+        testCaseId: Swift.String? = nil
+    ) {
+        self.instanceId = instanceId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.status = status
+        self.testCaseExecutionId = testCaseExecutionId
+        self.testCaseId = testCaseId
+    }
+}
+
+extension ConnectClientTypes {
+
+    public enum ExecutionRecordStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case failed
+        case inProgress
+        case passed
+        case stopped
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ExecutionRecordStatus] {
+            return [
+                .failed,
+                .inProgress,
+                .passed,
+                .stopped
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .failed: return "FAILED"
+            case .inProgress: return "IN_PROGRESS"
+            case .passed: return "PASSED"
+            case .stopped: return "STOPPED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// Contains information about a test case execution record.
+    public struct ExecutionRecord: Swift.Sendable {
+        /// The identifier of the execution record.
+        public var observationId: Swift.String?
+        /// The details of the executed record.
+        public var record: Swift.String?
+        /// The status of the action execution.
+        public var status: ConnectClientTypes.ExecutionRecordStatus?
+        /// The timestamp when the action was executed.
+        public var timestamp: Foundation.Date?
+
+        public init(
+            observationId: Swift.String? = nil,
+            record: Swift.String? = nil,
+            status: ConnectClientTypes.ExecutionRecordStatus? = nil,
+            timestamp: Foundation.Date? = nil
+        ) {
+            self.observationId = observationId
+            self.record = record
+            self.status = status
+            self.timestamp = timestamp
+        }
+    }
+}
+
+public struct ListTestCaseExecutionRecordsOutput: Swift.Sendable {
+    /// An array of test case execution record objects.
+    public var executionRecords: [ConnectClientTypes.ExecutionRecord]?
+    /// If there are additional results, this is the token for the next set of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        executionRecords: [ConnectClientTypes.ExecutionRecord]? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.executionRecords = executionRecords
+        self.nextToken = nextToken
+    }
+}
+
+public struct ListTestCaseExecutionsInput: Swift.Sendable {
+    /// Filter executions that started before this time.
+    public var endTime: Foundation.Date?
+    /// The identifier of the Amazon Connect instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The maximum number of results to return per page.
+    public var maxResults: Swift.Int?
+    /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+    public var nextToken: Swift.String?
+    /// Filter executions that started after this time.
+    public var startTime: Foundation.Date?
+    /// Filter executions by status.
+    public var status: ConnectClientTypes.TestCaseExecutionStatus?
+    /// Filter executions by test case identifier.
+    public var testCaseId: Swift.String?
+    /// Filter executions by test case name.
+    public var testCaseName: Swift.String?
+
+    public init(
+        endTime: Foundation.Date? = nil,
+        instanceId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        startTime: Foundation.Date? = nil,
+        status: ConnectClientTypes.TestCaseExecutionStatus? = nil,
+        testCaseId: Swift.String? = nil,
+        testCaseName: Swift.String? = nil
+    ) {
+        self.endTime = endTime
+        self.instanceId = instanceId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.startTime = startTime
+        self.status = status
+        self.testCaseId = testCaseId
+        self.testCaseName = testCaseName
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// Contains information about a test case execution.
+    public struct TestCaseExecution: Swift.Sendable {
+        /// The timestamp when the test case execution ended.
+        public var endTime: Foundation.Date?
+        /// The timestamp when the test case execution started.
+        public var startTime: Foundation.Date?
+        /// The tags used to organize, track, or control access for this resource.
+        public var tags: [Swift.String: Swift.String]?
+        /// The identifier of the test case execution.
+        public var testCaseExecutionId: Swift.String?
+        /// The status of the test case execution.
+        public var testCaseExecutionStatus: ConnectClientTypes.TestCaseExecutionStatus?
+        /// The identifier of the test case.
+        public var testCaseId: Swift.String?
+
+        public init(
+            endTime: Foundation.Date? = nil,
+            startTime: Foundation.Date? = nil,
+            tags: [Swift.String: Swift.String]? = nil,
+            testCaseExecutionId: Swift.String? = nil,
+            testCaseExecutionStatus: ConnectClientTypes.TestCaseExecutionStatus? = nil,
+            testCaseId: Swift.String? = nil
+        ) {
+            self.endTime = endTime
+            self.startTime = startTime
+            self.tags = tags
+            self.testCaseExecutionId = testCaseExecutionId
+            self.testCaseExecutionStatus = testCaseExecutionStatus
+            self.testCaseId = testCaseId
+        }
+    }
+}
+
+public struct ListTestCaseExecutionsOutput: Swift.Sendable {
+    /// If there are additional results, this is the token for the next set of results.
+    public var nextToken: Swift.String?
+    /// An array of test case execution summary objects.
+    public var testCaseExecutions: [ConnectClientTypes.TestCaseExecution]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        testCaseExecutions: [ConnectClientTypes.TestCaseExecution]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.testCaseExecutions = testCaseExecutions
+    }
+}
+
+public struct ListTestCasesInput: Swift.Sendable {
+    /// The identifier of the Amazon Connect instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The maximum number of results to return per page.
+    public var maxResults: Swift.Int?
+    /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        instanceId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.instanceId = instanceId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// Contains summary information about a test case.
+    public struct TestCaseSummary: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the test case.
+        public var arn: Swift.String?
+        /// The identifier of the test case.
+        public var id: Swift.String?
+        /// The region in which the test case was last modified.
+        public var lastModifiedRegion: Swift.String?
+        /// The time at which the test case was last modified.
+        public var lastModifiedTime: Foundation.Date?
+        /// The name of the test case.
+        public var name: Swift.String?
+        /// The status of the test case.
+        public var status: ConnectClientTypes.TestCaseStatus?
+
+        public init(
+            arn: Swift.String? = nil,
+            id: Swift.String? = nil,
+            lastModifiedRegion: Swift.String? = nil,
+            lastModifiedTime: Foundation.Date? = nil,
+            name: Swift.String? = nil,
+            status: ConnectClientTypes.TestCaseStatus? = nil
+        ) {
+            self.arn = arn
+            self.id = id
+            self.lastModifiedRegion = lastModifiedRegion
+            self.lastModifiedTime = lastModifiedTime
+            self.name = name
+            self.status = status
+        }
+    }
+}
+
+public struct ListTestCasesOutput: Swift.Sendable {
+    /// If there are additional results, this is the token for the next set of results.
+    public var nextToken: Swift.String?
+    /// Information about the tests.
+    public var testCaseSummaryList: [ConnectClientTypes.TestCaseSummary]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        testCaseSummaryList: [ConnectClientTypes.TestCaseSummary]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.testCaseSummaryList = testCaseSummaryList
+    }
+}
+
 public struct ListTrafficDistributionGroupsInput: Swift.Sendable {
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     public var instanceId: Swift.String?
@@ -26676,6 +27360,40 @@ public struct SearchSecurityProfilesOutput: Swift.Sendable {
 extension ConnectClientTypes {
 
     /// Filters to be applied to search results.
+    public struct TestCaseSearchFilter: Swift.Sendable {
+        /// An object that can be used to specify Tag conditions inside the SearchFilter. This accepts an OR of AND (List of List) input where: Top level list specifies conditions that need to be applied with OR operator. Inner list specifies conditions that need to be applied with AND operator.
+        public var tagFilter: ConnectClientTypes.ControlPlaneTagFilter?
+
+        public init(
+            tagFilter: ConnectClientTypes.ControlPlaneTagFilter? = nil
+        ) {
+            self.tagFilter = tagFilter
+        }
+    }
+}
+
+public struct SearchTestCasesOutput: Swift.Sendable {
+    /// The total number of test cases which matched your search query.
+    public var approximateTotalCount: Swift.Int?
+    /// If there are additional results, this is the token for the next set of results.
+    public var nextToken: Swift.String?
+    /// Information about the test cases.
+    public var testCases: [ConnectClientTypes.TestCase]?
+
+    public init(
+        approximateTotalCount: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        testCases: [ConnectClientTypes.TestCase]? = nil
+    ) {
+        self.approximateTotalCount = approximateTotalCount
+        self.nextToken = nextToken
+        self.testCases = testCases
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// Filters to be applied to search results.
     public struct UserHierarchyGroupSearchFilter: Swift.Sendable {
         /// An object that can be used to specify Tag conditions inside the SearchFilter. This accepts an OR or AND (List of List) input where:
         ///
@@ -28670,6 +29388,46 @@ public struct StartTaskContactOutput: Swift.Sendable {
     }
 }
 
+public struct StartTestCaseExecutionInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
+    public var clientToken: Swift.String?
+    /// The identifier of the Amazon Connect instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The identifier of the test case to execute.
+    /// This member is required.
+    public var testCaseId: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        instanceId: Swift.String? = nil,
+        testCaseId: Swift.String? = nil
+    ) {
+        self.clientToken = clientToken
+        self.instanceId = instanceId
+        self.testCaseId = testCaseId
+    }
+}
+
+public struct StartTestCaseExecutionOutput: Swift.Sendable {
+    /// The status of a test case execution.
+    public var status: ConnectClientTypes.TestCaseExecutionStatus?
+    /// The identifier of the test case execution.
+    public var testCaseExecutionId: Swift.String?
+    /// The identifier of the test case resource that was executed.
+    public var testCaseId: Swift.String?
+
+    public init(
+        status: ConnectClientTypes.TestCaseExecutionStatus? = nil,
+        testCaseExecutionId: Swift.String? = nil,
+        testCaseId: Swift.String? = nil
+    ) {
+        self.status = status
+        self.testCaseExecutionId = testCaseExecutionId
+        self.testCaseId = testCaseId
+    }
+}
+
 public struct StartWebRTCContactInput: Swift.Sendable {
     /// Information about the video sharing capabilities of the participants (customer, agent).
     public var allowedCapabilities: ConnectClientTypes.AllowedCapabilities?
@@ -29043,6 +29801,37 @@ public struct StopContactStreamingInput: Swift.Sendable {
 }
 
 public struct StopContactStreamingOutput: Swift.Sendable {
+
+    public init() { }
+}
+
+public struct StopTestCaseExecutionInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
+    public var clientToken: Swift.String?
+    /// The identifier of the Amazon Connect instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The identifier of the test case execution to stop.
+    /// This member is required.
+    public var testCaseExecutionId: Swift.String?
+    /// The identifier of the test case.
+    /// This member is required.
+    public var testCaseId: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        instanceId: Swift.String? = nil,
+        testCaseExecutionId: Swift.String? = nil,
+        testCaseId: Swift.String? = nil
+    ) {
+        self.clientToken = clientToken
+        self.instanceId = instanceId
+        self.testCaseExecutionId = testCaseExecutionId
+        self.testCaseId = testCaseId
+    }
+}
+
+public struct StopTestCaseExecutionOutput: Swift.Sendable {
 
     public init() { }
 }
@@ -30909,6 +31698,60 @@ public struct UpdateTaskTemplateOutput: Swift.Sendable {
     }
 }
 
+public struct UpdateTestCaseInput: Swift.Sendable {
+    /// The JSON string that represents the content of the test.
+    public var content: Swift.String?
+    /// The description of the test case.
+    public var description: Swift.String?
+    /// Defines the starting point for your test.
+    public var entryPoint: ConnectClientTypes.TestCaseEntryPoint?
+    /// Defines the test attributes for precise data representation.
+    public var initializationData: Swift.String?
+    /// The identifier of the Amazon Connect instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The region in which the resource was last modified
+    public var lastModifiedRegion: Swift.String?
+    /// The time at which the resource was last modified.
+    public var lastModifiedTime: Foundation.Date?
+    /// The name of the test case.
+    public var name: Swift.String?
+    /// Indicates the test status as either SAVED or PUBLISHED. The PUBLISHED status will initiate validation on the content. The SAVED status does not initiate validation of the content.
+    public var status: ConnectClientTypes.TestCaseStatus?
+    /// The identifier of the test case to update.
+    /// This member is required.
+    public var testCaseId: Swift.String?
+
+    public init(
+        content: Swift.String? = nil,
+        description: Swift.String? = nil,
+        entryPoint: ConnectClientTypes.TestCaseEntryPoint? = nil,
+        initializationData: Swift.String? = nil,
+        instanceId: Swift.String? = nil,
+        lastModifiedRegion: Swift.String? = nil,
+        lastModifiedTime: Foundation.Date? = nil,
+        name: Swift.String? = nil,
+        status: ConnectClientTypes.TestCaseStatus? = nil,
+        testCaseId: Swift.String? = nil
+    ) {
+        self.content = content
+        self.description = description
+        self.entryPoint = entryPoint
+        self.initializationData = initializationData
+        self.instanceId = instanceId
+        self.lastModifiedRegion = lastModifiedRegion
+        self.lastModifiedTime = lastModifiedTime
+        self.name = name
+        self.status = status
+        self.testCaseId = testCaseId
+    }
+}
+
+public struct UpdateTestCaseOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct UpdateTrafficDistributionInput: Swift.Sendable {
     /// The distribution of agents between the instance and its replica(s).
     public var agentConfig: ConnectClientTypes.AgentConfig?
@@ -31876,6 +32719,33 @@ extension ConnectClientTypes {
 
 extension ConnectClientTypes {
 
+    /// The search criteria to be used to return test cases.
+    public struct TestCaseSearchCriteria: Swift.Sendable {
+        /// A list of conditions which would be applied together with an AND condition.
+        public var andConditions: [ConnectClientTypes.TestCaseSearchCriteria]?
+        /// A list of conditions which would be applied together with an OR condition.
+        public var orConditions: [ConnectClientTypes.TestCaseSearchCriteria]?
+        /// The status of the test case.
+        public var statusCondition: ConnectClientTypes.TestCaseStatus?
+        /// A leaf node condition which can be used to specify a string condition.
+        public var stringCondition: ConnectClientTypes.StringCondition?
+
+        public init(
+            andConditions: [ConnectClientTypes.TestCaseSearchCriteria]? = nil,
+            orConditions: [ConnectClientTypes.TestCaseSearchCriteria]? = nil,
+            statusCondition: ConnectClientTypes.TestCaseStatus? = nil,
+            stringCondition: ConnectClientTypes.StringCondition? = nil
+        ) {
+            self.andConditions = andConditions
+            self.orConditions = orConditions
+            self.statusCondition = statusCondition
+            self.stringCondition = stringCondition
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
     /// The search criteria to be used to return userHierarchyGroup.
     public struct UserHierarchyGroupSearchCriteria: Swift.Sendable {
         /// A list of conditions which would be applied together with an AND condition.
@@ -32500,6 +33370,34 @@ public struct SearchSecurityProfilesInput: Swift.Sendable {
         nextToken: Swift.String? = nil,
         searchCriteria: ConnectClientTypes.SecurityProfileSearchCriteria? = nil,
         searchFilter: ConnectClientTypes.SecurityProfilesSearchFilter? = nil
+    ) {
+        self.instanceId = instanceId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.searchCriteria = searchCriteria
+        self.searchFilter = searchFilter
+    }
+}
+
+public struct SearchTestCasesInput: Swift.Sendable {
+    /// The identifier of the Amazon Connect instance. You can find the instance ID in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The maximum number of results to return per page.
+    public var maxResults: Swift.Int?
+    /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+    public var nextToken: Swift.String?
+    /// The search criteria to be used to return test cases.
+    public var searchCriteria: ConnectClientTypes.TestCaseSearchCriteria?
+    /// Filters to be applied to search results.
+    public var searchFilter: ConnectClientTypes.TestCaseSearchFilter?
+
+    public init(
+        instanceId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        searchCriteria: ConnectClientTypes.TestCaseSearchCriteria? = nil,
+        searchFilter: ConnectClientTypes.TestCaseSearchFilter? = nil
     ) {
         self.instanceId = instanceId
         self.maxResults = maxResults
@@ -34481,6 +35379,33 @@ extension CreateTaskTemplateInput {
     }
 }
 
+extension CreateTestCaseInput {
+
+    static func urlPathProvider(_ value: CreateTestCaseInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        return "/test-cases/\(instanceId.urlPercentEncoding())"
+    }
+}
+
+extension CreateTestCaseInput {
+
+    static func headerProvider(_ value: CreateTestCaseInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
+        if let lastModifiedRegion = value.lastModifiedRegion {
+            items.add(SmithyHTTPAPI.Header(name: "x-amz-last-modified-region", value: Swift.String(lastModifiedRegion)))
+        }
+        if let lastModifiedTime = value.lastModifiedTime {
+            items.add(SmithyHTTPAPI.Header(name: "x-amz-last-modified-time", value: Swift.String(SmithyTimestamps.TimestampFormatter(format: .httpDate).string(from: lastModifiedTime))))
+        }
+        if let testCaseId = value.testCaseId {
+            items.add(SmithyHTTPAPI.Header(name: "x-amz-resource-id", value: Swift.String(testCaseId)))
+        }
+        return items
+    }
+}
+
 extension CreateTrafficDistributionGroupInput {
 
     static func urlPathProvider(_ value: CreateTrafficDistributionGroupInput) -> Swift.String? {
@@ -34963,6 +35888,19 @@ extension DeleteTaskTemplateInput {
             return nil
         }
         return "/instance/\(instanceId.urlPercentEncoding())/task/template/\(taskTemplateId.urlPercentEncoding())"
+    }
+}
+
+extension DeleteTestCaseInput {
+
+    static func urlPathProvider(_ value: DeleteTestCaseInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        guard let testCaseId = value.testCaseId else {
+            return nil
+        }
+        return "/test-cases/\(instanceId.urlPercentEncoding())/\(testCaseId.urlPercentEncoding())"
     }
 }
 
@@ -35454,6 +36392,31 @@ extension DescribeSecurityProfileInput {
             return nil
         }
         return "/security-profiles/\(instanceId.urlPercentEncoding())/\(securityProfileId.urlPercentEncoding())"
+    }
+}
+
+extension DescribeTestCaseInput {
+
+    static func urlPathProvider(_ value: DescribeTestCaseInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        guard let testCaseId = value.testCaseId else {
+            return nil
+        }
+        return "/test-cases/\(instanceId.urlPercentEncoding())/\(testCaseId.urlPercentEncoding())"
+    }
+}
+
+extension DescribeTestCaseInput {
+
+    static func queryItemProvider(_ value: DescribeTestCaseInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let status = value.status {
+            let statusQueryItem = Smithy.URIQueryItem(name: "status".urlPercentEncoding(), value: Swift.String(status.rawValue).urlPercentEncoding())
+            items.append(statusQueryItem)
+        }
+        return items
     }
 }
 
@@ -36090,6 +37053,22 @@ extension GetTaskTemplateInput {
             items.append(snapshotVersionQueryItem)
         }
         return items
+    }
+}
+
+extension GetTestCaseExecutionSummaryInput {
+
+    static func urlPathProvider(_ value: GetTestCaseExecutionSummaryInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        guard let testCaseId = value.testCaseId else {
+            return nil
+        }
+        guard let testCaseExecutionId = value.testCaseExecutionId else {
+            return nil
+        }
+        return "/test-cases/\(instanceId.urlPercentEncoding())/\(testCaseId.urlPercentEncoding())/\(testCaseExecutionId.urlPercentEncoding())/summary"
     }
 }
 
@@ -37510,6 +38489,114 @@ extension ListTaskTemplatesInput {
     }
 }
 
+extension ListTestCaseExecutionRecordsInput {
+
+    static func urlPathProvider(_ value: ListTestCaseExecutionRecordsInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        guard let testCaseId = value.testCaseId else {
+            return nil
+        }
+        guard let testCaseExecutionId = value.testCaseExecutionId else {
+            return nil
+        }
+        return "/test-cases/\(instanceId.urlPercentEncoding())/\(testCaseId.urlPercentEncoding())/\(testCaseExecutionId.urlPercentEncoding())/records"
+    }
+}
+
+extension ListTestCaseExecutionRecordsInput {
+
+    static func queryItemProvider(_ value: ListTestCaseExecutionRecordsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let status = value.status {
+            let statusQueryItem = Smithy.URIQueryItem(name: "status".urlPercentEncoding(), value: Swift.String(status.rawValue).urlPercentEncoding())
+            items.append(statusQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListTestCaseExecutionsInput {
+
+    static func urlPathProvider(_ value: ListTestCaseExecutionsInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        return "/test-case-executions/\(instanceId.urlPercentEncoding())"
+    }
+}
+
+extension ListTestCaseExecutionsInput {
+
+    static func queryItemProvider(_ value: ListTestCaseExecutionsInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let status = value.status {
+            let statusQueryItem = Smithy.URIQueryItem(name: "status".urlPercentEncoding(), value: Swift.String(status.rawValue).urlPercentEncoding())
+            items.append(statusQueryItem)
+        }
+        if let endTime = value.endTime {
+            let endTimeQueryItem = Smithy.URIQueryItem(name: "endTime".urlPercentEncoding(), value: Swift.String(SmithyTimestamps.TimestampFormatter(format: .dateTime).string(from: endTime)).urlPercentEncoding())
+            items.append(endTimeQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let startTime = value.startTime {
+            let startTimeQueryItem = Smithy.URIQueryItem(name: "startTime".urlPercentEncoding(), value: Swift.String(SmithyTimestamps.TimestampFormatter(format: .dateTime).string(from: startTime)).urlPercentEncoding())
+            items.append(startTimeQueryItem)
+        }
+        if let testCaseId = value.testCaseId {
+            let testCaseIdQueryItem = Smithy.URIQueryItem(name: "testCaseId".urlPercentEncoding(), value: Swift.String(testCaseId).urlPercentEncoding())
+            items.append(testCaseIdQueryItem)
+        }
+        if let testCaseName = value.testCaseName {
+            let testCaseNameQueryItem = Smithy.URIQueryItem(name: "testCaseName".urlPercentEncoding(), value: Swift.String(testCaseName).urlPercentEncoding())
+            items.append(testCaseNameQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListTestCasesInput {
+
+    static func urlPathProvider(_ value: ListTestCasesInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        return "/test-cases-summary/\(instanceId.urlPercentEncoding())"
+    }
+}
+
+extension ListTestCasesInput {
+
+    static func queryItemProvider(_ value: ListTestCasesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
 extension ListTrafficDistributionGroupsInput {
 
     static func urlPathProvider(_ value: ListTrafficDistributionGroupsInput) -> Swift.String? {
@@ -37999,6 +39086,13 @@ extension SearchSecurityProfilesInput {
     }
 }
 
+extension SearchTestCasesInput {
+
+    static func urlPathProvider(_ value: SearchTestCasesInput) -> Swift.String? {
+        return "/search-test-cases"
+    }
+}
+
 extension SearchUserHierarchyGroupsInput {
 
     static func urlPathProvider(_ value: SearchUserHierarchyGroupsInput) -> Swift.String? {
@@ -38165,6 +39259,19 @@ extension StartTaskContactInput {
     }
 }
 
+extension StartTestCaseExecutionInput {
+
+    static func urlPathProvider(_ value: StartTestCaseExecutionInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        guard let testCaseId = value.testCaseId else {
+            return nil
+        }
+        return "/test-cases/\(instanceId.urlPercentEncoding())/\(testCaseId.urlPercentEncoding())/start-execution"
+    }
+}
+
 extension StartWebRTCContactInput {
 
     static func urlPathProvider(_ value: StartWebRTCContactInput) -> Swift.String? {
@@ -38197,6 +39304,22 @@ extension StopContactStreamingInput {
 
     static func urlPathProvider(_ value: StopContactStreamingInput) -> Swift.String? {
         return "/contact/stop-streaming"
+    }
+}
+
+extension StopTestCaseExecutionInput {
+
+    static func urlPathProvider(_ value: StopTestCaseExecutionInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        guard let testCaseId = value.testCaseId else {
+            return nil
+        }
+        guard let testCaseExecutionId = value.testCaseExecutionId else {
+            return nil
+        }
+        return "/test-cases/\(instanceId.urlPercentEncoding())/\(testCaseId.urlPercentEncoding())/\(testCaseExecutionId.urlPercentEncoding())/stop-execution"
     }
 }
 
@@ -38867,6 +39990,33 @@ extension UpdateTaskTemplateInput {
             return nil
         }
         return "/instance/\(instanceId.urlPercentEncoding())/task/template/\(taskTemplateId.urlPercentEncoding())"
+    }
+}
+
+extension UpdateTestCaseInput {
+
+    static func urlPathProvider(_ value: UpdateTestCaseInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        guard let testCaseId = value.testCaseId else {
+            return nil
+        }
+        return "/test-cases/\(instanceId.urlPercentEncoding())/\(testCaseId.urlPercentEncoding())"
+    }
+}
+
+extension UpdateTestCaseInput {
+
+    static func headerProvider(_ value: UpdateTestCaseInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
+        if let lastModifiedRegion = value.lastModifiedRegion {
+            items.add(SmithyHTTPAPI.Header(name: "x-amz-last-modified-region", value: Swift.String(lastModifiedRegion)))
+        }
+        if let lastModifiedTime = value.lastModifiedTime {
+            items.add(SmithyHTTPAPI.Header(name: "x-amz-last-modified-time", value: Swift.String(SmithyTimestamps.TimestampFormatter(format: .httpDate).string(from: lastModifiedTime))))
+        }
+        return items
     }
 }
 
@@ -39671,6 +40821,20 @@ extension CreateTaskTemplateInput {
     }
 }
 
+extension CreateTestCaseInput {
+
+    static func write(value: CreateTestCaseInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Content"].write(value.content)
+        try writer["Description"].write(value.description)
+        try writer["EntryPoint"].write(value.entryPoint, with: ConnectClientTypes.TestCaseEntryPoint.write(value:to:))
+        try writer["InitializationData"].write(value.initializationData)
+        try writer["Name"].write(value.name)
+        try writer["Status"].write(value.status)
+        try writer["Tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
 extension CreateTrafficDistributionGroupInput {
 
     static func write(value: CreateTrafficDistributionGroupInput?, to writer: SmithyJSON.Writer) throws {
@@ -40314,6 +41478,18 @@ extension SearchSecurityProfilesInput {
     }
 }
 
+extension SearchTestCasesInput {
+
+    static func write(value: SearchTestCasesInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["InstanceId"].write(value.instanceId)
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["SearchCriteria"].write(value.searchCriteria, with: ConnectClientTypes.TestCaseSearchCriteria.write(value:to:))
+        try writer["SearchFilter"].write(value.searchFilter, with: ConnectClientTypes.TestCaseSearchFilter.write(value:to:))
+    }
+}
+
 extension SearchUserHierarchyGroupsInput {
 
     static func write(value: SearchUserHierarchyGroupsInput?, to writer: SmithyJSON.Writer) throws {
@@ -40600,6 +41776,14 @@ extension StartTaskContactInput {
     }
 }
 
+extension StartTestCaseExecutionInput {
+
+    static func write(value: StartTestCaseExecutionInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ClientToken"].write(value.clientToken)
+    }
+}
+
 extension StartWebRTCContactInput {
 
     static func write(value: StartWebRTCContactInput?, to writer: SmithyJSON.Writer) throws {
@@ -40653,6 +41837,14 @@ extension StopContactStreamingInput {
         try writer["ContactId"].write(value.contactId)
         try writer["InstanceId"].write(value.instanceId)
         try writer["StreamingId"].write(value.streamingId)
+    }
+}
+
+extension StopTestCaseExecutionInput {
+
+    static func write(value: StopTestCaseExecutionInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ClientToken"].write(value.clientToken)
     }
 }
 
@@ -41154,6 +42346,19 @@ extension UpdateTaskTemplateInput {
         try writer["Fields"].writeList(value.fields, memberWritingClosure: ConnectClientTypes.TaskTemplateField.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Name"].write(value.name)
         try writer["SelfAssignFlowId"].write(value.selfAssignFlowId)
+        try writer["Status"].write(value.status)
+    }
+}
+
+extension UpdateTestCaseInput {
+
+    static func write(value: UpdateTestCaseInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Content"].write(value.content)
+        try writer["Description"].write(value.description)
+        try writer["EntryPoint"].write(value.entryPoint, with: ConnectClientTypes.TestCaseEntryPoint.write(value:to:))
+        try writer["InitializationData"].write(value.initializationData)
+        try writer["Name"].write(value.name)
         try writer["Status"].write(value.status)
     }
 }
@@ -41926,6 +43131,19 @@ extension CreateTaskTemplateOutput {
     }
 }
 
+extension CreateTestCaseOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateTestCaseOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateTestCaseOutput()
+        value.testCaseArn = try reader["TestCaseArn"].readIfPresent()
+        value.testCaseId = try reader["TestCaseId"].readIfPresent()
+        return value
+    }
+}
+
 extension CreateTrafficDistributionGroupOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateTrafficDistributionGroupOutput {
@@ -42220,6 +43438,13 @@ extension DeleteTaskTemplateOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteTaskTemplateOutput {
         return DeleteTaskTemplateOutput()
+    }
+}
+
+extension DeleteTestCaseOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteTestCaseOutput {
+        return DeleteTestCaseOutput()
     }
 }
 
@@ -42594,6 +43819,18 @@ extension DescribeSecurityProfileOutput {
         let reader = responseReader
         var value = DescribeSecurityProfileOutput()
         value.securityProfile = try reader["SecurityProfile"].readIfPresent(with: ConnectClientTypes.SecurityProfile.read(from:))
+        return value
+    }
+}
+
+extension DescribeTestCaseOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeTestCaseOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeTestCaseOutput()
+        value.testCase = try reader["TestCase"].readIfPresent(with: ConnectClientTypes.TestCase.read(from:))
         return value
     }
 }
@@ -43008,6 +44245,21 @@ extension GetTaskTemplateOutput {
         value.selfAssignFlowId = try reader["SelfAssignFlowId"].readIfPresent()
         value.status = try reader["Status"].readIfPresent()
         value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension GetTestCaseExecutionSummaryOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetTestCaseExecutionSummaryOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetTestCaseExecutionSummaryOutput()
+        value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.observationSummary = try reader["ObservationSummary"].readIfPresent(with: ConnectClientTypes.ObservationSummary.read(from:))
+        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.status = try reader["Status"].readIfPresent()
         return value
     }
 }
@@ -43728,6 +44980,45 @@ extension ListTaskTemplatesOutput {
     }
 }
 
+extension ListTestCaseExecutionRecordsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListTestCaseExecutionRecordsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListTestCaseExecutionRecordsOutput()
+        value.executionRecords = try reader["ExecutionRecords"].readListIfPresent(memberReadingClosure: ConnectClientTypes.ExecutionRecord.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListTestCaseExecutionsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListTestCaseExecutionsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListTestCaseExecutionsOutput()
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.testCaseExecutions = try reader["TestCaseExecutions"].readListIfPresent(memberReadingClosure: ConnectClientTypes.TestCaseExecution.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ListTestCasesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListTestCasesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListTestCasesOutput()
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.testCaseSummaryList = try reader["TestCaseSummaryList"].readListIfPresent(memberReadingClosure: ConnectClientTypes.TestCaseSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension ListTrafficDistributionGroupsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListTrafficDistributionGroupsOutput {
@@ -44183,6 +45474,20 @@ extension SearchSecurityProfilesOutput {
     }
 }
 
+extension SearchTestCasesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> SearchTestCasesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = SearchTestCasesOutput()
+        value.approximateTotalCount = try reader["ApproximateTotalCount"].readIfPresent()
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.testCases = try reader["TestCases"].readListIfPresent(memberReadingClosure: ConnectClientTypes.TestCase.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension SearchUserHierarchyGroupsOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> SearchUserHierarchyGroupsOutput {
@@ -44424,6 +45729,20 @@ extension StartTaskContactOutput {
     }
 }
 
+extension StartTestCaseExecutionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartTestCaseExecutionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = StartTestCaseExecutionOutput()
+        value.status = try reader["Status"].readIfPresent()
+        value.testCaseExecutionId = try reader["TestCaseExecutionId"].readIfPresent()
+        value.testCaseId = try reader["TestCaseId"].readIfPresent()
+        return value
+    }
+}
+
 extension StartWebRTCContactOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StartWebRTCContactOutput {
@@ -44464,6 +45783,13 @@ extension StopContactStreamingOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StopContactStreamingOutput {
         return StopContactStreamingOutput()
+    }
+}
+
+extension StopTestCaseExecutionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> StopTestCaseExecutionOutput {
+        return StopTestCaseExecutionOutput()
     }
 }
 
@@ -44897,6 +46223,13 @@ extension UpdateTaskTemplateOutput {
         value.selfAssignFlowId = try reader["SelfAssignFlowId"].readIfPresent()
         value.status = try reader["Status"].readIfPresent()
         return value
+    }
+}
+
+extension UpdateTestCaseOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateTestCaseOutput {
+        return UpdateTestCaseOutput()
     }
 }
 
@@ -46129,6 +47462,30 @@ enum CreateTaskTemplateOutputError {
     }
 }
 
+enum CreateTestCaseOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "DuplicateResourceException": return try DuplicateResourceException.makeError(baseError: baseError)
+            case "IdempotencyException": return try IdempotencyException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "InvalidTestCaseException": return try InvalidTestCaseException.makeError(baseError: baseError)
+            case "LimitExceededException": return try LimitExceededException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreateTrafficDistributionGroupOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -46779,6 +48136,25 @@ enum DeleteTaskTemplateOutputError {
     }
 }
 
+enum DeleteTestCaseOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DeleteTrafficDistributionGroupOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -47391,6 +48767,25 @@ enum DescribeSecurityProfileOutputError {
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DescribeTestCaseOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
             case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
@@ -48087,6 +49482,25 @@ enum GetTaskTemplateOutputError {
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
         switch baseError.code {
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetTestCaseExecutionSummaryOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
             case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
@@ -49071,6 +50485,63 @@ enum ListTaskTemplatesOutputError {
     }
 }
 
+enum ListTestCaseExecutionRecordsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListTestCaseExecutionsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListTestCasesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListTrafficDistributionGroupsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -49735,6 +51206,25 @@ enum SearchSecurityProfilesOutputError {
     }
 }
 
+enum SearchTestCasesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum SearchUserHierarchyGroupsOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -50113,6 +51603,26 @@ enum StartTaskContactOutputError {
     }
 }
 
+enum StartTestCaseExecutionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum StartWebRTCContactOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -50198,6 +51708,25 @@ enum StopContactStreamingOutputError {
             case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
             case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum StopTestCaseExecutionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -51169,6 +52698,27 @@ enum UpdateTaskTemplateOutputError {
     }
 }
 
+enum UpdateTestCaseOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "DuplicateResourceException": return try DuplicateResourceException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "InvalidTestCaseException": return try InvalidTestCaseException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum UpdateTrafficDistributionOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -51658,6 +53208,19 @@ extension PropertyValidationException {
         var value = PropertyValidationException()
         value.properties.message = try reader["Message"].readIfPresent() ?? ""
         value.properties.propertyList = try reader["PropertyList"].readListIfPresent(memberReadingClosure: ConnectClientTypes.PropertyValidationExceptionProperty.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension InvalidTestCaseException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> InvalidTestCaseException {
+        let reader = baseError.errorBodyReader
+        var value = InvalidTestCaseException()
+        value.properties.problems = try reader["Problems"].readListIfPresent(memberReadingClosure: ConnectClientTypes.ProblemDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -55150,6 +56713,63 @@ extension ConnectClientTypes.PrimaryAttributeValue {
     }
 }
 
+extension ConnectClientTypes.TestCase {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.TestCase {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.TestCase()
+        value.arn = try reader["Arn"].readIfPresent()
+        value.id = try reader["Id"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        value.content = try reader["Content"].readIfPresent()
+        value.entryPoint = try reader["EntryPoint"].readIfPresent(with: ConnectClientTypes.TestCaseEntryPoint.read(from:))
+        value.initializationData = try reader["InitializationData"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastModifiedRegion = try reader["LastModifiedRegion"].readIfPresent()
+        value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.testCaseSha256 = try reader["TestCaseSha256"].readIfPresent()
+        return value
+    }
+}
+
+extension ConnectClientTypes.TestCaseEntryPoint {
+
+    static func write(value: ConnectClientTypes.TestCaseEntryPoint?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Type"].write(value.type)
+        try writer["VoiceCallEntryPointParameters"].write(value.voiceCallEntryPointParameters, with: ConnectClientTypes.VoiceCallEntryPointParameters.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.TestCaseEntryPoint {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.TestCaseEntryPoint()
+        value.type = try reader["Type"].readIfPresent()
+        value.voiceCallEntryPointParameters = try reader["VoiceCallEntryPointParameters"].readIfPresent(with: ConnectClientTypes.VoiceCallEntryPointParameters.read(from:))
+        return value
+    }
+}
+
+extension ConnectClientTypes.VoiceCallEntryPointParameters {
+
+    static func write(value: ConnectClientTypes.VoiceCallEntryPointParameters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DestinationPhoneNumber"].write(value.destinationPhoneNumber)
+        try writer["FlowId"].write(value.flowId)
+        try writer["SourcePhoneNumber"].write(value.sourcePhoneNumber)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.VoiceCallEntryPointParameters {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.VoiceCallEntryPointParameters()
+        value.sourcePhoneNumber = try reader["SourcePhoneNumber"].readIfPresent()
+        value.destinationPhoneNumber = try reader["DestinationPhoneNumber"].readIfPresent()
+        value.flowId = try reader["FlowId"].readIfPresent()
+        return value
+    }
+}
+
 extension ConnectClientTypes.TrafficDistributionGroup {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.TrafficDistributionGroup {
@@ -56112,6 +57732,18 @@ extension ConnectClientTypes.TaskTemplateField {
         value.description = try reader["Description"].readIfPresent()
         value.type = try reader["Type"].readIfPresent()
         value.singleSelectOptions = try reader["SingleSelectOptions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ConnectClientTypes.ObservationSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.ObservationSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.ObservationSummary()
+        value.totalObservations = try reader["TotalObservations"].readIfPresent()
+        value.observationsPassed = try reader["ObservationsPassed"].readIfPresent()
+        value.observationsFailed = try reader["ObservationsFailed"].readIfPresent()
         return value
     }
 }
@@ -57104,6 +58736,49 @@ extension ConnectClientTypes.TaskTemplateMetadata {
         value.status = try reader["Status"].readIfPresent()
         value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.createdTime = try reader["CreatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension ConnectClientTypes.ExecutionRecord {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.ExecutionRecord {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.ExecutionRecord()
+        value.observationId = try reader["ObservationId"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.timestamp = try reader["Timestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.record = try reader["Record"].readIfPresent()
+        return value
+    }
+}
+
+extension ConnectClientTypes.TestCaseExecution {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.TestCaseExecution {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.TestCaseExecution()
+        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.testCaseExecutionId = try reader["TestCaseExecutionId"].readIfPresent()
+        value.testCaseId = try reader["TestCaseId"].readIfPresent()
+        value.testCaseExecutionStatus = try reader["TestCaseExecutionStatus"].readIfPresent()
+        value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension ConnectClientTypes.TestCaseSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.TestCaseSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.TestCaseSummary()
+        value.id = try reader["Id"].readIfPresent()
+        value.arn = try reader["Arn"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastModifiedRegion = try reader["LastModifiedRegion"].readIfPresent()
         return value
     }
 }
@@ -58463,6 +60138,25 @@ extension ConnectClientTypes.SecurityProfilesSearchFilter {
     static func write(value: ConnectClientTypes.SecurityProfilesSearchFilter?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["TagFilter"].write(value.tagFilter, with: ConnectClientTypes.ControlPlaneTagFilter.write(value:to:))
+    }
+}
+
+extension ConnectClientTypes.TestCaseSearchFilter {
+
+    static func write(value: ConnectClientTypes.TestCaseSearchFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["TagFilter"].write(value.tagFilter, with: ConnectClientTypes.ControlPlaneTagFilter.write(value:to:))
+    }
+}
+
+extension ConnectClientTypes.TestCaseSearchCriteria {
+
+    static func write(value: ConnectClientTypes.TestCaseSearchCriteria?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AndConditions"].writeList(value.andConditions, memberWritingClosure: ConnectClientTypes.TestCaseSearchCriteria.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["OrConditions"].writeList(value.orConditions, memberWritingClosure: ConnectClientTypes.TestCaseSearchCriteria.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["StatusCondition"].write(value.statusCondition)
+        try writer["StringCondition"].write(value.stringCondition, with: ConnectClientTypes.StringCondition.write(value:to:))
     }
 }
 
