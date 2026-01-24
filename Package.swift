@@ -2174,6 +2174,11 @@ extension Target.Dependency {
     static var SmithyXML: Self { .product(name: "SmithyXML", package: "smithy-swift") }
 }
 
+extension Target.PluginUsage {
+    // Smithy plugins
+    static var SmithyCodeGenerator: Self { .plugin(name: "SmithyCodeGenerator", package: "smithy-swift") }
+}
+
 // MARK: Base Package
 
 let package = Package(
@@ -2411,7 +2416,7 @@ private var serviceTargets: [Target] {
 }
 
 private func target(_ service: ServiceClientData) -> Target {
-    .target(name: service.name, dependencies: service.dependencies, path: service.sourcePath)
+    .target(name: service.name, dependencies: service.dependencies, path: service.sourcePath, plugins: [.SmithyCodeGenerator])
 }
 
 private var serviceTestTargets: [Target] {
