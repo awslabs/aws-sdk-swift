@@ -270,6 +270,8 @@ public struct CreateCaseInput: Swift.Sendable {
     public var fields: [ConnectCasesClientTypes.FieldValue]?
     /// Represents the entity that performed the action.
     public var performedBy: ConnectCasesClientTypes.UserUnion?
+    /// A map of of key-value pairs that represent tags on a resource. Tags are used to organize, track, or control access for this resource.
+    public var tags: [Swift.String: Swift.String]?
     /// A unique identifier of a template.
     /// This member is required.
     public var templateId: Swift.String?
@@ -279,12 +281,14 @@ public struct CreateCaseInput: Swift.Sendable {
         domainId: Swift.String? = nil,
         fields: [ConnectCasesClientTypes.FieldValue]? = nil,
         performedBy: ConnectCasesClientTypes.UserUnion? = nil,
+        tags: [Swift.String: Swift.String]? = nil,
         templateId: Swift.String? = nil
     ) {
         self.clientToken = clientToken
         self.domainId = domainId
         self.fields = fields
         self.performedBy = performedBy
+        self.tags = tags
         self.templateId = templateId
     }
 }
@@ -1309,6 +1313,35 @@ public struct SearchRelatedItemsOutput: Swift.Sendable {
     ) {
         self.nextToken = nextToken
         self.relatedItems = relatedItems
+    }
+}
+
+extension ConnectCasesClientTypes {
+
+    /// Object for case tag filter values.
+    public struct TagValue: Swift.Sendable {
+        /// The tag key in the tag filter value.
+        public var key: Swift.String?
+        /// The tag value in the tag filter value.
+        public var value: Swift.String?
+
+        public init(
+            key: Swift.String? = nil,
+            value: Swift.String? = nil
+        ) {
+            self.key = key
+            self.value = value
+        }
+    }
+}
+
+extension ConnectCasesClientTypes {
+
+    /// A filter for tags. Only one value can be provided.
+    public enum TagFilter: Swift.Sendable {
+        /// Object containing tag key and value information.
+        case equalto(ConnectCasesClientTypes.TagValue)
+        case sdkUnknown(Swift.String)
     }
 }
 
@@ -3268,6 +3301,54 @@ extension ConnectCasesClientTypes {
     }
 }
 
+extension ConnectCasesClientTypes {
+
+    public enum TagPropagationResourceType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        /// Cases resources created within the domain
+        case cases
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TagPropagationResourceType] {
+            return [
+                .cases
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .cases: return "Cases"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ConnectCasesClientTypes {
+
+    /// Defines tag propagation configuration for resources created within a domain. Tags specified here will be automatically applied to resources being created for the specified resource type.
+    public struct TagPropagationConfiguration: Swift.Sendable {
+        /// Supported resource types for tag propagation. Determines which resources will receive automatically propagated tags.
+        /// This member is required.
+        public var resourceType: ConnectCasesClientTypes.TagPropagationResourceType?
+        /// The tags that will be applied to the created resource.
+        /// This member is required.
+        public var tagMap: [Swift.String: Swift.String]?
+
+        public init(
+            resourceType: ConnectCasesClientTypes.TagPropagationResourceType? = nil,
+            tagMap: [Swift.String: Swift.String]? = nil
+        ) {
+            self.resourceType = resourceType
+            self.tagMap = tagMap
+        }
+    }
+}
+
 public struct CreateTemplateInput: Swift.Sendable {
     /// A brief description of the template.
     public var description: Swift.String?
@@ -3285,6 +3366,8 @@ public struct CreateTemplateInput: Swift.Sendable {
     public var rules: [ConnectCasesClientTypes.TemplateRule]?
     /// The status of the template.
     public var status: ConnectCasesClientTypes.TemplateStatus?
+    /// Defines tag propagation configuration for resources created within a domain. Tags specified here will be automatically applied to resources being created for the specified resource type.
+    public var tagPropagationConfigurations: [ConnectCasesClientTypes.TagPropagationConfiguration]?
 
     public init(
         description: Swift.String? = nil,
@@ -3293,7 +3376,8 @@ public struct CreateTemplateInput: Swift.Sendable {
         name: Swift.String? = nil,
         requiredFields: [ConnectCasesClientTypes.RequiredField]? = nil,
         rules: [ConnectCasesClientTypes.TemplateRule]? = nil,
-        status: ConnectCasesClientTypes.TemplateStatus? = nil
+        status: ConnectCasesClientTypes.TemplateStatus? = nil,
+        tagPropagationConfigurations: [ConnectCasesClientTypes.TagPropagationConfiguration]? = nil
     ) {
         self.description = description
         self.domainId = domainId
@@ -3302,6 +3386,7 @@ public struct CreateTemplateInput: Swift.Sendable {
         self.requiredFields = requiredFields
         self.rules = rules
         self.status = status
+        self.tagPropagationConfigurations = tagPropagationConfigurations
     }
 }
 
@@ -3382,6 +3467,8 @@ public struct GetTemplateOutput: Swift.Sendable {
     /// The status of the template.
     /// This member is required.
     public var status: ConnectCasesClientTypes.TemplateStatus?
+    /// Defines tag propagation configuration for resources created within a domain. Tags specified here will be automatically applied to resources being created for the specified resource type.
+    public var tagPropagationConfigurations: [ConnectCasesClientTypes.TagPropagationConfiguration]?
     /// A map of of key-value pairs that represent tags on a resource. Tags are used to organize, track, or control access for this resource.
     public var tags: [Swift.String: Swift.String?]?
     /// The Amazon Resource Name (ARN) of the template.
@@ -3401,6 +3488,7 @@ public struct GetTemplateOutput: Swift.Sendable {
         requiredFields: [ConnectCasesClientTypes.RequiredField]? = nil,
         rules: [ConnectCasesClientTypes.TemplateRule]? = nil,
         status: ConnectCasesClientTypes.TemplateStatus? = nil,
+        tagPropagationConfigurations: [ConnectCasesClientTypes.TagPropagationConfiguration]? = nil,
         tags: [Swift.String: Swift.String?]? = nil,
         templateArn: Swift.String? = nil,
         templateId: Swift.String? = nil
@@ -3414,6 +3502,7 @@ public struct GetTemplateOutput: Swift.Sendable {
         self.requiredFields = requiredFields
         self.rules = rules
         self.status = status
+        self.tagPropagationConfigurations = tagPropagationConfigurations
         self.tags = tags
         self.templateArn = templateArn
         self.templateId = templateId
@@ -3454,6 +3543,8 @@ extension ConnectCasesClientTypes {
         /// The status of the template.
         /// This member is required.
         public var status: ConnectCasesClientTypes.TemplateStatus?
+        /// Defines tag propagation configuration for resources created within a domain. Tags specified here will be automatically applied to resources being created for the specified resource type.
+        public var tagPropagationConfigurations: [ConnectCasesClientTypes.TagPropagationConfiguration]?
         /// The Amazon Resource Name (ARN) of the template.
         /// This member is required.
         public var templateArn: Swift.String?
@@ -3464,11 +3555,13 @@ extension ConnectCasesClientTypes {
         public init(
             name: Swift.String? = nil,
             status: ConnectCasesClientTypes.TemplateStatus? = nil,
+            tagPropagationConfigurations: [ConnectCasesClientTypes.TagPropagationConfiguration]? = nil,
             templateArn: Swift.String? = nil,
             templateId: Swift.String? = nil
         ) {
             self.name = name
             self.status = status
+            self.tagPropagationConfigurations = tagPropagationConfigurations
             self.templateArn = templateArn
             self.templateId = templateId
         }
@@ -3507,6 +3600,8 @@ public struct UpdateTemplateInput: Swift.Sendable {
     public var rules: [ConnectCasesClientTypes.TemplateRule]?
     /// The status of the template.
     public var status: ConnectCasesClientTypes.TemplateStatus?
+    /// Defines tag propagation configuration for resources created within a domain. Tags specified here will be automatically applied to resources being created for the specified resource type.
+    public var tagPropagationConfigurations: [ConnectCasesClientTypes.TagPropagationConfiguration]?
     /// A unique identifier for the template.
     /// This member is required.
     public var templateId: Swift.String?
@@ -3519,6 +3614,7 @@ public struct UpdateTemplateInput: Swift.Sendable {
         requiredFields: [ConnectCasesClientTypes.RequiredField]? = nil,
         rules: [ConnectCasesClientTypes.TemplateRule]? = nil,
         status: ConnectCasesClientTypes.TemplateStatus? = nil,
+        tagPropagationConfigurations: [ConnectCasesClientTypes.TagPropagationConfiguration]? = nil,
         templateId: Swift.String? = nil
     ) {
         self.description = description
@@ -3528,6 +3624,7 @@ public struct UpdateTemplateInput: Swift.Sendable {
         self.requiredFields = requiredFields
         self.rules = rules
         self.status = status
+        self.tagPropagationConfigurations = tagPropagationConfigurations
         self.templateId = templateId
     }
 }
@@ -3562,6 +3659,8 @@ extension ConnectCasesClientTypes {
         case field(ConnectCasesClientTypes.FieldFilter)
         /// A filter for cases. Only one value can be provided.
         case not(ConnectCasesClientTypes.CaseFilter)
+        /// A list of tags to filter on.
+        case tag(ConnectCasesClientTypes.TagFilter)
         /// Provides "and all" filtering.
         case andall([ConnectCasesClientTypes.CaseFilter])
         /// Provides "or all" filtering.
@@ -4343,6 +4442,7 @@ extension CreateCaseInput {
         try writer["clientToken"].write(value.clientToken)
         try writer["fields"].writeList(value.fields, memberWritingClosure: ConnectCasesClientTypes.FieldValue.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["performedBy"].write(value.performedBy, with: ConnectCasesClientTypes.UserUnion.write(value:to:))
+        try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["templateId"].write(value.templateId)
     }
 }
@@ -4404,6 +4504,7 @@ extension CreateTemplateInput {
         try writer["requiredFields"].writeList(value.requiredFields, memberWritingClosure: ConnectCasesClientTypes.RequiredField.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["rules"].writeList(value.rules, memberWritingClosure: ConnectCasesClientTypes.TemplateRule.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["status"].write(value.status)
+        try writer["tagPropagationConfigurations"].writeList(value.tagPropagationConfigurations, memberWritingClosure: ConnectCasesClientTypes.TagPropagationConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -4532,6 +4633,7 @@ extension UpdateTemplateInput {
         try writer["requiredFields"].writeList(value.requiredFields, memberWritingClosure: ConnectCasesClientTypes.RequiredField.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["rules"].writeList(value.rules, memberWritingClosure: ConnectCasesClientTypes.TemplateRule.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["status"].write(value.status)
+        try writer["tagPropagationConfigurations"].writeList(value.tagPropagationConfigurations, memberWritingClosure: ConnectCasesClientTypes.TagPropagationConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -4807,6 +4909,7 @@ extension GetTemplateOutput {
         value.requiredFields = try reader["requiredFields"].readListIfPresent(memberReadingClosure: ConnectCasesClientTypes.RequiredField.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.rules = try reader["rules"].readListIfPresent(memberReadingClosure: ConnectCasesClientTypes.TemplateRule.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.tagPropagationConfigurations = try reader["tagPropagationConfigurations"].readListIfPresent(memberReadingClosure: ConnectCasesClientTypes.TagPropagationConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.optionalFormOf(readingClosure: SmithyReadWrite.ReadingClosures.readString(from:)), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.templateArn = try reader["templateArn"].readIfPresent() ?? ""
         value.templateId = try reader["templateId"].readIfPresent() ?? ""
@@ -6580,6 +6683,23 @@ extension ConnectCasesClientTypes.TemplateRule {
     }
 }
 
+extension ConnectCasesClientTypes.TagPropagationConfiguration {
+
+    static func write(value: ConnectCasesClientTypes.TagPropagationConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["resourceType"].write(value.resourceType)
+        try writer["tagMap"].writeMap(value.tagMap, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCasesClientTypes.TagPropagationConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectCasesClientTypes.TagPropagationConfiguration()
+        value.resourceType = try reader["resourceType"].readIfPresent() ?? .sdkUnknown("")
+        value.tagMap = try reader["tagMap"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
+        return value
+    }
+}
+
 extension ConnectCasesClientTypes.CaseRuleSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectCasesClientTypes.CaseRuleSummary {
@@ -6671,6 +6791,7 @@ extension ConnectCasesClientTypes.TemplateSummary {
         value.templateArn = try reader["templateArn"].readIfPresent() ?? ""
         value.name = try reader["name"].readIfPresent() ?? ""
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.tagPropagationConfigurations = try reader["tagPropagationConfigurations"].readListIfPresent(memberReadingClosure: ConnectCasesClientTypes.TagPropagationConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -7050,9 +7171,33 @@ extension ConnectCasesClientTypes.CaseFilter {
                 try writer["not"].write(not, with: ConnectCasesClientTypes.CaseFilter.write(value:to:))
             case let .orall(orall):
                 try writer["orAll"].writeList(orall, memberWritingClosure: ConnectCasesClientTypes.CaseFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+            case let .tag(tag):
+                try writer["tag"].write(tag, with: ConnectCasesClientTypes.TagFilter.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
+    }
+}
+
+extension ConnectCasesClientTypes.TagFilter {
+
+    static func write(value: ConnectCasesClientTypes.TagFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .equalto(equalto):
+                try writer["equalTo"].write(equalto, with: ConnectCasesClientTypes.TagValue.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension ConnectCasesClientTypes.TagValue {
+
+    static func write(value: ConnectCasesClientTypes.TagValue?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["key"].write(value.key)
+        try writer["value"].write(value.value)
     }
 }
 
