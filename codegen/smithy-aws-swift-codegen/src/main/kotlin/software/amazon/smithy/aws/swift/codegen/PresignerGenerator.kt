@@ -124,7 +124,10 @@ class PresignerGenerator : SwiftIntegration {
 
             // Add deprecated overload for backward compatibility
             writer.write("")
-            writer.write("@available(*, deprecated, message: \"Use presign(config: \$L, expiration:) instead\")", serviceConfig.sendableTypeName)
+            writer.write(
+                "@available(*, deprecated, message: \"Use presign(config: \$L, expiration:) instead\")",
+                serviceConfig.sendableTypeName,
+            )
             writer.openBlock(
                 "${ctx.settings.visibility} func presign(config: \$L, expiration: \$N) async throws -> \$T {",
                 "}",

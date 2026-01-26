@@ -158,7 +158,10 @@ class AWSHttpProtocolServiceClient(
     /**
      *  AWS Amplify requires a synchronous initializer with region parameter.
      */
-    private fun renderRegionConfigInitializer(properties: List<ConfigProperty>, isConvenience: Boolean = false) {
+    private fun renderRegionConfigInitializer(
+        properties: List<ConfigProperty>,
+        isConvenience: Boolean = false,
+    ) {
         val convenienceKeyword = if (isConvenience) "convenience " else ""
         writer.openBlock(
             "public ${convenienceKeyword}init(region: \$N) throws {",

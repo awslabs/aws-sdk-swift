@@ -1,67 +1,3 @@
-/*
- * Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
- * SPDX-License-Identifier: Apache-2.0.
- */
-
-package software.amazon.smithy.aws.swift.codegen.awsrestjson
-
-import io.kotest.matchers.string.shouldContainOnlyOnce
-import org.junit.jupiter.api.Test
-import software.amazon.smithy.aws.swift.codegen.TestContext
-import software.amazon.smithy.aws.swift.codegen.TestUtils.Companion.executeDirectedCodegen
-import software.amazon.smithy.aws.swift.codegen.TestUtils.Companion.getClientFileContents
-import software.amazon.smithy.aws.swift.codegen.TestUtils.Companion.getModelFileContents
-import software.amazon.smithy.aws.swift.codegen.protocols.restjson.AWSRestJson1ProtocolGenerator
-import software.amazon.smithy.aws.swift.codegen.shouldSyntacticSanityCheck
-import software.amazon.smithy.aws.traits.protocols.RestJson1Trait
-
-class AWSRestJson1ProtocolGeneratorTests {
-    @Test
-    fun `define coding keys for unbound document payload members`() {
-        val context = setupTests("http-binding-protocol-generator-test.smithy", "com.test#Example")
-        val contents = getModelFileContents("Sources/Example", "SmokeTestInput+Write.swift", context.manifest)
-        contents.shouldSyntacticSanityCheck()
-        val expectedContents = """
-extension SmokeTestInput {
-
-    static func write(value: SmokeTestInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["payload1"].write(value.payload1)
-        try writer["payload2"].write(value.payload2)
-        try writer["payload3"].write(value.payload3, with: ExampleClientTypes.Nested.write(value:to:))
-    }
-}
-"""
-        contents.shouldContainOnlyOnce(expectedContents)
-    }
-
-    @Test
-    fun `define coding keys for payload member`() {
-        val context = setupTests("http-binding-protocol-generator-test.smithy", "com.test#Example")
-        val contents = getModelFileContents("Sources/Example", "ExplicitBlobInput+Write.swift", context.manifest)
-        contents.shouldSyntacticSanityCheck()
-        val expectedContents = """
-extension ExplicitBlobInput {
-
-    static func write(value: ExplicitBlobInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["payload1"].write(value.payload1)
-    }
-}
-"""
-        contents.shouldContainOnlyOnce(expectedContents)
-    }
-
-    @Test
-    fun `generated client has proper configuration`() {
-        val context = setupTests("http-binding-protocol-generator-test.smithy", "com.test#Example")
-        val contents = getClientFileContents("Sources/Example", "ExampleClient.swift", context.manifest)
-        contents.shouldSyntacticSanityCheck()
-
-        // Debug: Save actual generated output to file
-        java.io.File("aws-test-generated-output.txt").writeText(contents)
-
-        val expectedContents = """
 public final class ExampleClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "ExampleClient"
     let client: ClientRuntime.SdkHttpClient
@@ -554,19 +490,7 @@ extension ExampleClient {
         ])
     }
 }
-"""
-        contents.shouldContainOnlyOnce(expectedContents)
-    }
 
-    private fun setupTests(
-        smithyFile: String,
-        serviceShapeId: String,
-    ): TestContext {
-        val context = executeDirectedCodegen(smithyFile, serviceShapeId, RestJson1Trait.ID)
-
-        val generator = AWSRestJson1ProtocolGenerator()
-        generator.generateProtocolUnitTests(context.ctx)
-        context.ctx.delegator.flushWriters()
-        return context
-    }
-}
+extension ExampleClient {
+    /// Performs the `BlobInput` operation on the `Example` service.
+    ///
