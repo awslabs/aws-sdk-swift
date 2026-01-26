@@ -65,7 +65,7 @@ class AuthSchemePlugin(
                 "}",
                 ClientRuntimeTypes.Core.ClientConfiguration,
             ) {
-                writer.openBlock("if var config = clientConfiguration as? ${serviceConfig.typeName} {", "}") {
+                writer.openBlock("if var config = clientConfiguration as? ${serviceConfig.sendableTypeName} {", "}") {
                     writer.openBlock("if (self.authSchemes != nil) {", "}") {
                         writer.write("config.authSchemes = self.authSchemes")
                     }

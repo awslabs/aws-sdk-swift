@@ -31,7 +31,7 @@ public class S3ClientEndpointPlugin: Plugin {
     }
 
     public func configureClient(clientConfiguration: inout ClientRuntime.ClientConfiguration) async throws {
-        if var config = clientConfiguration as? S3Client.S3ClientConfiguration {
+        if var config = clientConfiguration as? S3Client.S3ClientConfig {
             config.endpointResolver = self.endpointResolver
             clientConfiguration = config
         }
@@ -43,7 +43,7 @@ public class DefaultAWSAuthSchemePlugin: ClientRuntime.Plugin {
     public init() {}
 
     public func configureClient(clientConfiguration: inout ClientRuntime.ClientConfiguration) async throws {
-        if var config = clientConfiguration as? S3Client.S3ClientConfiguration {
+        if var config = clientConfiguration as? S3Client.S3ClientConfig {
             config.authSchemeResolver = DefaultS3AuthSchemeResolver()
             config.authSchemes = [AWSSDKHTTPAuth.SigV4AuthScheme(), AWSSDKHTTPAuth.SigV4AAuthScheme(), AWSSDKHTTPAuth.SigV4S3ExpressAuthScheme()]
             config.awsCredentialIdentityResolver = AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain()
@@ -69,7 +69,7 @@ public class S3ClientAuthSchemePlugin: ClientRuntime.Plugin {
     }
 
     public func configureClient(clientConfiguration: inout ClientRuntime.ClientConfiguration) async throws {
-        if var config = clientConfiguration as? S3Client.S3ClientConfiguration {
+        if var config = clientConfiguration as? S3Client.S3ClientConfig {
             if (self.authSchemes != nil) {
                 config.authSchemes = self.authSchemes
             }

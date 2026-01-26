@@ -18,7 +18,7 @@ struct IdentityProvidingSSOClient {
         roleName: String,
         credentialFeatureIDs: [String]
     ) async throws -> AWSCredentialIdentity {
-        let ssoConfig = try await SSOClient.SSOClientConfiguration(
+        let ssoConfig = try await SSOClient.SSOClientConfig(
             region: region,
             httpInterceptorProviders: [CredentialFeatureIDInterceptorProvider(featureIDsToAdd: credentialFeatureIDs)]
         )

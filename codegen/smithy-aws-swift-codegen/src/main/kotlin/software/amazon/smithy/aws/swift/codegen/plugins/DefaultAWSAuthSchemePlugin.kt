@@ -39,7 +39,7 @@ class DefaultAWSAuthSchemePlugin(
                 "}",
                 ClientRuntimeTypes.Core.ClientConfiguration,
             ) {
-                writer.openBlock("if var config = clientConfiguration as? ${serviceConfig.typeName} {", "}") {
+                writer.openBlock("if var config = clientConfiguration as? ${serviceConfig.sendableTypeName} {", "}") {
                     writer.write(
                         "config.authSchemeResolver = \$L",
                         "Default${AuthSchemeResolverGenerator.getSdkId(ctx)}AuthSchemeResolver()",

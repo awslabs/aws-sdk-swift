@@ -131,7 +131,7 @@ class PresignableUrlIntegration(
             writer.openBlock(
                 "${ctx.settings.visibility} func presignURL(config: \$L, expiration: \$N) async throws -> \$T {",
                 "}",
-                serviceConfig.typeName,
+                serviceConfig.sendableTypeName,
                 FoundationTypes.TimeInterval,
                 FoundationTypes.URL,
             ) {

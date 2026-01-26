@@ -29,7 +29,7 @@ package class CognitoIdentityClientEndpointPlugin: Plugin {
     }
 
     public func configureClient(clientConfiguration: inout ClientRuntime.ClientConfiguration) async throws {
-        if var config = clientConfiguration as? CognitoIdentityClient.CognitoIdentityClientConfiguration {
+        if var config = clientConfiguration as? CognitoIdentityClient.CognitoIdentityClientConfig {
             config.endpointResolver = self.endpointResolver
             clientConfiguration = config
         }
@@ -41,7 +41,7 @@ package class DefaultAWSAuthSchemePlugin: ClientRuntime.Plugin {
     public init() {}
 
     public func configureClient(clientConfiguration: inout ClientRuntime.ClientConfiguration) async throws {
-        if var config = clientConfiguration as? CognitoIdentityClient.CognitoIdentityClientConfiguration {
+        if var config = clientConfiguration as? CognitoIdentityClient.CognitoIdentityClientConfig {
             config.authSchemeResolver = DefaultCognitoIdentityAuthSchemeResolver()
             config.authSchemes = [AWSSDKHTTPAuth.SigV4AuthScheme()]
             config.awsCredentialIdentityResolver = SmithyIdentity.StaticAWSCredentialIdentityResolver()
@@ -67,7 +67,7 @@ package class CognitoIdentityClientAuthSchemePlugin: ClientRuntime.Plugin {
     }
 
     public func configureClient(clientConfiguration: inout ClientRuntime.ClientConfiguration) async throws {
-        if var config = clientConfiguration as? CognitoIdentityClient.CognitoIdentityClientConfiguration {
+        if var config = clientConfiguration as? CognitoIdentityClient.CognitoIdentityClientConfig {
             if (self.authSchemes != nil) {
                 config.authSchemes = self.authSchemes
             }

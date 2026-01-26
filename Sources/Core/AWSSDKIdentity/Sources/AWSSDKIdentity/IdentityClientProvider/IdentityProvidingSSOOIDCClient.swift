@@ -18,7 +18,7 @@ struct IdentityProvidingSSOOIDCClient {
         refreshToken: String,
         credentialFeatureIDs: [String]
     ) async throws -> (refreshToken: String?, BearerTokenIdentity) {
-        let ssoOIDCConfig = try await SSOOIDCClient.SSOOIDCClientConfiguration(
+        let ssoOIDCConfig = try await SSOOIDCClient.SSOOIDCClientConfig(
             region: region,
             httpInterceptorProviders: [CredentialFeatureIDInterceptorProvider(featureIDsToAdd: credentialFeatureIDs)]
         )

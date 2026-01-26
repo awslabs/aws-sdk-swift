@@ -29,7 +29,7 @@ package class SSOClientEndpointPlugin: Plugin {
     }
 
     public func configureClient(clientConfiguration: inout ClientRuntime.ClientConfiguration) async throws {
-        if var config = clientConfiguration as? SSOClient.SSOClientConfiguration {
+        if var config = clientConfiguration as? SSOClient.SSOClientConfig {
             config.endpointResolver = self.endpointResolver
             clientConfiguration = config
         }
@@ -41,7 +41,7 @@ package class DefaultAWSAuthSchemePlugin: ClientRuntime.Plugin {
     public init() {}
 
     public func configureClient(clientConfiguration: inout ClientRuntime.ClientConfiguration) async throws {
-        if var config = clientConfiguration as? SSOClient.SSOClientConfiguration {
+        if var config = clientConfiguration as? SSOClient.SSOClientConfig {
             config.authSchemeResolver = DefaultSSOAuthSchemeResolver()
             config.authSchemes = [AWSSDKHTTPAuth.SigV4AuthScheme()]
             config.awsCredentialIdentityResolver = SmithyIdentity.StaticAWSCredentialIdentityResolver()
@@ -67,7 +67,7 @@ package class SSOClientAuthSchemePlugin: ClientRuntime.Plugin {
     }
 
     public func configureClient(clientConfiguration: inout ClientRuntime.ClientConfiguration) async throws {
-        if var config = clientConfiguration as? SSOClient.SSOClientConfiguration {
+        if var config = clientConfiguration as? SSOClient.SSOClientConfig {
             if (self.authSchemes != nil) {
                 config.authSchemes = self.authSchemes
             }

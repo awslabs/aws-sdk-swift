@@ -19,7 +19,7 @@ struct IdentityProvidingSTSClient: Swift.Sendable {
         durationSeconds: Foundation.TimeInterval,
         credentialFeatureIDs: [String]
     ) async throws -> AWSCredentialIdentity {
-        let stsConfig = try await STSClient.STSClientConfiguration(
+        let stsConfig = try await STSClient.STSClientConfig(
             awsCredentialIdentityResolver: StaticAWSCredentialIdentityResolver(creds)
         )
         let sts = STSClient(config: stsConfig)
@@ -64,7 +64,7 @@ struct IdentityProvidingSTSClient: Swift.Sendable {
         webIdentityToken: String,
         credentialFeatureIDs: [String]
     ) async throws -> AWSCredentialIdentity {
-        let stsConfig = try await STSClient.STSClientConfiguration(
+        let stsConfig = try await STSClient.STSClientConfig(
             region: region,
             httpInterceptorProviders: [CredentialFeatureIDInterceptorProvider(featureIDsToAdd: credentialFeatureIDs)]
         )

@@ -177,7 +177,7 @@ public struct LoginAWSCredentialIdentityResolver: AWSCredentialIdentityResolver 
         }
 
         // Call CreateOAuth2Token with SignIn client to refresh token.
-        let clientConfig = try await SigninClient.SigninClientConfiguration(
+        let clientConfig = try await SigninClient.SigninClientConfig(
             httpInterceptorProviders: [
                 DPoPInterceptorProvider(dpopKey: loginToken.dpopKey),
                 CredentialFeatureIDInterceptorProvider(featureIDsToAdd: credentialFeatureIDs)

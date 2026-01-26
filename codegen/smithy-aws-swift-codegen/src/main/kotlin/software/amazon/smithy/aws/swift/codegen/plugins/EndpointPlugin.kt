@@ -39,7 +39,7 @@ class EndpointPlugin(
                 "public func configureClient(clientConfiguration: inout ClientRuntime.ClientConfiguration) async throws {",
                 "}",
             ) {
-                writer.openBlock("if var config = clientConfiguration as? ${serviceConfig.typeName} {", "}") {
+                writer.openBlock("if var config = clientConfiguration as? ${serviceConfig.sendableTypeName} {", "}") {
                     writer.write("config.endpointResolver = self.endpointResolver")
                     writer.write("clientConfiguration = config")
                 }
