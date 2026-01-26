@@ -17,6 +17,7 @@ fi
 
 echo "Running SwiftLint..."
 
-# Run linting using the same config file as CI
-# --strict treats warnings as errors, matching many CI environments
-swiftlint lint --config .swiftlint.yml --strict
+SCRIPT_DIR="$(dirname "$0")"
+CONFIG_PATH="$SCRIPT_DIR/../.swiftlint.yml"
+
+swiftlint lint --config "$CONFIG_PATH" --strict
