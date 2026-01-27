@@ -29377,6 +29377,27 @@ public struct StartScreenSharingOutput: Swift.Sendable {
     public init() { }
 }
 
+extension ConnectClientTypes {
+
+    /// Information about the task attachment files.
+    public struct TaskAttachment: Swift.Sendable {
+        /// A case-sensitive name of the attached file being uploaded.
+        /// This member is required.
+        public var fileName: Swift.String?
+        /// The pre-signed URLs for the S3 bucket where the task attachment is stored.
+        /// This member is required.
+        public var s3Url: Swift.String?
+
+        public init(
+            fileName: Swift.String? = nil,
+            s3Url: Swift.String? = nil
+        ) {
+            self.fileName = fileName
+            self.s3Url = s3Url
+        }
+    }
+}
+
 public struct StartTaskContactOutput: Swift.Sendable {
     /// The identifier of this contact within the Amazon Connect instance.
     public var contactId: Swift.String?
@@ -33877,6 +33898,8 @@ public struct StartOutboundChatContactInput: Swift.Sendable {
 }
 
 public struct StartTaskContactInput: Swift.Sendable {
+    /// List of S3 presigned URLs of task attachments and their file name. You can have a maximum of 5 attachments per task.
+    public var attachments: [ConnectClientTypes.TaskAttachment]?
     /// A custom key-value pair using an attribute map. The attributes are standard Amazon Connect attributes, and can be accessed in flows just like any other contact attributes. There can be up to 32,768 UTF-8 bytes across all key-value pairs per contact. Attribute keys can include only alphanumeric, dash, and underscore characters.
     public var attributes: [Swift.String: Swift.String]?
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
@@ -33907,6 +33930,7 @@ public struct StartTaskContactInput: Swift.Sendable {
     public var taskTemplateId: Swift.String?
 
     public init(
+        attachments: [ConnectClientTypes.TaskAttachment]? = nil,
         attributes: [Swift.String: Swift.String]? = nil,
         clientToken: Swift.String? = nil,
         contactFlowId: Swift.String? = nil,
@@ -33921,6 +33945,7 @@ public struct StartTaskContactInput: Swift.Sendable {
         segmentAttributes: [Swift.String: ConnectClientTypes.SegmentAttributeValue]? = nil,
         taskTemplateId: Swift.String? = nil
     ) {
+        self.attachments = attachments
         self.attributes = attributes
         self.clientToken = clientToken
         self.contactFlowId = contactFlowId
@@ -33939,7 +33964,7 @@ public struct StartTaskContactInput: Swift.Sendable {
 
 extension StartTaskContactInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "StartTaskContactInput(attributes: \(Swift.String(describing: attributes)), clientToken: \(Swift.String(describing: clientToken)), contactFlowId: \(Swift.String(describing: contactFlowId)), instanceId: \(Swift.String(describing: instanceId)), previousContactId: \(Swift.String(describing: previousContactId)), quickConnectId: \(Swift.String(describing: quickConnectId)), references: \(Swift.String(describing: references)), relatedContactId: \(Swift.String(describing: relatedContactId)), scheduledTime: \(Swift.String(describing: scheduledTime)), segmentAttributes: \(Swift.String(describing: segmentAttributes)), taskTemplateId: \(Swift.String(describing: taskTemplateId)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "StartTaskContactInput(attributes: \(Swift.String(describing: attributes)), clientToken: \(Swift.String(describing: clientToken)), contactFlowId: \(Swift.String(describing: contactFlowId)), instanceId: \(Swift.String(describing: instanceId)), previousContactId: \(Swift.String(describing: previousContactId)), quickConnectId: \(Swift.String(describing: quickConnectId)), references: \(Swift.String(describing: references)), relatedContactId: \(Swift.String(describing: relatedContactId)), scheduledTime: \(Swift.String(describing: scheduledTime)), segmentAttributes: \(Swift.String(describing: segmentAttributes)), taskTemplateId: \(Swift.String(describing: taskTemplateId)), attachments: \"CONTENT_REDACTED\", description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateContactInput: Swift.Sendable {
@@ -41760,6 +41785,7 @@ extension StartTaskContactInput {
 
     static func write(value: StartTaskContactInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["Attachments"].writeList(value.attachments, memberWritingClosure: ConnectClientTypes.TaskAttachment.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Attributes"].writeMap(value.attributes, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["ClientToken"].write(value.clientToken)
         try writer["ContactFlowId"].write(value.contactFlowId)
@@ -60491,6 +60517,15 @@ extension ConnectClientTypes.AnswerMachineDetectionConfig {
         guard let value else { return }
         try writer["AwaitAnswerMachinePrompt"].write(value.awaitAnswerMachinePrompt)
         try writer["EnableAnswerMachineDetection"].write(value.enableAnswerMachineDetection)
+    }
+}
+
+extension ConnectClientTypes.TaskAttachment {
+
+    static func write(value: ConnectClientTypes.TaskAttachment?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FileName"].write(value.fileName)
+        try writer["S3Url"].write(value.s3Url)
     }
 }
 
