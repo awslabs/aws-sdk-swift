@@ -35,9 +35,13 @@ class EndpointPlugin(
                 writer.write("self.init(endpointResolver: try \$L())", EndpointTypes.DefaultEndpointResolver)
             }
             writer.write("")
-            writer.openBlock("public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) throws {", "}") {
-                writer.openBlock("if let config = clientConfiguration as? ${serviceConfig.typeName} {", "}") {
+            writer.openBlock(
+                "public func configureClient(clientConfiguration: inout ClientRuntime.ClientConfiguration) async throws {",
+                "}",
+            ) {
+                writer.openBlock("if var config = clientConfiguration as? ${serviceConfig.sendableTypeName} {", "}") {
                     writer.write("config.endpointResolver = self.endpointResolver")
+                    writer.write("clientConfiguration = config")
                 }
             }
         }

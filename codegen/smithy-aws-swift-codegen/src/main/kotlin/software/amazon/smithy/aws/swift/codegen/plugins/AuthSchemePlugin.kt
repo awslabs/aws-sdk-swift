@@ -61,11 +61,11 @@ class AuthSchemePlugin(
             }
             writer.write("")
             writer.openBlock(
-                "public func configureClient(clientConfiguration: \$N) throws {",
+                "public func configureClient(clientConfiguration: inout \$N) async throws {",
                 "}",
                 ClientRuntimeTypes.Core.ClientConfiguration,
             ) {
-                writer.openBlock("if let config = clientConfiguration as? ${serviceConfig.typeName} {", "}") {
+                writer.openBlock("if var config = clientConfiguration as? ${serviceConfig.sendableTypeName} {", "}") {
                     writer.openBlock("if (self.authSchemes != nil) {", "}") {
                         writer.write("config.authSchemes = self.authSchemes")
                     }
@@ -79,6 +79,7 @@ class AuthSchemePlugin(
                     writer.openBlock("if (self.bearerTokenIdentityResolver != nil) {", "}") {
                         writer.write("config.bearerTokenIdentityResolver = self.bearerTokenIdentityResolver!")
                     }
+                    writer.write("clientConfiguration = config")
                 }
             }
         }

@@ -14,7 +14,7 @@ class PresignerGeneratorTests {
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
 extension GetFooInput {
-    public func presign(config: ExampleClient.ExampleClientConfiguration, expiration: Foundation.TimeInterval) async throws -> SmithyHTTPAPI.HTTPRequest? {
+    public func presign(config: ExampleClient.ExampleClientConfig, expiration: Foundation.TimeInterval) async throws -> SmithyHTTPAPI.HTTPRequest? {
         let serviceName = "example"
         let input = self
         let client: (SmithyHTTPAPI.HTTPRequest, Smithy.Context) async throws -> SmithyHTTPAPI.HTTPResponse = { (_, _) in
@@ -70,6 +70,11 @@ extension GetFooInput {
             .build()
         return try await op.presignRequest(input: input)
     }
+
+    @available(*, deprecated, message: "Use presign(config: ExampleClient.ExampleClientConfig, expiration:) instead")
+    public func presign(config: ExampleClient.ExampleClientConfiguration, expiration: Foundation.TimeInterval) async throws -> SmithyHTTPAPI.HTTPRequest? {
+        return try await self.presign(config: config.toSendable(), expiration: expiration)
+    }
 }
 """
         contents.shouldContainOnlyOnce(expectedContents)
@@ -82,7 +87,7 @@ extension GetFooInput {
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
 extension PostFooInput {
-    public func presign(config: ExampleClient.ExampleClientConfiguration, expiration: Foundation.TimeInterval) async throws -> SmithyHTTPAPI.HTTPRequest? {
+    public func presign(config: ExampleClient.ExampleClientConfig, expiration: Foundation.TimeInterval) async throws -> SmithyHTTPAPI.HTTPRequest? {
         let serviceName = "example"
         let input = self
         let client: (SmithyHTTPAPI.HTTPRequest, Smithy.Context) async throws -> SmithyHTTPAPI.HTTPResponse = { (_, _) in
@@ -141,6 +146,11 @@ extension PostFooInput {
             .build()
         return try await op.presignRequest(input: input)
     }
+
+    @available(*, deprecated, message: "Use presign(config: ExampleClient.ExampleClientConfig, expiration:) instead")
+    public func presign(config: ExampleClient.ExampleClientConfiguration, expiration: Foundation.TimeInterval) async throws -> SmithyHTTPAPI.HTTPRequest? {
+        return try await self.presign(config: config.toSendable(), expiration: expiration)
+    }
 }
 """
         contents.shouldContainOnlyOnce(expectedContents)
@@ -153,7 +163,7 @@ extension PostFooInput {
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
 extension PutFooInput {
-    public func presign(config: ExampleClient.ExampleClientConfiguration, expiration: Foundation.TimeInterval) async throws -> SmithyHTTPAPI.HTTPRequest? {
+    public func presign(config: ExampleClient.ExampleClientConfig, expiration: Foundation.TimeInterval) async throws -> SmithyHTTPAPI.HTTPRequest? {
         let serviceName = "example"
         let input = self
         let client: (SmithyHTTPAPI.HTTPRequest, Smithy.Context) async throws -> SmithyHTTPAPI.HTTPResponse = { (_, _) in
@@ -212,6 +222,11 @@ extension PutFooInput {
             .build()
         return try await op.presignRequest(input: input)
     }
+
+    @available(*, deprecated, message: "Use presign(config: ExampleClient.ExampleClientConfig, expiration:) instead")
+    public func presign(config: ExampleClient.ExampleClientConfiguration, expiration: Foundation.TimeInterval) async throws -> SmithyHTTPAPI.HTTPRequest? {
+        return try await self.presign(config: config.toSendable(), expiration: expiration)
+    }
 }
 """
         contents.shouldContainOnlyOnce(expectedContents)
@@ -224,7 +239,7 @@ extension PutFooInput {
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
 extension PutObjectInput {
-    public func presign(config: S3Client.S3ClientConfiguration, expiration: Foundation.TimeInterval) async throws -> SmithyHTTPAPI.HTTPRequest? {
+    public func presign(config: S3Client.S3ClientConfig, expiration: Foundation.TimeInterval) async throws -> SmithyHTTPAPI.HTTPRequest? {
         let serviceName = "S3"
         let input = self
         let client: (SmithyHTTPAPI.HTTPRequest, Smithy.Context) async throws -> SmithyHTTPAPI.HTTPResponse = { (_, _) in
@@ -285,6 +300,11 @@ extension PutObjectInput {
             .executeRequest(client)
             .build()
         return try await op.presignRequest(input: input)
+    }
+
+    @available(*, deprecated, message: "Use presign(config: S3Client.S3ClientConfig, expiration:) instead")
+    public func presign(config: S3Client.S3ClientConfiguration, expiration: Foundation.TimeInterval) async throws -> SmithyHTTPAPI.HTTPRequest? {
+        return try await self.presign(config: config.toSendable(), expiration: expiration)
     }
 }
 """

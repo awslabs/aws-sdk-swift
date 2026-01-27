@@ -14,14 +14,14 @@ public class DefaultAWSClientPlugin: Plugin {
         self.clientName = clientName
     }
 
-    public func configureClient(clientConfiguration: ClientConfiguration) throws {
-        if var config = clientConfiguration as? (DefaultClientConfiguration
+    public func configureClient(clientConfiguration: inout ClientConfiguration) async throws {
+        guard var config = clientConfiguration as? (DefaultClientConfiguration
             & AWSDefaultClientConfiguration
-            & AWSRegionClientConfiguration) {
-            config.retryStrategyOptions = try AWSClientConfigDefaultsProvider.retryStrategyOptions(
-                config.awsRetryMode,
-                config.maxAttempts
-            )
-        }
+            & AWSRegionClientConfiguration) else { return }
+        config.retryStrategyOptions = try AWSClientConfigDefaultsProvider.retryStrategyOptions(
+            config.awsRetryMode,
+            config.maxAttempts
+        )
+        clientConfiguration = config as ClientConfiguration
     }
 }
