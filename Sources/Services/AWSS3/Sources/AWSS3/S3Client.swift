@@ -97,8 +97,13 @@ public final class S3Client: AWSClientRuntime.AWSServiceClient {
     }
 
     @available(*, deprecated, message: "Use init(config: S3Client.S3ClientConfig) instead")
-    public convenience init(config: S3Client.S3ClientConfiguration) throws {
-        try self.init(config: config.toSendable())
+    public convenience init(config: S3Client.S3ClientConfiguration) {
+        do {
+            try self.init(config: config.toSendable())
+        } catch {
+            // This should never happen since all values are already initialized in the class
+            fatalError("Failed to convert deprecated configuration: \(error)")
+        }
     }
 
     public convenience init(region: Swift.String) throws {

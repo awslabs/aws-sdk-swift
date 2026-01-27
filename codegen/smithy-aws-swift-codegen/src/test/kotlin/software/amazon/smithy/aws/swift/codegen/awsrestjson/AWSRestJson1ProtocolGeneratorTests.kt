@@ -74,8 +74,13 @@ public final class ExampleClient: AWSClientRuntime.AWSServiceClient {
     }
 
     @available(*, deprecated, message: "Use init(config: ExampleClient.ExampleClientConfig) instead")
-    public convenience init(config: ExampleClient.ExampleClientConfiguration) throws {
-        try self.init(config: config.toSendable())
+    public convenience init(config: ExampleClient.ExampleClientConfiguration) {
+        do {
+            try self.init(config: config.toSendable())
+        } catch {
+            // This should never happen since all values are already initialized in the class
+            fatalError("Failed to convert deprecated configuration: \(error)")
+        }
     }
 
     public convenience init(region: Swift.String) throws {

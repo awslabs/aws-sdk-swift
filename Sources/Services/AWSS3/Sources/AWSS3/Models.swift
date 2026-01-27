@@ -24443,6 +24443,11 @@ extension GetObjectInput {
             .build()
         return try await op.presignRequest(input: input)
     }
+
+    @available(*, deprecated, message: "Use presign(config: S3Client.S3ClientConfig, expiration:) instead")
+    public func presign(config: S3Client.S3ClientConfiguration, expiration: Foundation.TimeInterval) async throws -> SmithyHTTPAPI.HTTPRequest? {
+        return try await self.presign(config: config.toSendable(), expiration: expiration)
+    }
 }
 
 extension PutObjectInput {
@@ -24515,6 +24520,11 @@ extension PutObjectInput {
             .build()
         return try await op.presignRequest(input: input)
     }
+
+    @available(*, deprecated, message: "Use presign(config: S3Client.S3ClientConfig, expiration:) instead")
+    public func presign(config: S3Client.S3ClientConfiguration, expiration: Foundation.TimeInterval) async throws -> SmithyHTTPAPI.HTTPRequest? {
+        return try await self.presign(config: config.toSendable(), expiration: expiration)
+    }
 }
 
 extension UploadPartInput {
@@ -24586,6 +24596,11 @@ extension UploadPartInput {
             .executeRequest(client)
             .build()
         return try await op.presignRequest(input: input)
+    }
+
+    @available(*, deprecated, message: "Use presign(config: S3Client.S3ClientConfig, expiration:) instead")
+    public func presign(config: S3Client.S3ClientConfiguration, expiration: Foundation.TimeInterval) async throws -> SmithyHTTPAPI.HTTPRequest? {
+        return try await self.presign(config: config.toSendable(), expiration: expiration)
     }
 }
 
