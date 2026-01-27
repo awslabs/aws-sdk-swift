@@ -91,6 +91,9 @@ public final class S3Client: AWSClientRuntime.AWSServiceClient {
     let config: S3Client.S3ClientConfig
     let serviceName = "S3"
 
+    @available(*, deprecated, message: "Use S3Client.S3ClientConfig instead")
+    public typealias Config = S3Client.S3ClientConfiguration
+
     public required init(config: S3Client.S3ClientConfig) {
         client = ClientRuntime.SdkHttpClient(engine: config.httpClientEngine, config: config.httpClientConfiguration)
         self.config = config
@@ -111,7 +114,7 @@ public final class S3Client: AWSClientRuntime.AWSServiceClient {
         self.init(config: config)
     }
 
-    public convenience required init() async throws {
+    public convenience init() async throws {
         let config = try await S3Client.S3ClientConfig()
         self.init(config: config)
     }

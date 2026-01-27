@@ -24,7 +24,7 @@ class ProcessAWSCredentialIdentityResolverTests: XCTestCase {
         )
 
         // Setup S3ClientConfiguration to use ProcessAWSCredentialIdentityResolver
-        var testConfig = try await S3Client.S3ClientConfiguration()
+        let testConfig = try await S3Client.S3ClientConfiguration()
         testConfig.awsCredentialIdentityResolver = processAWSCredentialIdentityResolver
 
         // Initialize our S3 client with the specified configuration

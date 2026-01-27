@@ -24143,6 +24143,11 @@ extension GetObjectInput {
             .build()
         return try await op.presignRequest(input: input).endpoint.url
     }
+
+    @available(*, deprecated, message: "Use presignURL(config: S3Client.S3ClientConfig, expiration:) instead")
+    public func presignURL(config: S3Client.S3ClientConfiguration, expiration: Foundation.TimeInterval) async throws -> Foundation.URL? {
+        return try await self.presignURL(config: config.toSendable(), expiration: expiration)
+    }
 }
 
 public struct GetObjectInputGETQueryItemMiddleware {
@@ -24289,6 +24294,11 @@ extension PutObjectInput {
             .build()
         return try await op.presignRequest(input: input).endpoint.url
     }
+
+    @available(*, deprecated, message: "Use presignURL(config: S3Client.S3ClientConfig, expiration:) instead")
+    public func presignURL(config: S3Client.S3ClientConfiguration, expiration: Foundation.TimeInterval) async throws -> Foundation.URL? {
+        return try await self.presignURL(config: config.toSendable(), expiration: expiration)
+    }
 }
 
 public struct PutObjectPresignedURLMiddleware {
@@ -24374,6 +24384,11 @@ extension UploadPartInput {
             .executeRequest(client)
             .build()
         return try await op.presignRequest(input: input).endpoint.url
+    }
+
+    @available(*, deprecated, message: "Use presignURL(config: S3Client.S3ClientConfig, expiration:) instead")
+    public func presignURL(config: S3Client.S3ClientConfiguration, expiration: Foundation.TimeInterval) async throws -> Foundation.URL? {
+        return try await self.presignURL(config: config.toSendable(), expiration: expiration)
     }
 }
 

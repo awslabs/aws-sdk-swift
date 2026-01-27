@@ -44,7 +44,7 @@ class AWSHttpProtocolServiceClient(
             writer.write("self.init(config: config)")
         }
         writer.write("")
-        writer.openBlock("public convenience required init() async throws {", "}") {
+        writer.openBlock("public convenience init() async throws {", "}") {
             writer.write("let config = try await \$L()", serviceConfig.sendableTypeName)
             writer.write("self.init(config: config)")
         }

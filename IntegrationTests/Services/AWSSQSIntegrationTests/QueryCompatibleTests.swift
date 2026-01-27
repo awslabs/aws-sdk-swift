@@ -161,7 +161,7 @@ final class QueryCompatibleTests: XCTestCase {
 
 // Mock HTTP Client Implementation
 
-private final class MockHTTPClient: HTTPClient, @unchecked Sendable {
+private class MockHTTPClient: HTTPClient {
     private let handler: (HTTPRequest) async throws -> HTTPResponse
 
     init(handler: @escaping (HTTPRequest) -> HTTPResponse) {

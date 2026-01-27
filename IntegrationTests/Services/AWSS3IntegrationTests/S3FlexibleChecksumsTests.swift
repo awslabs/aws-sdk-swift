@@ -107,14 +107,14 @@ final class S3FlexibleChecksumsTests: S3XCTestCase {
         }
     }
 
-    class DisablePayloadSigningProvider: HttpInterceptorProvider, @unchecked Sendable {
+    class DisablePayloadSigningProvider: HttpInterceptorProvider {
         func create<InputType, OutputType>() -> any Interceptor<InputType, OutputType, HTTPRequest, HTTPResponse> {
             return DisablePayloadSigning()
         }
     }
 
     func test_putGetObject_streamining_unsigned_chunked() async throws {
-        var config = try await S3Client.S3ClientConfiguration(region: region)
+        let config = try await S3Client.S3ClientConfiguration(region: region)
         config.addInterceptorProvider(DisablePayloadSigningProvider())
         let customizedClient = S3Client(config: config)
 

@@ -127,7 +127,7 @@ class CheckSelectedAuthScheme<InputType, OutputType>: Interceptor {
     }
 }
 
-class CheckSelectedAuthSchemeProvider: HttpInterceptorProvider, @unchecked Sendable {
+class CheckSelectedAuthSchemeProvider: HttpInterceptorProvider {
 
     let expectedAuthScheme: AuthScheme
 

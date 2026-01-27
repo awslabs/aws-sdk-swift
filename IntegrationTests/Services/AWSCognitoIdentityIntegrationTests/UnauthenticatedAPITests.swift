@@ -32,7 +32,7 @@ class UnauthenticatedAPITests: XCTestCase {
         cognitoIdentityClient = try CognitoIdentityClient(region: region)
 
         // CognitoIdentity client for calling unauthenticated API against an identity pool.
-        var config = try await CognitoIdentityClient.CognitoIdentityClientConfiguration(region: region)
+        let config = try await CognitoIdentityClient.CognitoIdentityClientConfiguration(region: region)
         config.addInterceptorProvider(GetHeadersBeforeTransmitProvider())
         cognitoIdentityUnauthenticatedCheckClient = CognitoIdentityClient(config: config)
 
@@ -73,7 +73,7 @@ class GetHeadersBeforeTransmit<InputType, OutputType>: Interceptor {
         XCTAssertTrue(!context.getRequest().headers.exists(name: "Authorization"))
     }
 }
-final class GetHeadersBeforeTransmitProvider: HttpInterceptorProvider, @unchecked Sendable {
+class GetHeadersBeforeTransmitProvider: HttpInterceptorProvider {
   func create<InputType, OutputType>() -> any Interceptor<InputType, OutputType, HTTPRequest, HTTPResponse> {
     return GetHeadersBeforeTransmit()
   }

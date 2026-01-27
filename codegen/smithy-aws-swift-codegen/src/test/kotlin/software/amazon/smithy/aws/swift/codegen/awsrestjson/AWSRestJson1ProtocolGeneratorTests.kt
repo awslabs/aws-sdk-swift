@@ -68,6 +68,9 @@ public final class ExampleClient: AWSClientRuntime.AWSServiceClient {
     let config: ExampleClient.ExampleClientConfig
     let serviceName = "Example"
 
+    @available(*, deprecated, message: "Use ExampleClient.ExampleClientConfig instead")
+    public typealias Config = ExampleClient.ExampleClientConfiguration
+
     public required init(config: ExampleClient.ExampleClientConfig) {
         client = ClientRuntime.SdkHttpClient(engine: config.httpClientEngine, config: config.httpClientConfiguration)
         self.config = config
@@ -88,7 +91,7 @@ public final class ExampleClient: AWSClientRuntime.AWSServiceClient {
         self.init(config: config)
     }
 
-    public convenience required init() async throws {
+    public convenience init() async throws {
         let config = try await ExampleClient.ExampleClientConfig()
         self.init(config: config)
     }

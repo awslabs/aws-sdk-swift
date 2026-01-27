@@ -161,6 +161,22 @@ class PresignableUrlIntegration(
                 generator.render(serviceShape, op, PRESIGN_URL)
                 writer.write("return try await op.presignRequest(input: input).endpoint.url")
             }
+
+            // Add deprecated overload for backward compatibility
+            writer.write("")
+            writer.write(
+                "@available(*, deprecated, message: \"Use presignURL(config: \$L, expiration:) instead\")",
+                serviceConfig.sendableTypeName,
+            )
+            writer.openBlock(
+                "${ctx.settings.visibility} func presignURL(config: \$L, expiration: \$N) async throws -> \$T {",
+                "}",
+                serviceConfig.typeName,
+                FoundationTypes.TimeInterval,
+                FoundationTypes.URL,
+            ) {
+                writer.write("return try await self.presignURL(config: config.toSendable(), expiration: expiration)")
+            }
         }
     }
 

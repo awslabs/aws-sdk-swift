@@ -57,7 +57,7 @@ class SigningRegionAssertInterceptor<InputType, OutputType>: Interceptor {
     }
 }
 
-class SigningRegionAssertInterceptorProvider: HttpInterceptorProvider, @unchecked Sendable {
+class SigningRegionAssertInterceptorProvider: HttpInterceptorProvider {
   func create<InputType, OutputType>() -> any Interceptor<InputType, OutputType, HTTPRequest, HTTPResponse> {
       return SigningRegionAssertInterceptor()
   }

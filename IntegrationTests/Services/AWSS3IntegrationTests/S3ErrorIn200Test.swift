@@ -15,7 +15,7 @@ import AWSClientRuntime
 import AwsCommonRuntimeKit
 import ClientRuntime
 
-public class MockHttpClientEngine: HTTPClient, @unchecked Sendable {
+public class MockHttpClientEngine: HTTPClient {
     private let errorResponsePayload: String
 
     // Public initializer
@@ -76,7 +76,7 @@ class S3ErrorIn200Test: XCTestCase {
 
     /// S3Client throws expected InternalError error in response (200) with <Error> tag
     func test_foundInternalErrorExpectedError() async throws {
-        var config = try await S3Client.S3ClientConfiguration(region: "us-west-2")
+        let config = try await S3Client.S3ClientConfiguration(region: "us-west-2")
         config.httpClientEngine = MockHttpClientEngine(response: errorInternalErrorResponsePayload)
         let client = S3Client(config: config)
 
@@ -95,7 +95,7 @@ class S3ErrorIn200Test: XCTestCase {
 
     /// S3Client throws expected SlowDown error in response (200) with <Error> tag
     func test_foundSlowDownExpectedError() async throws {
-        var config = try await S3Client.S3ClientConfiguration(region: "us-west-2")
+        let config = try await S3Client.S3ClientConfiguration(region: "us-west-2")
         config.httpClientEngine = MockHttpClientEngine(response: errorSlowDownResponsePayload)
         let client = S3Client(config: config)
 
@@ -114,7 +114,7 @@ class S3ErrorIn200Test: XCTestCase {
 
     /// S3Client does not throw error when <Error> is not at the root
     func test_noErrorExpected() async throws {
-        var config = try await S3Client.S3ClientConfiguration(region: "us-west-2")
+        let config = try await S3Client.S3ClientConfiguration(region: "us-west-2")
         config.httpClientEngine = MockHttpClientEngine(response: shouldNotApplyResponsePayload)
         let client = S3Client(config: config)
 
