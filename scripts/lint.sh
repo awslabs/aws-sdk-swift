@@ -6,18 +6,17 @@
 //
 #!/bin/bash
 
-# Ensure local Homebrew path is included for Apple Silicon and Intel Macs
+# Standard brew path setup
 export PATH="$PATH:/opt/homebrew/bin:/usr/local/bin"
 
-# Check if SwiftLint is installed
-if ! command -v swiftlint > /dev/null; then
-    echo "Error: SwiftLint not found. Install it using 'brew install swiftlint'."
-    exit 1
-fi
+LOG_FILE="spm_build.log"
 
-echo "Running SwiftLint..."
+echo "Step 1: Generating verbose build log via SPM..."
+swift build --clean
+swift build -v > "$LOG_FILE"
 
-SCRIPT_DIR="$(dirname "$0")"
-CONFIG_PATH="$SCRIPT_DIR/../.swiftlint.yml"
+echo "Step 2: Running SwiftLint Analyze..."
+swiftlint analyze --compiler-log-path "$LOG_FILE"
 
-swiftlint lint --config "$CONFIG_PATH" --strict
+echo "Step 3: Running standard SwiftLint..."
+swiftlint lint --strict
