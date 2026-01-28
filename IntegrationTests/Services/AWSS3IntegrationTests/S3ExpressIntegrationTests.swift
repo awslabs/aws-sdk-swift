@@ -23,7 +23,7 @@ final class S3ExpressIntegrationTests: S3ExpressXCTestCase {
 
         // Create the S3Express-enabled directory buckets with random names
         // Use a task group so buckets are created in parallel
-        try await withThrowingTaskGroup { group in
+        try await withThrowingTaskGroup(of: Void.self) { group in
             for _ in 1...n {
                 group.addTask {
                     let baseName = String(UUID().uuidString.prefix(8)).lowercased()
