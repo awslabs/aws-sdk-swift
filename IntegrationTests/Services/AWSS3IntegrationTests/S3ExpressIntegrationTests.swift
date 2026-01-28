@@ -21,17 +21,16 @@ final class S3ExpressIntegrationTests: S3ExpressXCTestCase {
         // The number of buckets to create
         let n = 5
 
-        // The object key & data contents to put in each bucket
-        let key = "text"
-        let originalContents = Data("Hello, World!".utf8)
-
-        // Create the S3Express-enabled directory buckets with random names,
-        // save the names for later use
-        var buckets = [String]()
-        for _ in 1...n {
-            let baseName = String(UUID().uuidString.prefix(8)).lowercased()
-            let newBucket = try await createS3ExpressBucket(baseName: baseName)
-            buckets.append(newBucket)
+        // Create the S3Express-enabled directory buckets with random names
+        // Use a task group so buckets are created in parallel
+        try await withThrowingTaskGroup { group in
+            for _ in 1...n {
+                group.addTask {
+                    let baseName = String(UUID().uuidString.prefix(8)).lowercased()
+                    _ = try await self.createS3ExpressBucket(baseName: baseName)
+                }
+            }
+            try await group.waitForAll()
         }
 
         // add an object to each bucket
@@ -49,14 +48,6 @@ final class S3ExpressIntegrationTests: S3ExpressXCTestCase {
             XCTAssertEqual(retrievedContents, originalContents)
         }
 
-        // Delete the object from each bucket
-        for bucket in buckets {
-            try await deleteObject(bucket: bucket, key: key)
-        }
-
-        // Delete each directory bucket
-        for bucket in buckets {
-            try await deleteBucket(bucket: bucket)
-        }
+        // Objects, and then buckets, will be deleted during this test case's tearDown()
     }
 }
