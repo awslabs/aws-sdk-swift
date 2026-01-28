@@ -26401,6 +26401,12 @@ extension ConnectClientTypes {
         public var channels: [ConnectClientTypes.Channel]?
         /// Search criteria based on analysis outputs from Amazon Connect Contact Lens.
         public var contactAnalysis: ConnectClientTypes.ContactAnalysis?
+        /// An object that can be used to specify Tag conditions inside the SearchFilter. This accepts an OR of AND (List of List) input where:
+        ///
+        /// * Top level list specifies conditions that need to be applied with OR operator
+        ///
+        /// * Inner list specifies conditions that need to be applied with AND operator.
+        public var contactTags: ConnectClientTypes.ControlPlaneTagFilter?
         /// The list of initiation methods associated with contacts.
         public var initiationMethods: [ConnectClientTypes.ContactInitiationMethod]?
         /// Name of the contact.
@@ -26421,6 +26427,7 @@ extension ConnectClientTypes {
             agentIds: [Swift.String]? = nil,
             channels: [ConnectClientTypes.Channel]? = nil,
             contactAnalysis: ConnectClientTypes.ContactAnalysis? = nil,
+            contactTags: ConnectClientTypes.ControlPlaneTagFilter? = nil,
             initiationMethods: [ConnectClientTypes.ContactInitiationMethod]? = nil,
             name: ConnectClientTypes.NameCriteria? = nil,
             queueIds: [Swift.String]? = nil,
@@ -26434,6 +26441,7 @@ extension ConnectClientTypes {
             self.agentIds = agentIds
             self.channels = channels
             self.contactAnalysis = contactAnalysis
+            self.contactTags = contactTags
             self.initiationMethods = initiationMethods
             self.name = name
             self.queueIds = queueIds
@@ -34685,6 +34693,8 @@ extension ConnectClientTypes {
         public var scheduledTimestamp: Foundation.Date?
         /// Set of segment attributes for a contact.
         public var segmentAttributes: [Swift.String: ConnectClientTypes.ContactSearchSummarySegmentAttributeValue]?
+        /// Tags associated with the contact. This contains both Amazon Web Services generated and user-defined tags.
+        public var tags: [Swift.String: Swift.String]?
 
         public init(
             agentInfo: ConnectClientTypes.ContactSearchSummaryAgentInfo? = nil,
@@ -34701,7 +34711,8 @@ extension ConnectClientTypes {
             queueInfo: ConnectClientTypes.ContactSearchSummaryQueueInfo? = nil,
             routingCriteria: ConnectClientTypes.RoutingCriteria? = nil,
             scheduledTimestamp: Foundation.Date? = nil,
-            segmentAttributes: [Swift.String: ConnectClientTypes.ContactSearchSummarySegmentAttributeValue]? = nil
+            segmentAttributes: [Swift.String: ConnectClientTypes.ContactSearchSummarySegmentAttributeValue]? = nil,
+            tags: [Swift.String: Swift.String]? = nil
         ) {
             self.agentInfo = agentInfo
             self.arn = arn
@@ -34718,13 +34729,14 @@ extension ConnectClientTypes {
             self.routingCriteria = routingCriteria
             self.scheduledTimestamp = scheduledTimestamp
             self.segmentAttributes = segmentAttributes
+            self.tags = tags
         }
     }
 }
 
 extension ConnectClientTypes.ContactSearchSummary: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "ContactSearchSummary(agentInfo: \(Swift.String(describing: agentInfo)), arn: \(Swift.String(describing: arn)), channel: \(Swift.String(describing: channel)), disconnectTimestamp: \(Swift.String(describing: disconnectTimestamp)), globalResiliencyMetadata: \(Swift.String(describing: globalResiliencyMetadata)), id: \(Swift.String(describing: id)), initialContactId: \(Swift.String(describing: initialContactId)), initiationMethod: \(Swift.String(describing: initiationMethod)), initiationTimestamp: \(Swift.String(describing: initiationTimestamp)), previousContactId: \(Swift.String(describing: previousContactId)), queueInfo: \(Swift.String(describing: queueInfo)), routingCriteria: \(Swift.String(describing: routingCriteria)), scheduledTimestamp: \(Swift.String(describing: scheduledTimestamp)), name: \"CONTENT_REDACTED\", segmentAttributes: \"CONTENT_REDACTED\")"}
+        "ContactSearchSummary(agentInfo: \(Swift.String(describing: agentInfo)), arn: \(Swift.String(describing: arn)), channel: \(Swift.String(describing: channel)), disconnectTimestamp: \(Swift.String(describing: disconnectTimestamp)), globalResiliencyMetadata: \(Swift.String(describing: globalResiliencyMetadata)), id: \(Swift.String(describing: id)), initialContactId: \(Swift.String(describing: initialContactId)), initiationMethod: \(Swift.String(describing: initiationMethod)), initiationTimestamp: \(Swift.String(describing: initiationTimestamp)), previousContactId: \(Swift.String(describing: previousContactId)), queueInfo: \(Swift.String(describing: queueInfo)), routingCriteria: \(Swift.String(describing: routingCriteria)), scheduledTimestamp: \(Swift.String(describing: scheduledTimestamp)), tags: \(Swift.String(describing: tags)), name: \"CONTENT_REDACTED\", segmentAttributes: \"CONTENT_REDACTED\")"}
 }
 
 public struct DescribeContactOutput: Swift.Sendable {
@@ -59024,6 +59036,7 @@ extension ConnectClientTypes.ContactSearchSummary {
         value.segmentAttributes = try reader["SegmentAttributes"].readMapIfPresent(valueReadingClosure: ConnectClientTypes.ContactSearchSummarySegmentAttributeValue.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.name = try reader["Name"].readIfPresent()
         value.routingCriteria = try reader["RoutingCriteria"].readIfPresent(with: ConnectClientTypes.RoutingCriteria.read(from:))
+        value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.globalResiliencyMetadata = try reader["GlobalResiliencyMetadata"].readIfPresent(with: ConnectClientTypes.GlobalResiliencyMetadata.read(from:))
         return value
     }
@@ -59797,6 +59810,7 @@ extension ConnectClientTypes.SearchCriteria {
         try writer["AgentIds"].writeList(value.agentIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Channels"].writeList(value.channels, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ConnectClientTypes.Channel>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ContactAnalysis"].write(value.contactAnalysis, with: ConnectClientTypes.ContactAnalysis.write(value:to:))
+        try writer["ContactTags"].write(value.contactTags, with: ConnectClientTypes.ControlPlaneTagFilter.write(value:to:))
         try writer["InitiationMethods"].writeList(value.initiationMethods, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ConnectClientTypes.ContactInitiationMethod>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Name"].write(value.name, with: ConnectClientTypes.NameCriteria.write(value:to:))
         try writer["QueueIds"].writeList(value.queueIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
