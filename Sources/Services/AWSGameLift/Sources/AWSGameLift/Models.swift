@@ -5802,7 +5802,7 @@ public struct CreateGameSessionQueueInput: Swift.Sendable {
     public var priorityConfiguration: GameLiftClientTypes.PriorityConfiguration?
     /// A list of labels to assign to the new game session queue resource. Tags are developer-defined key-value pairs. Tagging Amazon Web Services resources are useful for resource management, access management and cost allocation. For more information, see [ Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) in the Amazon Web Services General Reference.
     public var tags: [GameLiftClientTypes.Tag]?
-    /// The maximum time, in seconds, that a new game session placement request remains in the queue. When a request exceeds this time, the game session placement changes to a TIMED_OUT status. If you don't specify a request timeout, the queue uses a default value.
+    /// The maximum time, in seconds, that a new game session placement request remains in the queue. When a request exceeds this time, the game session placement changes to a TIMED_OUT status. If you don't specify a request timeout, the queue uses a default value. The minimum value is 10 and the maximum value is 600.
     public var timeoutInSeconds: Swift.Int?
 
     public init(
@@ -5848,7 +5848,7 @@ extension GameLiftClientTypes {
         public var playerLatencyPolicies: [GameLiftClientTypes.PlayerLatencyPolicy]?
         /// Custom settings to use when prioritizing destinations and locations for game session placements. This configuration replaces the FleetIQ default prioritization process. Priority types that are not explicitly named will be automatically applied at the end of the prioritization process.
         public var priorityConfiguration: GameLiftClientTypes.PriorityConfiguration?
-        /// The maximum time, in seconds, that a new game session placement request remains in the queue. When a request exceeds this time, the game session placement changes to a TIMED_OUT status.
+        /// The maximum time, in seconds, that a new game session placement request remains in the queue. When a request exceeds this time, the game session placement changes to a TIMED_OUT status. The minimum value is 10 and the maximum value is 600.
         public var timeoutInSeconds: Swift.Int?
 
         public init(
@@ -7424,6 +7424,58 @@ extension GameLiftClientTypes {
 
 extension GameLiftClientTypes {
 
+    public enum ZeroCapacityStrategy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case manual
+        case scaleToAndFromZero
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ZeroCapacityStrategy] {
+            return [
+                .manual,
+                .scaleToAndFromZero
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .manual: return "MANUAL"
+            case .scaleToAndFromZero: return "SCALE_TO_AND_FROM_ZERO"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GameLiftClientTypes {
+
+    /// Use ManagedCapacityConfiguration with the "SCALE_TO_AND_FROM_ZERO" ZeroCapacityStrategy to enable Amazon GameLift Servers to fully manage the MinSize value, switching between 0 and 1 based on game session activity. This is ideal for eliminating compute costs during periods of no game activity. It is particularly beneficial during development when you're away from your desk, iterating on builds for extended periods, in production environments serving low-traffic locations, or for games with long, predictable downtime windows. By automatically managing capacity between 0 and 1 instances, you avoid paying for idle instances while maintaining the ability to serve game sessions when demand arrives. Note that while scale-out is triggered immediately upon receiving a game session request, actual game session availability depends on your server process startup time, so this approach works best with multi-location Fleets where cold-start latency is tolerable. With a "MANUAL" ZeroCapacityStrategy Amazon GameLift Servers will not modify Fleet MinSize values automatically and will not scale out from zero instances in response to game sessions.
+    public struct ManagedCapacityConfiguration: Swift.Sendable {
+        /// Length of time, in minutes, that Amazon GameLift Servers will wait before scaling in your MinSize and DesiredInstances to 0 after a period with no game session activity. Default: 30 minutes.
+        public var scaleInAfterInactivityMinutes: Swift.Int?
+        /// The strategy Amazon GameLift Servers will use to automatically scale your capacity to and from zero instances in response to game session activity. Game session activity refers to any active running sessions or game session requests. Possible ZeroCapacityStrategy types include:
+        ///
+        /// * MANUAL -- (default value) Amazon GameLift Servers will not update capacity to and from zero on your behalf.
+        ///
+        /// * SCALE_TO_AND_FROM_ZERO -- Amazon GameLift Servers will automatically scale out MinSize and DesiredInstances from 0 to 1 in response to a game session request, and will scale in MinSize and DesiredInstances to 0 after a period with no game session activity. The duration of this scale in period can be configured using ScaleInAfterInactivityMinutes.
+        public var zeroCapacityStrategy: GameLiftClientTypes.ZeroCapacityStrategy?
+
+        public init(
+            scaleInAfterInactivityMinutes: Swift.Int? = nil,
+            zeroCapacityStrategy: GameLiftClientTypes.ZeroCapacityStrategy? = nil
+        ) {
+            self.scaleInAfterInactivityMinutes = scaleInAfterInactivityMinutes
+            self.zeroCapacityStrategy = zeroCapacityStrategy
+        }
+    }
+}
+
+extension GameLiftClientTypes {
+
     /// Current resource capacity settings for managed EC2 fleets and managed container fleets. For multi-location fleets, location values might refer to a fleet's remote location or its home Region. Returned by: [DescribeFleetCapacity](https://docs.aws.amazon.com/gamelift/latest/apireference/API_DescribeFleetCapacity.html), [DescribeFleetLocationCapacity](https://docs.aws.amazon.com/gamelift/latest/apireference/API_DescribeFleetLocationCapacity.html), [UpdateFleetCapacity](https://docs.aws.amazon.com/gamelift/latest/apireference/API_UpdateFleetCapacity.html)
     public struct FleetCapacity: Swift.Sendable {
         /// The Amazon Resource Name ([ARN](https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html)) that is assigned to a Amazon GameLift Servers fleet resource and uniquely identifies it. ARNs are unique across all Regions. Format is arn:aws:gamelift:::fleet/fleet-a1234567-b8c9-0d1e-2fa3-b45c6d7e8912.
@@ -7438,6 +7490,8 @@ extension GameLiftClientTypes {
         public var instanceType: GameLiftClientTypes.EC2InstanceType?
         /// The fleet location for the instance count information, expressed as an Amazon Web Services Region code, such as us-west-2.
         public var location: Swift.String?
+        /// Configuration settings for managed capacity scaling.
+        public var managedCapacityConfiguration: GameLiftClientTypes.ManagedCapacityConfiguration?
 
         public init(
             fleetArn: Swift.String? = nil,
@@ -7445,7 +7499,8 @@ extension GameLiftClientTypes {
             gameServerContainerGroupCounts: GameLiftClientTypes.GameServerContainerGroupCounts? = nil,
             instanceCounts: GameLiftClientTypes.EC2InstanceCounts? = nil,
             instanceType: GameLiftClientTypes.EC2InstanceType? = nil,
-            location: Swift.String? = nil
+            location: Swift.String? = nil,
+            managedCapacityConfiguration: GameLiftClientTypes.ManagedCapacityConfiguration? = nil
         ) {
             self.fleetArn = fleetArn
             self.fleetId = fleetId
@@ -7453,6 +7508,7 @@ extension GameLiftClientTypes {
             self.instanceCounts = instanceCounts
             self.instanceType = instanceType
             self.location = location
+            self.managedCapacityConfiguration = managedCapacityConfiguration
         }
     }
 }
@@ -11574,21 +11630,25 @@ public struct UpdateFleetCapacityInput: Swift.Sendable {
     public var fleetId: Swift.String?
     /// The name of a remote location to update fleet capacity settings for, in the form of an Amazon Web Services Region code such as us-west-2.
     public var location: Swift.String?
+    /// Configuration for Amazon GameLift Servers-managed capacity scaling options.
+    public var managedCapacityConfiguration: GameLiftClientTypes.ManagedCapacityConfiguration?
     /// The maximum number of instances that are allowed in the specified fleet location. If this parameter is not set, the default is 1.
     public var maxSize: Swift.Int?
-    /// The minimum number of instances that are allowed in the specified fleet location. If this parameter is not set, the default is 0.
+    /// The minimum number of instances that are allowed in the specified fleet location. If this parameter is not set, the default is 0. This parameter cannot be set when using a ManagedCapacityConfiguration where ZeroCapacityStrategy has a value of SCALE_TO_AND_FROM_ZERO.
     public var minSize: Swift.Int?
 
     public init(
         desiredInstances: Swift.Int? = nil,
         fleetId: Swift.String? = nil,
         location: Swift.String? = nil,
+        managedCapacityConfiguration: GameLiftClientTypes.ManagedCapacityConfiguration? = nil,
         maxSize: Swift.Int? = nil,
         minSize: Swift.Int? = nil
     ) {
         self.desiredInstances = desiredInstances
         self.fleetId = fleetId
         self.location = location
+        self.managedCapacityConfiguration = managedCapacityConfiguration
         self.maxSize = maxSize
         self.minSize = minSize
     }
@@ -11601,15 +11661,19 @@ public struct UpdateFleetCapacityOutput: Swift.Sendable {
     public var fleetId: Swift.String?
     /// The remote location being updated, expressed as an Amazon Web Services Region code, such as us-west-2.
     public var location: Swift.String?
+    /// Configuration for Amazon GameLift Servers-managed capacity scaling options.
+    public var managedCapacityConfiguration: GameLiftClientTypes.ManagedCapacityConfiguration?
 
     public init(
         fleetArn: Swift.String? = nil,
         fleetId: Swift.String? = nil,
-        location: Swift.String? = nil
+        location: Swift.String? = nil,
+        managedCapacityConfiguration: GameLiftClientTypes.ManagedCapacityConfiguration? = nil
     ) {
         self.fleetArn = fleetArn
         self.fleetId = fleetId
         self.location = location
+        self.managedCapacityConfiguration = managedCapacityConfiguration
     }
 }
 
@@ -11822,7 +11886,7 @@ public struct UpdateGameSessionQueueInput: Swift.Sendable {
     public var playerLatencyPolicies: [GameLiftClientTypes.PlayerLatencyPolicy]?
     /// Custom settings to use when prioritizing destinations and locations for game session placements. This configuration replaces the FleetIQ default prioritization process. Priority types that are not explicitly named will be automatically applied at the end of the prioritization process. To remove an existing priority configuration, pass in an empty set.
     public var priorityConfiguration: GameLiftClientTypes.PriorityConfiguration?
-    /// The maximum time, in seconds, that a new game session placement request remains in the queue. When a request exceeds this time, the game session placement changes to a TIMED_OUT status.
+    /// The maximum time, in seconds, that a new game session placement request remains in the queue. When a request exceeds this time, the game session placement changes to a TIMED_OUT status. The minimum value is 10 and the maximum value is 600.
     public var timeoutInSeconds: Swift.Int?
 
     public init(
@@ -14010,6 +14074,7 @@ extension UpdateFleetCapacityInput {
         try writer["DesiredInstances"].write(value.desiredInstances)
         try writer["FleetId"].write(value.fleetId)
         try writer["Location"].write(value.location)
+        try writer["ManagedCapacityConfiguration"].write(value.managedCapacityConfiguration, with: GameLiftClientTypes.ManagedCapacityConfiguration.write(value:to:))
         try writer["MaxSize"].write(value.maxSize)
         try writer["MinSize"].write(value.minSize)
     }
@@ -15390,6 +15455,7 @@ extension UpdateFleetCapacityOutput {
         value.fleetArn = try reader["FleetArn"].readIfPresent()
         value.fleetId = try reader["FleetId"].readIfPresent()
         value.location = try reader["Location"].readIfPresent()
+        value.managedCapacityConfiguration = try reader["ManagedCapacityConfiguration"].readIfPresent(with: GameLiftClientTypes.ManagedCapacityConfiguration.read(from:))
         return value
     }
 }
@@ -18662,6 +18728,24 @@ extension GameLiftClientTypes.FleetCapacity {
         value.instanceCounts = try reader["InstanceCounts"].readIfPresent(with: GameLiftClientTypes.EC2InstanceCounts.read(from:))
         value.location = try reader["Location"].readIfPresent()
         value.gameServerContainerGroupCounts = try reader["GameServerContainerGroupCounts"].readIfPresent(with: GameLiftClientTypes.GameServerContainerGroupCounts.read(from:))
+        value.managedCapacityConfiguration = try reader["ManagedCapacityConfiguration"].readIfPresent(with: GameLiftClientTypes.ManagedCapacityConfiguration.read(from:))
+        return value
+    }
+}
+
+extension GameLiftClientTypes.ManagedCapacityConfiguration {
+
+    static func write(value: GameLiftClientTypes.ManagedCapacityConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ScaleInAfterInactivityMinutes"].write(value.scaleInAfterInactivityMinutes)
+        try writer["ZeroCapacityStrategy"].write(value.zeroCapacityStrategy)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GameLiftClientTypes.ManagedCapacityConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GameLiftClientTypes.ManagedCapacityConfiguration()
+        value.zeroCapacityStrategy = try reader["ZeroCapacityStrategy"].readIfPresent()
+        value.scaleInAfterInactivityMinutes = try reader["ScaleInAfterInactivityMinutes"].readIfPresent()
         return value
     }
 }
