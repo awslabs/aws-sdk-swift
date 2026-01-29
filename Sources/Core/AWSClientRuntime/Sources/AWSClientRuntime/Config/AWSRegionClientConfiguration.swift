@@ -6,9 +6,6 @@
 //
 
 /// Protocol for AWS region client configuration.
-///
-/// Note: This protocol will inherit `Sendable` after the deprecation period of class-based configurations.
-/// The struct-based configuration already conforms to `Sendable` via `@unchecked Sendable`.
 public protocol AWSRegionClientConfiguration {
 
     /// The AWS region to use, i.e. `us-east-1` or `us-west-2`, etc.
