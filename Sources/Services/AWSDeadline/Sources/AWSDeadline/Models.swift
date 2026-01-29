@@ -3471,6 +3471,8 @@ public struct CreateJobInput: Swift.Sendable {
     public var attachments: DeadlineClientTypes.Attachments?
     /// The unique token which the server uses to recognize retries of the same request.
     public var clientToken: Swift.String?
+    /// A custom description to override the job description derived from the job template.
+    public var descriptionOverride: Swift.String?
     /// The farm ID of the farm to connect to the job.
     /// This member is required.
     public var farmId: Swift.String?
@@ -3480,6 +3482,8 @@ public struct CreateJobInput: Swift.Sendable {
     public var maxRetriesPerTask: Swift.Int?
     /// The maximum number of worker hosts that can concurrently process a job. When the maxWorkerCount is reached, no more workers will be assigned to process the job, even if the fleets assigned to the job's queue has available workers. You can't set the maxWorkerCount to 0. If you set it to -1, there is no maximum number of workers. If you don't specify the maxWorkerCount, Deadline Cloud won't throttle the number of workers used to process the job.
     public var maxWorkerCount: Swift.Int?
+    /// A custom name to override the job name derived from the job template.
+    public var nameOverride: Swift.String?
     /// The parameters for the job.
     public var parameters: [Swift.String: DeadlineClientTypes.JobParameter]?
     /// The priority of the job. The highest priority (first scheduled) is 100. When two jobs have the same priority, the oldest job is scheduled first.
@@ -3502,10 +3506,12 @@ public struct CreateJobInput: Swift.Sendable {
     public init(
         attachments: DeadlineClientTypes.Attachments? = nil,
         clientToken: Swift.String? = nil,
+        descriptionOverride: Swift.String? = nil,
         farmId: Swift.String? = nil,
         maxFailedTasksCount: Swift.Int? = nil,
         maxRetriesPerTask: Swift.Int? = nil,
         maxWorkerCount: Swift.Int? = nil,
+        nameOverride: Swift.String? = nil,
         parameters: [Swift.String: DeadlineClientTypes.JobParameter]? = nil,
         priority: Swift.Int? = nil,
         queueId: Swift.String? = nil,
@@ -3517,10 +3523,12 @@ public struct CreateJobInput: Swift.Sendable {
     ) {
         self.attachments = attachments
         self.clientToken = clientToken
+        self.descriptionOverride = descriptionOverride
         self.farmId = farmId
         self.maxFailedTasksCount = maxFailedTasksCount
         self.maxRetriesPerTask = maxRetriesPerTask
         self.maxWorkerCount = maxWorkerCount
+        self.nameOverride = nameOverride
         self.parameters = parameters
         self.priority = priority
         self.queueId = queueId
@@ -3534,7 +3542,7 @@ public struct CreateJobInput: Swift.Sendable {
 
 extension CreateJobInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateJobInput(attachments: \(Swift.String(describing: attachments)), clientToken: \(Swift.String(describing: clientToken)), farmId: \(Swift.String(describing: farmId)), maxFailedTasksCount: \(Swift.String(describing: maxFailedTasksCount)), maxRetriesPerTask: \(Swift.String(describing: maxRetriesPerTask)), maxWorkerCount: \(Swift.String(describing: maxWorkerCount)), priority: \(Swift.String(describing: priority)), queueId: \(Swift.String(describing: queueId)), sourceJobId: \(Swift.String(describing: sourceJobId)), storageProfileId: \(Swift.String(describing: storageProfileId)), targetTaskRunStatus: \(Swift.String(describing: targetTaskRunStatus)), templateType: \(Swift.String(describing: templateType)), parameters: \"CONTENT_REDACTED\", template: \"CONTENT_REDACTED\")"}
+        "CreateJobInput(attachments: \(Swift.String(describing: attachments)), clientToken: \(Swift.String(describing: clientToken)), farmId: \(Swift.String(describing: farmId)), maxFailedTasksCount: \(Swift.String(describing: maxFailedTasksCount)), maxRetriesPerTask: \(Swift.String(describing: maxRetriesPerTask)), maxWorkerCount: \(Swift.String(describing: maxWorkerCount)), nameOverride: \(Swift.String(describing: nameOverride)), priority: \(Swift.String(describing: priority)), queueId: \(Swift.String(describing: queueId)), sourceJobId: \(Swift.String(describing: sourceJobId)), storageProfileId: \(Swift.String(describing: storageProfileId)), targetTaskRunStatus: \(Swift.String(describing: targetTaskRunStatus)), templateType: \(Swift.String(describing: templateType)), descriptionOverride: \"CONTENT_REDACTED\", parameters: \"CONTENT_REDACTED\", template: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateJobOutput: Swift.Sendable {
@@ -8704,6 +8712,8 @@ extension DeadlineClientTypes {
 public struct UpdateJobInput: Swift.Sendable {
     /// The unique token which the server uses to recognize retries of the same request.
     public var clientToken: Swift.String?
+    /// The updated job description.
+    public var description: Swift.String?
     /// The farm ID of the job to update.
     /// This member is required.
     public var farmId: Swift.String?
@@ -8718,7 +8728,9 @@ public struct UpdateJobInput: Swift.Sendable {
     public var maxRetriesPerTask: Swift.Int?
     /// The maximum number of worker hosts that can concurrently process a job. When the maxWorkerCount is reached, no more workers will be assigned to process the job, even if the fleets assigned to the job's queue has available workers. You can't set the maxWorkerCount to 0. If you set it to -1, there is no maximum number of workers. If you don't specify the maxWorkerCount, the default is -1. The maximum number of workers that can process tasks in the job.
     public var maxWorkerCount: Swift.Int?
-    /// The job priority to update.
+    /// The updated job name.
+    public var name: Swift.String?
+    /// The updated job priority.
     public var priority: Swift.Int?
     /// The queue ID of the job to update.
     /// This member is required.
@@ -8728,27 +8740,36 @@ public struct UpdateJobInput: Swift.Sendable {
 
     public init(
         clientToken: Swift.String? = nil,
+        description: Swift.String? = nil,
         farmId: Swift.String? = nil,
         jobId: Swift.String? = nil,
         lifecycleStatus: DeadlineClientTypes.UpdateJobLifecycleStatus? = nil,
         maxFailedTasksCount: Swift.Int? = nil,
         maxRetriesPerTask: Swift.Int? = nil,
         maxWorkerCount: Swift.Int? = nil,
+        name: Swift.String? = nil,
         priority: Swift.Int? = nil,
         queueId: Swift.String? = nil,
         targetTaskRunStatus: DeadlineClientTypes.JobTargetTaskRunStatus? = nil
     ) {
         self.clientToken = clientToken
+        self.description = description
         self.farmId = farmId
         self.jobId = jobId
         self.lifecycleStatus = lifecycleStatus
         self.maxFailedTasksCount = maxFailedTasksCount
         self.maxRetriesPerTask = maxRetriesPerTask
         self.maxWorkerCount = maxWorkerCount
+        self.name = name
         self.priority = priority
         self.queueId = queueId
         self.targetTaskRunStatus = targetTaskRunStatus
     }
+}
+
+extension UpdateJobInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateJobInput(clientToken: \(Swift.String(describing: clientToken)), farmId: \(Swift.String(describing: farmId)), jobId: \(Swift.String(describing: jobId)), lifecycleStatus: \(Swift.String(describing: lifecycleStatus)), maxFailedTasksCount: \(Swift.String(describing: maxFailedTasksCount)), maxRetriesPerTask: \(Swift.String(describing: maxRetriesPerTask)), maxWorkerCount: \(Swift.String(describing: maxWorkerCount)), name: \(Swift.String(describing: name)), priority: \(Swift.String(describing: priority)), queueId: \(Swift.String(describing: queueId)), targetTaskRunStatus: \(Swift.String(describing: targetTaskRunStatus)), description: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateJobOutput: Swift.Sendable {
@@ -10654,12 +10675,12 @@ extension DeadlineClientTypes {
 
 extension DeadlineClientTypes {
 
-    /// Searches for a match within a list of strings.
+    /// Searches for a particular list of strings.
     public struct StringListFilterExpression: Swift.Sendable {
         /// The field name to search.
         /// This member is required.
         public var name: Swift.String?
-        /// The type of comparison to use for this search. ANY_EQUALS and ALL_NOT_EQUALS are supported.
+        /// The type of comparison to use for this search.
         /// This member is required.
         public var `operator`: DeadlineClientTypes.ComparisonOperator?
         /// The list of string values to search for.
@@ -11588,7 +11609,7 @@ extension DeadlineClientTypes {
         case searchtermfilter(DeadlineClientTypes.SearchTermFilterExpression)
         /// Filters by a string.
         case stringfilter(DeadlineClientTypes.StringFilterExpression)
-        /// Filters by a list of string values.
+        /// Filters by a list of strings.
         case stringlistfilter(DeadlineClientTypes.StringListFilterExpression)
         /// Filters by group.
         case groupfilter(DeadlineClientTypes.SearchGroupedFilterExpressions)
@@ -14145,9 +14166,11 @@ extension CreateJobInput {
     static func write(value: CreateJobInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["attachments"].write(value.attachments, with: DeadlineClientTypes.Attachments.write(value:to:))
+        try writer["descriptionOverride"].write(value.descriptionOverride)
         try writer["maxFailedTasksCount"].write(value.maxFailedTasksCount)
         try writer["maxRetriesPerTask"].write(value.maxRetriesPerTask)
         try writer["maxWorkerCount"].write(value.maxWorkerCount)
+        try writer["nameOverride"].write(value.nameOverride)
         try writer["parameters"].writeMap(value.parameters, valueWritingClosure: DeadlineClientTypes.JobParameter.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["priority"].write(value.priority)
         try writer["sourceJobId"].write(value.sourceJobId)
@@ -14368,10 +14391,12 @@ extension UpdateJobInput {
 
     static func write(value: UpdateJobInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["description"].write(value.description)
         try writer["lifecycleStatus"].write(value.lifecycleStatus)
         try writer["maxFailedTasksCount"].write(value.maxFailedTasksCount)
         try writer["maxRetriesPerTask"].write(value.maxRetriesPerTask)
         try writer["maxWorkerCount"].write(value.maxWorkerCount)
+        try writer["name"].write(value.name)
         try writer["priority"].write(value.priority)
         try writer["targetTaskRunStatus"].write(value.targetTaskRunStatus)
     }
