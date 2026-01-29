@@ -9,9 +9,6 @@ import enum AWSSDKChecksums.AWSChecksumCalculationMode
 import SmithyIdentity
 
 /// Protocol for AWS default client configuration.
-///
-/// Note: This protocol will inherit `Sendable` after the deprecation period of class-based configurations.
-/// The struct-based configuration already conforms to `Sendable` via `@unchecked Sendable`.
 public protocol AWSDefaultClientConfiguration {
     /// The AWS credential identity resolver to be used for AWS credentials.
     ///
