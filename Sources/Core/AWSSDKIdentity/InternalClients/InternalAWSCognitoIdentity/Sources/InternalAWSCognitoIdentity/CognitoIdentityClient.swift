@@ -54,6 +54,8 @@ import struct ClientRuntime.ContentLengthMiddleware
 import struct ClientRuntime.ContentTypeMiddleware
 @_spi(SmithyReadWrite) import struct ClientRuntime.DeserializeMiddleware
 import struct ClientRuntime.LoggerMiddleware
+import struct ClientRuntime.SendableHttpInterceptorProviderBox
+import struct ClientRuntime.SendableInterceptorProviderBox
 import struct ClientRuntime.SignerMiddleware
 import struct ClientRuntime.URLHostMiddleware
 import struct ClientRuntime.URLPathMiddleware
@@ -71,14 +73,22 @@ package final class CognitoIdentityClient: AWSClientRuntime.AWSServiceClient {
     let config: CognitoIdentityClient.CognitoIdentityClientConfig
     let serviceName = "Cognito Identity"
 
+    @available(*, deprecated, message: "Use CognitoIdentityClient.CognitoIdentityClientConfig instead")
+    public typealias Config = CognitoIdentityClient.CognitoIdentityClientConfiguration
+
     public required init(config: CognitoIdentityClient.CognitoIdentityClientConfig) {
         client = ClientRuntime.SdkHttpClient(engine: config.httpClientEngine, config: config.httpClientConfiguration)
         self.config = config
     }
 
     @available(*, deprecated, message: "Use init(config: CognitoIdentityClient.CognitoIdentityClientConfig) instead")
-    public convenience init(config: CognitoIdentityClient.CognitoIdentityClientConfiguration) throws {
-        try self.init(config: config.toSendable())
+    public convenience init(config: CognitoIdentityClient.CognitoIdentityClientConfiguration) {
+        do {
+            try self.init(config: config.toSendable())
+        } catch {
+            // This should never happen since all values are already initialized in the class
+            fatalError("Failed to convert deprecated configuration: \(error)")
+        }
     }
 
     public convenience init(region: Swift.String) throws {
@@ -86,7 +96,7 @@ package final class CognitoIdentityClient: AWSClientRuntime.AWSServiceClient {
         self.init(config: config)
     }
 
-    public convenience required init() async throws {
+    public convenience init() async throws {
         let config = try await CognitoIdentityClient.CognitoIdentityClientConfig()
         self.init(config: config)
     }
@@ -94,6 +104,9 @@ package final class CognitoIdentityClient: AWSClientRuntime.AWSServiceClient {
 
 extension CognitoIdentityClient {
 
+    /// Client configuration for CognitoIdentityClient
+    ///
+    /// Conforms to `Sendable` for safe concurrent access across threads.
     public struct CognitoIdentityClientConfig: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration, Swift.Sendable {
         public var useFIPS: Swift.Bool?
         public var useDualStack: Swift.Bool?
@@ -118,8 +131,26 @@ extension CognitoIdentityClient {
         public var authSchemePreference: [String]?
         public var authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver
         public var bearerTokenIdentityResolver: any SmithyIdentity.BearerTokenIdentityResolver
-        public private(set) var interceptorProviders: [ClientRuntime.InterceptorProvider]
-        public private(set) var httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]
+        // Interceptor providers with Sendable-safe internal storage
+        private var _interceptorProviders: [ClientRuntime.SendableInterceptorProviderBox] = []
+        public var interceptorProviders: [ClientRuntime.InterceptorProvider] {
+            get {
+                return _interceptorProviders
+            }
+            set {
+                _interceptorProviders = newValue.map { ClientRuntime.SendableInterceptorProviderBox($0) }
+            }
+        }
+
+        private var _httpInterceptorProviders: [ClientRuntime.SendableHttpInterceptorProviderBox] = []
+        public var httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider] {
+            get {
+                return _httpInterceptorProviders
+            }
+            set {
+                _httpInterceptorProviders = newValue.map { ClientRuntime.SendableHttpInterceptorProviderBox($0) }
+            }
+        }
         public var logger: Smithy.LogAgent
 
         public init(
@@ -172,8 +203,8 @@ extension CognitoIdentityClient {
             self.authSchemePreference = authSchemePreference ?? nil
             self.authSchemeResolver = authSchemeResolver ?? DefaultCognitoIdentityAuthSchemeResolver()
             self.bearerTokenIdentityResolver = bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: ""))
-            self.interceptorProviders = interceptorProviders ?? []
-            self.httpInterceptorProviders = httpInterceptorProviders ?? []
+            self._interceptorProviders = (interceptorProviders ?? []).map { ClientRuntime.SendableInterceptorProviderBox($0) }
+            self._httpInterceptorProviders = (httpInterceptorProviders ?? []).map { ClientRuntime.SendableHttpInterceptorProviderBox($0) }
             self.logger = (telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider).loggerProvider.getLogger(name: CognitoIdentityClient.clientName)
         }
 
@@ -227,8 +258,8 @@ extension CognitoIdentityClient {
             self.authSchemePreference = authSchemePreference ?? nil
             self.authSchemeResolver = authSchemeResolver ?? DefaultCognitoIdentityAuthSchemeResolver()
             self.bearerTokenIdentityResolver = bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: ""))
-            self.interceptorProviders = interceptorProviders ?? []
-            self.httpInterceptorProviders = httpInterceptorProviders ?? []
+            self._interceptorProviders = (interceptorProviders ?? []).map { ClientRuntime.SendableInterceptorProviderBox($0) }
+            self._httpInterceptorProviders = (httpInterceptorProviders ?? []).map { ClientRuntime.SendableHttpInterceptorProviderBox($0) }
             self.logger = (telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider).loggerProvider.getLogger(name: CognitoIdentityClient.clientName)
         }
 
@@ -297,11 +328,11 @@ extension CognitoIdentityClient {
         }
 
         public mutating func addInterceptorProvider(_ provider: ClientRuntime.InterceptorProvider) {
-            self.interceptorProviders.append(provider)
+            self._interceptorProviders.append(ClientRuntime.SendableInterceptorProviderBox(provider))
         }
 
         public mutating func addInterceptorProvider(_ provider: ClientRuntime.HttpInterceptorProvider) {
-            self.httpInterceptorProviders.append(provider)
+            self._httpInterceptorProviders.append(ClientRuntime.SendableHttpInterceptorProviderBox(provider))
         }
 
     }
@@ -331,8 +362,26 @@ extension CognitoIdentityClient {
         public var authSchemePreference: [String]?
         public var authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver
         public var bearerTokenIdentityResolver: any SmithyIdentity.BearerTokenIdentityResolver
-        public private(set) var interceptorProviders: [ClientRuntime.InterceptorProvider]
-        public private(set) var httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]
+        // Interceptor providers with Sendable-safe internal storage
+        private var _interceptorProviders: [ClientRuntime.SendableInterceptorProviderBox] = []
+        public var interceptorProviders: [ClientRuntime.InterceptorProvider] {
+            get {
+                return _interceptorProviders
+            }
+            set {
+                _interceptorProviders = newValue.map { ClientRuntime.SendableInterceptorProviderBox($0) }
+            }
+        }
+
+        private var _httpInterceptorProviders: [ClientRuntime.SendableHttpInterceptorProviderBox] = []
+        public var httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider] {
+            get {
+                return _httpInterceptorProviders
+            }
+            set {
+                _httpInterceptorProviders = newValue.map { ClientRuntime.SendableHttpInterceptorProviderBox($0) }
+            }
+        }
         public var logger: Smithy.LogAgent
 
         public init(
@@ -385,8 +434,8 @@ extension CognitoIdentityClient {
             self.authSchemePreference = authSchemePreference ?? nil
             self.authSchemeResolver = authSchemeResolver ?? DefaultCognitoIdentityAuthSchemeResolver()
             self.bearerTokenIdentityResolver = bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: ""))
-            self.interceptorProviders = interceptorProviders ?? []
-            self.httpInterceptorProviders = httpInterceptorProviders ?? []
+            self._interceptorProviders = (interceptorProviders ?? []).map { ClientRuntime.SendableInterceptorProviderBox($0) }
+            self._httpInterceptorProviders = (httpInterceptorProviders ?? []).map { ClientRuntime.SendableHttpInterceptorProviderBox($0) }
             self.logger = (telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider).loggerProvider.getLogger(name: CognitoIdentityClient.clientName)
         }
 
@@ -440,8 +489,8 @@ extension CognitoIdentityClient {
             self.authSchemePreference = authSchemePreference ?? nil
             self.authSchemeResolver = authSchemeResolver ?? DefaultCognitoIdentityAuthSchemeResolver()
             self.bearerTokenIdentityResolver = bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: ""))
-            self.interceptorProviders = interceptorProviders ?? []
-            self.httpInterceptorProviders = httpInterceptorProviders ?? []
+            self._interceptorProviders = (interceptorProviders ?? []).map { ClientRuntime.SendableInterceptorProviderBox($0) }
+            self._httpInterceptorProviders = (httpInterceptorProviders ?? []).map { ClientRuntime.SendableHttpInterceptorProviderBox($0) }
             self.logger = (telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider).loggerProvider.getLogger(name: CognitoIdentityClient.clientName)
         }
 
@@ -540,11 +589,11 @@ extension CognitoIdentityClient {
         }
 
         public func addInterceptorProvider(_ provider: ClientRuntime.InterceptorProvider) {
-            self.interceptorProviders.append(provider)
+            self._interceptorProviders.append(ClientRuntime.SendableInterceptorProviderBox(provider))
         }
 
         public func addInterceptorProvider(_ provider: ClientRuntime.HttpInterceptorProvider) {
-            self.httpInterceptorProviders.append(provider)
+            self._httpInterceptorProviders.append(ClientRuntime.SendableHttpInterceptorProviderBox(provider))
         }
 
     }

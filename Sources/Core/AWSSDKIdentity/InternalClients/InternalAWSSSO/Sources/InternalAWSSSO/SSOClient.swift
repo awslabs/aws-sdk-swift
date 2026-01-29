@@ -50,6 +50,8 @@ import struct ClientRuntime.AuthSchemeMiddleware
 import struct ClientRuntime.HeaderMiddleware
 import struct ClientRuntime.LoggerMiddleware
 import struct ClientRuntime.QueryItemMiddleware
+import struct ClientRuntime.SendableHttpInterceptorProviderBox
+import struct ClientRuntime.SendableInterceptorProviderBox
 import struct ClientRuntime.SignerMiddleware
 import struct ClientRuntime.URLHostMiddleware
 import struct ClientRuntime.URLPathMiddleware
@@ -67,14 +69,22 @@ package final class SSOClient: AWSClientRuntime.AWSServiceClient {
     let config: SSOClient.SSOClientConfig
     let serviceName = "SSO"
 
+    @available(*, deprecated, message: "Use SSOClient.SSOClientConfig instead")
+    public typealias Config = SSOClient.SSOClientConfiguration
+
     public required init(config: SSOClient.SSOClientConfig) {
         client = ClientRuntime.SdkHttpClient(engine: config.httpClientEngine, config: config.httpClientConfiguration)
         self.config = config
     }
 
     @available(*, deprecated, message: "Use init(config: SSOClient.SSOClientConfig) instead")
-    public convenience init(config: SSOClient.SSOClientConfiguration) throws {
-        try self.init(config: config.toSendable())
+    public convenience init(config: SSOClient.SSOClientConfiguration) {
+        do {
+            try self.init(config: config.toSendable())
+        } catch {
+            // This should never happen since all values are already initialized in the class
+            fatalError("Failed to convert deprecated configuration: \(error)")
+        }
     }
 
     public convenience init(region: Swift.String) throws {
@@ -82,7 +92,7 @@ package final class SSOClient: AWSClientRuntime.AWSServiceClient {
         self.init(config: config)
     }
 
-    public convenience required init() async throws {
+    public convenience init() async throws {
         let config = try await SSOClient.SSOClientConfig()
         self.init(config: config)
     }
@@ -90,6 +100,9 @@ package final class SSOClient: AWSClientRuntime.AWSServiceClient {
 
 extension SSOClient {
 
+    /// Client configuration for SSOClient
+    ///
+    /// Conforms to `Sendable` for safe concurrent access across threads.
     public struct SSOClientConfig: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration, Swift.Sendable {
         public var useFIPS: Swift.Bool?
         public var useDualStack: Swift.Bool?
@@ -114,8 +127,26 @@ extension SSOClient {
         public var authSchemePreference: [String]?
         public var authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver
         public var bearerTokenIdentityResolver: any SmithyIdentity.BearerTokenIdentityResolver
-        public private(set) var interceptorProviders: [ClientRuntime.InterceptorProvider]
-        public private(set) var httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]
+        // Interceptor providers with Sendable-safe internal storage
+        private var _interceptorProviders: [ClientRuntime.SendableInterceptorProviderBox] = []
+        public var interceptorProviders: [ClientRuntime.InterceptorProvider] {
+            get {
+                return _interceptorProviders
+            }
+            set {
+                _interceptorProviders = newValue.map { ClientRuntime.SendableInterceptorProviderBox($0) }
+            }
+        }
+
+        private var _httpInterceptorProviders: [ClientRuntime.SendableHttpInterceptorProviderBox] = []
+        public var httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider] {
+            get {
+                return _httpInterceptorProviders
+            }
+            set {
+                _httpInterceptorProviders = newValue.map { ClientRuntime.SendableHttpInterceptorProviderBox($0) }
+            }
+        }
         public var logger: Smithy.LogAgent
 
         public init(
@@ -168,8 +199,8 @@ extension SSOClient {
             self.authSchemePreference = authSchemePreference ?? nil
             self.authSchemeResolver = authSchemeResolver ?? DefaultSSOAuthSchemeResolver()
             self.bearerTokenIdentityResolver = bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: ""))
-            self.interceptorProviders = interceptorProviders ?? []
-            self.httpInterceptorProviders = httpInterceptorProviders ?? []
+            self._interceptorProviders = (interceptorProviders ?? []).map { ClientRuntime.SendableInterceptorProviderBox($0) }
+            self._httpInterceptorProviders = (httpInterceptorProviders ?? []).map { ClientRuntime.SendableHttpInterceptorProviderBox($0) }
             self.logger = (telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider).loggerProvider.getLogger(name: SSOClient.clientName)
         }
 
@@ -223,8 +254,8 @@ extension SSOClient {
             self.authSchemePreference = authSchemePreference ?? nil
             self.authSchemeResolver = authSchemeResolver ?? DefaultSSOAuthSchemeResolver()
             self.bearerTokenIdentityResolver = bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: ""))
-            self.interceptorProviders = interceptorProviders ?? []
-            self.httpInterceptorProviders = httpInterceptorProviders ?? []
+            self._interceptorProviders = (interceptorProviders ?? []).map { ClientRuntime.SendableInterceptorProviderBox($0) }
+            self._httpInterceptorProviders = (httpInterceptorProviders ?? []).map { ClientRuntime.SendableHttpInterceptorProviderBox($0) }
             self.logger = (telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider).loggerProvider.getLogger(name: SSOClient.clientName)
         }
 
@@ -293,11 +324,11 @@ extension SSOClient {
         }
 
         public mutating func addInterceptorProvider(_ provider: ClientRuntime.InterceptorProvider) {
-            self.interceptorProviders.append(provider)
+            self._interceptorProviders.append(ClientRuntime.SendableInterceptorProviderBox(provider))
         }
 
         public mutating func addInterceptorProvider(_ provider: ClientRuntime.HttpInterceptorProvider) {
-            self.httpInterceptorProviders.append(provider)
+            self._httpInterceptorProviders.append(ClientRuntime.SendableHttpInterceptorProviderBox(provider))
         }
 
     }
@@ -327,8 +358,26 @@ extension SSOClient {
         public var authSchemePreference: [String]?
         public var authSchemeResolver: SmithyHTTPAuthAPI.AuthSchemeResolver
         public var bearerTokenIdentityResolver: any SmithyIdentity.BearerTokenIdentityResolver
-        public private(set) var interceptorProviders: [ClientRuntime.InterceptorProvider]
-        public private(set) var httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]
+        // Interceptor providers with Sendable-safe internal storage
+        private var _interceptorProviders: [ClientRuntime.SendableInterceptorProviderBox] = []
+        public var interceptorProviders: [ClientRuntime.InterceptorProvider] {
+            get {
+                return _interceptorProviders
+            }
+            set {
+                _interceptorProviders = newValue.map { ClientRuntime.SendableInterceptorProviderBox($0) }
+            }
+        }
+
+        private var _httpInterceptorProviders: [ClientRuntime.SendableHttpInterceptorProviderBox] = []
+        public var httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider] {
+            get {
+                return _httpInterceptorProviders
+            }
+            set {
+                _httpInterceptorProviders = newValue.map { ClientRuntime.SendableHttpInterceptorProviderBox($0) }
+            }
+        }
         public var logger: Smithy.LogAgent
 
         public init(
@@ -381,8 +430,8 @@ extension SSOClient {
             self.authSchemePreference = authSchemePreference ?? nil
             self.authSchemeResolver = authSchemeResolver ?? DefaultSSOAuthSchemeResolver()
             self.bearerTokenIdentityResolver = bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: ""))
-            self.interceptorProviders = interceptorProviders ?? []
-            self.httpInterceptorProviders = httpInterceptorProviders ?? []
+            self._interceptorProviders = (interceptorProviders ?? []).map { ClientRuntime.SendableInterceptorProviderBox($0) }
+            self._httpInterceptorProviders = (httpInterceptorProviders ?? []).map { ClientRuntime.SendableHttpInterceptorProviderBox($0) }
             self.logger = (telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider).loggerProvider.getLogger(name: SSOClient.clientName)
         }
 
@@ -436,8 +485,8 @@ extension SSOClient {
             self.authSchemePreference = authSchemePreference ?? nil
             self.authSchemeResolver = authSchemeResolver ?? DefaultSSOAuthSchemeResolver()
             self.bearerTokenIdentityResolver = bearerTokenIdentityResolver ?? SmithyIdentity.StaticBearerTokenIdentityResolver(token: SmithyIdentity.BearerTokenIdentity(token: ""))
-            self.interceptorProviders = interceptorProviders ?? []
-            self.httpInterceptorProviders = httpInterceptorProviders ?? []
+            self._interceptorProviders = (interceptorProviders ?? []).map { ClientRuntime.SendableInterceptorProviderBox($0) }
+            self._httpInterceptorProviders = (httpInterceptorProviders ?? []).map { ClientRuntime.SendableHttpInterceptorProviderBox($0) }
             self.logger = (telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider).loggerProvider.getLogger(name: SSOClient.clientName)
         }
 
@@ -536,11 +585,11 @@ extension SSOClient {
         }
 
         public func addInterceptorProvider(_ provider: ClientRuntime.InterceptorProvider) {
-            self.interceptorProviders.append(provider)
+            self._interceptorProviders.append(ClientRuntime.SendableInterceptorProviderBox(provider))
         }
 
         public func addInterceptorProvider(_ provider: ClientRuntime.HttpInterceptorProvider) {
-            self.httpInterceptorProviders.append(provider)
+            self._httpInterceptorProviders.append(ClientRuntime.SendableHttpInterceptorProviderBox(provider))
         }
 
     }
