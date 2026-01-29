@@ -12,7 +12,6 @@ export PATH="$PATH:/opt/homebrew/bin:/usr/local/bin"
 LOG_FILE="spm_build.log"
 
 echo "Step 1: Generating verbose build log via SPM..."
-swift build --clean
 swift build -v > "$LOG_FILE"
 
 echo "Step 2: Running SwiftLint Analyze..."
