@@ -346,7 +346,7 @@ public struct DescribeAffectedEntitiesInput: Swift.Sendable {
     public var filter: HealthClientTypes.EntityFilter?
     /// The locale (language) to return information in. English (en) is the default and the only supported value at this time.
     public var locale: Swift.String?
-    /// The maximum number of items to return in one batch, between 10 and 100, inclusive.
+    /// The maximum number of items to return in one batch, between 1 and 100, inclusive.
     public var maxResults: Swift.Int?
     /// If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next batch of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
     public var nextToken: Swift.String?
@@ -426,7 +426,7 @@ extension HealthClientTypes {
 public struct DescribeAffectedEntitiesForOrganizationInput: Swift.Sendable {
     /// The locale (language) to return information in. English (en) is the default and the only supported value at this time.
     public var locale: Swift.String?
-    /// The maximum number of items to return in one batch, between 10 and 100, inclusive.
+    /// The maximum number of items to return in one batch, between 1 and 100, inclusive.
     public var maxResults: Swift.Int?
     /// If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next batch of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
     public var nextToken: Swift.String?
@@ -1153,7 +1153,7 @@ public struct DescribeEventsInput: Swift.Sendable {
     public var filter: HealthClientTypes.EventFilter?
     /// The locale (language) to return information in. English (en) is the default and the only supported value at this time.
     public var locale: Swift.String?
-    /// The maximum number of items to return in one batch, between 10 and 100, inclusive.
+    /// The maximum number of items to return in one batch, between 1 and 100, inclusive.
     public var maxResults: Swift.Int?
     /// If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next batch of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
     public var nextToken: Swift.String?
@@ -1254,7 +1254,7 @@ public struct DescribeEventsForOrganizationInput: Swift.Sendable {
     public var filter: HealthClientTypes.OrganizationEventFilter?
     /// The locale (language) to return information in. English (en) is the default and the only supported value at this time.
     public var locale: Swift.String?
-    /// The maximum number of items to return in one batch, between 10 and 100, inclusive.
+    /// The maximum number of items to return in one batch, between 1 and 100, inclusive.
     public var maxResults: Swift.Int?
     /// If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next batch of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
     public var nextToken: Swift.String?

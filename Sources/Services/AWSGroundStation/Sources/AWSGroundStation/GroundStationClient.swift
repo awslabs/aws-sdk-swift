@@ -371,7 +371,11 @@ extension GroundStationClient {
 extension GroundStationClient {
     /// Performs the `CancelContact` operation on the `GroundStation` service.
     ///
-    /// Cancels a contact with a specified contact ID.
+    /// Cancels or stops a contact with a specified contact ID based on its position in the [contact lifecycle](https://docs.aws.amazon.com/ground-station/latest/ug/contacts.lifecycle.html). For contacts that:
+    ///
+    /// * Have yet to start, the contact will be cancelled.
+    ///
+    /// * Have started but have yet to finish, the contact will be stopped.
     ///
     /// - Parameter input: (Type: `CancelContactInput`)
     ///
@@ -509,7 +513,7 @@ extension GroundStationClient {
 
     /// Performs the `CreateDataflowEndpointGroup` operation on the `GroundStation` service.
     ///
-    /// Creates a DataflowEndpoint group containing the specified list of DataflowEndpoint objects. The name field in each endpoint is used in your mission profile DataflowEndpointConfig to specify which endpoints to use during a contact. When a contact uses multiple DataflowEndpointConfig objects, each Config must match a DataflowEndpoint in the same group.
+    /// Creates a DataflowEndpoint group containing the specified list of  DataflowEndpoint objects. The name field in each endpoint is used in your mission profile  DataflowEndpointConfig to specify which endpoints to use during a contact. When a contact uses multiple DataflowEndpointConfig objects, each  Config must match a DataflowEndpoint in the same group.
     ///
     /// - Parameter input: (Type: `CreateDataflowEndpointGroupInput`)
     ///
@@ -579,7 +583,7 @@ extension GroundStationClient {
 
     /// Performs the `CreateDataflowEndpointGroupV2` operation on the `GroundStation` service.
     ///
-    /// Creates a DataflowEndpointGroupV2 containing the specified list of DataflowEndpoint objects. The name field in each endpoint is used in your mission profile DataflowEndpointConfig to specify which endpoints to use during a contact. When a contact uses multiple DataflowEndpointConfig objects, each Config must match a DataflowEndpoint in the same group.
+    /// Creates a DataflowEndpoint group containing the specified list of Ground Station Agent based endpoints. The name field in each endpoint is used in your mission profile  DataflowEndpointConfig to specify which endpoints to use during a contact. When a contact uses multiple DataflowEndpointConfig objects, each  Config must match a DataflowEndpoint in the same group.
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateDataflowEndpointGroupV2Input`)
     ///
@@ -1733,7 +1737,7 @@ extension GroundStationClient {
 
     /// Performs the `ListContacts` operation on the `GroundStation` service.
     ///
-    /// Returns a list of contacts. If statusList contains AVAILABLE, the request must include groundStation, missionprofileArn, and satelliteArn.
+    /// Returns a list of contacts. If statusList contains AVAILABLE, the request must include  groundStation, missionprofileArn, and satelliteArn.
     ///
     /// - Parameter input: (Type: `ListContactsInput`)
     ///

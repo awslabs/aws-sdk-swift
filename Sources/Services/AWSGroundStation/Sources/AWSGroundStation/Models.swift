@@ -1243,6 +1243,7 @@ extension GroundStationClientTypes {
         case antennaUplink
         case dataflowEndpoint
         case s3Recording
+        case telemetrySink
         case tracking
         case uplinkEcho
         case sdkUnknown(Swift.String)
@@ -1254,6 +1255,7 @@ extension GroundStationClientTypes {
                 .antennaUplink,
                 .dataflowEndpoint,
                 .s3Recording,
+                .telemetrySink,
                 .tracking,
                 .uplinkEcho
             ]
@@ -1271,6 +1273,7 @@ extension GroundStationClientTypes {
             case .antennaUplink: return "antenna-uplink"
             case .dataflowEndpoint: return "dataflow-endpoint"
             case .s3Recording: return "s3-recording"
+            case .telemetrySink: return "telemetry-sink"
             case .tracking: return "tracking"
             case .uplinkEcho: return "uplink-echo"
             case let .sdkUnknown(s): return s
@@ -1353,6 +1356,84 @@ extension GroundStationClientTypes {
 
 extension GroundStationClientTypes {
 
+    /// Information for telemetry delivery to Kinesis Data Streams.
+    public struct KinesisDataStreamData: Swift.Sendable {
+        /// ARN of the Kinesis Data Stream to deliver telemetry to.
+        /// This member is required.
+        public var kinesisDataStreamArn: Swift.String?
+        /// ARN of the IAM Role used by AWS Ground Station to deliver telemetry.
+        /// This member is required.
+        public var kinesisRoleArn: Swift.String?
+
+        public init(
+            kinesisDataStreamArn: Swift.String? = nil,
+            kinesisRoleArn: Swift.String? = nil
+        ) {
+            self.kinesisDataStreamArn = kinesisDataStreamArn
+            self.kinesisRoleArn = kinesisRoleArn
+        }
+    }
+}
+
+extension GroundStationClientTypes {
+
+    /// Information about a telemetry sink.
+    public enum TelemetrySinkData: Swift.Sendable {
+        /// Information about a telemetry sink of type KINESIS_DATA_STREAM.
+        case kinesisdatastreamdata(GroundStationClientTypes.KinesisDataStreamData)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension GroundStationClientTypes {
+
+    public enum TelemetrySinkType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case kinesisDataStream
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TelemetrySinkType] {
+            return [
+                .kinesisDataStream
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .kinesisDataStream: return "KINESIS_DATA_STREAM"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GroundStationClientTypes {
+
+    /// Information about a telemetry sink Config.
+    public struct TelemetrySinkConfig: Swift.Sendable {
+        /// Information about the telemetry sink specified by the telemetrySinkType.
+        /// This member is required.
+        public var telemetrySinkData: GroundStationClientTypes.TelemetrySinkData?
+        /// The type of telemetry sink.
+        /// This member is required.
+        public var telemetrySinkType: GroundStationClientTypes.TelemetrySinkType?
+
+        public init(
+            telemetrySinkData: GroundStationClientTypes.TelemetrySinkData? = nil,
+            telemetrySinkType: GroundStationClientTypes.TelemetrySinkType? = nil
+        ) {
+            self.telemetrySinkData = telemetrySinkData
+            self.telemetrySinkType = telemetrySinkType
+        }
+    }
+}
+
+extension GroundStationClientTypes {
+
     public enum Criticality: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case preferred
         case removed
@@ -1401,7 +1482,7 @@ extension GroundStationClientTypes {
 
 extension GroundStationClientTypes {
 
-    /// Information about an uplink echo Config. Parameters from the AntennaUplinkConfig, corresponding to the specified AntennaUplinkConfigArn, are used when this UplinkEchoConfig is used in a contact.
+    /// Information about an uplink echo Config. Parameters from the AntennaUplinkConfig, corresponding to the specified  AntennaUplinkConfigArn, are used when this UplinkEchoConfig is used in a contact.
     public struct UplinkEchoConfig: Swift.Sendable {
         /// ARN of an uplink Config.
         /// This member is required.
@@ -1434,10 +1515,12 @@ extension GroundStationClientTypes {
         case antennadownlinkdemoddecodeconfig(GroundStationClientTypes.AntennaDownlinkDemodDecodeConfig)
         /// Information about how AWS Ground Station should conﬁgure an antenna for uplink during a contact.
         case antennauplinkconfig(GroundStationClientTypes.AntennaUplinkConfig)
-        /// Information about an uplink echo Config. Parameters from the AntennaUplinkConfig, corresponding to the specified AntennaUplinkConfigArn, are used when this UplinkEchoConfig is used in a contact.
+        /// Information about an uplink echo Config. Parameters from the AntennaUplinkConfig, corresponding to the specified  AntennaUplinkConfigArn, are used when this UplinkEchoConfig is used in a contact.
         case uplinkechoconfig(GroundStationClientTypes.UplinkEchoConfig)
         /// Information about an S3 recording Config.
         case s3recordingconfig(GroundStationClientTypes.S3RecordingConfig)
+        /// Information about a telemetry sink Config.
+        case telemetrysinkconfig(GroundStationClientTypes.TelemetrySinkConfig)
         case sdkUnknown(Swift.String)
     }
 }
@@ -2502,9 +2585,9 @@ public struct ReserveContactOutput: Swift.Sendable {
 
 ///
 public struct CreateDataflowEndpointGroupInput: Swift.Sendable {
-    /// Amount of time, in seconds, after a contact ends that the Ground Station Dataflow Endpoint Group will be in a POSTPASS state. A Ground Station Dataflow Endpoint Group State Change event will be emitted when the Dataflow Endpoint Group enters and exits the POSTPASS state.
+    /// Amount of time, in seconds, after a contact ends that the Ground Station Dataflow Endpoint Group will be in a POSTPASS state. A [Ground Station Dataflow Endpoint Group State Change event](https://docs.aws.amazon.com/ground-station/latest/ug/monitoring.automating-events.html) will be emitted when the Dataflow Endpoint Group enters and exits the POSTPASS state.
     public var contactPostPassDurationSeconds: Swift.Int?
-    /// Amount of time, in seconds, before a contact starts that the Ground Station Dataflow Endpoint Group will be in a PREPASS state. A Ground Station Dataflow Endpoint Group State Change event will be emitted when the Dataflow Endpoint Group enters and exits the PREPASS state.
+    /// Amount of time, in seconds, before a contact starts that the Ground Station Dataflow Endpoint Group will be in a PREPASS state. A [Ground Station Dataflow Endpoint Group State Change event](https://docs.aws.amazon.com/ground-station/latest/ug/monitoring.automating-events.html) will be emitted when the Dataflow Endpoint Group enters and exits the PREPASS state.
     public var contactPrePassDurationSeconds: Swift.Int?
     /// Endpoint details of each endpoint in the dataflow endpoint group. All dataflow endpoints within a single dataflow endpoint group must be of the same type. You cannot mix [ AWS Ground Station Agent endpoints](https://docs.aws.amazon.com/ground-station/latest/APIReference/API_AwsGroundStationAgentEndpoint.html) with [Dataflow endpoints](https://docs.aws.amazon.com/ground-station/latest/APIReference/API_DataflowEndpoint.html) in the same group. If your use case requires both types of endpoints, you must create separate dataflow endpoint groups for each type.
     /// This member is required.
@@ -2619,9 +2702,9 @@ extension GroundStationClientTypes {
 }
 
 public struct CreateDataflowEndpointGroupV2Input: Swift.Sendable {
-    /// Amount of time, in seconds, after a contact ends that the Ground Station Dataflow Endpoint Group will be in a POSTPASS state. A Ground Station Dataflow Endpoint Group State Change event will be emitted when the Dataflow Endpoint Group enters and exits the POSTPASS state.
+    /// Amount of time, in seconds, after a contact ends that the Ground Station Dataflow Endpoint Group will be in a POSTPASS state. A [Ground Station Dataflow Endpoint Group State Change event](https://docs.aws.amazon.com/ground-station/latest/ug/monitoring.automating-events.html) will be emitted when the Dataflow Endpoint Group enters and exits the POSTPASS state.
     public var contactPostPassDurationSeconds: Swift.Int?
-    /// Amount of time, in seconds, before a contact starts that the Ground Station Dataflow Endpoint Group will be in a PREPASS state. A Ground Station Dataflow Endpoint Group State Change event will be emitted when the Dataflow Endpoint Group enters and exits the PREPASS state.
+    /// Amount of time, in seconds, before a contact starts that the Ground Station Dataflow Endpoint Group will be in a PREPASS state. A [Ground Station Dataflow Endpoint Group State Change event](https://docs.aws.amazon.com/ground-station/latest/ug/monitoring.automating-events.html) will be emitted when the Dataflow Endpoint Group enters and exits the PREPASS state.
     public var contactPrePassDurationSeconds: Swift.Int?
     /// Dataflow endpoint group's endpoint definitions
     /// This member is required.
@@ -2655,7 +2738,7 @@ public struct CreateDataflowEndpointGroupV2Output: Swift.Sendable {
 
 extension GroundStationClientTypes {
 
-    /// Ephemeris data in Orbit Ephemeris Message (OEM) format. AWS Ground Station processes OEM ephemerides according to the [CCSDS standard](https://ccsds.org/wp-content/uploads/gravity_forms/5-448e85c647331d9cbaf66c096458bdd5/2025/01//502x0b3e1.pdf) with some extra restrictions. OEM files should be in KVN format. For more detail about the OEM format that AWS Ground Station supports, see [OEM ephemeris format](https://docs.aws.amazon.com/ground-station/latest/ug/providing-oem-ephemeris-data.html#oem-ephemeris-format) in the AWS Ground Station user guide.
+    /// Ephemeris data in Orbit Ephemeris Message (OEM) format. AWS Ground Station processes OEM ephemerides according to the [CCSDS standard](https://ccsds.org/Pubs/502x0b3e1.pdf) with some extra restrictions. OEM files should be in KVN format. For more detail about the OEM format that AWS Ground Station supports, see [OEM ephemeris format](https://docs.aws.amazon.com/ground-station/latest/ug/providing-oem-ephemeris-data.html#oem-ephemeris-format) in the AWS Ground Station user guide.
     public struct OEMEphemeris: Swift.Sendable {
         /// OEM data that you provide directly instead of using an Amazon S3 object.
         public var oemData: Swift.String?
@@ -2744,7 +2827,7 @@ extension GroundStationClientTypes {
     public enum EphemerisData: Swift.Sendable {
         /// Two-line element set (TLE) ephemeris. For more detail about providing Two-line element sets to AWS Ground Station, see the [TLE section](https://docs.aws.amazon.com/ground-station/latest/ug/providing-tle-ephemeris-data.html) of the AWS Ground Station user guide.
         case tle(GroundStationClientTypes.TLEEphemeris)
-        /// Ephemeris data in Orbit Ephemeris Message (OEM) format. AWS Ground Station processes OEM ephemerides according to the [CCSDS standard](https://ccsds.org/wp-content/uploads/gravity_forms/5-448e85c647331d9cbaf66c096458bdd5/2025/01//502x0b3e1.pdf) with some extra restrictions. OEM files should be in KVN format. For more detail about the OEM format that AWS Ground Station supports, see [OEM ephemeris format](https://docs.aws.amazon.com/ground-station/latest/ug/providing-oem-ephemeris-data.html#oem-ephemeris-format) in the AWS Ground Station user guide.
+        /// Ephemeris data in Orbit Ephemeris Message (OEM) format. AWS Ground Station processes OEM ephemerides according to the [CCSDS standard](https://ccsds.org/Pubs/502x0b3e1.pdf) with some extra restrictions. OEM files should be in KVN format. For more detail about the OEM format that AWS Ground Station supports, see [OEM ephemeris format](https://docs.aws.amazon.com/ground-station/latest/ug/providing-oem-ephemeris-data.html#oem-ephemeris-format) in the AWS Ground Station user guide.
         case oem(GroundStationClientTypes.OEMEphemeris)
         /// Azimuth elevation ephemeris data. Use this ephemeris type to provide pointing angles directly, rather than satellite orbital elements. Use this when you need precise antenna pointing but have imprecise or unknown satellite trajectory information. The azimuth elevation data specifies the antenna pointing direction at specific times relative to a ground station location. AWS Ground Station uses 4th order Lagrange interpolation to compute pointing angles between the provided data points. AWS Ground Station automatically filters interpolated pointing angles, including only those that are above the site mask elevation of the specified ground station. For more detail about providing azimuth elevation ephemerides to AWS Ground Station, see the [azimuth elevation ephemeris section](https://docs.aws.amazon.com/ground-station/latest/ug/providing-azimuth-elevation-ephemeris-data.html) of the AWS Ground Station User Guide.
         case azel(GroundStationClientTypes.AzElEphemeris)
@@ -2823,7 +2906,7 @@ public struct CreateMissionProfileInput: Swift.Sendable {
     public var contactPostPassDurationSeconds: Swift.Int?
     /// Amount of time prior to contact start you’d like to receive a Ground Station Contact State Change event indicating an upcoming pass.
     public var contactPrePassDurationSeconds: Swift.Int?
-    /// A list of lists of ARNs. Each list of ARNs is an edge, with a from Config and a to Config.
+    /// A list of lists of ARNs. Each list of ARNs is an edge, with a from  Config and a to Config.
     /// This member is required.
     public var dataflowEdges: [[Swift.String]]?
     /// Smallest amount of time in seconds that you’d like to see for an available contact. AWS Ground Station will not present you with contacts shorter than this duration.
@@ -2838,6 +2921,8 @@ public struct CreateMissionProfileInput: Swift.Sendable {
     public var streamsKmsRole: Swift.String?
     /// Tags assigned to a mission profile.
     public var tags: [Swift.String: Swift.String]?
+    /// ARN of a telemetry sink Config.
+    public var telemetrySinkConfigArn: Swift.String?
     /// ARN of a tracking Config.
     /// This member is required.
     public var trackingConfigArn: Swift.String?
@@ -2851,6 +2936,7 @@ public struct CreateMissionProfileInput: Swift.Sendable {
         streamsKmsKey: GroundStationClientTypes.KmsKey? = nil,
         streamsKmsRole: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
+        telemetrySinkConfigArn: Swift.String? = nil,
         trackingConfigArn: Swift.String? = nil
     ) {
         self.contactPostPassDurationSeconds = contactPostPassDurationSeconds
@@ -2861,6 +2947,7 @@ public struct CreateMissionProfileInput: Swift.Sendable {
         self.streamsKmsKey = streamsKmsKey
         self.streamsKmsRole = streamsKmsRole
         self.tags = tags
+        self.telemetrySinkConfigArn = telemetrySinkConfigArn
         self.trackingConfigArn = trackingConfigArn
     }
 }
@@ -3699,7 +3786,7 @@ public struct GetMissionProfileOutput: Swift.Sendable {
     public var contactPostPassDurationSeconds: Swift.Int?
     /// Amount of time prior to contact start you’d like to receive a CloudWatch event indicating an upcoming pass.
     public var contactPrePassDurationSeconds: Swift.Int?
-    /// A list of lists of ARNs. Each list of ARNs is an edge, with a from Config and a to Config.
+    /// A list of lists of ARNs. Each list of ARNs is an edge, with a from  Config and a to Config.
     public var dataflowEdges: [[Swift.String]]?
     /// Smallest amount of time in seconds that you’d like to see for an available contact. AWS Ground Station will not present you with contacts shorter than this duration.
     public var minimumViableContactDurationSeconds: Swift.Int?
@@ -3717,6 +3804,8 @@ public struct GetMissionProfileOutput: Swift.Sendable {
     public var streamsKmsRole: Swift.String?
     /// Tags assigned to a mission profile.
     public var tags: [Swift.String: Swift.String]?
+    /// ARN of a telemetry sink Config.
+    public var telemetrySinkConfigArn: Swift.String?
     /// ARN of a tracking Config.
     public var trackingConfigArn: Swift.String?
 
@@ -3732,6 +3821,7 @@ public struct GetMissionProfileOutput: Swift.Sendable {
         streamsKmsKey: GroundStationClientTypes.KmsKey? = nil,
         streamsKmsRole: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
+        telemetrySinkConfigArn: Swift.String? = nil,
         trackingConfigArn: Swift.String? = nil
     ) {
         self.contactPostPassDurationSeconds = contactPostPassDurationSeconds
@@ -3745,6 +3835,7 @@ public struct GetMissionProfileOutput: Swift.Sendable {
         self.streamsKmsKey = streamsKmsKey
         self.streamsKmsRole = streamsKmsRole
         self.tags = tags
+        self.telemetrySinkConfigArn = telemetrySinkConfigArn
         self.trackingConfigArn = trackingConfigArn
     }
 }
@@ -3939,7 +4030,7 @@ public struct UpdateMissionProfileInput: Swift.Sendable {
     public var contactPostPassDurationSeconds: Swift.Int?
     /// Amount of time after a contact ends that you’d like to receive a Ground Station Contact State Change event indicating the pass has finished.
     public var contactPrePassDurationSeconds: Swift.Int?
-    /// A list of lists of ARNs. Each list of ARNs is an edge, with a from Config and a to Config.
+    /// A list of lists of ARNs. Each list of ARNs is an edge, with a from  Config and a to Config.
     public var dataflowEdges: [[Swift.String]]?
     /// Smallest amount of time in seconds that you’d like to see for an available contact. AWS Ground Station will not present you with contacts shorter than this duration.
     public var minimumViableContactDurationSeconds: Swift.Int?
@@ -3952,6 +4043,8 @@ public struct UpdateMissionProfileInput: Swift.Sendable {
     public var streamsKmsKey: GroundStationClientTypes.KmsKey?
     /// Role to use for encrypting streams with KMS key.
     public var streamsKmsRole: Swift.String?
+    /// ARN of a telemetry sink Config.
+    public var telemetrySinkConfigArn: Swift.String?
     /// ARN of a tracking Config.
     public var trackingConfigArn: Swift.String?
 
@@ -3964,6 +4057,7 @@ public struct UpdateMissionProfileInput: Swift.Sendable {
         name: Swift.String? = nil,
         streamsKmsKey: GroundStationClientTypes.KmsKey? = nil,
         streamsKmsRole: Swift.String? = nil,
+        telemetrySinkConfigArn: Swift.String? = nil,
         trackingConfigArn: Swift.String? = nil
     ) {
         self.contactPostPassDurationSeconds = contactPostPassDurationSeconds
@@ -3974,6 +4068,7 @@ public struct UpdateMissionProfileInput: Swift.Sendable {
         self.name = name
         self.streamsKmsKey = streamsKmsKey
         self.streamsKmsRole = streamsKmsRole
+        self.telemetrySinkConfigArn = telemetrySinkConfigArn
         self.trackingConfigArn = trackingConfigArn
     }
 }
@@ -4593,6 +4688,7 @@ extension CreateMissionProfileInput {
         try writer["streamsKmsKey"].write(value.streamsKmsKey, with: GroundStationClientTypes.KmsKey.write(value:to:))
         try writer["streamsKmsRole"].write(value.streamsKmsRole)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["telemetrySinkConfigArn"].write(value.telemetrySinkConfigArn)
         try writer["trackingConfigArn"].write(value.trackingConfigArn)
     }
 }
@@ -4706,6 +4802,7 @@ extension UpdateMissionProfileInput {
         try writer["name"].write(value.name)
         try writer["streamsKmsKey"].write(value.streamsKmsKey, with: GroundStationClientTypes.KmsKey.write(value:to:))
         try writer["streamsKmsRole"].write(value.streamsKmsRole)
+        try writer["telemetrySinkConfigArn"].write(value.telemetrySinkConfigArn)
         try writer["trackingConfigArn"].write(value.trackingConfigArn)
     }
 }
@@ -4980,6 +5077,7 @@ extension GetMissionProfileOutput {
         value.streamsKmsKey = try reader["streamsKmsKey"].readIfPresent(with: GroundStationClientTypes.KmsKey.read(from:))
         value.streamsKmsRole = try reader["streamsKmsRole"].readIfPresent()
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.telemetrySinkConfigArn = try reader["telemetrySinkConfigArn"].readIfPresent()
         value.trackingConfigArn = try reader["trackingConfigArn"].readIfPresent()
         return value
     }
@@ -6364,6 +6462,8 @@ extension GroundStationClientTypes.ConfigTypeData {
                 try writer["dataflowEndpointConfig"].write(dataflowendpointconfig, with: GroundStationClientTypes.DataflowEndpointConfig.write(value:to:))
             case let .s3recordingconfig(s3recordingconfig):
                 try writer["s3RecordingConfig"].write(s3recordingconfig, with: GroundStationClientTypes.S3RecordingConfig.write(value:to:))
+            case let .telemetrysinkconfig(telemetrysinkconfig):
+                try writer["telemetrySinkConfig"].write(telemetrysinkconfig, with: GroundStationClientTypes.TelemetrySinkConfig.write(value:to:))
             case let .trackingconfig(trackingconfig):
                 try writer["trackingConfig"].write(trackingconfig, with: GroundStationClientTypes.TrackingConfig.write(value:to:))
             case let .uplinkechoconfig(uplinkechoconfig):
@@ -6391,9 +6491,69 @@ extension GroundStationClientTypes.ConfigTypeData {
                 return .uplinkechoconfig(try reader["uplinkEchoConfig"].read(with: GroundStationClientTypes.UplinkEchoConfig.read(from:)))
             case "s3RecordingConfig":
                 return .s3recordingconfig(try reader["s3RecordingConfig"].read(with: GroundStationClientTypes.S3RecordingConfig.read(from:)))
+            case "telemetrySinkConfig":
+                return .telemetrysinkconfig(try reader["telemetrySinkConfig"].read(with: GroundStationClientTypes.TelemetrySinkConfig.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
+    }
+}
+
+extension GroundStationClientTypes.TelemetrySinkConfig {
+
+    static func write(value: GroundStationClientTypes.TelemetrySinkConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["telemetrySinkData"].write(value.telemetrySinkData, with: GroundStationClientTypes.TelemetrySinkData.write(value:to:))
+        try writer["telemetrySinkType"].write(value.telemetrySinkType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.TelemetrySinkConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GroundStationClientTypes.TelemetrySinkConfig()
+        value.telemetrySinkType = try reader["telemetrySinkType"].readIfPresent() ?? .sdkUnknown("")
+        value.telemetrySinkData = try reader["telemetrySinkData"].readIfPresent(with: GroundStationClientTypes.TelemetrySinkData.read(from:))
+        return value
+    }
+}
+
+extension GroundStationClientTypes.TelemetrySinkData {
+
+    static func write(value: GroundStationClientTypes.TelemetrySinkData?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .kinesisdatastreamdata(kinesisdatastreamdata):
+                try writer["kinesisDataStreamData"].write(kinesisdatastreamdata, with: GroundStationClientTypes.KinesisDataStreamData.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.TelemetrySinkData {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "kinesisDataStreamData":
+                return .kinesisdatastreamdata(try reader["kinesisDataStreamData"].read(with: GroundStationClientTypes.KinesisDataStreamData.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension GroundStationClientTypes.KinesisDataStreamData {
+
+    static func write(value: GroundStationClientTypes.KinesisDataStreamData?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["kinesisDataStreamArn"].write(value.kinesisDataStreamArn)
+        try writer["kinesisRoleArn"].write(value.kinesisRoleArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GroundStationClientTypes.KinesisDataStreamData {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GroundStationClientTypes.KinesisDataStreamData()
+        value.kinesisRoleArn = try reader["kinesisRoleArn"].readIfPresent() ?? ""
+        value.kinesisDataStreamArn = try reader["kinesisDataStreamArn"].readIfPresent() ?? ""
+        return value
     }
 }
 

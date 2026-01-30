@@ -347,7 +347,7 @@ public struct NoSuchUpload: ClientRuntime.ModeledError, AWSClientRuntime.AWSS3Se
 
 extension S3ClientTypes {
 
-    /// Confirms that the requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their requests. If either the source or destination S3 bucket has Requester Pays enabled, the requester will pay for corresponding charges to copy the object. For information about downloading objects from Requester Pays buckets, see [Downloading Objects in Requester Pays Buckets](https://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html) in the Amazon S3 User Guide. This functionality is not supported for directory buckets.
+    /// Confirms that the requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their requests. If either the source or destination S3 bucket has Requester Pays enabled, the requester will pay for the corresponding charges. For information about downloading objects from Requester Pays buckets, see [Downloading Objects in Requester Pays Buckets](https://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html) in the Amazon S3 User Guide. This functionality is not supported for directory buckets.
     public enum RequestPayer: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case requester
         case sdkUnknown(Swift.String)
@@ -383,7 +383,7 @@ public struct AbortMultipartUploadInput: Swift.Sendable {
     /// Key of the object for which the multipart upload was initiated.
     /// This member is required.
     public var key: Swift.String?
-    /// Confirms that the requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their requests. If either the source or destination S3 bucket has Requester Pays enabled, the requester will pay for corresponding charges to copy the object. For information about downloading objects from Requester Pays buckets, see [Downloading Objects in Requester Pays Buckets](https://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html) in the Amazon S3 User Guide. This functionality is not supported for directory buckets.
+    /// Confirms that the requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their requests. If either the source or destination S3 bucket has Requester Pays enabled, the requester will pay for the corresponding charges. For information about downloading objects from Requester Pays buckets, see [Downloading Objects in Requester Pays Buckets](https://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html) in the Amazon S3 User Guide. This functionality is not supported for directory buckets.
     public var requestPayer: S3ClientTypes.RequestPayer?
     /// Upload ID that identifies the multipart upload.
     /// This member is required.
@@ -689,6 +689,20 @@ extension S3ClientTypes {
     }
 }
 
+/// You might receive this error for several reasons. For details, see the description of this API operation.
+public struct AccessDenied: ClientRuntime.ModeledError, AWSClientRuntime.AWSS3ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+    public static var typeName: Swift.String { "AccessDenied" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+    public internal(set) var requestID2: Swift.String?
+
+    public init() { }
+}
+
 extension S3ClientTypes {
 
     public enum ChecksumType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
@@ -805,7 +819,7 @@ public struct CompleteMultipartUploadInput: Swift.Sendable {
     public var mpuObjectSize: Swift.Int?
     /// The container for the multipart upload request information.
     public var multipartUpload: S3ClientTypes.CompletedMultipartUpload?
-    /// Confirms that the requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their requests. If either the source or destination S3 bucket has Requester Pays enabled, the requester will pay for corresponding charges to copy the object. For information about downloading objects from Requester Pays buckets, see [Downloading Objects in Requester Pays Buckets](https://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html) in the Amazon S3 User Guide. This functionality is not supported for directory buckets.
+    /// Confirms that the requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their requests. If either the source or destination S3 bucket has Requester Pays enabled, the requester will pay for the corresponding charges. For information about downloading objects from Requester Pays buckets, see [Downloading Objects in Requester Pays Buckets](https://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html) in the Amazon S3 User Guide. This functionality is not supported for directory buckets.
     public var requestPayer: S3ClientTypes.RequestPayer?
     /// The server-side encryption (SSE) algorithm used to encrypt the object. This parameter is required only when the object was created using a checksum algorithm or if your bucket policy requires the use of SSE-C. For more information, see [Protecting data using SSE-C keys](https://docs.aws.amazon.com/AmazonS3/latest/userguide/ServerSideEncryptionCustomerKeys.html#ssec-require-condition-key) in the Amazon S3 User Guide. This functionality is not supported for directory buckets.
     public var sseCustomerAlgorithm: Swift.String?
@@ -1368,7 +1382,7 @@ public struct CopyObjectInput: Swift.Sendable {
     public var objectLockMode: S3ClientTypes.ObjectLockMode?
     /// The date and time when you want the Object Lock of the object copy to expire. This functionality is not supported for directory buckets.
     public var objectLockRetainUntilDate: Foundation.Date?
-    /// Confirms that the requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their requests. If either the source or destination S3 bucket has Requester Pays enabled, the requester will pay for corresponding charges to copy the object. For information about downloading objects from Requester Pays buckets, see [Downloading Objects in Requester Pays Buckets](https://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html) in the Amazon S3 User Guide. This functionality is not supported for directory buckets.
+    /// Confirms that the requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their requests. If either the source or destination S3 bucket has Requester Pays enabled, the requester will pay for the corresponding charges. For information about downloading objects from Requester Pays buckets, see [Downloading Objects in Requester Pays Buckets](https://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html) in the Amazon S3 User Guide. This functionality is not supported for directory buckets.
     public var requestPayer: S3ClientTypes.RequestPayer?
     /// The server-side encryption algorithm used when storing this object in Amazon S3. Unrecognized or unsupported values won’t write a destination object and will receive a 400 Bad Request response. Amazon S3 automatically encrypts all new objects that are copied to an S3 bucket. When copying an object, if you don't specify encryption information in your copy request, the encryption setting of the target object is set to the default encryption configuration of the destination bucket. By default, all buckets have a base level of encryption configuration that uses server-side encryption with Amazon S3 managed keys (SSE-S3). If the destination bucket has a different default encryption configuration, Amazon S3 uses the corresponding encryption key to encrypt the target object copy. With server-side encryption, Amazon S3 encrypts your data as it writes your data to disks in its data centers and decrypts the data when you access it. For more information about server-side encryption, see [Using Server-Side Encryption](https://docs.aws.amazon.com/AmazonS3/latest/dev/serv-side-encryption.html) in the Amazon S3 User Guide. General purpose buckets
     ///
@@ -2557,7 +2571,7 @@ public struct CreateMultipartUploadInput: Swift.Sendable {
     public var objectLockMode: S3ClientTypes.ObjectLockMode?
     /// Specifies the date and time when you want the Object Lock to expire. This functionality is not supported for directory buckets.
     public var objectLockRetainUntilDate: Foundation.Date?
-    /// Confirms that the requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their requests. If either the source or destination S3 bucket has Requester Pays enabled, the requester will pay for corresponding charges to copy the object. For information about downloading objects from Requester Pays buckets, see [Downloading Objects in Requester Pays Buckets](https://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html) in the Amazon S3 User Guide. This functionality is not supported for directory buckets.
+    /// Confirms that the requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their requests. If either the source or destination S3 bucket has Requester Pays enabled, the requester will pay for the corresponding charges. For information about downloading objects from Requester Pays buckets, see [Downloading Objects in Requester Pays Buckets](https://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html) in the Amazon S3 User Guide. This functionality is not supported for directory buckets.
     public var requestPayer: S3ClientTypes.RequestPayer?
     /// The server-side encryption algorithm used when you store this object in Amazon S3 or Amazon FSx.
     ///
@@ -3154,7 +3168,7 @@ public struct DeleteObjectInput: Swift.Sendable {
     public var key: Swift.String?
     /// The concatenation of the authentication device's serial number, a space, and the value that is displayed on your authentication device. Required to permanently delete a versioned object if versioning is configured with MFA delete enabled. This functionality is not supported for directory buckets.
     public var mfa: Swift.String?
-    /// Confirms that the requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their requests. If either the source or destination S3 bucket has Requester Pays enabled, the requester will pay for corresponding charges to copy the object. For information about downloading objects from Requester Pays buckets, see [Downloading Objects in Requester Pays Buckets](https://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html) in the Amazon S3 User Guide. This functionality is not supported for directory buckets.
+    /// Confirms that the requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their requests. If either the source or destination S3 bucket has Requester Pays enabled, the requester will pay for the corresponding charges. For information about downloading objects from Requester Pays buckets, see [Downloading Objects in Requester Pays Buckets](https://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html) in the Amazon S3 User Guide. This functionality is not supported for directory buckets.
     public var requestPayer: S3ClientTypes.RequestPayer?
     /// Version ID used to reference a specific version of the object. For directory buckets in this API operation, only the null value of the version ID is supported.
     public var versionId: Swift.String?
@@ -3283,7 +3297,7 @@ public struct DeleteObjectsInput: Swift.Sendable {
     public var expectedBucketOwner: Swift.String?
     /// The concatenation of the authentication device's serial number, a space, and the value that is displayed on your authentication device. Required to permanently delete a versioned object if versioning is configured with MFA delete enabled. When performing the DeleteObjects operation on an MFA delete enabled bucket, which attempts to delete the specified versioned objects, you must include an MFA token. If you don't provide an MFA token, the entire request will fail, even if there are non-versioned objects that you are trying to delete. If you provide an invalid token, whether there are versioned object keys in the request or not, the entire Multi-Object Delete request will fail. For information about MFA Delete, see [ MFA Delete](https://docs.aws.amazon.com/AmazonS3/latest/dev/Versioning.html#MultiFactorAuthenticationDelete) in the Amazon S3 User Guide. This functionality is not supported for directory buckets.
     public var mfa: Swift.String?
-    /// Confirms that the requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their requests. If either the source or destination S3 bucket has Requester Pays enabled, the requester will pay for corresponding charges to copy the object. For information about downloading objects from Requester Pays buckets, see [Downloading Objects in Requester Pays Buckets](https://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html) in the Amazon S3 User Guide. This functionality is not supported for directory buckets.
+    /// Confirms that the requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their requests. If either the source or destination S3 bucket has Requester Pays enabled, the requester will pay for the corresponding charges. For information about downloading objects from Requester Pays buckets, see [Downloading Objects in Requester Pays Buckets](https://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html) in the Amazon S3 User Guide. This functionality is not supported for directory buckets.
     public var requestPayer: S3ClientTypes.RequestPayer?
 
     public init(
@@ -4516,7 +4530,7 @@ public struct GetBucketAccelerateConfigurationInput: Swift.Sendable {
     public var bucket: Swift.String?
     /// The account ID of the expected bucket owner. If the account ID that you provide does not match the actual owner of the bucket, the request fails with the HTTP status code 403 Forbidden (access denied).
     public var expectedBucketOwner: Swift.String?
-    /// Confirms that the requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their requests. If either the source or destination S3 bucket has Requester Pays enabled, the requester will pay for corresponding charges to copy the object. For information about downloading objects from Requester Pays buckets, see [Downloading Objects in Requester Pays Buckets](https://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html) in the Amazon S3 User Guide. This functionality is not supported for directory buckets.
+    /// Confirms that the requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their requests. If either the source or destination S3 bucket has Requester Pays enabled, the requester will pay for the corresponding charges. For information about downloading objects from Requester Pays buckets, see [Downloading Objects in Requester Pays Buckets](https://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html) in the Amazon S3 User Guide. This functionality is not supported for directory buckets.
     public var requestPayer: S3ClientTypes.RequestPayer?
 
     public init(
@@ -8052,7 +8066,7 @@ public struct GetObjectInput: Swift.Sendable {
     public var partNumber: Swift.Int?
     /// Downloads the specified byte range of an object. For more information about the HTTP Range header, see [https://www.rfc-editor.org/rfc/rfc9110.html#name-range](https://www.rfc-editor.org/rfc/rfc9110.html#name-range). Amazon S3 doesn't support retrieving multiple ranges of data per GET request.
     public var range: Swift.String?
-    /// Confirms that the requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their requests. If either the source or destination S3 bucket has Requester Pays enabled, the requester will pay for corresponding charges to copy the object. For information about downloading objects from Requester Pays buckets, see [Downloading Objects in Requester Pays Buckets](https://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html) in the Amazon S3 User Guide. This functionality is not supported for directory buckets.
+    /// Confirms that the requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their requests. If either the source or destination S3 bucket has Requester Pays enabled, the requester will pay for the corresponding charges. For information about downloading objects from Requester Pays buckets, see [Downloading Objects in Requester Pays Buckets](https://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html) in the Amazon S3 User Guide. This functionality is not supported for directory buckets.
     public var requestPayer: S3ClientTypes.RequestPayer?
     /// Sets the Cache-Control header of the response.
     public var responseCacheControl: Swift.String?
@@ -8378,7 +8392,7 @@ public struct GetObjectAclInput: Swift.Sendable {
     /// The key of the object for which to get the ACL information.
     /// This member is required.
     public var key: Swift.String?
-    /// Confirms that the requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their requests. If either the source or destination S3 bucket has Requester Pays enabled, the requester will pay for corresponding charges to copy the object. For information about downloading objects from Requester Pays buckets, see [Downloading Objects in Requester Pays Buckets](https://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html) in the Amazon S3 User Guide. This functionality is not supported for directory buckets.
+    /// Confirms that the requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their requests. If either the source or destination S3 bucket has Requester Pays enabled, the requester will pay for the corresponding charges. For information about downloading objects from Requester Pays buckets, see [Downloading Objects in Requester Pays Buckets](https://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html) in the Amazon S3 User Guide. This functionality is not supported for directory buckets.
     public var requestPayer: S3ClientTypes.RequestPayer?
     /// Version ID used to reference a specific version of the object. This functionality is not supported for directory buckets.
     public var versionId: Swift.String?
@@ -8471,7 +8485,7 @@ public struct GetObjectAttributesInput: Swift.Sendable {
     public var objectAttributes: [S3ClientTypes.ObjectAttributes]?
     /// Specifies the part after which listing should begin. Only parts with higher part numbers will be listed. For more information, see [Uploading and copying objects using multipart upload in Amazon S3 ](https://docs.aws.amazon.com/AmazonS3/latest/userguide/mpuoverview.html) in the Amazon Simple Storage Service user guide.
     public var partNumberMarker: Swift.String?
-    /// Confirms that the requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their requests. If either the source or destination S3 bucket has Requester Pays enabled, the requester will pay for corresponding charges to copy the object. For information about downloading objects from Requester Pays buckets, see [Downloading Objects in Requester Pays Buckets](https://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html) in the Amazon S3 User Guide. This functionality is not supported for directory buckets.
+    /// Confirms that the requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their requests. If either the source or destination S3 bucket has Requester Pays enabled, the requester will pay for the corresponding charges. For information about downloading objects from Requester Pays buckets, see [Downloading Objects in Requester Pays Buckets](https://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html) in the Amazon S3 User Guide. This functionality is not supported for directory buckets.
     public var requestPayer: S3ClientTypes.RequestPayer?
     /// Specifies the algorithm to use when encrypting the object (for example, AES256). This functionality is not supported for directory buckets.
     public var sseCustomerAlgorithm: Swift.String?
@@ -8679,7 +8693,7 @@ public struct GetObjectLegalHoldInput: Swift.Sendable {
     /// The key name for the object whose legal hold status you want to retrieve.
     /// This member is required.
     public var key: Swift.String?
-    /// Confirms that the requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their requests. If either the source or destination S3 bucket has Requester Pays enabled, the requester will pay for corresponding charges to copy the object. For information about downloading objects from Requester Pays buckets, see [Downloading Objects in Requester Pays Buckets](https://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html) in the Amazon S3 User Guide. This functionality is not supported for directory buckets.
+    /// Confirms that the requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their requests. If either the source or destination S3 bucket has Requester Pays enabled, the requester will pay for the corresponding charges. For information about downloading objects from Requester Pays buckets, see [Downloading Objects in Requester Pays Buckets](https://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html) in the Amazon S3 User Guide. This functionality is not supported for directory buckets.
     public var requestPayer: S3ClientTypes.RequestPayer?
     /// The version ID of the object whose legal hold status you want to retrieve.
     public var versionId: Swift.String?
@@ -8877,7 +8891,7 @@ public struct GetObjectRetentionInput: Swift.Sendable {
     /// The key name for the object whose retention settings you want to retrieve.
     /// This member is required.
     public var key: Swift.String?
-    /// Confirms that the requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their requests. If either the source or destination S3 bucket has Requester Pays enabled, the requester will pay for corresponding charges to copy the object. For information about downloading objects from Requester Pays buckets, see [Downloading Objects in Requester Pays Buckets](https://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html) in the Amazon S3 User Guide. This functionality is not supported for directory buckets.
+    /// Confirms that the requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their requests. If either the source or destination S3 bucket has Requester Pays enabled, the requester will pay for the corresponding charges. For information about downloading objects from Requester Pays buckets, see [Downloading Objects in Requester Pays Buckets](https://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html) in the Amazon S3 User Guide. This functionality is not supported for directory buckets.
     public var requestPayer: S3ClientTypes.RequestPayer?
     /// The version ID for the object whose retention settings you want to retrieve.
     public var versionId: Swift.String?
@@ -8936,7 +8950,7 @@ public struct GetObjectTaggingInput: Swift.Sendable {
     /// Object key for which to get the tagging information.
     /// This member is required.
     public var key: Swift.String?
-    /// Confirms that the requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their requests. If either the source or destination S3 bucket has Requester Pays enabled, the requester will pay for corresponding charges to copy the object. For information about downloading objects from Requester Pays buckets, see [Downloading Objects in Requester Pays Buckets](https://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html) in the Amazon S3 User Guide. This functionality is not supported for directory buckets.
+    /// Confirms that the requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their requests. If either the source or destination S3 bucket has Requester Pays enabled, the requester will pay for the corresponding charges. For information about downloading objects from Requester Pays buckets, see [Downloading Objects in Requester Pays Buckets](https://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html) in the Amazon S3 User Guide. This functionality is not supported for directory buckets.
     public var requestPayer: S3ClientTypes.RequestPayer?
     /// The versionId of the object for which to get the tagging information.
     public var versionId: Swift.String?
@@ -8981,7 +8995,7 @@ public struct GetObjectTorrentInput: Swift.Sendable {
     /// The object key for which to get the information.
     /// This member is required.
     public var key: Swift.String?
-    /// Confirms that the requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their requests. If either the source or destination S3 bucket has Requester Pays enabled, the requester will pay for corresponding charges to copy the object. For information about downloading objects from Requester Pays buckets, see [Downloading Objects in Requester Pays Buckets](https://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html) in the Amazon S3 User Guide. This functionality is not supported for directory buckets.
+    /// Confirms that the requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their requests. If either the source or destination S3 bucket has Requester Pays enabled, the requester will pay for the corresponding charges. For information about downloading objects from Requester Pays buckets, see [Downloading Objects in Requester Pays Buckets](https://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html) in the Amazon S3 User Guide. This functionality is not supported for directory buckets.
     public var requestPayer: S3ClientTypes.RequestPayer?
 
     public init(
@@ -9183,7 +9197,7 @@ public struct HeadObjectInput: Swift.Sendable {
     public var partNumber: Swift.Int?
     /// HeadObject returns only the metadata for an object. If the Range is satisfiable, only the ContentLength is affected in the response. If the Range is not satisfiable, S3 returns a 416 - Requested Range Not Satisfiable error.
     public var range: Swift.String?
-    /// Confirms that the requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their requests. If either the source or destination S3 bucket has Requester Pays enabled, the requester will pay for corresponding charges to copy the object. For information about downloading objects from Requester Pays buckets, see [Downloading Objects in Requester Pays Buckets](https://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html) in the Amazon S3 User Guide. This functionality is not supported for directory buckets.
+    /// Confirms that the requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their requests. If either the source or destination S3 bucket has Requester Pays enabled, the requester will pay for the corresponding charges. For information about downloading objects from Requester Pays buckets, see [Downloading Objects in Requester Pays Buckets](https://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html) in the Amazon S3 User Guide. This functionality is not supported for directory buckets.
     public var requestPayer: S3ClientTypes.RequestPayer?
     /// Sets the Cache-Control header of the response.
     public var responseCacheControl: Swift.String?
@@ -9782,7 +9796,7 @@ public struct ListMultipartUploadsInput: Swift.Sendable {
     public var maxUploads: Swift.Int?
     /// Lists in-progress uploads only for those keys that begin with the specified prefix. You can use prefixes to separate a bucket into different grouping of keys. (You can think of using prefix to make groups in the same way that you'd use a folder in a file system.) Directory buckets - For directory buckets, only prefixes that end in a delimiter (/) are supported.
     public var `prefix`: Swift.String?
-    /// Confirms that the requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their requests. If either the source or destination S3 bucket has Requester Pays enabled, the requester will pay for corresponding charges to copy the object. For information about downloading objects from Requester Pays buckets, see [Downloading Objects in Requester Pays Buckets](https://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html) in the Amazon S3 User Guide. This functionality is not supported for directory buckets.
+    /// Confirms that the requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their requests. If either the source or destination S3 bucket has Requester Pays enabled, the requester will pay for the corresponding charges. For information about downloading objects from Requester Pays buckets, see [Downloading Objects in Requester Pays Buckets](https://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html) in the Amazon S3 User Guide. This functionality is not supported for directory buckets.
     public var requestPayer: S3ClientTypes.RequestPayer?
     /// Together with key-marker, specifies the multipart upload after which listing should begin. If key-marker is not specified, the upload-id-marker parameter is ignored. Otherwise, any multipart uploads for a key equal to the key-marker might be included in the list only if they have an upload ID lexicographically greater than the specified upload-id-marker. This functionality is not supported for directory buckets.
     public var uploadIdMarker: Swift.String?
@@ -10341,7 +10355,7 @@ public struct ListObjectVersionsInput: Swift.Sendable {
     public var optionalObjectAttributes: [S3ClientTypes.OptionalObjectAttributes]?
     /// Use this parameter to select only those keys that begin with the specified prefix. You can use prefixes to separate a bucket into different groupings of keys. (You can think of using prefix to make groups in the same way that you'd use a folder in a file system.) You can use prefix with delimiter to roll up numerous objects into a single result under CommonPrefixes.
     public var `prefix`: Swift.String?
-    /// Confirms that the requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their requests. If either the source or destination S3 bucket has Requester Pays enabled, the requester will pay for corresponding charges to copy the object. For information about downloading objects from Requester Pays buckets, see [Downloading Objects in Requester Pays Buckets](https://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html) in the Amazon S3 User Guide. This functionality is not supported for directory buckets.
+    /// Confirms that the requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their requests. If either the source or destination S3 bucket has Requester Pays enabled, the requester will pay for the corresponding charges. For information about downloading objects from Requester Pays buckets, see [Downloading Objects in Requester Pays Buckets](https://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html) in the Amazon S3 User Guide. This functionality is not supported for directory buckets.
     public var requestPayer: S3ClientTypes.RequestPayer?
     /// Specifies the object version you want to start listing from.
     public var versionIdMarker: Swift.String?
@@ -10559,7 +10573,7 @@ public struct ListPartsInput: Swift.Sendable {
     public var maxParts: Swift.Int?
     /// Specifies the part after which listing should begin. Only parts with higher part numbers will be listed.
     public var partNumberMarker: Swift.String?
-    /// Confirms that the requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their requests. If either the source or destination S3 bucket has Requester Pays enabled, the requester will pay for corresponding charges to copy the object. For information about downloading objects from Requester Pays buckets, see [Downloading Objects in Requester Pays Buckets](https://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html) in the Amazon S3 User Guide. This functionality is not supported for directory buckets.
+    /// Confirms that the requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their requests. If either the source or destination S3 bucket has Requester Pays enabled, the requester will pay for the corresponding charges. For information about downloading objects from Requester Pays buckets, see [Downloading Objects in Requester Pays Buckets](https://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html) in the Amazon S3 User Guide. This functionality is not supported for directory buckets.
     public var requestPayer: S3ClientTypes.RequestPayer?
     /// The server-side encryption (SSE) algorithm used to encrypt the object. This parameter is needed only when the object was created using a checksum algorithm. For more information, see [Protecting data using SSE-C keys](https://docs.aws.amazon.com/AmazonS3/latest/dev/ServerSideEncryptionCustomerKeys.html) in the Amazon S3 User Guide. This functionality is not supported for directory buckets.
     public var sseCustomerAlgorithm: Swift.String?
@@ -11517,13 +11531,7 @@ public struct EncryptionTypeMismatch: ClientRuntime.ModeledError, AWSClientRunti
     public init() { }
 }
 
-/// You may receive this error in multiple cases. Depending on the reason for the error, you may receive one of the messages below:
-///
-/// * Cannot specify both a write offset value and user-defined object metadata for existing objects.
-///
-/// * Checksum Type mismatch occurred, expected checksum Type: sha1, actual checksum Type: crc32c.
-///
-/// * Request body cannot be empty when 'write offset' is specified.
+/// A parameter or header in your request isn't valid. For details, see the description of this API operation.
 public struct InvalidRequest: ClientRuntime.ModeledError, AWSClientRuntime.AWSS3ServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
     public static var typeName: Swift.String { "InvalidRequest" }
     public static var fault: ClientRuntime.ErrorFault { .client }
@@ -11661,7 +11669,7 @@ public struct PutObjectInput: Swift.Sendable {
     public var objectLockMode: S3ClientTypes.ObjectLockMode?
     /// The date and time when you want this object's Object Lock to expire. Must be formatted as a timestamp parameter. This functionality is not supported for directory buckets.
     public var objectLockRetainUntilDate: Foundation.Date?
-    /// Confirms that the requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their requests. If either the source or destination S3 bucket has Requester Pays enabled, the requester will pay for corresponding charges to copy the object. For information about downloading objects from Requester Pays buckets, see [Downloading Objects in Requester Pays Buckets](https://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html) in the Amazon S3 User Guide. This functionality is not supported for directory buckets.
+    /// Confirms that the requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their requests. If either the source or destination S3 bucket has Requester Pays enabled, the requester will pay for the corresponding charges. For information about downloading objects from Requester Pays buckets, see [Downloading Objects in Requester Pays Buckets](https://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html) in the Amazon S3 User Guide. This functionality is not supported for directory buckets.
     public var requestPayer: S3ClientTypes.RequestPayer?
     /// The server-side encryption algorithm that was used when you store this object in Amazon S3 or Amazon FSx.
     ///
@@ -11893,7 +11901,7 @@ public struct PutObjectAclInput: Swift.Sendable {
     /// Key for which the PUT action was initiated.
     /// This member is required.
     public var key: Swift.String?
-    /// Confirms that the requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their requests. If either the source or destination S3 bucket has Requester Pays enabled, the requester will pay for corresponding charges to copy the object. For information about downloading objects from Requester Pays buckets, see [Downloading Objects in Requester Pays Buckets](https://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html) in the Amazon S3 User Guide. This functionality is not supported for directory buckets.
+    /// Confirms that the requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their requests. If either the source or destination S3 bucket has Requester Pays enabled, the requester will pay for the corresponding charges. For information about downloading objects from Requester Pays buckets, see [Downloading Objects in Requester Pays Buckets](https://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html) in the Amazon S3 User Guide. This functionality is not supported for directory buckets.
     public var requestPayer: S3ClientTypes.RequestPayer?
     /// Version ID used to reference a specific version of the object. This functionality is not supported for directory buckets.
     public var versionId: Swift.String?
@@ -11957,7 +11965,7 @@ public struct PutObjectLegalHoldInput: Swift.Sendable {
     public var key: Swift.String?
     /// Container element for the legal hold configuration you want to apply to the specified object.
     public var legalHold: S3ClientTypes.ObjectLockLegalHold?
-    /// Confirms that the requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their requests. If either the source or destination S3 bucket has Requester Pays enabled, the requester will pay for corresponding charges to copy the object. For information about downloading objects from Requester Pays buckets, see [Downloading Objects in Requester Pays Buckets](https://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html) in the Amazon S3 User Guide. This functionality is not supported for directory buckets.
+    /// Confirms that the requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their requests. If either the source or destination S3 bucket has Requester Pays enabled, the requester will pay for the corresponding charges. For information about downloading objects from Requester Pays buckets, see [Downloading Objects in Requester Pays Buckets](https://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html) in the Amazon S3 User Guide. This functionality is not supported for directory buckets.
     public var requestPayer: S3ClientTypes.RequestPayer?
     /// The version ID of the object that you want to place a legal hold on.
     public var versionId: Swift.String?
@@ -12006,7 +12014,7 @@ public struct PutObjectLockConfigurationInput: Swift.Sendable {
     public var expectedBucketOwner: Swift.String?
     /// The Object Lock configuration that you want to apply to the specified bucket.
     public var objectLockConfiguration: S3ClientTypes.ObjectLockConfiguration?
-    /// Confirms that the requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their requests. If either the source or destination S3 bucket has Requester Pays enabled, the requester will pay for corresponding charges to copy the object. For information about downloading objects from Requester Pays buckets, see [Downloading Objects in Requester Pays Buckets](https://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html) in the Amazon S3 User Guide. This functionality is not supported for directory buckets.
+    /// Confirms that the requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their requests. If either the source or destination S3 bucket has Requester Pays enabled, the requester will pay for the corresponding charges. For information about downloading objects from Requester Pays buckets, see [Downloading Objects in Requester Pays Buckets](https://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html) in the Amazon S3 User Guide. This functionality is not supported for directory buckets.
     public var requestPayer: S3ClientTypes.RequestPayer?
     /// A token to allow Object Lock to be enabled for an existing bucket.
     public var token: Swift.String?
@@ -12056,7 +12064,7 @@ public struct PutObjectRetentionInput: Swift.Sendable {
     /// The key name for the object that you want to apply this Object Retention configuration to.
     /// This member is required.
     public var key: Swift.String?
-    /// Confirms that the requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their requests. If either the source or destination S3 bucket has Requester Pays enabled, the requester will pay for corresponding charges to copy the object. For information about downloading objects from Requester Pays buckets, see [Downloading Objects in Requester Pays Buckets](https://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html) in the Amazon S3 User Guide. This functionality is not supported for directory buckets.
+    /// Confirms that the requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their requests. If either the source or destination S3 bucket has Requester Pays enabled, the requester will pay for the corresponding charges. For information about downloading objects from Requester Pays buckets, see [Downloading Objects in Requester Pays Buckets](https://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html) in the Amazon S3 User Guide. This functionality is not supported for directory buckets.
     public var requestPayer: S3ClientTypes.RequestPayer?
     /// The container element for the Object Retention configuration.
     public var retention: S3ClientTypes.ObjectLockRetention?
@@ -12846,7 +12854,7 @@ public struct RestoreObjectInput: Swift.Sendable {
     /// Object key for which the action was initiated.
     /// This member is required.
     public var key: Swift.String?
-    /// Confirms that the requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their requests. If either the source or destination S3 bucket has Requester Pays enabled, the requester will pay for corresponding charges to copy the object. For information about downloading objects from Requester Pays buckets, see [Downloading Objects in Requester Pays Buckets](https://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html) in the Amazon S3 User Guide. This functionality is not supported for directory buckets.
+    /// Confirms that the requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their requests. If either the source or destination S3 bucket has Requester Pays enabled, the requester will pay for the corresponding charges. For information about downloading objects from Requester Pays buckets, see [Downloading Objects in Requester Pays Buckets](https://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html) in the Amazon S3 User Guide. This functionality is not supported for directory buckets.
     public var requestPayer: S3ClientTypes.RequestPayer?
     /// Container for restore job parameters.
     public var restoreRequest: S3ClientTypes.RestoreRequest?
@@ -13226,6 +13234,94 @@ public struct UpdateBucketMetadataJournalTableConfigurationInput: Swift.Sendable
     }
 }
 
+extension S3ClientTypes {
+
+    /// If SSEKMS is specified for ObjectEncryption, this data type specifies the Amazon Web Services KMS key Amazon Resource Name (ARN) to use and whether to use an S3 Bucket Key for server-side encryption using Key Management Service (KMS) keys (SSE-KMS).
+    public struct SSEKMSEncryption: Swift.Sendable {
+        /// Specifies whether Amazon S3 should use an S3 Bucket Key for object encryption with server-side encryption using Key Management Service (KMS) keys (SSE-KMS). If this value isn't specified, it defaults to false. Setting this value to true causes Amazon S3 to use an S3 Bucket Key for object encryption with SSE-KMS. For more information, see [ Using Amazon S3 Bucket Keys](https://docs.aws.amazon.com/AmazonS3/latest/userguide/bucket-key.html) in the Amazon S3 User Guide. Valid Values: true | false
+        public var bucketKeyEnabled: Swift.Bool?
+        /// Specifies the Amazon Web Services KMS key Amazon Resource Name (ARN) to use for the updated server-side encryption type. Required if ObjectEncryption specifies SSEKMS. You must specify the full Amazon Web Services KMS key ARN. The KMS key ID and KMS key alias aren't supported. Pattern: (arn:aws[-a-z0-9]*:kms:[-a-z0-9]*:[0-9]{12}:key/.+)
+        /// This member is required.
+        public var kmsKeyArn: Swift.String?
+
+        public init(
+            bucketKeyEnabled: Swift.Bool? = nil,
+            kmsKeyArn: Swift.String? = nil
+        ) {
+            self.bucketKeyEnabled = bucketKeyEnabled
+            self.kmsKeyArn = kmsKeyArn
+        }
+    }
+}
+
+extension S3ClientTypes.SSEKMSEncryption: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "SSEKMSEncryption(bucketKeyEnabled: \(Swift.String(describing: bucketKeyEnabled)), kmsKeyArn: \"CONTENT_REDACTED\")"}
+}
+
+extension S3ClientTypes {
+
+    /// The updated server-side encryption type for this object. The UpdateObjectEncryption operation supports the SSE-S3 and SSE-KMS encryption types. Valid Values: SSES3 | SSEKMS
+    public enum ObjectEncryption: Swift.Sendable {
+        /// Specifies to update the object encryption type to server-side encryption with Key Management Service (KMS) keys (SSE-KMS).
+        case ssekms(S3ClientTypes.SSEKMSEncryption)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+public struct UpdateObjectEncryptionInput: Swift.Sendable {
+    /// The name of the general purpose bucket that contains the specified object key name. When you use this operation with an access point attached to a general purpose bucket, you must either provide the alias of the access point in place of the bucket name or you must specify the access point Amazon Resource Name (ARN). When using the access point ARN, you must direct requests to the access point hostname. The access point hostname takes the form  AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using this operation with an access point through the Amazon Web Services SDKs, you provide the access point ARN in place of the bucket name. For more information about access point ARNs, see [ Referencing access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-points-naming.html) in the Amazon S3 User Guide.
+    /// This member is required.
+    public var bucket: Swift.String?
+    /// Indicates the algorithm used to create the checksum for the object when you use an Amazon Web Services SDK. This header doesn't provide any additional functionality if you don't use the SDK. When you send this header, there must be a corresponding x-amz-checksum or x-amz-trailer header sent. Otherwise, Amazon S3 fails the request with the HTTP status code 400 Bad Request. For more information, see [ Checking object integrity ](https://docs.aws.amazon.com/AmazonS3/latest/userguide/checking-object-integrity.html) in the Amazon S3 User Guide. If you provide an individual checksum, Amazon S3 ignores any provided ChecksumAlgorithm parameter.
+    public var checksumAlgorithm: S3ClientTypes.ChecksumAlgorithm?
+    /// The MD5 hash for the request body. For requests made using the Amazon Web Services Command Line Interface (CLI) or Amazon Web Services SDKs, this field is calculated automatically.
+    public var contentMD5: Swift.String?
+    /// The account ID of the expected bucket owner. If the account ID that you provide doesn't match the actual owner of the bucket, the request fails with the HTTP status code 403 Forbidden (access denied).
+    public var expectedBucketOwner: Swift.String?
+    /// The key name of the object that you want to update the server-side encryption type for.
+    /// This member is required.
+    public var key: Swift.String?
+    /// The updated server-side encryption type for this object. The UpdateObjectEncryption operation supports the SSE-S3 and SSE-KMS encryption types. Valid Values: SSES3 | SSEKMS
+    /// This member is required.
+    public var objectEncryption: S3ClientTypes.ObjectEncryption?
+    /// Confirms that the requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their requests. If either the source or destination S3 bucket has Requester Pays enabled, the requester will pay for the corresponding charges. For information about downloading objects from Requester Pays buckets, see [Downloading Objects in Requester Pays Buckets](https://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html) in the Amazon S3 User Guide. This functionality is not supported for directory buckets.
+    public var requestPayer: S3ClientTypes.RequestPayer?
+    /// The version ID of the object that you want to update the server-side encryption type for.
+    public var versionId: Swift.String?
+
+    public init(
+        bucket: Swift.String? = nil,
+        checksumAlgorithm: S3ClientTypes.ChecksumAlgorithm? = nil,
+        contentMD5: Swift.String? = nil,
+        expectedBucketOwner: Swift.String? = nil,
+        key: Swift.String? = nil,
+        objectEncryption: S3ClientTypes.ObjectEncryption? = nil,
+        requestPayer: S3ClientTypes.RequestPayer? = nil,
+        versionId: Swift.String? = nil
+    ) {
+        self.bucket = bucket
+        self.checksumAlgorithm = checksumAlgorithm
+        self.contentMD5 = contentMD5
+        self.expectedBucketOwner = expectedBucketOwner
+        self.key = key
+        self.objectEncryption = objectEncryption
+        self.requestPayer = requestPayer
+        self.versionId = versionId
+    }
+}
+
+public struct UpdateObjectEncryptionOutput: Swift.Sendable {
+    /// If present, indicates that the requester was successfully charged for the request. For more information, see [Using Requester Pays buckets for storage transfers and usage](https://docs.aws.amazon.com/AmazonS3/latest/userguide/RequesterPaysBuckets.html) in the Amazon Simple Storage Service user guide. This functionality is not supported for directory buckets.
+    public var requestCharged: S3ClientTypes.RequestCharged?
+
+    public init(
+        requestCharged: S3ClientTypes.RequestCharged? = nil
+    ) {
+        self.requestCharged = requestCharged
+    }
+}
+
 public struct UploadPartInput: Swift.Sendable {
     /// Object data.
     public var body: Smithy.ByteStream?
@@ -13256,7 +13352,7 @@ public struct UploadPartInput: Swift.Sendable {
     /// Part number of part being uploaded. This is a positive integer between 1 and 10,000.
     /// This member is required.
     public var partNumber: Swift.Int?
-    /// Confirms that the requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their requests. If either the source or destination S3 bucket has Requester Pays enabled, the requester will pay for corresponding charges to copy the object. For information about downloading objects from Requester Pays buckets, see [Downloading Objects in Requester Pays Buckets](https://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html) in the Amazon S3 User Guide. This functionality is not supported for directory buckets.
+    /// Confirms that the requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their requests. If either the source or destination S3 bucket has Requester Pays enabled, the requester will pay for the corresponding charges. For information about downloading objects from Requester Pays buckets, see [Downloading Objects in Requester Pays Buckets](https://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html) in the Amazon S3 User Guide. This functionality is not supported for directory buckets.
     public var requestPayer: S3ClientTypes.RequestPayer?
     /// Specifies the algorithm to use when encrypting the object (for example, AES256). This functionality is not supported for directory buckets.
     public var sseCustomerAlgorithm: Swift.String?
@@ -13421,7 +13517,7 @@ public struct UploadPartCopyInput: Swift.Sendable {
     /// Part number of part being copied. This is a positive integer between 1 and 10,000.
     /// This member is required.
     public var partNumber: Swift.Int?
-    /// Confirms that the requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their requests. If either the source or destination S3 bucket has Requester Pays enabled, the requester will pay for corresponding charges to copy the object. For information about downloading objects from Requester Pays buckets, see [Downloading Objects in Requester Pays Buckets](https://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html) in the Amazon S3 User Guide. This functionality is not supported for directory buckets.
+    /// Confirms that the requester knows that they will be charged for the request. Bucket owners need not specify this parameter in their requests. If either the source or destination S3 bucket has Requester Pays enabled, the requester will pay for the corresponding charges. For information about downloading objects from Requester Pays buckets, see [Downloading Objects in Requester Pays Buckets](https://docs.aws.amazon.com/AmazonS3/latest/dev/ObjectsinRequesterPaysBuckets.html) in the Amazon S3 User Guide. This functionality is not supported for directory buckets.
     public var requestPayer: S3ClientTypes.RequestPayer?
     /// Specifies the algorithm to use when encrypting the object (for example, AES256). This functionality is not supported when the destination bucket is a directory bucket.
     public var sseCustomerAlgorithm: Swift.String?
@@ -17759,6 +17855,49 @@ extension UpdateBucketMetadataJournalTableConfigurationInput {
     }
 }
 
+extension UpdateObjectEncryptionInput {
+
+    static func urlPathProvider(_ value: UpdateObjectEncryptionInput) -> Swift.String? {
+        guard let key = value.key else {
+            return nil
+        }
+        return "/\(key.urlPercentEncoding(encodeForwardSlash: false))"
+    }
+}
+
+extension UpdateObjectEncryptionInput {
+
+    static func headerProvider(_ value: UpdateObjectEncryptionInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
+        if let checksumAlgorithm = value.checksumAlgorithm {
+            items.add(SmithyHTTPAPI.Header(name: "x-amz-sdk-checksum-algorithm", value: Swift.String(checksumAlgorithm.rawValue)))
+        }
+        if let contentMD5 = value.contentMD5 {
+            items.add(SmithyHTTPAPI.Header(name: "Content-MD5", value: Swift.String(contentMD5)))
+        }
+        if let expectedBucketOwner = value.expectedBucketOwner {
+            items.add(SmithyHTTPAPI.Header(name: "x-amz-expected-bucket-owner", value: Swift.String(expectedBucketOwner)))
+        }
+        if let requestPayer = value.requestPayer {
+            items.add(SmithyHTTPAPI.Header(name: "x-amz-request-payer", value: Swift.String(requestPayer.rawValue)))
+        }
+        return items
+    }
+}
+
+extension UpdateObjectEncryptionInput {
+
+    static func queryItemProvider(_ value: UpdateObjectEncryptionInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        items.append(Smithy.URIQueryItem(name: "encryption", value: nil))
+        if let versionId = value.versionId {
+            let versionIdQueryItem = Smithy.URIQueryItem(name: "versionId".urlPercentEncoding(), value: Swift.String(versionId).urlPercentEncoding())
+            items.append(versionIdQueryItem)
+        }
+        return items
+    }
+}
+
 extension UploadPartInput {
 
     static func urlPathProvider(_ value: UploadPartInput) -> Swift.String? {
@@ -18341,6 +18480,14 @@ extension UpdateBucketMetadataJournalTableConfigurationInput {
     static func write(value: UpdateBucketMetadataJournalTableConfigurationInput?, to writer: SmithyXML.Writer) throws {
         guard let value else { return }
         try writer["JournalTableConfiguration"].write(value.journalTableConfiguration, with: S3ClientTypes.JournalTableConfigurationUpdates.write(value:to:))
+    }
+}
+
+extension UpdateObjectEncryptionInput {
+
+    static func write(value: UpdateObjectEncryptionInput?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["ObjectEncryption"].write(value.objectEncryption, with: S3ClientTypes.ObjectEncryption.write(value:to:))
     }
 }
 
@@ -19942,6 +20089,17 @@ extension UpdateBucketMetadataJournalTableConfigurationOutput {
     }
 }
 
+extension UpdateObjectEncryptionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateObjectEncryptionOutput {
+        var value = UpdateObjectEncryptionOutput()
+        if let requestChargedHeaderValue = httpResponse.headers.value(for: "x-amz-request-charged") {
+            value.requestCharged = S3ClientTypes.RequestCharged(rawValue: requestChargedHeaderValue)
+        }
+        return value
+    }
+}
+
 extension UploadPartOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UploadPartOutput {
@@ -21495,6 +21653,23 @@ enum UpdateBucketMetadataJournalTableConfigurationOutputError {
     }
 }
 
+enum UpdateObjectEncryptionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: true)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDenied": return try AccessDenied.makeError(baseError: baseError)
+            case "InvalidRequest": return try InvalidRequest.makeError(baseError: baseError)
+            case "NoSuchKey": return try NoSuchKey.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum UploadPartOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -21700,6 +21875,18 @@ extension ObjectAlreadyInActiveTierError {
 
     static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> ObjectAlreadyInActiveTierError {
         var value = ObjectAlreadyInActiveTierError()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        value.requestID2 = baseError.requestID2
+        return value
+    }
+}
+
+extension AccessDenied {
+
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> AccessDenied {
+        var value = AccessDenied()
         value.httpResponse = baseError.httpResponse
         value.requestID = baseError.requestID
         value.message = baseError.message
@@ -24078,6 +24265,28 @@ extension S3ClientTypes.JournalTableConfigurationUpdates {
     static func write(value: S3ClientTypes.JournalTableConfigurationUpdates?, to writer: SmithyXML.Writer) throws {
         guard let value else { return }
         try writer["RecordExpiration"].write(value.recordExpiration, with: S3ClientTypes.RecordExpiration.write(value:to:))
+    }
+}
+
+extension S3ClientTypes.ObjectEncryption {
+
+    static func write(value: S3ClientTypes.ObjectEncryption?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .ssekms(ssekms):
+                try writer["SSE-KMS"].write(ssekms, with: S3ClientTypes.SSEKMSEncryption.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension S3ClientTypes.SSEKMSEncryption {
+
+    static func write(value: S3ClientTypes.SSEKMSEncryption?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["BucketKeyEnabled"].write(value.bucketKeyEnabled)
+        try writer["KMSKeyArn"].write(value.kmsKeyArn)
     }
 }
 

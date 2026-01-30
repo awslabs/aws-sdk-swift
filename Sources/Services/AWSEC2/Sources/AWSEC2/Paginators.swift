@@ -5443,3 +5443,36 @@ extension PaginatorSequence where OperationStackInput == SearchTransitGatewayMul
         return try await self.asyncCompactMap { item in item.multicastGroups }
     }
 }
+extension EC2Client {
+    /// Paginate over `[SearchTransitGatewayRoutesOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[SearchTransitGatewayRoutesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `SearchTransitGatewayRoutesOutput`
+    public func searchTransitGatewayRoutesPaginated(input: SearchTransitGatewayRoutesInput) -> ClientRuntime.PaginatorSequence<SearchTransitGatewayRoutesInput, SearchTransitGatewayRoutesOutput> {
+        return ClientRuntime.PaginatorSequence<SearchTransitGatewayRoutesInput, SearchTransitGatewayRoutesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.searchTransitGatewayRoutes(input:))
+    }
+}
+
+extension SearchTransitGatewayRoutesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> SearchTransitGatewayRoutesInput {
+        return SearchTransitGatewayRoutesInput(
+            dryRun: self.dryRun,
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token,
+            transitGatewayRouteTableId: self.transitGatewayRouteTableId
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == SearchTransitGatewayRoutesInput, OperationStackOutput == SearchTransitGatewayRoutesOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `searchTransitGatewayRoutesPaginated`
+    /// to access the nested member `[EC2ClientTypes.TransitGatewayRoute]`
+    /// - Returns: `[EC2ClientTypes.TransitGatewayRoute]`
+    public func routes() async throws -> [EC2ClientTypes.TransitGatewayRoute] {
+        return try await self.asyncCompactMap { item in item.routes }
+    }
+}

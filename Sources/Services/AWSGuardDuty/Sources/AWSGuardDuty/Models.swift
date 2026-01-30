@@ -9439,6 +9439,7 @@ extension GuardDutyClientTypes {
 
     public enum ScanStatusReason: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case accessDenied
+        case allFilesSkippedOrFailed
         case amiSnapshotLimitExceeded
         case baseCreatedAfterTarget
         case baseResourceNotScanned
@@ -9459,6 +9460,7 @@ extension GuardDutyClientTypes {
         public static var allCases: [ScanStatusReason] {
             return [
                 .accessDenied,
+                .allFilesSkippedOrFailed,
                 .amiSnapshotLimitExceeded,
                 .baseCreatedAfterTarget,
                 .baseResourceNotScanned,
@@ -9485,6 +9487,7 @@ extension GuardDutyClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .accessDenied: return "ACCESS_DENIED"
+            case .allFilesSkippedOrFailed: return "ALL_FILES_SKIPPED_OR_FAILED"
             case .amiSnapshotLimitExceeded: return "AMI_SNAPSHOT_LIMIT_EXCEEDED"
             case .baseCreatedAfterTarget: return "BASE_CREATED_AFTER_TARGET"
             case .baseResourceNotScanned: return "BASE_RESOURCE_NOT_SCANNED"

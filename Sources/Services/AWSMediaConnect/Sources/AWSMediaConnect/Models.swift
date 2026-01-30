@@ -639,7 +639,7 @@ extension MediaConnectClientTypes {
 
 extension MediaConnectClientTypes {
 
-    /// Information about the encryption of the flow.
+    /// Encryption information.
     public struct Encryption: Swift.Sendable {
         /// The type of algorithm that is used for the encryption (such as aes128, aes192, or aes256).
         public var algorithm: MediaConnectClientTypes.Algorithm?
@@ -910,12 +910,12 @@ extension MediaConnectClientTypes {
 
 extension MediaConnectClientTypes {
 
-    /// The configuration settings for transit encryption using AWS Secrets Manager, including the secret ARN and role ARN.
+    /// The configuration settings for transit encryption using Secrets Manager, including the secret ARN and role ARN.
     public struct SecretsManagerEncryptionKeyConfiguration: Swift.Sendable {
-        /// The ARN of the IAM role assumed by MediaConnect to access the AWS Secrets Manager secret.
+        /// The ARN of the IAM role assumed by MediaConnect to access the Secrets Manager secret.
         /// This member is required.
         public var roleArn: Swift.String?
-        /// The ARN of the AWS Secrets Manager secret used for transit encryption.
+        /// The ARN of the Secrets Manager secret used for transit encryption.
         /// This member is required.
         public var secretArn: Swift.String?
 
@@ -933,7 +933,7 @@ extension MediaConnectClientTypes {
 
     /// Configuration settings for flow transit encryption keys.
     public enum FlowTransitEncryptionKeyConfiguration: Swift.Sendable {
-        /// The configuration settings for transit encryption using AWS Secrets Manager, including the secret ARN and role ARN.
+        /// The configuration settings for transit encryption using Secrets Manager, including the secret ARN and role ARN.
         case secretsmanager(MediaConnectClientTypes.SecretsManagerEncryptionKeyConfiguration)
         /// Configuration settings for automatic encryption key management, where MediaConnect handles key creation and rotation.
         case automatic(MediaConnectClientTypes.AutomaticEncryptionKeyConfiguration)
@@ -1010,7 +1010,7 @@ extension MediaConnectClientTypes {
         public var minLatency: Swift.Int?
         /// The name of the output. This value must be unique within the current flow.
         public var name: Swift.String?
-        /// A suffix for the names of the NDI sources that the flow creates. If a custom name isn't specified, MediaConnect uses the output name.
+        /// A suffix for the name of the NDI® sender that the flow creates. If a custom name isn't specified, MediaConnect uses the output name.
         public var ndiProgramName: Swift.String?
         /// A quality setting for the NDI Speed HQ encoder.
         public var ndiSpeedHqQuality: Swift.Int?
@@ -2199,7 +2199,7 @@ extension MediaConnectClientTypes {
 
 extension MediaConnectClientTypes {
 
-    /// Specifies the configuration settings for individual NDI discovery servers. A maximum of 3 servers is allowed.
+    /// Specifies the configuration settings for individual NDI® discovery servers. A maximum of 3 servers is allowed.
     public struct NdiDiscoveryServerConfig: Swift.Sendable {
         /// The unique network address of the NDI discovery server.
         /// This member is required.
@@ -2218,6 +2218,89 @@ extension MediaConnectClientTypes {
             self.discoveryServerAddress = discoveryServerAddress
             self.discoveryServerPort = discoveryServerPort
             self.vpcInterfaceAdapter = vpcInterfaceAdapter
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// The frame resolution used by the video stream.
+    public struct FrameResolution: Swift.Sendable {
+        /// The number of pixels in the height of the video frame.
+        /// This member is required.
+        public var frameHeight: Swift.Int?
+        /// The number of pixels in the width of the video frame.
+        /// This member is required.
+        public var frameWidth: Swift.Int?
+
+        public init(
+            frameHeight: Swift.Int? = nil,
+            frameWidth: Swift.Int? = nil
+        ) {
+            self.frameHeight = frameHeight
+            self.frameWidth = frameWidth
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// Detailed information about a single media stream that is part of an NDI® source. This includes details about the stream type, codec, resolution, frame rate, audio channels, and sample rate.
+    public struct NdiMediaStreamInfo: Swift.Sendable {
+        /// The number of audio channels in the stream. Used when the streamType is Audio.
+        public var channels: Swift.Int?
+        /// The codec used for the media stream. For NDI sources, use speed-hq.
+        /// This member is required.
+        public var codec: Swift.String?
+        /// The number of video frames displayed per second. Used when the streamType is Video.
+        public var frameRate: Swift.String?
+        /// The width and height dimensions of the video frame in pixels. Used when the streamType is Video.
+        public var frameResolution: MediaConnectClientTypes.FrameResolution?
+        /// The number of audio samples captured per second, measured in kilohertz (kHz). Used when the streamType is Audio.
+        public var sampleRate: Swift.Int?
+        /// The method used to display video frames. Used when the streamType is Video.
+        public var scanMode: MediaConnectClientTypes.ScanMode?
+        /// A unique identifier for the media stream.
+        /// This member is required.
+        public var streamId: Swift.Int?
+        /// The type of media stream (for example, Video or Audio).
+        /// This member is required.
+        public var streamType: Swift.String?
+
+        public init(
+            channels: Swift.Int? = nil,
+            codec: Swift.String? = nil,
+            frameRate: Swift.String? = nil,
+            frameResolution: MediaConnectClientTypes.FrameResolution? = nil,
+            sampleRate: Swift.Int? = nil,
+            scanMode: MediaConnectClientTypes.ScanMode? = nil,
+            streamId: Swift.Int? = nil,
+            streamType: Swift.String? = nil
+        ) {
+            self.channels = channels
+            self.codec = codec
+            self.frameRate = frameRate
+            self.frameResolution = frameResolution
+            self.sampleRate = sampleRate
+            self.scanMode = scanMode
+            self.streamId = streamId
+            self.streamType = streamType
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// Information about a single NDI® sender, including its name.
+    public struct NdiSourceInfo: Swift.Sendable {
+        /// The name of the upstream NDI sender.
+        /// This member is required.
+        public var sourceName: Swift.String?
+
+        public init(
+            sourceName: Swift.String? = nil
+        ) {
+            self.sourceName = sourceName
         }
     }
 }
@@ -2373,6 +2456,21 @@ extension MediaConnectClientTypes {
 
 extension MediaConnectClientTypes {
 
+    /// The settings for the NDI® source. This includes the exact name of the upstream NDI sender that you want to connect to your source.
+    public struct NdiSourceSettings: Swift.Sendable {
+        /// The exact name of an existing NDI sender that's registered with your discovery server. If included, the format of this name must be MACHINENAME (ProgramName).
+        public var sourceName: Swift.String?
+
+        public init(
+            sourceName: Swift.String? = nil
+        ) {
+            self.sourceName = sourceName
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
     /// Attributes related to the transport stream that are used in a source or output.
     public struct Transport: Swift.Sendable {
         /// The range of IP addresses that should be allowed to initiate output requests to this flow. These IP addresses should be in the form of a Classless Inter-Domain Routing (CIDR) block; for example, 10.0.0.0/16
@@ -2385,8 +2483,10 @@ extension MediaConnectClientTypes {
         public var maxSyncBuffer: Swift.Int?
         /// The minimum latency in milliseconds for SRT-based streams. In streams that use the SRT protocol, this value that you set on your MediaConnect source or output represents the minimal potential latency of that connection. The latency of the stream is set to the highest number between the sender’s minimum latency and the receiver’s minimum latency.
         public var minLatency: Swift.Int?
-        /// A suffix for the names of the NDI sources that the flow creates. If a custom name isn't specified, MediaConnect uses the output name.
+        /// A suffix for the name of the NDI® sender that the flow creates. If a custom name isn't specified, MediaConnect uses the output name.
         public var ndiProgramName: Swift.String?
+        /// The settings for the NDI source. This includes the exact name of the upstream NDI sender that you want to connect to your source.
+        public var ndiSourceSettings: MediaConnectClientTypes.NdiSourceSettings?
         /// A quality setting for the NDI Speed HQ encoder.
         public var ndiSpeedHqQuality: Swift.Int?
         /// The protocol that is used by the source or output. Elemental MediaConnect no longer supports the Fujitsu QoS protocol. This reference is maintained for legacy purposes only.
@@ -2414,6 +2514,7 @@ extension MediaConnectClientTypes {
             maxSyncBuffer: Swift.Int? = nil,
             minLatency: Swift.Int? = nil,
             ndiProgramName: Swift.String? = nil,
+            ndiSourceSettings: MediaConnectClientTypes.NdiSourceSettings? = nil,
             ndiSpeedHqQuality: Swift.Int? = nil,
             `protocol`: MediaConnectClientTypes.ModelProtocol? = nil,
             remoteId: Swift.String? = nil,
@@ -2430,6 +2531,7 @@ extension MediaConnectClientTypes {
             self.maxSyncBuffer = maxSyncBuffer
             self.minLatency = minLatency
             self.ndiProgramName = ndiProgramName
+            self.ndiSourceSettings = ndiSourceSettings
             self.ndiSpeedHqQuality = ndiSpeedHqQuality
             self.`protocol` = `protocol`
             self.remoteId = remoteId
@@ -2483,7 +2585,7 @@ extension MediaConnectClientTypes {
         ///
         /// * For outputs that use listener protocols (such as SRT Listener), this value shows the address of the connected receiver.
         ///
-        /// * Peer IP addresses aren't available for entitlements, managed MediaLive outputs, NDI outputs, and CDI/ST2110 outputs.
+        /// * Peer IP addresses aren't available for entitlements, managed MediaLive outputs, NDI® sources and outputs, and CDI/ST2110 outputs.
         ///
         /// * The peer IP address might not be visible for flows that haven't been started yet, or flows that were started before May 2025. In these cases, restart your flow to see the peer IP address.
         public var peerIpAddress: Swift.String?
@@ -2701,6 +2803,8 @@ extension MediaConnectClientTypes {
         public var minLatency: Swift.Int?
         /// The name of the source.
         public var name: Swift.String?
+        /// The settings for the NDI® source. This includes the exact name of the upstream NDI sender that you want to connect to your source.
+        public var ndiSourceSettings: MediaConnectClientTypes.NdiSourceSettings?
         /// The protocol that is used by the source. Elemental MediaConnect no longer supports the Fujitsu QoS protocol. This reference is maintained for legacy purposes only.
         public var `protocol`: MediaConnectClientTypes.ModelProtocol?
         /// Indicates whether to enable or disable router integration when setting a flow source.
@@ -2736,6 +2840,7 @@ extension MediaConnectClientTypes {
             mediaStreamSourceConfigurations: [MediaConnectClientTypes.MediaStreamSourceConfigurationRequest]? = nil,
             minLatency: Swift.Int? = nil,
             name: Swift.String? = nil,
+            ndiSourceSettings: MediaConnectClientTypes.NdiSourceSettings? = nil,
             `protocol`: MediaConnectClientTypes.ModelProtocol? = nil,
             routerIntegrationState: MediaConnectClientTypes.State? = nil,
             routerIntegrationTransitDecryption: MediaConnectClientTypes.FlowTransitEncryption? = nil,
@@ -2759,6 +2864,7 @@ extension MediaConnectClientTypes {
             self.mediaStreamSourceConfigurations = mediaStreamSourceConfigurations
             self.minLatency = minLatency
             self.name = name
+            self.ndiSourceSettings = ndiSourceSettings
             self.`protocol` = `protocol`
             self.routerIntegrationState = routerIntegrationState
             self.routerIntegrationTransitDecryption = routerIntegrationTransitDecryption
@@ -2887,27 +2993,6 @@ extension MediaConnectClientTypes {
             self.transport = transport
             self.vpcInterfaceName = vpcInterfaceName
             self.whitelistCidr = whitelistCidr
-        }
-    }
-}
-
-extension MediaConnectClientTypes {
-
-    /// The frame resolution used by the video stream.
-    public struct FrameResolution: Swift.Sendable {
-        /// The number of pixels in the height of the video frame.
-        /// This member is required.
-        public var frameHeight: Swift.Int?
-        /// The number of pixels in the width of the video frame.
-        /// This member is required.
-        public var frameWidth: Swift.Int?
-
-        public init(
-            frameHeight: Swift.Int? = nil,
-            frameWidth: Swift.Int? = nil
-        ) {
-            self.frameHeight = frameHeight
-            self.frameWidth = frameWidth
         }
     }
 }
@@ -4485,7 +4570,7 @@ extension MediaConnectClientTypes {
 
     /// Defines the configuration settings for transit encryption keys.
     public enum RouterInputTransitEncryptionKeyConfiguration: Swift.Sendable {
-        /// The configuration settings for transit encryption using AWS Secrets Manager, including the secret ARN and role ARN.
+        /// The configuration settings for transit encryption using Secrets Manager, including the secret ARN and role ARN.
         case secretsmanager(MediaConnectClientTypes.SecretsManagerEncryptionKeyConfiguration)
         /// Configuration settings for automatic encryption key management, where MediaConnect handles key creation and rotation.
         case automatic(MediaConnectClientTypes.AutomaticEncryptionKeyConfiguration)
@@ -4587,7 +4672,7 @@ extension MediaConnectClientTypes {
         /// The name of the router input.
         /// This member is required.
         public var name: Swift.String?
-        /// The AWS Region where the router input is located.
+        /// The Amazon Web Services Region where the router input is located.
         /// This member is required.
         public var regionName: Swift.String?
         /// The number of router outputs associated with the router input.
@@ -4887,7 +4972,7 @@ extension MediaConnectClientTypes {
         /// The type of the router network interface.
         /// This member is required.
         public var networkInterfaceType: MediaConnectClientTypes.RouterNetworkInterfaceType?
-        /// The AWS Region where the router network interface is located.
+        /// The Amazon Web Services Region where the router network interface is located.
         /// This member is required.
         public var regionName: Swift.String?
         /// The current state of the router network interface.
@@ -5013,7 +5098,7 @@ extension MediaConnectClientTypes {
 
     /// Configuration settings for the MediaLive transit encryption key.
     public enum MediaLiveTransitEncryptionKeyConfiguration: Swift.Sendable {
-        /// The configuration settings for transit encryption using AWS Secrets Manager, including the secret ARN and role ARN.
+        /// The configuration settings for transit encryption using Secrets Manager, including the secret ARN and role ARN.
         case secretsmanager(MediaConnectClientTypes.SecretsManagerEncryptionKeyConfiguration)
         /// Configuration settings for automatic encryption key management, where MediaConnect handles key creation and rotation.
         case automatic(MediaConnectClientTypes.AutomaticEncryptionKeyConfiguration)
@@ -5052,7 +5137,7 @@ extension MediaConnectClientTypes {
 
 extension MediaConnectClientTypes {
 
-    /// The encryption configuration that defines how content is encrypted during transit between MediaConnect Router and MediaLive. This configuration determines whether encryption keys are automatically managed by the service or manually managed through AWS Secrets Manager.
+    /// The encryption configuration that defines how content is encrypted during transit between MediaConnect Router and MediaLive. This configuration determines whether encryption keys are automatically managed by the service or manually managed through Secrets Manager.
     public struct MediaLiveTransitEncryption: Swift.Sendable {
         /// The configuration details for the MediaLive encryption key.
         /// This member is required.
@@ -5594,7 +5679,7 @@ extension MediaConnectClientTypes {
         /// The type of the router output.
         /// This member is required.
         public var outputType: MediaConnectClientTypes.RouterOutputType?
-        /// The AWS Region where the router output is located.
+        /// The Amazon Web Services Region where the router output is located.
         /// This member is required.
         public var regionName: Swift.String?
         /// The Amazon Resource Name (ARN) of the router input associated with the output.
@@ -6508,14 +6593,64 @@ public struct CreateFlow420Exception: ClientRuntime.ModeledError, AWSClientRunti
 
 extension MediaConnectClientTypes {
 
+    public enum EncodingProfile: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case contributionH264Default
+        case distributionH264Default
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EncodingProfile] {
+            return [
+                .contributionH264Default,
+                .distributionH264Default
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .contributionH264Default: return "CONTRIBUTION_H264_DEFAULT"
+            case .distributionH264Default: return "DISTRIBUTION_H264_DEFAULT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// The encoding configuration to apply to the NDI® source when transcoding it to a transport stream for downstream distribution. You can choose between several predefined encoding profiles based on common use cases.
+    public struct EncodingConfig: Swift.Sendable {
+        /// The encoding profile to use when transcoding the NDI source content to a transport stream. You can change this value while the flow is running.
+        public var encodingProfile: MediaConnectClientTypes.EncodingProfile?
+        /// The maximum video bitrate to use when transcoding the NDI source to a transport stream. This parameter enables you to override the default video bitrate within the encoding profile's supported range. The supported range is 10,000,000 - 50,000,000 bits per second (bps). If you don't specify a value, MediaConnect uses the default value of 20,000,000 bps.
+        public var videoMaxBitrate: Swift.Int?
+
+        public init(
+            encodingProfile: MediaConnectClientTypes.EncodingProfile? = nil,
+            videoMaxBitrate: Swift.Int? = nil
+        ) {
+            self.encodingProfile = encodingProfile
+            self.videoMaxBitrate = videoMaxBitrate
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
     public enum FlowSize: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case large
+        case large4x
         case medium
         case sdkUnknown(Swift.String)
 
         public static var allCases: [FlowSize] {
             return [
                 .large,
+                .large4x,
                 .medium
             ]
         }
@@ -6528,6 +6663,7 @@ extension MediaConnectClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .large: return "LARGE"
+            case .large4x: return "LARGE_4X"
             case .medium: return "MEDIUM"
             case let .sdkUnknown(s): return s
             }
@@ -6566,13 +6702,13 @@ extension MediaConnectClientTypes {
 
 extension MediaConnectClientTypes {
 
-    /// Specifies the configuration settings for NDI outputs. Required when the flow includes NDI outputs.
+    /// Specifies the configuration settings for NDI sources and outputs.
     public struct NdiConfig: Swift.Sendable {
         /// A prefix for the names of the NDI sources that the flow creates. If a custom name isn't specified, MediaConnect generates a unique 12-character ID as the prefix.
         public var machineName: Swift.String?
         /// A list of up to three NDI discovery server configurations. While not required by the API, this configuration is necessary for NDI functionality to work properly.
         public var ndiDiscoveryServers: [MediaConnectClientTypes.NdiDiscoveryServerConfig]?
-        /// A setting that controls whether NDI outputs can be used in the flow. Must be ENABLED to add NDI outputs. Default is DISABLED.
+        /// A setting that controls whether NDI® sources or outputs can be used in the flow. The default value is DISABLED. This value must be set as ENABLED for your flow to support NDI sources or outputs.
         public var ndiState: MediaConnectClientTypes.NdiState?
 
         public init(
@@ -6646,9 +6782,11 @@ extension MediaConnectClientTypes {
 public struct CreateFlowInput: Swift.Sendable {
     /// The Availability Zone that you want to create the flow in. These options are limited to the Availability Zones within the current Amazon Web Services Region.
     public var availabilityZone: Swift.String?
+    /// The encoding configuration to apply to the NDI® source when transcoding it to a transport stream for downstream distribution. You can choose between several predefined encoding profiles based on common use cases.
+    public var encodingConfig: MediaConnectClientTypes.EncodingConfig?
     /// The entitlements that you want to grant on a flow.
     public var entitlements: [MediaConnectClientTypes.GrantEntitlementRequest]?
-    /// Determines the processing capacity and feature set of the flow. Set this optional parameter to LARGE if you want to enable NDI outputs on the flow.
+    /// Determines the processing capacity and feature set of the flow. Set this optional parameter to LARGE if you want to enable NDI sources or outputs on the flow.
     public var flowSize: MediaConnectClientTypes.FlowSize?
     /// The key-value pairs that can be used to tag and organize the flow.
     public var flowTags: [Swift.String: Swift.String]?
@@ -6659,7 +6797,7 @@ public struct CreateFlowInput: Swift.Sendable {
     /// The name of the flow.
     /// This member is required.
     public var name: Swift.String?
-    /// Specifies the configuration settings for NDI outputs. Required when the flow includes NDI outputs.
+    /// Specifies the configuration settings for a flow's NDI source or output. Required when the flow includes an NDI source or output.
     public var ndiConfig: MediaConnectClientTypes.NdiConfig?
     /// The outputs that you want to add to this flow.
     public var outputs: [MediaConnectClientTypes.AddOutputRequest]?
@@ -6676,6 +6814,7 @@ public struct CreateFlowInput: Swift.Sendable {
 
     public init(
         availabilityZone: Swift.String? = nil,
+        encodingConfig: MediaConnectClientTypes.EncodingConfig? = nil,
         entitlements: [MediaConnectClientTypes.GrantEntitlementRequest]? = nil,
         flowSize: MediaConnectClientTypes.FlowSize? = nil,
         flowTags: [Swift.String: Swift.String]? = nil,
@@ -6691,6 +6830,7 @@ public struct CreateFlowInput: Swift.Sendable {
         vpcInterfaces: [MediaConnectClientTypes.VpcInterfaceRequest]? = nil
     ) {
         self.availabilityZone = availabilityZone
+        self.encodingConfig = encodingConfig
         self.entitlements = entitlements
         self.flowSize = flowSize
         self.flowTags = flowTags
@@ -6718,13 +6858,15 @@ extension MediaConnectClientTypes {
         public var description: Swift.String?
         /// The IP address from which video will be sent to output destinations.
         public var egressIp: Swift.String?
+        /// The encoding configuration to apply to the NDI® source when transcoding it to a transport stream for downstream distribution.
+        public var encodingConfig: MediaConnectClientTypes.EncodingConfig?
         /// The entitlements in this flow.
         /// This member is required.
         public var entitlements: [MediaConnectClientTypes.Entitlement]?
         /// The Amazon Resource Name (ARN) of the flow.
         /// This member is required.
         public var flowArn: Swift.String?
-        /// Determines the processing capacity and feature set of the flow. Set this optional parameter to LARGE if you want to enable NDI outputs on the flow.
+        /// Determines the processing capacity and feature set of the flow.
         public var flowSize: MediaConnectClientTypes.FlowSize?
         /// The maintenance settings for the flow.
         public var maintenance: MediaConnectClientTypes.Maintenance?
@@ -6733,7 +6875,7 @@ extension MediaConnectClientTypes {
         /// The name of the flow.
         /// This member is required.
         public var name: Swift.String?
-        /// Specifies the configuration settings for NDI outputs. Required when the flow includes NDI outputs.
+        /// Specifies the configuration settings for a flow's NDI source or output. Required when the flow includes an NDI source or output.
         public var ndiConfig: MediaConnectClientTypes.NdiConfig?
         /// The outputs in this flow.
         /// This member is required.
@@ -6757,6 +6899,7 @@ extension MediaConnectClientTypes {
             availabilityZone: Swift.String? = nil,
             description: Swift.String? = nil,
             egressIp: Swift.String? = nil,
+            encodingConfig: MediaConnectClientTypes.EncodingConfig? = nil,
             entitlements: [MediaConnectClientTypes.Entitlement]? = nil,
             flowArn: Swift.String? = nil,
             flowSize: MediaConnectClientTypes.FlowSize? = nil,
@@ -6775,6 +6918,7 @@ extension MediaConnectClientTypes {
             self.availabilityZone = availabilityZone
             self.description = description
             self.egressIp = egressIp
+            self.encodingConfig = encodingConfig
             self.entitlements = entitlements
             self.flowArn = flowArn
             self.flowSize = flowSize
@@ -6940,7 +7084,7 @@ public struct CreateRouterInputInput: Swift.Sendable {
     /// The name of the router input.
     /// This member is required.
     public var name: Swift.String?
-    /// The AWS Region for the router input. Defaults to the current region if not specified.
+    /// The Amazon Web Services Region for the router input. Defaults to the current region if not specified.
     public var regionName: Swift.String?
     /// Specifies whether the router input can be assigned to outputs in different Regions. REGIONAL (default) - connects only to outputs in same Region. GLOBAL - connects to outputs in any Region.
     /// This member is required.
@@ -7025,7 +7169,7 @@ public struct CreateRouterNetworkInterfaceInput: Swift.Sendable {
     /// The name of the router network interface.
     /// This member is required.
     public var name: Swift.String?
-    /// The AWS Region for the router network interface. Defaults to the current region if not specified.
+    /// The Amazon Web Services Region for the router network interface. Defaults to the current region if not specified.
     public var regionName: Swift.String?
     /// Key-value pairs that can be used to tag and organize this router network interface.
     public var tags: [Swift.String: Swift.String]?
@@ -7097,7 +7241,7 @@ public struct CreateRouterOutputInput: Swift.Sendable {
     /// The name of the router output.
     /// This member is required.
     public var name: Swift.String?
-    /// The AWS Region for the router output. Defaults to the current region if not specified.
+    /// The Amazon Web Services Region for the router output. Defaults to the current region if not specified.
     public var regionName: Swift.String?
     /// Specifies whether the router output can take inputs that are in different Regions. REGIONAL (default) - can only take inputs from same Region. GLOBAL - can take inputs from any Region.
     /// This member is required.
@@ -7385,6 +7529,52 @@ public struct DescribeFlowSourceMetadataInput: Swift.Sendable {
 
 extension MediaConnectClientTypes {
 
+    /// Metadata about the audio and video media that is part of the NDI® source content. This includes details about the individual media streams.
+    public struct NdiMediaInfo: Swift.Sendable {
+        /// A list of the individual media streams that make up the NDI source. This includes details about each stream's codec, resolution, frame rate, audio channels, and other parameters.
+        /// This member is required.
+        public var streams: [MediaConnectClientTypes.NdiMediaStreamInfo]?
+
+        public init(
+            streams: [MediaConnectClientTypes.NdiMediaStreamInfo]? = nil
+        ) {
+            self.streams = streams
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
+    /// Comprehensive information about the NDI® source that's associated with a flow. This includes the currently active NDI source, a list of all discovered NDI senders, metadata about the media streams, and any relevant status messages.
+    public struct NdiSourceMetadataInfo: Swift.Sendable {
+        /// The connected NDI sender that's currently sending source content to the flow's NDI source.
+        public var activeSource: MediaConnectClientTypes.NdiSourceInfo?
+        /// A list of the available upstream NDI senders aggregated from all of your configured discovery servers.
+        /// This member is required.
+        public var discoveredSources: [MediaConnectClientTypes.NdiSourceInfo]?
+        /// Detailed information about the media streams (video, audio, and so on) that are part of the active NDI source.
+        /// This member is required.
+        public var mediaInfo: MediaConnectClientTypes.NdiMediaInfo?
+        /// Any status messages or error codes related to the NDI source and its metadata.
+        /// This member is required.
+        public var messages: [MediaConnectClientTypes.MessageDetail]?
+
+        public init(
+            activeSource: MediaConnectClientTypes.NdiSourceInfo? = nil,
+            discoveredSources: [MediaConnectClientTypes.NdiSourceInfo]? = nil,
+            mediaInfo: MediaConnectClientTypes.NdiMediaInfo? = nil,
+            messages: [MediaConnectClientTypes.MessageDetail]? = nil
+        ) {
+            self.activeSource = activeSource
+            self.discoveredSources = discoveredSources
+            self.mediaInfo = mediaInfo
+            self.messages = messages
+        }
+    }
+}
+
+extension MediaConnectClientTypes {
+
     /// The metadata of the transport stream in the current flow's source.
     public struct TransportMediaInfo: Swift.Sendable {
         /// The list of transport stream programs in the current flow's source.
@@ -7404,6 +7594,8 @@ public struct DescribeFlowSourceMetadataOutput: Swift.Sendable {
     public var flowArn: Swift.String?
     /// Provides a status code and message regarding issues found with the flow source metadata.
     public var messages: [MediaConnectClientTypes.MessageDetail]?
+    /// The NDI® specific information about the flow's source. This includes the current active NDI sender, a list of all discovered NDI senders, the associated media streams for the active NDI sender, and any relevant status messages.
+    public var ndiInfo: MediaConnectClientTypes.NdiSourceMetadataInfo?
     /// The timestamp of the most recent change in metadata for this flow’s source.
     public var timestamp: Foundation.Date?
     /// Information about the flow's transport media.
@@ -7412,11 +7604,13 @@ public struct DescribeFlowSourceMetadataOutput: Swift.Sendable {
     public init(
         flowArn: Swift.String? = nil,
         messages: [MediaConnectClientTypes.MessageDetail]? = nil,
+        ndiInfo: MediaConnectClientTypes.NdiSourceMetadataInfo? = nil,
         timestamp: Foundation.Date? = nil,
         transportMediaInfo: MediaConnectClientTypes.TransportMediaInfo? = nil
     ) {
         self.flowArn = flowArn
         self.messages = messages
+        self.ndiInfo = ndiInfo
         self.timestamp = timestamp
         self.transportMediaInfo = transportMediaInfo
     }
@@ -7948,6 +8142,8 @@ extension MediaConnectClientTypes {
 }
 
 public struct UpdateFlowInput: Swift.Sendable {
+    /// The encoding configuration to apply to the NDI® source when transcoding it to a transport stream for downstream distribution. You can choose between several predefined encoding profiles based on common use cases.
+    public var encodingConfig: MediaConnectClientTypes.EncodingConfig?
     /// The Amazon Resource Name (ARN) of the flow that you want to update.
     /// This member is required.
     public var flowArn: Swift.String?
@@ -7955,7 +8151,7 @@ public struct UpdateFlowInput: Swift.Sendable {
     public var flowSize: MediaConnectClientTypes.FlowSize?
     /// The maintenance setting of the flow.
     public var maintenance: MediaConnectClientTypes.UpdateMaintenance?
-    /// Specifies the configuration settings for NDI outputs. Required when the flow includes NDI outputs.
+    /// Specifies the configuration settings for a flow's NDI source or output. Required when the flow includes an NDI source or output.
     public var ndiConfig: MediaConnectClientTypes.NdiConfig?
     /// The settings for source failover.
     public var sourceFailoverConfig: MediaConnectClientTypes.UpdateFailoverConfig?
@@ -7963,6 +8159,7 @@ public struct UpdateFlowInput: Swift.Sendable {
     public var sourceMonitoringConfig: MediaConnectClientTypes.MonitoringConfig?
 
     public init(
+        encodingConfig: MediaConnectClientTypes.EncodingConfig? = nil,
         flowArn: Swift.String? = nil,
         flowSize: MediaConnectClientTypes.FlowSize? = nil,
         maintenance: MediaConnectClientTypes.UpdateMaintenance? = nil,
@@ -7970,6 +8167,7 @@ public struct UpdateFlowInput: Swift.Sendable {
         sourceFailoverConfig: MediaConnectClientTypes.UpdateFailoverConfig? = nil,
         sourceMonitoringConfig: MediaConnectClientTypes.MonitoringConfig? = nil
     ) {
+        self.encodingConfig = encodingConfig
         self.flowArn = flowArn
         self.flowSize = flowSize
         self.maintenance = maintenance
@@ -8155,7 +8353,7 @@ public struct UpdateFlowOutputInput: Swift.Sendable {
     public var mediaStreamOutputConfigurations: [MediaConnectClientTypes.MediaStreamOutputConfigurationRequest]?
     /// The minimum latency in milliseconds for SRT-based streams. In streams that use the SRT protocol, this value that you set on your MediaConnect source or output represents the minimal potential latency of that connection. The latency of the stream is set to the highest number between the sender’s minimum latency and the receiver’s minimum latency.
     public var minLatency: Swift.Int?
-    /// A suffix for the names of the NDI sources that the flow creates. If a custom name isn't specified, MediaConnect uses the output name.
+    /// A suffix for the name of the NDI® sender that the flow creates. If a custom name isn't specified, MediaConnect uses the output name.
     public var ndiProgramName: Swift.String?
     /// A quality setting for the NDI Speed HQ encoder.
     public var ndiSpeedHqQuality: Swift.Int?
@@ -8292,6 +8490,8 @@ public struct UpdateFlowSourceInput: Swift.Sendable {
     public var mediaStreamSourceConfigurations: [MediaConnectClientTypes.MediaStreamSourceConfigurationRequest]?
     /// The minimum latency in milliseconds for SRT-based streams. In streams that use the SRT protocol, this value that you set on your MediaConnect source or output represents the minimal potential latency of that connection. The latency of the stream is set to the highest number between the sender’s minimum latency and the receiver’s minimum latency.
     public var minLatency: Swift.Int?
+    /// The settings for the NDI source. This includes the exact name of the upstream NDI sender that you want to connect to your source.
+    public var ndiSourceSettings: MediaConnectClientTypes.NdiSourceSettings?
     /// The protocol that the source uses to deliver the content to MediaConnect. Elemental MediaConnect no longer supports the Fujitsu QoS protocol. This reference is maintained for legacy purposes only.
     public var `protocol`: MediaConnectClientTypes.ModelProtocol?
     /// Indicates whether to enable or disable router integration for this flow source.
@@ -8328,6 +8528,7 @@ public struct UpdateFlowSourceInput: Swift.Sendable {
         maxSyncBuffer: Swift.Int? = nil,
         mediaStreamSourceConfigurations: [MediaConnectClientTypes.MediaStreamSourceConfigurationRequest]? = nil,
         minLatency: Swift.Int? = nil,
+        ndiSourceSettings: MediaConnectClientTypes.NdiSourceSettings? = nil,
         `protocol`: MediaConnectClientTypes.ModelProtocol? = nil,
         routerIntegrationState: MediaConnectClientTypes.State? = nil,
         routerIntegrationTransitDecryption: MediaConnectClientTypes.FlowTransitEncryption? = nil,
@@ -8351,6 +8552,7 @@ public struct UpdateFlowSourceInput: Swift.Sendable {
         self.maxSyncBuffer = maxSyncBuffer
         self.mediaStreamSourceConfigurations = mediaStreamSourceConfigurations
         self.minLatency = minLatency
+        self.ndiSourceSettings = ndiSourceSettings
         self.`protocol` = `protocol`
         self.routerIntegrationState = routerIntegrationState
         self.routerIntegrationTransitDecryption = routerIntegrationTransitDecryption
@@ -8366,7 +8568,7 @@ public struct UpdateFlowSourceInput: Swift.Sendable {
 }
 
 public struct UpdateFlowSourceOutput: Swift.Sendable {
-    /// The ARN of the flow that you was updated.
+    /// The ARN of the flow that you updated.
     public var flowArn: Swift.String?
     /// The details of the sources that are assigned to the flow.
     public var source: MediaConnectClientTypes.Source?
@@ -8712,7 +8914,7 @@ extension MediaConnectClientTypes {
         public var name: Swift.String?
         /// The ARN of the network interface associated with the router input.
         public var networkInterfaceArn: Swift.String?
-        /// The AWS Region where the router input is located.
+        /// The Amazon Web Services Region where the router input is located.
         /// This member is required.
         public var regionName: Swift.String?
         /// The number of router outputs that are associated with this router input.
@@ -8791,7 +8993,7 @@ extension MediaConnectClientTypes {
         /// The type of the router network interface.
         /// This member is required.
         public var networkInterfaceType: MediaConnectClientTypes.RouterNetworkInterfaceType?
-        /// The AWS Region where the router network interface is located.
+        /// The Amazon Web Services Region where the router network interface is located.
         /// This member is required.
         public var regionName: Swift.String?
         /// The current state of the router network interface.
@@ -8861,7 +9063,7 @@ extension MediaConnectClientTypes {
         /// The type of the router output.
         /// This member is required.
         public var outputType: MediaConnectClientTypes.RouterOutputType?
-        /// The AWS Region where the router output is located.
+        /// The AAmazon Web Services Region where the router output is located.
         /// This member is required.
         public var regionName: Swift.String?
         /// The ARN of the router input associated with the output.
@@ -10844,6 +11046,7 @@ extension CreateFlowInput {
     static func write(value: CreateFlowInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["availabilityZone"].write(value.availabilityZone)
+        try writer["encodingConfig"].write(value.encodingConfig, with: MediaConnectClientTypes.EncodingConfig.write(value:to:))
         try writer["entitlements"].writeList(value.entitlements, memberWritingClosure: MediaConnectClientTypes.GrantEntitlementRequest.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["flowSize"].write(value.flowSize)
         try writer["flowTags"].writeMap(value.flowTags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -11021,6 +11224,7 @@ extension UpdateFlowInput {
 
     static func write(value: UpdateFlowInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["encodingConfig"].write(value.encodingConfig, with: MediaConnectClientTypes.EncodingConfig.write(value:to:))
         try writer["flowSize"].write(value.flowSize)
         try writer["maintenance"].write(value.maintenance, with: MediaConnectClientTypes.UpdateMaintenance.write(value:to:))
         try writer["ndiConfig"].write(value.ndiConfig, with: MediaConnectClientTypes.NdiConfig.write(value:to:))
@@ -11093,6 +11297,7 @@ extension UpdateFlowSourceInput {
         try writer["maxSyncBuffer"].write(value.maxSyncBuffer)
         try writer["mediaStreamSourceConfigurations"].writeList(value.mediaStreamSourceConfigurations, memberWritingClosure: MediaConnectClientTypes.MediaStreamSourceConfigurationRequest.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["minLatency"].write(value.minLatency)
+        try writer["ndiSourceSettings"].write(value.ndiSourceSettings, with: MediaConnectClientTypes.NdiSourceSettings.write(value:to:))
         try writer["protocol"].write(value.`protocol`)
         try writer["routerIntegrationState"].write(value.routerIntegrationState)
         try writer["routerIntegrationTransitDecryption"].write(value.routerIntegrationTransitDecryption, with: MediaConnectClientTypes.FlowTransitEncryption.write(value:to:))
@@ -11465,6 +11670,7 @@ extension DescribeFlowSourceMetadataOutput {
         var value = DescribeFlowSourceMetadataOutput()
         value.flowArn = try reader["flowArn"].readIfPresent()
         value.messages = try reader["messages"].readListIfPresent(memberReadingClosure: MediaConnectClientTypes.MessageDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.ndiInfo = try reader["ndiInfo"].readIfPresent(with: MediaConnectClientTypes.NdiSourceMetadataInfo.read(from:))
         value.timestamp = try reader["timestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.transportMediaInfo = try reader["transportMediaInfo"].readIfPresent(with: MediaConnectClientTypes.TransportMediaInfo.read(from:))
         return value
@@ -14216,6 +14422,22 @@ extension MediaConnectClientTypes.Transport {
         value.streamId = try reader["streamId"].readIfPresent()
         value.ndiSpeedHqQuality = try reader["ndiSpeedHqQuality"].readIfPresent()
         value.ndiProgramName = try reader["ndiProgramName"].readIfPresent()
+        value.ndiSourceSettings = try reader["ndiSourceSettings"].readIfPresent(with: MediaConnectClientTypes.NdiSourceSettings.read(from:))
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.NdiSourceSettings {
+
+    static func write(value: MediaConnectClientTypes.NdiSourceSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["sourceName"].write(value.sourceName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.NdiSourceSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.NdiSourceSettings()
+        value.sourceName = try reader["sourceName"].readIfPresent()
         return value
     }
 }
@@ -15530,6 +15752,24 @@ extension MediaConnectClientTypes.Flow {
         value.sourceMonitoringConfig = try reader["sourceMonitoringConfig"].readIfPresent(with: MediaConnectClientTypes.MonitoringConfig.read(from:))
         value.flowSize = try reader["flowSize"].readIfPresent()
         value.ndiConfig = try reader["ndiConfig"].readIfPresent(with: MediaConnectClientTypes.NdiConfig.read(from:))
+        value.encodingConfig = try reader["encodingConfig"].readIfPresent(with: MediaConnectClientTypes.EncodingConfig.read(from:))
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.EncodingConfig {
+
+    static func write(value: MediaConnectClientTypes.EncodingConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["encodingProfile"].write(value.encodingProfile)
+        try writer["videoMaxBitrate"].write(value.videoMaxBitrate)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.EncodingConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.EncodingConfig()
+        value.encodingProfile = try reader["encodingProfile"].readIfPresent()
+        value.videoMaxBitrate = try reader["videoMaxBitrate"].readIfPresent()
         return value
     }
 }
@@ -15795,6 +16035,56 @@ extension MediaConnectClientTypes.FrameResolution {
         var value = MediaConnectClientTypes.FrameResolution()
         value.frameHeight = try reader["frameHeight"].readIfPresent() ?? 0
         value.frameWidth = try reader["frameWidth"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.NdiSourceMetadataInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.NdiSourceMetadataInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.NdiSourceMetadataInfo()
+        value.activeSource = try reader["activeSource"].readIfPresent(with: MediaConnectClientTypes.NdiSourceInfo.read(from:))
+        value.discoveredSources = try reader["discoveredSources"].readListIfPresent(memberReadingClosure: MediaConnectClientTypes.NdiSourceInfo.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.mediaInfo = try reader["mediaInfo"].readIfPresent(with: MediaConnectClientTypes.NdiMediaInfo.read(from:))
+        value.messages = try reader["messages"].readListIfPresent(memberReadingClosure: MediaConnectClientTypes.MessageDetail.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.NdiMediaInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.NdiMediaInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.NdiMediaInfo()
+        value.streams = try reader["streams"].readListIfPresent(memberReadingClosure: MediaConnectClientTypes.NdiMediaStreamInfo.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.NdiMediaStreamInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.NdiMediaStreamInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.NdiMediaStreamInfo()
+        value.streamType = try reader["streamType"].readIfPresent() ?? ""
+        value.codec = try reader["codec"].readIfPresent() ?? ""
+        value.streamId = try reader["streamId"].readIfPresent() ?? 0
+        value.scanMode = try reader["scanMode"].readIfPresent()
+        value.frameResolution = try reader["frameResolution"].readIfPresent(with: MediaConnectClientTypes.FrameResolution.read(from:))
+        value.frameRate = try reader["frameRate"].readIfPresent()
+        value.channels = try reader["channels"].readIfPresent()
+        value.sampleRate = try reader["sampleRate"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaConnectClientTypes.NdiSourceInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaConnectClientTypes.NdiSourceInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaConnectClientTypes.NdiSourceInfo()
+        value.sourceName = try reader["sourceName"].readIfPresent() ?? ""
         return value
     }
 }
@@ -16228,6 +16518,7 @@ extension MediaConnectClientTypes.SetSourceRequest {
         try writer["mediaStreamSourceConfigurations"].writeList(value.mediaStreamSourceConfigurations, memberWritingClosure: MediaConnectClientTypes.MediaStreamSourceConfigurationRequest.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["minLatency"].write(value.minLatency)
         try writer["name"].write(value.name)
+        try writer["ndiSourceSettings"].write(value.ndiSourceSettings, with: MediaConnectClientTypes.NdiSourceSettings.write(value:to:))
         try writer["protocol"].write(value.`protocol`)
         try writer["routerIntegrationState"].write(value.routerIntegrationState)
         try writer["routerIntegrationTransitDecryption"].write(value.routerIntegrationTransitDecryption, with: MediaConnectClientTypes.FlowTransitEncryption.write(value:to:))

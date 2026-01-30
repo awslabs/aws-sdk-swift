@@ -5501,6 +5501,53 @@ extension CognitoIdentityProviderClientTypes {
 
 extension CognitoIdentityProviderClientTypes {
 
+    public enum InboundFederationLambdaVersionType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case v10
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [InboundFederationLambdaVersionType] {
+            return [
+                .v10
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .v10: return "V1_0"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension CognitoIdentityProviderClientTypes {
+
+    /// The properties of an inbound federation Lambda trigger.
+    public struct InboundFederationLambdaType: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the function that you want to assign to your Lambda trigger.
+        /// This member is required.
+        public var lambdaArn: Swift.String?
+        /// The user pool trigger version of the request that Amazon Cognito sends to your Lambda function. Higher-numbered versions add fields that support new features. You must use a LambdaVersion of V1_0 with an inbound federation function.
+        /// This member is required.
+        public var lambdaVersion: CognitoIdentityProviderClientTypes.InboundFederationLambdaVersionType?
+
+        public init(
+            lambdaArn: Swift.String? = nil,
+            lambdaVersion: CognitoIdentityProviderClientTypes.InboundFederationLambdaVersionType? = nil
+        ) {
+            self.lambdaArn = lambdaArn
+            self.lambdaVersion = lambdaVersion
+        }
+    }
+}
+
+extension CognitoIdentityProviderClientTypes {
+
     public enum PreTokenGenerationLambdaVersionType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case v10
         case v20
@@ -5566,6 +5613,8 @@ extension CognitoIdentityProviderClientTypes {
         public var customSMSSender: CognitoIdentityProviderClientTypes.CustomSMSLambdaVersionConfigType?
         /// The configuration of a define auth challenge Lambda trigger, one of three triggers in the sequence of the [custom authentication challenge triggers](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-lambda-challenge.html).
         public var defineAuthChallenge: Swift.String?
+        /// The configuration of an inbound federation Lambda trigger. This trigger can transform federated user attributes during the authentication with external identity providers.
+        public var inboundFederation: CognitoIdentityProviderClientTypes.InboundFederationLambdaType?
         /// The ARN of an [KMS key](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#master_keys). Amazon Cognito uses the key to encrypt codes and temporary passwords sent to custom sender Lambda triggers.
         public var kmsKeyID: Swift.String?
         /// The configuration of a [post authentication Lambda trigger](https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-lambda-post-authentication.html) in a user pool. This trigger can take custom actions after a user signs in.
@@ -5591,6 +5640,7 @@ extension CognitoIdentityProviderClientTypes {
             customMessage: Swift.String? = nil,
             customSMSSender: CognitoIdentityProviderClientTypes.CustomSMSLambdaVersionConfigType? = nil,
             defineAuthChallenge: Swift.String? = nil,
+            inboundFederation: CognitoIdentityProviderClientTypes.InboundFederationLambdaType? = nil,
             kmsKeyID: Swift.String? = nil,
             postAuthentication: Swift.String? = nil,
             postConfirmation: Swift.String? = nil,
@@ -5606,6 +5656,7 @@ extension CognitoIdentityProviderClientTypes {
             self.customMessage = customMessage
             self.customSMSSender = customSMSSender
             self.defineAuthChallenge = defineAuthChallenge
+            self.inboundFederation = inboundFederation
             self.kmsKeyID = kmsKeyID
             self.postAuthentication = postAuthentication
             self.postConfirmation = postConfirmation
@@ -18121,6 +18172,7 @@ extension CognitoIdentityProviderClientTypes.LambdaConfigType {
         try writer["CustomMessage"].write(value.customMessage)
         try writer["CustomSMSSender"].write(value.customSMSSender, with: CognitoIdentityProviderClientTypes.CustomSMSLambdaVersionConfigType.write(value:to:))
         try writer["DefineAuthChallenge"].write(value.defineAuthChallenge)
+        try writer["InboundFederation"].write(value.inboundFederation, with: CognitoIdentityProviderClientTypes.InboundFederationLambdaType.write(value:to:))
         try writer["KMSKeyID"].write(value.kmsKeyID)
         try writer["PostAuthentication"].write(value.postAuthentication)
         try writer["PostConfirmation"].write(value.postConfirmation)
@@ -18149,6 +18201,24 @@ extension CognitoIdentityProviderClientTypes.LambdaConfigType {
         value.customSMSSender = try reader["CustomSMSSender"].readIfPresent(with: CognitoIdentityProviderClientTypes.CustomSMSLambdaVersionConfigType.read(from:))
         value.customEmailSender = try reader["CustomEmailSender"].readIfPresent(with: CognitoIdentityProviderClientTypes.CustomEmailLambdaVersionConfigType.read(from:))
         value.kmsKeyID = try reader["KMSKeyID"].readIfPresent()
+        value.inboundFederation = try reader["InboundFederation"].readIfPresent(with: CognitoIdentityProviderClientTypes.InboundFederationLambdaType.read(from:))
+        return value
+    }
+}
+
+extension CognitoIdentityProviderClientTypes.InboundFederationLambdaType {
+
+    static func write(value: CognitoIdentityProviderClientTypes.InboundFederationLambdaType?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["LambdaArn"].write(value.lambdaArn)
+        try writer["LambdaVersion"].write(value.lambdaVersion)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CognitoIdentityProviderClientTypes.InboundFederationLambdaType {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CognitoIdentityProviderClientTypes.InboundFederationLambdaType()
+        value.lambdaVersion = try reader["LambdaVersion"].readIfPresent() ?? .sdkUnknown("")
+        value.lambdaArn = try reader["LambdaArn"].readIfPresent() ?? ""
         return value
     }
 }
