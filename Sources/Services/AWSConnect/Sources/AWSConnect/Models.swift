@@ -17682,11 +17682,13 @@ public struct GetContactAttributesOutput: Swift.Sendable {
 extension ConnectClientTypes {
 
     public enum ContactMetricName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case estimatedWaitTime
         case positionInQueue
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ContactMetricName] {
             return [
+                .estimatedWaitTime,
                 .positionInQueue
             ]
         }
@@ -17698,6 +17700,7 @@ extension ConnectClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .estimatedWaitTime: return "ESTIMATED_WAIT_TIME"
             case .positionInQueue: return "POSITION_IN_QUEUE"
             case let .sdkUnknown(s): return s
             }
@@ -17707,9 +17710,9 @@ extension ConnectClientTypes {
 
 extension ConnectClientTypes {
 
-    /// The object that contains information about metric being requested.
+    /// Contains the details of a metric to be retrieved for a contact. Use this object to specify which contact level metrics you want to include in your GetContactMetrics request.
     public struct ContactMetricInfo: Swift.Sendable {
-        /// The name of the metric being retrieved in type String.
+        /// The name of the metric to retrieve. Supported values are POSITION_IN_QUEUE (returns the contact's current position in the queue) and ESTIMATED_WAIT_TIME (returns the predicted wait time in seconds).
         /// This member is required.
         public var name: ConnectClientTypes.ContactMetricName?
 
@@ -17728,7 +17731,7 @@ public struct GetContactMetricsInput: Swift.Sendable {
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
-    /// A list of contact-level metrics to retrieve.
+    /// A list of contact level metrics to retrieve.Supported metrics include POSITION_IN_QUEUE (the contact's current position in the queue) and ESTIMATED_WAIT_TIME (the predicted time in seconds until the contact is connected to an agent)
     /// This member is required.
     public var metrics: [ConnectClientTypes.ContactMetricInfo]?
 
@@ -17745,9 +17748,9 @@ public struct GetContactMetricsInput: Swift.Sendable {
 
 extension ConnectClientTypes {
 
-    /// Object which contains the number.
+    /// Contains the numeric value of a contact metric result.
     public enum ContactMetricValue: Swift.Sendable {
-        /// The number of type Double. This number is the contact's position in queue.
+        /// The numeric value of the metric result. For POSITION_IN_QUEUE, this represents the contact's current position in the queue (e.g., 3.00 means third in line). For ESTIMATED_WAIT_TIME, this represents the predicted wait time in seconds (e.g., 120.00 means approximately 2 minutes).
         case number(Swift.Double)
         case sdkUnknown(Swift.String)
     }
@@ -17755,12 +17758,12 @@ extension ConnectClientTypes {
 
 extension ConnectClientTypes {
 
-    /// Object containing information about metric requested for the contact.
+    /// Contains the result of a requested metric for the contact. This object is returned as part of the GetContactMetrics response and includes both the metric name and its calculated value.
     public struct ContactMetricResult: Swift.Sendable {
-        /// The name of the metric being retrieved in type String.
+        /// The name of the metric that was retrieved. This corresponds to the metric name specified in the request, such as POSITION_IN_QUEUE or ESTIMATED_WAIT_TIME.
         /// This member is required.
         public var name: ConnectClientTypes.ContactMetricName?
-        /// Object result associated with the metric received.
+        /// The calculated value for the requested metric. This object contains the numeric result based on the contact's current state in the queue.
         /// This member is required.
         public var value: ConnectClientTypes.ContactMetricValue?
 
@@ -17777,9 +17780,9 @@ extension ConnectClientTypes {
 public struct GetContactMetricsOutput: Swift.Sendable {
     /// The ARN of the contact for which metrics were retrieved.
     public var arn: Swift.String?
-    /// The unique identifier of the contact for which metrics were retrieved.
+    /// The unique identifier of the contact for which metrics were retrieved. This matches the ContactId provided in the request.
     public var id: Swift.String?
-    /// A list of metric results containing the calculated values for each requested metric. Each result includes the metric name and its corresponding calculated value.
+    /// A list of metric results containing the calculated values for each requested metric. Each result includes the metric name and its corresponding value. For example, POSITION_IN_QUEUE returns a numeric value representing the contact's position in queue, and ESTIMATED_WAIT_TIME returns the predicted wait time in seconds.
     public var metricResults: [ConnectClientTypes.ContactMetricResult]?
 
     public init(
@@ -17807,6 +17810,7 @@ extension ConnectClientTypes {
         case agentsStaffed
         case contactsInQueue
         case contactsScheduled
+        case estimatedWaitTime
         case oldestContactAge
         case slotsActive
         case slotsAvailable
@@ -17824,6 +17828,7 @@ extension ConnectClientTypes {
                 .agentsStaffed,
                 .contactsInQueue,
                 .contactsScheduled,
+                .estimatedWaitTime,
                 .oldestContactAge,
                 .slotsActive,
                 .slotsAvailable
@@ -17847,6 +17852,7 @@ extension ConnectClientTypes {
             case .agentsStaffed: return "AGENTS_STAFFED"
             case .contactsInQueue: return "CONTACTS_IN_QUEUE"
             case .contactsScheduled: return "CONTACTS_SCHEDULED"
+            case .estimatedWaitTime: return "ESTIMATED_WAIT_TIME"
             case .oldestContactAge: return "OLDEST_CONTACT_AGE"
             case .slotsActive: return "SLOTS_ACTIVE"
             case .slotsAvailable: return "SLOTS_AVAILABLE"
@@ -18043,7 +18049,14 @@ extension ConnectClientTypes {
 }
 
 public struct GetCurrentMetricDataInput: Swift.Sendable {
-    /// The metrics to retrieve. Specify the name or metricId, and unit for each metric. The following metrics are available. For a description of all the metrics, see [Metrics definitions](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html) in the Amazon Connect Administrator Guide. MetricId should be used to reference custom metrics or out of the box metrics as Arn. If using MetricId, the limit is 10 MetricId per request. AGENTS_AFTER_CONTACT_WORK Unit: COUNT Name in real-time metrics report: [ACW](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#aftercallwork-real-time) AGENTS_AVAILABLE Unit: COUNT Name in real-time metrics report: [Available](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#available-real-time) AGENTS_ERROR Unit: COUNT Name in real-time metrics report: [Error](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#error-real-time) AGENTS_NON_PRODUCTIVE Unit: COUNT Name in real-time metrics report: [NPT (Non-Productive Time)](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#non-productive-time-real-time) AGENTS_ON_CALL Unit: COUNT Name in real-time metrics report: [On contact](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#on-call-real-time) AGENTS_ON_CONTACT Unit: COUNT Name in real-time metrics report: [On contact](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#on-call-real-time) AGENTS_ONLINE Unit: COUNT Name in real-time metrics report: [Online](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#online-real-time) AGENTS_STAFFED Unit: COUNT Name in real-time metrics report: [Staffed](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#staffed-real-time) CONTACTS_IN_QUEUE Unit: COUNT Name in real-time metrics report: [In queue](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#in-queue-real-time) CONTACTS_SCHEDULED Unit: COUNT Name in real-time metrics report: [Scheduled](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#scheduled-real-time) OLDEST_CONTACT_AGE Unit: SECONDS When you use groupings, Unit says SECONDS and the Value is returned in SECONDS. When you do not use groupings, Unit says SECONDS but the Value is returned in MILLISECONDS. For example, if you get a response like this: { "Metric": { "Name": "OLDEST_CONTACT_AGE", "Unit": "SECONDS" }, "Value": 24113.0 } The actual OLDEST_CONTACT_AGE is 24 seconds. When the filter RoutingStepExpression is used, this metric is still calculated from enqueue time. For example, if a contact that has been queued under  for 10 seconds has expired and  becomes active, then OLDEST_CONTACT_AGE for this queue will be counted starting from 10, not 0. Name in real-time metrics report: [Oldest](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#oldest-real-time) SLOTS_ACTIVE Unit: COUNT Name in real-time metrics report: [Active](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#active-real-time) SLOTS_AVAILABLE Unit: COUNT Name in real-time metrics report: [Availability](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#availability-real-time)
+    /// The metrics to retrieve. Specify the name or metricId, and unit for each metric. The following metrics are available. For a description of all the metrics, see [Metrics definitions](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html) in the Amazon Connect Administrator Guide. MetricId should be used to reference custom metrics or out of the box metrics as Arn. If using MetricId, the limit is 10 MetricId per request. AGENTS_AFTER_CONTACT_WORK Unit: COUNT Name in real-time metrics report: [ACW](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#aftercallwork-real-time) AGENTS_AVAILABLE Unit: COUNT Name in real-time metrics report: [Available](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#available-real-time) AGENTS_ERROR Unit: COUNT Name in real-time metrics report: [Error](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#error-real-time) AGENTS_NON_PRODUCTIVE Unit: COUNT Name in real-time metrics report: [NPT (Non-Productive Time)](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#non-productive-time-real-time) AGENTS_ON_CALL Unit: COUNT Name in real-time metrics report: [On contact](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#on-call-real-time) AGENTS_ON_CONTACT Unit: COUNT Name in real-time metrics report: [On contact](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#on-call-real-time) AGENTS_ONLINE Unit: COUNT Name in real-time metrics report: [Online](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#online-real-time) AGENTS_STAFFED Unit: COUNT Name in real-time metrics report: [Staffed](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#staffed-real-time) CONTACTS_IN_QUEUE Unit: COUNT Name in real-time metrics report: [In queue](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#in-queue-real-time) CONTACTS_SCHEDULED Unit: COUNT Name in real-time metrics report: [Scheduled](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#scheduled-real-time) ESTIMATED_WAIT_TIME Unit: SECONDS This metric supports filter and grouping combination only used for core routing purpose. Valid filter and grouping use cases:
+    ///
+    /// * Filter by a list of [Queues] and a list of [Channels], group by [“QUEUE”, “CHANNEL”]
+    ///
+    /// * Filter by a singleton list of [Queue], a singleton list of [Channel], a list of [RoutingStepExpression], group by [“ROUTING_STEP_EXPRESSION”].
+    ///
+    ///
+    /// OLDEST_CONTACT_AGE Unit: SECONDS When you use groupings, Unit says SECONDS and the Value is returned in SECONDS. When you do not use groupings, Unit says SECONDS but the Value is returned in MILLISECONDS. For example, if you get a response like this: { "Metric": { "Name": "OLDEST_CONTACT_AGE", "Unit": "SECONDS" }, "Value": 24113.0 } The actual OLDEST_CONTACT_AGE is 24 seconds. When the filter RoutingStepExpression is used, this metric is still calculated from enqueue time. For example, if a contact that has been queued under  for 10 seconds has expired and  becomes active, then OLDEST_CONTACT_AGE for this queue will be counted starting from 10, not 0. Name in real-time metrics report: [Oldest](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#oldest-real-time) SLOTS_ACTIVE Unit: COUNT Name in real-time metrics report: [Active](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#active-real-time) SLOTS_AVAILABLE Unit: COUNT Name in real-time metrics report: [Availability](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#availability-real-time)
     /// This member is required.
     public var currentMetrics: [ConnectClientTypes.CurrentMetric]?
     /// The filters to apply to returned metrics. You can filter up to the following limits:
@@ -26401,6 +26414,12 @@ extension ConnectClientTypes {
         public var channels: [ConnectClientTypes.Channel]?
         /// Search criteria based on analysis outputs from Amazon Connect Contact Lens.
         public var contactAnalysis: ConnectClientTypes.ContactAnalysis?
+        /// An object that can be used to specify Tag conditions inside the SearchFilter. This accepts an OR of AND (List of List) input where:
+        ///
+        /// * Top level list specifies conditions that need to be applied with OR operator
+        ///
+        /// * Inner list specifies conditions that need to be applied with AND operator.
+        public var contactTags: ConnectClientTypes.ControlPlaneTagFilter?
         /// The list of initiation methods associated with contacts.
         public var initiationMethods: [ConnectClientTypes.ContactInitiationMethod]?
         /// Name of the contact.
@@ -26421,6 +26440,7 @@ extension ConnectClientTypes {
             agentIds: [Swift.String]? = nil,
             channels: [ConnectClientTypes.Channel]? = nil,
             contactAnalysis: ConnectClientTypes.ContactAnalysis? = nil,
+            contactTags: ConnectClientTypes.ControlPlaneTagFilter? = nil,
             initiationMethods: [ConnectClientTypes.ContactInitiationMethod]? = nil,
             name: ConnectClientTypes.NameCriteria? = nil,
             queueIds: [Swift.String]? = nil,
@@ -26434,6 +26454,7 @@ extension ConnectClientTypes {
             self.agentIds = agentIds
             self.channels = channels
             self.contactAnalysis = contactAnalysis
+            self.contactTags = contactTags
             self.initiationMethods = initiationMethods
             self.name = name
             self.queueIds = queueIds
@@ -29375,6 +29396,27 @@ public struct StartScreenSharingInput: Swift.Sendable {
 public struct StartScreenSharingOutput: Swift.Sendable {
 
     public init() { }
+}
+
+extension ConnectClientTypes {
+
+    /// Information about the task attachment files.
+    public struct TaskAttachment: Swift.Sendable {
+        /// A case-sensitive name of the attached file being uploaded.
+        /// This member is required.
+        public var fileName: Swift.String?
+        /// The pre-signed URLs for the S3 bucket where the task attachment is stored.
+        /// This member is required.
+        public var s3Url: Swift.String?
+
+        public init(
+            fileName: Swift.String? = nil,
+            s3Url: Swift.String? = nil
+        ) {
+            self.fileName = fileName
+            self.s3Url = s3Url
+        }
+    }
 }
 
 public struct StartTaskContactOutput: Swift.Sendable {
@@ -33877,6 +33919,8 @@ public struct StartOutboundChatContactInput: Swift.Sendable {
 }
 
 public struct StartTaskContactInput: Swift.Sendable {
+    /// List of S3 presigned URLs of task attachments and their file name. You can have a maximum of 5 attachments per task.
+    public var attachments: [ConnectClientTypes.TaskAttachment]?
     /// A custom key-value pair using an attribute map. The attributes are standard Amazon Connect attributes, and can be accessed in flows just like any other contact attributes. There can be up to 32,768 UTF-8 bytes across all key-value pairs per contact. Attribute keys can include only alphanumeric, dash, and underscore characters.
     public var attributes: [Swift.String: Swift.String]?
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
@@ -33907,6 +33951,7 @@ public struct StartTaskContactInput: Swift.Sendable {
     public var taskTemplateId: Swift.String?
 
     public init(
+        attachments: [ConnectClientTypes.TaskAttachment]? = nil,
         attributes: [Swift.String: Swift.String]? = nil,
         clientToken: Swift.String? = nil,
         contactFlowId: Swift.String? = nil,
@@ -33921,6 +33966,7 @@ public struct StartTaskContactInput: Swift.Sendable {
         segmentAttributes: [Swift.String: ConnectClientTypes.SegmentAttributeValue]? = nil,
         taskTemplateId: Swift.String? = nil
     ) {
+        self.attachments = attachments
         self.attributes = attributes
         self.clientToken = clientToken
         self.contactFlowId = contactFlowId
@@ -33939,7 +33985,7 @@ public struct StartTaskContactInput: Swift.Sendable {
 
 extension StartTaskContactInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "StartTaskContactInput(attributes: \(Swift.String(describing: attributes)), clientToken: \(Swift.String(describing: clientToken)), contactFlowId: \(Swift.String(describing: contactFlowId)), instanceId: \(Swift.String(describing: instanceId)), previousContactId: \(Swift.String(describing: previousContactId)), quickConnectId: \(Swift.String(describing: quickConnectId)), references: \(Swift.String(describing: references)), relatedContactId: \(Swift.String(describing: relatedContactId)), scheduledTime: \(Swift.String(describing: scheduledTime)), segmentAttributes: \(Swift.String(describing: segmentAttributes)), taskTemplateId: \(Swift.String(describing: taskTemplateId)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "StartTaskContactInput(attributes: \(Swift.String(describing: attributes)), clientToken: \(Swift.String(describing: clientToken)), contactFlowId: \(Swift.String(describing: contactFlowId)), instanceId: \(Swift.String(describing: instanceId)), previousContactId: \(Swift.String(describing: previousContactId)), quickConnectId: \(Swift.String(describing: quickConnectId)), references: \(Swift.String(describing: references)), relatedContactId: \(Swift.String(describing: relatedContactId)), scheduledTime: \(Swift.String(describing: scheduledTime)), segmentAttributes: \(Swift.String(describing: segmentAttributes)), taskTemplateId: \(Swift.String(describing: taskTemplateId)), attachments: \"CONTENT_REDACTED\", description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateContactInput: Swift.Sendable {
@@ -34660,6 +34706,8 @@ extension ConnectClientTypes {
         public var scheduledTimestamp: Foundation.Date?
         /// Set of segment attributes for a contact.
         public var segmentAttributes: [Swift.String: ConnectClientTypes.ContactSearchSummarySegmentAttributeValue]?
+        /// Tags associated with the contact. This contains both Amazon Web Services generated and user-defined tags.
+        public var tags: [Swift.String: Swift.String]?
 
         public init(
             agentInfo: ConnectClientTypes.ContactSearchSummaryAgentInfo? = nil,
@@ -34676,7 +34724,8 @@ extension ConnectClientTypes {
             queueInfo: ConnectClientTypes.ContactSearchSummaryQueueInfo? = nil,
             routingCriteria: ConnectClientTypes.RoutingCriteria? = nil,
             scheduledTimestamp: Foundation.Date? = nil,
-            segmentAttributes: [Swift.String: ConnectClientTypes.ContactSearchSummarySegmentAttributeValue]? = nil
+            segmentAttributes: [Swift.String: ConnectClientTypes.ContactSearchSummarySegmentAttributeValue]? = nil,
+            tags: [Swift.String: Swift.String]? = nil
         ) {
             self.agentInfo = agentInfo
             self.arn = arn
@@ -34693,13 +34742,14 @@ extension ConnectClientTypes {
             self.routingCriteria = routingCriteria
             self.scheduledTimestamp = scheduledTimestamp
             self.segmentAttributes = segmentAttributes
+            self.tags = tags
         }
     }
 }
 
 extension ConnectClientTypes.ContactSearchSummary: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "ContactSearchSummary(agentInfo: \(Swift.String(describing: agentInfo)), arn: \(Swift.String(describing: arn)), channel: \(Swift.String(describing: channel)), disconnectTimestamp: \(Swift.String(describing: disconnectTimestamp)), globalResiliencyMetadata: \(Swift.String(describing: globalResiliencyMetadata)), id: \(Swift.String(describing: id)), initialContactId: \(Swift.String(describing: initialContactId)), initiationMethod: \(Swift.String(describing: initiationMethod)), initiationTimestamp: \(Swift.String(describing: initiationTimestamp)), previousContactId: \(Swift.String(describing: previousContactId)), queueInfo: \(Swift.String(describing: queueInfo)), routingCriteria: \(Swift.String(describing: routingCriteria)), scheduledTimestamp: \(Swift.String(describing: scheduledTimestamp)), name: \"CONTENT_REDACTED\", segmentAttributes: \"CONTENT_REDACTED\")"}
+        "ContactSearchSummary(agentInfo: \(Swift.String(describing: agentInfo)), arn: \(Swift.String(describing: arn)), channel: \(Swift.String(describing: channel)), disconnectTimestamp: \(Swift.String(describing: disconnectTimestamp)), globalResiliencyMetadata: \(Swift.String(describing: globalResiliencyMetadata)), id: \(Swift.String(describing: id)), initialContactId: \(Swift.String(describing: initialContactId)), initiationMethod: \(Swift.String(describing: initiationMethod)), initiationTimestamp: \(Swift.String(describing: initiationTimestamp)), previousContactId: \(Swift.String(describing: previousContactId)), queueInfo: \(Swift.String(describing: queueInfo)), routingCriteria: \(Swift.String(describing: routingCriteria)), scheduledTimestamp: \(Swift.String(describing: scheduledTimestamp)), tags: \(Swift.String(describing: tags)), name: \"CONTENT_REDACTED\", segmentAttributes: \"CONTENT_REDACTED\")"}
 }
 
 public struct DescribeContactOutput: Swift.Sendable {
@@ -41760,6 +41810,7 @@ extension StartTaskContactInput {
 
     static func write(value: StartTaskContactInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["Attachments"].writeList(value.attachments, memberWritingClosure: ConnectClientTypes.TaskAttachment.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Attributes"].writeMap(value.attributes, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["ClientToken"].write(value.clientToken)
         try writer["ContactFlowId"].write(value.contactFlowId)
@@ -58998,6 +59049,7 @@ extension ConnectClientTypes.ContactSearchSummary {
         value.segmentAttributes = try reader["SegmentAttributes"].readMapIfPresent(valueReadingClosure: ConnectClientTypes.ContactSearchSummarySegmentAttributeValue.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.name = try reader["Name"].readIfPresent()
         value.routingCriteria = try reader["RoutingCriteria"].readIfPresent(with: ConnectClientTypes.RoutingCriteria.read(from:))
+        value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.globalResiliencyMetadata = try reader["GlobalResiliencyMetadata"].readIfPresent(with: ConnectClientTypes.GlobalResiliencyMetadata.read(from:))
         return value
     }
@@ -59771,6 +59823,7 @@ extension ConnectClientTypes.SearchCriteria {
         try writer["AgentIds"].writeList(value.agentIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Channels"].writeList(value.channels, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ConnectClientTypes.Channel>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ContactAnalysis"].write(value.contactAnalysis, with: ConnectClientTypes.ContactAnalysis.write(value:to:))
+        try writer["ContactTags"].write(value.contactTags, with: ConnectClientTypes.ControlPlaneTagFilter.write(value:to:))
         try writer["InitiationMethods"].writeList(value.initiationMethods, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ConnectClientTypes.ContactInitiationMethod>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Name"].write(value.name, with: ConnectClientTypes.NameCriteria.write(value:to:))
         try writer["QueueIds"].writeList(value.queueIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -60491,6 +60544,15 @@ extension ConnectClientTypes.AnswerMachineDetectionConfig {
         guard let value else { return }
         try writer["AwaitAnswerMachinePrompt"].write(value.awaitAnswerMachinePrompt)
         try writer["EnableAnswerMachineDetection"].write(value.enableAnswerMachineDetection)
+    }
+}
+
+extension ConnectClientTypes.TaskAttachment {
+
+    static func write(value: ConnectClientTypes.TaskAttachment?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FileName"].write(value.fileName)
+        try writer["S3Url"].write(value.s3Url)
     }
 }
 

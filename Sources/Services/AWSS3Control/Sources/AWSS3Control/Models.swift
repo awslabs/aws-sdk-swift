@@ -3356,6 +3356,56 @@ extension S3ControlClientTypes {
 
 extension S3ControlClientTypes {
 
+    /// If SSEKMS is specified for UpdateObjectEncryption, this data type specifies the Amazon Web Services KMS key Amazon Resource Name (ARN) to use and whether to use an S3 Bucket Key for server-side encryption using Key Management Service (KMS) keys (SSE-KMS).
+    public struct S3UpdateObjectEncryptionSSEKMS: Swift.Sendable {
+        /// Specifies whether Amazon S3 should use an S3 Bucket Key for object encryption with server-side encryption using Key Management Service (KMS) keys (SSE-KMS). If this value isn't specified, it defaults to false. Setting this value to true causes Amazon S3 to use an S3 Bucket Key for update object encryption with SSE-KMS.
+        public var bucketKeyEnabled: Swift.Bool?
+        /// Specifies the Amazon Web Services KMS key Amazon Resource Name (ARN) to use for the updated server-side encryption type. Required if UpdateObjectEncryption specifies SSEKMS.
+        /// This member is required.
+        public var kmsKeyArn: Swift.String?
+
+        public init(
+            bucketKeyEnabled: Swift.Bool? = false,
+            kmsKeyArn: Swift.String? = nil
+        ) {
+            self.bucketKeyEnabled = bucketKeyEnabled
+            self.kmsKeyArn = kmsKeyArn
+        }
+    }
+}
+
+extension S3ControlClientTypes {
+
+    /// The updated server-side encryption type for this object. The UpdateObjectEncryption operation supports the SSE-KMS encryption type. Valid Values: SSEKMS
+    public struct ObjectEncryption: Swift.Sendable {
+        /// Specifies to update the object encryption type to server-side encryption with Key Management Service (KMS) keys (SSE-KMS).
+        public var ssekms: S3ControlClientTypes.S3UpdateObjectEncryptionSSEKMS?
+
+        public init(
+            ssekms: S3ControlClientTypes.S3UpdateObjectEncryptionSSEKMS? = nil
+        ) {
+            self.ssekms = ssekms
+        }
+    }
+}
+
+extension S3ControlClientTypes {
+
+    /// With the UpdateObjectEncryption operation, you can atomically update the server-side encryption type of an existing object in a general purpose bucket without any data movement.
+    public struct S3UpdateObjectEncryptionOperation: Swift.Sendable {
+        /// The updated server-side encryption type for this S3 object. The UpdateObjectEncryption operation supports the SSE-KMS encryption type.
+        public var objectEncryption: S3ControlClientTypes.ObjectEncryption?
+
+        public init(
+            objectEncryption: S3ControlClientTypes.ObjectEncryption? = nil
+        ) {
+            self.objectEncryption = objectEncryption
+        }
+    }
+}
+
+extension S3ControlClientTypes {
+
     /// The operation that you want this job to perform on every object listed in the manifest. For more information about the available operations, see [Operations](https://docs.aws.amazon.com/AmazonS3/latest/dev/batch-ops-operations.html) in the Amazon S3 User Guide.
     public struct JobOperation: Swift.Sendable {
         /// Directs the specified job to invoke an Lambda function on every object in the manifest.
@@ -3378,6 +3428,8 @@ extension S3ControlClientTypes {
         public var s3PutObjectTagging: S3ControlClientTypes.S3SetObjectTaggingOperation?
         /// Directs the specified job to invoke ReplicateObject on every object in the job's manifest. This functionality is not supported by directory buckets.
         public var s3ReplicateObject: S3ControlClientTypes.S3ReplicateObjectOperation?
+        /// Updates the server-side encryption type of an existing encrypted object in a general purpose bucket. You can use the UpdateObjectEncryption operation to change encrypted objects from server-side encryption with Amazon S3 managed keys (SSE-S3) to server-side encryption with Key Management Service (KMS) keys (SSE-KMS), or to apply S3 Bucket Keys. You can also use the UpdateObjectEncryption operation to change the customer-managed KMS key used to encrypt your data so that you can comply with custom key-rotation standards.
+        public var s3UpdateObjectEncryption: S3ControlClientTypes.S3UpdateObjectEncryptionOperation?
 
         public init(
             lambdaInvoke: S3ControlClientTypes.LambdaInvokeOperation? = nil,
@@ -3389,7 +3441,8 @@ extension S3ControlClientTypes {
             s3PutObjectLegalHold: S3ControlClientTypes.S3SetObjectLegalHoldOperation? = nil,
             s3PutObjectRetention: S3ControlClientTypes.S3SetObjectRetentionOperation? = nil,
             s3PutObjectTagging: S3ControlClientTypes.S3SetObjectTaggingOperation? = nil,
-            s3ReplicateObject: S3ControlClientTypes.S3ReplicateObjectOperation? = nil
+            s3ReplicateObject: S3ControlClientTypes.S3ReplicateObjectOperation? = nil,
+            s3UpdateObjectEncryption: S3ControlClientTypes.S3UpdateObjectEncryptionOperation? = nil
         ) {
             self.lambdaInvoke = lambdaInvoke
             self.s3ComputeObjectChecksum = s3ComputeObjectChecksum
@@ -3401,6 +3454,7 @@ extension S3ControlClientTypes {
             self.s3PutObjectRetention = s3PutObjectRetention
             self.s3PutObjectTagging = s3PutObjectTagging
             self.s3ReplicateObject = s3ReplicateObject
+            self.s3UpdateObjectEncryption = s3UpdateObjectEncryption
         }
     }
 }
@@ -7398,6 +7452,7 @@ extension S3ControlClientTypes {
         case s3putobjectretention
         case s3putobjecttagging
         case s3replicateobject
+        case s3updateobjectencryption
         case sdkUnknown(Swift.String)
 
         public static var allCases: [OperationName] {
@@ -7411,7 +7466,8 @@ extension S3ControlClientTypes {
                 .s3putobjectlegalhold,
                 .s3putobjectretention,
                 .s3putobjecttagging,
-                .s3replicateobject
+                .s3replicateobject,
+                .s3updateobjectencryption
             ]
         }
 
@@ -7432,6 +7488,7 @@ extension S3ControlClientTypes {
             case .s3putobjectretention: return "S3PutObjectRetention"
             case .s3putobjecttagging: return "S3PutObjectTagging"
             case .s3replicateobject: return "S3ReplicateObject"
+            case .s3updateobjectencryption: return "S3UpdateObjectEncryption"
             case let .sdkUnknown(s): return s
             }
         }
@@ -14035,6 +14092,7 @@ extension S3ControlClientTypes.JobOperation {
         try writer["S3PutObjectRetention"].write(value.s3PutObjectRetention, with: S3ControlClientTypes.S3SetObjectRetentionOperation.write(value:to:))
         try writer["S3PutObjectTagging"].write(value.s3PutObjectTagging, with: S3ControlClientTypes.S3SetObjectTaggingOperation.write(value:to:))
         try writer["S3ReplicateObject"].write(value.s3ReplicateObject, with: S3ControlClientTypes.S3ReplicateObjectOperation.write(value:to:))
+        try writer["S3UpdateObjectEncryption"].write(value.s3UpdateObjectEncryption, with: S3ControlClientTypes.S3UpdateObjectEncryptionOperation.write(value:to:))
     }
 
     static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.JobOperation {
@@ -14050,6 +14108,54 @@ extension S3ControlClientTypes.JobOperation {
         value.s3PutObjectRetention = try reader["S3PutObjectRetention"].readIfPresent(with: S3ControlClientTypes.S3SetObjectRetentionOperation.read(from:))
         value.s3ReplicateObject = try reader["S3ReplicateObject"].readIfPresent(with: S3ControlClientTypes.S3ReplicateObjectOperation.read(from:))
         value.s3ComputeObjectChecksum = try reader["S3ComputeObjectChecksum"].readIfPresent(with: S3ControlClientTypes.S3ComputeObjectChecksumOperation.read(from:))
+        value.s3UpdateObjectEncryption = try reader["S3UpdateObjectEncryption"].readIfPresent(with: S3ControlClientTypes.S3UpdateObjectEncryptionOperation.read(from:))
+        return value
+    }
+}
+
+extension S3ControlClientTypes.S3UpdateObjectEncryptionOperation {
+
+    static func write(value: S3ControlClientTypes.S3UpdateObjectEncryptionOperation?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["ObjectEncryption"].write(value.objectEncryption, with: S3ControlClientTypes.ObjectEncryption.write(value:to:))
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.S3UpdateObjectEncryptionOperation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.S3UpdateObjectEncryptionOperation()
+        value.objectEncryption = try reader["ObjectEncryption"].readIfPresent(with: S3ControlClientTypes.ObjectEncryption.read(from:))
+        return value
+    }
+}
+
+extension S3ControlClientTypes.ObjectEncryption {
+
+    static func write(value: S3ControlClientTypes.ObjectEncryption?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["SSE-KMS"].write(value.ssekms, with: S3ControlClientTypes.S3UpdateObjectEncryptionSSEKMS.write(value:to:))
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.ObjectEncryption {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.ObjectEncryption()
+        value.ssekms = try reader["SSE-KMS"].readIfPresent(with: S3ControlClientTypes.S3UpdateObjectEncryptionSSEKMS.read(from:))
+        return value
+    }
+}
+
+extension S3ControlClientTypes.S3UpdateObjectEncryptionSSEKMS {
+
+    static func write(value: S3ControlClientTypes.S3UpdateObjectEncryptionSSEKMS?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["BucketKeyEnabled"].write(value.bucketKeyEnabled)
+        try writer["KMSKeyArn"].write(value.kmsKeyArn)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> S3ControlClientTypes.S3UpdateObjectEncryptionSSEKMS {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3ControlClientTypes.S3UpdateObjectEncryptionSSEKMS()
+        value.kmsKeyArn = try reader["KMSKeyArn"].readIfPresent() ?? ""
+        value.bucketKeyEnabled = try reader["BucketKeyEnabled"].readIfPresent()
         return value
     }
 }
