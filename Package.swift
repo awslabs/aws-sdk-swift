@@ -2176,7 +2176,7 @@ extension Target.Dependency {
 
 extension Target.PluginUsage {
     // Smithy plugins
-    static var SmithyCodeGenerator: Self { .plugin(name: "SmithyCodeGenerator", package: "smithy-swift") }
+    static var SmithyCodeGeneratorPlugin: Self { .plugin(name: "SmithyCodeGeneratorPlugin", package: "smithy-swift") }
 }
 
 // MARK: Base Package
@@ -2416,7 +2416,7 @@ private var serviceTargets: [Target] {
 }
 
 private func target(_ service: ServiceClientData) -> Target {
-    .target(name: service.name, dependencies: service.dependencies, path: service.sourcePath, plugins: [.SmithyCodeGenerator])
+    .target(name: service.name, dependencies: service.dependencies, path: service.sourcePath, plugins: [.SmithyCodeGeneratorPlugin])
 }
 
 private var serviceTestTargets: [Target] {
