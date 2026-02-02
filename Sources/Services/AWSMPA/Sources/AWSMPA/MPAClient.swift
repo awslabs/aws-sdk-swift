@@ -866,7 +866,7 @@ extension MPAClient {
 
     /// Performs the `GetPolicyVersion` operation on the `MPA` service.
     ///
-    /// Returns details for the version of a policy. Policies define the permissions for team resources. The protected operation for a service integration might require specific permissions. For more information, see [How other services work with Multi-party approval](https://docs.aws.amazon.com/mpa/latest/userguide/mpa-integrations.html) in the Multi-party approval User Guide.
+    /// Returns details for the version of a policy. Policies define the permissions for team resources.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetPolicyVersionInput`)
     ///
@@ -1214,7 +1214,7 @@ extension MPAClient {
 
     /// Performs the `ListPolicies` operation on the `MPA` service.
     ///
-    /// Returns a list of policies. Policies define the permissions for team resources. The protected operation for a service integration might require specific permissions. For more information, see [How other services work with Multi-party approval](https://docs.aws.amazon.com/mpa/latest/userguide/mpa-integrations.html) in the Multi-party approval User Guide.
+    /// Returns a list of policies. Policies define the permissions for team resources.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListPoliciesInput`)
     ///
@@ -1283,7 +1283,7 @@ extension MPAClient {
 
     /// Performs the `ListPolicyVersions` operation on the `MPA` service.
     ///
-    /// Returns a list of the versions for policies. Policies define the permissions for team resources. The protected operation for a service integration might require specific permissions. For more information, see [How other services work with Multi-party approval](https://docs.aws.amazon.com/mpa/latest/userguide/mpa-integrations.html) in the Multi-party approval User Guide.
+    /// Returns a list of the versions for policies. Policies define the permissions for team resources.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListPolicyVersionsInput`)
     ///
