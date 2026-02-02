@@ -13042,6 +13042,23 @@ public struct DeleteConnectionOutput: Swift.Sendable {
     }
 }
 
+public struct DeleteDataExportConfigurationInput: Swift.Sendable {
+    /// The domain ID for which you want to delete the data export configuration.
+    /// This member is required.
+    public var domainIdentifier: Swift.String?
+
+    public init(
+        domainIdentifier: Swift.String? = nil
+    ) {
+        self.domainIdentifier = domainIdentifier
+    }
+}
+
+public struct DeleteDataExportConfigurationOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct DeleteEnvironmentInput: Swift.Sendable {
     /// The ID of the Amazon DataZone domain in which the environment is deleted.
     /// This member is required.
@@ -20070,7 +20087,7 @@ public struct PostTimeSeriesDataPointsOutput: Swift.Sendable {
 public struct PutDataExportConfigurationInput: Swift.Sendable {
     /// A unique, case-sensitive identifier to ensure idempotency of the request. This field is automatically populated if not provided.
     public var clientToken: Swift.String?
-    /// The domain ID where you want to create data export configuration details.
+    /// The domain ID for which you want to create data export configuration details.
     /// This member is required.
     public var domainIdentifier: Swift.String?
     /// Specifies that the export is to be enabled as part of creating data export configuration details.
@@ -20885,20 +20902,68 @@ extension DataZoneClientTypes {
 
 extension DataZoneClientTypes {
 
+    public enum FilterOperator: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case eq
+        case ge
+        case gt
+        case le
+        case lt
+        case textSearch
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FilterOperator] {
+            return [
+                .eq,
+                .ge,
+                .gt,
+                .le,
+                .lt,
+                .textSearch
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .eq: return "EQ"
+            case .ge: return "GE"
+            case .gt: return "GT"
+            case .le: return "LE"
+            case .lt: return "LT"
+            case .textSearch: return "TEXT_SEARCH"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+
     /// A search filter in Amazon DataZone.
     public struct Filter: Swift.Sendable {
         /// A search filter attribute in Amazon DataZone.
         /// This member is required.
         public var attribute: Swift.String?
-        /// A search filter value in Amazon DataZone.
-        /// This member is required.
+        /// A search filter integer value in Amazon DataZone.
+        public var intValue: Swift.Int?
+        /// Specifies the search filter operator.
+        public var `operator`: DataZoneClientTypes.FilterOperator?
+        /// A search filter string value in Amazon DataZone.
         public var value: Swift.String?
 
         public init(
             attribute: Swift.String? = nil,
-            value: Swift.String? = nil
+            intValue: Swift.Int? = nil,
+            `operator`: DataZoneClientTypes.FilterOperator? = .eq,
+            value: Swift.String? = ""
         ) {
             self.attribute = attribute
+            self.intValue = intValue
+            self.`operator` = `operator`
             self.value = value
         }
     }
@@ -24025,6 +24090,16 @@ extension DeleteConnectionInput {
             return nil
         }
         return "/v2/domains/\(domainIdentifier.urlPercentEncoding())/connections/\(identifier.urlPercentEncoding())"
+    }
+}
+
+extension DeleteDataExportConfigurationInput {
+
+    static func urlPathProvider(_ value: DeleteDataExportConfigurationInput) -> Swift.String? {
+        guard let domainIdentifier = value.domainIdentifier else {
+            return nil
+        }
+        return "/v2/domains/\(domainIdentifier.urlPercentEncoding())/data-export-configuration"
     }
 }
 
@@ -28534,6 +28609,13 @@ extension DeleteConnectionOutput {
     }
 }
 
+extension DeleteDataExportConfigurationOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteDataExportConfigurationOutput {
+        return DeleteDataExportConfigurationOutput()
+    }
+}
+
 extension DeleteDataProductOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteDataProductOutput {
@@ -31580,6 +31662,26 @@ enum DeleteConnectionOutputError {
         if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteDataExportConfigurationOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let error = try httpServiceError(baseError: baseError) { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
@@ -38854,6 +38956,8 @@ extension DataZoneClientTypes.Filter {
     static func write(value: DataZoneClientTypes.Filter?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["attribute"].write(value.attribute)
+        try writer["intValue"].write(value.intValue)
+        try writer["operator"].write(value.`operator`)
         try writer["value"].write(value.value)
     }
 }

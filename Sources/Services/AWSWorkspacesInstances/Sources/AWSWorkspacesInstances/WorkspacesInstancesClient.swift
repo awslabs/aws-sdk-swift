@@ -669,7 +669,7 @@ extension WorkspacesInstancesClient {
 
     /// Performs the `DeleteWorkspaceInstance` operation on the `WorkspacesInstances` service.
     ///
-    /// Deletes the specified WorkSpace
+    /// Deletes the specified WorkSpace Usage of this API will result in deletion of the resource in question.
     ///
     /// - Parameter input: The WorkSpace to delete (Type: `DeleteWorkspaceInstanceInput`)
     ///

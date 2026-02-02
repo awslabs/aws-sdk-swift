@@ -516,13 +516,14 @@ extension MediaConvertClientTypes {
 
 extension MediaConvertClientTypes {
 
-    /// The Coding mode that you specify determines the number of audio channels and the audio channel layout metadata in your AAC output. Valid coding modes depend on the Rate control mode and Profile that you select. The following list shows the number of audio channels and channel layout for each coding mode. * 1.0 Audio Description (Receiver Mix): One channel, C. Includes audio description data from your stereo input. For more information see ETSI TS 101 154 Annex E. * 1.0 Mono: One channel, C. * 2.0 Stereo: Two channels, L, R. * 5.1 Surround: Six channels, C, L, R, Ls, Rs, LFE.
+    /// The Coding mode that you specify determines the number of audio channels and the audio channel layout metadata in your AAC output. Valid coding modes depend on the Rate control mode and Profile that you select. The following list shows the number of audio channels and channel layout for each coding mode. * 1.0 Audio Description (Receiver Mix): One channel, C. Includes audio description data from your stereo input. For more information see ETSI TS 101 154 Annex E. * 1.0 Mono: One channel, C. * 2.0 Stereo: Two channels, L, R. * 5.1 Surround: Six channels, C, L, R, Ls, Rs, LFE. To follow the number of channels from your input audio, choose CODING_MODE_AUTO, and the service will automatically choose from one of the coding modes above.
     public enum AacCodingMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case adReceiverMix
         case codingMode10
         case codingMode11
         case codingMode20
         case codingMode51
+        case codingModeAuto
         case sdkUnknown(Swift.String)
 
         public static var allCases: [AacCodingMode] {
@@ -531,7 +532,8 @@ extension MediaConvertClientTypes {
                 .codingMode10,
                 .codingMode11,
                 .codingMode20,
-                .codingMode51
+                .codingMode51,
+                .codingModeAuto
             ]
         }
 
@@ -547,6 +549,7 @@ extension MediaConvertClientTypes {
             case .codingMode11: return "CODING_MODE_1_1"
             case .codingMode20: return "CODING_MODE_2_0"
             case .codingMode51: return "CODING_MODE_5_1"
+            case .codingModeAuto: return "CODING_MODE_AUTO"
             case let .sdkUnknown(s): return s
             }
         }
@@ -719,7 +722,7 @@ extension MediaConvertClientTypes {
         public var bitrate: Swift.Int?
         /// Specify the AAC profile. For the widest player compatibility and where higher bitrates are acceptable: Keep the default profile, LC (AAC-LC) For improved audio performance at lower bitrates: Choose HEV1 or HEV2. HEV1 (AAC-HE v1) adds spectral band replication to improve speech audio at low bitrates. HEV2 (AAC-HE v2) adds parametric stereo, which optimizes for encoding stereo audio at very low bitrates. For improved audio quality at lower bitrates, adaptive audio bitrate switching, and loudness control: Choose XHE.
         public var codecProfile: MediaConvertClientTypes.AacCodecProfile?
-        /// The Coding mode that you specify determines the number of audio channels and the audio channel layout metadata in your AAC output. Valid coding modes depend on the Rate control mode and Profile that you select. The following list shows the number of audio channels and channel layout for each coding mode. * 1.0 Audio Description (Receiver Mix): One channel, C. Includes audio description data from your stereo input. For more information see ETSI TS 101 154 Annex E. * 1.0 Mono: One channel, C. * 2.0 Stereo: Two channels, L, R. * 5.1 Surround: Six channels, C, L, R, Ls, Rs, LFE.
+        /// The Coding mode that you specify determines the number of audio channels and the audio channel layout metadata in your AAC output. Valid coding modes depend on the Rate control mode and Profile that you select. The following list shows the number of audio channels and channel layout for each coding mode. * 1.0 Audio Description (Receiver Mix): One channel, C. Includes audio description data from your stereo input. For more information see ETSI TS 101 154 Annex E. * 1.0 Mono: One channel, C. * 2.0 Stereo: Two channels, L, R. * 5.1 Surround: Six channels, C, L, R, Ls, Rs, LFE. To follow the number of channels from your input audio, choose CODING_MODE_AUTO, and the service will automatically choose from one of the coding modes above.
         public var codingMode: MediaConvertClientTypes.AacCodingMode?
         /// Choose the loudness measurement mode for your audio content. For music or advertisements: We recommend that you keep the default value, Program. For speech or other content: We recommend that you choose Anchor. When you do, MediaConvert optimizes the loudness of your output for clarify by applying speech gates.
         public var loudnessMeasurementMode: MediaConvertClientTypes.AacLoudnessMeasurementMode?
@@ -824,6 +827,7 @@ extension MediaConvertClientTypes {
         case codingMode11
         case codingMode20
         case codingMode32Lfe
+        case codingModeAuto
         case sdkUnknown(Swift.String)
 
         public static var allCases: [Ac3CodingMode] {
@@ -831,7 +835,8 @@ extension MediaConvertClientTypes {
                 .codingMode10,
                 .codingMode11,
                 .codingMode20,
-                .codingMode32Lfe
+                .codingMode32Lfe,
+                .codingModeAuto
             ]
         }
 
@@ -846,6 +851,7 @@ extension MediaConvertClientTypes {
             case .codingMode11: return "CODING_MODE_1_1"
             case .codingMode20: return "CODING_MODE_2_0"
             case .codingMode32Lfe: return "CODING_MODE_3_2_LFE"
+            case .codingModeAuto: return "CODING_MODE_AUTO"
             case let .sdkUnknown(s): return s
             }
         }
@@ -1083,7 +1089,7 @@ extension MediaConvertClientTypes {
     public struct AiffSettings: Swift.Sendable {
         /// Specify Bit depth, in bits per sample, to choose the encoding quality for this audio track.
         public var bitDepth: Swift.Int?
-        /// Specify the number of channels in this output audio track. Valid values are 1 and even numbers up to 64. For example, 1, 2, 4, 6, and so on, up to 64.
+        /// Specify the number of channels in this output audio track. Valid values are 0, 1, and even numbers up to 64. Choose 0 to follow the number of channels from your input audio. Otherwise, manually choose from 1, 2, 4, 6, and so on, up to 64.
         public var channels: Swift.Int?
         /// Sample rate in Hz.
         public var sampleRate: Swift.Int?
@@ -1660,13 +1666,15 @@ extension MediaConvertClientTypes {
         case codingMode10
         case codingMode20
         case codingMode32
+        case codingModeAuto
         case sdkUnknown(Swift.String)
 
         public static var allCases: [Eac3CodingMode] {
             return [
                 .codingMode10,
                 .codingMode20,
-                .codingMode32
+                .codingMode32,
+                .codingModeAuto
             ]
         }
 
@@ -1680,6 +1688,7 @@ extension MediaConvertClientTypes {
             case .codingMode10: return "CODING_MODE_1_0"
             case .codingMode20: return "CODING_MODE_2_0"
             case .codingMode32: return "CODING_MODE_3_2"
+            case .codingModeAuto: return "CODING_MODE_AUTO"
             case let .sdkUnknown(s): return s
             }
         }
@@ -2153,7 +2162,7 @@ extension MediaConvertClientTypes {
     public struct FlacSettings: Swift.Sendable {
         /// Specify Bit depth (BitDepth), in bits per sample, to choose the encoding quality for this audio track.
         public var bitDepth: Swift.Int?
-        /// Specify the number of channels in this output audio track. Choosing Mono on the console gives you 1 output channel; choosing Stereo gives you 2. In the API, valid values are between 1 and 8.
+        /// Specify the number of channels in this output audio track. Valid values are 0, 1, and even numbers up to 8. Choose 0 to follow the number of channels from your input audio. Otherwise, manually choose from 1, 2, 4, 6, and 8.
         public var channels: Swift.Int?
         /// Sample rate in Hz.
         public var sampleRate: Swift.Int?
@@ -2208,7 +2217,7 @@ extension MediaConvertClientTypes {
         public var audioDescriptionMix: MediaConvertClientTypes.Mp2AudioDescriptionMix?
         /// Specify the average bitrate in bits per second.
         public var bitrate: Swift.Int?
-        /// Set Channels to specify the number of channels in this output audio track. Choosing Mono in will give you 1 output channel; choosing Stereo will give you 2. In the API, valid values are 1 and 2.
+        /// Set Channels to specify the number of channels in this output audio track. Choosing Follow input will use the number of channels found in the audio source; choosing Mono will give you 1 output channel; choosing Stereo will give you 2. In the API, valid values are 0, 1, and 2.
         public var channels: Swift.Int?
         /// Sample rate in Hz.
         public var sampleRate: Swift.Int?
@@ -2263,7 +2272,7 @@ extension MediaConvertClientTypes {
     public struct Mp3Settings: Swift.Sendable {
         /// Specify the average bitrate in bits per second.
         public var bitrate: Swift.Int?
-        /// Specify the number of channels in this output audio track. Choosing Mono gives you 1 output channel; choosing Stereo gives you 2. In the API, valid values are 1 and 2.
+        /// Specify the number of channels in this output audio track. Choosing Follow input will use the number of channels found in the audio source; choosing Mono gives you 1 output channel; choosing Stereo gives you 2. In the API, valid values are 0, 1, and 2.
         public var channels: Swift.Int?
         /// Specify whether the service encodes this MP3 audio output with a constant bitrate (CBR) or a variable bitrate (VBR).
         public var rateControlMode: MediaConvertClientTypes.Mp3RateControlMode?
@@ -2294,7 +2303,7 @@ extension MediaConvertClientTypes {
     public struct OpusSettings: Swift.Sendable {
         /// Optional. Specify the average bitrate in bits per second. Valid values are multiples of 8000, from 32000 through 192000. The default value is 96000, which we recommend for quality and bandwidth.
         public var bitrate: Swift.Int?
-        /// Specify the number of channels in this output audio track. Choosing Mono on gives you 1 output channel; choosing Stereo gives you 2. In the API, valid values are 1 and 2.
+        /// Specify the number of channels in this output audio track. Choosing Follow input will use the number of channels found in the audio source; choosing Mono gives you 1 output channel; choosing Stereo gives you 2. In the API, valid values are 0, 1, and 2.
         public var channels: Swift.Int?
         /// Optional. Sample rate in Hz. Valid values are 16000, 24000, and 48000. The default value is 48000.
         public var sampleRate: Swift.Int?
@@ -2315,7 +2324,7 @@ extension MediaConvertClientTypes {
 
     /// Required when you set Codec, under AudioDescriptions>CodecSettings, to the value Vorbis.
     public struct VorbisSettings: Swift.Sendable {
-        /// Optional. Specify the number of channels in this output audio track. Choosing Mono on the console gives you 1 output channel; choosing Stereo gives you 2. In the API, valid values are 1 and 2. The default value is 2.
+        /// Optional. Specify the number of channels in this output audio track. Choosing Follow input will use the number of channels found in the audio source; choosing Mono on the console gives you 1 output channel; choosing Stereo gives you 2. In the API, valid values are 0, 1, and 2. The default value is 2.
         public var channels: Swift.Int?
         /// Optional. Specify the audio sample rate in Hz. Valid values are 22050, 32000, 44100, and 48000. The default value is 48000.
         public var sampleRate: Swift.Int?
@@ -2373,7 +2382,7 @@ extension MediaConvertClientTypes {
     public struct WavSettings: Swift.Sendable {
         /// Specify Bit depth, in bits per sample, to choose the encoding quality for this audio track.
         public var bitDepth: Swift.Int?
-        /// Specify the number of channels in this output audio track. Valid values are 1 and even numbers up to 64. For example, 1, 2, 4, 6, and so on, up to 64.
+        /// Specify the number of channels in this output audio track. Valid values are 0, 1, and even numbers up to 64. Choose 0 to follow the number of channels from your input audio. Otherwise, manually choose from 1, 2, 4, 6, and so on, up to 64.
         public var channels: Swift.Int?
         /// Specify the file format for your wave audio output. To use a RIFF wave format: Keep the default value, RIFF. If your output audio is likely to exceed 4GB in file size, or if you otherwise need the extended support of the RF64 format: Choose RF64. If your player only supports the extensible wave format: Choose Extensible.
         public var format: MediaConvertClientTypes.WavFormat?
@@ -7233,7 +7242,7 @@ extension MediaConvertClientTypes {
         public var sampleRange: MediaConvertClientTypes.InputSampleRange?
         /// Choose the video selector type for your HLS input. Use to specify which video rendition MediaConvert uses from your HLS input. To have MediaConvert automatically use the highest bitrate rendition from your HLS input: Keep the default value, Auto. To manually specify a rendition: Choose Stream. Then enter the unique stream number in the Streams array, starting at 1, corresponding to the stream order in the manifest.
         public var selectorType: MediaConvertClientTypes.VideoSelectorType?
-        /// Specify one or more video streams for MediaConvert to use from your HLS input. Enter an integer corresponding to the stream number, with the first stream in your HLS multivariant playlist starting at 1.For re-encoding workflows, MediaConvert uses the video stream that you select with the highest bitrate as the input.For video passthrough workflows, you specify whether to passthrough a single video stream or multiple video streams under Video selector source in the output video encoding settings.
+        /// Specify one or more video streams for MediaConvert to use from your HLS input. Enter an integer corresponding to the stream number, with the first stream in your HLS multivariant playlist starting at 1. For re-encoding workflows, MediaConvert uses the video stream that you select with the highest bitrate as the input. For video passthrough workflows, you specify whether to passthrough a single video stream or multiple video streams under Video selector source in the output video encoding settings.
         public var streams: [Swift.Int]?
 
         public init(
@@ -13618,6 +13627,36 @@ extension MediaConvertClientTypes {
 
 extension MediaConvertClientTypes {
 
+    /// Choose the audio frame wrapping mode for PCM tracks in MXF outputs. AUTO (default): Uses codec-appropriate defaults - BWF for H.264/AVC, AES3 for MPEG2/XDCAM. AES3: Use AES3 frame wrapping with SMPTE-compliant descriptors. This setting only takes effect when the MXF profile is OP1a.
+    public enum MxfUncompressedAudioWrapping: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case aes3
+        case auto
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MxfUncompressedAudioWrapping] {
+            return [
+                .aes3,
+                .auto
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .aes3: return "AES3"
+            case .auto: return "AUTO"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
     /// To create an output that complies with the XAVC file format guidelines for interoperability, keep the default value, Drop frames for compliance. To include all frames from your input in this output, keep the default setting, Allow any duration. The number of frames that MediaConvert excludes when you set this to Drop frames for compliance depends on the output frame rate and duration.
     public enum MxfXavcDurationMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case allowAnyDuration
@@ -13673,16 +13712,20 @@ extension MediaConvertClientTypes {
         public var afdSignaling: MediaConvertClientTypes.MxfAfdSignaling?
         /// Specify the MXF profile, also called shim, for this output. To automatically select a profile according to your output video codec and resolution, leave blank. For a list of codecs supported with each MXF profile, see https://docs.aws.amazon.com/mediaconvert/latest/ug/codecs-supported-with-each-mxf-profile.html. For more information about the automatic selection behavior, see https://docs.aws.amazon.com/mediaconvert/latest/ug/default-automatic-selection-of-mxf-profiles.html.
         public var profile: MediaConvertClientTypes.MxfProfile?
+        /// Choose the audio frame wrapping mode for PCM tracks in MXF outputs. AUTO (default): Uses codec-appropriate defaults - BWF for H.264/AVC, AES3 for MPEG2/XDCAM. AES3: Use AES3 frame wrapping with SMPTE-compliant descriptors. This setting only takes effect when the MXF profile is OP1a.
+        public var uncompressedAudioWrapping: MediaConvertClientTypes.MxfUncompressedAudioWrapping?
         /// Specify the XAVC profile settings for MXF outputs when you set your MXF profile to XAVC.
         public var xavcProfileSettings: MediaConvertClientTypes.MxfXavcProfileSettings?
 
         public init(
             afdSignaling: MediaConvertClientTypes.MxfAfdSignaling? = nil,
             profile: MediaConvertClientTypes.MxfProfile? = nil,
+            uncompressedAudioWrapping: MediaConvertClientTypes.MxfUncompressedAudioWrapping? = nil,
             xavcProfileSettings: MediaConvertClientTypes.MxfXavcProfileSettings? = nil
         ) {
             self.afdSignaling = afdSignaling
             self.profile = profile
+            self.uncompressedAudioWrapping = uncompressedAudioWrapping
             self.xavcProfileSettings = xavcProfileSettings
         }
     }
@@ -20995,6 +21038,36 @@ extension MediaConvertClientTypes {
 
 extension MediaConvertClientTypes {
 
+    /// When you set Compatibility mapping to Duplicate Stream, DolbyVision streams that have a backward compatible base layer (e.g., DolbyVision 8.1) will cause a duplicate stream to be signaled in the manifest as a duplicate stream. When you set Compatibility mapping to Supplemntal Codecs, DolbyVision streams that have a backward compatible base layer (e.g., DolbyVision 8.1) will cause the associate stream in the manifest to include a SUPPLEMENTAL_CODECS property.
+    public enum DolbyVisionCompatibility: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case duplicateStream
+        case supplementalCodecs
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DolbyVisionCompatibility] {
+            return [
+                .duplicateStream,
+                .supplementalCodecs
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .duplicateStream: return "DUPLICATE_STREAM"
+            case .supplementalCodecs: return "SUPPLEMENTAL_CODECS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+
     /// Use these settings when you set DolbyVisionLevel6Mode to SPECIFY to override the MaxCLL and MaxFALL values in your input with new values.
     public struct DolbyVisionLevel6Metadata: Swift.Sendable {
         /// Maximum Content Light Level. Static HDR metadata that corresponds to the brightest pixel in the entire stream. Measured in nits.
@@ -21109,6 +21182,8 @@ extension MediaConvertClientTypes {
 
     /// Create Dolby Vision Profile 5 or Profile 8.1 compatible video output.
     public struct DolbyVision: Swift.Sendable {
+        /// When you set Compatibility mapping to Duplicate Stream, DolbyVision streams that have a backward compatible base layer (e.g., DolbyVision 8.1) will cause a duplicate stream to be signaled in the manifest as a duplicate stream. When you set Compatibility mapping to Supplemntal Codecs, DolbyVision streams that have a backward compatible base layer (e.g., DolbyVision 8.1) will cause the associate stream in the manifest to include a SUPPLEMENTAL_CODECS property.
+        public var compatibility: MediaConvertClientTypes.DolbyVisionCompatibility?
         /// Use these settings when you set DolbyVisionLevel6Mode to SPECIFY to override the MaxCLL and MaxFALL values in your input with new values.
         public var l6Metadata: MediaConvertClientTypes.DolbyVisionLevel6Metadata?
         /// Use Dolby Vision Mode to choose how the service will handle Dolby Vision MaxCLL and MaxFALL properies.
@@ -21119,11 +21194,13 @@ extension MediaConvertClientTypes {
         public var profile: MediaConvertClientTypes.DolbyVisionProfile?
 
         public init(
+            compatibility: MediaConvertClientTypes.DolbyVisionCompatibility? = nil,
             l6Metadata: MediaConvertClientTypes.DolbyVisionLevel6Metadata? = nil,
             l6Mode: MediaConvertClientTypes.DolbyVisionLevel6Mode? = nil,
             mapping: MediaConvertClientTypes.DolbyVisionMapping? = nil,
             profile: MediaConvertClientTypes.DolbyVisionProfile? = nil
         ) {
+            self.compatibility = compatibility
             self.l6Metadata = l6Metadata
             self.l6Mode = l6Mode
             self.mapping = mapping
@@ -22543,6 +22620,7 @@ extension MediaConvertClientTypes {
         case mp4
         case mxf
         case quicktime
+        case wave
         case webm
         case sdkUnknown(Swift.String)
 
@@ -22552,6 +22630,7 @@ extension MediaConvertClientTypes {
                 .mp4,
                 .mxf,
                 .quicktime,
+                .wave,
                 .webm
             ]
         }
@@ -22567,6 +22646,7 @@ extension MediaConvertClientTypes {
             case .mp4: return "mp4"
             case .mxf: return "mxf"
             case .quicktime: return "quicktime"
+            case .wave: return "wave"
             case .webm: return "webm"
             case let .sdkUnknown(s): return s
             }
@@ -23154,7 +23234,7 @@ extension MediaConvertClientTypes {
     public struct Container: Swift.Sendable {
         /// The total duration of your media file, in seconds.
         public var duration: Swift.Double?
-        /// The format of your media file. For example: MP4, QuickTime (MOV), Matroska (MKV), WebM or MXF. Note that this will be blank if your media file has a format that the MediaConvert Probe operation does not recognize.
+        /// The format of your media file. For example: MP4, QuickTime (MOV), Matroska (MKV), WebM, MXF or Wave. Note that this will be blank if your media file has a format that the MediaConvert Probe operation does not recognize.
         public var format: MediaConvertClientTypes.Format?
         /// Details about each track (video, audio, or data) in the media file.
         public var tracks: [MediaConvertClientTypes.Track]?
@@ -27265,6 +27345,7 @@ extension MediaConvertClientTypes.DolbyVision {
 
     static func write(value: MediaConvertClientTypes.DolbyVision?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["compatibility"].write(value.compatibility)
         try writer["l6Metadata"].write(value.l6Metadata, with: MediaConvertClientTypes.DolbyVisionLevel6Metadata.write(value:to:))
         try writer["l6Mode"].write(value.l6Mode)
         try writer["mapping"].write(value.mapping)
@@ -27274,6 +27355,7 @@ extension MediaConvertClientTypes.DolbyVision {
     static func read(from reader: SmithyJSON.Reader) throws -> MediaConvertClientTypes.DolbyVision {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaConvertClientTypes.DolbyVision()
+        value.compatibility = try reader["compatibility"].readIfPresent()
         value.l6Metadata = try reader["l6Metadata"].readIfPresent(with: MediaConvertClientTypes.DolbyVisionLevel6Metadata.read(from:))
         value.l6Mode = try reader["l6Mode"].readIfPresent()
         value.mapping = try reader["mapping"].readIfPresent()
@@ -28412,6 +28494,7 @@ extension MediaConvertClientTypes.MxfSettings {
         guard let value else { return }
         try writer["afdSignaling"].write(value.afdSignaling)
         try writer["profile"].write(value.profile)
+        try writer["uncompressedAudioWrapping"].write(value.uncompressedAudioWrapping)
         try writer["xavcProfileSettings"].write(value.xavcProfileSettings, with: MediaConvertClientTypes.MxfXavcProfileSettings.write(value:to:))
     }
 
@@ -28420,6 +28503,7 @@ extension MediaConvertClientTypes.MxfSettings {
         var value = MediaConvertClientTypes.MxfSettings()
         value.afdSignaling = try reader["afdSignaling"].readIfPresent()
         value.profile = try reader["profile"].readIfPresent()
+        value.uncompressedAudioWrapping = try reader["uncompressedAudioWrapping"].readIfPresent()
         value.xavcProfileSettings = try reader["xavcProfileSettings"].readIfPresent(with: MediaConvertClientTypes.MxfXavcProfileSettings.read(from:))
         return value
     }

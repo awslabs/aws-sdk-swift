@@ -630,6 +630,12 @@ extension QConnectClientTypes {
     }
 }
 
+extension QConnectClientTypes.Annotation: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
 extension QConnectClientTypes {
 
     /// Instructions for using a tool.
@@ -646,6 +652,12 @@ extension QConnectClientTypes {
             self.examples = examples
             self.instruction = instruction
         }
+    }
+}
+
+extension QConnectClientTypes.ToolInstruction: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
     }
 }
 
@@ -883,6 +895,11 @@ extension QConnectClientTypes {
             self.userInteractionConfiguration = userInteractionConfiguration
         }
     }
+}
+
+extension QConnectClientTypes.ToolConfiguration: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ToolConfiguration(toolId: \(Swift.String(describing: toolId)), toolName: \(Swift.String(describing: toolName)), toolType: \(Swift.String(describing: toolType)), userInteractionConfiguration: \(Swift.String(describing: userInteractionConfiguration)), annotations: \"CONTENT_REDACTED\", description: \"CONTENT_REDACTED\", inputSchema: \"CONTENT_REDACTED\", instruction: \"CONTENT_REDACTED\", outputFilters: \"CONTENT_REDACTED\", outputSchema: \"CONTENT_REDACTED\", overrideInputValues: \"CONTENT_REDACTED\", title: \"CONTENT_REDACTED\")"}
 }
 
 extension QConnectClientTypes {
@@ -2878,22 +2895,22 @@ extension QConnectClientTypes {
 
 extension QConnectClientTypes {
 
-    /// Inference configuration for text-based AI Prompts.
-    public struct TextAIPromptInferenceConfiguration: Swift.Sendable {
+    /// The configuration for inference parameters when using AI Prompts.
+    public struct AIPromptInferenceConfiguration: Swift.Sendable {
         /// The maximum number of tokens to generate in the response.
-        public var maxTokensToSample: Swift.Int
+        public var maxTokensToSample: Swift.Int?
         /// The temperature setting for controlling randomness in the generated response.
-        public var temperature: Swift.Float
+        public var temperature: Swift.Float?
         /// The top-K sampling parameter for token selection.
-        public var topk: Swift.Int
+        public var topk: Swift.Int?
         /// The top-P sampling parameter for nucleus sampling.
-        public var topp: Swift.Float
+        public var topp: Swift.Float?
 
         public init(
-            maxTokensToSample: Swift.Int = 0,
-            temperature: Swift.Float = 0.0,
-            topk: Swift.Int = 0,
-            topp: Swift.Float = 0.0
+            maxTokensToSample: Swift.Int? = nil,
+            temperature: Swift.Float? = nil,
+            topk: Swift.Int? = nil,
+            topp: Swift.Float? = nil
         ) {
             self.maxTokensToSample = maxTokensToSample
             self.temperature = temperature
@@ -2903,19 +2920,9 @@ extension QConnectClientTypes {
     }
 }
 
-extension QConnectClientTypes.TextAIPromptInferenceConfiguration: Swift.CustomDebugStringConvertible {
+extension QConnectClientTypes.AIPromptInferenceConfiguration: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "TextAIPromptInferenceConfiguration(maxTokensToSample: \"CONTENT_REDACTED\", temperature: \"CONTENT_REDACTED\", topk: \"CONTENT_REDACTED\", topp: \"CONTENT_REDACTED\")"}
-}
-
-extension QConnectClientTypes {
-
-    /// The configuration for inference parameters when using AI Prompts.
-    public enum AIPromptInferenceConfiguration: Swift.Sendable {
-        /// The inference configuration for text-based AI Prompts.
-        case textaipromptinferenceconfiguration(QConnectClientTypes.TextAIPromptInferenceConfiguration)
-        case sdkUnknown(Swift.String)
-    }
+        "AIPromptInferenceConfiguration(maxTokensToSample: \"CONTENT_REDACTED\", temperature: \"CONTENT_REDACTED\", topk: \"CONTENT_REDACTED\", topp: \"CONTENT_REDACTED\")"}
 }
 
 extension QConnectClientTypes {
@@ -4387,6 +4394,11 @@ extension QConnectClientTypes {
     }
 }
 
+extension QConnectClientTypes.CaseSummarizationChunkDataDetails: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CaseSummarizationChunkDataDetails(nextChunkToken: \(Swift.String(describing: nextChunkToken)), completion: \"CONTENT_REDACTED\")"}
+}
+
 extension QConnectClientTypes {
 
     public enum RelevanceLevel: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
@@ -5250,12 +5262,14 @@ extension QConnectClientTypes {
 extension QConnectClientTypes {
 
     public enum TargetType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case message
         case recommendation
         case result
         case sdkUnknown(Swift.String)
 
         public static var allCases: [TargetType] {
             return [
+                .message,
                 .recommendation,
                 .result
             ]
@@ -5268,6 +5282,7 @@ extension QConnectClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .message: return "MESSAGE"
             case .recommendation: return "RECOMMENDATION"
             case .result: return "RESULT"
             case let .sdkUnknown(s): return s
@@ -5694,6 +5709,11 @@ extension QConnectClientTypes {
             self.value = value
         }
     }
+}
+
+extension QConnectClientTypes.FilterAttribute: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "FilterAttribute(key: \(Swift.String(describing: key)), value: \"CONTENT_REDACTED\")"}
 }
 
 extension QConnectClientTypes {
@@ -6346,6 +6366,11 @@ extension QConnectClientTypes {
     }
 }
 
+extension QConnectClientTypes.ToolUseResultData: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ToolUseResultData(toolName: \(Swift.String(describing: toolName)), toolUseId: \(Swift.String(describing: toolUseId)), inputSchema: \"CONTENT_REDACTED\", toolResult: \"CONTENT_REDACTED\")"}
+}
+
 extension QConnectClientTypes {
 
     /// The message data.
@@ -6666,6 +6691,11 @@ extension QConnectClientTypes {
             self.toolUseId = toolUseId
         }
     }
+}
+
+extension QConnectClientTypes.SpanToolUseValue: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "SpanToolUseValue(name: \(Swift.String(describing: name)), toolUseId: \(Swift.String(describing: toolUseId)), arguments: \"CONTENT_REDACTED\")"}
 }
 
 extension QConnectClientTypes {
@@ -7024,19 +7054,19 @@ public struct UpdateAssistantAIAgentInput: Swift.Sendable {
     /// The configuration of the AI Agent being updated for use by default on the Amazon Q in Connect Assistant.
     /// This member is required.
     public var configuration: QConnectClientTypes.AIAgentConfigurationData?
-    /// The updated list of orchestrator configurations for the assistant AI Agent.
-    public var orchestratorConfigurationList: [QConnectClientTypes.OrchestratorConfigurationEntry]?
+    /// The orchestrator use case for the AI Agent being added.
+    public var orchestratorUseCase: Swift.String?
 
     public init(
         aiAgentType: QConnectClientTypes.AIAgentType? = nil,
         assistantId: Swift.String? = nil,
         configuration: QConnectClientTypes.AIAgentConfigurationData? = nil,
-        orchestratorConfigurationList: [QConnectClientTypes.OrchestratorConfigurationEntry]? = nil
+        orchestratorUseCase: Swift.String? = nil
     ) {
         self.aiAgentType = aiAgentType
         self.assistantId = assistantId
         self.configuration = configuration
-        self.orchestratorConfigurationList = orchestratorConfigurationList
+        self.orchestratorUseCase = orchestratorUseCase
     }
 }
 
@@ -14945,7 +14975,7 @@ extension UpdateAssistantAIAgentInput {
         guard let value else { return }
         try writer["aiAgentType"].write(value.aiAgentType)
         try writer["configuration"].write(value.configuration, with: QConnectClientTypes.AIAgentConfigurationData.write(value:to:))
-        try writer["orchestratorConfigurationList"].writeList(value.orchestratorConfigurationList, memberWritingClosure: QConnectClientTypes.OrchestratorConfigurationEntry.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["orchestratorUseCase"].write(value.orchestratorUseCase)
     }
 }
 
@@ -18753,43 +18783,19 @@ extension QConnectClientTypes.AIPromptInferenceConfiguration {
 
     static func write(value: QConnectClientTypes.AIPromptInferenceConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        switch value {
-            case let .textaipromptinferenceconfiguration(textaipromptinferenceconfiguration):
-                try writer["textAIPromptInferenceConfiguration"].write(textaipromptinferenceconfiguration, with: QConnectClientTypes.TextAIPromptInferenceConfiguration.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.AIPromptInferenceConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "textAIPromptInferenceConfiguration":
-                return .textaipromptinferenceconfiguration(try reader["textAIPromptInferenceConfiguration"].read(with: QConnectClientTypes.TextAIPromptInferenceConfiguration.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension QConnectClientTypes.TextAIPromptInferenceConfiguration {
-
-    static func write(value: QConnectClientTypes.TextAIPromptInferenceConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
         try writer["maxTokensToSample"].write(value.maxTokensToSample)
         try writer["temperature"].write(value.temperature)
         try writer["topK"].write(value.topk)
         try writer["topP"].write(value.topp)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.TextAIPromptInferenceConfiguration {
+    static func read(from reader: SmithyJSON.Reader) throws -> QConnectClientTypes.AIPromptInferenceConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = QConnectClientTypes.TextAIPromptInferenceConfiguration()
-        value.temperature = try reader["temperature"].readIfPresent() ?? 0
-        value.topp = try reader["topP"].readIfPresent() ?? 0
-        value.topk = try reader["topK"].readIfPresent() ?? 0
-        value.maxTokensToSample = try reader["maxTokensToSample"].readIfPresent() ?? 0
+        var value = QConnectClientTypes.AIPromptInferenceConfiguration()
+        value.temperature = try reader["temperature"].readIfPresent()
+        value.topp = try reader["topP"].readIfPresent()
+        value.topk = try reader["topK"].readIfPresent()
+        value.maxTokensToSample = try reader["maxTokensToSample"].readIfPresent()
         return value
     }
 }

@@ -7469,7 +7469,7 @@ extension S3Client {
 
     /// Performs the `PutBucketLifecycleConfiguration` operation on the `S3` service.
     ///
-    /// Creates a new lifecycle configuration for the bucket or replaces an existing lifecycle configuration. Keep in mind that this will overwrite an existing lifecycle configuration, so if you want to retain any configuration details, they must be included in the new lifecycle configuration. For information about lifecycle configuration, see [Managing your storage lifecycle](https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-lifecycle-mgmt.html). Bucket lifecycle configuration now supports specifying a lifecycle rule using an object key name prefix, one or more object tags, object size, or any combination of these. Accordingly, this section describes the latest API. The previous version of the API supported filtering based only on an object key name prefix, which is supported for backward compatibility. For the related API description, see [PutBucketLifecycle](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketLifecycle.html). Rules Permissions HTTP Host header syntax You specify the lifecycle configuration in your request body. The lifecycle configuration is specified as XML consisting of one or more rules. An Amazon S3 Lifecycle configuration can have up to 1,000 rules. This limit is not adjustable. Bucket lifecycle configuration supports specifying a lifecycle rule using an object key name prefix, one or more object tags, object size, or any combination of these. Accordingly, this section describes the latest API. The previous version of the API supported filtering based only on an object key name prefix, which is supported for backward compatibility for general purpose buckets. For the related API description, see [PutBucketLifecycle](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketLifecycle.html). Lifecyle configurations for directory buckets only support expiring objects and cancelling multipart uploads. Expiring of versioned objects,transitions and tag filters are not supported. A lifecycle rule consists of the following:
+    /// Creates a new lifecycle configuration for the bucket or replaces an existing lifecycle configuration. Keep in mind that this will overwrite an existing lifecycle configuration, so if you want to retain any configuration details, they must be included in the new lifecycle configuration. For information about lifecycle configuration, see [Managing your storage lifecycle](https://docs.aws.amazon.com/AmazonS3/latest/userguide/object-lifecycle-mgmt.html). Bucket lifecycle configuration now supports specifying a lifecycle rule using an object key name prefix, one or more object tags, object size, or any combination of these. Accordingly, this section describes the latest API. The previous version of the API supported filtering based only on an object key name prefix, which is supported for backward compatibility. For the related API description, see [PutBucketLifecycle](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketLifecycle.html). Rules You specify the lifecycle configuration in your request body. The lifecycle configuration is specified as XML consisting of one or more rules. An Amazon S3 Lifecycle configuration can have up to 1,000 rules. This limit is not adjustable. Bucket lifecycle configuration supports specifying a lifecycle rule using an object key name prefix, one or more object tags, object size, or any combination of these. Accordingly, this section describes the latest API. The previous version of the API supported filtering based only on an object key name prefix, which is supported for backward compatibility for general purpose buckets. For the related API description, see [PutBucketLifecycle](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketLifecycle.html). Lifecyle configurations for directory buckets only support expiring objects and cancelling multipart uploads. Expiring of versioned objects,transitions and tag filters are not supported. A lifecycle rule consists of the following:
     ///
     /// * A filter identifying a subset of objects to which the rule applies. The filter can be based on a key name prefix, object tags, object size, or any combination of these.
     ///
@@ -7478,7 +7478,7 @@ extension S3Client {
     /// * One or more lifecycle transition and expiration actions that you want Amazon S3 to perform on the objects identified by the filter. If the state of your bucket is versioning-enabled or versioning-suspended, you can have many versions of the same object (one current version and zero or more noncurrent versions). Amazon S3 provides predefined actions that you can specify for current and noncurrent object versions.
     ///
     ///
-    /// For more information, see [Object Lifecycle Management](https://docs.aws.amazon.com/AmazonS3/latest/dev/object-lifecycle-mgmt.html) and [Lifecycle Configuration Elements](https://docs.aws.amazon.com/AmazonS3/latest/dev/intro-lifecycle-rules.html).
+    /// For more information, see [Object Lifecycle Management](https://docs.aws.amazon.com/AmazonS3/latest/dev/object-lifecycle-mgmt.html) and [Lifecycle Configuration Elements](https://docs.aws.amazon.com/AmazonS3/latest/dev/intro-lifecycle-rules.html). Permissions
     ///
     /// * General purpose bucket permissions - By default, all Amazon S3 resources are private, including buckets, objects, and related subresources (for example, lifecycle configuration and website configuration). Only the resource owner (that is, the Amazon Web Services account that created it) can access the resource. The resource owner can optionally grant access permissions to others by writing an access policy. For this operation, a user must have the s3:PutLifecycleConfiguration permission. You can also explicitly deny permissions. An explicit deny also supersedes any other permissions. If you want to block users or accounts from removing or deleting objects from your bucket, you must deny them permissions for the following actions:
     ///
@@ -7497,7 +7497,7 @@ extension S3Client {
     /// * Directory bucket permissions - You must have the s3express:PutLifecycleConfiguration permission in an IAM identity-based policy to use this operation. Cross-account access to this API operation isn't supported. The resource owner can optionally grant access permissions to others by creating a role or user for them as long as they are within the same account as the owner and resource. For more information about directory bucket policies and permissions, see [Authorizing Regional endpoint APIs with IAM](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-security-iam.html) in the Amazon S3 User Guide. Directory buckets - For directory buckets, you must make requests for this API operation to the Regional endpoint. These endpoints support path-style requests in the format https://s3express-control.region-code.amazonaws.com/bucket-name . Virtual-hosted-style requests aren't supported. For more information about endpoints in Availability Zones, see [Regional and Zonal endpoints for directory buckets in Availability Zones](https://docs.aws.amazon.com/AmazonS3/latest/userguide/endpoint-directory-buckets-AZ.html) in the Amazon S3 User Guide. For more information about endpoints in Local Zones, see [Concepts for directory buckets in Local Zones](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-lzs-for-directory-buckets.html) in the Amazon S3 User Guide.
     ///
     ///
-    /// Directory buckets - The HTTP Host header syntax is s3express-control.region.amazonaws.com. The following operations are related to PutBucketLifecycleConfiguration:
+    /// HTTP Host header syntax Directory buckets - The HTTP Host header syntax is s3express-control.region.amazonaws.com. The following operations are related to PutBucketLifecycleConfiguration:
     ///
     /// * [GetBucketLifecycleConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketLifecycleConfiguration.html)
     ///
@@ -8467,7 +8467,21 @@ extension S3Client {
     /// * Directory bucket - This functionality is not supported for directory buckets.
     ///
     ///
-    /// HTTP Host header syntax Directory buckets - The HTTP Host header syntax is  Bucket-name.s3express-zone-id.region-code.amazonaws.com. For more information about related Amazon S3 APIs, see the following:
+    /// HTTP Host header syntax Directory buckets - The HTTP Host header syntax is  Bucket-name.s3express-zone-id.region-code.amazonaws.com. Errors
+    ///
+    /// * You might receive an InvalidRequest error for several reasons. Depending on the reason for the error, you might receive one of the following messages:
+    ///
+    /// * Cannot specify both a write offset value and user-defined object metadata for existing objects.
+    ///
+    /// * Checksum Type mismatch occurred, expected checksum Type: sha1, actual checksum Type: crc32c.
+    ///
+    /// * Request body cannot be empty when 'write offset' is specified.
+    ///
+    ///
+    ///
+    ///
+    ///
+    /// For more information about related Amazon S3 APIs, see the following:
     ///
     /// * [CopyObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_CopyObject.html)
     ///
@@ -8484,13 +8498,7 @@ extension S3Client {
     ///
     /// __Possible Exceptions:__
     /// - `EncryptionTypeMismatch` : The existing object was created with a different encryption type. Subsequent write requests must include the appropriate encryption parameters in the request or while creating the session.
-    /// - `InvalidRequest` : You may receive this error in multiple cases. Depending on the reason for the error, you may receive one of the messages below:
-    ///
-    /// * Cannot specify both a write offset value and user-defined object metadata for existing objects.
-    ///
-    /// * Checksum Type mismatch occurred, expected checksum Type: sha1, actual checksum Type: crc32c.
-    ///
-    /// * Request body cannot be empty when 'write offset' is specified.
+    /// - `InvalidRequest` : A parameter or header in your request isn't valid. For details, see the description of this API operation.
     /// - `InvalidWriteOffset` : The write offset value that you specified does not match the current object size.
     /// - `TooManyParts` : You have attempted to add more parts than the maximum of 10000 that are allowed for this object. You can use the CopyObject operation to copy this object to another and then add more data to the newly copied object.
     public func putObject(input: PutObjectInput) async throws -> PutObjectOutput {
@@ -9582,6 +9590,136 @@ extension S3Client {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `UpdateObjectEncryption` operation on the `S3` service.
+    ///
+    /// This operation is not supported for directory buckets or Amazon S3 on Outposts buckets. Updates the server-side encryption type of an existing encrypted object in a general purpose bucket. You can use the UpdateObjectEncryption operation to change encrypted objects from server-side encryption with Amazon S3 managed keys (SSE-S3) to server-side encryption with Key Management Service (KMS) keys (SSE-KMS), or to apply S3 Bucket Keys. You can also use the UpdateObjectEncryption operation to change the customer-managed KMS key used to encrypt your data so that you can comply with custom key-rotation standards. Using the UpdateObjectEncryption operation, you can atomically update the server-side encryption type of an existing object in a general purpose bucket without any data movement. The UpdateObjectEncryption operation uses envelope encryption to re-encrypt the data key used to encrypt and decrypt your object with your newly specified server-side encryption type. In other words, when you use the UpdateObjectEncryption operation, your data isn't copied, archived objects in the S3 Glacier Flexible Retrieval and S3 Glacier Deep Archive storage classes aren't restored, and objects in the S3 Intelligent-Tiering storage class aren't moved between tiers. Additionally, the UpdateObjectEncryption operation preserves all object metadata properties, including the storage class, creation date, last modified date, ETag, and checksum properties. For more information, see [ Updating server-side encryption for existing objects](https://docs.aws.amazon.com/AmazonS3/latest/userguide/update-sse-encryption.html) in the Amazon S3 User Guide. By default, all UpdateObjectEncryption requests that specify a customer-managed KMS key are restricted to KMS keys that are owned by the bucket owner's Amazon Web Services account. If you're using Organizations, you can request the ability to use KMS keys owned by other member accounts within your organization by contacting Amazon Web Services Support. Source objects that are unencrypted, or encrypted with either dual-layer server-side encryption with KMS keys (DSSE-KMS) or server-side encryption with customer-provided keys (SSE-C) aren't supported by this operation. Additionally, you cannot specify SSE-S3 encryption as the requested new encryption type UpdateObjectEncryption request. Permissions
+    ///
+    /// * To use the UpdateObjectEncryption operation, you must have the following permissions:
+    ///
+    /// * s3:PutObject
+    ///
+    /// * s3:UpdateObjectEncryption
+    ///
+    /// * kms:Encrypt
+    ///
+    /// * kms:Decrypt
+    ///
+    /// * kms:GenerateDataKey
+    ///
+    /// * kms:ReEncrypt*
+    ///
+    ///
+    ///
+    ///
+    /// * If you're using Organizations, to use this operation with customer-managed KMS keys from other Amazon Web Services accounts within your organization, you must have the organizations:DescribeAccount permission.
+    ///
+    ///
+    /// Errors
+    ///
+    /// * You might receive an InvalidRequest error for several reasons. Depending on the reason for the error, you might receive one of the following messages:
+    ///
+    /// * The UpdateObjectEncryption operation doesn't supported unencrypted source objects. Only source objects encrypted with SSE-S3 or SSE-KMS are supported.
+    ///
+    /// * The UpdateObjectEncryption operation doesn't support source objects with the encryption type DSSE-KMS or SSE-C. Only source objects encrypted with SSE-S3 or SSE-KMS are supported.
+    ///
+    /// * The UpdateObjectEncryption operation doesn't support updating the encryption type to DSSE-KMS or SSE-C. Modify the request to specify SSE-KMS for the updated encryption type, and then try again.
+    ///
+    /// * Requests that modify an object encryption configuration require Amazon Web Services Signature Version 4. Modify the request to use Amazon Web Services Signature Version 4, and then try again.
+    ///
+    /// * Requests that modify an object encryption configuration require a valid new encryption type. Valid values are SSEKMS. Modify the request to specify SSE-KMS for the updated encryption type, and then try again.
+    ///
+    /// * Requests that modify an object's encryption type to SSE-KMS require an Amazon Web Services KMS key Amazon Resource Name (ARN). Modify the request to specify a KMS key ARN, and then try again.
+    ///
+    /// * Requests that modify an object's encryption type to SSE-KMS require a valid Amazon Web Services KMS key Amazon Resource Name (ARN). Confirm that you have a correctly formatted KMS key ARN in your request, and then try again.
+    ///
+    /// * The BucketKeyEnabled value isn't valid. Valid values are true or false. Modify the request to specify a valid value, and then try again.
+    ///
+    ///
+    ///
+    ///
+    /// * You might receive an AccessDenied error for several reasons. Depending on the reason for the error, you might receive one of the following messages:
+    ///
+    /// * The Amazon Web Services KMS key in the request must be owned by the same account as the bucket. Modify the request to specify a KMS key from the same account, and then try again.
+    ///
+    /// * The bucket owner's account was approved to make UpdateObjectEncryption requests that use any Amazon Web Services KMS key in their organization, but the bucket owner's account isn't part of an organization in Organizations. Make sure that the bucket owner's account and the specified KMS key belong to the same organization, and then try again.
+    ///
+    /// * The specified Amazon Web Services KMS key must be from the same organization in Organizations as the bucket. Specify a KMS key that belongs to the same organization as the bucket, and then try again.
+    ///
+    /// * The encryption type for the specified object can’t be updated because that object is protected by S3 Object Lock. If the object has a governance-mode retention period or a legal hold, you must first remove the Object Lock status on the object before you issue your UpdateObjectEncryption request. You can't use the UpdateObjectEncryption operation with objects that have an Object Lock compliance mode retention period applied to them.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `UpdateObjectEncryptionInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UpdateObjectEncryptionOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDenied` : You might receive this error for several reasons. For details, see the description of this API operation.
+    /// - `InvalidRequest` : A parameter or header in your request isn't valid. For details, see the description of this API operation.
+    /// - `NoSuchKey` : The specified key does not exist.
+    public func updateObjectEncryption(input: UpdateObjectEncryptionInput) async throws -> UpdateObjectEncryptionOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .put)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateObjectEncryption")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withIdentityResolver(value: config.s3ExpressIdentityResolver, schemeID: "aws.auth#sigv4-s3express")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "s3")
+                      .withSigningRegion(value: config.signingRegion)
+                      .withClientConfig(value: config)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateObjectEncryptionInput, UpdateObjectEncryptionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateObjectEncryptionInput, UpdateObjectEncryptionOutput>(UpdateObjectEncryptionInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateObjectEncryptionInput, UpdateObjectEncryptionOutput>())
+        builder.serialize(ClientRuntime.HeaderMiddleware<UpdateObjectEncryptionInput, UpdateObjectEncryptionOutput>(UpdateObjectEncryptionInput.headerProvider(_:)))
+        builder.serialize(ClientRuntime.QueryItemMiddleware<UpdateObjectEncryptionInput, UpdateObjectEncryptionOutput>(UpdateObjectEncryptionInput.queryItemProvider(_:)))
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateObjectEncryptionInput, UpdateObjectEncryptionOutput>(contentType: "application/xml"))
+        builder.serialize(ClientRuntime.PayloadBodyMiddleware<UpdateObjectEncryptionInput, UpdateObjectEncryptionOutput, S3ClientTypes.ObjectEncryption, SmithyXML.Writer>(rootNodeInfo: .init("ObjectEncryption", namespaceDef: .init(prefix: "", uri: "http://s3.amazonaws.com/doc/2006-03-01/")), inputWritingClosure: S3ClientTypes.ObjectEncryption.write(value:to:), keyPath: \.objectEncryption, defaultBody: nil))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateObjectEncryptionInput, UpdateObjectEncryptionOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateObjectEncryptionOutput>(UpdateObjectEncryptionOutput.httpOutput(from:), UpdateObjectEncryptionOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateObjectEncryptionInput, UpdateObjectEncryptionOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateObjectEncryptionOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("S3", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(accelerate: config.accelerate ?? false, bucket: input.bucket, disableMultiRegionAccessPoints: config.disableMultiRegionAccessPoints ?? false, disableS3ExpressSessionAuth: config.disableS3ExpressSessionAuth, endpoint: configuredEndpoint, forcePathStyle: config.forcePathStyle ?? false, region: config.region, useArnRegion: config.useArnRegion, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.useGlobalEndpoint ?? false)
+        }
+        context.set(key: Smithy.AttributeKey<EndpointParams>(name: "EndpointParams"), value: endpointParamsBlock(context))
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateObjectEncryptionOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateObjectEncryptionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AWSS3ErrorWith200StatusXMLMiddleware<UpdateObjectEncryptionInput, UpdateObjectEncryptionOutput>())
+        builder.interceptors.add(AWSClientRuntime.FlexibleChecksumsRequestMiddleware<UpdateObjectEncryptionInput, UpdateObjectEncryptionOutput>(requestChecksumRequired: true, checksumAlgorithm: input.checksumAlgorithm?.rawValue, checksumAlgoHeaderName: "x-amz-sdk-checksum-algorithm"))
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateObjectEncryptionInput, UpdateObjectEncryptionOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateObjectEncryptionInput, UpdateObjectEncryptionOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateObjectEncryptionInput, UpdateObjectEncryptionOutput>(serviceID: serviceName, version: S3Client.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "S3")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateObjectEncryption")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `UploadPart` operation on the `S3` service.
     ///
     /// Uploads a part in a multipart upload. In this operation, you provide new data as a part of an object in your request. However, you have an option to specify your existing Amazon S3 object as a data source for the part you are uploading. To upload a part from an existing object, you use the [UploadPartCopy](https://docs.aws.amazon.com/AmazonS3/latest/API/API_UploadPartCopy.html) operation. You must initiate a multipart upload (see [CreateMultipartUpload](https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateMultipartUpload.html)) before you can upload any part. In response to your initiate request, Amazon S3 returns an upload ID, a unique identifier that you must include in your upload part request. Part numbers can be any number from 1 to 10,000, inclusive. A part number uniquely identifies a part and also defines its position within the object being created. If you upload a new part using the same part number that was used with a previous part, the previously uploaded part is overwritten. For information about maximum and minimum part sizes and other multipart upload specifications, see [Multipart upload limits](https://docs.aws.amazon.com/AmazonS3/latest/userguide/qfacts.html) in the Amazon S3 User Guide. After you initiate multipart upload and upload one or more parts, you must either complete or abort multipart upload in order to stop getting charged for storage of the uploaded parts. Only after you either complete or abort multipart upload, Amazon S3 frees up the parts storage and stops charging you for the parts storage. For more information on multipart uploads, go to [Multipart Upload Overview](https://docs.aws.amazon.com/AmazonS3/latest/dev/mpuoverview.html) in the Amazon S3 User Guide . Directory buckets - For directory buckets, you must make requests for this API operation to the Zonal endpoint. These endpoints support virtual-hosted-style requests in the format https://amzn-s3-demo-bucket.s3express-zone-id.region-code.amazonaws.com/key-name . Path-style requests are not supported. For more information about endpoints in Availability Zones, see [Regional and Zonal endpoints for directory buckets in Availability Zones](https://docs.aws.amazon.com/AmazonS3/latest/userguide/endpoint-directory-buckets-AZ.html) in the Amazon S3 User Guide. For more information about endpoints in Local Zones, see [Concepts for directory buckets in Local Zones](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-lzs-for-directory-buckets.html) in the Amazon S3 User Guide. Permissions
@@ -10005,7 +10143,21 @@ extension S3Client {
     /// * Directory bucket - This functionality is not supported for directory buckets.
     ///
     ///
-    /// HTTP Host header syntax Directory buckets - The HTTP Host header syntax is  Bucket-name.s3express-zone-id.region-code.amazonaws.com. For more information about related Amazon S3 APIs, see the following:
+    /// HTTP Host header syntax Directory buckets - The HTTP Host header syntax is  Bucket-name.s3express-zone-id.region-code.amazonaws.com. Errors
+    ///
+    /// * You might receive an InvalidRequest error for several reasons. Depending on the reason for the error, you might receive one of the following messages:
+    ///
+    /// * Cannot specify both a write offset value and user-defined object metadata for existing objects.
+    ///
+    /// * Checksum Type mismatch occurred, expected checksum Type: sha1, actual checksum Type: crc32c.
+    ///
+    /// * Request body cannot be empty when 'write offset' is specified.
+    ///
+    ///
+    ///
+    ///
+    ///
+    /// For more information about related Amazon S3 APIs, see the following:
     ///
     /// * [CopyObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_CopyObject.html)
     ///
@@ -10199,7 +10351,21 @@ extension S3Client {
     /// * Directory bucket - This functionality is not supported for directory buckets.
     ///
     ///
-    /// HTTP Host header syntax Directory buckets - The HTTP Host header syntax is  Bucket-name.s3express-zone-id.region-code.amazonaws.com. For more information about related Amazon S3 APIs, see the following:
+    /// HTTP Host header syntax Directory buckets - The HTTP Host header syntax is  Bucket-name.s3express-zone-id.region-code.amazonaws.com. Errors
+    ///
+    /// * You might receive an InvalidRequest error for several reasons. Depending on the reason for the error, you might receive one of the following messages:
+    ///
+    /// * Cannot specify both a write offset value and user-defined object metadata for existing objects.
+    ///
+    /// * Checksum Type mismatch occurred, expected checksum Type: sha1, actual checksum Type: crc32c.
+    ///
+    /// * Request body cannot be empty when 'write offset' is specified.
+    ///
+    ///
+    ///
+    ///
+    ///
+    /// For more information about related Amazon S3 APIs, see the following:
     ///
     /// * [CopyObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_CopyObject.html)
     ///
