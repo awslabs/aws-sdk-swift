@@ -65,6 +65,7 @@ public class ExampleClient: AWSClientRuntime.AWSServiceClient {
     let serviceName = "Example"
 
     public required init(config: ExampleClient.ExampleClientConfiguration) {
+        ClientRuntime.initialize()
         client = ClientRuntime.SdkHttpClient(engine: config.httpClientEngine, config: config.httpClientConfiguration)
         self.config = config
     }
