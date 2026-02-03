@@ -3008,25 +3008,29 @@ public struct CreateEvaluatorInput: Swift.Sendable {
     /// The evaluation level that determines the scope of evaluation. Valid values are TOOL_CALL for individual tool invocations, TRACE for single request-response interactions, or SESSION for entire conversation sessions.
     /// This member is required.
     public var level: BedrockAgentCoreControlClientTypes.EvaluatorLevel?
+    /// A map of tag keys and values to assign to an AgentCore Evaluator. Tags enable you to categorize your resources in different ways, for example, by purpose, owner, or environment.
+    public var tags: [Swift.String: Swift.String]?
 
     public init(
         clientToken: Swift.String? = nil,
         description: Swift.String? = nil,
         evaluatorConfig: BedrockAgentCoreControlClientTypes.EvaluatorConfig? = nil,
         evaluatorName: Swift.String? = nil,
-        level: BedrockAgentCoreControlClientTypes.EvaluatorLevel? = nil
+        level: BedrockAgentCoreControlClientTypes.EvaluatorLevel? = nil,
+        tags: [Swift.String: Swift.String]? = nil
     ) {
         self.clientToken = clientToken
         self.description = description
         self.evaluatorConfig = evaluatorConfig
         self.evaluatorName = evaluatorName
         self.level = level
+        self.tags = tags
     }
 }
 
 extension CreateEvaluatorInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateEvaluatorInput(clientToken: \(Swift.String(describing: clientToken)), evaluatorConfig: \(Swift.String(describing: evaluatorConfig)), evaluatorName: \(Swift.String(describing: evaluatorName)), level: \(Swift.String(describing: level)), description: \"CONTENT_REDACTED\")"}
+        "CreateEvaluatorInput(clientToken: \(Swift.String(describing: clientToken)), evaluatorConfig: \(Swift.String(describing: evaluatorConfig)), evaluatorName: \(Swift.String(describing: evaluatorName)), level: \(Swift.String(describing: level)), tags: \(Swift.String(describing: tags)), description: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockAgentCoreControlClientTypes {
@@ -8003,6 +8007,8 @@ public struct CreateOnlineEvaluationConfigInput: Swift.Sendable {
     /// The evaluation rule that defines sampling configuration, filters, and session detection settings for the online evaluation.
     /// This member is required.
     public var rule: BedrockAgentCoreControlClientTypes.Rule?
+    /// A map of tag keys and values to assign to an AgentCore Online Evaluation Config. Tags enable you to categorize your resources in different ways, for example, by purpose, owner, or environment.
+    public var tags: [Swift.String: Swift.String]?
 
     public init(
         clientToken: Swift.String? = nil,
@@ -8012,7 +8018,8 @@ public struct CreateOnlineEvaluationConfigInput: Swift.Sendable {
         evaluationExecutionRoleArn: Swift.String? = nil,
         evaluators: [BedrockAgentCoreControlClientTypes.EvaluatorReference]? = nil,
         onlineEvaluationConfigName: Swift.String? = nil,
-        rule: BedrockAgentCoreControlClientTypes.Rule? = nil
+        rule: BedrockAgentCoreControlClientTypes.Rule? = nil,
+        tags: [Swift.String: Swift.String]? = nil
     ) {
         self.clientToken = clientToken
         self.dataSourceConfig = dataSourceConfig
@@ -8022,12 +8029,13 @@ public struct CreateOnlineEvaluationConfigInput: Swift.Sendable {
         self.evaluators = evaluators
         self.onlineEvaluationConfigName = onlineEvaluationConfigName
         self.rule = rule
+        self.tags = tags
     }
 }
 
 extension CreateOnlineEvaluationConfigInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateOnlineEvaluationConfigInput(clientToken: \(Swift.String(describing: clientToken)), dataSourceConfig: \(Swift.String(describing: dataSourceConfig)), enableOnCreate: \(Swift.String(describing: enableOnCreate)), evaluationExecutionRoleArn: \(Swift.String(describing: evaluationExecutionRoleArn)), evaluators: \(Swift.String(describing: evaluators)), onlineEvaluationConfigName: \(Swift.String(describing: onlineEvaluationConfigName)), rule: \(Swift.String(describing: rule)), description: \"CONTENT_REDACTED\")"}
+        "CreateOnlineEvaluationConfigInput(clientToken: \(Swift.String(describing: clientToken)), dataSourceConfig: \(Swift.String(describing: dataSourceConfig)), enableOnCreate: \(Swift.String(describing: enableOnCreate)), evaluationExecutionRoleArn: \(Swift.String(describing: evaluationExecutionRoleArn)), evaluators: \(Swift.String(describing: evaluators)), onlineEvaluationConfigName: \(Swift.String(describing: onlineEvaluationConfigName)), rule: \(Swift.String(describing: rule)), tags: \(Swift.String(describing: tags)), description: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockAgentCoreControlClientTypes {
@@ -11855,6 +11863,7 @@ extension CreateEvaluatorInput {
         try writer["evaluatorConfig"].write(value.evaluatorConfig, with: BedrockAgentCoreControlClientTypes.EvaluatorConfig.write(value:to:))
         try writer["evaluatorName"].write(value.evaluatorName)
         try writer["level"].write(value.level)
+        try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
 
@@ -11929,6 +11938,7 @@ extension CreateOnlineEvaluationConfigInput {
         try writer["evaluators"].writeList(value.evaluators, memberWritingClosure: BedrockAgentCoreControlClientTypes.EvaluatorReference.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["onlineEvaluationConfigName"].write(value.onlineEvaluationConfigName)
         try writer["rule"].write(value.rule, with: BedrockAgentCoreControlClientTypes.Rule.write(value:to:))
+        try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
 
