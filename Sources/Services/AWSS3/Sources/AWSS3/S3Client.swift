@@ -37,6 +37,7 @@ import enum ClientRuntime.OrchestratorMetricsAttributesKeys
 import enum Smithy.ByteStream
 import enum Smithy.ClientError
 @_spi(SmithyReadWrite) import enum SmithyReadWrite.WritingClosures
+import func ClientRuntime.initialize
 import protocol AWSClientRuntime.AWSDefaultClientConfiguration
 import protocol AWSClientRuntime.AWSRegionClientConfiguration
 import protocol AWSClientRuntime.AWSServiceClient
@@ -97,6 +98,7 @@ public final class S3Client: AWSClientRuntime.AWSServiceClient {
     public typealias Config = S3Client.S3ClientConfiguration
 
     public required init(config: S3Client.S3ClientConfig) {
+        ClientRuntime.initialize()
         client = ClientRuntime.SdkHttpClient(engine: config.httpClientEngine, config: config.httpClientConfiguration)
         self.config = config
     }
@@ -9671,7 +9673,7 @@ extension S3Client {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
-                      .withClientConfig(value: config)
+                      .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<UpdateObjectEncryptionInput, UpdateObjectEncryptionOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in

@@ -28,9 +28,10 @@ public class KinesisVideoSignalingClientEndpointPlugin: Plugin {
         self.init(endpointResolver: try DefaultEndpointResolver())
     }
 
-    public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) throws {
-        if let config = clientConfiguration as? KinesisVideoSignalingClient.KinesisVideoSignalingClientConfiguration {
+    public func configureClient(clientConfiguration: inout ClientRuntime.ClientConfiguration) async throws {
+        if var config = clientConfiguration as? KinesisVideoSignalingClient.KinesisVideoSignalingClientConfig {
             config.endpointResolver = self.endpointResolver
+            clientConfiguration = config
         }
     }
 }
@@ -39,12 +40,13 @@ public class DefaultAWSAuthSchemePlugin: ClientRuntime.Plugin {
 
     public init() {}
 
-    public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) throws {
-        if let config = clientConfiguration as? KinesisVideoSignalingClient.KinesisVideoSignalingClientConfiguration {
+    public func configureClient(clientConfiguration: inout ClientRuntime.ClientConfiguration) async throws {
+        if var config = clientConfiguration as? KinesisVideoSignalingClient.KinesisVideoSignalingClientConfig {
             config.authSchemeResolver = DefaultKinesisVideoSignalingAuthSchemeResolver()
             config.authSchemes = [AWSSDKHTTPAuth.SigV4AuthScheme()]
             config.awsCredentialIdentityResolver = AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain()
             config.bearerTokenIdentityResolver = SmithyIdentity.StaticBearerTokenIdentityResolver()
+            clientConfiguration = config
         }
     }
 }
@@ -64,8 +66,8 @@ public class KinesisVideoSignalingClientAuthSchemePlugin: ClientRuntime.Plugin {
         self.bearerTokenIdentityResolver = bearerTokenIdentityResolver
     }
 
-    public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) throws {
-        if let config = clientConfiguration as? KinesisVideoSignalingClient.KinesisVideoSignalingClientConfiguration {
+    public func configureClient(clientConfiguration: inout ClientRuntime.ClientConfiguration) async throws {
+        if var config = clientConfiguration as? KinesisVideoSignalingClient.KinesisVideoSignalingClientConfig {
             if (self.authSchemes != nil) {
                 config.authSchemes = self.authSchemes
             }
@@ -79,6 +81,7 @@ public class KinesisVideoSignalingClientAuthSchemePlugin: ClientRuntime.Plugin {
             if (self.bearerTokenIdentityResolver != nil) {
                 config.bearerTokenIdentityResolver = self.bearerTokenIdentityResolver!
             }
+            clientConfiguration = config
         }
     }
 }

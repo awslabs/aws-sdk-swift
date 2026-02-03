@@ -28,9 +28,10 @@ public class CodeStarconnectionsClientEndpointPlugin: Plugin {
         self.init(endpointResolver: try DefaultEndpointResolver())
     }
 
-    public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) throws {
-        if let config = clientConfiguration as? CodeStarconnectionsClient.CodeStarconnectionsClientConfiguration {
+    public func configureClient(clientConfiguration: inout ClientRuntime.ClientConfiguration) async throws {
+        if var config = clientConfiguration as? CodeStarconnectionsClient.CodeStarconnectionsClientConfig {
             config.endpointResolver = self.endpointResolver
+            clientConfiguration = config
         }
     }
 }
@@ -39,12 +40,13 @@ public class DefaultAWSAuthSchemePlugin: ClientRuntime.Plugin {
 
     public init() {}
 
-    public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) throws {
-        if let config = clientConfiguration as? CodeStarconnectionsClient.CodeStarconnectionsClientConfiguration {
+    public func configureClient(clientConfiguration: inout ClientRuntime.ClientConfiguration) async throws {
+        if var config = clientConfiguration as? CodeStarconnectionsClient.CodeStarconnectionsClientConfig {
             config.authSchemeResolver = DefaultCodeStarconnectionsAuthSchemeResolver()
             config.authSchemes = [AWSSDKHTTPAuth.SigV4AuthScheme()]
             config.awsCredentialIdentityResolver = AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain()
             config.bearerTokenIdentityResolver = SmithyIdentity.StaticBearerTokenIdentityResolver()
+            clientConfiguration = config
         }
     }
 }
@@ -64,8 +66,8 @@ public class CodeStarconnectionsClientAuthSchemePlugin: ClientRuntime.Plugin {
         self.bearerTokenIdentityResolver = bearerTokenIdentityResolver
     }
 
-    public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) throws {
-        if let config = clientConfiguration as? CodeStarconnectionsClient.CodeStarconnectionsClientConfiguration {
+    public func configureClient(clientConfiguration: inout ClientRuntime.ClientConfiguration) async throws {
+        if var config = clientConfiguration as? CodeStarconnectionsClient.CodeStarconnectionsClientConfig {
             if (self.authSchemes != nil) {
                 config.authSchemes = self.authSchemes
             }
@@ -79,6 +81,7 @@ public class CodeStarconnectionsClientAuthSchemePlugin: ClientRuntime.Plugin {
             if (self.bearerTokenIdentityResolver != nil) {
                 config.bearerTokenIdentityResolver = self.bearerTokenIdentityResolver!
             }
+            clientConfiguration = config
         }
     }
 }

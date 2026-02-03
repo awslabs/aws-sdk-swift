@@ -2530,7 +2530,7 @@ extension PollyClientTypes.LexiconDescription {
 }
 
 extension SynthesizeSpeechInput {
-    public func presignURL(config: PollyClient.PollyClientConfiguration, expiration: Foundation.TimeInterval) async throws -> Foundation.URL? {
+    public func presignURL(config: PollyClient.PollyClientConfig, expiration: Foundation.TimeInterval) async throws -> Foundation.URL? {
         let serviceName = "Polly"
         let input = self
         let client: (SmithyHTTPAPI.HTTPRequest, Smithy.Context) async throws -> SmithyHTTPAPI.HTTPResponse = { (_, _) in
@@ -2586,6 +2586,11 @@ extension SynthesizeSpeechInput {
             .executeRequest(client)
             .build()
         return try await op.presignRequest(input: input).endpoint.url
+    }
+
+    @available(*, deprecated, message: "Use presignURL(config: PollyClient.PollyClientConfig, expiration:) instead")
+    public func presignURL(config: PollyClient.PollyClientConfiguration, expiration: Foundation.TimeInterval) async throws -> Foundation.URL? {
+        return try await self.presignURL(config: config.toSendable(), expiration: expiration)
     }
 }
 
@@ -2643,7 +2648,7 @@ extension SynthesizeSpeechInputGETQueryItemMiddleware: Smithy.RequestMessageSeri
 }
 
 extension SynthesizeSpeechInput {
-    public func presign(config: PollyClient.PollyClientConfiguration, expiration: Foundation.TimeInterval) async throws -> SmithyHTTPAPI.HTTPRequest? {
+    public func presign(config: PollyClient.PollyClientConfig, expiration: Foundation.TimeInterval) async throws -> SmithyHTTPAPI.HTTPRequest? {
         let serviceName = "Polly"
         let input = self
         let client: (SmithyHTTPAPI.HTTPRequest, Smithy.Context) async throws -> SmithyHTTPAPI.HTTPResponse = { (_, _) in
@@ -2704,6 +2709,11 @@ extension SynthesizeSpeechInput {
             .executeRequest(client)
             .build()
         return try await op.presignRequest(input: input)
+    }
+
+    @available(*, deprecated, message: "Use presign(config: PollyClient.PollyClientConfig, expiration:) instead")
+    public func presign(config: PollyClient.PollyClientConfiguration, expiration: Foundation.TimeInterval) async throws -> SmithyHTTPAPI.HTTPRequest? {
+        return try await self.presign(config: config.toSendable(), expiration: expiration)
     }
 }
 
