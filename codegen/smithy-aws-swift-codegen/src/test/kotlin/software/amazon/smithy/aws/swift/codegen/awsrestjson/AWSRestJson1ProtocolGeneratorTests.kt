@@ -72,6 +72,7 @@ public final class ExampleClient: AWSClientRuntime.AWSServiceClient {
     public typealias Config = ExampleClient.ExampleClientConfiguration
 
     public required init(config: ExampleClient.ExampleClientConfig) {
+        ClientRuntime.initialize()
         client = ClientRuntime.SdkHttpClient(engine: config.httpClientEngine, config: config.httpClientConfiguration)
         self.config = config
     }
