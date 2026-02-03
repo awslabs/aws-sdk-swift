@@ -8,7 +8,7 @@
 /// The mode of operation for the SDK's retry mechanism.
 ///
 /// This may be specified using the `AWS_RETRY_MODE` environment var, or the `retry_mode` field of the AWS config file.
-public enum AWSRetryMode: String {
+public enum AWSRetryMode: String, Sendable {
 
     /// Use the retry behavior that this SDK implemented before the "Retry Behavior 2.0" spec.
     /// For the Swift SDK, this is the same behavior as standard.
