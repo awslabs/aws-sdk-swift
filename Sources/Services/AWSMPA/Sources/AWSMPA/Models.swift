@@ -25,6 +25,8 @@ import protocol ClientRuntime.ModeledError
 @_spi(SmithyReadWrite) import struct AWSClientRuntime.RestJSONError
 @_spi(UnknownAWSHTTPServiceError) import struct AWSClientRuntime.UnknownAWSHTTPServiceError
 import struct Smithy.URIQueryItem
+@_spi(SmithyReadWrite) import struct SmithyReadWrite.ReadingClosureBox
+@_spi(SmithyReadWrite) import struct SmithyReadWrite.WritingClosureBox
 @_spi(SmithyTimestamps) import struct SmithyTimestamps.TimestampFormatter
 
 
@@ -78,6 +80,35 @@ extension MPAClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .autoCompletionUponApproval: return "AUTO_COMPLETION_UPON_APPROVAL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MPAClientTypes {
+
+    /// Additional security requirements applied to a session or invitation
+    ///
+    /// * APPROVER_VERIFICATION_REQUIRED: Approvers will be required to perform an MFA challenge to vote
+    public enum AdditionalSecurityRequirement: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case approverVerificationRequired
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AdditionalSecurityRequirement] {
+            return [
+                .approverVerificationRequired
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .approverVerificationRequired: return "APPROVER_VERIFICATION_REQUIRED"
             case let .sdkUnknown(s): return s
             }
         }
@@ -268,7 +299,7 @@ extension MPAClientTypes {
 
 extension MPAClientTypes {
 
-    /// Contains the Amazon Resource Name (ARN) for a policy. Policies define what operations a team that define the permissions for team resources. The protected operation for a service integration might require specific permissions. For more information, see [How other services work with Multi-party approval](https://docs.aws.amazon.com/mpa/latest/userguide/mpa-integrations.html) in the Multi-party approval User Guide.
+    /// Contains the Amazon Resource Name (ARN) for a policy. Policies define what operations a team that define the permissions for team resources.
     public struct PolicyReference: Swift.Sendable {
         /// Amazon Resource Name (ARN) for the policy.
         /// This member is required.
@@ -297,7 +328,7 @@ public struct CreateApprovalTeamInput: Swift.Sendable {
     /// Name of the team.
     /// This member is required.
     public var name: Swift.String?
-    /// An array of PolicyReference objects. Contains a list of policies that define the permissions for team resources. The protected operation for a service integration might require specific permissions. For more information, see [How other services work with Multi-party approval](https://docs.aws.amazon.com/mpa/latest/userguide/mpa-integrations.html) in the Multi-party approval User Guide.
+    /// An array of PolicyReference objects. Contains a list of policies that define the permissions for team resources.
     /// This member is required.
     public var policies: [MPAClientTypes.PolicyReference]?
     /// Tags you want to attach to the team.
@@ -411,6 +442,90 @@ public struct GetApprovalTeamInput: Swift.Sendable {
 
 extension MPAClientTypes {
 
+    /// Indicates if the approver's MFA device is in-sync with the Identity Source
+    ///
+    /// * IN_SYNC: The approver's MFA device is in-sync with the Identity Source
+    ///
+    /// * OUT_OF_SYNC: The approver's MFA device is out-of-sync with the Identity Source
+    public enum MfaSyncStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case inSync
+        case outOfSync
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MfaSyncStatus] {
+            return [
+                .inSync,
+                .outOfSync
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .inSync: return "IN_SYNC"
+            case .outOfSync: return "OUT_OF_SYNC"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MPAClientTypes {
+
+    /// The type of MFA device used by the approver
+    ///
+    /// * EMAIL_OTP: The approver will receive emailed one-time passwords to their primary email
+    public enum MfaType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case emailOtp
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MfaType] {
+            return [
+                .emailOtp
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .emailOtp: return "EMAIL_OTP"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MPAClientTypes {
+
+    /// MFA configuration and sycnronization status for an approver
+    public struct MfaMethod: Swift.Sendable {
+        /// Indicates if the approver's MFA device is in-sync with the Identity Source
+        /// This member is required.
+        public var syncStatus: MPAClientTypes.MfaSyncStatus?
+        /// The type of MFA configuration used by the approver
+        /// This member is required.
+        public var type: MPAClientTypes.MfaType?
+
+        public init(
+            syncStatus: MPAClientTypes.MfaSyncStatus? = nil,
+            type: MPAClientTypes.MfaType? = nil
+        ) {
+            self.syncStatus = syncStatus
+            self.type = type
+        }
+    }
+}
+
+extension MPAClientTypes {
+
     public enum IdentityStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case accepted
         case invalid
@@ -450,6 +565,8 @@ extension MPAClientTypes {
     public struct GetApprovalTeamResponseApprover: Swift.Sendable {
         /// ID for the approver.
         public var approverId: Swift.String?
+        /// Multi-factor authentication configuration for the approver
+        public var mfaMethods: [MPAClientTypes.MfaMethod]?
         /// ID for the user.
         public var primaryIdentityId: Swift.String?
         /// Amazon Resource Name (ARN) for the identity source. The identity source manages the user authentication for approvers.
@@ -461,12 +578,14 @@ extension MPAClientTypes {
 
         public init(
             approverId: Swift.String? = nil,
+            mfaMethods: [MPAClientTypes.MfaMethod]? = nil,
             primaryIdentityId: Swift.String? = nil,
             primaryIdentitySourceArn: Swift.String? = nil,
             primaryIdentityStatus: MPAClientTypes.IdentityStatus? = nil,
             responseTime: Foundation.Date? = nil
         ) {
             self.approverId = approverId
+            self.mfaMethods = mfaMethods
             self.primaryIdentityId = primaryIdentityId
             self.primaryIdentitySourceArn = primaryIdentitySourceArn
             self.primaryIdentityStatus = primaryIdentityStatus
@@ -635,7 +754,7 @@ public struct GetApprovalTeamOutput: Swift.Sendable {
     public var numberOfApprovers: Swift.Int?
     /// A PendingUpdate object. Contains details for the pending updates for the team, if applicable.
     public var pendingUpdate: MPAClientTypes.PendingUpdate?
-    /// An array of PolicyReference objects. Contains a list of policies that define the permissions for team resources. The protected operation for a service integration might require specific permissions. For more information, see [How other services work with Multi-party approval](https://docs.aws.amazon.com/mpa/latest/userguide/mpa-integrations.html) in the Multi-party approval User Guide.
+    /// An array of PolicyReference objects. Contains a list of policies that define the permissions for team resources.
     public var policies: [MPAClientTypes.PolicyReference]?
     /// Status for the team. For more information, see [Team health](https://docs.aws.amazon.com/mpa/latest/userguide/mpa-health.html) in the Multi-party approval User Guide.
     public var status: MPAClientTypes.ApprovalTeamStatus?
@@ -801,6 +920,35 @@ public struct StartActiveApprovalTeamDeletionOutput: Swift.Sendable {
     }
 }
 
+extension MPAClientTypes {
+
+    /// Actions that can be taken when updating an approval team
+    ///
+    /// * SYNCHRONIZE_MFA_DEVICES: Synchronize MFA devices for all approvers on the team
+    public enum UpdateAction: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case synchronizeMfaDevices
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [UpdateAction] {
+            return [
+                .synchronizeMfaDevices
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .synchronizeMfaDevices: return "SYNCHRONIZE_MFA_DEVICES"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
 public struct UpdateApprovalTeamInput: Swift.Sendable {
     /// An ApprovalStrategy object. Contains details for how the team grants approval.
     public var approvalStrategy: MPAClientTypes.ApprovalStrategy?
@@ -811,23 +959,27 @@ public struct UpdateApprovalTeamInput: Swift.Sendable {
     public var arn: Swift.String?
     /// Description for the team.
     public var description: Swift.String?
+    /// A list of UpdateAction to perform when updating the team.
+    public var updateActions: [MPAClientTypes.UpdateAction]?
 
     public init(
         approvalStrategy: MPAClientTypes.ApprovalStrategy? = nil,
         approvers: [MPAClientTypes.ApprovalTeamRequestApprover]? = nil,
         arn: Swift.String? = nil,
-        description: Swift.String? = nil
+        description: Swift.String? = nil,
+        updateActions: [MPAClientTypes.UpdateAction]? = nil
     ) {
         self.approvalStrategy = approvalStrategy
         self.approvers = approvers
         self.arn = arn
         self.description = description
+        self.updateActions = updateActions
     }
 }
 
 extension UpdateApprovalTeamInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateApprovalTeamInput(approvalStrategy: \(Swift.String(describing: approvalStrategy)), approvers: \(Swift.String(describing: approvers)), arn: \(Swift.String(describing: arn)), description: \"CONTENT_REDACTED\")"}
+        "UpdateApprovalTeamInput(approvalStrategy: \(Swift.String(describing: approvalStrategy)), approvers: \(Swift.String(describing: approvers)), arn: \(Swift.String(describing: arn)), updateActions: \(Swift.String(describing: updateActions)), description: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdateApprovalTeamOutput: Swift.Sendable {
@@ -913,7 +1065,7 @@ extension MPAClientTypes {
 
 extension MPAClientTypes {
 
-    /// Contains details for the version of a policy. Policies define what operations a team that define the permissions for team resources. The protected operation for a service integration might require specific permissions. For more information, see [How other services work with Multi-party approval](https://docs.aws.amazon.com/mpa/latest/userguide/mpa-integrations.html) in the Multi-party approval User Guide.
+    /// Contains details for the version of a policy. Policies define what operations a team that define the permissions for team resources.
     public struct PolicyVersion: Swift.Sendable {
         /// Amazon Resource Name (ARN) for the team.
         /// This member is required.
@@ -939,7 +1091,7 @@ extension MPAClientTypes {
         /// The type of policy.
         /// This member is required.
         public var policyType: MPAClientTypes.PolicyType?
-        /// Status for the policy. For example, if the policy is [attachable](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_groups_manage_attach-policy.html) or [deprecated](https://docs.aws.amazon.com/access_policies_managed-deprecated.html).
+        /// Status for the policy. For example, if the policy is [attachable](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_groups_manage_attach-policy.html) or [deprecated](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_managed-deprecated.html).
         /// This member is required.
         public var status: MPAClientTypes.PolicyStatus?
         /// Verison ID
@@ -978,7 +1130,7 @@ extension MPAClientTypes.PolicyVersion: Swift.CustomDebugStringConvertible {
 }
 
 public struct GetPolicyVersionOutput: Swift.Sendable {
-    /// A PolicyVersion object. Contains details for the version of the policy. Policies define the permissions for team resources. The protected operation for a service integration might require specific permissions. For more information, see [How other services work with Multi-party approval](https://docs.aws.amazon.com/mpa/latest/userguide/mpa-integrations.html) in the Multi-party approval User Guide.
+    /// A PolicyVersion object. Contains details for the version of the policy. Policies define the permissions for team resources.
     /// This member is required.
     public var policyVersion: MPAClientTypes.PolicyVersion?
 
@@ -1459,7 +1611,7 @@ public struct ListPoliciesInput: Swift.Sendable {
 
 extension MPAClientTypes {
 
-    /// Contains details for a policy. Policies define what operations a team that define the permissions for team resources. The protected operation for a service integration might require specific permissions. For more information, see [How other services work with Multi-party approval](https://docs.aws.amazon.com/mpa/latest/userguide/mpa-integrations.html) in the Multi-party approval User Guide.
+    /// Contains details for a policy. Policies define what operations a team that define the permissions for team resources.
     public struct Policy: Swift.Sendable {
         /// Amazon Resource Name (ARN) for the policy.
         /// This member is required.
@@ -1491,7 +1643,7 @@ extension MPAClientTypes {
 public struct ListPoliciesOutput: Swift.Sendable {
     /// If present, indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a next call to the operation to get more output. You can repeat this until the NextToken response element returns null.
     public var nextToken: Swift.String?
-    /// An array of Policy objects. Contains a list of policies that define the permissions for team resources. The protected operation for a service integration might require specific permissions. For more information, see [How other services work with Multi-party approval](https://docs.aws.amazon.com/mpa/latest/userguide/mpa-integrations.html) in the Multi-party approval User Guide.
+    /// An array of Policy objects. Contains a list of policies that define the permissions for team resources.
     public var policies: [MPAClientTypes.Policy]?
 
     public init(
@@ -1525,7 +1677,7 @@ public struct ListPolicyVersionsInput: Swift.Sendable {
 
 extension MPAClientTypes {
 
-    /// Contains details for the version of a policy. Policies define what operations a team that define the permissions for team resources. The protected operation for a service integration might require specific permissions. For more information, see [How other services work with Multi-party approval](https://docs.aws.amazon.com/mpa/latest/userguide/mpa-integrations.html) in the Multi-party approval User Guide.
+    /// Contains details for the version of a policy. Policies define what operations a team that define the permissions for team resources.
     public struct PolicyVersionSummary: Swift.Sendable {
         /// Amazon Resource Name (ARN) for the team.
         /// This member is required.
@@ -1548,7 +1700,7 @@ extension MPAClientTypes {
         /// The type of policy.
         /// This member is required.
         public var policyType: MPAClientTypes.PolicyType?
-        /// Status for the policy. For example, if the policy is [attachable](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_groups_manage_attach-policy.html) or [deprecated](https://docs.aws.amazon.com/access_policies_managed-deprecated.html).
+        /// Status for the policy. For example, if the policy is [attachable](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_groups_manage_attach-policy.html) or [deprecated](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_managed-deprecated.html).
         /// This member is required.
         public var status: MPAClientTypes.PolicyStatus?
         /// Version ID for the policy.
@@ -1582,7 +1734,7 @@ extension MPAClientTypes {
 public struct ListPolicyVersionsOutput: Swift.Sendable {
     /// If present, indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a next call to the operation to get more output. You can repeat this until the NextToken response element returns null.
     public var nextToken: Swift.String?
-    /// An array of PolicyVersionSummary objects. Contains details for the version of the policies that define the permissions for team resources. The protected operation for a service integration might require specific permissions. For more information, see [How other services work with Multi-party approval](https://docs.aws.amazon.com/mpa/latest/userguide/mpa-integrations.html) in the Multi-party approval User Guide.
+    /// An array of PolicyVersionSummary objects. Contains details for the version of the policies that define the permissions for team resources.
     public var policyVersions: [MPAClientTypes.PolicyVersionSummary]?
 
     public init(
@@ -1879,6 +2031,8 @@ public struct GetSessionOutput: Swift.Sendable {
     public var actionCompletionStrategy: MPAClientTypes.ActionCompletionStrategy?
     /// Name of the protected operation.
     public var actionName: Swift.String?
+    /// A list of AdditionalSecurityRequirement applied to the session.
+    public var additionalSecurityRequirements: [MPAClientTypes.AdditionalSecurityRequirement]?
     /// An ApprovalStrategyResponse object. Contains details for how the team grants approval
     public var approvalStrategy: MPAClientTypes.ApprovalStrategyResponse?
     /// Amazon Resource Name (ARN) for the approval team.
@@ -1925,6 +2079,7 @@ public struct GetSessionOutput: Swift.Sendable {
     public init(
         actionCompletionStrategy: MPAClientTypes.ActionCompletionStrategy? = nil,
         actionName: Swift.String? = nil,
+        additionalSecurityRequirements: [MPAClientTypes.AdditionalSecurityRequirement]? = nil,
         approvalStrategy: MPAClientTypes.ApprovalStrategyResponse? = nil,
         approvalTeamArn: Swift.String? = nil,
         approvalTeamName: Swift.String? = nil,
@@ -1949,6 +2104,7 @@ public struct GetSessionOutput: Swift.Sendable {
     ) {
         self.actionCompletionStrategy = actionCompletionStrategy
         self.actionName = actionName
+        self.additionalSecurityRequirements = additionalSecurityRequirements
         self.approvalStrategy = approvalStrategy
         self.approvalTeamArn = approvalTeamArn
         self.approvalTeamName = approvalTeamName
@@ -1975,7 +2131,7 @@ public struct GetSessionOutput: Swift.Sendable {
 
 extension GetSessionOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetSessionOutput(actionCompletionStrategy: \(Swift.String(describing: actionCompletionStrategy)), actionName: \(Swift.String(describing: actionName)), approvalStrategy: \(Swift.String(describing: approvalStrategy)), approvalTeamArn: \(Swift.String(describing: approvalTeamArn)), approvalTeamName: \(Swift.String(describing: approvalTeamName)), approverResponses: \(Swift.String(describing: approverResponses)), completionTime: \(Swift.String(describing: completionTime)), executionStatus: \(Swift.String(describing: executionStatus)), expirationTime: \(Swift.String(describing: expirationTime)), initiationTime: \(Swift.String(describing: initiationTime)), numberOfApprovers: \(Swift.String(describing: numberOfApprovers)), protectedResourceArn: \(Swift.String(describing: protectedResourceArn)), requesterAccountId: \(Swift.String(describing: requesterAccountId)), requesterPrincipalArn: \(Swift.String(describing: requesterPrincipalArn)), requesterRegion: \(Swift.String(describing: requesterRegion)), requesterServicePrincipal: \(Swift.String(describing: requesterServicePrincipal)), sessionArn: \(Swift.String(describing: sessionArn)), status: \(Swift.String(describing: status)), statusCode: \(Swift.String(describing: statusCode)), statusMessage: \(Swift.String(describing: statusMessage)), description: \"CONTENT_REDACTED\", metadata: \"CONTENT_REDACTED\", requesterComment: \"CONTENT_REDACTED\")"}
+        "GetSessionOutput(actionCompletionStrategy: \(Swift.String(describing: actionCompletionStrategy)), actionName: \(Swift.String(describing: actionName)), additionalSecurityRequirements: \(Swift.String(describing: additionalSecurityRequirements)), approvalStrategy: \(Swift.String(describing: approvalStrategy)), approvalTeamArn: \(Swift.String(describing: approvalTeamArn)), approvalTeamName: \(Swift.String(describing: approvalTeamName)), approverResponses: \(Swift.String(describing: approverResponses)), completionTime: \(Swift.String(describing: completionTime)), executionStatus: \(Swift.String(describing: executionStatus)), expirationTime: \(Swift.String(describing: expirationTime)), initiationTime: \(Swift.String(describing: initiationTime)), numberOfApprovers: \(Swift.String(describing: numberOfApprovers)), protectedResourceArn: \(Swift.String(describing: protectedResourceArn)), requesterAccountId: \(Swift.String(describing: requesterAccountId)), requesterPrincipalArn: \(Swift.String(describing: requesterPrincipalArn)), requesterRegion: \(Swift.String(describing: requesterRegion)), requesterServicePrincipal: \(Swift.String(describing: requesterServicePrincipal)), sessionArn: \(Swift.String(describing: sessionArn)), status: \(Swift.String(describing: status)), statusCode: \(Swift.String(describing: statusCode)), statusMessage: \(Swift.String(describing: statusMessage)), description: \"CONTENT_REDACTED\", metadata: \"CONTENT_REDACTED\", requesterComment: \"CONTENT_REDACTED\")"}
 }
 
 extension MPAClientTypes {
@@ -2151,6 +2307,8 @@ extension MPAClientTypes {
         public var actionCompletionStrategy: MPAClientTypes.ActionCompletionStrategy?
         /// Name of the protected operation.
         public var actionName: Swift.String?
+        /// A list of AdditionalSecurityRequirement applied to the session.
+        public var additionalSecurityRequirements: [MPAClientTypes.AdditionalSecurityRequirement]?
         /// Amazon Resource Name (ARN) for the approval team.
         public var approvalTeamArn: Swift.String?
         /// Name of the approval team.
@@ -2185,6 +2343,7 @@ extension MPAClientTypes {
         public init(
             actionCompletionStrategy: MPAClientTypes.ActionCompletionStrategy? = nil,
             actionName: Swift.String? = nil,
+            additionalSecurityRequirements: [MPAClientTypes.AdditionalSecurityRequirement]? = nil,
             approvalTeamArn: Swift.String? = nil,
             approvalTeamName: Swift.String? = nil,
             completionTime: Foundation.Date? = nil,
@@ -2203,6 +2362,7 @@ extension MPAClientTypes {
         ) {
             self.actionCompletionStrategy = actionCompletionStrategy
             self.actionName = actionName
+            self.additionalSecurityRequirements = additionalSecurityRequirements
             self.approvalTeamArn = approvalTeamArn
             self.approvalTeamName = approvalTeamName
             self.completionTime = completionTime
@@ -2224,7 +2384,7 @@ extension MPAClientTypes {
 
 extension MPAClientTypes.ListSessionsResponseSession: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "ListSessionsResponseSession(actionCompletionStrategy: \(Swift.String(describing: actionCompletionStrategy)), actionName: \(Swift.String(describing: actionName)), approvalTeamArn: \(Swift.String(describing: approvalTeamArn)), approvalTeamName: \(Swift.String(describing: approvalTeamName)), completionTime: \(Swift.String(describing: completionTime)), expirationTime: \(Swift.String(describing: expirationTime)), initiationTime: \(Swift.String(describing: initiationTime)), protectedResourceArn: \(Swift.String(describing: protectedResourceArn)), requesterAccountId: \(Swift.String(describing: requesterAccountId)), requesterPrincipalArn: \(Swift.String(describing: requesterPrincipalArn)), requesterRegion: \(Swift.String(describing: requesterRegion)), requesterServicePrincipal: \(Swift.String(describing: requesterServicePrincipal)), sessionArn: \(Swift.String(describing: sessionArn)), status: \(Swift.String(describing: status)), statusCode: \(Swift.String(describing: statusCode)), statusMessage: \(Swift.String(describing: statusMessage)), description: \"CONTENT_REDACTED\")"}
+        "ListSessionsResponseSession(actionCompletionStrategy: \(Swift.String(describing: actionCompletionStrategy)), actionName: \(Swift.String(describing: actionName)), additionalSecurityRequirements: \(Swift.String(describing: additionalSecurityRequirements)), approvalTeamArn: \(Swift.String(describing: approvalTeamArn)), approvalTeamName: \(Swift.String(describing: approvalTeamName)), completionTime: \(Swift.String(describing: completionTime)), expirationTime: \(Swift.String(describing: expirationTime)), initiationTime: \(Swift.String(describing: initiationTime)), protectedResourceArn: \(Swift.String(describing: protectedResourceArn)), requesterAccountId: \(Swift.String(describing: requesterAccountId)), requesterPrincipalArn: \(Swift.String(describing: requesterPrincipalArn)), requesterRegion: \(Swift.String(describing: requesterRegion)), requesterServicePrincipal: \(Swift.String(describing: requesterServicePrincipal)), sessionArn: \(Swift.String(describing: sessionArn)), status: \(Swift.String(describing: status)), statusCode: \(Swift.String(describing: statusCode)), statusMessage: \(Swift.String(describing: statusMessage)), description: \"CONTENT_REDACTED\")"}
 }
 
 public struct ListSessionsOutput: Swift.Sendable {
@@ -2698,6 +2858,7 @@ extension UpdateApprovalTeamInput {
         try writer["ApprovalStrategy"].write(value.approvalStrategy, with: MPAClientTypes.ApprovalStrategy.write(value:to:))
         try writer["Approvers"].writeList(value.approvers, memberWritingClosure: MPAClientTypes.ApprovalTeamRequestApprover.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Description"].write(value.description)
+        try writer["UpdateActions"].writeList(value.updateActions, memberWritingClosure: SmithyReadWrite.WritingClosureBox<MPAClientTypes.UpdateAction>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -2832,6 +2993,7 @@ extension GetSessionOutput {
         var value = GetSessionOutput()
         value.actionCompletionStrategy = try reader["ActionCompletionStrategy"].readIfPresent()
         value.actionName = try reader["ActionName"].readIfPresent()
+        value.additionalSecurityRequirements = try reader["AdditionalSecurityRequirements"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<MPAClientTypes.AdditionalSecurityRequirement>().read(from:), memberNodeInfo: "member", isFlattened: false)
         value.approvalStrategy = try reader["ApprovalStrategy"].readIfPresent(with: MPAClientTypes.ApprovalStrategyResponse.read(from:))
         value.approvalTeamArn = try reader["ApprovalTeamArn"].readIfPresent()
         value.approvalTeamName = try reader["ApprovalTeamName"].readIfPresent()
@@ -3525,6 +3687,18 @@ extension MPAClientTypes.GetApprovalTeamResponseApprover {
         value.primaryIdentityId = try reader["PrimaryIdentityId"].readIfPresent()
         value.primaryIdentitySourceArn = try reader["PrimaryIdentitySourceArn"].readIfPresent()
         value.primaryIdentityStatus = try reader["PrimaryIdentityStatus"].readIfPresent()
+        value.mfaMethods = try reader["MfaMethods"].readListIfPresent(memberReadingClosure: MPAClientTypes.MfaMethod.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension MPAClientTypes.MfaMethod {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MPAClientTypes.MfaMethod {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MPAClientTypes.MfaMethod()
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
+        value.syncStatus = try reader["SyncStatus"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -3746,6 +3920,7 @@ extension MPAClientTypes.ListSessionsResponseSession {
         value.statusCode = try reader["StatusCode"].readIfPresent()
         value.statusMessage = try reader["StatusMessage"].readIfPresent()
         value.actionCompletionStrategy = try reader["ActionCompletionStrategy"].readIfPresent()
+        value.additionalSecurityRequirements = try reader["AdditionalSecurityRequirements"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<MPAClientTypes.AdditionalSecurityRequirement>().read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
