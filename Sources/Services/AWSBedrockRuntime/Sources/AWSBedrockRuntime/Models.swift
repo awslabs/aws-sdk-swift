@@ -3582,6 +3582,108 @@ extension BedrockRuntimeClientTypes {
 
 extension BedrockRuntimeClientTypes {
 
+    /// JSON schema structured output format options.
+    public struct JsonSchemaDefinition: Swift.Sendable {
+        /// A description of the JSON schema.
+        public var description: Swift.String?
+        /// The name of the JSON schema.
+        public var name: Swift.String?
+        /// The JSON schema to constrain the model's output. For more information, see [JSON Schema Reference](https://json-schema.org/understanding-json-schema/reference).
+        /// This member is required.
+        public var schema: Swift.String?
+
+        public init(
+            description: Swift.String? = nil,
+            name: Swift.String? = nil,
+            schema: Swift.String? = nil
+        ) {
+            self.description = description
+            self.name = name
+            self.schema = schema
+        }
+    }
+}
+
+extension BedrockRuntimeClientTypes {
+
+    /// The structure that the model's output must adhere to.
+    public enum OutputFormatStructure: Swift.Sendable {
+        /// A JSON schema structure that the model's output must adhere to.
+        case jsonschema(BedrockRuntimeClientTypes.JsonSchemaDefinition)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockRuntimeClientTypes {
+
+    /// The type of structured output format. Available options are: json_schema.
+    public enum OutputFormatType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case jsonSchema
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [OutputFormatType] {
+            return [
+                .jsonSchema
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .jsonSchema: return "json_schema"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockRuntimeClientTypes {
+
+    /// Structured output parameters to control the model's response.
+    public struct OutputFormat: Swift.Sendable {
+        /// The structure that the model's output must adhere to.
+        /// This member is required.
+        public var structure: BedrockRuntimeClientTypes.OutputFormatStructure?
+        /// The type of structured output format.
+        /// This member is required.
+        public var type: BedrockRuntimeClientTypes.OutputFormatType?
+
+        public init(
+            structure: BedrockRuntimeClientTypes.OutputFormatStructure? = nil,
+            type: BedrockRuntimeClientTypes.OutputFormatType? = nil
+        ) {
+            self.structure = structure
+            self.type = type
+        }
+    }
+}
+
+extension BedrockRuntimeClientTypes.OutputFormat: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "OutputFormat(type: \(Swift.String(describing: type)), structure: \"CONTENT_REDACTED\")"}
+}
+
+extension BedrockRuntimeClientTypes {
+
+    /// Output configuration for a model response in a call to [Converse](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_Converse.html) or [ConverseStream](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_runtime_ConverseStream.html).
+    public struct OutputConfig: Swift.Sendable {
+        /// Structured output parameters to control the model's text response.
+        public var textFormat: BedrockRuntimeClientTypes.OutputFormat?
+
+        public init(
+            textFormat: BedrockRuntimeClientTypes.OutputFormat? = nil
+        ) {
+            self.textFormat = textFormat
+        }
+    }
+}
+
+extension BedrockRuntimeClientTypes {
+
     public enum PerformanceConfigLatency: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case optimized
         case standard
@@ -3785,15 +3887,19 @@ extension BedrockRuntimeClientTypes {
         /// The name for the tool.
         /// This member is required.
         public var name: Swift.String?
+        /// Flag to enable structured output enforcement on a tool usage response.
+        public var strict: Swift.Bool?
 
         public init(
             description: Swift.String? = nil,
             inputSchema: BedrockRuntimeClientTypes.ToolInputSchema? = nil,
-            name: Swift.String? = nil
+            name: Swift.String? = nil,
+            strict: Swift.Bool? = nil
         ) {
             self.description = description
             self.inputSchema = inputSchema
             self.name = name
+            self.strict = strict
         }
     }
 }
@@ -3859,6 +3965,8 @@ public struct ConverseInput: Swift.Sendable {
     /// The Converse API doesn't support [imported models](https://docs.aws.amazon.com/bedrock/latest/userguide/model-customization-import-model.html).
     /// This member is required.
     public var modelId: Swift.String?
+    /// Output configuration for a model response.
+    public var outputConfig: BedrockRuntimeClientTypes.OutputConfig?
     /// Model performance settings for the request.
     public var performanceConfig: BedrockRuntimeClientTypes.PerformanceConfiguration?
     /// Contains a map of variables in a prompt from Prompt management to objects containing the values to fill in for them when running model invocation. This field is ignored if you don't specify a prompt resource in the modelId field.
@@ -3879,6 +3987,7 @@ public struct ConverseInput: Swift.Sendable {
         inferenceConfig: BedrockRuntimeClientTypes.InferenceConfiguration? = nil,
         messages: [BedrockRuntimeClientTypes.Message]? = nil,
         modelId: Swift.String? = nil,
+        outputConfig: BedrockRuntimeClientTypes.OutputConfig? = nil,
         performanceConfig: BedrockRuntimeClientTypes.PerformanceConfiguration? = nil,
         promptVariables: [Swift.String: BedrockRuntimeClientTypes.PromptVariableValues]? = nil,
         requestMetadata: [Swift.String: Swift.String]? = nil,
@@ -3892,6 +4001,7 @@ public struct ConverseInput: Swift.Sendable {
         self.inferenceConfig = inferenceConfig
         self.messages = messages
         self.modelId = modelId
+        self.outputConfig = outputConfig
         self.performanceConfig = performanceConfig
         self.promptVariables = promptVariables
         self.requestMetadata = requestMetadata
@@ -3903,7 +4013,7 @@ public struct ConverseInput: Swift.Sendable {
 
 extension ConverseInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "ConverseInput(additionalModelRequestFields: \(Swift.String(describing: additionalModelRequestFields)), additionalModelResponseFieldPaths: \(Swift.String(describing: additionalModelResponseFieldPaths)), guardrailConfig: \(Swift.String(describing: guardrailConfig)), inferenceConfig: \(Swift.String(describing: inferenceConfig)), messages: \(Swift.String(describing: messages)), modelId: \(Swift.String(describing: modelId)), performanceConfig: \(Swift.String(describing: performanceConfig)), serviceTier: \(Swift.String(describing: serviceTier)), system: \(Swift.String(describing: system)), toolConfig: \(Swift.String(describing: toolConfig)), promptVariables: \"CONTENT_REDACTED\", requestMetadata: \"CONTENT_REDACTED\")"}
+        "ConverseInput(additionalModelRequestFields: \(Swift.String(describing: additionalModelRequestFields)), additionalModelResponseFieldPaths: \(Swift.String(describing: additionalModelResponseFieldPaths)), guardrailConfig: \(Swift.String(describing: guardrailConfig)), inferenceConfig: \(Swift.String(describing: inferenceConfig)), messages: \(Swift.String(describing: messages)), modelId: \(Swift.String(describing: modelId)), outputConfig: \(Swift.String(describing: outputConfig)), performanceConfig: \(Swift.String(describing: performanceConfig)), serviceTier: \(Swift.String(describing: serviceTier)), system: \(Swift.String(describing: system)), toolConfig: \(Swift.String(describing: toolConfig)), promptVariables: \"CONTENT_REDACTED\", requestMetadata: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockRuntimeClientTypes {
@@ -4228,6 +4338,8 @@ public struct ConverseStreamInput: Swift.Sendable {
     /// The Converse API doesn't support [imported models](https://docs.aws.amazon.com/bedrock/latest/userguide/model-customization-import-model.html).
     /// This member is required.
     public var modelId: Swift.String?
+    /// Output configuration for a model response.
+    public var outputConfig: BedrockRuntimeClientTypes.OutputConfig?
     /// Model performance settings for the request.
     public var performanceConfig: BedrockRuntimeClientTypes.PerformanceConfiguration?
     /// Contains a map of variables in a prompt from Prompt management to objects containing the values to fill in for them when running model invocation. This field is ignored if you don't specify a prompt resource in the modelId field.
@@ -4248,6 +4360,7 @@ public struct ConverseStreamInput: Swift.Sendable {
         inferenceConfig: BedrockRuntimeClientTypes.InferenceConfiguration? = nil,
         messages: [BedrockRuntimeClientTypes.Message]? = nil,
         modelId: Swift.String? = nil,
+        outputConfig: BedrockRuntimeClientTypes.OutputConfig? = nil,
         performanceConfig: BedrockRuntimeClientTypes.PerformanceConfiguration? = nil,
         promptVariables: [Swift.String: BedrockRuntimeClientTypes.PromptVariableValues]? = nil,
         requestMetadata: [Swift.String: Swift.String]? = nil,
@@ -4261,6 +4374,7 @@ public struct ConverseStreamInput: Swift.Sendable {
         self.inferenceConfig = inferenceConfig
         self.messages = messages
         self.modelId = modelId
+        self.outputConfig = outputConfig
         self.performanceConfig = performanceConfig
         self.promptVariables = promptVariables
         self.requestMetadata = requestMetadata
@@ -4272,7 +4386,7 @@ public struct ConverseStreamInput: Swift.Sendable {
 
 extension ConverseStreamInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "ConverseStreamInput(additionalModelRequestFields: \(Swift.String(describing: additionalModelRequestFields)), additionalModelResponseFieldPaths: \(Swift.String(describing: additionalModelResponseFieldPaths)), guardrailConfig: \(Swift.String(describing: guardrailConfig)), inferenceConfig: \(Swift.String(describing: inferenceConfig)), messages: \(Swift.String(describing: messages)), modelId: \(Swift.String(describing: modelId)), performanceConfig: \(Swift.String(describing: performanceConfig)), serviceTier: \(Swift.String(describing: serviceTier)), system: \(Swift.String(describing: system)), toolConfig: \(Swift.String(describing: toolConfig)), promptVariables: \"CONTENT_REDACTED\", requestMetadata: \"CONTENT_REDACTED\")"}
+        "ConverseStreamInput(additionalModelRequestFields: \(Swift.String(describing: additionalModelRequestFields)), additionalModelResponseFieldPaths: \(Swift.String(describing: additionalModelResponseFieldPaths)), guardrailConfig: \(Swift.String(describing: guardrailConfig)), inferenceConfig: \(Swift.String(describing: inferenceConfig)), messages: \(Swift.String(describing: messages)), modelId: \(Swift.String(describing: modelId)), outputConfig: \(Swift.String(describing: outputConfig)), performanceConfig: \(Swift.String(describing: performanceConfig)), serviceTier: \(Swift.String(describing: serviceTier)), system: \(Swift.String(describing: system)), toolConfig: \(Swift.String(describing: toolConfig)), promptVariables: \"CONTENT_REDACTED\", requestMetadata: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockRuntimeClientTypes {
@@ -5351,6 +5465,7 @@ extension ConverseInput {
         try writer["guardrailConfig"].write(value.guardrailConfig, with: BedrockRuntimeClientTypes.GuardrailConfiguration.write(value:to:))
         try writer["inferenceConfig"].write(value.inferenceConfig, with: BedrockRuntimeClientTypes.InferenceConfiguration.write(value:to:))
         try writer["messages"].writeList(value.messages, memberWritingClosure: BedrockRuntimeClientTypes.Message.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["outputConfig"].write(value.outputConfig, with: BedrockRuntimeClientTypes.OutputConfig.write(value:to:))
         try writer["performanceConfig"].write(value.performanceConfig, with: BedrockRuntimeClientTypes.PerformanceConfiguration.write(value:to:))
         try writer["promptVariables"].writeMap(value.promptVariables, valueWritingClosure: BedrockRuntimeClientTypes.PromptVariableValues.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["requestMetadata"].writeMap(value.requestMetadata, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -5369,6 +5484,7 @@ extension ConverseStreamInput {
         try writer["guardrailConfig"].write(value.guardrailConfig, with: BedrockRuntimeClientTypes.GuardrailStreamConfiguration.write(value:to:))
         try writer["inferenceConfig"].write(value.inferenceConfig, with: BedrockRuntimeClientTypes.InferenceConfiguration.write(value:to:))
         try writer["messages"].writeList(value.messages, memberWritingClosure: BedrockRuntimeClientTypes.Message.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["outputConfig"].write(value.outputConfig, with: BedrockRuntimeClientTypes.OutputConfig.write(value:to:))
         try writer["performanceConfig"].write(value.performanceConfig, with: BedrockRuntimeClientTypes.PerformanceConfiguration.write(value:to:))
         try writer["promptVariables"].writeMap(value.promptVariables, valueWritingClosure: BedrockRuntimeClientTypes.PromptVariableValues.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["requestMetadata"].writeMap(value.requestMetadata, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -8069,6 +8185,7 @@ extension BedrockRuntimeClientTypes.ToolSpecification {
         try writer["description"].write(value.description)
         try writer["inputSchema"].write(value.inputSchema, with: BedrockRuntimeClientTypes.ToolInputSchema.write(value:to:))
         try writer["name"].write(value.name)
+        try writer["strict"].write(value.strict)
     }
 }
 
@@ -8105,6 +8222,46 @@ extension BedrockRuntimeClientTypes.PromptVariableValues {
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
+    }
+}
+
+extension BedrockRuntimeClientTypes.OutputConfig {
+
+    static func write(value: BedrockRuntimeClientTypes.OutputConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["textFormat"].write(value.textFormat, with: BedrockRuntimeClientTypes.OutputFormat.write(value:to:))
+    }
+}
+
+extension BedrockRuntimeClientTypes.OutputFormat {
+
+    static func write(value: BedrockRuntimeClientTypes.OutputFormat?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["structure"].write(value.structure, with: BedrockRuntimeClientTypes.OutputFormatStructure.write(value:to:))
+        try writer["type"].write(value.type)
+    }
+}
+
+extension BedrockRuntimeClientTypes.OutputFormatStructure {
+
+    static func write(value: BedrockRuntimeClientTypes.OutputFormatStructure?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .jsonschema(jsonschema):
+                try writer["jsonSchema"].write(jsonschema, with: BedrockRuntimeClientTypes.JsonSchemaDefinition.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension BedrockRuntimeClientTypes.JsonSchemaDefinition {
+
+    static func write(value: BedrockRuntimeClientTypes.JsonSchemaDefinition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["description"].write(value.description)
+        try writer["name"].write(value.name)
+        try writer["schema"].write(value.schema)
     }
 }
 
