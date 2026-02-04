@@ -846,7 +846,25 @@ struct ConfigFile: FileBasedConfiguration {
             fullKey = "\(typePrefix) \(name)"
         }
 
-        return sections[fullKey]
+        // First try the exact type match
+        if let section = sections[fullKey] {
+            return section
+        }
+        
+        // If no exact match and we're looking for a profile, try other section types
+        // This allows the default section(for: name) method to find any section type
+        if type == .profile {
+            // Try sso-session
+            if let ssoSection = sections["sso-session \(name)"] {
+                return ssoSection
+            }
+            // Try services
+            if let servicesSection = sections["services \(name)"] {
+                return servicesSection
+            }
+        }
+        
+        return nil
     }
 }
 
