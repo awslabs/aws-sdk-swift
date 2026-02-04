@@ -4275,21 +4275,59 @@ extension MediaLiveClientTypes {
 
 extension MediaLiveClientTypes {
 
+    /// Placeholder documentation for ConnectionMode
+    public enum ConnectionMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case caller
+        case listener
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ConnectionMode] {
+            return [
+                .caller,
+                .listener
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .caller: return "CALLER"
+            case .listener: return "LISTENER"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
     /// Placeholder documentation for SrtOutputDestinationSettings
     public struct SrtOutputDestinationSettings: Swift.Sendable {
+        /// Specifies the mode the output should use for connection establishment. CALLER mode requires URL, LISTENER mode requires port.
+        public var connectionMode: MediaLiveClientTypes.ConnectionMode?
         /// Arn used to extract the password from Secrets Manager
         public var encryptionPassphraseSecretArn: Swift.String?
+        /// Port number for listener mode connections (required when connectionMode is LISTENER, must not be provided when connectionMode is CALLER).
+        public var listenerPort: Swift.Int?
         /// Stream id for SRT destinations (URLs of type srt://)
         public var streamId: Swift.String?
         /// A URL specifying a destination
         public var url: Swift.String?
 
         public init(
+            connectionMode: MediaLiveClientTypes.ConnectionMode? = nil,
             encryptionPassphraseSecretArn: Swift.String? = nil,
+            listenerPort: Swift.Int? = nil,
             streamId: Swift.String? = nil,
             url: Swift.String? = nil
         ) {
+            self.connectionMode = connectionMode
             self.encryptionPassphraseSecretArn = encryptionPassphraseSecretArn
+            self.listenerPort = listenerPort
             self.streamId = streamId
             self.url = url
         }
@@ -5456,6 +5494,8 @@ extension MediaLiveClientTypes {
         public var channelClass: MediaLiveClientTypes.ChannelClass?
         /// The engine version that you requested for this channel.
         public var channelEngineVersion: MediaLiveClientTypes.ChannelEngineVersionResponse?
+        /// A list of IDs for all the Input Security Groups attached to the channel.
+        public var channelSecurityGroups: [Swift.String]?
         /// A list of destinations of the channel. For UDP outputs, there is one destination per output. For other types (HLS, for example), there is one destination per packager.
         public var destinations: [MediaLiveClientTypes.OutputDestination]?
         /// The endpoints where outgoing connections initiate from
@@ -5493,6 +5533,7 @@ extension MediaLiveClientTypes {
             cdiInputSpecification: MediaLiveClientTypes.CdiInputSpecification? = nil,
             channelClass: MediaLiveClientTypes.ChannelClass? = nil,
             channelEngineVersion: MediaLiveClientTypes.ChannelEngineVersionResponse? = nil,
+            channelSecurityGroups: [Swift.String]? = nil,
             destinations: [MediaLiveClientTypes.OutputDestination]? = nil,
             egressEndpoints: [MediaLiveClientTypes.ChannelEgressEndpoint]? = nil,
             id: Swift.String? = nil,
@@ -5514,6 +5555,7 @@ extension MediaLiveClientTypes {
             self.cdiInputSpecification = cdiInputSpecification
             self.channelClass = channelClass
             self.channelEngineVersion = channelEngineVersion
+            self.channelSecurityGroups = channelSecurityGroups
             self.destinations = destinations
             self.egressEndpoints = egressEndpoints
             self.id = id
@@ -6417,16 +6459,20 @@ extension MediaLiveClientTypes {
         public var logicalInterfaceName: Swift.String?
         /// Used in NodeInterfaceMapping and NodeInterfaceMappingCreateRequest
         public var networkInterfaceMode: MediaLiveClientTypes.NetworkInterfaceMode?
+        /// The IP addresses associated with the physical interface on the node hardware.
+        public var physicalInterfaceIpAddresses: [Swift.String]?
         /// The name of the physical interface on the hardware that will be running Elemental anywhere.
         public var physicalInterfaceName: Swift.String?
 
         public init(
             logicalInterfaceName: Swift.String? = nil,
             networkInterfaceMode: MediaLiveClientTypes.NetworkInterfaceMode? = nil,
+            physicalInterfaceIpAddresses: [Swift.String]? = nil,
             physicalInterfaceName: Swift.String? = nil
         ) {
             self.logicalInterfaceName = logicalInterfaceName
             self.networkInterfaceMode = networkInterfaceMode
+            self.physicalInterfaceIpAddresses = physicalInterfaceIpAddresses
             self.physicalInterfaceName = physicalInterfaceName
         }
     }
@@ -7302,15 +7348,63 @@ extension MediaLiveClientTypes {
 
 extension MediaLiveClientTypes {
 
-    /// The configured sources for this SRT input.
+    /// Decryption settings for SRT listener. If present, both algorithm and passphraseSecretArn are required.
+    public struct SrtListenerDecryption: Swift.Sendable {
+        /// The algorithm used to decrypt content.
+        /// This member is required.
+        public var algorithm: MediaLiveClientTypes.Algorithm?
+        /// The ARN for the secret in Secrets Manager that holds the passphrase for decryption.
+        /// This member is required.
+        public var passphraseSecretArn: Swift.String?
+
+        public init(
+            algorithm: MediaLiveClientTypes.Algorithm? = nil,
+            passphraseSecretArn: Swift.String? = nil
+        ) {
+            self.algorithm = algorithm
+            self.passphraseSecretArn = passphraseSecretArn
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
+    /// Settings for SRT Listener input.
+    public struct SrtListenerSettings: Swift.Sendable {
+        /// Decryption settings for SRT listener. If present, both algorithm and passphraseSecretArn are required.
+        public var decryption: MediaLiveClientTypes.SrtListenerDecryption?
+        /// The preferred latency (in milliseconds) for implementing packet loss and recovery. Range 120-15000.
+        public var minimumLatency: Swift.Int?
+        /// The stream ID, if the upstream system uses this identifier.
+        public var streamId: Swift.String?
+
+        public init(
+            decryption: MediaLiveClientTypes.SrtListenerDecryption? = nil,
+            minimumLatency: Swift.Int? = nil,
+            streamId: Swift.String? = nil
+        ) {
+            self.decryption = decryption
+            self.minimumLatency = minimumLatency
+            self.streamId = streamId
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
+    /// The configured settings for SRT inputs (caller and listener).
     public struct SrtSettings: Swift.Sendable {
         /// Placeholder documentation for __listOfSrtCallerSource
         public var srtCallerSources: [MediaLiveClientTypes.SrtCallerSource]?
+        /// Settings for SRT Listener input.
+        public var srtListenerSettings: MediaLiveClientTypes.SrtListenerSettings?
 
         public init(
-            srtCallerSources: [MediaLiveClientTypes.SrtCallerSource]? = nil
+            srtCallerSources: [MediaLiveClientTypes.SrtCallerSource]? = nil,
+            srtListenerSettings: MediaLiveClientTypes.SrtListenerSettings? = nil
         ) {
             self.srtCallerSources = srtCallerSources
+            self.srtListenerSettings = srtListenerSettings
         }
     }
 }
@@ -7370,6 +7464,7 @@ extension MediaLiveClientTypes {
         case sdi
         case smpte2110ReceiverGroup
         case srtCaller
+        case srtListener
         case tsFile
         case udpPush
         case urlPull
@@ -7389,6 +7484,7 @@ extension MediaLiveClientTypes {
                 .sdi,
                 .smpte2110ReceiverGroup,
                 .srtCaller,
+                .srtListener,
                 .tsFile,
                 .udpPush,
                 .urlPull
@@ -7414,6 +7510,7 @@ extension MediaLiveClientTypes {
             case .sdi: return "SDI"
             case .smpte2110ReceiverGroup: return "SMPTE_2110_RECEIVER_GROUP"
             case .srtCaller: return "SRT_CALLER"
+            case .srtListener: return "SRT_LISTENER"
             case .tsFile: return "TS_FILE"
             case .udpPush: return "UDP_PUSH"
             case .urlPull: return "URL_PULL"
@@ -8356,6 +8453,8 @@ extension MediaLiveClientTypes {
     public struct InputSecurityGroup: Swift.Sendable {
         /// Unique ARN of Input Security Group
         public var arn: Swift.String?
+        /// The list of channels currently using this Input Security Group as their channel security group.
+        public var channels: [Swift.String]?
         /// The Id of the Input Security Group
         public var id: Swift.String?
         /// The list of inputs currently using this Input Security Group.
@@ -8369,6 +8468,7 @@ extension MediaLiveClientTypes {
 
         public init(
             arn: Swift.String? = nil,
+            channels: [Swift.String]? = nil,
             id: Swift.String? = nil,
             inputs: [Swift.String]? = nil,
             state: MediaLiveClientTypes.InputSecurityGroupState? = nil,
@@ -8376,6 +8476,7 @@ extension MediaLiveClientTypes {
             whitelistRules: [MediaLiveClientTypes.InputWhitelistRule]? = nil
         ) {
             self.arn = arn
+            self.channels = channels
             self.id = id
             self.inputs = inputs
             self.state = state
@@ -20569,6 +20670,8 @@ extension MediaLiveClientTypes {
         public var channelClass: MediaLiveClientTypes.ChannelClass?
         /// Requested engine version for this channel.
         public var channelEngineVersion: MediaLiveClientTypes.ChannelEngineVersionResponse?
+        /// A list of IDs for all the Input Security Groups attached to the channel.
+        public var channelSecurityGroups: [Swift.String]?
         /// A list of destinations of the channel. For UDP outputs, there is one destination per output. For other types (HLS, for example), there is one destination per packager.
         public var destinations: [MediaLiveClientTypes.OutputDestination]?
         /// The endpoints where outgoing connections initiate from
@@ -20608,6 +20711,7 @@ extension MediaLiveClientTypes {
             cdiInputSpecification: MediaLiveClientTypes.CdiInputSpecification? = nil,
             channelClass: MediaLiveClientTypes.ChannelClass? = nil,
             channelEngineVersion: MediaLiveClientTypes.ChannelEngineVersionResponse? = nil,
+            channelSecurityGroups: [Swift.String]? = nil,
             destinations: [MediaLiveClientTypes.OutputDestination]? = nil,
             egressEndpoints: [MediaLiveClientTypes.ChannelEgressEndpoint]? = nil,
             encoderSettings: MediaLiveClientTypes.EncoderSettings? = nil,
@@ -20630,6 +20734,7 @@ extension MediaLiveClientTypes {
             self.cdiInputSpecification = cdiInputSpecification
             self.channelClass = channelClass
             self.channelEngineVersion = channelEngineVersion
+            self.channelSecurityGroups = channelSecurityGroups
             self.destinations = destinations
             self.egressEndpoints = egressEndpoints
             self.encoderSettings = encoderSettings
@@ -20854,6 +20959,8 @@ public struct CreateChannelInput: Swift.Sendable {
     public var channelClass: MediaLiveClientTypes.ChannelClass?
     /// The desired engine version for this channel.
     public var channelEngineVersion: MediaLiveClientTypes.ChannelEngineVersionRequest?
+    /// A list of IDs for all the Input Security Groups attached to the channel.
+    public var channelSecurityGroups: [Swift.String]?
     /// Placeholder documentation for __listOfOutputDestination
     public var destinations: [MediaLiveClientTypes.OutputDestination]?
     /// Placeholder documentation for __boolean
@@ -20889,6 +20996,7 @@ public struct CreateChannelInput: Swift.Sendable {
         cdiInputSpecification: MediaLiveClientTypes.CdiInputSpecification? = nil,
         channelClass: MediaLiveClientTypes.ChannelClass? = nil,
         channelEngineVersion: MediaLiveClientTypes.ChannelEngineVersionRequest? = nil,
+        channelSecurityGroups: [Swift.String]? = nil,
         destinations: [MediaLiveClientTypes.OutputDestination]? = nil,
         dryRun: Swift.Bool? = nil,
         encoderSettings: MediaLiveClientTypes.EncoderSettings? = nil,
@@ -20908,6 +21016,7 @@ public struct CreateChannelInput: Swift.Sendable {
         self.cdiInputSpecification = cdiInputSpecification
         self.channelClass = channelClass
         self.channelEngineVersion = channelEngineVersion
+        self.channelSecurityGroups = channelSecurityGroups
         self.destinations = destinations
         self.dryRun = dryRun
         self.encoderSettings = encoderSettings
@@ -21473,15 +21582,65 @@ extension MediaLiveClientTypes {
 
 extension MediaLiveClientTypes {
 
-    /// Configures the sources for this SRT input. For a single-pipeline input, include one srtCallerSource in the array. For a standard-pipeline input, include two srtCallerSource.
+    /// Decryption settings. If specified, both algorithm and passphraseSecretArn are required.
+    public struct SrtListenerDecryptionRequest: Swift.Sendable {
+        /// Required. The decryption algorithm.
+        /// This member is required.
+        public var algorithm: MediaLiveClientTypes.Algorithm?
+        /// Required. The ARN for the secret in Secrets Manager that holds the passphrase.
+        /// This member is required.
+        public var passphraseSecretArn: Swift.String?
+
+        public init(
+            algorithm: MediaLiveClientTypes.Algorithm? = nil,
+            passphraseSecretArn: Swift.String? = nil
+        ) {
+            self.algorithm = algorithm
+            self.passphraseSecretArn = passphraseSecretArn
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
+    /// Configuration for SRT Listener input. Encryption is REQUIRED for all SRT Listener inputs for security reasons. You must provide decryption settings including algorithm and passphrase secret ARN.
+    public struct SrtListenerSettingsRequest: Swift.Sendable {
+        /// Decryption settings. If specified, both algorithm and passphraseSecretArn are required.
+        /// This member is required.
+        public var decryption: MediaLiveClientTypes.SrtListenerDecryptionRequest?
+        /// Required. The preferred latency in milliseconds for packet loss and recovery. Range 120-15000.
+        /// This member is required.
+        public var minimumLatency: Swift.Int?
+        /// Optional. The stream ID if the upstream system uses this identifier.
+        public var streamId: Swift.String?
+
+        public init(
+            decryption: MediaLiveClientTypes.SrtListenerDecryptionRequest? = nil,
+            minimumLatency: Swift.Int? = nil,
+            streamId: Swift.String? = nil
+        ) {
+            self.decryption = decryption
+            self.minimumLatency = minimumLatency
+            self.streamId = streamId
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
+    /// Configures the settings for SRT inputs. Provide either srtCallerSources (for SRT_CALLER type) OR srtListenerSettings (for SRT_LISTENER type), not both.
     public struct SrtSettingsRequest: Swift.Sendable {
         /// Placeholder documentation for __listOfSrtCallerSourceRequest
         public var srtCallerSources: [MediaLiveClientTypes.SrtCallerSourceRequest]?
+        /// Configuration for SRT Listener input. Encryption is REQUIRED for all SRT Listener inputs for security reasons. You must provide decryption settings including algorithm and passphrase secret ARN.
+        public var srtListenerSettings: MediaLiveClientTypes.SrtListenerSettingsRequest?
 
         public init(
-            srtCallerSources: [MediaLiveClientTypes.SrtCallerSourceRequest]? = nil
+            srtCallerSources: [MediaLiveClientTypes.SrtCallerSourceRequest]? = nil,
+            srtListenerSettings: MediaLiveClientTypes.SrtListenerSettingsRequest? = nil
         ) {
             self.srtCallerSources = srtCallerSources
+            self.srtListenerSettings = srtListenerSettings
         }
     }
 }
@@ -22554,6 +22713,8 @@ public struct DeleteChannelOutput: Swift.Sendable {
     public var channelClass: MediaLiveClientTypes.ChannelClass?
     /// Requested engine version for this channel.
     public var channelEngineVersion: MediaLiveClientTypes.ChannelEngineVersionResponse?
+    /// A list of IDs for all the Input Security Groups attached to the channel.
+    public var channelSecurityGroups: [Swift.String]?
     /// A list of destinations of the channel. For UDP outputs, there is one destination per output. For other types (HLS, for example), there is one destination per packager.
     public var destinations: [MediaLiveClientTypes.OutputDestination]?
     /// The endpoints where outgoing connections initiate from
@@ -22593,6 +22754,7 @@ public struct DeleteChannelOutput: Swift.Sendable {
         cdiInputSpecification: MediaLiveClientTypes.CdiInputSpecification? = nil,
         channelClass: MediaLiveClientTypes.ChannelClass? = nil,
         channelEngineVersion: MediaLiveClientTypes.ChannelEngineVersionResponse? = nil,
+        channelSecurityGroups: [Swift.String]? = nil,
         destinations: [MediaLiveClientTypes.OutputDestination]? = nil,
         egressEndpoints: [MediaLiveClientTypes.ChannelEgressEndpoint]? = nil,
         encoderSettings: MediaLiveClientTypes.EncoderSettings? = nil,
@@ -22615,6 +22777,7 @@ public struct DeleteChannelOutput: Swift.Sendable {
         self.cdiInputSpecification = cdiInputSpecification
         self.channelClass = channelClass
         self.channelEngineVersion = channelEngineVersion
+        self.channelSecurityGroups = channelSecurityGroups
         self.destinations = destinations
         self.egressEndpoints = egressEndpoints
         self.encoderSettings = encoderSettings
@@ -23272,6 +23435,8 @@ public struct DescribeChannelOutput: Swift.Sendable {
     public var channelClass: MediaLiveClientTypes.ChannelClass?
     /// Requested engine version for this channel.
     public var channelEngineVersion: MediaLiveClientTypes.ChannelEngineVersionResponse?
+    /// A list of IDs for all the Input Security Groups attached to the channel.
+    public var channelSecurityGroups: [Swift.String]?
     /// A list of destinations of the channel. For UDP outputs, there is one destination per output. For other types (HLS, for example), there is one destination per packager.
     public var destinations: [MediaLiveClientTypes.OutputDestination]?
     /// The endpoints where outgoing connections initiate from
@@ -23311,6 +23476,7 @@ public struct DescribeChannelOutput: Swift.Sendable {
         cdiInputSpecification: MediaLiveClientTypes.CdiInputSpecification? = nil,
         channelClass: MediaLiveClientTypes.ChannelClass? = nil,
         channelEngineVersion: MediaLiveClientTypes.ChannelEngineVersionResponse? = nil,
+        channelSecurityGroups: [Swift.String]? = nil,
         destinations: [MediaLiveClientTypes.OutputDestination]? = nil,
         egressEndpoints: [MediaLiveClientTypes.ChannelEgressEndpoint]? = nil,
         encoderSettings: MediaLiveClientTypes.EncoderSettings? = nil,
@@ -23333,6 +23499,7 @@ public struct DescribeChannelOutput: Swift.Sendable {
         self.cdiInputSpecification = cdiInputSpecification
         self.channelClass = channelClass
         self.channelEngineVersion = channelEngineVersion
+        self.channelSecurityGroups = channelSecurityGroups
         self.destinations = destinations
         self.egressEndpoints = egressEndpoints
         self.encoderSettings = encoderSettings
@@ -23716,6 +23883,8 @@ public struct DescribeInputSecurityGroupInput: Swift.Sendable {
 public struct DescribeInputSecurityGroupOutput: Swift.Sendable {
     /// Unique ARN of Input Security Group
     public var arn: Swift.String?
+    /// The list of channels currently using this Input Security Group as their channel security group.
+    public var channels: [Swift.String]?
     /// The Id of the Input Security Group
     public var id: Swift.String?
     /// The list of inputs currently using this Input Security Group.
@@ -23729,6 +23898,7 @@ public struct DescribeInputSecurityGroupOutput: Swift.Sendable {
 
     public init(
         arn: Swift.String? = nil,
+        channels: [Swift.String]? = nil,
         id: Swift.String? = nil,
         inputs: [Swift.String]? = nil,
         state: MediaLiveClientTypes.InputSecurityGroupState? = nil,
@@ -23736,6 +23906,7 @@ public struct DescribeInputSecurityGroupOutput: Swift.Sendable {
         whitelistRules: [MediaLiveClientTypes.InputWhitelistRule]? = nil
     ) {
         self.arn = arn
+        self.channels = channels
         self.id = id
         self.inputs = inputs
         self.state = state
@@ -25716,6 +25887,8 @@ public struct RestartChannelPipelinesOutput: Swift.Sendable {
     public var channelClass: MediaLiveClientTypes.ChannelClass?
     /// Requested engine version for this channel.
     public var channelEngineVersion: MediaLiveClientTypes.ChannelEngineVersionResponse?
+    /// A list of IDs for all the Input Security Groups attached to the channel.
+    public var channelSecurityGroups: [Swift.String]?
     /// A list of destinations of the channel. For UDP outputs, there is one destination per output. For other types (HLS, for example), there is one destination per packager.
     public var destinations: [MediaLiveClientTypes.OutputDestination]?
     /// The endpoints where outgoing connections initiate from
@@ -25757,6 +25930,7 @@ public struct RestartChannelPipelinesOutput: Swift.Sendable {
         cdiInputSpecification: MediaLiveClientTypes.CdiInputSpecification? = nil,
         channelClass: MediaLiveClientTypes.ChannelClass? = nil,
         channelEngineVersion: MediaLiveClientTypes.ChannelEngineVersionResponse? = nil,
+        channelSecurityGroups: [Swift.String]? = nil,
         destinations: [MediaLiveClientTypes.OutputDestination]? = nil,
         egressEndpoints: [MediaLiveClientTypes.ChannelEgressEndpoint]? = nil,
         encoderSettings: MediaLiveClientTypes.EncoderSettings? = nil,
@@ -25780,6 +25954,7 @@ public struct RestartChannelPipelinesOutput: Swift.Sendable {
         self.cdiInputSpecification = cdiInputSpecification
         self.channelClass = channelClass
         self.channelEngineVersion = channelEngineVersion
+        self.channelSecurityGroups = channelSecurityGroups
         self.destinations = destinations
         self.egressEndpoints = egressEndpoints
         self.encoderSettings = encoderSettings
@@ -25825,6 +26000,8 @@ public struct StartChannelOutput: Swift.Sendable {
     public var channelClass: MediaLiveClientTypes.ChannelClass?
     /// Requested engine version for this channel.
     public var channelEngineVersion: MediaLiveClientTypes.ChannelEngineVersionResponse?
+    /// A list of IDs for all the Input Security Groups attached to the channel.
+    public var channelSecurityGroups: [Swift.String]?
     /// A list of destinations of the channel. For UDP outputs, there is one destination per output. For other types (HLS, for example), there is one destination per packager.
     public var destinations: [MediaLiveClientTypes.OutputDestination]?
     /// The endpoints where outgoing connections initiate from
@@ -25864,6 +26041,7 @@ public struct StartChannelOutput: Swift.Sendable {
         cdiInputSpecification: MediaLiveClientTypes.CdiInputSpecification? = nil,
         channelClass: MediaLiveClientTypes.ChannelClass? = nil,
         channelEngineVersion: MediaLiveClientTypes.ChannelEngineVersionResponse? = nil,
+        channelSecurityGroups: [Swift.String]? = nil,
         destinations: [MediaLiveClientTypes.OutputDestination]? = nil,
         egressEndpoints: [MediaLiveClientTypes.ChannelEgressEndpoint]? = nil,
         encoderSettings: MediaLiveClientTypes.EncoderSettings? = nil,
@@ -25886,6 +26064,7 @@ public struct StartChannelOutput: Swift.Sendable {
         self.cdiInputSpecification = cdiInputSpecification
         self.channelClass = channelClass
         self.channelEngineVersion = channelEngineVersion
+        self.channelSecurityGroups = channelSecurityGroups
         self.destinations = destinations
         self.egressEndpoints = egressEndpoints
         self.encoderSettings = encoderSettings
@@ -26336,6 +26515,8 @@ public struct StopChannelOutput: Swift.Sendable {
     public var channelClass: MediaLiveClientTypes.ChannelClass?
     /// Requested engine version for this channel.
     public var channelEngineVersion: MediaLiveClientTypes.ChannelEngineVersionResponse?
+    /// A list of IDs for all the Input Security Groups attached to the channel.
+    public var channelSecurityGroups: [Swift.String]?
     /// A list of destinations of the channel. For UDP outputs, there is one destination per output. For other types (HLS, for example), there is one destination per packager.
     public var destinations: [MediaLiveClientTypes.OutputDestination]?
     /// The endpoints where outgoing connections initiate from
@@ -26375,6 +26556,7 @@ public struct StopChannelOutput: Swift.Sendable {
         cdiInputSpecification: MediaLiveClientTypes.CdiInputSpecification? = nil,
         channelClass: MediaLiveClientTypes.ChannelClass? = nil,
         channelEngineVersion: MediaLiveClientTypes.ChannelEngineVersionResponse? = nil,
+        channelSecurityGroups: [Swift.String]? = nil,
         destinations: [MediaLiveClientTypes.OutputDestination]? = nil,
         egressEndpoints: [MediaLiveClientTypes.ChannelEgressEndpoint]? = nil,
         encoderSettings: MediaLiveClientTypes.EncoderSettings? = nil,
@@ -26397,6 +26579,7 @@ public struct StopChannelOutput: Swift.Sendable {
         self.cdiInputSpecification = cdiInputSpecification
         self.channelClass = channelClass
         self.channelEngineVersion = channelEngineVersion
+        self.channelSecurityGroups = channelSecurityGroups
         self.destinations = destinations
         self.egressEndpoints = egressEndpoints
         self.encoderSettings = encoderSettings
@@ -26562,6 +26745,8 @@ public struct UpdateChannelInput: Swift.Sendable {
     /// channel ID
     /// This member is required.
     public var channelId: Swift.String?
+    /// A list of IDs for all the Input Security Groups attached to the channel.
+    public var channelSecurityGroups: [Swift.String]?
     /// A list of output destinations for this channel.
     public var destinations: [MediaLiveClientTypes.OutputDestination]?
     /// Placeholder documentation for __boolean
@@ -26588,6 +26773,7 @@ public struct UpdateChannelInput: Swift.Sendable {
         cdiInputSpecification: MediaLiveClientTypes.CdiInputSpecification? = nil,
         channelEngineVersion: MediaLiveClientTypes.ChannelEngineVersionRequest? = nil,
         channelId: Swift.String? = nil,
+        channelSecurityGroups: [Swift.String]? = nil,
         destinations: [MediaLiveClientTypes.OutputDestination]? = nil,
         dryRun: Swift.Bool? = nil,
         encoderSettings: MediaLiveClientTypes.EncoderSettings? = nil,
@@ -26603,6 +26789,7 @@ public struct UpdateChannelInput: Swift.Sendable {
         self.cdiInputSpecification = cdiInputSpecification
         self.channelEngineVersion = channelEngineVersion
         self.channelId = channelId
+        self.channelSecurityGroups = channelSecurityGroups
         self.destinations = destinations
         self.dryRun = dryRun
         self.encoderSettings = encoderSettings
@@ -29508,6 +29695,7 @@ extension CreateChannelInput {
         try writer["cdiInputSpecification"].write(value.cdiInputSpecification, with: MediaLiveClientTypes.CdiInputSpecification.write(value:to:))
         try writer["channelClass"].write(value.channelClass)
         try writer["channelEngineVersion"].write(value.channelEngineVersion, with: MediaLiveClientTypes.ChannelEngineVersionRequest.write(value:to:))
+        try writer["channelSecurityGroups"].writeList(value.channelSecurityGroups, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["destinations"].writeList(value.destinations, memberWritingClosure: MediaLiveClientTypes.OutputDestination.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["dryRun"].write(value.dryRun)
         try writer["encoderSettings"].write(value.encoderSettings, with: MediaLiveClientTypes.EncoderSettings.write(value:to:))
@@ -29815,6 +30003,7 @@ extension UpdateChannelInput {
         try writer["anywhereSettings"].write(value.anywhereSettings, with: MediaLiveClientTypes.AnywhereSettings.write(value:to:))
         try writer["cdiInputSpecification"].write(value.cdiInputSpecification, with: MediaLiveClientTypes.CdiInputSpecification.write(value:to:))
         try writer["channelEngineVersion"].write(value.channelEngineVersion, with: MediaLiveClientTypes.ChannelEngineVersionRequest.write(value:to:))
+        try writer["channelSecurityGroups"].writeList(value.channelSecurityGroups, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["destinations"].writeList(value.destinations, memberWritingClosure: MediaLiveClientTypes.OutputDestination.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["dryRun"].write(value.dryRun)
         try writer["encoderSettings"].write(value.encoderSettings, with: MediaLiveClientTypes.EncoderSettings.write(value:to:))
@@ -30385,6 +30574,7 @@ extension DeleteChannelOutput {
         value.cdiInputSpecification = try reader["cdiInputSpecification"].readIfPresent(with: MediaLiveClientTypes.CdiInputSpecification.read(from:))
         value.channelClass = try reader["channelClass"].readIfPresent()
         value.channelEngineVersion = try reader["channelEngineVersion"].readIfPresent(with: MediaLiveClientTypes.ChannelEngineVersionResponse.read(from:))
+        value.channelSecurityGroups = try reader["channelSecurityGroups"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.destinations = try reader["destinations"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.OutputDestination.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.egressEndpoints = try reader["egressEndpoints"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.ChannelEgressEndpoint.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.encoderSettings = try reader["encoderSettings"].readIfPresent(with: MediaLiveClientTypes.EncoderSettings.read(from:))
@@ -30648,6 +30838,7 @@ extension DescribeChannelOutput {
         value.cdiInputSpecification = try reader["cdiInputSpecification"].readIfPresent(with: MediaLiveClientTypes.CdiInputSpecification.read(from:))
         value.channelClass = try reader["channelClass"].readIfPresent()
         value.channelEngineVersion = try reader["channelEngineVersion"].readIfPresent(with: MediaLiveClientTypes.ChannelEngineVersionResponse.read(from:))
+        value.channelSecurityGroups = try reader["channelSecurityGroups"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.destinations = try reader["destinations"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.OutputDestination.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.egressEndpoints = try reader["egressEndpoints"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.ChannelEgressEndpoint.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.encoderSettings = try reader["encoderSettings"].readIfPresent(with: MediaLiveClientTypes.EncoderSettings.read(from:))
@@ -30801,6 +30992,7 @@ extension DescribeInputSecurityGroupOutput {
         let reader = responseReader
         var value = DescribeInputSecurityGroupOutput()
         value.arn = try reader["arn"].readIfPresent()
+        value.channels = try reader["channels"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.id = try reader["id"].readIfPresent()
         value.inputs = try reader["inputs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.state = try reader["state"].readIfPresent()
@@ -31438,6 +31630,7 @@ extension RestartChannelPipelinesOutput {
         value.cdiInputSpecification = try reader["cdiInputSpecification"].readIfPresent(with: MediaLiveClientTypes.CdiInputSpecification.read(from:))
         value.channelClass = try reader["channelClass"].readIfPresent()
         value.channelEngineVersion = try reader["channelEngineVersion"].readIfPresent(with: MediaLiveClientTypes.ChannelEngineVersionResponse.read(from:))
+        value.channelSecurityGroups = try reader["channelSecurityGroups"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.destinations = try reader["destinations"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.OutputDestination.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.egressEndpoints = try reader["egressEndpoints"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.ChannelEgressEndpoint.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.encoderSettings = try reader["encoderSettings"].readIfPresent(with: MediaLiveClientTypes.EncoderSettings.read(from:))
@@ -31471,6 +31664,7 @@ extension StartChannelOutput {
         value.cdiInputSpecification = try reader["cdiInputSpecification"].readIfPresent(with: MediaLiveClientTypes.CdiInputSpecification.read(from:))
         value.channelClass = try reader["channelClass"].readIfPresent()
         value.channelEngineVersion = try reader["channelEngineVersion"].readIfPresent(with: MediaLiveClientTypes.ChannelEngineVersionResponse.read(from:))
+        value.channelSecurityGroups = try reader["channelSecurityGroups"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.destinations = try reader["destinations"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.OutputDestination.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.egressEndpoints = try reader["egressEndpoints"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.ChannelEgressEndpoint.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.encoderSettings = try reader["encoderSettings"].readIfPresent(with: MediaLiveClientTypes.EncoderSettings.read(from:))
@@ -31625,6 +31819,7 @@ extension StopChannelOutput {
         value.cdiInputSpecification = try reader["cdiInputSpecification"].readIfPresent(with: MediaLiveClientTypes.CdiInputSpecification.read(from:))
         value.channelClass = try reader["channelClass"].readIfPresent()
         value.channelEngineVersion = try reader["channelEngineVersion"].readIfPresent(with: MediaLiveClientTypes.ChannelEngineVersionResponse.read(from:))
+        value.channelSecurityGroups = try reader["channelSecurityGroups"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.destinations = try reader["destinations"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.OutputDestination.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.egressEndpoints = try reader["egressEndpoints"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.ChannelEgressEndpoint.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.encoderSettings = try reader["encoderSettings"].readIfPresent(with: MediaLiveClientTypes.EncoderSettings.read(from:))
@@ -35251,6 +35446,7 @@ extension MediaLiveClientTypes.Channel {
         value.anywhereSettings = try reader["anywhereSettings"].readIfPresent(with: MediaLiveClientTypes.DescribeAnywhereSettings.read(from:))
         value.channelEngineVersion = try reader["channelEngineVersion"].readIfPresent(with: MediaLiveClientTypes.ChannelEngineVersionResponse.read(from:))
         value.linkedChannelSettings = try reader["linkedChannelSettings"].readIfPresent(with: MediaLiveClientTypes.DescribeLinkedChannelSettings.read(from:))
+        value.channelSecurityGroups = try reader["channelSecurityGroups"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -39225,7 +39421,9 @@ extension MediaLiveClientTypes.SrtOutputDestinationSettings {
 
     static func write(value: MediaLiveClientTypes.SrtOutputDestinationSettings?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["connectionMode"].write(value.connectionMode)
         try writer["encryptionPassphraseSecretArn"].write(value.encryptionPassphraseSecretArn)
+        try writer["listenerPort"].write(value.listenerPort)
         try writer["streamId"].write(value.streamId)
         try writer["url"].write(value.url)
     }
@@ -39236,6 +39434,8 @@ extension MediaLiveClientTypes.SrtOutputDestinationSettings {
         value.encryptionPassphraseSecretArn = try reader["encryptionPassphraseSecretArn"].readIfPresent()
         value.streamId = try reader["streamId"].readIfPresent()
         value.url = try reader["url"].readIfPresent()
+        value.connectionMode = try reader["connectionMode"].readIfPresent()
+        value.listenerPort = try reader["listenerPort"].readIfPresent()
         return value
     }
 }
@@ -39500,6 +39700,30 @@ extension MediaLiveClientTypes.SrtSettings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaLiveClientTypes.SrtSettings()
         value.srtCallerSources = try reader["srtCallerSources"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.SrtCallerSource.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.srtListenerSettings = try reader["srtListenerSettings"].readIfPresent(with: MediaLiveClientTypes.SrtListenerSettings.read(from:))
+        return value
+    }
+}
+
+extension MediaLiveClientTypes.SrtListenerSettings {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.SrtListenerSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaLiveClientTypes.SrtListenerSettings()
+        value.decryption = try reader["decryption"].readIfPresent(with: MediaLiveClientTypes.SrtListenerDecryption.read(from:))
+        value.minimumLatency = try reader["minimumLatency"].readIfPresent()
+        value.streamId = try reader["streamId"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaLiveClientTypes.SrtListenerDecryption {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.SrtListenerDecryption {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaLiveClientTypes.SrtListenerDecryption()
+        value.algorithm = try reader["algorithm"].readIfPresent() ?? .sdkUnknown("")
+        value.passphraseSecretArn = try reader["passphraseSecretArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -39614,6 +39838,7 @@ extension MediaLiveClientTypes.InputSecurityGroup {
         value.state = try reader["state"].readIfPresent()
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.whitelistRules = try reader["whitelistRules"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.InputWhitelistRule.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.channels = try reader["channels"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -39861,6 +40086,7 @@ extension MediaLiveClientTypes.NodeInterfaceMapping {
         guard let value else { return }
         try writer["logicalInterfaceName"].write(value.logicalInterfaceName)
         try writer["networkInterfaceMode"].write(value.networkInterfaceMode)
+        try writer["physicalInterfaceIpAddresses"].writeList(value.physicalInterfaceIpAddresses, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["physicalInterfaceName"].write(value.physicalInterfaceName)
     }
 
@@ -39870,6 +40096,7 @@ extension MediaLiveClientTypes.NodeInterfaceMapping {
         value.logicalInterfaceName = try reader["logicalInterfaceName"].readIfPresent()
         value.networkInterfaceMode = try reader["networkInterfaceMode"].readIfPresent()
         value.physicalInterfaceName = try reader["physicalInterfaceName"].readIfPresent()
+        value.physicalInterfaceIpAddresses = try reader["physicalInterfaceIpAddresses"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -40156,6 +40383,7 @@ extension MediaLiveClientTypes.ChannelSummary {
         value.channelEngineVersion = try reader["channelEngineVersion"].readIfPresent(with: MediaLiveClientTypes.ChannelEngineVersionResponse.read(from:))
         value.usedChannelEngineVersions = try reader["usedChannelEngineVersions"].readListIfPresent(memberReadingClosure: MediaLiveClientTypes.ChannelEngineVersionResponse.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.linkedChannelSettings = try reader["linkedChannelSettings"].readIfPresent(with: MediaLiveClientTypes.DescribeLinkedChannelSettings.read(from:))
+        value.channelSecurityGroups = try reader["channelSecurityGroups"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -40644,6 +40872,26 @@ extension MediaLiveClientTypes.SrtSettingsRequest {
     static func write(value: MediaLiveClientTypes.SrtSettingsRequest?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["srtCallerSources"].writeList(value.srtCallerSources, memberWritingClosure: MediaLiveClientTypes.SrtCallerSourceRequest.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["srtListenerSettings"].write(value.srtListenerSettings, with: MediaLiveClientTypes.SrtListenerSettingsRequest.write(value:to:))
+    }
+}
+
+extension MediaLiveClientTypes.SrtListenerSettingsRequest {
+
+    static func write(value: MediaLiveClientTypes.SrtListenerSettingsRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["decryption"].write(value.decryption, with: MediaLiveClientTypes.SrtListenerDecryptionRequest.write(value:to:))
+        try writer["minimumLatency"].write(value.minimumLatency)
+        try writer["streamId"].write(value.streamId)
+    }
+}
+
+extension MediaLiveClientTypes.SrtListenerDecryptionRequest {
+
+    static func write(value: MediaLiveClientTypes.SrtListenerDecryptionRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["algorithm"].write(value.algorithm)
+        try writer["passphraseSecretArn"].write(value.passphraseSecretArn)
     }
 }
 
