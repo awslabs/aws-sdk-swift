@@ -23,6 +23,7 @@ import software.amazon.smithy.swift.codegen.integration.ServiceConfig
 import software.amazon.smithy.swift.codegen.integration.SmokeTestGenerator
 import software.amazon.smithy.swift.codegen.model.isInputEventStream
 import software.amazon.smithy.swift.codegen.model.isOutputEventStream
+import software.amazon.smithy.swift.codegen.swiftmodules.ClientRuntimeTypes
 
 abstract class AWSHTTPProtocolCustomizations : DefaultHTTPProtocolCustomizations() {
     override fun renderContextAttributes(
@@ -49,7 +50,8 @@ abstract class AWSHTTPProtocolCustomizations : DefaultHTTPProtocolCustomizations
             writer.write("  .withSigningRegion(value: config.signingRegion)")
         }
         if (ctx.service.isS3) {
-            writer.write("  .withClientConfig(value: config)") // this is used in S3 Express
+            // this is used in S3 Express
+            writer.write("  .withClientConfig(value: config as \$N)", ClientRuntimeTypes.Core.DefaultClientConfiguration)
         }
     }
 

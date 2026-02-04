@@ -243,6 +243,8 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
 public struct AddTagsToStreamInput: Swift.Sendable {
     /// The ARN of the stream.
     public var streamARN: Swift.String?
+    /// Not Implemented. Reserved for future use.
+    public var streamId: Swift.String?
     /// The name of the stream.
     public var streamName: Swift.String?
     /// A set of up to 50 key-value pairs to use to create the tags. A tag consists of a required key and an optional value. You can add up to 50 tags per resource.
@@ -251,10 +253,12 @@ public struct AddTagsToStreamInput: Swift.Sendable {
 
     public init(
         streamARN: Swift.String? = nil,
+        streamId: Swift.String? = nil,
         streamName: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
     ) {
         self.streamARN = streamARN
+        self.streamId = streamId
         self.streamName = streamName
         self.tags = tags
     }
@@ -514,16 +518,20 @@ public struct DecreaseStreamRetentionPeriodInput: Swift.Sendable {
     public var retentionPeriodHours: Swift.Int?
     /// The ARN of the stream.
     public var streamARN: Swift.String?
+    /// Not Implemented. Reserved for future use.
+    public var streamId: Swift.String?
     /// The name of the stream to modify.
     public var streamName: Swift.String?
 
     public init(
         retentionPeriodHours: Swift.Int? = nil,
         streamARN: Swift.String? = nil,
+        streamId: Swift.String? = nil,
         streamName: Swift.String? = nil
     ) {
         self.retentionPeriodHours = retentionPeriodHours
         self.streamARN = streamARN
+        self.streamId = streamId
         self.streamName = streamName
     }
 }
@@ -532,11 +540,15 @@ public struct DeleteResourcePolicyInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the data stream or consumer.
     /// This member is required.
     public var resourceARN: Swift.String?
+    /// Not Implemented. Reserved for future use.
+    public var streamId: Swift.String?
 
     public init(
-        resourceARN: Swift.String? = nil
+        resourceARN: Swift.String? = nil,
+        streamId: Swift.String? = nil
     ) {
         self.resourceARN = resourceARN
+        self.streamId = streamId
     }
 }
 
@@ -546,16 +558,20 @@ public struct DeleteStreamInput: Swift.Sendable {
     public var enforceConsumerDeletion: Swift.Bool?
     /// The ARN of the stream.
     public var streamARN: Swift.String?
+    /// Not Implemented. Reserved for future use.
+    public var streamId: Swift.String?
     /// The name of the stream to delete.
     public var streamName: Swift.String?
 
     public init(
         enforceConsumerDeletion: Swift.Bool? = nil,
         streamARN: Swift.String? = nil,
+        streamId: Swift.String? = nil,
         streamName: Swift.String? = nil
     ) {
         self.enforceConsumerDeletion = enforceConsumerDeletion
         self.streamARN = streamARN
+        self.streamId = streamId
         self.streamName = streamName
     }
 }
@@ -567,15 +583,19 @@ public struct DeregisterStreamConsumerInput: Swift.Sendable {
     public var consumerName: Swift.String?
     /// The ARN of the Kinesis data stream that the consumer is registered with. For more information, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#arn-syntax-kinesis-streams).
     public var streamARN: Swift.String?
+    /// Not Implemented. Reserved for future use.
+    public var streamId: Swift.String?
 
     public init(
         consumerARN: Swift.String? = nil,
         consumerName: Swift.String? = nil,
-        streamARN: Swift.String? = nil
+        streamARN: Swift.String? = nil,
+        streamId: Swift.String? = nil
     ) {
         self.consumerARN = consumerARN
         self.consumerName = consumerName
         self.streamARN = streamARN
+        self.streamId = streamId
     }
 }
 
@@ -695,6 +715,8 @@ public struct DescribeStreamInput: Swift.Sendable {
     public var limit: Swift.Int?
     /// The ARN of the stream.
     public var streamARN: Swift.String?
+    /// Not Implemented. Reserved for future use.
+    public var streamId: Swift.String?
     /// The name of the stream to describe.
     public var streamName: Swift.String?
 
@@ -702,11 +724,13 @@ public struct DescribeStreamInput: Swift.Sendable {
         exclusiveStartShardId: Swift.String? = nil,
         limit: Swift.Int? = nil,
         streamARN: Swift.String? = nil,
+        streamId: Swift.String? = nil,
         streamName: Swift.String? = nil
     ) {
         self.exclusiveStartShardId = exclusiveStartShardId
         self.limit = limit
         self.streamARN = streamARN
+        self.streamId = streamId
         self.streamName = streamName
     }
 }
@@ -1015,15 +1039,19 @@ public struct DescribeStreamConsumerInput: Swift.Sendable {
     public var consumerName: Swift.String?
     /// The ARN of the Kinesis data stream that the consumer is registered with. For more information, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#arn-syntax-kinesis-streams).
     public var streamARN: Swift.String?
+    /// Not Implemented. Reserved for future use.
+    public var streamId: Swift.String?
 
     public init(
         consumerARN: Swift.String? = nil,
         consumerName: Swift.String? = nil,
-        streamARN: Swift.String? = nil
+        streamARN: Swift.String? = nil,
+        streamId: Swift.String? = nil
     ) {
         self.consumerARN = consumerARN
         self.consumerName = consumerName
         self.streamARN = streamARN
+        self.streamId = streamId
     }
 }
 
@@ -1042,14 +1070,18 @@ public struct DescribeStreamConsumerOutput: Swift.Sendable {
 public struct DescribeStreamSummaryInput: Swift.Sendable {
     /// The ARN of the stream.
     public var streamARN: Swift.String?
+    /// Not Implemented. Reserved for future use.
+    public var streamId: Swift.String?
     /// The name of the stream to describe.
     public var streamName: Swift.String?
 
     public init(
         streamARN: Swift.String? = nil,
+        streamId: Swift.String? = nil,
         streamName: Swift.String? = nil
     ) {
         self.streamARN = streamARN
+        self.streamId = streamId
         self.streamName = streamName
     }
 }
@@ -1114,6 +1146,8 @@ extension KinesisClientTypes {
         /// The approximate time that the stream was created.
         /// This member is required.
         public var streamCreationTimestamp: Foundation.Date?
+        /// Not Implemented. Reserved for future use.
+        public var streamId: Swift.String?
         /// Specifies the capacity mode to which you want to set your data stream. Currently, in Kinesis Data Streams, you can choose between an on-demand ycapacity mode and a provisioned capacity mode for your data streams.
         public var streamModeDetails: KinesisClientTypes.StreamModeDetails?
         /// The name of the stream being described.
@@ -1143,6 +1177,7 @@ extension KinesisClientTypes {
             retentionPeriodHours: Swift.Int? = nil,
             streamARN: Swift.String? = nil,
             streamCreationTimestamp: Foundation.Date? = nil,
+            streamId: Swift.String? = nil,
             streamModeDetails: KinesisClientTypes.StreamModeDetails? = nil,
             streamName: Swift.String? = nil,
             streamStatus: KinesisClientTypes.StreamStatus? = nil,
@@ -1157,6 +1192,7 @@ extension KinesisClientTypes {
             self.retentionPeriodHours = retentionPeriodHours
             self.streamARN = streamARN
             self.streamCreationTimestamp = streamCreationTimestamp
+            self.streamId = streamId
             self.streamModeDetails = streamModeDetails
             self.streamName = streamName
             self.streamStatus = streamStatus
@@ -1203,16 +1239,20 @@ public struct DisableEnhancedMonitoringInput: Swift.Sendable {
     public var shardLevelMetrics: [KinesisClientTypes.MetricsName]?
     /// The ARN of the stream.
     public var streamARN: Swift.String?
+    /// Not Implemented. Reserved for future use.
+    public var streamId: Swift.String?
     /// The name of the Kinesis data stream for which to disable enhanced monitoring.
     public var streamName: Swift.String?
 
     public init(
         shardLevelMetrics: [KinesisClientTypes.MetricsName]? = nil,
         streamARN: Swift.String? = nil,
+        streamId: Swift.String? = nil,
         streamName: Swift.String? = nil
     ) {
         self.shardLevelMetrics = shardLevelMetrics
         self.streamARN = streamARN
+        self.streamId = streamId
         self.streamName = streamName
     }
 }
@@ -1267,16 +1307,20 @@ public struct EnableEnhancedMonitoringInput: Swift.Sendable {
     public var shardLevelMetrics: [KinesisClientTypes.MetricsName]?
     /// The ARN of the stream.
     public var streamARN: Swift.String?
+    /// Not Implemented. Reserved for future use.
+    public var streamId: Swift.String?
     /// The name of the stream for which to enable enhanced monitoring.
     public var streamName: Swift.String?
 
     public init(
         shardLevelMetrics: [KinesisClientTypes.MetricsName]? = nil,
         streamARN: Swift.String? = nil,
+        streamId: Swift.String? = nil,
         streamName: Swift.String? = nil
     ) {
         self.shardLevelMetrics = shardLevelMetrics
         self.streamARN = streamARN
+        self.streamId = streamId
         self.streamName = streamName
     }
 }
@@ -1552,15 +1596,19 @@ public struct GetRecordsInput: Swift.Sendable {
     public var shardIterator: Swift.String?
     /// The ARN of the stream.
     public var streamARN: Swift.String?
+    /// Not Implemented. Reserved for future use.
+    public var streamId: Swift.String?
 
     public init(
         limit: Swift.Int? = nil,
         shardIterator: Swift.String? = nil,
-        streamARN: Swift.String? = nil
+        streamARN: Swift.String? = nil,
+        streamId: Swift.String? = nil
     ) {
         self.limit = limit
         self.shardIterator = shardIterator
         self.streamARN = streamARN
+        self.streamId = streamId
     }
 }
 
@@ -1631,11 +1679,15 @@ public struct GetResourcePolicyInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the data stream or consumer.
     /// This member is required.
     public var resourceARN: Swift.String?
+    /// Not Implemented. Reserved for future use.
+    public var streamId: Swift.String?
 
     public init(
-        resourceARN: Swift.String? = nil
+        resourceARN: Swift.String? = nil,
+        streamId: Swift.String? = nil
     ) {
         self.resourceARN = resourceARN
+        self.streamId = streamId
     }
 }
 
@@ -1711,6 +1763,8 @@ public struct GetShardIteratorInput: Swift.Sendable {
     public var startingSequenceNumber: Swift.String?
     /// The ARN of the stream.
     public var streamARN: Swift.String?
+    /// Not Implemented. Reserved for future use.
+    public var streamId: Swift.String?
     /// The name of the Amazon Kinesis data stream.
     public var streamName: Swift.String?
     /// The time stamp of the data record from which to start reading. Used with shard iterator type AT_TIMESTAMP. A time stamp is the Unix epoch date with precision in milliseconds. For example, 2016-04-04T19:58:46.480-00:00 or 1459799926.480. If a record with this exact time stamp does not exist, the iterator returned is for the next (later) record. If the time stamp is older than the current trim horizon, the iterator returned is for the oldest untrimmed data record (TRIM_HORIZON).
@@ -1721,6 +1775,7 @@ public struct GetShardIteratorInput: Swift.Sendable {
         shardIteratorType: KinesisClientTypes.ShardIteratorType? = nil,
         startingSequenceNumber: Swift.String? = nil,
         streamARN: Swift.String? = nil,
+        streamId: Swift.String? = nil,
         streamName: Swift.String? = nil,
         timestamp: Foundation.Date? = nil
     ) {
@@ -1728,6 +1783,7 @@ public struct GetShardIteratorInput: Swift.Sendable {
         self.shardIteratorType = shardIteratorType
         self.startingSequenceNumber = startingSequenceNumber
         self.streamARN = streamARN
+        self.streamId = streamId
         self.streamName = streamName
         self.timestamp = timestamp
     }
@@ -1752,16 +1808,20 @@ public struct IncreaseStreamRetentionPeriodInput: Swift.Sendable {
     public var retentionPeriodHours: Swift.Int?
     /// The ARN of the stream.
     public var streamARN: Swift.String?
+    /// Not Implemented. Reserved for future use.
+    public var streamId: Swift.String?
     /// The name of the stream to modify.
     public var streamName: Swift.String?
 
     public init(
         retentionPeriodHours: Swift.Int? = nil,
         streamARN: Swift.String? = nil,
+        streamId: Swift.String? = nil,
         streamName: Swift.String? = nil
     ) {
         self.retentionPeriodHours = retentionPeriodHours
         self.streamARN = streamARN
+        self.streamId = streamId
         self.streamName = streamName
     }
 }
@@ -1856,6 +1916,8 @@ public struct ListShardsInput: Swift.Sendable {
     public var streamARN: Swift.String?
     /// Specify this input parameter to distinguish data streams that have the same name. For example, if you create a data stream and then delete it, and you later create another data stream with the same name, you can use this input parameter to specify which of the two streams you want to list the shards for. You cannot specify this parameter if you specify the NextToken parameter.
     public var streamCreationTimestamp: Foundation.Date?
+    /// Not Implemented. Reserved for future use.
+    public var streamId: Swift.String?
     /// The name of the data stream whose shards you want to list. You cannot specify this parameter if you specify the NextToken parameter.
     public var streamName: Swift.String?
 
@@ -1866,6 +1928,7 @@ public struct ListShardsInput: Swift.Sendable {
         shardFilter: KinesisClientTypes.ShardFilter? = nil,
         streamARN: Swift.String? = nil,
         streamCreationTimestamp: Foundation.Date? = nil,
+        streamId: Swift.String? = nil,
         streamName: Swift.String? = nil
     ) {
         self.exclusiveStartShardId = exclusiveStartShardId
@@ -1874,6 +1937,7 @@ public struct ListShardsInput: Swift.Sendable {
         self.shardFilter = shardFilter
         self.streamARN = streamARN
         self.streamCreationTimestamp = streamCreationTimestamp
+        self.streamId = streamId
         self.streamName = streamName
     }
 }
@@ -1903,17 +1967,21 @@ public struct ListStreamConsumersInput: Swift.Sendable {
     public var streamARN: Swift.String?
     /// Specify this input parameter to distinguish data streams that have the same name. For example, if you create a data stream and then delete it, and you later create another data stream with the same name, you can use this input parameter to specify which of the two streams you want to list the consumers for. You can't specify this parameter if you specify the NextToken parameter.
     public var streamCreationTimestamp: Foundation.Date?
+    /// Not Implemented. Reserved for future use.
+    public var streamId: Swift.String?
 
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         streamARN: Swift.String? = nil,
-        streamCreationTimestamp: Foundation.Date? = nil
+        streamCreationTimestamp: Foundation.Date? = nil,
+        streamId: Swift.String? = nil
     ) {
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.streamARN = streamARN
         self.streamCreationTimestamp = streamCreationTimestamp
+        self.streamId = streamId
     }
 }
 
@@ -2016,11 +2084,15 @@ public struct ListTagsForResourceInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the Kinesis resource for which to list tags.
     /// This member is required.
     public var resourceARN: Swift.String?
+    /// Not Implemented. Reserved for future use.
+    public var streamId: Swift.String?
 
     public init(
-        resourceARN: Swift.String? = nil
+        resourceARN: Swift.String? = nil,
+        streamId: Swift.String? = nil
     ) {
         self.resourceARN = resourceARN
+        self.streamId = streamId
     }
 }
 
@@ -2063,6 +2135,8 @@ public struct ListTagsForStreamInput: Swift.Sendable {
     public var limit: Swift.Int?
     /// The ARN of the stream.
     public var streamARN: Swift.String?
+    /// Not Implemented. Reserved for future use.
+    public var streamId: Swift.String?
     /// The name of the stream.
     public var streamName: Swift.String?
 
@@ -2070,11 +2144,13 @@ public struct ListTagsForStreamInput: Swift.Sendable {
         exclusiveStartTagKey: Swift.String? = nil,
         limit: Swift.Int? = nil,
         streamARN: Swift.String? = nil,
+        streamId: Swift.String? = nil,
         streamName: Swift.String? = nil
     ) {
         self.exclusiveStartTagKey = exclusiveStartTagKey
         self.limit = limit
         self.streamARN = streamARN
+        self.streamId = streamId
         self.streamName = streamName
     }
 }
@@ -2107,6 +2183,8 @@ public struct MergeShardsInput: Swift.Sendable {
     public var shardToMerge: Swift.String?
     /// The ARN of the stream.
     public var streamARN: Swift.String?
+    /// Not Implemented. Reserved for future use.
+    public var streamId: Swift.String?
     /// The name of the stream for the merge.
     public var streamName: Swift.String?
 
@@ -2114,18 +2192,20 @@ public struct MergeShardsInput: Swift.Sendable {
         adjacentShardToMerge: Swift.String? = nil,
         shardToMerge: Swift.String? = nil,
         streamARN: Swift.String? = nil,
+        streamId: Swift.String? = nil,
         streamName: Swift.String? = nil
     ) {
         self.adjacentShardToMerge = adjacentShardToMerge
         self.shardToMerge = shardToMerge
         self.streamARN = streamARN
+        self.streamId = streamId
         self.streamName = streamName
     }
 }
 
 /// Represents the input for PutRecord.
 public struct PutRecordInput: Swift.Sendable {
-    /// The data blob to put into the record, which is base64-encoded when the blob is serialized. When the data blob (the payload before base64-encoding) is added to the partition key size, the total size must not exceed the maximum record size (1 MiB).
+    /// The data blob to put into the record, which is base64-encoded when the blob is serialized. When the data blob (the payload before base64-encoding) is added to the partition key size, the total size must not exceed the maximum record size (10 MiB).
     /// This member is required.
     public var data: Foundation.Data?
     /// The hash value used to explicitly determine the shard the data record is assigned to by overriding the partition key hash.
@@ -2137,6 +2217,8 @@ public struct PutRecordInput: Swift.Sendable {
     public var sequenceNumberForOrdering: Swift.String?
     /// The ARN of the stream.
     public var streamARN: Swift.String?
+    /// Not Implemented. Reserved for future use.
+    public var streamId: Swift.String?
     /// The name of the stream to put the data record into.
     public var streamName: Swift.String?
 
@@ -2146,6 +2228,7 @@ public struct PutRecordInput: Swift.Sendable {
         partitionKey: Swift.String? = nil,
         sequenceNumberForOrdering: Swift.String? = nil,
         streamARN: Swift.String? = nil,
+        streamId: Swift.String? = nil,
         streamName: Swift.String? = nil
     ) {
         self.data = data
@@ -2153,6 +2236,7 @@ public struct PutRecordInput: Swift.Sendable {
         self.partitionKey = partitionKey
         self.sequenceNumberForOrdering = sequenceNumberForOrdering
         self.streamARN = streamARN
+        self.streamId = streamId
         self.streamName = streamName
     }
 }
@@ -2187,7 +2271,7 @@ extension KinesisClientTypes {
 
     /// Represents the output for PutRecords.
     public struct PutRecordsRequestEntry: Swift.Sendable {
-        /// The data blob to put into the record, which is base64-encoded when the blob is serialized. When the data blob (the payload before base64-encoding) is added to the partition key size, the total size must not exceed the maximum record size (1 MiB).
+        /// The data blob to put into the record, which is base64-encoded when the blob is serialized. When the data blob (the payload before base64-encoding) is added to the partition key size, the total size must not exceed the maximum record size (10 MiB).
         /// This member is required.
         public var data: Foundation.Data?
         /// The hash value used to determine explicitly the shard that the data record is assigned to by overriding the partition key hash.
@@ -2215,16 +2299,20 @@ public struct PutRecordsInput: Swift.Sendable {
     public var records: [KinesisClientTypes.PutRecordsRequestEntry]?
     /// The ARN of the stream.
     public var streamARN: Swift.String?
+    /// Not Implemented. Reserved for future use.
+    public var streamId: Swift.String?
     /// The stream name associated with the request.
     public var streamName: Swift.String?
 
     public init(
         records: [KinesisClientTypes.PutRecordsRequestEntry]? = nil,
         streamARN: Swift.String? = nil,
+        streamId: Swift.String? = nil,
         streamName: Swift.String? = nil
     ) {
         self.records = records
         self.streamARN = streamARN
+        self.streamId = streamId
         self.streamName = streamName
     }
 }
@@ -2288,13 +2376,17 @@ public struct PutResourcePolicyInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the data stream or consumer.
     /// This member is required.
     public var resourceARN: Swift.String?
+    /// Not Implemented. Reserved for future use.
+    public var streamId: Swift.String?
 
     public init(
         policy: Swift.String? = nil,
-        resourceARN: Swift.String? = nil
+        resourceARN: Swift.String? = nil,
+        streamId: Swift.String? = nil
     ) {
         self.policy = policy
         self.resourceARN = resourceARN
+        self.streamId = streamId
     }
 }
 
@@ -2305,16 +2397,20 @@ public struct RegisterStreamConsumerInput: Swift.Sendable {
     /// The ARN of the Kinesis data stream that you want to register the consumer with. For more info, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#arn-syntax-kinesis-streams).
     /// This member is required.
     public var streamARN: Swift.String?
+    /// Not Implemented. Reserved for future use.
+    public var streamId: Swift.String?
     /// A set of up to 50 key-value pairs. A tag consists of a required key and an optional value.
     public var tags: [Swift.String: Swift.String]?
 
     public init(
         consumerName: Swift.String? = nil,
         streamARN: Swift.String? = nil,
+        streamId: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
     ) {
         self.consumerName = consumerName
         self.streamARN = streamARN
+        self.streamId = streamId
         self.tags = tags
     }
 }
@@ -2335,6 +2431,8 @@ public struct RegisterStreamConsumerOutput: Swift.Sendable {
 public struct RemoveTagsFromStreamInput: Swift.Sendable {
     /// The ARN of the stream.
     public var streamARN: Swift.String?
+    /// Not Implemented. Reserved for future use.
+    public var streamId: Swift.String?
     /// The name of the stream.
     public var streamName: Swift.String?
     /// A list of tag keys. Each corresponding tag is removed from the stream.
@@ -2343,10 +2441,12 @@ public struct RemoveTagsFromStreamInput: Swift.Sendable {
 
     public init(
         streamARN: Swift.String? = nil,
+        streamId: Swift.String? = nil,
         streamName: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
     ) {
         self.streamARN = streamARN
+        self.streamId = streamId
         self.streamName = streamName
         self.tagKeys = tagKeys
     }
@@ -2362,6 +2462,8 @@ public struct SplitShardInput: Swift.Sendable {
     public var shardToSplit: Swift.String?
     /// The ARN of the stream.
     public var streamARN: Swift.String?
+    /// Not Implemented. Reserved for future use.
+    public var streamId: Swift.String?
     /// The name of the stream for the shard split.
     public var streamName: Swift.String?
 
@@ -2369,11 +2471,13 @@ public struct SplitShardInput: Swift.Sendable {
         newStartingHashKey: Swift.String? = nil,
         shardToSplit: Swift.String? = nil,
         streamARN: Swift.String? = nil,
+        streamId: Swift.String? = nil,
         streamName: Swift.String? = nil
     ) {
         self.newStartingHashKey = newStartingHashKey
         self.shardToSplit = shardToSplit
         self.streamARN = streamARN
+        self.streamId = streamId
         self.streamName = streamName
     }
 }
@@ -2397,6 +2501,8 @@ public struct StartStreamEncryptionInput: Swift.Sendable {
     public var keyId: Swift.String?
     /// The ARN of the stream.
     public var streamARN: Swift.String?
+    /// Not Implemented. Reserved for future use.
+    public var streamId: Swift.String?
     /// The name of the stream for which to start encrypting records.
     public var streamName: Swift.String?
 
@@ -2404,11 +2510,13 @@ public struct StartStreamEncryptionInput: Swift.Sendable {
         encryptionType: KinesisClientTypes.EncryptionType? = nil,
         keyId: Swift.String? = nil,
         streamARN: Swift.String? = nil,
+        streamId: Swift.String? = nil,
         streamName: Swift.String? = nil
     ) {
         self.encryptionType = encryptionType
         self.keyId = keyId
         self.streamARN = streamARN
+        self.streamId = streamId
         self.streamName = streamName
     }
 }
@@ -2432,6 +2540,8 @@ public struct StopStreamEncryptionInput: Swift.Sendable {
     public var keyId: Swift.String?
     /// The ARN of the stream.
     public var streamARN: Swift.String?
+    /// Not Implemented. Reserved for future use.
+    public var streamId: Swift.String?
     /// The name of the stream on which to stop encrypting records.
     public var streamName: Swift.String?
 
@@ -2439,11 +2549,13 @@ public struct StopStreamEncryptionInput: Swift.Sendable {
         encryptionType: KinesisClientTypes.EncryptionType? = nil,
         keyId: Swift.String? = nil,
         streamARN: Swift.String? = nil,
+        streamId: Swift.String? = nil,
         streamName: Swift.String? = nil
     ) {
         self.encryptionType = encryptionType
         self.keyId = keyId
         self.streamARN = streamARN
+        self.streamId = streamId
         self.streamName = streamName
     }
 }
@@ -2482,15 +2594,19 @@ public struct SubscribeToShardInput: Swift.Sendable {
     /// The starting position in the data stream from which to start streaming.
     /// This member is required.
     public var startingPosition: KinesisClientTypes.StartingPosition?
+    /// Not Implemented. Reserved for future use.
+    public var streamId: Swift.String?
 
     public init(
         consumerARN: Swift.String? = nil,
         shardId: Swift.String? = nil,
-        startingPosition: KinesisClientTypes.StartingPosition? = nil
+        startingPosition: KinesisClientTypes.StartingPosition? = nil,
+        streamId: Swift.String? = nil
     ) {
         self.consumerARN = consumerARN
         self.shardId = shardId
         self.startingPosition = startingPosition
+        self.streamId = streamId
     }
 }
 
@@ -2550,15 +2666,19 @@ public struct TagResourceInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the Kinesis resource to which to add tags.
     /// This member is required.
     public var resourceARN: Swift.String?
+    /// Not Implemented. Reserved for future use.
+    public var streamId: Swift.String?
     /// An array of tags to be added to the Kinesis resource. A tag consists of a required key and an optional value. You can add up to 50 tags per resource. Tags may only contain Unicode letters, digits, white space, or these symbols: _ . : / = + - @.
     /// This member is required.
     public var tags: [Swift.String: Swift.String]?
 
     public init(
         resourceARN: Swift.String? = nil,
+        streamId: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
     ) {
         self.resourceARN = resourceARN
+        self.streamId = streamId
         self.tags = tags
     }
 }
@@ -2567,15 +2687,19 @@ public struct UntagResourceInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the Kinesis resource from which to remove tags.
     /// This member is required.
     public var resourceARN: Swift.String?
+    /// Not Implemented. Reserved for future use.
+    public var streamId: Swift.String?
     /// A list of tag key-value pairs. Existing tags of the resource whose keys are members of this list will be removed from the Kinesis resource.
     /// This member is required.
     public var tagKeys: [Swift.String]?
 
     public init(
         resourceARN: Swift.String? = nil,
+        streamId: Swift.String? = nil,
         tagKeys: [Swift.String]? = nil
     ) {
         self.resourceARN = resourceARN
+        self.streamId = streamId
         self.tagKeys = tagKeys
     }
 }
@@ -2662,13 +2786,17 @@ public struct UpdateMaxRecordSizeInput: Swift.Sendable {
     public var maxRecordSizeInKiB: Swift.Int?
     /// The Amazon Resource Name (ARN) of the stream for the MaxRecordSize update.
     public var streamARN: Swift.String?
+    /// Not Implemented. Reserved for future use.
+    public var streamId: Swift.String?
 
     public init(
         maxRecordSizeInKiB: Swift.Int? = nil,
-        streamARN: Swift.String? = nil
+        streamARN: Swift.String? = nil,
+        streamId: Swift.String? = nil
     ) {
         self.maxRecordSizeInKiB = maxRecordSizeInKiB
         self.streamARN = streamARN
+        self.streamId = streamId
     }
 }
 
@@ -2704,6 +2832,8 @@ public struct UpdateShardCountInput: Swift.Sendable {
     public var scalingType: KinesisClientTypes.ScalingType?
     /// The ARN of the stream.
     public var streamARN: Swift.String?
+    /// Not Implemented. Reserved for future use.
+    public var streamId: Swift.String?
     /// The name of the stream.
     public var streamName: Swift.String?
     /// The new number of shards. This value has the following default limits. By default, you cannot do the following:
@@ -2721,11 +2851,13 @@ public struct UpdateShardCountInput: Swift.Sendable {
     public init(
         scalingType: KinesisClientTypes.ScalingType? = nil,
         streamARN: Swift.String? = nil,
+        streamId: Swift.String? = nil,
         streamName: Swift.String? = nil,
         targetShardCount: Swift.Int? = nil
     ) {
         self.scalingType = scalingType
         self.streamARN = streamARN
+        self.streamId = streamId
         self.streamName = streamName
         self.targetShardCount = targetShardCount
     }
@@ -2758,6 +2890,8 @@ public struct UpdateStreamModeInput: Swift.Sendable {
     /// Specifies the ARN of the data stream whose capacity mode you want to update.
     /// This member is required.
     public var streamARN: Swift.String?
+    /// Not Implemented. Reserved for future use.
+    public var streamId: Swift.String?
     /// Specifies the capacity mode to which you want to set your data stream. Currently, in Kinesis Data Streams, you can choose between an on-demand capacity mode and a provisioned capacity mode for your data streams.
     /// This member is required.
     public var streamModeDetails: KinesisClientTypes.StreamModeDetails?
@@ -2766,10 +2900,12 @@ public struct UpdateStreamModeInput: Swift.Sendable {
 
     public init(
         streamARN: Swift.String? = nil,
+        streamId: Swift.String? = nil,
         streamModeDetails: KinesisClientTypes.StreamModeDetails? = nil,
         warmThroughputMiBps: Swift.Int? = nil
     ) {
         self.streamARN = streamARN
+        self.streamId = streamId
         self.streamModeDetails = streamModeDetails
         self.warmThroughputMiBps = warmThroughputMiBps
     }
@@ -2778,6 +2914,8 @@ public struct UpdateStreamModeInput: Swift.Sendable {
 public struct UpdateStreamWarmThroughputInput: Swift.Sendable {
     /// The ARN of the stream to be updated.
     public var streamARN: Swift.String?
+    /// Not Implemented. Reserved for future use.
+    public var streamId: Swift.String?
     /// The name of the stream to be updated.
     public var streamName: Swift.String?
     /// The target warm throughput in MB/s that the stream should be scaled to handle. This represents the throughput capacity that will be immediately available for write operations.
@@ -2786,10 +2924,12 @@ public struct UpdateStreamWarmThroughputInput: Swift.Sendable {
 
     public init(
         streamARN: Swift.String? = nil,
+        streamId: Swift.String? = nil,
         streamName: Swift.String? = nil,
         warmThroughputMiBps: Swift.Int? = nil
     ) {
         self.streamARN = streamARN
+        self.streamId = streamId
         self.streamName = streamName
         self.warmThroughputMiBps = warmThroughputMiBps
     }
@@ -3092,6 +3232,7 @@ extension AddTagsToStreamInput {
     static func write(value: AddTagsToStreamInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["StreamARN"].write(value.streamARN)
+        try writer["StreamId"].write(value.streamId)
         try writer["StreamName"].write(value.streamName)
         try writer["Tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
@@ -3116,6 +3257,7 @@ extension DecreaseStreamRetentionPeriodInput {
         guard let value else { return }
         try writer["RetentionPeriodHours"].write(value.retentionPeriodHours)
         try writer["StreamARN"].write(value.streamARN)
+        try writer["StreamId"].write(value.streamId)
         try writer["StreamName"].write(value.streamName)
     }
 }
@@ -3125,6 +3267,7 @@ extension DeleteResourcePolicyInput {
     static func write(value: DeleteResourcePolicyInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["ResourceARN"].write(value.resourceARN)
+        try writer["StreamId"].write(value.streamId)
     }
 }
 
@@ -3134,6 +3277,7 @@ extension DeleteStreamInput {
         guard let value else { return }
         try writer["EnforceConsumerDeletion"].write(value.enforceConsumerDeletion)
         try writer["StreamARN"].write(value.streamARN)
+        try writer["StreamId"].write(value.streamId)
         try writer["StreamName"].write(value.streamName)
     }
 }
@@ -3145,6 +3289,7 @@ extension DeregisterStreamConsumerInput {
         try writer["ConsumerARN"].write(value.consumerARN)
         try writer["ConsumerName"].write(value.consumerName)
         try writer["StreamARN"].write(value.streamARN)
+        try writer["StreamId"].write(value.streamId)
     }
 }
 
@@ -3171,6 +3316,7 @@ extension DescribeStreamInput {
         try writer["ExclusiveStartShardId"].write(value.exclusiveStartShardId)
         try writer["Limit"].write(value.limit)
         try writer["StreamARN"].write(value.streamARN)
+        try writer["StreamId"].write(value.streamId)
         try writer["StreamName"].write(value.streamName)
     }
 }
@@ -3182,6 +3328,7 @@ extension DescribeStreamConsumerInput {
         try writer["ConsumerARN"].write(value.consumerARN)
         try writer["ConsumerName"].write(value.consumerName)
         try writer["StreamARN"].write(value.streamARN)
+        try writer["StreamId"].write(value.streamId)
     }
 }
 
@@ -3190,6 +3337,7 @@ extension DescribeStreamSummaryInput {
     static func write(value: DescribeStreamSummaryInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["StreamARN"].write(value.streamARN)
+        try writer["StreamId"].write(value.streamId)
         try writer["StreamName"].write(value.streamName)
     }
 }
@@ -3200,6 +3348,7 @@ extension DisableEnhancedMonitoringInput {
         guard let value else { return }
         try writer["ShardLevelMetrics"].writeList(value.shardLevelMetrics, memberWritingClosure: SmithyReadWrite.WritingClosureBox<KinesisClientTypes.MetricsName>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["StreamARN"].write(value.streamARN)
+        try writer["StreamId"].write(value.streamId)
         try writer["StreamName"].write(value.streamName)
     }
 }
@@ -3210,6 +3359,7 @@ extension EnableEnhancedMonitoringInput {
         guard let value else { return }
         try writer["ShardLevelMetrics"].writeList(value.shardLevelMetrics, memberWritingClosure: SmithyReadWrite.WritingClosureBox<KinesisClientTypes.MetricsName>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["StreamARN"].write(value.streamARN)
+        try writer["StreamId"].write(value.streamId)
         try writer["StreamName"].write(value.streamName)
     }
 }
@@ -3221,6 +3371,7 @@ extension GetRecordsInput {
         try writer["Limit"].write(value.limit)
         try writer["ShardIterator"].write(value.shardIterator)
         try writer["StreamARN"].write(value.streamARN)
+        try writer["StreamId"].write(value.streamId)
     }
 }
 
@@ -3229,6 +3380,7 @@ extension GetResourcePolicyInput {
     static func write(value: GetResourcePolicyInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["ResourceARN"].write(value.resourceARN)
+        try writer["StreamId"].write(value.streamId)
     }
 }
 
@@ -3240,6 +3392,7 @@ extension GetShardIteratorInput {
         try writer["ShardIteratorType"].write(value.shardIteratorType)
         try writer["StartingSequenceNumber"].write(value.startingSequenceNumber)
         try writer["StreamARN"].write(value.streamARN)
+        try writer["StreamId"].write(value.streamId)
         try writer["StreamName"].write(value.streamName)
         try writer["Timestamp"].writeTimestamp(value.timestamp, format: SmithyTimestamps.TimestampFormat.epochSeconds)
     }
@@ -3251,6 +3404,7 @@ extension IncreaseStreamRetentionPeriodInput {
         guard let value else { return }
         try writer["RetentionPeriodHours"].write(value.retentionPeriodHours)
         try writer["StreamARN"].write(value.streamARN)
+        try writer["StreamId"].write(value.streamId)
         try writer["StreamName"].write(value.streamName)
     }
 }
@@ -3265,6 +3419,7 @@ extension ListShardsInput {
         try writer["ShardFilter"].write(value.shardFilter, with: KinesisClientTypes.ShardFilter.write(value:to:))
         try writer["StreamARN"].write(value.streamARN)
         try writer["StreamCreationTimestamp"].writeTimestamp(value.streamCreationTimestamp, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["StreamId"].write(value.streamId)
         try writer["StreamName"].write(value.streamName)
     }
 }
@@ -3277,6 +3432,7 @@ extension ListStreamConsumersInput {
         try writer["NextToken"].write(value.nextToken)
         try writer["StreamARN"].write(value.streamARN)
         try writer["StreamCreationTimestamp"].writeTimestamp(value.streamCreationTimestamp, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["StreamId"].write(value.streamId)
     }
 }
 
@@ -3295,6 +3451,7 @@ extension ListTagsForResourceInput {
     static func write(value: ListTagsForResourceInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["ResourceARN"].write(value.resourceARN)
+        try writer["StreamId"].write(value.streamId)
     }
 }
 
@@ -3305,6 +3462,7 @@ extension ListTagsForStreamInput {
         try writer["ExclusiveStartTagKey"].write(value.exclusiveStartTagKey)
         try writer["Limit"].write(value.limit)
         try writer["StreamARN"].write(value.streamARN)
+        try writer["StreamId"].write(value.streamId)
         try writer["StreamName"].write(value.streamName)
     }
 }
@@ -3316,6 +3474,7 @@ extension MergeShardsInput {
         try writer["AdjacentShardToMerge"].write(value.adjacentShardToMerge)
         try writer["ShardToMerge"].write(value.shardToMerge)
         try writer["StreamARN"].write(value.streamARN)
+        try writer["StreamId"].write(value.streamId)
         try writer["StreamName"].write(value.streamName)
     }
 }
@@ -3329,6 +3488,7 @@ extension PutRecordInput {
         try writer["PartitionKey"].write(value.partitionKey)
         try writer["SequenceNumberForOrdering"].write(value.sequenceNumberForOrdering)
         try writer["StreamARN"].write(value.streamARN)
+        try writer["StreamId"].write(value.streamId)
         try writer["StreamName"].write(value.streamName)
     }
 }
@@ -3339,6 +3499,7 @@ extension PutRecordsInput {
         guard let value else { return }
         try writer["Records"].writeList(value.records, memberWritingClosure: KinesisClientTypes.PutRecordsRequestEntry.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["StreamARN"].write(value.streamARN)
+        try writer["StreamId"].write(value.streamId)
         try writer["StreamName"].write(value.streamName)
     }
 }
@@ -3349,6 +3510,7 @@ extension PutResourcePolicyInput {
         guard let value else { return }
         try writer["Policy"].write(value.policy)
         try writer["ResourceARN"].write(value.resourceARN)
+        try writer["StreamId"].write(value.streamId)
     }
 }
 
@@ -3358,6 +3520,7 @@ extension RegisterStreamConsumerInput {
         guard let value else { return }
         try writer["ConsumerName"].write(value.consumerName)
         try writer["StreamARN"].write(value.streamARN)
+        try writer["StreamId"].write(value.streamId)
         try writer["Tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
@@ -3367,6 +3530,7 @@ extension RemoveTagsFromStreamInput {
     static func write(value: RemoveTagsFromStreamInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["StreamARN"].write(value.streamARN)
+        try writer["StreamId"].write(value.streamId)
         try writer["StreamName"].write(value.streamName)
         try writer["TagKeys"].writeList(value.tagKeys, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
@@ -3379,6 +3543,7 @@ extension SplitShardInput {
         try writer["NewStartingHashKey"].write(value.newStartingHashKey)
         try writer["ShardToSplit"].write(value.shardToSplit)
         try writer["StreamARN"].write(value.streamARN)
+        try writer["StreamId"].write(value.streamId)
         try writer["StreamName"].write(value.streamName)
     }
 }
@@ -3390,6 +3555,7 @@ extension StartStreamEncryptionInput {
         try writer["EncryptionType"].write(value.encryptionType)
         try writer["KeyId"].write(value.keyId)
         try writer["StreamARN"].write(value.streamARN)
+        try writer["StreamId"].write(value.streamId)
         try writer["StreamName"].write(value.streamName)
     }
 }
@@ -3401,6 +3567,7 @@ extension StopStreamEncryptionInput {
         try writer["EncryptionType"].write(value.encryptionType)
         try writer["KeyId"].write(value.keyId)
         try writer["StreamARN"].write(value.streamARN)
+        try writer["StreamId"].write(value.streamId)
         try writer["StreamName"].write(value.streamName)
     }
 }
@@ -3412,6 +3579,7 @@ extension SubscribeToShardInput {
         try writer["ConsumerARN"].write(value.consumerARN)
         try writer["ShardId"].write(value.shardId)
         try writer["StartingPosition"].write(value.startingPosition, with: KinesisClientTypes.StartingPosition.write(value:to:))
+        try writer["StreamId"].write(value.streamId)
     }
 }
 
@@ -3420,6 +3588,7 @@ extension TagResourceInput {
     static func write(value: TagResourceInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["ResourceARN"].write(value.resourceARN)
+        try writer["StreamId"].write(value.streamId)
         try writer["Tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
@@ -3429,6 +3598,7 @@ extension UntagResourceInput {
     static func write(value: UntagResourceInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["ResourceARN"].write(value.resourceARN)
+        try writer["StreamId"].write(value.streamId)
         try writer["TagKeys"].writeList(value.tagKeys, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
@@ -3447,6 +3617,7 @@ extension UpdateMaxRecordSizeInput {
         guard let value else { return }
         try writer["MaxRecordSizeInKiB"].write(value.maxRecordSizeInKiB)
         try writer["StreamARN"].write(value.streamARN)
+        try writer["StreamId"].write(value.streamId)
     }
 }
 
@@ -3456,6 +3627,7 @@ extension UpdateShardCountInput {
         guard let value else { return }
         try writer["ScalingType"].write(value.scalingType)
         try writer["StreamARN"].write(value.streamARN)
+        try writer["StreamId"].write(value.streamId)
         try writer["StreamName"].write(value.streamName)
         try writer["TargetShardCount"].write(value.targetShardCount)
     }
@@ -3466,6 +3638,7 @@ extension UpdateStreamModeInput {
     static func write(value: UpdateStreamModeInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["StreamARN"].write(value.streamARN)
+        try writer["StreamId"].write(value.streamId)
         try writer["StreamModeDetails"].write(value.streamModeDetails, with: KinesisClientTypes.StreamModeDetails.write(value:to:))
         try writer["WarmThroughputMiBps"].write(value.warmThroughputMiBps)
     }
@@ -3476,6 +3649,7 @@ extension UpdateStreamWarmThroughputInput {
     static func write(value: UpdateStreamWarmThroughputInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["StreamARN"].write(value.streamARN)
+        try writer["StreamId"].write(value.streamId)
         try writer["StreamName"].write(value.streamName)
         try writer["WarmThroughputMiBps"].write(value.warmThroughputMiBps)
     }
@@ -4986,6 +5160,7 @@ extension KinesisClientTypes.StreamDescriptionSummary {
         var value = KinesisClientTypes.StreamDescriptionSummary()
         value.streamName = try reader["StreamName"].readIfPresent() ?? ""
         value.streamARN = try reader["StreamARN"].readIfPresent() ?? ""
+        value.streamId = try reader["StreamId"].readIfPresent()
         value.streamStatus = try reader["StreamStatus"].readIfPresent() ?? .sdkUnknown("")
         value.streamModeDetails = try reader["StreamModeDetails"].readIfPresent(with: KinesisClientTypes.StreamModeDetails.read(from:))
         value.retentionPeriodHours = try reader["RetentionPeriodHours"].readIfPresent() ?? 0

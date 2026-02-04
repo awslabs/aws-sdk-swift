@@ -34,6 +34,7 @@ import enum SmithyReadWrite.ReaderError
 @_spi(SmithyTimestamps) import enum SmithyTimestamps.TimestampFormat
 import func ClientRuntime.quoteHeaderValue
 @_spi(SmithyReadWrite) import protocol AWSClientRuntime.AWSS3ServiceError
+import protocol ClientRuntime.DefaultClientConfiguration
 import protocol ClientRuntime.HTTPError
 import protocol ClientRuntime.ModeledError
 import protocol Smithy.RequestMessageSerializer
@@ -24291,7 +24292,7 @@ extension S3ClientTypes.SSEKMSEncryption {
 }
 
 extension GetObjectInput {
-    public func presignURL(config: S3Client.S3ClientConfiguration, expiration: Foundation.TimeInterval) async throws -> Foundation.URL? {
+    public func presignURL(config: S3Client.S3ClientConfig, expiration: Foundation.TimeInterval) async throws -> Foundation.URL? {
         let serviceName = "S3"
         let input = self
         let client: (SmithyHTTPAPI.HTTPRequest, Smithy.Context) async throws -> SmithyHTTPAPI.HTTPResponse = { (_, _) in
@@ -24312,7 +24313,7 @@ extension GetObjectInput {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
-                      .withClientConfig(value: config)
+                      .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<GetObjectInput, GetObjectOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -24351,6 +24352,11 @@ extension GetObjectInput {
             .executeRequest(client)
             .build()
         return try await op.presignRequest(input: input).endpoint.url
+    }
+
+    @available(*, deprecated, message: "Use presignURL(config: S3Client.S3ClientConfig, expiration:) instead")
+    public func presignURL(config: S3Client.S3ClientConfiguration, expiration: Foundation.TimeInterval) async throws -> Foundation.URL? {
+        return try await self.presignURL(config: config.toSendable(), expiration: expiration)
     }
 }
 
@@ -24436,7 +24442,7 @@ extension GetObjectInputGETQueryItemMiddleware: Smithy.RequestMessageSerializer 
 }
 
 extension PutObjectInput {
-    public func presignURL(config: S3Client.S3ClientConfiguration, expiration: Foundation.TimeInterval) async throws -> Foundation.URL? {
+    public func presignURL(config: S3Client.S3ClientConfig, expiration: Foundation.TimeInterval) async throws -> Foundation.URL? {
         let serviceName = "S3"
         let input = self
         let client: (SmithyHTTPAPI.HTTPRequest, Smithy.Context) async throws -> SmithyHTTPAPI.HTTPResponse = { (_, _) in
@@ -24457,7 +24463,7 @@ extension PutObjectInput {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
-                      .withClientConfig(value: config)
+                      .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<PutObjectInput, PutObjectOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -24498,6 +24504,11 @@ extension PutObjectInput {
             .build()
         return try await op.presignRequest(input: input).endpoint.url
     }
+
+    @available(*, deprecated, message: "Use presignURL(config: S3Client.S3ClientConfig, expiration:) instead")
+    public func presignURL(config: S3Client.S3ClientConfiguration, expiration: Foundation.TimeInterval) async throws -> Foundation.URL? {
+        return try await self.presignURL(config: config.toSendable(), expiration: expiration)
+    }
 }
 
 public struct PutObjectPresignedURLMiddleware {
@@ -24522,7 +24533,7 @@ extension PutObjectPresignedURLMiddleware: Smithy.RequestMessageSerializer {
 }
 
 extension UploadPartInput {
-    public func presignURL(config: S3Client.S3ClientConfiguration, expiration: Foundation.TimeInterval) async throws -> Foundation.URL? {
+    public func presignURL(config: S3Client.S3ClientConfig, expiration: Foundation.TimeInterval) async throws -> Foundation.URL? {
         let serviceName = "S3"
         let input = self
         let client: (SmithyHTTPAPI.HTTPRequest, Smithy.Context) async throws -> SmithyHTTPAPI.HTTPResponse = { (_, _) in
@@ -24543,7 +24554,7 @@ extension UploadPartInput {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
-                      .withClientConfig(value: config)
+                      .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<UploadPartInput, UploadPartOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -24584,10 +24595,15 @@ extension UploadPartInput {
             .build()
         return try await op.presignRequest(input: input).endpoint.url
     }
+
+    @available(*, deprecated, message: "Use presignURL(config: S3Client.S3ClientConfig, expiration:) instead")
+    public func presignURL(config: S3Client.S3ClientConfiguration, expiration: Foundation.TimeInterval) async throws -> Foundation.URL? {
+        return try await self.presignURL(config: config.toSendable(), expiration: expiration)
+    }
 }
 
 extension GetObjectInput {
-    public func presign(config: S3Client.S3ClientConfiguration, expiration: Foundation.TimeInterval) async throws -> SmithyHTTPAPI.HTTPRequest? {
+    public func presign(config: S3Client.S3ClientConfig, expiration: Foundation.TimeInterval) async throws -> SmithyHTTPAPI.HTTPRequest? {
         let serviceName = "S3"
         let input = self
         let client: (SmithyHTTPAPI.HTTPRequest, Smithy.Context) async throws -> SmithyHTTPAPI.HTTPResponse = { (_, _) in
@@ -24608,7 +24624,7 @@ extension GetObjectInput {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
-                      .withClientConfig(value: config)
+                      .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<GetObjectInput, GetObjectOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -24652,10 +24668,15 @@ extension GetObjectInput {
             .build()
         return try await op.presignRequest(input: input)
     }
+
+    @available(*, deprecated, message: "Use presign(config: S3Client.S3ClientConfig, expiration:) instead")
+    public func presign(config: S3Client.S3ClientConfiguration, expiration: Foundation.TimeInterval) async throws -> SmithyHTTPAPI.HTTPRequest? {
+        return try await self.presign(config: config.toSendable(), expiration: expiration)
+    }
 }
 
 extension PutObjectInput {
-    public func presign(config: S3Client.S3ClientConfiguration, expiration: Foundation.TimeInterval) async throws -> SmithyHTTPAPI.HTTPRequest? {
+    public func presign(config: S3Client.S3ClientConfig, expiration: Foundation.TimeInterval) async throws -> SmithyHTTPAPI.HTTPRequest? {
         let serviceName = "S3"
         let input = self
         let client: (SmithyHTTPAPI.HTTPRequest, Smithy.Context) async throws -> SmithyHTTPAPI.HTTPResponse = { (_, _) in
@@ -24676,7 +24697,7 @@ extension PutObjectInput {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
-                      .withClientConfig(value: config)
+                      .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<PutObjectInput, PutObjectOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -24724,10 +24745,15 @@ extension PutObjectInput {
             .build()
         return try await op.presignRequest(input: input)
     }
+
+    @available(*, deprecated, message: "Use presign(config: S3Client.S3ClientConfig, expiration:) instead")
+    public func presign(config: S3Client.S3ClientConfiguration, expiration: Foundation.TimeInterval) async throws -> SmithyHTTPAPI.HTTPRequest? {
+        return try await self.presign(config: config.toSendable(), expiration: expiration)
+    }
 }
 
 extension UploadPartInput {
-    public func presign(config: S3Client.S3ClientConfiguration, expiration: Foundation.TimeInterval) async throws -> SmithyHTTPAPI.HTTPRequest? {
+    public func presign(config: S3Client.S3ClientConfig, expiration: Foundation.TimeInterval) async throws -> SmithyHTTPAPI.HTTPRequest? {
         let serviceName = "S3"
         let input = self
         let client: (SmithyHTTPAPI.HTTPRequest, Smithy.Context) async throws -> SmithyHTTPAPI.HTTPResponse = { (_, _) in
@@ -24748,7 +24774,7 @@ extension UploadPartInput {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
-                      .withClientConfig(value: config)
+                      .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<UploadPartInput, UploadPartOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
         config.interceptorProviders.forEach { provider in
@@ -24795,6 +24821,11 @@ extension UploadPartInput {
             .executeRequest(client)
             .build()
         return try await op.presignRequest(input: input)
+    }
+
+    @available(*, deprecated, message: "Use presign(config: S3Client.S3ClientConfig, expiration:) instead")
+    public func presign(config: S3Client.S3ClientConfiguration, expiration: Foundation.TimeInterval) async throws -> SmithyHTTPAPI.HTTPRequest? {
+        return try await self.presign(config: config.toSendable(), expiration: expiration)
     }
 }
 

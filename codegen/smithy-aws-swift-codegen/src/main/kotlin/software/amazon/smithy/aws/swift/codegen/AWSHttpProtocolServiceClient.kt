@@ -39,12 +39,12 @@ class AWSHttpProtocolServiceClient(
 
     override fun renderConvenienceInitFunctions(serviceSymbol: Symbol) {
         writer.openBlock("public convenience init(region: \$N) throws {", "}", SwiftTypes.String) {
-            writer.write("let config = try \$L(region: region)", serviceConfig.typeName)
+            writer.write("let config = try \$L(region: region)", serviceConfig.sendableTypeName)
             writer.write("self.init(config: config)")
         }
         writer.write("")
-        writer.openBlock("public convenience required init() async throws {", "}") {
-            writer.write("let config = try await \$L()", serviceConfig.typeName)
+        writer.openBlock("public convenience init() async throws {", "}") {
+            writer.write("let config = try await \$L()", serviceConfig.sendableTypeName)
             writer.write("self.init(config: config)")
         }
     }
@@ -144,45 +144,56 @@ class AWSHttpProtocolServiceClient(
         }
 
     override fun renderCustomConfigInitializer(properties: List<ConfigProperty>) {
-        renderRegionConfigInitializer(properties)
+        renderRegionConfigInitializer(properties, isConvenience = false)
+    }
+
+    /**
+     * Override to render the region initializer as convenience for the deprecated class
+     */
+    override fun renderCustomConfigInitializerForDeprecatedClass(properties: List<ConfigProperty>) {
+        renderRegionConfigInitializer(properties, isConvenience = true)
     }
 
     /**
      *  AWS Amplify requires a synchronous initializer with region parameter.
      */
-    private fun renderRegionConfigInitializer(properties: List<ConfigProperty>) {
+    private fun renderRegionConfigInitializer(
+        properties: List<ConfigProperty>,
+        isConvenience: Boolean = false,
+    ) {
+        val convenienceKeyword = if (isConvenience) "convenience " else ""
         writer.openBlock(
-            "public convenience init(region: \$N) throws {",
+            "public ${convenienceKeyword}init(region: \$N) throws {",
             "}",
             SwiftTypes.String,
         ) {
-            writer.openBlock("self.init(", ")") {
+            writer.openBlock("try self.init(", ")") {
                 properties.forEach { property ->
                     when (property.name) {
                         "region", "signingRegion" -> {
-                            writer.write("region,")
+                            writer.write("\$L: region,", property.name)
                         }
                         "awsCredentialIdentityResolver" -> {
                             if (ctx.settings.internalClient) {
-                                writer.write("\$N(),", SmithyIdentityTypes.StaticAWSCredentialIdentityResolver)
+                                writer.write("\$L: \$N(),", property.name, SmithyIdentityTypes.StaticAWSCredentialIdentityResolver)
                             } else {
-                                writer.write("\$N(),", AWSSDKIdentityTypes.DefaultAWSCredentialIdentityResolverChain)
+                                writer.write("\$L: \$N(),", property.name, AWSSDKIdentityTypes.DefaultAWSCredentialIdentityResolverChain)
                             }
                         }
                         "retryStrategyOptions" -> {
-                            writer.write("try AWSClientConfigDefaultsProvider.retryStrategyOptions(),")
+                            writer.write("\$L: try AWSClientConfigDefaultsProvider.retryStrategyOptions(),", property.name)
                         }
                         "requestChecksumCalculation" -> {
-                            writer.write("try AWSClientConfigDefaultsProvider.requestChecksumCalculation(),")
+                            writer.write("\$L: try AWSClientConfigDefaultsProvider.requestChecksumCalculation(),", property.name)
                         }
                         "responseChecksumValidation" -> {
-                            writer.write("try AWSClientConfigDefaultsProvider.responseChecksumValidation(),")
+                            writer.write("\$L: try AWSClientConfigDefaultsProvider.responseChecksumValidation(),", property.name)
                         }
                         "httpClientEngine" -> {
-                            writer.write("AWSClientConfigDefaultsProvider.httpClientEngine(),")
+                            writer.write("\$L: AWSClientConfigDefaultsProvider.httpClientEngine(),", property.name)
                         }
                         else -> {
-                            writer.write("\$L,", property.default?.render(writer) ?: "nil")
+                            writer.write("\$L: \$L,", property.name, property.default?.render(writer) ?: "nil")
                         }
                     }
                 }

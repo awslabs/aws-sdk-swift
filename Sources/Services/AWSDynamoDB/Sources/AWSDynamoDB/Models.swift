@@ -2133,7 +2133,7 @@ extension DynamoDBClientTypes {
         /// The name of the global secondary index to be created.
         /// This member is required.
         public var indexName: Swift.String?
-        /// The key schema for the global secondary index.
+        /// The key schema for the global secondary index. Global secondary index supports up to 4 partition and up to 4 sort keys.
         /// This member is required.
         public var keySchema: [DynamoDBClientTypes.KeySchemaElement]?
         /// The maximum number of read and write units for the global secondary index being created. If you use this parameter, you must specify MaxReadRequestUnits, MaxWriteRequestUnits, or both. You must use either OnDemand Throughput or ProvisionedThroughput based on your table's capacity mode.
@@ -2371,6 +2371,38 @@ extension DynamoDBClientTypes {
 
 extension DynamoDBClientTypes {
 
+    public enum GlobalTableSettingsReplicationMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case enabled
+        case enabledWithOverrides
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [GlobalTableSettingsReplicationMode] {
+            return [
+                .disabled,
+                .enabled,
+                .enabledWithOverrides
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case .enabledWithOverrides: return "ENABLED_WITH_OVERRIDES"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension DynamoDBClientTypes {
+
     public enum ReplicaStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case active
         case archived
@@ -2546,6 +2578,14 @@ extension DynamoDBClientTypes {
     public struct ReplicaDescription: Swift.Sendable {
         /// Replica-specific global secondary index settings.
         public var globalSecondaryIndexes: [DynamoDBClientTypes.ReplicaGlobalSecondaryIndexDescription]?
+        /// Indicates one of the settings synchronization modes for the global table replica:
+        ///
+        /// * ENABLED: Indicates that the settings synchronization mode for the global table replica is enabled.
+        ///
+        /// * DISABLED: Indicates that the settings synchronization mode for the global table replica is disabled.
+        ///
+        /// * ENABLED_WITH_OVERRIDES: This mode is set by default for a same account global table. Indicates that certain global table settings can be overridden.
+        public var globalTableSettingsReplicationMode: DynamoDBClientTypes.GlobalTableSettingsReplicationMode?
         /// The KMS key of the replica that will be used for KMS encryption.
         public var kmsMasterKeyId: Swift.String?
         /// Overrides the maximum on-demand throughput settings for the specified replica table.
@@ -2581,6 +2621,7 @@ extension DynamoDBClientTypes {
 
         public init(
             globalSecondaryIndexes: [DynamoDBClientTypes.ReplicaGlobalSecondaryIndexDescription]? = nil,
+            globalTableSettingsReplicationMode: DynamoDBClientTypes.GlobalTableSettingsReplicationMode? = nil,
             kmsMasterKeyId: Swift.String? = nil,
             onDemandThroughputOverride: DynamoDBClientTypes.OnDemandThroughputOverride? = nil,
             provisionedThroughputOverride: DynamoDBClientTypes.ProvisionedThroughputOverride? = nil,
@@ -2593,6 +2634,7 @@ extension DynamoDBClientTypes {
             warmThroughput: DynamoDBClientTypes.TableWarmThroughputDescription? = nil
         ) {
             self.globalSecondaryIndexes = globalSecondaryIndexes
+            self.globalTableSettingsReplicationMode = globalTableSettingsReplicationMode
             self.kmsMasterKeyId = kmsMasterKeyId
             self.onDemandThroughputOverride = onDemandThroughputOverride
             self.provisionedThroughputOverride = provisionedThroughputOverride
@@ -2915,7 +2957,6 @@ extension DynamoDBClientTypes {
 /// Represents the input of a CreateTable operation.
 public struct CreateTableInput: Swift.Sendable {
     /// An array of attributes that describe the key schema for the table and indexes.
-    /// This member is required.
     public var attributeDefinitions: [DynamoDBClientTypes.AttributeDefinition]?
     /// Controls how you are charged for read and write throughput and how you manage capacity. This setting can be changed later.
     ///
@@ -2929,7 +2970,7 @@ public struct CreateTableInput: Swift.Sendable {
     ///
     /// * IndexName - The name of the global secondary index. Must be unique only for this table.
     ///
-    /// * KeySchema - Specifies the key schema for the global secondary index.
+    /// * KeySchema - Specifies the key schema for the global secondary index. Each global secondary index supports up to 4 partition keys and up to 4 sort keys.
     ///
     /// * Projection - Specifies attributes that are copied (projected) from the table into the index. These are in addition to the primary key attributes and index key attributes, which are automatically projected. Each attribute specification is composed of:
     ///
@@ -2951,6 +2992,10 @@ public struct CreateTableInput: Swift.Sendable {
     ///
     /// * ProvisionedThroughput - The provisioned throughput settings for the global secondary index, consisting of read and write capacity units.
     public var globalSecondaryIndexes: [DynamoDBClientTypes.GlobalSecondaryIndex]?
+    /// Controls the settings synchronization mode for the global table. For multi-account global tables, this parameter is required and the only supported value is ENABLED. For same-account global tables, this parameter is set to ENABLED_WITH_OVERRIDES.
+    public var globalTableSettingsReplicationMode: DynamoDBClientTypes.GlobalTableSettingsReplicationMode?
+    /// The Amazon Resource Name (ARN) of the source table used for the creation of a multi-account global table.
+    public var globalTableSourceArn: Swift.String?
     /// Specifies the attributes that make up the primary key for a table or an index. The attributes in KeySchema must also be defined in the AttributeDefinitions array. For more information, see [Data Model](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/DataModel.html) in the Amazon DynamoDB Developer Guide. Each KeySchemaElement in the array is composed of:
     ///
     /// * AttributeName - The name of this key attribute.
@@ -2966,7 +3011,6 @@ public struct CreateTableInput: Swift.Sendable {
     ///
     ///
     /// The partition key of an item is also known as its hash attribute. The term "hash attribute" derives from the DynamoDB usage of an internal hash function to evenly distribute data items across partitions, based on their partition key values. The sort key of an item is also known as its range attribute. The term "range attribute" derives from the way DynamoDB stores items with the same partition key physically close together, in sorted order by the sort key value. For a simple primary key (partition key), you must provide exactly one element with a KeyType of HASH. For a composite primary key (partition key and sort key), you must provide exactly two elements, in this order: The first element must have a KeyType of HASH, and the second element must have a KeyType of RANGE. For more information, see [Working with Tables](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/WorkingWithTables.html#WorkingWithTables.primary.key) in the Amazon DynamoDB Developer Guide.
-    /// This member is required.
     public var keySchema: [DynamoDBClientTypes.KeySchemaElement]?
     /// One or more local secondary indexes (the maximum is 5) to be created on the table. Each index is scoped to a given partition key value. There is a 10 GB size limit per partition key value; otherwise, the size of a local secondary index is unconstrained. Each local secondary index in the array includes the following:
     ///
@@ -3026,6 +3070,8 @@ public struct CreateTableInput: Swift.Sendable {
         billingMode: DynamoDBClientTypes.BillingMode? = nil,
         deletionProtectionEnabled: Swift.Bool? = nil,
         globalSecondaryIndexes: [DynamoDBClientTypes.GlobalSecondaryIndex]? = nil,
+        globalTableSettingsReplicationMode: DynamoDBClientTypes.GlobalTableSettingsReplicationMode? = nil,
+        globalTableSourceArn: Swift.String? = nil,
         keySchema: [DynamoDBClientTypes.KeySchemaElement]? = nil,
         localSecondaryIndexes: [DynamoDBClientTypes.LocalSecondaryIndex]? = nil,
         onDemandThroughput: DynamoDBClientTypes.OnDemandThroughput? = nil,
@@ -3042,6 +3088,8 @@ public struct CreateTableInput: Swift.Sendable {
         self.billingMode = billingMode
         self.deletionProtectionEnabled = deletionProtectionEnabled
         self.globalSecondaryIndexes = globalSecondaryIndexes
+        self.globalTableSettingsReplicationMode = globalTableSettingsReplicationMode
+        self.globalTableSourceArn = globalTableSourceArn
         self.keySchema = keySchema
         self.localSecondaryIndexes = localSecondaryIndexes
         self.onDemandThroughput = onDemandThroughput
@@ -3374,6 +3422,14 @@ extension DynamoDBClientTypes {
         ///
         /// If the table is in the DELETING state, no information about indexes will be returned.
         public var globalSecondaryIndexes: [DynamoDBClientTypes.GlobalSecondaryIndexDescription]?
+        /// Indicates one of the settings synchronization modes for the global table:
+        ///
+        /// * ENABLED: Indicates that the settings synchronization mode for the global table is enabled.
+        ///
+        /// * DISABLED: Indicates that the settings synchronization mode for the global table is disabled.
+        ///
+        /// * ENABLED_WITH_OVERRIDES: This mode is set by default for a same account global table. Indicates that certain global table settings can be overridden.
+        public var globalTableSettingsReplicationMode: DynamoDBClientTypes.GlobalTableSettingsReplicationMode?
         /// Represents the version of [global tables](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/GlobalTables.html) in use, if the table is replicated across Amazon Web Services Regions.
         public var globalTableVersion: Swift.String?
         /// The witness Region and its current status in the MRSC global table. Only one witness Region can be configured per MRSC global table.
@@ -3494,6 +3550,7 @@ extension DynamoDBClientTypes {
             creationDateTime: Foundation.Date? = nil,
             deletionProtectionEnabled: Swift.Bool? = nil,
             globalSecondaryIndexes: [DynamoDBClientTypes.GlobalSecondaryIndexDescription]? = nil,
+            globalTableSettingsReplicationMode: DynamoDBClientTypes.GlobalTableSettingsReplicationMode? = nil,
             globalTableVersion: Swift.String? = nil,
             globalTableWitnesses: [DynamoDBClientTypes.GlobalTableWitnessDescription]? = nil,
             itemCount: Swift.Int? = nil,
@@ -3522,6 +3579,7 @@ extension DynamoDBClientTypes {
             self.creationDateTime = creationDateTime
             self.deletionProtectionEnabled = deletionProtectionEnabled
             self.globalSecondaryIndexes = globalSecondaryIndexes
+            self.globalTableSettingsReplicationMode = globalTableSettingsReplicationMode
             self.globalTableVersion = globalTableVersion
             self.globalTableWitnesses = globalTableWitnesses
             self.itemCount = itemCount
@@ -5341,7 +5399,7 @@ public struct PointInTimeRecoveryUnavailableException: ClientRuntime.ModeledErro
 }
 
 public struct ExportTableToPointInTimeInput: Swift.Sendable {
-    /// Providing a ClientToken makes the call to ExportTableToPointInTimeInput idempotent, meaning that multiple identical calls have the same effect as one single call. A client token is valid for 8 hours after the first request that uses it is completed. After 8 hours, any request with the same client token is treated as a new request. Do not resubmit the same request with the same client token for more than 8 hours, or the result might not be idempotent. If you submit a request with the same client token but a change in other parameters within the 8-hour idempotency window, DynamoDB returns an ImportConflictException.
+    /// Providing a ClientToken makes the call to ExportTableToPointInTimeInput idempotent, meaning that multiple identical calls have the same effect as one single call. A client token is valid for 8 hours after the first request that uses it is completed. After 8 hours, any request with the same client token is treated as a new request. Do not resubmit the same request with the same client token for more than 8 hours, or the result might not be idempotent. If you submit a request with the same client token but a change in other parameters within the 8-hour idempotency window, DynamoDB returns an ExportConflictException.
     public var clientToken: Swift.String?
     /// The format for the exported data. Valid values for ExportFormat are DYNAMODB_JSON or ION.
     public var exportFormat: DynamoDBClientTypes.ExportFormat?
@@ -7502,7 +7560,7 @@ extension DynamoDBClientTypes {
 /// * There is a user error, such as an invalid data format.
 ///
 ///
-/// If using Java, DynamoDB lists the cancellation reasons on the CancellationReasons property. This property is not set for other languages. Transaction cancellation reasons are ordered in the order of requested items, if an item has no error it will have None code and Null message. Cancellation reason codes and possible error messages:
+/// DynamoDB lists the cancellation reasons on the CancellationReasons property. Transaction cancellation reasons are ordered in the order of requested items, if an item has no error it will have None code and Null message. Cancellation reason codes and possible error messages:
 ///
 /// * No Errors:
 ///
@@ -9462,6 +9520,8 @@ extension CreateTableInput {
         try writer["BillingMode"].write(value.billingMode)
         try writer["DeletionProtectionEnabled"].write(value.deletionProtectionEnabled)
         try writer["GlobalSecondaryIndexes"].writeList(value.globalSecondaryIndexes, memberWritingClosure: DynamoDBClientTypes.GlobalSecondaryIndex.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["GlobalTableSettingsReplicationMode"].write(value.globalTableSettingsReplicationMode)
+        try writer["GlobalTableSourceArn"].write(value.globalTableSourceArn)
         try writer["KeySchema"].writeList(value.keySchema, memberWritingClosure: DynamoDBClientTypes.KeySchemaElement.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["LocalSecondaryIndexes"].writeList(value.localSecondaryIndexes, memberWritingClosure: DynamoDBClientTypes.LocalSecondaryIndex.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["OnDemandThroughput"].write(value.onDemandThroughput, with: DynamoDBClientTypes.OnDemandThroughput.write(value:to:))
@@ -12491,6 +12551,7 @@ extension DynamoDBClientTypes.ReplicaDescription {
         value.globalSecondaryIndexes = try reader["GlobalSecondaryIndexes"].readListIfPresent(memberReadingClosure: DynamoDBClientTypes.ReplicaGlobalSecondaryIndexDescription.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.replicaInaccessibleDateTime = try reader["ReplicaInaccessibleDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.replicaTableClassSummary = try reader["ReplicaTableClassSummary"].readIfPresent(with: DynamoDBClientTypes.TableClassSummary.read(from:))
+        value.globalTableSettingsReplicationMode = try reader["GlobalTableSettingsReplicationMode"].readIfPresent()
         return value
     }
 }
@@ -12597,6 +12658,7 @@ extension DynamoDBClientTypes.TableDescription {
         value.globalTableVersion = try reader["GlobalTableVersion"].readIfPresent()
         value.replicas = try reader["Replicas"].readListIfPresent(memberReadingClosure: DynamoDBClientTypes.ReplicaDescription.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.globalTableWitnesses = try reader["GlobalTableWitnesses"].readListIfPresent(memberReadingClosure: DynamoDBClientTypes.GlobalTableWitnessDescription.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.globalTableSettingsReplicationMode = try reader["GlobalTableSettingsReplicationMode"].readIfPresent()
         value.restoreSummary = try reader["RestoreSummary"].readIfPresent(with: DynamoDBClientTypes.RestoreSummary.read(from:))
         value.sseDescription = try reader["SSEDescription"].readIfPresent(with: DynamoDBClientTypes.SSEDescription.read(from:))
         value.archivalSummary = try reader["ArchivalSummary"].readIfPresent(with: DynamoDBClientTypes.ArchivalSummary.read(from:))

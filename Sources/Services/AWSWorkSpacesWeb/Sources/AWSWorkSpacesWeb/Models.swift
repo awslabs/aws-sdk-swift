@@ -2718,6 +2718,8 @@ public struct CreatePortalInput: Swift.Sendable {
     public var instanceType: WorkSpacesWebClientTypes.InstanceType?
     /// The maximum number of concurrent sessions for the portal.
     public var maxConcurrentSessions: Swift.Int?
+    /// The custom domain of the web portal that users access in order to start streaming sessions.
+    public var portalCustomDomain: Swift.String?
     /// The tags to add to the web portal. A tag is a key-value pair.
     public var tags: [WorkSpacesWebClientTypes.Tag]?
 
@@ -2729,6 +2731,7 @@ public struct CreatePortalInput: Swift.Sendable {
         displayName: Swift.String? = nil,
         instanceType: WorkSpacesWebClientTypes.InstanceType? = nil,
         maxConcurrentSessions: Swift.Int? = nil,
+        portalCustomDomain: Swift.String? = nil,
         tags: [WorkSpacesWebClientTypes.Tag]? = nil
     ) {
         self.additionalEncryptionContext = additionalEncryptionContext
@@ -2738,13 +2741,14 @@ public struct CreatePortalInput: Swift.Sendable {
         self.displayName = displayName
         self.instanceType = instanceType
         self.maxConcurrentSessions = maxConcurrentSessions
+        self.portalCustomDomain = portalCustomDomain
         self.tags = tags
     }
 }
 
 extension CreatePortalInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreatePortalInput(additionalEncryptionContext: \(Swift.String(describing: additionalEncryptionContext)), authenticationType: \(Swift.String(describing: authenticationType)), clientToken: \(Swift.String(describing: clientToken)), customerManagedKey: \(Swift.String(describing: customerManagedKey)), instanceType: \(Swift.String(describing: instanceType)), maxConcurrentSessions: \(Swift.String(describing: maxConcurrentSessions)), displayName: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
+        "CreatePortalInput(additionalEncryptionContext: \(Swift.String(describing: additionalEncryptionContext)), authenticationType: \(Swift.String(describing: authenticationType)), clientToken: \(Swift.String(describing: clientToken)), customerManagedKey: \(Swift.String(describing: customerManagedKey)), instanceType: \(Swift.String(describing: instanceType)), maxConcurrentSessions: \(Swift.String(describing: maxConcurrentSessions)), portalCustomDomain: \(Swift.String(describing: portalCustomDomain)), displayName: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreatePortalOutput: Swift.Sendable {
@@ -3018,6 +3022,8 @@ extension WorkSpacesWebClientTypes {
         /// The ARN of the web portal.
         /// This member is required.
         public var portalArn: Swift.String?
+        /// The custom domain of the web portal that users access in order to start streaming sessions.
+        public var portalCustomDomain: Swift.String?
         /// The endpoint URL of the web portal that users access in order to start streaming sessions.
         public var portalEndpoint: Swift.String?
         /// The status of the web portal.
@@ -3049,6 +3055,7 @@ extension WorkSpacesWebClientTypes {
             maxConcurrentSessions: Swift.Int? = nil,
             networkSettingsArn: Swift.String? = nil,
             portalArn: Swift.String? = nil,
+            portalCustomDomain: Swift.String? = nil,
             portalEndpoint: Swift.String? = nil,
             portalStatus: WorkSpacesWebClientTypes.PortalStatus? = nil,
             rendererType: WorkSpacesWebClientTypes.RendererType? = nil,
@@ -3071,6 +3078,7 @@ extension WorkSpacesWebClientTypes {
             self.maxConcurrentSessions = maxConcurrentSessions
             self.networkSettingsArn = networkSettingsArn
             self.portalArn = portalArn
+            self.portalCustomDomain = portalCustomDomain
             self.portalEndpoint = portalEndpoint
             self.portalStatus = portalStatus
             self.rendererType = rendererType
@@ -3085,7 +3093,7 @@ extension WorkSpacesWebClientTypes {
 
 extension WorkSpacesWebClientTypes.Portal: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "Portal(additionalEncryptionContext: \(Swift.String(describing: additionalEncryptionContext)), authenticationType: \(Swift.String(describing: authenticationType)), browserSettingsArn: \(Swift.String(describing: browserSettingsArn)), browserType: \(Swift.String(describing: browserType)), creationDate: \(Swift.String(describing: creationDate)), customerManagedKey: \(Swift.String(describing: customerManagedKey)), dataProtectionSettingsArn: \(Swift.String(describing: dataProtectionSettingsArn)), instanceType: \(Swift.String(describing: instanceType)), ipAccessSettingsArn: \(Swift.String(describing: ipAccessSettingsArn)), maxConcurrentSessions: \(Swift.String(describing: maxConcurrentSessions)), networkSettingsArn: \(Swift.String(describing: networkSettingsArn)), portalArn: \(Swift.String(describing: portalArn)), portalEndpoint: \(Swift.String(describing: portalEndpoint)), portalStatus: \(Swift.String(describing: portalStatus)), rendererType: \(Swift.String(describing: rendererType)), sessionLoggerArn: \(Swift.String(describing: sessionLoggerArn)), statusReason: \(Swift.String(describing: statusReason)), trustStoreArn: \(Swift.String(describing: trustStoreArn)), userAccessLoggingSettingsArn: \(Swift.String(describing: userAccessLoggingSettingsArn)), userSettingsArn: \(Swift.String(describing: userSettingsArn)), displayName: \"CONTENT_REDACTED\")"}
+        "Portal(additionalEncryptionContext: \(Swift.String(describing: additionalEncryptionContext)), authenticationType: \(Swift.String(describing: authenticationType)), browserSettingsArn: \(Swift.String(describing: browserSettingsArn)), browserType: \(Swift.String(describing: browserType)), creationDate: \(Swift.String(describing: creationDate)), customerManagedKey: \(Swift.String(describing: customerManagedKey)), dataProtectionSettingsArn: \(Swift.String(describing: dataProtectionSettingsArn)), instanceType: \(Swift.String(describing: instanceType)), ipAccessSettingsArn: \(Swift.String(describing: ipAccessSettingsArn)), maxConcurrentSessions: \(Swift.String(describing: maxConcurrentSessions)), networkSettingsArn: \(Swift.String(describing: networkSettingsArn)), portalArn: \(Swift.String(describing: portalArn)), portalCustomDomain: \(Swift.String(describing: portalCustomDomain)), portalEndpoint: \(Swift.String(describing: portalEndpoint)), portalStatus: \(Swift.String(describing: portalStatus)), rendererType: \(Swift.String(describing: rendererType)), sessionLoggerArn: \(Swift.String(describing: sessionLoggerArn)), statusReason: \(Swift.String(describing: statusReason)), trustStoreArn: \(Swift.String(describing: trustStoreArn)), userAccessLoggingSettingsArn: \(Swift.String(describing: userAccessLoggingSettingsArn)), userSettingsArn: \(Swift.String(describing: userSettingsArn)), displayName: \"CONTENT_REDACTED\")"}
 }
 
 public struct GetPortalOutput: Swift.Sendable {
@@ -3169,6 +3177,8 @@ extension WorkSpacesWebClientTypes {
         /// The ARN of the web portal.
         /// This member is required.
         public var portalArn: Swift.String?
+        /// The custom domain of the web portal that users access in order to start streaming sessions.
+        public var portalCustomDomain: Swift.String?
         /// The endpoint URL of the web portal that users access in order to start streaming sessions.
         public var portalEndpoint: Swift.String?
         /// The status of the web portal.
@@ -3196,6 +3206,7 @@ extension WorkSpacesWebClientTypes {
             maxConcurrentSessions: Swift.Int? = nil,
             networkSettingsArn: Swift.String? = nil,
             portalArn: Swift.String? = nil,
+            portalCustomDomain: Swift.String? = nil,
             portalEndpoint: Swift.String? = nil,
             portalStatus: WorkSpacesWebClientTypes.PortalStatus? = nil,
             rendererType: WorkSpacesWebClientTypes.RendererType? = nil,
@@ -3215,6 +3226,7 @@ extension WorkSpacesWebClientTypes {
             self.maxConcurrentSessions = maxConcurrentSessions
             self.networkSettingsArn = networkSettingsArn
             self.portalArn = portalArn
+            self.portalCustomDomain = portalCustomDomain
             self.portalEndpoint = portalEndpoint
             self.portalStatus = portalStatus
             self.rendererType = rendererType
@@ -3228,7 +3240,7 @@ extension WorkSpacesWebClientTypes {
 
 extension WorkSpacesWebClientTypes.PortalSummary: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "PortalSummary(authenticationType: \(Swift.String(describing: authenticationType)), browserSettingsArn: \(Swift.String(describing: browserSettingsArn)), browserType: \(Swift.String(describing: browserType)), creationDate: \(Swift.String(describing: creationDate)), dataProtectionSettingsArn: \(Swift.String(describing: dataProtectionSettingsArn)), instanceType: \(Swift.String(describing: instanceType)), ipAccessSettingsArn: \(Swift.String(describing: ipAccessSettingsArn)), maxConcurrentSessions: \(Swift.String(describing: maxConcurrentSessions)), networkSettingsArn: \(Swift.String(describing: networkSettingsArn)), portalArn: \(Swift.String(describing: portalArn)), portalEndpoint: \(Swift.String(describing: portalEndpoint)), portalStatus: \(Swift.String(describing: portalStatus)), rendererType: \(Swift.String(describing: rendererType)), sessionLoggerArn: \(Swift.String(describing: sessionLoggerArn)), trustStoreArn: \(Swift.String(describing: trustStoreArn)), userAccessLoggingSettingsArn: \(Swift.String(describing: userAccessLoggingSettingsArn)), userSettingsArn: \(Swift.String(describing: userSettingsArn)), displayName: \"CONTENT_REDACTED\")"}
+        "PortalSummary(authenticationType: \(Swift.String(describing: authenticationType)), browserSettingsArn: \(Swift.String(describing: browserSettingsArn)), browserType: \(Swift.String(describing: browserType)), creationDate: \(Swift.String(describing: creationDate)), dataProtectionSettingsArn: \(Swift.String(describing: dataProtectionSettingsArn)), instanceType: \(Swift.String(describing: instanceType)), ipAccessSettingsArn: \(Swift.String(describing: ipAccessSettingsArn)), maxConcurrentSessions: \(Swift.String(describing: maxConcurrentSessions)), networkSettingsArn: \(Swift.String(describing: networkSettingsArn)), portalArn: \(Swift.String(describing: portalArn)), portalCustomDomain: \(Swift.String(describing: portalCustomDomain)), portalEndpoint: \(Swift.String(describing: portalEndpoint)), portalStatus: \(Swift.String(describing: portalStatus)), rendererType: \(Swift.String(describing: rendererType)), sessionLoggerArn: \(Swift.String(describing: sessionLoggerArn)), trustStoreArn: \(Swift.String(describing: trustStoreArn)), userAccessLoggingSettingsArn: \(Swift.String(describing: userAccessLoggingSettingsArn)), userSettingsArn: \(Swift.String(describing: userSettingsArn)), displayName: \"CONTENT_REDACTED\")"}
 }
 
 public struct ListPortalsOutput: Swift.Sendable {
@@ -3258,25 +3270,29 @@ public struct UpdatePortalInput: Swift.Sendable {
     /// The ARN of the web portal.
     /// This member is required.
     public var portalArn: Swift.String?
+    /// The custom domain of the web portal that users access in order to start streaming sessions.
+    public var portalCustomDomain: Swift.String?
 
     public init(
         authenticationType: WorkSpacesWebClientTypes.AuthenticationType? = nil,
         displayName: Swift.String? = nil,
         instanceType: WorkSpacesWebClientTypes.InstanceType? = nil,
         maxConcurrentSessions: Swift.Int? = nil,
-        portalArn: Swift.String? = nil
+        portalArn: Swift.String? = nil,
+        portalCustomDomain: Swift.String? = nil
     ) {
         self.authenticationType = authenticationType
         self.displayName = displayName
         self.instanceType = instanceType
         self.maxConcurrentSessions = maxConcurrentSessions
         self.portalArn = portalArn
+        self.portalCustomDomain = portalCustomDomain
     }
 }
 
 extension UpdatePortalInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdatePortalInput(authenticationType: \(Swift.String(describing: authenticationType)), instanceType: \(Swift.String(describing: instanceType)), maxConcurrentSessions: \(Swift.String(describing: maxConcurrentSessions)), portalArn: \(Swift.String(describing: portalArn)), displayName: \"CONTENT_REDACTED\")"}
+        "UpdatePortalInput(authenticationType: \(Swift.String(describing: authenticationType)), instanceType: \(Swift.String(describing: instanceType)), maxConcurrentSessions: \(Swift.String(describing: maxConcurrentSessions)), portalArn: \(Swift.String(describing: portalArn)), portalCustomDomain: \(Swift.String(describing: portalCustomDomain)), displayName: \"CONTENT_REDACTED\")"}
 }
 
 public struct UpdatePortalOutput: Swift.Sendable {
@@ -6444,6 +6460,7 @@ extension CreatePortalInput {
         try writer["displayName"].write(value.displayName)
         try writer["instanceType"].write(value.instanceType)
         try writer["maxConcurrentSessions"].write(value.maxConcurrentSessions)
+        try writer["portalCustomDomain"].write(value.portalCustomDomain)
         try writer["tags"].writeList(value.tags, memberWritingClosure: WorkSpacesWebClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
@@ -6576,6 +6593,7 @@ extension UpdatePortalInput {
         try writer["displayName"].write(value.displayName)
         try writer["instanceType"].write(value.instanceType)
         try writer["maxConcurrentSessions"].write(value.maxConcurrentSessions)
+        try writer["portalCustomDomain"].write(value.portalCustomDomain)
     }
 }
 
@@ -9168,6 +9186,7 @@ extension WorkSpacesWebClientTypes.Portal {
         value.additionalEncryptionContext = try reader["additionalEncryptionContext"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.instanceType = try reader["instanceType"].readIfPresent()
         value.maxConcurrentSessions = try reader["maxConcurrentSessions"].readIfPresent()
+        value.portalCustomDomain = try reader["portalCustomDomain"].readIfPresent()
         return value
     }
 }
@@ -9542,6 +9561,7 @@ extension WorkSpacesWebClientTypes.PortalSummary {
         value.ipAccessSettingsArn = try reader["ipAccessSettingsArn"].readIfPresent()
         value.instanceType = try reader["instanceType"].readIfPresent()
         value.maxConcurrentSessions = try reader["maxConcurrentSessions"].readIfPresent()
+        value.portalCustomDomain = try reader["portalCustomDomain"].readIfPresent()
         return value
     }
 }
