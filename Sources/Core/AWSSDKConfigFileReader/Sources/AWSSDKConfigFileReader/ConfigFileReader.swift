@@ -7,7 +7,9 @@
 
 import Foundation
 @_spi(FileBasedConfig) import AWSSDKCommon
+#if canImport(os)
 import os.log
+#endif
 
 // MARK: - Supporting Types and Enums
 
@@ -77,7 +79,11 @@ public class ConfigFileReader {
     private var currentLineNumber: Int = 0
     
     // Logging
-    private let logger = Logger(subsystem: "com.amazonaws.awssdk", category: "ConfigFileReader")
+    #if canImport(os) && os(macOS)
+    @available(macOS 11.0, *)
+    private lazy var logger = Logger(subsystem: "com.amazonaws.awssdk", category: "ConfigFileReader")
+    #endif
+    private let logSubsystem = "com.amazonaws.awssdk.ConfigFileReader"
     private var currentFileName: String = ""
     
     // MARK: - Nested Types
@@ -227,19 +233,39 @@ public class ConfigFileReader {
     // MARK: - Logging Methods
     
     /// Logs warnings for AWS SDK specification compliance
-    /// Uses structured logging with os.Logger, never logs property values or comments for security
+    /// Uses os.Logger on macOS 11+ for structured logging, falls back to NSLog for older versions
+    /// Never logs property values or comments for security
     private func logWarning(_ message: String, line: Int? = nil) {
         let lineInfo = line.map { " (line \($0))" } ?? ""
         let fileInfo = currentFileName.isEmpty ? "" : " in \(currentFileName)"
-        logger.warning("AWS Config Parser\(fileInfo)\(lineInfo): \(message)")
+        
+        #if canImport(os) && os(macOS)
+        if #available(macOS 11.0, *) {
+            logger.warning("AWS Config Parser\(fileInfo)\(lineInfo): \(message)")
+            return
+        }
+        #endif
+        
+        // Fallback for older macOS versions
+        NSLog("[%@] WARNING: AWS Config Parser%@%@: %@", logSubsystem, fileInfo, lineInfo, message)
     }
     
     /// Logs parsing errors with context
-    /// Uses structured logging with os.Logger, includes reference to AWS CLI documentation
+    /// Uses os.Logger on macOS 11+ for structured logging, falls back to NSLog for older versions
+    /// Includes reference to AWS CLI documentation
     private func logError(_ message: String, line: Int? = nil) {
         let lineInfo = line.map { " (line \($0))" } ?? ""
         let fileInfo = currentFileName.isEmpty ? "" : " in \(currentFileName)"
-        logger.error("AWS Config Parser\(fileInfo)\(lineInfo): \(message). See AWS CLI documentation for proper file format.")
+        
+        #if canImport(os) && os(macOS)
+        if #available(macOS 11.0, *) {
+            logger.error("AWS Config Parser\(fileInfo)\(lineInfo): \(message). See AWS CLI documentation for proper file format.")
+            return
+        }
+        #endif
+        
+        // Fallback for older macOS versions
+        NSLog("[%@] ERROR: AWS Config Parser%@%@: %@. See AWS CLI documentation for proper file format.", logSubsystem, fileInfo, lineInfo, message)
     }
     
     private func handleParseError(_ error: Error, line: String) {
