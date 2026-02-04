@@ -15,8 +15,6 @@ import AWSS3
 final class S3ExpressPresignedURLTests: S3ExpressXCTestCase {
 
     func test_putAndGetPresignedURL() async throws {
-        let key = "text"
-        let original = Data("Hello, World!".utf8)
 
         // Create a S3Express (directory) bucket
         let bucket = try await createS3ExpressBucket()
@@ -26,23 +24,19 @@ final class S3ExpressPresignedURLTests: S3ExpressXCTestCase {
         let putObjectURL = try await putObjectInput.presignURL(config: config, expiration: 300.0)
 
         // Perform the S3 PutObject request
-        try await URLSession.perform(url: XCTUnwrap(putObjectURL), method: "PUT", body: original)
+        try await URLSession.perform(url: XCTUnwrap(putObjectURL), method: "PUT", body: originalContents)
 
         // Presign a GetObject URL
         let getObjectInput = GetObjectInput(bucket: bucket, key: key)
         let getObjectURL = try await getObjectInput.presignURL(config: config, expiration: 300.0)
 
         // Perform the S3 GetObject request & keep the response data
-        let retrieved = try await URLSession.perform(url: XCTUnwrap(getObjectURL))
+        let retrievedContents = try await URLSession.perform(url: XCTUnwrap(getObjectURL))
 
         // Compare GetObject response to PutObject request
-        XCTAssertEqual(original, retrieved)
+        XCTAssertEqual(originalContents, retrievedContents)
 
-        // Delete the object
-        try await deleteObject(bucket: bucket, key: key)
-
-        // Delete the bucket
-        try await deleteBucket(bucket: bucket)
+        // Object, and then the bucket, will be deleted during this test case's tearDown()
     }
 }
 

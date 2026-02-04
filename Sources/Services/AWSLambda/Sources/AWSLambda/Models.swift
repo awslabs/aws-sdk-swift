@@ -2475,13 +2475,17 @@ extension LambdaClientTypes {
 
 extension LambdaClientTypes {
 
-    public enum EventSourceMappingMetric: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case eventcount
+    public enum EventSourceMappingSystemLogLevel: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case debug
+        case info
+        case warn
         case sdkUnknown(Swift.String)
 
-        public static var allCases: [EventSourceMappingMetric] {
+        public static var allCases: [EventSourceMappingSystemLogLevel] {
             return [
-                .eventcount
+                .debug,
+                .info,
+                .warn
             ]
         }
 
@@ -2492,7 +2496,56 @@ extension LambdaClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .debug: return "DEBUG"
+            case .info: return "INFO"
+            case .warn: return "WARN"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension LambdaClientTypes {
+
+    /// (Amazon MSK, and self-managed Apache Kafka only) The logging configuration for your event source. Use this configuration object to define the level of logs for your event source mapping.
+    public struct EventSourceMappingLoggingConfig: Swift.Sendable {
+        /// The log level you want your event source mapping to use. Lambda event poller only sends system logs at the selected level of detail and lower, where DEBUG is the highest level and WARN is the lowest. For more information about these metrics, see [ Event source mapping logging](https://docs.aws.amazon.com/lambda/latest/dg/esm-logging.html).
+        public var systemLogLevel: LambdaClientTypes.EventSourceMappingSystemLogLevel?
+
+        public init(
+            systemLogLevel: LambdaClientTypes.EventSourceMappingSystemLogLevel? = nil
+        ) {
+            self.systemLogLevel = systemLogLevel
+        }
+    }
+}
+
+extension LambdaClientTypes {
+
+    public enum EventSourceMappingMetric: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case errorcount
+        case eventcount
+        case kafkametrics
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EventSourceMappingMetric] {
+            return [
+                .errorcount,
+                .eventcount,
+                .kafkametrics
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .errorcount: return "ErrorCount"
             case .eventcount: return "EventCount"
+            case .kafkametrics: return "KafkaMetrics"
             case let .sdkUnknown(s): return s
             }
         }
@@ -2503,7 +2556,16 @@ extension LambdaClientTypes {
 
     /// The metrics configuration for your event source. Use this configuration object to define which metrics you want your event source mapping to produce.
     public struct EventSourceMappingMetricsConfig: Swift.Sendable {
-        /// The metrics you want your event source mapping to produce. Include EventCount to receive event source mapping metrics related to the number of events processed by your event source mapping. For more information about these metrics, see [ Event source mapping metrics](https://docs.aws.amazon.com/lambda/latest/dg/monitoring-metrics-types.html#event-source-mapping-metrics).
+        /// The metrics you want your event source mapping to produce, including EventCount, ErrorCount, KafkaMetrics.
+        ///
+        /// * EventCount to receive metrics related to the number of events processed by your event source mapping.
+        ///
+        /// * ErrorCount (Amazon MSK and self-managed Apache Kafka) to receive metrics related to the number of errors in your event source mapping processing.
+        ///
+        /// * KafkaMetrics (Amazon MSK and self-managed Apache Kafka) to receive metrics related to the Kafka consumers from your event source mapping.
+        ///
+        ///
+        /// For more information about these metrics, see [ Event source mapping metrics](https://docs.aws.amazon.com/lambda/latest/dg/monitoring-metrics-types.html#event-source-mapping-metrics).
         public var metrics: [LambdaClientTypes.EventSourceMappingMetric]?
 
         public init(
@@ -2789,6 +2851,8 @@ public struct CreateEventSourceMappingInput: Swift.Sendable {
     public var functionResponseTypes: [LambdaClientTypes.FunctionResponseType]?
     /// The ARN of the Key Management Service (KMS) customer managed key that Lambda uses to encrypt your function's [filter criteria](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventfiltering.html#filtering-basics). By default, Lambda does not encrypt your filter criteria object. Specify this property to encrypt data using your own customer managed key.
     public var kmsKeyArn: Swift.String?
+    /// (Amazon MSK, and self-managed Apache Kafka only) The logging configuration for your event source. For more information, see [Event source mapping logging](https://docs.aws.amazon.com/lambda/latest/dg/esm-logging.html).
+    public var loggingConfig: LambdaClientTypes.EventSourceMappingLoggingConfig?
     /// The maximum amount of time, in seconds, that Lambda spends gathering records before invoking the function. You can configure MaximumBatchingWindowInSeconds to any value from 0 seconds to 300 seconds in increments of seconds. For Kinesis, DynamoDB, and Amazon SQS event sources, the default batching window is 0 seconds. For Amazon MSK, Self-managed Apache Kafka, Amazon MQ, and DocumentDB event sources, the default batching window is 500 ms. Note that because you can only change MaximumBatchingWindowInSeconds in increments of seconds, you cannot revert back to the 500 ms default batching window after you have changed it. To restore the default batching window, you must create a new event source mapping. Related setting: For Kinesis, DynamoDB, and Amazon SQS event sources, when you set BatchSize to a value greater than 10, you must set MaximumBatchingWindowInSeconds to at least 1.
     public var maximumBatchingWindowInSeconds: Swift.Int?
     /// (Kinesis, DynamoDB Streams, Amazon MSK, and self-managed Apache Kafka) Discard records older than the specified age. The default value is infinite (-1).
@@ -2834,6 +2898,7 @@ public struct CreateEventSourceMappingInput: Swift.Sendable {
         functionName: Swift.String? = nil,
         functionResponseTypes: [LambdaClientTypes.FunctionResponseType]? = nil,
         kmsKeyArn: Swift.String? = nil,
+        loggingConfig: LambdaClientTypes.EventSourceMappingLoggingConfig? = nil,
         maximumBatchingWindowInSeconds: Swift.Int? = nil,
         maximumRecordAgeInSeconds: Swift.Int? = nil,
         maximumRetryAttempts: Swift.Int? = nil,
@@ -2862,6 +2927,7 @@ public struct CreateEventSourceMappingInput: Swift.Sendable {
         self.functionName = functionName
         self.functionResponseTypes = functionResponseTypes
         self.kmsKeyArn = kmsKeyArn
+        self.loggingConfig = loggingConfig
         self.maximumBatchingWindowInSeconds = maximumBatchingWindowInSeconds
         self.maximumRecordAgeInSeconds = maximumRecordAgeInSeconds
         self.maximumRetryAttempts = maximumRetryAttempts
@@ -2930,6 +2996,8 @@ public struct CreateEventSourceMappingOutput: Swift.Sendable {
     public var lastModified: Foundation.Date?
     /// The result of the event source mapping's last processing attempt.
     public var lastProcessingResult: Swift.String?
+    /// (Amazon MSK, and self-managed Apache Kafka only) The logging configuration for your event source. For more information, see [Event source mapping logging](https://docs.aws.amazon.com/lambda/latest/dg/esm-logging.html).
+    public var loggingConfig: LambdaClientTypes.EventSourceMappingLoggingConfig?
     /// The maximum amount of time, in seconds, that Lambda spends gathering records before invoking the function. You can configure MaximumBatchingWindowInSeconds to any value from 0 seconds to 300 seconds in increments of seconds. For streams and Amazon SQS event sources, the default batching window is 0 seconds. For Amazon MSK, Self-managed Apache Kafka, Amazon MQ, and DocumentDB event sources, the default batching window is 500 ms. Note that because you can only change MaximumBatchingWindowInSeconds in increments of seconds, you cannot revert back to the 500 ms default batching window after you have changed it. To restore the default batching window, you must create a new event source mapping. Related setting: For streams and Amazon SQS event sources, when you set BatchSize to a value greater than 10, you must set MaximumBatchingWindowInSeconds to at least 1.
     public var maximumBatchingWindowInSeconds: Swift.Int?
     /// (Kinesis, DynamoDB Streams, Amazon MSK, and self-managed Apache Kafka) Discard records older than the specified age. The default value is -1, which sets the maximum age to infinite. When the value is set to infinite, Lambda never discards old records. The minimum valid value for maximum record age is 60s. Although values less than 60 and greater than -1 fall within the parameter's absolute range, they are not allowed
@@ -2982,6 +3050,7 @@ public struct CreateEventSourceMappingOutput: Swift.Sendable {
         kmsKeyArn: Swift.String? = nil,
         lastModified: Foundation.Date? = nil,
         lastProcessingResult: Swift.String? = nil,
+        loggingConfig: LambdaClientTypes.EventSourceMappingLoggingConfig? = nil,
         maximumBatchingWindowInSeconds: Swift.Int? = nil,
         maximumRecordAgeInSeconds: Swift.Int? = nil,
         maximumRetryAttempts: Swift.Int? = nil,
@@ -3015,6 +3084,7 @@ public struct CreateEventSourceMappingOutput: Swift.Sendable {
         self.kmsKeyArn = kmsKeyArn
         self.lastModified = lastModified
         self.lastProcessingResult = lastProcessingResult
+        self.loggingConfig = loggingConfig
         self.maximumBatchingWindowInSeconds = maximumBatchingWindowInSeconds
         self.maximumRecordAgeInSeconds = maximumRecordAgeInSeconds
         self.maximumRetryAttempts = maximumRetryAttempts
@@ -3104,6 +3174,8 @@ public struct DeleteEventSourceMappingOutput: Swift.Sendable {
     public var lastModified: Foundation.Date?
     /// The result of the event source mapping's last processing attempt.
     public var lastProcessingResult: Swift.String?
+    /// (Amazon MSK, and self-managed Apache Kafka only) The logging configuration for your event source. For more information, see [Event source mapping logging](https://docs.aws.amazon.com/lambda/latest/dg/esm-logging.html).
+    public var loggingConfig: LambdaClientTypes.EventSourceMappingLoggingConfig?
     /// The maximum amount of time, in seconds, that Lambda spends gathering records before invoking the function. You can configure MaximumBatchingWindowInSeconds to any value from 0 seconds to 300 seconds in increments of seconds. For streams and Amazon SQS event sources, the default batching window is 0 seconds. For Amazon MSK, Self-managed Apache Kafka, Amazon MQ, and DocumentDB event sources, the default batching window is 500 ms. Note that because you can only change MaximumBatchingWindowInSeconds in increments of seconds, you cannot revert back to the 500 ms default batching window after you have changed it. To restore the default batching window, you must create a new event source mapping. Related setting: For streams and Amazon SQS event sources, when you set BatchSize to a value greater than 10, you must set MaximumBatchingWindowInSeconds to at least 1.
     public var maximumBatchingWindowInSeconds: Swift.Int?
     /// (Kinesis, DynamoDB Streams, Amazon MSK, and self-managed Apache Kafka) Discard records older than the specified age. The default value is -1, which sets the maximum age to infinite. When the value is set to infinite, Lambda never discards old records. The minimum valid value for maximum record age is 60s. Although values less than 60 and greater than -1 fall within the parameter's absolute range, they are not allowed
@@ -3156,6 +3228,7 @@ public struct DeleteEventSourceMappingOutput: Swift.Sendable {
         kmsKeyArn: Swift.String? = nil,
         lastModified: Foundation.Date? = nil,
         lastProcessingResult: Swift.String? = nil,
+        loggingConfig: LambdaClientTypes.EventSourceMappingLoggingConfig? = nil,
         maximumBatchingWindowInSeconds: Swift.Int? = nil,
         maximumRecordAgeInSeconds: Swift.Int? = nil,
         maximumRetryAttempts: Swift.Int? = nil,
@@ -3189,6 +3262,7 @@ public struct DeleteEventSourceMappingOutput: Swift.Sendable {
         self.kmsKeyArn = kmsKeyArn
         self.lastModified = lastModified
         self.lastProcessingResult = lastProcessingResult
+        self.loggingConfig = loggingConfig
         self.maximumBatchingWindowInSeconds = maximumBatchingWindowInSeconds
         self.maximumRecordAgeInSeconds = maximumRecordAgeInSeconds
         self.maximumRetryAttempts = maximumRetryAttempts
@@ -3252,6 +3326,8 @@ public struct GetEventSourceMappingOutput: Swift.Sendable {
     public var lastModified: Foundation.Date?
     /// The result of the event source mapping's last processing attempt.
     public var lastProcessingResult: Swift.String?
+    /// (Amazon MSK, and self-managed Apache Kafka only) The logging configuration for your event source. For more information, see [Event source mapping logging](https://docs.aws.amazon.com/lambda/latest/dg/esm-logging.html).
+    public var loggingConfig: LambdaClientTypes.EventSourceMappingLoggingConfig?
     /// The maximum amount of time, in seconds, that Lambda spends gathering records before invoking the function. You can configure MaximumBatchingWindowInSeconds to any value from 0 seconds to 300 seconds in increments of seconds. For streams and Amazon SQS event sources, the default batching window is 0 seconds. For Amazon MSK, Self-managed Apache Kafka, Amazon MQ, and DocumentDB event sources, the default batching window is 500 ms. Note that because you can only change MaximumBatchingWindowInSeconds in increments of seconds, you cannot revert back to the 500 ms default batching window after you have changed it. To restore the default batching window, you must create a new event source mapping. Related setting: For streams and Amazon SQS event sources, when you set BatchSize to a value greater than 10, you must set MaximumBatchingWindowInSeconds to at least 1.
     public var maximumBatchingWindowInSeconds: Swift.Int?
     /// (Kinesis, DynamoDB Streams, Amazon MSK, and self-managed Apache Kafka) Discard records older than the specified age. The default value is -1, which sets the maximum age to infinite. When the value is set to infinite, Lambda never discards old records. The minimum valid value for maximum record age is 60s. Although values less than 60 and greater than -1 fall within the parameter's absolute range, they are not allowed
@@ -3304,6 +3380,7 @@ public struct GetEventSourceMappingOutput: Swift.Sendable {
         kmsKeyArn: Swift.String? = nil,
         lastModified: Foundation.Date? = nil,
         lastProcessingResult: Swift.String? = nil,
+        loggingConfig: LambdaClientTypes.EventSourceMappingLoggingConfig? = nil,
         maximumBatchingWindowInSeconds: Swift.Int? = nil,
         maximumRecordAgeInSeconds: Swift.Int? = nil,
         maximumRetryAttempts: Swift.Int? = nil,
@@ -3337,6 +3414,7 @@ public struct GetEventSourceMappingOutput: Swift.Sendable {
         self.kmsKeyArn = kmsKeyArn
         self.lastModified = lastModified
         self.lastProcessingResult = lastProcessingResult
+        self.loggingConfig = loggingConfig
         self.maximumBatchingWindowInSeconds = maximumBatchingWindowInSeconds
         self.maximumRecordAgeInSeconds = maximumRecordAgeInSeconds
         self.maximumRetryAttempts = maximumRetryAttempts
@@ -3436,6 +3514,8 @@ extension LambdaClientTypes {
         public var lastModified: Foundation.Date?
         /// The result of the event source mapping's last processing attempt.
         public var lastProcessingResult: Swift.String?
+        /// (Amazon MSK, and self-managed Apache Kafka only) The logging configuration for your event source. For more information, see [Event source mapping logging](https://docs.aws.amazon.com/lambda/latest/dg/esm-logging.html).
+        public var loggingConfig: LambdaClientTypes.EventSourceMappingLoggingConfig?
         /// The maximum amount of time, in seconds, that Lambda spends gathering records before invoking the function. You can configure MaximumBatchingWindowInSeconds to any value from 0 seconds to 300 seconds in increments of seconds. For streams and Amazon SQS event sources, the default batching window is 0 seconds. For Amazon MSK, Self-managed Apache Kafka, Amazon MQ, and DocumentDB event sources, the default batching window is 500 ms. Note that because you can only change MaximumBatchingWindowInSeconds in increments of seconds, you cannot revert back to the 500 ms default batching window after you have changed it. To restore the default batching window, you must create a new event source mapping. Related setting: For streams and Amazon SQS event sources, when you set BatchSize to a value greater than 10, you must set MaximumBatchingWindowInSeconds to at least 1.
         public var maximumBatchingWindowInSeconds: Swift.Int?
         /// (Kinesis, DynamoDB Streams, Amazon MSK, and self-managed Apache Kafka) Discard records older than the specified age. The default value is -1, which sets the maximum age to infinite. When the value is set to infinite, Lambda never discards old records. The minimum valid value for maximum record age is 60s. Although values less than 60 and greater than -1 fall within the parameter's absolute range, they are not allowed
@@ -3488,6 +3568,7 @@ extension LambdaClientTypes {
             kmsKeyArn: Swift.String? = nil,
             lastModified: Foundation.Date? = nil,
             lastProcessingResult: Swift.String? = nil,
+            loggingConfig: LambdaClientTypes.EventSourceMappingLoggingConfig? = nil,
             maximumBatchingWindowInSeconds: Swift.Int? = nil,
             maximumRecordAgeInSeconds: Swift.Int? = nil,
             maximumRetryAttempts: Swift.Int? = nil,
@@ -3521,6 +3602,7 @@ extension LambdaClientTypes {
             self.kmsKeyArn = kmsKeyArn
             self.lastModified = lastModified
             self.lastProcessingResult = lastProcessingResult
+            self.loggingConfig = loggingConfig
             self.maximumBatchingWindowInSeconds = maximumBatchingWindowInSeconds
             self.maximumRecordAgeInSeconds = maximumRecordAgeInSeconds
             self.maximumRetryAttempts = maximumRetryAttempts
@@ -3604,6 +3686,8 @@ public struct UpdateEventSourceMappingInput: Swift.Sendable {
     public var functionResponseTypes: [LambdaClientTypes.FunctionResponseType]?
     /// The ARN of the Key Management Service (KMS) customer managed key that Lambda uses to encrypt your function's [filter criteria](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventfiltering.html#filtering-basics). By default, Lambda does not encrypt your filter criteria object. Specify this property to encrypt data using your own customer managed key.
     public var kmsKeyArn: Swift.String?
+    /// (Amazon MSK, and self-managed Apache Kafka only) The logging configuration for your event source. Use this configuration object to define the level of logs for your event source mapping.
+    public var loggingConfig: LambdaClientTypes.EventSourceMappingLoggingConfig?
     /// The maximum amount of time, in seconds, that Lambda spends gathering records before invoking the function. You can configure MaximumBatchingWindowInSeconds to any value from 0 seconds to 300 seconds in increments of seconds. For Kinesis, DynamoDB, and Amazon SQS event sources, the default batching window is 0 seconds. For Amazon MSK, Self-managed Apache Kafka, Amazon MQ, and DocumentDB event sources, the default batching window is 500 ms. Note that because you can only change MaximumBatchingWindowInSeconds in increments of seconds, you cannot revert back to the 500 ms default batching window after you have changed it. To restore the default batching window, you must create a new event source mapping. Related setting: For Kinesis, DynamoDB, and Amazon SQS event sources, when you set BatchSize to a value greater than 10, you must set MaximumBatchingWindowInSeconds to at least 1.
     public var maximumBatchingWindowInSeconds: Swift.Int?
     /// (Kinesis, DynamoDB Streams, Amazon MSK, and self-managed Apache Kafka) Discard records older than the specified age. The default value is infinite (-1).
@@ -3639,6 +3723,7 @@ public struct UpdateEventSourceMappingInput: Swift.Sendable {
         functionName: Swift.String? = nil,
         functionResponseTypes: [LambdaClientTypes.FunctionResponseType]? = nil,
         kmsKeyArn: Swift.String? = nil,
+        loggingConfig: LambdaClientTypes.EventSourceMappingLoggingConfig? = nil,
         maximumBatchingWindowInSeconds: Swift.Int? = nil,
         maximumRecordAgeInSeconds: Swift.Int? = nil,
         maximumRetryAttempts: Swift.Int? = nil,
@@ -3661,6 +3746,7 @@ public struct UpdateEventSourceMappingInput: Swift.Sendable {
         self.functionName = functionName
         self.functionResponseTypes = functionResponseTypes
         self.kmsKeyArn = kmsKeyArn
+        self.loggingConfig = loggingConfig
         self.maximumBatchingWindowInSeconds = maximumBatchingWindowInSeconds
         self.maximumRecordAgeInSeconds = maximumRecordAgeInSeconds
         self.maximumRetryAttempts = maximumRetryAttempts
@@ -3705,6 +3791,8 @@ public struct UpdateEventSourceMappingOutput: Swift.Sendable {
     public var lastModified: Foundation.Date?
     /// The result of the event source mapping's last processing attempt.
     public var lastProcessingResult: Swift.String?
+    /// (Amazon MSK, and self-managed Apache Kafka only) The logging configuration for your event source. For more information, see [Event source mapping logging](https://docs.aws.amazon.com/lambda/latest/dg/esm-logging.html).
+    public var loggingConfig: LambdaClientTypes.EventSourceMappingLoggingConfig?
     /// The maximum amount of time, in seconds, that Lambda spends gathering records before invoking the function. You can configure MaximumBatchingWindowInSeconds to any value from 0 seconds to 300 seconds in increments of seconds. For streams and Amazon SQS event sources, the default batching window is 0 seconds. For Amazon MSK, Self-managed Apache Kafka, Amazon MQ, and DocumentDB event sources, the default batching window is 500 ms. Note that because you can only change MaximumBatchingWindowInSeconds in increments of seconds, you cannot revert back to the 500 ms default batching window after you have changed it. To restore the default batching window, you must create a new event source mapping. Related setting: For streams and Amazon SQS event sources, when you set BatchSize to a value greater than 10, you must set MaximumBatchingWindowInSeconds to at least 1.
     public var maximumBatchingWindowInSeconds: Swift.Int?
     /// (Kinesis, DynamoDB Streams, Amazon MSK, and self-managed Apache Kafka) Discard records older than the specified age. The default value is -1, which sets the maximum age to infinite. When the value is set to infinite, Lambda never discards old records. The minimum valid value for maximum record age is 60s. Although values less than 60 and greater than -1 fall within the parameter's absolute range, they are not allowed
@@ -3757,6 +3845,7 @@ public struct UpdateEventSourceMappingOutput: Swift.Sendable {
         kmsKeyArn: Swift.String? = nil,
         lastModified: Foundation.Date? = nil,
         lastProcessingResult: Swift.String? = nil,
+        loggingConfig: LambdaClientTypes.EventSourceMappingLoggingConfig? = nil,
         maximumBatchingWindowInSeconds: Swift.Int? = nil,
         maximumRecordAgeInSeconds: Swift.Int? = nil,
         maximumRetryAttempts: Swift.Int? = nil,
@@ -3790,6 +3879,7 @@ public struct UpdateEventSourceMappingOutput: Swift.Sendable {
         self.kmsKeyArn = kmsKeyArn
         self.lastModified = lastModified
         self.lastProcessingResult = lastProcessingResult
+        self.loggingConfig = loggingConfig
         self.maximumBatchingWindowInSeconds = maximumBatchingWindowInSeconds
         self.maximumRecordAgeInSeconds = maximumRecordAgeInSeconds
         self.maximumRetryAttempts = maximumRetryAttempts
@@ -13223,6 +13313,7 @@ extension CreateEventSourceMappingInput {
         try writer["FunctionName"].write(value.functionName)
         try writer["FunctionResponseTypes"].writeList(value.functionResponseTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<LambdaClientTypes.FunctionResponseType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["KMSKeyArn"].write(value.kmsKeyArn)
+        try writer["LoggingConfig"].write(value.loggingConfig, with: LambdaClientTypes.EventSourceMappingLoggingConfig.write(value:to:))
         try writer["MaximumBatchingWindowInSeconds"].write(value.maximumBatchingWindowInSeconds)
         try writer["MaximumRecordAgeInSeconds"].write(value.maximumRecordAgeInSeconds)
         try writer["MaximumRetryAttempts"].write(value.maximumRetryAttempts)
@@ -13468,6 +13559,7 @@ extension UpdateEventSourceMappingInput {
         try writer["FunctionName"].write(value.functionName)
         try writer["FunctionResponseTypes"].writeList(value.functionResponseTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<LambdaClientTypes.FunctionResponseType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["KMSKeyArn"].write(value.kmsKeyArn)
+        try writer["LoggingConfig"].write(value.loggingConfig, with: LambdaClientTypes.EventSourceMappingLoggingConfig.write(value:to:))
         try writer["MaximumBatchingWindowInSeconds"].write(value.maximumBatchingWindowInSeconds)
         try writer["MaximumRecordAgeInSeconds"].write(value.maximumRecordAgeInSeconds)
         try writer["MaximumRetryAttempts"].write(value.maximumRetryAttempts)
@@ -13646,6 +13738,7 @@ extension CreateEventSourceMappingOutput {
         value.kmsKeyArn = try reader["KMSKeyArn"].readIfPresent()
         value.lastModified = try reader["LastModified"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.lastProcessingResult = try reader["LastProcessingResult"].readIfPresent()
+        value.loggingConfig = try reader["LoggingConfig"].readIfPresent(with: LambdaClientTypes.EventSourceMappingLoggingConfig.read(from:))
         value.maximumBatchingWindowInSeconds = try reader["MaximumBatchingWindowInSeconds"].readIfPresent()
         value.maximumRecordAgeInSeconds = try reader["MaximumRecordAgeInSeconds"].readIfPresent()
         value.maximumRetryAttempts = try reader["MaximumRetryAttempts"].readIfPresent()
@@ -13783,6 +13876,7 @@ extension DeleteEventSourceMappingOutput {
         value.kmsKeyArn = try reader["KMSKeyArn"].readIfPresent()
         value.lastModified = try reader["LastModified"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.lastProcessingResult = try reader["LastProcessingResult"].readIfPresent()
+        value.loggingConfig = try reader["LoggingConfig"].readIfPresent(with: LambdaClientTypes.EventSourceMappingLoggingConfig.read(from:))
         value.maximumBatchingWindowInSeconds = try reader["MaximumBatchingWindowInSeconds"].readIfPresent()
         value.maximumRecordAgeInSeconds = try reader["MaximumRecordAgeInSeconds"].readIfPresent()
         value.maximumRetryAttempts = try reader["MaximumRetryAttempts"].readIfPresent()
@@ -13979,6 +14073,7 @@ extension GetEventSourceMappingOutput {
         value.kmsKeyArn = try reader["KMSKeyArn"].readIfPresent()
         value.lastModified = try reader["LastModified"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.lastProcessingResult = try reader["LastProcessingResult"].readIfPresent()
+        value.loggingConfig = try reader["LoggingConfig"].readIfPresent(with: LambdaClientTypes.EventSourceMappingLoggingConfig.read(from:))
         value.maximumBatchingWindowInSeconds = try reader["MaximumBatchingWindowInSeconds"].readIfPresent()
         value.maximumRecordAgeInSeconds = try reader["MaximumRecordAgeInSeconds"].readIfPresent()
         value.maximumRetryAttempts = try reader["MaximumRetryAttempts"].readIfPresent()
@@ -14793,6 +14888,7 @@ extension UpdateEventSourceMappingOutput {
         value.kmsKeyArn = try reader["KMSKeyArn"].readIfPresent()
         value.lastModified = try reader["LastModified"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.lastProcessingResult = try reader["LastProcessingResult"].readIfPresent()
+        value.loggingConfig = try reader["LoggingConfig"].readIfPresent(with: LambdaClientTypes.EventSourceMappingLoggingConfig.read(from:))
         value.maximumBatchingWindowInSeconds = try reader["MaximumBatchingWindowInSeconds"].readIfPresent()
         value.maximumRecordAgeInSeconds = try reader["MaximumRecordAgeInSeconds"].readIfPresent()
         value.maximumRetryAttempts = try reader["MaximumRetryAttempts"].readIfPresent()
@@ -17700,6 +17796,21 @@ extension LambdaClientTypes.EventSourceMappingMetricsConfig {
     }
 }
 
+extension LambdaClientTypes.EventSourceMappingLoggingConfig {
+
+    static func write(value: LambdaClientTypes.EventSourceMappingLoggingConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["SystemLogLevel"].write(value.systemLogLevel)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.EventSourceMappingLoggingConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.EventSourceMappingLoggingConfig()
+        value.systemLogLevel = try reader["SystemLogLevel"].readIfPresent()
+        return value
+    }
+}
+
 extension LambdaClientTypes.ProvisionedPollerConfig {
 
     static func write(value: LambdaClientTypes.ProvisionedPollerConfig?, to writer: SmithyJSON.Writer) throws {
@@ -18581,6 +18692,7 @@ extension LambdaClientTypes.EventSourceMappingConfiguration {
         value.filterCriteriaError = try reader["FilterCriteriaError"].readIfPresent(with: LambdaClientTypes.FilterCriteriaError.read(from:))
         value.eventSourceMappingArn = try reader["EventSourceMappingArn"].readIfPresent()
         value.metricsConfig = try reader["MetricsConfig"].readIfPresent(with: LambdaClientTypes.EventSourceMappingMetricsConfig.read(from:))
+        value.loggingConfig = try reader["LoggingConfig"].readIfPresent(with: LambdaClientTypes.EventSourceMappingLoggingConfig.read(from:))
         value.provisionedPollerConfig = try reader["ProvisionedPollerConfig"].readIfPresent(with: LambdaClientTypes.ProvisionedPollerConfig.read(from:))
         return value
     }

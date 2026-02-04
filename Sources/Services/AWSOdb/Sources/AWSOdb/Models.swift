@@ -499,6 +499,77 @@ extension OdbClientTypes {
 
 extension OdbClientTypes {
 
+    public enum IamRoleStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case associating
+        case connected
+        case disassociating
+        case disconnected
+        case failed
+        case partiallyConnected
+        case unknown
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [IamRoleStatus] {
+            return [
+                .associating,
+                .connected,
+                .disassociating,
+                .disconnected,
+                .failed,
+                .partiallyConnected,
+                .unknown
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .associating: return "ASSOCIATING"
+            case .connected: return "CONNECTED"
+            case .disassociating: return "DISASSOCIATING"
+            case .disconnected: return "DISCONNECTED"
+            case .failed: return "FAILED"
+            case .partiallyConnected: return "PARTIALLY_CONNECTED"
+            case .unknown: return "UNKNOWN"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension OdbClientTypes {
+
+    /// Information about an Amazon Web Services Identity and Access Management (IAM) service role associated with a resource.
+    public struct IamRole: Swift.Sendable {
+        /// The Amazon Web Services integration configuration settings for the Amazon Web Services Identity and Access Management (IAM) service role.
+        public var awsIntegration: OdbClientTypes.SupportedAwsIntegration?
+        /// The Amazon Resource Name (ARN) of the Amazon Web Services Identity and Access Management (IAM) service role.
+        public var iamRoleArn: Swift.String?
+        /// The current status of the Amazon Web Services Identity and Access Management (IAM) service role.
+        public var status: OdbClientTypes.IamRoleStatus?
+        /// Additional information about the current status of the Amazon Web Services Identity and Access Management (IAM) service role, if applicable.
+        public var statusReason: Swift.String?
+
+        public init(
+            awsIntegration: OdbClientTypes.SupportedAwsIntegration? = nil,
+            iamRoleArn: Swift.String? = nil,
+            status: OdbClientTypes.IamRoleStatus? = nil,
+            statusReason: Swift.String? = nil
+        ) {
+            self.awsIntegration = awsIntegration
+            self.iamRoleArn = iamRoleArn
+            self.status = status
+            self.statusReason = statusReason
+        }
+    }
+}
+
+extension OdbClientTypes {
+
     public enum LicenseModel: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case bringYourOwnLicense
         case licenseIncluded
@@ -819,6 +890,8 @@ extension OdbClientTypes {
         public var exadataStorageInTBsLowestScaledValue: Swift.Double?
         /// The hostname for the Autonomous VM cluster.
         public var hostname: Swift.String?
+        /// The Amazon Web Services Identity and Access Management (IAM) service roles associated with the Autonomous VM cluster.
+        public var iamRoles: [OdbClientTypes.IamRole]?
         /// Indicates whether mutual TLS (mTLS) authentication is enabled for the Autonomous VM cluster.
         public var isMtlsEnabledVmCluster: Swift.Bool?
         /// The Oracle license model that applies to the Autonomous VM cluster.
@@ -900,6 +973,7 @@ extension OdbClientTypes {
             domain: Swift.String? = nil,
             exadataStorageInTBsLowestScaledValue: Swift.Double? = nil,
             hostname: Swift.String? = nil,
+            iamRoles: [OdbClientTypes.IamRole]? = nil,
             isMtlsEnabledVmCluster: Swift.Bool? = nil,
             licenseModel: OdbClientTypes.LicenseModel? = nil,
             maintenanceWindow: OdbClientTypes.MaintenanceWindow? = nil,
@@ -952,6 +1026,7 @@ extension OdbClientTypes {
             self.domain = domain
             self.exadataStorageInTBsLowestScaledValue = exadataStorageInTBsLowestScaledValue
             self.hostname = hostname
+            self.iamRoles = iamRoles
             self.isMtlsEnabledVmCluster = isMtlsEnabledVmCluster
             self.licenseModel = licenseModel
             self.maintenanceWindow = maintenanceWindow
@@ -1035,6 +1110,8 @@ extension OdbClientTypes {
         public var exadataStorageInTBsLowestScaledValue: Swift.Double?
         /// The host name for the Autonomous VM cluster.
         public var hostname: Swift.String?
+        /// The Amazon Web Services Identity and Access Management (IAM) service roles associated with the Autonomous VM cluster in the summary information.
+        public var iamRoles: [OdbClientTypes.IamRole]?
         /// Indicates if mutual TLS (mTLS) authentication is enabled for the Autonomous VM cluster.
         public var isMtlsEnabledVmCluster: Swift.Bool?
         /// The Oracle license model that applies to the Autonomous VM cluster.
@@ -1116,6 +1193,7 @@ extension OdbClientTypes {
             domain: Swift.String? = nil,
             exadataStorageInTBsLowestScaledValue: Swift.Double? = nil,
             hostname: Swift.String? = nil,
+            iamRoles: [OdbClientTypes.IamRole]? = nil,
             isMtlsEnabledVmCluster: Swift.Bool? = nil,
             licenseModel: OdbClientTypes.LicenseModel? = nil,
             maintenanceWindow: OdbClientTypes.MaintenanceWindow? = nil,
@@ -1168,6 +1246,7 @@ extension OdbClientTypes {
             self.domain = domain
             self.exadataStorageInTBsLowestScaledValue = exadataStorageInTBsLowestScaledValue
             self.hostname = hostname
+            self.iamRoles = iamRoles
             self.isMtlsEnabledVmCluster = isMtlsEnabledVmCluster
             self.licenseModel = licenseModel
             self.maintenanceWindow = maintenanceWindow
@@ -2439,77 +2518,6 @@ extension OdbClientTypes {
             case .normal: return "NORMAL"
             case let .sdkUnknown(s): return s
             }
-        }
-    }
-}
-
-extension OdbClientTypes {
-
-    public enum IamRoleStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case associating
-        case connected
-        case disassociating
-        case disconnected
-        case failed
-        case partiallyConnected
-        case unknown
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [IamRoleStatus] {
-            return [
-                .associating,
-                .connected,
-                .disassociating,
-                .disconnected,
-                .failed,
-                .partiallyConnected,
-                .unknown
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .associating: return "ASSOCIATING"
-            case .connected: return "CONNECTED"
-            case .disassociating: return "DISASSOCIATING"
-            case .disconnected: return "DISCONNECTED"
-            case .failed: return "FAILED"
-            case .partiallyConnected: return "PARTIALLY_CONNECTED"
-            case .unknown: return "UNKNOWN"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension OdbClientTypes {
-
-    /// Information about an Amazon Web Services Identity and Access Management (IAM) service role associated with a resource.
-    public struct IamRole: Swift.Sendable {
-        /// The Amazon Web Services integration configuration settings for the Amazon Web Services Identity and Access Management (IAM) service role.
-        public var awsIntegration: OdbClientTypes.SupportedAwsIntegration?
-        /// The Amazon Resource Name (ARN) of the Amazon Web Services Identity and Access Management (IAM) service role.
-        public var iamRoleArn: Swift.String?
-        /// The current status of the Amazon Web Services Identity and Access Management (IAM) service role.
-        public var status: OdbClientTypes.IamRoleStatus?
-        /// Additional information about the current status of the Amazon Web Services Identity and Access Management (IAM) service role, if applicable.
-        public var statusReason: Swift.String?
-
-        public init(
-            awsIntegration: OdbClientTypes.SupportedAwsIntegration? = nil,
-            iamRoleArn: Swift.String? = nil,
-            status: OdbClientTypes.IamRoleStatus? = nil,
-            statusReason: Swift.String? = nil
-        ) {
-            self.awsIntegration = awsIntegration
-            self.iamRoleArn = iamRoleArn
-            self.status = status
-            self.statusReason = statusReason
         }
     }
 }
@@ -7512,6 +7520,20 @@ extension OdbClientTypes.CloudAutonomousVmCluster {
         value.timeOrdsCertificateExpires = try reader["timeOrdsCertificateExpires"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.timeZone = try reader["timeZone"].readIfPresent()
         value.totalContainerDatabases = try reader["totalContainerDatabases"].readIfPresent()
+        value.iamRoles = try reader["iamRoles"].readListIfPresent(memberReadingClosure: OdbClientTypes.IamRole.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension OdbClientTypes.IamRole {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OdbClientTypes.IamRole {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OdbClientTypes.IamRole()
+        value.iamRoleArn = try reader["iamRoleArn"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.statusReason = try reader["statusReason"].readIfPresent()
+        value.awsIntegration = try reader["awsIntegration"].readIfPresent()
         return value
     }
 }
@@ -7716,19 +7738,6 @@ extension OdbClientTypes.CloudVmCluster {
         value.percentProgress = try reader["percentProgress"].readIfPresent()
         value.computeModel = try reader["computeModel"].readIfPresent()
         value.iamRoles = try reader["iamRoles"].readListIfPresent(memberReadingClosure: OdbClientTypes.IamRole.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension OdbClientTypes.IamRole {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OdbClientTypes.IamRole {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OdbClientTypes.IamRole()
-        value.iamRoleArn = try reader["iamRoleArn"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.statusReason = try reader["statusReason"].readIfPresent()
-        value.awsIntegration = try reader["awsIntegration"].readIfPresent()
         return value
     }
 }
@@ -8113,6 +8122,7 @@ extension OdbClientTypes.CloudAutonomousVmClusterSummary {
         value.timeOrdsCertificateExpires = try reader["timeOrdsCertificateExpires"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.timeZone = try reader["timeZone"].readIfPresent()
         value.totalContainerDatabases = try reader["totalContainerDatabases"].readIfPresent()
+        value.iamRoles = try reader["iamRoles"].readListIfPresent(memberReadingClosure: OdbClientTypes.IamRole.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }

@@ -359,6 +359,247 @@ extension SSOAdminClientTypes {
     }
 }
 
+/// Occurs when a conflict with a previous successful write is detected. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ConflictException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+/// The request processing has failed because of an unknown error, exception, or failure with an internal server.
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InternalServerException" }
+    public static var fault: ClientRuntime.ErrorFault { .server }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+/// Indicates that the principal has crossed the permitted number of resources that can be created.
+public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ServiceQuotaExceededException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+extension SSOAdminClientTypes {
+
+    public enum ThrottlingExceptionReason: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case kmsThrottlingException
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ThrottlingExceptionReason] {
+            return [
+                .kmsThrottlingException
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .kmsThrottlingException: return "KMS_ThrottlingException"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+/// Indicates that the principal has crossed the throttling limits of the API operations.
+public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+        /// The reason for the throttling exception.
+        public internal(set) var reason: SSOAdminClientTypes.ThrottlingExceptionReason? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ThrottlingException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil,
+        reason: SSOAdminClientTypes.ThrottlingExceptionReason? = nil
+    ) {
+        self.properties.message = message
+        self.properties.reason = reason
+    }
+}
+
+extension SSOAdminClientTypes {
+
+    public enum ValidationExceptionReason: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case kmsDisabledException
+        case kmsInvalidKeyUsageException
+        case kmsInvalidStateException
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ValidationExceptionReason] {
+            return [
+                .kmsDisabledException,
+                .kmsInvalidKeyUsageException,
+                .kmsInvalidStateException
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .kmsDisabledException: return "KMS_DisabledException"
+            case .kmsInvalidKeyUsageException: return "KMS_InvalidKeyUsageException"
+            case .kmsInvalidStateException: return "KMS_InvalidStateException"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+/// The request failed because it contains a syntax error.
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        public internal(set) var message: Swift.String? = nil
+        /// The reason for the validation exception.
+        public internal(set) var reason: SSOAdminClientTypes.ValidationExceptionReason? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ValidationException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil,
+        reason: SSOAdminClientTypes.ValidationExceptionReason? = nil
+    ) {
+        self.properties.message = message
+        self.properties.reason = reason
+    }
+}
+
+public struct AddRegionInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the IAM Identity Center instance to replicate to the target Region.
+    /// This member is required.
+    public var instanceArn: Swift.String?
+    /// The name of the Amazon Web Services Region to add to the IAM Identity Center instance. The Region name must be 1-32 characters long and follow the pattern of Amazon Web Services Region names (for example, us-east-1).
+    /// This member is required.
+    public var regionName: Swift.String?
+
+    public init(
+        instanceArn: Swift.String? = nil,
+        regionName: Swift.String? = nil
+    ) {
+        self.instanceArn = instanceArn
+        self.regionName = regionName
+    }
+}
+
+extension SSOAdminClientTypes {
+
+    public enum RegionStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case adding
+        case removing
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RegionStatus] {
+            return [
+                .active,
+                .adding,
+                .removing
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .adding: return "ADDING"
+            case .removing: return "REMOVING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct AddRegionOutput: Swift.Sendable {
+    /// The status of the Region after the Add operation. The status is ADDING when the asynchronous workflow is in progress and changes to ACTIVE when complete.
+    public var status: SSOAdminClientTypes.RegionStatus?
+
+    public init(
+        status: SSOAdminClientTypes.RegionStatus? = nil
+    ) {
+        self.status = status
+    }
+}
+
 extension SSOAdminClientTypes {
 
     public enum SignInOrigin: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
@@ -501,6 +742,8 @@ extension SSOAdminClientTypes {
         public var applicationProviderArn: Swift.String?
         /// The date and time when the application was originally created.
         public var createdDate: Foundation.Date?
+        /// The Amazon Web Services Region where the application was created in IAM Identity Center.
+        public var createdFrom: Swift.String?
         /// The description of the application.
         public var description: Swift.String?
         /// The ARN of the instance of IAM Identity Center that is configured with this application.
@@ -517,6 +760,7 @@ extension SSOAdminClientTypes {
             applicationArn: Swift.String? = nil,
             applicationProviderArn: Swift.String? = nil,
             createdDate: Foundation.Date? = nil,
+            createdFrom: Swift.String? = nil,
             description: Swift.String? = nil,
             instanceArn: Swift.String? = nil,
             name: Swift.String? = nil,
@@ -527,58 +771,13 @@ extension SSOAdminClientTypes {
             self.applicationArn = applicationArn
             self.applicationProviderArn = applicationProviderArn
             self.createdDate = createdDate
+            self.createdFrom = createdFrom
             self.description = description
             self.instanceArn = instanceArn
             self.name = name
             self.portalOptions = portalOptions
             self.status = status
         }
-    }
-}
-
-/// Occurs when a conflict with a previous successful write is detected. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
-public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ConflictException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
-    }
-}
-
-/// The request processing has failed because of an unknown error, exception, or failure with an internal server.
-public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "InternalServerException" }
-    public static var fault: ClientRuntime.ErrorFault { .server }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
     }
 }
 
@@ -629,118 +828,6 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     public init(
         message: Swift.String? = nil,
         reason: SSOAdminClientTypes.ResourceNotFoundExceptionReason? = nil
-    ) {
-        self.properties.message = message
-        self.properties.reason = reason
-    }
-}
-
-extension SSOAdminClientTypes {
-
-    public enum ThrottlingExceptionReason: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case kmsThrottlingException
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [ThrottlingExceptionReason] {
-            return [
-                .kmsThrottlingException
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .kmsThrottlingException: return "KMS_ThrottlingException"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-/// Indicates that the principal has crossed the throttling limits of the API operations.
-public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        public internal(set) var message: Swift.String? = nil
-        /// The reason for the throttling exception.
-        public internal(set) var reason: SSOAdminClientTypes.ThrottlingExceptionReason? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ThrottlingException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil,
-        reason: SSOAdminClientTypes.ThrottlingExceptionReason? = nil
-    ) {
-        self.properties.message = message
-        self.properties.reason = reason
-    }
-}
-
-extension SSOAdminClientTypes {
-
-    public enum ValidationExceptionReason: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case kmsDisabledException
-        case kmsInvalidKeyUsageException
-        case kmsInvalidStateException
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [ValidationExceptionReason] {
-            return [
-                .kmsDisabledException,
-                .kmsInvalidKeyUsageException,
-                .kmsInvalidStateException
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .kmsDisabledException: return "KMS_DisabledException"
-            case .kmsInvalidKeyUsageException: return "KMS_InvalidKeyUsageException"
-            case .kmsInvalidStateException: return "KMS_InvalidStateException"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-/// The request failed because it contains a syntax error.
-public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        public internal(set) var message: Swift.String? = nil
-        /// The reason for the validation exception.
-        public internal(set) var reason: SSOAdminClientTypes.ValidationExceptionReason? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ValidationException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil,
-        reason: SSOAdminClientTypes.ValidationExceptionReason? = nil
     ) {
         self.properties.message = message
         self.properties.reason = reason
@@ -1442,29 +1529,6 @@ extension SSOAdminClientTypes {
             self.federationProtocol = federationProtocol
             self.resourceServerConfig = resourceServerConfig
         }
-    }
-}
-
-/// Indicates that the principal has crossed the permitted number of resources that can be created.
-public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
-
-    public struct Properties: Swift.Sendable {
-        public internal(set) var message: Swift.String? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ServiceQuotaExceededException" }
-    public static var fault: ClientRuntime.ErrorFault { .client }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil
-    ) {
-        self.properties.message = message
     }
 }
 
@@ -2282,6 +2346,8 @@ public struct DescribeApplicationOutput: Swift.Sendable {
     public var applicationProviderArn: Swift.String?
     /// The date the application was created.
     public var createdDate: Foundation.Date?
+    /// The Amazon Web Services Region where the application was created in IAM Identity Center.
+    public var createdFrom: Swift.String?
     /// The description of the .
     public var description: Swift.String?
     /// The ARN of the IAM Identity Center application under which the operation will run. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces] in the Amazon Web Services General Reference.
@@ -2298,6 +2364,7 @@ public struct DescribeApplicationOutput: Swift.Sendable {
         applicationArn: Swift.String? = nil,
         applicationProviderArn: Swift.String? = nil,
         createdDate: Foundation.Date? = nil,
+        createdFrom: Swift.String? = nil,
         description: Swift.String? = nil,
         instanceArn: Swift.String? = nil,
         name: Swift.String? = nil,
@@ -2308,6 +2375,7 @@ public struct DescribeApplicationOutput: Swift.Sendable {
         self.applicationArn = applicationArn
         self.applicationProviderArn = applicationProviderArn
         self.createdDate = createdDate
+        self.createdFrom = createdFrom
         self.description = description
         self.instanceArn = instanceArn
         self.name = name
@@ -2718,6 +2786,46 @@ public struct DescribePermissionSetProvisioningStatusOutput: Swift.Sendable {
         permissionSetProvisioningStatus: SSOAdminClientTypes.PermissionSetProvisioningStatus? = nil
     ) {
         self.permissionSetProvisioningStatus = permissionSetProvisioningStatus
+    }
+}
+
+public struct DescribeRegionInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the IAM Identity Center instance.
+    /// This member is required.
+    public var instanceArn: Swift.String?
+    /// The name of the Amazon Web Services Region to retrieve information about. The Region name must be 1-32 characters long and follow the pattern of Amazon Web Services Region names (for example, us-east-1).
+    /// This member is required.
+    public var regionName: Swift.String?
+
+    public init(
+        instanceArn: Swift.String? = nil,
+        regionName: Swift.String? = nil
+    ) {
+        self.instanceArn = instanceArn
+        self.regionName = regionName
+    }
+}
+
+public struct DescribeRegionOutput: Swift.Sendable {
+    /// The timestamp when the Region was added to the IAM Identity Center instance. For the primary Region, this is the IAM Identity Center instance creation time.
+    public var addedDate: Foundation.Date?
+    /// Indicates whether this is the primary Region where the IAM Identity Center instance was originally enabled. For more information on the difference between the primary Region and additional Regions, see [IAM Identity Center User Guide](https://docs.aws.amazon.com/singlesignon/latest/userguide/multi-region-iam-identity-center.html)
+    public var isPrimaryRegion: Swift.Bool
+    /// The Amazon Web Services Region name.
+    public var regionName: Swift.String?
+    /// The current status of the Region. Valid values are ACTIVE (Region is operational), ADDING (Region replication workflow is in progress), or REMOVING (Region removal workflow is in progress).
+    public var status: SSOAdminClientTypes.RegionStatus?
+
+    public init(
+        addedDate: Foundation.Date? = nil,
+        isPrimaryRegion: Swift.Bool = false,
+        regionName: Swift.String? = nil,
+        status: SSOAdminClientTypes.RegionStatus? = nil
+    ) {
+        self.addedDate = addedDate
+        self.isPrimaryRegion = isPrimaryRegion
+        self.regionName = regionName
+        self.status = status
     }
 }
 
@@ -3733,6 +3841,68 @@ public struct ListPermissionSetsProvisionedToAccountOutput: Swift.Sendable {
     }
 }
 
+public struct ListRegionsInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the IAM Identity Center instance.
+    /// This member is required.
+    public var instanceArn: Swift.String?
+    /// The maximum number of results to return in a single call. Default is 100.
+    public var maxResults: Swift.Int?
+    /// The pagination token for the list API. Initially the value is null. Use the output of previous API calls to make subsequent calls.
+    public var nextToken: Swift.String?
+
+    public init(
+        instanceArn: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.instanceArn = instanceArn
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension SSOAdminClientTypes {
+
+    /// Contains information about an enabled Region of an IAM Identity Center instance, including the Region name, status, date added, and whether it is the primary Region.
+    public struct RegionMetadata: Swift.Sendable {
+        /// The timestamp when the Region was added to the IAM Identity Center instance. For the primary Region, this is the instance creation time.
+        public var addedDate: Foundation.Date?
+        /// Indicates whether this is the primary Region where the IAM Identity Center instance was originally enabled. The primary Region cannot be removed.
+        public var isPrimaryRegion: Swift.Bool
+        /// The Amazon Web Services Region name.
+        public var regionName: Swift.String?
+        /// The current status of the Region. Valid values are ACTIVE (Region is operational), ADDING (Region extension workflow is in progress), or REMOVING (Region removal workflow is in progress).
+        public var status: SSOAdminClientTypes.RegionStatus?
+
+        public init(
+            addedDate: Foundation.Date? = nil,
+            isPrimaryRegion: Swift.Bool = false,
+            regionName: Swift.String? = nil,
+            status: SSOAdminClientTypes.RegionStatus? = nil
+        ) {
+            self.addedDate = addedDate
+            self.isPrimaryRegion = isPrimaryRegion
+            self.regionName = regionName
+            self.status = status
+        }
+    }
+}
+
+public struct ListRegionsOutput: Swift.Sendable {
+    /// The pagination token to be used in subsequent calls. If the value is null, then there are no more entries.
+    public var nextToken: Swift.String?
+    /// The list of Regions enabled in the IAM Identity Center instance, including Regions with ACTIVE, ADDING, or REMOVING status.
+    public var regions: [SSOAdminClientTypes.RegionMetadata]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        regions: [SSOAdminClientTypes.RegionMetadata]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.regions = regions
+    }
+}
+
 public struct ListTagsForResourceInput: Swift.Sendable {
     /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces] in the Amazon Web Services General Reference.
     public var instanceArn: Swift.String?
@@ -4012,6 +4182,34 @@ public struct PutPermissionsBoundaryToPermissionSetOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct RemoveRegionInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the IAM Identity Center instance.
+    /// This member is required.
+    public var instanceArn: Swift.String?
+    /// The name of the Amazon Web Services Region to remove from the IAM Identity Center instance. The Region name must be 1-32 characters long and follow the pattern of Amazon Web Services Region names (for example, us-east-1). The primary Region cannot be removed.
+    /// This member is required.
+    public var regionName: Swift.String?
+
+    public init(
+        instanceArn: Swift.String? = nil,
+        regionName: Swift.String? = nil
+    ) {
+        self.instanceArn = instanceArn
+        self.regionName = regionName
+    }
+}
+
+public struct RemoveRegionOutput: Swift.Sendable {
+    /// The status of the Region after the remove operation. The status is REMOVING when the asynchronous workflow is in progress. The Region record is deleted when the workflow completes.
+    public var status: SSOAdminClientTypes.RegionStatus?
+
+    public init(
+        status: SSOAdminClientTypes.RegionStatus? = nil
+    ) {
+        self.status = status
+    }
+}
+
 public struct TagResourceInput: Swift.Sendable {
     /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces] in the Amazon Web Services General Reference.
     public var instanceArn: Swift.String?
@@ -4113,7 +4311,7 @@ public struct UpdateApplicationOutput: Swift.Sendable {
 }
 
 public struct UpdateInstanceInput: Swift.Sendable {
-    /// Specifies the encryption configuration for your IAM Identity Center instance. You can use this to configure customer managed KMS keys (CMK) or Amazon Web Services owned KMS keys for encrypting your instance data.
+    /// Specifies the encryption configuration for your IAM Identity Center instance. You can use this to configure customer managed KMS keys or Amazon Web Services owned KMS keys for encrypting your instance data.
     public var encryptionConfiguration: SSOAdminClientTypes.EncryptionConfiguration?
     /// The ARN of the instance of IAM Identity Center under which the operation will run. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces] in the Amazon Web Services General Reference.
     /// This member is required.
@@ -4226,6 +4424,13 @@ public struct UpdateTrustedTokenIssuerInput: Swift.Sendable {
 public struct UpdateTrustedTokenIssuerOutput: Swift.Sendable {
 
     public init() { }
+}
+
+extension AddRegionInput {
+
+    static func urlPathProvider(_ value: AddRegionInput) -> Swift.String? {
+        return "/"
+    }
 }
 
 extension AttachCustomerManagedPolicyReferenceToPermissionSetInput {
@@ -4438,6 +4643,13 @@ extension DescribePermissionSetProvisioningStatusInput {
     }
 }
 
+extension DescribeRegionInput {
+
+    static func urlPathProvider(_ value: DescribeRegionInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension DescribeTrustedTokenIssuerInput {
 
     static func urlPathProvider(_ value: DescribeTrustedTokenIssuerInput) -> Swift.String? {
@@ -4634,6 +4846,13 @@ extension ListPermissionSetsProvisionedToAccountInput {
     }
 }
 
+extension ListRegionsInput {
+
+    static func urlPathProvider(_ value: ListRegionsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension ListTagsForResourceInput {
 
     static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
@@ -4704,6 +4923,13 @@ extension PutPermissionsBoundaryToPermissionSetInput {
     }
 }
 
+extension RemoveRegionInput {
+
+    static func urlPathProvider(_ value: RemoveRegionInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension TagResourceInput {
 
     static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
@@ -4750,6 +4976,15 @@ extension UpdateTrustedTokenIssuerInput {
 
     static func urlPathProvider(_ value: UpdateTrustedTokenIssuerInput) -> Swift.String? {
         return "/"
+    }
+}
+
+extension AddRegionInput {
+
+    static func write(value: AddRegionInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["InstanceArn"].write(value.instanceArn)
+        try writer["RegionName"].write(value.regionName)
     }
 }
 
@@ -5043,6 +5278,15 @@ extension DescribePermissionSetProvisioningStatusInput {
     }
 }
 
+extension DescribeRegionInput {
+
+    static func write(value: DescribeRegionInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["InstanceArn"].write(value.instanceArn)
+        try writer["RegionName"].write(value.regionName)
+    }
+}
+
 extension DescribeTrustedTokenIssuerInput {
 
     static func write(value: DescribeTrustedTokenIssuerInput?, to writer: SmithyJSON.Writer) throws {
@@ -5326,6 +5570,16 @@ extension ListPermissionSetsProvisionedToAccountInput {
     }
 }
 
+extension ListRegionsInput {
+
+    static func write(value: ListRegionsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["InstanceArn"].write(value.instanceArn)
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+    }
+}
+
 extension ListTagsForResourceInput {
 
     static func write(value: ListTagsForResourceInput?, to writer: SmithyJSON.Writer) throws {
@@ -5425,6 +5679,15 @@ extension PutPermissionsBoundaryToPermissionSetInput {
     }
 }
 
+extension RemoveRegionInput {
+
+    static func write(value: RemoveRegionInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["InstanceArn"].write(value.instanceArn)
+        try writer["RegionName"].write(value.regionName)
+    }
+}
+
 extension TagResourceInput {
 
     static func write(value: TagResourceInput?, to writer: SmithyJSON.Writer) throws {
@@ -5495,6 +5758,18 @@ extension UpdateTrustedTokenIssuerInput {
         try writer["Name"].write(value.name)
         try writer["TrustedTokenIssuerArn"].write(value.trustedTokenIssuerArn)
         try writer["TrustedTokenIssuerConfiguration"].write(value.trustedTokenIssuerConfiguration, with: SSOAdminClientTypes.TrustedTokenIssuerUpdateConfiguration.write(value:to:))
+    }
+}
+
+extension AddRegionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> AddRegionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = AddRegionOutput()
+        value.status = try reader["Status"].readIfPresent()
+        return value
     }
 }
 
@@ -5710,6 +5985,7 @@ extension DescribeApplicationOutput {
         value.applicationArn = try reader["ApplicationArn"].readIfPresent()
         value.applicationProviderArn = try reader["ApplicationProviderArn"].readIfPresent()
         value.createdDate = try reader["CreatedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.createdFrom = try reader["CreatedFrom"].readIfPresent()
         value.description = try reader["Description"].readIfPresent()
         value.instanceArn = try reader["InstanceArn"].readIfPresent()
         value.name = try reader["Name"].readIfPresent()
@@ -5801,6 +6077,21 @@ extension DescribePermissionSetProvisioningStatusOutput {
         let reader = responseReader
         var value = DescribePermissionSetProvisioningStatusOutput()
         value.permissionSetProvisioningStatus = try reader["PermissionSetProvisioningStatus"].readIfPresent(with: SSOAdminClientTypes.PermissionSetProvisioningStatus.read(from:))
+        return value
+    }
+}
+
+extension DescribeRegionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DescribeRegionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DescribeRegionOutput()
+        value.addedDate = try reader["AddedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.isPrimaryRegion = try reader["IsPrimaryRegion"].readIfPresent() ?? false
+        value.regionName = try reader["RegionName"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
         return value
     }
 }
@@ -6153,6 +6444,19 @@ extension ListPermissionSetsProvisionedToAccountOutput {
     }
 }
 
+extension ListRegionsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListRegionsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListRegionsOutput()
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        value.regions = try reader["Regions"].readListIfPresent(memberReadingClosure: SSOAdminClientTypes.RegionMetadata.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension ListTagsForResourceOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListTagsForResourceOutput {
@@ -6240,6 +6544,18 @@ extension PutPermissionsBoundaryToPermissionSetOutput {
     }
 }
 
+extension RemoveRegionOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> RemoveRegionOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = RemoveRegionOutput()
+        value.status = try reader["Status"].readIfPresent()
+        return value
+    }
+}
+
 extension TagResourceOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> TagResourceOutput {
@@ -6286,6 +6602,25 @@ extension UpdateTrustedTokenIssuerOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateTrustedTokenIssuerOutput {
         return UpdateTrustedTokenIssuerOutput()
+    }
+}
+
+enum AddRegionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
     }
 }
 
@@ -6854,6 +7189,24 @@ enum DescribePermissionSetProvisioningStatusOutputError {
     }
 }
 
+enum DescribeRegionOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum DescribeTrustedTokenIssuerOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -7357,6 +7710,23 @@ enum ListPermissionSetsProvisionedToAccountOutputError {
     }
 }
 
+enum ListRegionsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum ListTagsForResourceOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -7527,6 +7897,25 @@ enum PutInlinePolicyToPermissionSetOutputError {
 }
 
 enum PutPermissionsBoundaryToPermissionSetOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum RemoveRegionOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
         let data = try await httpResponse.data()
@@ -7719,20 +8108,6 @@ extension InternalServerException {
     }
 }
 
-extension ResourceNotFoundException {
-
-    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceNotFoundException {
-        let reader = baseError.errorBodyReader
-        var value = ResourceNotFoundException()
-        value.properties.message = try reader["Message"].readIfPresent()
-        value.properties.reason = try reader["Reason"].readIfPresent()
-        value.httpResponse = baseError.httpResponse
-        value.requestID = baseError.requestID
-        value.message = baseError.message
-        return value
-    }
-}
-
 extension ServiceQuotaExceededException {
 
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ServiceQuotaExceededException {
@@ -7765,6 +8140,20 @@ extension ValidationException {
     static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ValidationException {
         let reader = baseError.errorBodyReader
         var value = ValidationException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.properties.reason = try reader["Reason"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ResourceNotFoundException {
+
+    static func makeError(baseError: AWSClientRuntime.AWSJSONError) throws -> ResourceNotFoundException {
+        let reader = baseError.errorBodyReader
+        var value = ResourceNotFoundException()
         value.properties.message = try reader["Message"].readIfPresent()
         value.properties.reason = try reader["Reason"].readIfPresent()
         value.httpResponse = baseError.httpResponse
@@ -8298,6 +8687,7 @@ extension SSOAdminClientTypes.Application {
         value.portalOptions = try reader["PortalOptions"].readIfPresent(with: SSOAdminClientTypes.PortalOptions.read(from:))
         value.description = try reader["Description"].readIfPresent()
         value.createdDate = try reader["CreatedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.createdFrom = try reader["CreatedFrom"].readIfPresent()
         return value
     }
 }
@@ -8337,6 +8727,19 @@ extension SSOAdminClientTypes.PermissionSetProvisioningStatusMetadata {
         value.status = try reader["Status"].readIfPresent()
         value.requestId = try reader["RequestId"].readIfPresent()
         value.createdDate = try reader["CreatedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension SSOAdminClientTypes.RegionMetadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SSOAdminClientTypes.RegionMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SSOAdminClientTypes.RegionMetadata()
+        value.regionName = try reader["RegionName"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.addedDate = try reader["AddedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.isPrimaryRegion = try reader["IsPrimaryRegion"].readIfPresent() ?? false
         return value
     }
 }

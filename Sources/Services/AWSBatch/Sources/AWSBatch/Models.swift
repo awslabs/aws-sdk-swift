@@ -81,15 +81,19 @@ extension BatchClientTypes {
         public var size: Swift.Int?
         /// A summary of the number of array job children in each available job status. This parameter is returned for parent array jobs.
         public var statusSummary: [Swift.String: Swift.Int]?
+        /// The Unix timestamp (in milliseconds) for when the statusSummary was last updated.
+        public var statusSummaryLastUpdatedAt: Swift.Int?
 
         public init(
             index: Swift.Int? = nil,
             size: Swift.Int? = nil,
-            statusSummary: [Swift.String: Swift.Int]? = nil
+            statusSummary: [Swift.String: Swift.Int]? = nil,
+            statusSummaryLastUpdatedAt: Swift.Int? = nil
         ) {
             self.index = index
             self.size = size
             self.statusSummary = statusSummary
+            self.statusSummaryLastUpdatedAt = statusSummaryLastUpdatedAt
         }
     }
 }
@@ -102,13 +106,21 @@ extension BatchClientTypes {
         public var index: Swift.Int?
         /// The size of the array job. This parameter is returned for parent array jobs.
         public var size: Swift.Int?
+        /// A summary of the number of array job children in each available job status. This parameter is returned for parent array jobs.
+        public var statusSummary: [Swift.String: Swift.Int]?
+        /// The Unix timestamp (in milliseconds) for when the statusSummary was last updated.
+        public var statusSummaryLastUpdatedAt: Swift.Int?
 
         public init(
             index: Swift.Int? = nil,
-            size: Swift.Int? = nil
+            size: Swift.Int? = nil,
+            statusSummary: [Swift.String: Swift.Int]? = nil,
+            statusSummaryLastUpdatedAt: Swift.Int? = nil
         ) {
             self.index = index
             self.size = size
+            self.statusSummary = statusSummary
+            self.statusSummaryLastUpdatedAt = statusSummaryLastUpdatedAt
         }
     }
 }
@@ -4886,7 +4898,7 @@ public struct ListJobsInput: Swift.Sendable {
     public var filters: [BatchClientTypes.KeyValuesPair]?
     /// The name or full Amazon Resource Name (ARN) of the job queue used to list jobs.
     public var jobQueue: Swift.String?
-    /// The job status used to filter jobs in the specified queue. If the filters parameter is specified, the jobStatus parameter is ignored and jobs with any status are returned. If you don't specify a status, only RUNNING jobs are returned.
+    /// The job status used to filter jobs in the specified queue. If the filters parameter is specified, the jobStatus parameter is ignored and jobs with any status are returned. If you don't specify a status, only RUNNING jobs are returned. Array job parents are updated to PENDING when any child job is updated to RUNNABLE and remain in PENDING status while child jobs are running. To view these jobs, filter by PENDING status until all child jobs reach a terminal state.
     public var jobStatus: BatchClientTypes.JobStatus?
     /// The maximum number of results returned by ListJobs in a paginated output. When this parameter is used, ListJobs returns up to maxResults results in a single page and a nextToken response element, if applicable. The remaining results of the initial request can be seen by sending another ListJobs request with the returned nextToken value. The following outlines key parameters and limitations:
     ///
@@ -9452,6 +9464,7 @@ extension BatchClientTypes.ArrayPropertiesDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BatchClientTypes.ArrayPropertiesDetail()
         value.statusSummary = try reader["statusSummary"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.statusSummaryLastUpdatedAt = try reader["statusSummaryLastUpdatedAt"].readIfPresent()
         value.size = try reader["size"].readIfPresent()
         value.index = try reader["index"].readIfPresent()
         return value
@@ -9821,6 +9834,8 @@ extension BatchClientTypes.ArrayPropertiesSummary {
         var value = BatchClientTypes.ArrayPropertiesSummary()
         value.size = try reader["size"].readIfPresent()
         value.index = try reader["index"].readIfPresent()
+        value.statusSummary = try reader["statusSummary"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.statusSummaryLastUpdatedAt = try reader["statusSummaryLastUpdatedAt"].readIfPresent()
         return value
     }
 }

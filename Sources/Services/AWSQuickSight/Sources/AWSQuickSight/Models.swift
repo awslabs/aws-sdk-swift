@@ -7166,6 +7166,77 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes {
 
+    public enum SheetLayoutGroupMemberType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case element
+        case group
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SheetLayoutGroupMemberType] {
+            return [
+                .element,
+                .group
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .element: return "ELEMENT"
+            case .group: return "GROUP"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// A member of a sheet layout group.
+    public struct SheetLayoutGroupMember: Swift.Sendable {
+        /// The unique identifier of the group member.
+        /// This member is required.
+        public var id: Swift.String?
+        /// The type of the group member.
+        /// This member is required.
+        public var type: QuickSightClientTypes.SheetLayoutGroupMemberType?
+
+        public init(
+            id: Swift.String? = nil,
+            type: QuickSightClientTypes.SheetLayoutGroupMemberType? = nil
+        ) {
+            self.id = id
+            self.type = type
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
+    /// A group of elements within a sheet layout.
+    public struct SheetLayoutGroup: Swift.Sendable {
+        /// A unique identifier for the group.
+        /// This member is required.
+        public var id: Swift.String?
+        /// The members of the group.
+        /// This member is required.
+        public var members: [QuickSightClientTypes.SheetLayoutGroupMember]?
+
+        public init(
+            id: Swift.String? = nil,
+            members: [QuickSightClientTypes.SheetLayoutGroupMember]? = nil
+        ) {
+            self.id = id
+            self.members = members
+        }
+    }
+}
+
+extension QuickSightClientTypes {
+
     /// The configuration of a free-form layout.
     public struct FreeFormLayoutConfiguration: Swift.Sendable {
         /// Configuration options for the canvas of a free-form layout.
@@ -7173,13 +7244,17 @@ extension QuickSightClientTypes {
         /// The elements that are included in a free-form layout.
         /// This member is required.
         public var elements: [QuickSightClientTypes.FreeFormLayoutElement]?
+        /// The groups that are included in a free-form layout.
+        public var groups: [QuickSightClientTypes.SheetLayoutGroup]?
 
         public init(
             canvasSizeOptions: QuickSightClientTypes.FreeFormLayoutCanvasSizeOptions? = nil,
-            elements: [QuickSightClientTypes.FreeFormLayoutElement]? = nil
+            elements: [QuickSightClientTypes.FreeFormLayoutElement]? = nil,
+            groups: [QuickSightClientTypes.SheetLayoutGroup]? = nil
         ) {
             self.canvasSizeOptions = canvasSizeOptions
             self.elements = elements
+            self.groups = groups
         }
     }
 }
@@ -26704,22 +26779,130 @@ extension QuickSightClientTypes {
         public var action: QuickSightClientTypes.CapabilityState?
         /// The ability to add or run anomaly detection.
         public var addOrRunAnomalyDetectionForAnalyses: QuickSightClientTypes.CapabilityState?
+        /// The ability to perform actions using Bedrock Agent connectors.
+        public var amazonBedrockARSAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to perform actions using Bedrock Runtime connectors.
+        public var amazonBedrockFSAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to perform actions using Bedrock Data Automation Runtime connectors.
+        public var amazonBedrockKRSAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to perform actions using Amazon S3 connectors.
+        public var amazonSThreeAction: QuickSightClientTypes.CapabilityState?
         /// The ability to perform analysis-related actions.
         public var analysis: QuickSightClientTypes.CapabilityState?
+        /// The ability to perform actions using Asana connectors.
+        public var asanaAction: QuickSightClientTypes.CapabilityState?
         /// The ability to perform automate-related actions.
         public var automate: QuickSightClientTypes.CapabilityState?
+        /// The ability to perform actions using BambooHR connectors.
+        public var bambooHRAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to perform actions using Box Agent connectors.
+        public var boxAgentAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to perform actions using Canva Agent connectors.
+        public var canvaAgentAction: QuickSightClientTypes.CapabilityState?
         /// The ability to perform chat-related actions.
         public var chatAgent: QuickSightClientTypes.CapabilityState?
+        /// The ability to perform actions using Comprehend connectors.
+        public var comprehendAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to perform actions using Comprehend Medical connectors.
+        public var comprehendMedicalAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to perform actions using Atlassian Confluence Cloud connectors.
+        public var confluenceAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to create and update Bedrock Agent actions.
+        public var createAndUpdateAmazonBedrockARSAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to create and update Bedrock Runtime actions.
+        public var createAndUpdateAmazonBedrockFSAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to create and update Bedrock Data Automation Runtime actions.
+        public var createAndUpdateAmazonBedrockKRSAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to create and update Amazon S3 actions.
+        public var createAndUpdateAmazonSThreeAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to create and update Asana actions.
+        public var createAndUpdateAsanaAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to create and update BambooHR actions.
+        public var createAndUpdateBambooHRAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to create and update Box Agent actions.
+        public var createAndUpdateBoxAgentAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to create and update Canva Agent actions.
+        public var createAndUpdateCanvaAgentAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to create and update Comprehend actions.
+        public var createAndUpdateComprehendAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to create and update Comprehend Medical actions.
+        public var createAndUpdateComprehendMedicalAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to create and update Atlassian Confluence Cloud actions.
+        public var createAndUpdateConfluenceAction: QuickSightClientTypes.CapabilityState?
         /// The ability to create and update email reports.
         public var createAndUpdateDashboardEmailReports: QuickSightClientTypes.CapabilityState?
         /// The ability to create and update data sources.
         public var createAndUpdateDataSources: QuickSightClientTypes.CapabilityState?
         /// The ability to create and update datasets.
         public var createAndUpdateDatasets: QuickSightClientTypes.CapabilityState?
+        /// The ability to create and update FactSet actions.
+        public var createAndUpdateFactSetAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to create and update REST API connection actions.
+        public var createAndUpdateGenericHTTPAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to create and update GitHub actions.
+        public var createAndUpdateGithubAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to create and update Google Calendar actions.
+        public var createAndUpdateGoogleCalendarAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to create and update Hubspot actions.
+        public var createAndUpdateHubspotAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to create and update HuggingFace actions.
+        public var createAndUpdateHuggingFaceAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to create and update Intercom actions.
+        public var createAndUpdateIntercomAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to create and update Jira actions.
+        public var createAndUpdateJiraAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to create and update Linear actions.
+        public var createAndUpdateLinearAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to create and update Model Context Protocol actions.
+        public var createAndUpdateMCPAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to create and update Microsoft Outlook actions.
+        public var createAndUpdateMSExchangeAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to create and update Microsoft Teams actions.
+        public var createAndUpdateMSTeamsAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to create and update Monday actions.
+        public var createAndUpdateMondayAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to create and update New Relic actions.
+        public var createAndUpdateNewRelicAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to create and update Notion actions.
+        public var createAndUpdateNotionAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to create and update Microsoft OneDrive actions.
+        public var createAndUpdateOneDriveAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to create and update OpenAPI Specification actions.
+        public var createAndUpdateOpenAPIAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to create and update PagerDuty Advance actions.
+        public var createAndUpdatePagerDutyAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to create and update SAP Bill of Materials actions.
+        public var createAndUpdateSAPBillOfMaterialAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to create and update SAP Business Partner actions.
+        public var createAndUpdateSAPBusinessPartnerAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to create and update SAP Material Stock actions.
+        public var createAndUpdateSAPMaterialStockAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to create and update SAP Physical Inventory actions.
+        public var createAndUpdateSAPPhysicalInventoryAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to create and update SAP Product Master actions.
+        public var createAndUpdateSAPProductMasterDataAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to create and update Salesforce actions.
+        public var createAndUpdateSalesforceAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to create and update S&P Global Market Intelligence actions.
+        public var createAndUpdateSandPGMIAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to create and update S&P Global Energy actions.
+        public var createAndUpdateSandPGlobalEnergyAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to create and update ServiceNow actions.
+        public var createAndUpdateServiceNowAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to create and update Microsoft SharePoint Online actions.
+        public var createAndUpdateSharePointAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to create and update Slack actions.
+        public var createAndUpdateSlackAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to create and update Smartsheet actions.
+        public var createAndUpdateSmartsheetAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to create and update Textract actions.
+        public var createAndUpdateTextractAction: QuickSightClientTypes.CapabilityState?
         /// The ability to export to Create and Update themes.
         public var createAndUpdateThemes: QuickSightClientTypes.CapabilityState?
         /// The ability to create and update threshold alerts.
         public var createAndUpdateThresholdAlerts: QuickSightClientTypes.CapabilityState?
+        /// The ability to create and update Zendesk actions.
+        public var createAndUpdateZendeskAction: QuickSightClientTypes.CapabilityState?
         /// The ability to create chat agents.
         public var createChatAgents: QuickSightClientTypes.CapabilityState?
         /// The ability to create a SPICE dataset.
@@ -26740,12 +26923,48 @@ extension QuickSightClientTypes {
         public var exportToPdf: QuickSightClientTypes.CapabilityState?
         /// The ability to export to PDF files in scheduled email reports.
         public var exportToPdfInScheduledReports: QuickSightClientTypes.CapabilityState?
+        /// The ability to perform actions using FactSet connectors.
+        public var factSetAction: QuickSightClientTypes.CapabilityState?
         /// The ability to perform flow-related actions.
         public var flow: QuickSightClientTypes.CapabilityState?
+        /// The ability to perform actions using REST API connection connectors.
+        public var genericHTTPAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to perform actions using GitHub connectors.
+        public var githubAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to perform actions using Google Calendar connectors.
+        public var googleCalendarAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to perform actions using Hubspot connectors.
+        public var hubspotAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to perform actions using HuggingFace connectors.
+        public var huggingFaceAction: QuickSightClientTypes.CapabilityState?
         /// The ability to include content in scheduled email reports.
         public var includeContentInScheduledReportsEmail: QuickSightClientTypes.CapabilityState?
+        /// The ability to perform actions using Intercom connectors.
+        public var intercomAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to perform actions using Jira connectors.
+        public var jiraAction: QuickSightClientTypes.CapabilityState?
         /// The ability to use knowledge bases to specify content from external applications.
         public var knowledgeBase: QuickSightClientTypes.CapabilityState?
+        /// The ability to perform actions using Linear connectors.
+        public var linearAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to perform actions using Model Context Protocol connectors.
+        public var mcpAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to perform actions using Monday connectors.
+        public var mondayAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to perform actions using Microsoft Outlook connectors.
+        public var msExchangeAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to perform actions using Microsoft Teams connectors.
+        public var msTeamsAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to perform actions using New Relic connectors.
+        public var newRelicAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to perform actions using Notion connectors.
+        public var notionAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to perform actions using Microsoft OneDrive connectors.
+        public var oneDriveAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to perform actions using OpenAPI Specification connectors.
+        public var openAPIAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to perform actions using PagerDuty Advance connectors.
+        public var pagerDutyAction: QuickSightClientTypes.CapabilityState?
         /// The ability to use UI Agent step to perform tasks on public websites.
         public var performFlowUiTask: QuickSightClientTypes.CapabilityState?
         /// The ability to print reports.
@@ -26756,38 +26975,292 @@ extension QuickSightClientTypes {
         public var renameSharedFolders: QuickSightClientTypes.CapabilityState?
         /// The ability to perform research-related actions.
         public var research: QuickSightClientTypes.CapabilityState?
+        /// The ability to perform actions using Salesforce connectors.
+        public var salesforceAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to perform actions using S&P Global Market Intelligence connectors.
+        public var sandPGMIAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to perform actions using S&P Global Energy connectors.
+        public var sandPGlobalEnergyAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to perform actions using SAP Bill of Materials connectors.
+        public var sapBillOfMaterialAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to perform actions using SAP Business Partner connectors.
+        public var sapBusinessPartnerAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to perform actions using SAP Material Stock connectors.
+        public var sapMaterialStockAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to perform actions using SAP Physical Inventory connectors.
+        public var sapPhysicalInventoryAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to perform actions using SAP Product Master connectors.
+        public var sapProductMasterDataAction: QuickSightClientTypes.CapabilityState?
         /// The ability to enable users to upgrade their user role.
         public var selfUpgradeUserRole: QuickSightClientTypes.CapabilityState?
+        /// The ability to perform actions using ServiceNow connectors.
+        public var serviceNowAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to share Bedrock Agent actions.
+        public var shareAmazonBedrockARSAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to share Bedrock Runtime actions.
+        public var shareAmazonBedrockFSAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to share Bedrock Data Automation Runtime actions.
+        public var shareAmazonBedrockKRSAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to share Amazon S3 actions.
+        public var shareAmazonSThreeAction: QuickSightClientTypes.CapabilityState?
         /// The ability to share analyses.
         public var shareAnalyses: QuickSightClientTypes.CapabilityState?
+        /// The ability to share Asana actions.
+        public var shareAsanaAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to share BambooHR actions.
+        public var shareBambooHRAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to share Box Agent actions.
+        public var shareBoxAgentAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to share Canva Agent actions.
+        public var shareCanvaAgentAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to share Comprehend actions.
+        public var shareComprehendAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to share Comprehend Medical actions.
+        public var shareComprehendMedicalAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to share Atlassian Confluence Cloud actions.
+        public var shareConfluenceAction: QuickSightClientTypes.CapabilityState?
         /// The ability to share dashboards.
         public var shareDashboards: QuickSightClientTypes.CapabilityState?
         /// The ability to share data sources.
         public var shareDataSources: QuickSightClientTypes.CapabilityState?
         /// The ability to share datasets.
         public var shareDatasets: QuickSightClientTypes.CapabilityState?
+        /// The ability to share FactSet actions.
+        public var shareFactSetAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to share REST API connection actions.
+        public var shareGenericHTTPAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to share GitHub actions.
+        public var shareGithubAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to share Google Calendar actions.
+        public var shareGoogleCalendarAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to share Hubspot actions.
+        public var shareHubspotAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to share HuggingFace actions.
+        public var shareHuggingFaceAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to share Intercom actions.
+        public var shareIntercomAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to share Jira actions.
+        public var shareJiraAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to share Linear actions.
+        public var shareLinearAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to share Model Context Protocol actions.
+        public var shareMCPAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to share Microsoft Outlook actions.
+        public var shareMSExchangeAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to share Microsoft Teams actions.
+        public var shareMSTeamsAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to share Monday actions.
+        public var shareMondayAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to share New Relic actions.
+        public var shareNewRelicAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to share Notion actions.
+        public var shareNotionAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to share Microsoft OneDrive actions.
+        public var shareOneDriveAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to share OpenAPI Specification actions.
+        public var shareOpenAPIAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to share PagerDuty Advance actions.
+        public var sharePagerDutyAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to perform actions using Microsoft SharePoint Online connectors.
+        public var sharePointAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to share SAP Bill of Materials actions.
+        public var shareSAPBillOfMaterialAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to share SAP Business Partner actions.
+        public var shareSAPBusinessPartnerAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to share SAP Material Stock actions.
+        public var shareSAPMaterialStockAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to share SAP Physical Inventory actions.
+        public var shareSAPPhysicalInventoryAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to share SAP Product Master actions.
+        public var shareSAPProductMasterDataAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to share Salesforce actions.
+        public var shareSalesforceAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to share S&P Global Market Intelligence actions.
+        public var shareSandPGMIAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to share S&P Global Energy actions.
+        public var shareSandPGlobalEnergyAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to share ServiceNow actions.
+        public var shareServiceNowAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to share Microsoft SharePoint Online actions.
+        public var shareSharePointAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to share Slack actions.
+        public var shareSlackAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to share Smartsheet actions.
+        public var shareSmartsheetAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to share Textract actions.
+        public var shareTextractAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to share Zendesk actions.
+        public var shareZendeskAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to perform actions using Slack connectors.
+        public var slackAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to perform actions using Smartsheet connectors.
+        public var smartsheetAction: QuickSightClientTypes.CapabilityState?
         /// The ability to perform space-related actions.
         public var space: QuickSightClientTypes.CapabilityState?
         /// The ability to subscribe to email reports.
         public var subscribeDashboardEmailReports: QuickSightClientTypes.CapabilityState?
+        /// The ability to perform actions using Textract connectors.
+        public var textractAction: QuickSightClientTypes.CapabilityState?
         /// The ability to use internet to enhance results in Chat Agents, Flows, and Quick Research. Web search queries will be processed securely in an Amazon Web Services region us-east-1.
         public var useAgentWebSearch: QuickSightClientTypes.CapabilityState?
+        /// The ability to use Bedrock Agent actions.
+        public var useAmazonBedrockARSAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to use Bedrock Runtime actions.
+        public var useAmazonBedrockFSAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to use Bedrock Data Automation Runtime actions.
+        public var useAmazonBedrockKRSAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to use Amazon S3 actions.
+        public var useAmazonSThreeAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to use Asana actions.
+        public var useAsanaAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to use BambooHR actions.
+        public var useBambooHRAction: QuickSightClientTypes.CapabilityState?
         /// The ability to use Bedrock models for general knowledge step in flows.
         public var useBedrockModels: QuickSightClientTypes.CapabilityState?
+        /// The ability to use Box Agent actions.
+        public var useBoxAgentAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to use Canva Agent actions.
+        public var useCanvaAgentAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to use Comprehend actions.
+        public var useComprehendAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to use Comprehend Medical actions.
+        public var useComprehendMedicalAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to use Atlassian Confluence Cloud actions.
+        public var useConfluenceAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to use FactSet actions.
+        public var useFactSetAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to use REST API connection actions.
+        public var useGenericHTTPAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to use GitHub actions.
+        public var useGithubAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to use Google Calendar actions.
+        public var useGoogleCalendarAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to use Hubspot actions.
+        public var useHubspotAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to use HuggingFace actions.
+        public var useHuggingFaceAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to use Intercom actions.
+        public var useIntercomAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to use Jira actions.
+        public var useJiraAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to use Linear actions.
+        public var useLinearAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to use Model Context Protocol actions.
+        public var useMCPAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to use Microsoft Outlook actions.
+        public var useMSExchangeAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to use Microsoft Teams actions.
+        public var useMSTeamsAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to use Monday actions.
+        public var useMondayAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to use New Relic actions.
+        public var useNewRelicAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to use Notion actions.
+        public var useNotionAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to use Microsoft OneDrive actions.
+        public var useOneDriveAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to use OpenAPI Specification actions.
+        public var useOpenAPIAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to use PagerDuty Advance actions.
+        public var usePagerDutyAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to use SAP Bill of Materials actions.
+        public var useSAPBillOfMaterialAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to use SAP Business Partner actions.
+        public var useSAPBusinessPartnerAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to use SAP Material Stock actions.
+        public var useSAPMaterialStockAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to use SAP Physical Inventory actions.
+        public var useSAPPhysicalInventoryAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to use SAP Product Master actions.
+        public var useSAPProductMasterDataAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to use Salesforce actions.
+        public var useSalesforceAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to use S&P Global Market Intelligence actions.
+        public var useSandPGMIAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to use S&P Global Energy actions.
+        public var useSandPGlobalEnergyAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to use ServiceNow actions.
+        public var useServiceNowAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to use Microsoft SharePoint Online actions.
+        public var useSharePointAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to use Slack actions.
+        public var useSlackAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to use Smartsheet actions.
+        public var useSmartsheetAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to use Textract actions.
+        public var useTextractAction: QuickSightClientTypes.CapabilityState?
+        /// The ability to use Zendesk actions.
+        public var useZendeskAction: QuickSightClientTypes.CapabilityState?
         /// The ability to view account SPICE capacity.
         public var viewAccountSPICECapacity: QuickSightClientTypes.CapabilityState?
+        /// The ability to perform actions using Zendesk connectors.
+        public var zendeskAction: QuickSightClientTypes.CapabilityState?
 
         public init(
             action: QuickSightClientTypes.CapabilityState? = nil,
             addOrRunAnomalyDetectionForAnalyses: QuickSightClientTypes.CapabilityState? = nil,
+            amazonBedrockARSAction: QuickSightClientTypes.CapabilityState? = nil,
+            amazonBedrockFSAction: QuickSightClientTypes.CapabilityState? = nil,
+            amazonBedrockKRSAction: QuickSightClientTypes.CapabilityState? = nil,
+            amazonSThreeAction: QuickSightClientTypes.CapabilityState? = nil,
             analysis: QuickSightClientTypes.CapabilityState? = nil,
+            asanaAction: QuickSightClientTypes.CapabilityState? = nil,
             automate: QuickSightClientTypes.CapabilityState? = nil,
+            bambooHRAction: QuickSightClientTypes.CapabilityState? = nil,
+            boxAgentAction: QuickSightClientTypes.CapabilityState? = nil,
+            canvaAgentAction: QuickSightClientTypes.CapabilityState? = nil,
             chatAgent: QuickSightClientTypes.CapabilityState? = nil,
+            comprehendAction: QuickSightClientTypes.CapabilityState? = nil,
+            comprehendMedicalAction: QuickSightClientTypes.CapabilityState? = nil,
+            confluenceAction: QuickSightClientTypes.CapabilityState? = nil,
+            createAndUpdateAmazonBedrockARSAction: QuickSightClientTypes.CapabilityState? = nil,
+            createAndUpdateAmazonBedrockFSAction: QuickSightClientTypes.CapabilityState? = nil,
+            createAndUpdateAmazonBedrockKRSAction: QuickSightClientTypes.CapabilityState? = nil,
+            createAndUpdateAmazonSThreeAction: QuickSightClientTypes.CapabilityState? = nil,
+            createAndUpdateAsanaAction: QuickSightClientTypes.CapabilityState? = nil,
+            createAndUpdateBambooHRAction: QuickSightClientTypes.CapabilityState? = nil,
+            createAndUpdateBoxAgentAction: QuickSightClientTypes.CapabilityState? = nil,
+            createAndUpdateCanvaAgentAction: QuickSightClientTypes.CapabilityState? = nil,
+            createAndUpdateComprehendAction: QuickSightClientTypes.CapabilityState? = nil,
+            createAndUpdateComprehendMedicalAction: QuickSightClientTypes.CapabilityState? = nil,
+            createAndUpdateConfluenceAction: QuickSightClientTypes.CapabilityState? = nil,
             createAndUpdateDashboardEmailReports: QuickSightClientTypes.CapabilityState? = nil,
             createAndUpdateDataSources: QuickSightClientTypes.CapabilityState? = nil,
             createAndUpdateDatasets: QuickSightClientTypes.CapabilityState? = nil,
+            createAndUpdateFactSetAction: QuickSightClientTypes.CapabilityState? = nil,
+            createAndUpdateGenericHTTPAction: QuickSightClientTypes.CapabilityState? = nil,
+            createAndUpdateGithubAction: QuickSightClientTypes.CapabilityState? = nil,
+            createAndUpdateGoogleCalendarAction: QuickSightClientTypes.CapabilityState? = nil,
+            createAndUpdateHubspotAction: QuickSightClientTypes.CapabilityState? = nil,
+            createAndUpdateHuggingFaceAction: QuickSightClientTypes.CapabilityState? = nil,
+            createAndUpdateIntercomAction: QuickSightClientTypes.CapabilityState? = nil,
+            createAndUpdateJiraAction: QuickSightClientTypes.CapabilityState? = nil,
+            createAndUpdateLinearAction: QuickSightClientTypes.CapabilityState? = nil,
+            createAndUpdateMCPAction: QuickSightClientTypes.CapabilityState? = nil,
+            createAndUpdateMSExchangeAction: QuickSightClientTypes.CapabilityState? = nil,
+            createAndUpdateMSTeamsAction: QuickSightClientTypes.CapabilityState? = nil,
+            createAndUpdateMondayAction: QuickSightClientTypes.CapabilityState? = nil,
+            createAndUpdateNewRelicAction: QuickSightClientTypes.CapabilityState? = nil,
+            createAndUpdateNotionAction: QuickSightClientTypes.CapabilityState? = nil,
+            createAndUpdateOneDriveAction: QuickSightClientTypes.CapabilityState? = nil,
+            createAndUpdateOpenAPIAction: QuickSightClientTypes.CapabilityState? = nil,
+            createAndUpdatePagerDutyAction: QuickSightClientTypes.CapabilityState? = nil,
+            createAndUpdateSAPBillOfMaterialAction: QuickSightClientTypes.CapabilityState? = nil,
+            createAndUpdateSAPBusinessPartnerAction: QuickSightClientTypes.CapabilityState? = nil,
+            createAndUpdateSAPMaterialStockAction: QuickSightClientTypes.CapabilityState? = nil,
+            createAndUpdateSAPPhysicalInventoryAction: QuickSightClientTypes.CapabilityState? = nil,
+            createAndUpdateSAPProductMasterDataAction: QuickSightClientTypes.CapabilityState? = nil,
+            createAndUpdateSalesforceAction: QuickSightClientTypes.CapabilityState? = nil,
+            createAndUpdateSandPGMIAction: QuickSightClientTypes.CapabilityState? = nil,
+            createAndUpdateSandPGlobalEnergyAction: QuickSightClientTypes.CapabilityState? = nil,
+            createAndUpdateServiceNowAction: QuickSightClientTypes.CapabilityState? = nil,
+            createAndUpdateSharePointAction: QuickSightClientTypes.CapabilityState? = nil,
+            createAndUpdateSlackAction: QuickSightClientTypes.CapabilityState? = nil,
+            createAndUpdateSmartsheetAction: QuickSightClientTypes.CapabilityState? = nil,
+            createAndUpdateTextractAction: QuickSightClientTypes.CapabilityState? = nil,
             createAndUpdateThemes: QuickSightClientTypes.CapabilityState? = nil,
             createAndUpdateThresholdAlerts: QuickSightClientTypes.CapabilityState? = nil,
+            createAndUpdateZendeskAction: QuickSightClientTypes.CapabilityState? = nil,
             createChatAgents: QuickSightClientTypes.CapabilityState? = nil,
             createSPICEDataset: QuickSightClientTypes.CapabilityState? = nil,
             createSharedFolders: QuickSightClientTypes.CapabilityState? = nil,
@@ -26798,35 +27271,207 @@ extension QuickSightClientTypes {
             exportToExcelInScheduledReports: QuickSightClientTypes.CapabilityState? = nil,
             exportToPdf: QuickSightClientTypes.CapabilityState? = nil,
             exportToPdfInScheduledReports: QuickSightClientTypes.CapabilityState? = nil,
+            factSetAction: QuickSightClientTypes.CapabilityState? = nil,
             flow: QuickSightClientTypes.CapabilityState? = nil,
+            genericHTTPAction: QuickSightClientTypes.CapabilityState? = nil,
+            githubAction: QuickSightClientTypes.CapabilityState? = nil,
+            googleCalendarAction: QuickSightClientTypes.CapabilityState? = nil,
+            hubspotAction: QuickSightClientTypes.CapabilityState? = nil,
+            huggingFaceAction: QuickSightClientTypes.CapabilityState? = nil,
             includeContentInScheduledReportsEmail: QuickSightClientTypes.CapabilityState? = nil,
+            intercomAction: QuickSightClientTypes.CapabilityState? = nil,
+            jiraAction: QuickSightClientTypes.CapabilityState? = nil,
             knowledgeBase: QuickSightClientTypes.CapabilityState? = nil,
+            linearAction: QuickSightClientTypes.CapabilityState? = nil,
+            mcpAction: QuickSightClientTypes.CapabilityState? = nil,
+            mondayAction: QuickSightClientTypes.CapabilityState? = nil,
+            msExchangeAction: QuickSightClientTypes.CapabilityState? = nil,
+            msTeamsAction: QuickSightClientTypes.CapabilityState? = nil,
+            newRelicAction: QuickSightClientTypes.CapabilityState? = nil,
+            notionAction: QuickSightClientTypes.CapabilityState? = nil,
+            oneDriveAction: QuickSightClientTypes.CapabilityState? = nil,
+            openAPIAction: QuickSightClientTypes.CapabilityState? = nil,
+            pagerDutyAction: QuickSightClientTypes.CapabilityState? = nil,
             performFlowUiTask: QuickSightClientTypes.CapabilityState? = nil,
             printReports: QuickSightClientTypes.CapabilityState? = nil,
             publishWithoutApproval: QuickSightClientTypes.CapabilityState? = nil,
             renameSharedFolders: QuickSightClientTypes.CapabilityState? = nil,
             research: QuickSightClientTypes.CapabilityState? = nil,
+            salesforceAction: QuickSightClientTypes.CapabilityState? = nil,
+            sandPGMIAction: QuickSightClientTypes.CapabilityState? = nil,
+            sandPGlobalEnergyAction: QuickSightClientTypes.CapabilityState? = nil,
+            sapBillOfMaterialAction: QuickSightClientTypes.CapabilityState? = nil,
+            sapBusinessPartnerAction: QuickSightClientTypes.CapabilityState? = nil,
+            sapMaterialStockAction: QuickSightClientTypes.CapabilityState? = nil,
+            sapPhysicalInventoryAction: QuickSightClientTypes.CapabilityState? = nil,
+            sapProductMasterDataAction: QuickSightClientTypes.CapabilityState? = nil,
             selfUpgradeUserRole: QuickSightClientTypes.CapabilityState? = nil,
+            serviceNowAction: QuickSightClientTypes.CapabilityState? = nil,
+            shareAmazonBedrockARSAction: QuickSightClientTypes.CapabilityState? = nil,
+            shareAmazonBedrockFSAction: QuickSightClientTypes.CapabilityState? = nil,
+            shareAmazonBedrockKRSAction: QuickSightClientTypes.CapabilityState? = nil,
+            shareAmazonSThreeAction: QuickSightClientTypes.CapabilityState? = nil,
             shareAnalyses: QuickSightClientTypes.CapabilityState? = nil,
+            shareAsanaAction: QuickSightClientTypes.CapabilityState? = nil,
+            shareBambooHRAction: QuickSightClientTypes.CapabilityState? = nil,
+            shareBoxAgentAction: QuickSightClientTypes.CapabilityState? = nil,
+            shareCanvaAgentAction: QuickSightClientTypes.CapabilityState? = nil,
+            shareComprehendAction: QuickSightClientTypes.CapabilityState? = nil,
+            shareComprehendMedicalAction: QuickSightClientTypes.CapabilityState? = nil,
+            shareConfluenceAction: QuickSightClientTypes.CapabilityState? = nil,
             shareDashboards: QuickSightClientTypes.CapabilityState? = nil,
             shareDataSources: QuickSightClientTypes.CapabilityState? = nil,
             shareDatasets: QuickSightClientTypes.CapabilityState? = nil,
+            shareFactSetAction: QuickSightClientTypes.CapabilityState? = nil,
+            shareGenericHTTPAction: QuickSightClientTypes.CapabilityState? = nil,
+            shareGithubAction: QuickSightClientTypes.CapabilityState? = nil,
+            shareGoogleCalendarAction: QuickSightClientTypes.CapabilityState? = nil,
+            shareHubspotAction: QuickSightClientTypes.CapabilityState? = nil,
+            shareHuggingFaceAction: QuickSightClientTypes.CapabilityState? = nil,
+            shareIntercomAction: QuickSightClientTypes.CapabilityState? = nil,
+            shareJiraAction: QuickSightClientTypes.CapabilityState? = nil,
+            shareLinearAction: QuickSightClientTypes.CapabilityState? = nil,
+            shareMCPAction: QuickSightClientTypes.CapabilityState? = nil,
+            shareMSExchangeAction: QuickSightClientTypes.CapabilityState? = nil,
+            shareMSTeamsAction: QuickSightClientTypes.CapabilityState? = nil,
+            shareMondayAction: QuickSightClientTypes.CapabilityState? = nil,
+            shareNewRelicAction: QuickSightClientTypes.CapabilityState? = nil,
+            shareNotionAction: QuickSightClientTypes.CapabilityState? = nil,
+            shareOneDriveAction: QuickSightClientTypes.CapabilityState? = nil,
+            shareOpenAPIAction: QuickSightClientTypes.CapabilityState? = nil,
+            sharePagerDutyAction: QuickSightClientTypes.CapabilityState? = nil,
+            sharePointAction: QuickSightClientTypes.CapabilityState? = nil,
+            shareSAPBillOfMaterialAction: QuickSightClientTypes.CapabilityState? = nil,
+            shareSAPBusinessPartnerAction: QuickSightClientTypes.CapabilityState? = nil,
+            shareSAPMaterialStockAction: QuickSightClientTypes.CapabilityState? = nil,
+            shareSAPPhysicalInventoryAction: QuickSightClientTypes.CapabilityState? = nil,
+            shareSAPProductMasterDataAction: QuickSightClientTypes.CapabilityState? = nil,
+            shareSalesforceAction: QuickSightClientTypes.CapabilityState? = nil,
+            shareSandPGMIAction: QuickSightClientTypes.CapabilityState? = nil,
+            shareSandPGlobalEnergyAction: QuickSightClientTypes.CapabilityState? = nil,
+            shareServiceNowAction: QuickSightClientTypes.CapabilityState? = nil,
+            shareSharePointAction: QuickSightClientTypes.CapabilityState? = nil,
+            shareSlackAction: QuickSightClientTypes.CapabilityState? = nil,
+            shareSmartsheetAction: QuickSightClientTypes.CapabilityState? = nil,
+            shareTextractAction: QuickSightClientTypes.CapabilityState? = nil,
+            shareZendeskAction: QuickSightClientTypes.CapabilityState? = nil,
+            slackAction: QuickSightClientTypes.CapabilityState? = nil,
+            smartsheetAction: QuickSightClientTypes.CapabilityState? = nil,
             space: QuickSightClientTypes.CapabilityState? = nil,
             subscribeDashboardEmailReports: QuickSightClientTypes.CapabilityState? = nil,
+            textractAction: QuickSightClientTypes.CapabilityState? = nil,
             useAgentWebSearch: QuickSightClientTypes.CapabilityState? = nil,
+            useAmazonBedrockARSAction: QuickSightClientTypes.CapabilityState? = nil,
+            useAmazonBedrockFSAction: QuickSightClientTypes.CapabilityState? = nil,
+            useAmazonBedrockKRSAction: QuickSightClientTypes.CapabilityState? = nil,
+            useAmazonSThreeAction: QuickSightClientTypes.CapabilityState? = nil,
+            useAsanaAction: QuickSightClientTypes.CapabilityState? = nil,
+            useBambooHRAction: QuickSightClientTypes.CapabilityState? = nil,
             useBedrockModels: QuickSightClientTypes.CapabilityState? = nil,
-            viewAccountSPICECapacity: QuickSightClientTypes.CapabilityState? = nil
+            useBoxAgentAction: QuickSightClientTypes.CapabilityState? = nil,
+            useCanvaAgentAction: QuickSightClientTypes.CapabilityState? = nil,
+            useComprehendAction: QuickSightClientTypes.CapabilityState? = nil,
+            useComprehendMedicalAction: QuickSightClientTypes.CapabilityState? = nil,
+            useConfluenceAction: QuickSightClientTypes.CapabilityState? = nil,
+            useFactSetAction: QuickSightClientTypes.CapabilityState? = nil,
+            useGenericHTTPAction: QuickSightClientTypes.CapabilityState? = nil,
+            useGithubAction: QuickSightClientTypes.CapabilityState? = nil,
+            useGoogleCalendarAction: QuickSightClientTypes.CapabilityState? = nil,
+            useHubspotAction: QuickSightClientTypes.CapabilityState? = nil,
+            useHuggingFaceAction: QuickSightClientTypes.CapabilityState? = nil,
+            useIntercomAction: QuickSightClientTypes.CapabilityState? = nil,
+            useJiraAction: QuickSightClientTypes.CapabilityState? = nil,
+            useLinearAction: QuickSightClientTypes.CapabilityState? = nil,
+            useMCPAction: QuickSightClientTypes.CapabilityState? = nil,
+            useMSExchangeAction: QuickSightClientTypes.CapabilityState? = nil,
+            useMSTeamsAction: QuickSightClientTypes.CapabilityState? = nil,
+            useMondayAction: QuickSightClientTypes.CapabilityState? = nil,
+            useNewRelicAction: QuickSightClientTypes.CapabilityState? = nil,
+            useNotionAction: QuickSightClientTypes.CapabilityState? = nil,
+            useOneDriveAction: QuickSightClientTypes.CapabilityState? = nil,
+            useOpenAPIAction: QuickSightClientTypes.CapabilityState? = nil,
+            usePagerDutyAction: QuickSightClientTypes.CapabilityState? = nil,
+            useSAPBillOfMaterialAction: QuickSightClientTypes.CapabilityState? = nil,
+            useSAPBusinessPartnerAction: QuickSightClientTypes.CapabilityState? = nil,
+            useSAPMaterialStockAction: QuickSightClientTypes.CapabilityState? = nil,
+            useSAPPhysicalInventoryAction: QuickSightClientTypes.CapabilityState? = nil,
+            useSAPProductMasterDataAction: QuickSightClientTypes.CapabilityState? = nil,
+            useSalesforceAction: QuickSightClientTypes.CapabilityState? = nil,
+            useSandPGMIAction: QuickSightClientTypes.CapabilityState? = nil,
+            useSandPGlobalEnergyAction: QuickSightClientTypes.CapabilityState? = nil,
+            useServiceNowAction: QuickSightClientTypes.CapabilityState? = nil,
+            useSharePointAction: QuickSightClientTypes.CapabilityState? = nil,
+            useSlackAction: QuickSightClientTypes.CapabilityState? = nil,
+            useSmartsheetAction: QuickSightClientTypes.CapabilityState? = nil,
+            useTextractAction: QuickSightClientTypes.CapabilityState? = nil,
+            useZendeskAction: QuickSightClientTypes.CapabilityState? = nil,
+            viewAccountSPICECapacity: QuickSightClientTypes.CapabilityState? = nil,
+            zendeskAction: QuickSightClientTypes.CapabilityState? = nil
         ) {
             self.action = action
             self.addOrRunAnomalyDetectionForAnalyses = addOrRunAnomalyDetectionForAnalyses
+            self.amazonBedrockARSAction = amazonBedrockARSAction
+            self.amazonBedrockFSAction = amazonBedrockFSAction
+            self.amazonBedrockKRSAction = amazonBedrockKRSAction
+            self.amazonSThreeAction = amazonSThreeAction
             self.analysis = analysis
+            self.asanaAction = asanaAction
             self.automate = automate
+            self.bambooHRAction = bambooHRAction
+            self.boxAgentAction = boxAgentAction
+            self.canvaAgentAction = canvaAgentAction
             self.chatAgent = chatAgent
+            self.comprehendAction = comprehendAction
+            self.comprehendMedicalAction = comprehendMedicalAction
+            self.confluenceAction = confluenceAction
+            self.createAndUpdateAmazonBedrockARSAction = createAndUpdateAmazonBedrockARSAction
+            self.createAndUpdateAmazonBedrockFSAction = createAndUpdateAmazonBedrockFSAction
+            self.createAndUpdateAmazonBedrockKRSAction = createAndUpdateAmazonBedrockKRSAction
+            self.createAndUpdateAmazonSThreeAction = createAndUpdateAmazonSThreeAction
+            self.createAndUpdateAsanaAction = createAndUpdateAsanaAction
+            self.createAndUpdateBambooHRAction = createAndUpdateBambooHRAction
+            self.createAndUpdateBoxAgentAction = createAndUpdateBoxAgentAction
+            self.createAndUpdateCanvaAgentAction = createAndUpdateCanvaAgentAction
+            self.createAndUpdateComprehendAction = createAndUpdateComprehendAction
+            self.createAndUpdateComprehendMedicalAction = createAndUpdateComprehendMedicalAction
+            self.createAndUpdateConfluenceAction = createAndUpdateConfluenceAction
             self.createAndUpdateDashboardEmailReports = createAndUpdateDashboardEmailReports
             self.createAndUpdateDataSources = createAndUpdateDataSources
             self.createAndUpdateDatasets = createAndUpdateDatasets
+            self.createAndUpdateFactSetAction = createAndUpdateFactSetAction
+            self.createAndUpdateGenericHTTPAction = createAndUpdateGenericHTTPAction
+            self.createAndUpdateGithubAction = createAndUpdateGithubAction
+            self.createAndUpdateGoogleCalendarAction = createAndUpdateGoogleCalendarAction
+            self.createAndUpdateHubspotAction = createAndUpdateHubspotAction
+            self.createAndUpdateHuggingFaceAction = createAndUpdateHuggingFaceAction
+            self.createAndUpdateIntercomAction = createAndUpdateIntercomAction
+            self.createAndUpdateJiraAction = createAndUpdateJiraAction
+            self.createAndUpdateLinearAction = createAndUpdateLinearAction
+            self.createAndUpdateMCPAction = createAndUpdateMCPAction
+            self.createAndUpdateMSExchangeAction = createAndUpdateMSExchangeAction
+            self.createAndUpdateMSTeamsAction = createAndUpdateMSTeamsAction
+            self.createAndUpdateMondayAction = createAndUpdateMondayAction
+            self.createAndUpdateNewRelicAction = createAndUpdateNewRelicAction
+            self.createAndUpdateNotionAction = createAndUpdateNotionAction
+            self.createAndUpdateOneDriveAction = createAndUpdateOneDriveAction
+            self.createAndUpdateOpenAPIAction = createAndUpdateOpenAPIAction
+            self.createAndUpdatePagerDutyAction = createAndUpdatePagerDutyAction
+            self.createAndUpdateSAPBillOfMaterialAction = createAndUpdateSAPBillOfMaterialAction
+            self.createAndUpdateSAPBusinessPartnerAction = createAndUpdateSAPBusinessPartnerAction
+            self.createAndUpdateSAPMaterialStockAction = createAndUpdateSAPMaterialStockAction
+            self.createAndUpdateSAPPhysicalInventoryAction = createAndUpdateSAPPhysicalInventoryAction
+            self.createAndUpdateSAPProductMasterDataAction = createAndUpdateSAPProductMasterDataAction
+            self.createAndUpdateSalesforceAction = createAndUpdateSalesforceAction
+            self.createAndUpdateSandPGMIAction = createAndUpdateSandPGMIAction
+            self.createAndUpdateSandPGlobalEnergyAction = createAndUpdateSandPGlobalEnergyAction
+            self.createAndUpdateServiceNowAction = createAndUpdateServiceNowAction
+            self.createAndUpdateSharePointAction = createAndUpdateSharePointAction
+            self.createAndUpdateSlackAction = createAndUpdateSlackAction
+            self.createAndUpdateSmartsheetAction = createAndUpdateSmartsheetAction
+            self.createAndUpdateTextractAction = createAndUpdateTextractAction
             self.createAndUpdateThemes = createAndUpdateThemes
             self.createAndUpdateThresholdAlerts = createAndUpdateThresholdAlerts
+            self.createAndUpdateZendeskAction = createAndUpdateZendeskAction
             self.createChatAgents = createChatAgents
             self.createSPICEDataset = createSPICEDataset
             self.createSharedFolders = createSharedFolders
@@ -26837,24 +27482,142 @@ extension QuickSightClientTypes {
             self.exportToExcelInScheduledReports = exportToExcelInScheduledReports
             self.exportToPdf = exportToPdf
             self.exportToPdfInScheduledReports = exportToPdfInScheduledReports
+            self.factSetAction = factSetAction
             self.flow = flow
+            self.genericHTTPAction = genericHTTPAction
+            self.githubAction = githubAction
+            self.googleCalendarAction = googleCalendarAction
+            self.hubspotAction = hubspotAction
+            self.huggingFaceAction = huggingFaceAction
             self.includeContentInScheduledReportsEmail = includeContentInScheduledReportsEmail
+            self.intercomAction = intercomAction
+            self.jiraAction = jiraAction
             self.knowledgeBase = knowledgeBase
+            self.linearAction = linearAction
+            self.mcpAction = mcpAction
+            self.mondayAction = mondayAction
+            self.msExchangeAction = msExchangeAction
+            self.msTeamsAction = msTeamsAction
+            self.newRelicAction = newRelicAction
+            self.notionAction = notionAction
+            self.oneDriveAction = oneDriveAction
+            self.openAPIAction = openAPIAction
+            self.pagerDutyAction = pagerDutyAction
             self.performFlowUiTask = performFlowUiTask
             self.printReports = printReports
             self.publishWithoutApproval = publishWithoutApproval
             self.renameSharedFolders = renameSharedFolders
             self.research = research
+            self.salesforceAction = salesforceAction
+            self.sandPGMIAction = sandPGMIAction
+            self.sandPGlobalEnergyAction = sandPGlobalEnergyAction
+            self.sapBillOfMaterialAction = sapBillOfMaterialAction
+            self.sapBusinessPartnerAction = sapBusinessPartnerAction
+            self.sapMaterialStockAction = sapMaterialStockAction
+            self.sapPhysicalInventoryAction = sapPhysicalInventoryAction
+            self.sapProductMasterDataAction = sapProductMasterDataAction
             self.selfUpgradeUserRole = selfUpgradeUserRole
+            self.serviceNowAction = serviceNowAction
+            self.shareAmazonBedrockARSAction = shareAmazonBedrockARSAction
+            self.shareAmazonBedrockFSAction = shareAmazonBedrockFSAction
+            self.shareAmazonBedrockKRSAction = shareAmazonBedrockKRSAction
+            self.shareAmazonSThreeAction = shareAmazonSThreeAction
             self.shareAnalyses = shareAnalyses
+            self.shareAsanaAction = shareAsanaAction
+            self.shareBambooHRAction = shareBambooHRAction
+            self.shareBoxAgentAction = shareBoxAgentAction
+            self.shareCanvaAgentAction = shareCanvaAgentAction
+            self.shareComprehendAction = shareComprehendAction
+            self.shareComprehendMedicalAction = shareComprehendMedicalAction
+            self.shareConfluenceAction = shareConfluenceAction
             self.shareDashboards = shareDashboards
             self.shareDataSources = shareDataSources
             self.shareDatasets = shareDatasets
+            self.shareFactSetAction = shareFactSetAction
+            self.shareGenericHTTPAction = shareGenericHTTPAction
+            self.shareGithubAction = shareGithubAction
+            self.shareGoogleCalendarAction = shareGoogleCalendarAction
+            self.shareHubspotAction = shareHubspotAction
+            self.shareHuggingFaceAction = shareHuggingFaceAction
+            self.shareIntercomAction = shareIntercomAction
+            self.shareJiraAction = shareJiraAction
+            self.shareLinearAction = shareLinearAction
+            self.shareMCPAction = shareMCPAction
+            self.shareMSExchangeAction = shareMSExchangeAction
+            self.shareMSTeamsAction = shareMSTeamsAction
+            self.shareMondayAction = shareMondayAction
+            self.shareNewRelicAction = shareNewRelicAction
+            self.shareNotionAction = shareNotionAction
+            self.shareOneDriveAction = shareOneDriveAction
+            self.shareOpenAPIAction = shareOpenAPIAction
+            self.sharePagerDutyAction = sharePagerDutyAction
+            self.sharePointAction = sharePointAction
+            self.shareSAPBillOfMaterialAction = shareSAPBillOfMaterialAction
+            self.shareSAPBusinessPartnerAction = shareSAPBusinessPartnerAction
+            self.shareSAPMaterialStockAction = shareSAPMaterialStockAction
+            self.shareSAPPhysicalInventoryAction = shareSAPPhysicalInventoryAction
+            self.shareSAPProductMasterDataAction = shareSAPProductMasterDataAction
+            self.shareSalesforceAction = shareSalesforceAction
+            self.shareSandPGMIAction = shareSandPGMIAction
+            self.shareSandPGlobalEnergyAction = shareSandPGlobalEnergyAction
+            self.shareServiceNowAction = shareServiceNowAction
+            self.shareSharePointAction = shareSharePointAction
+            self.shareSlackAction = shareSlackAction
+            self.shareSmartsheetAction = shareSmartsheetAction
+            self.shareTextractAction = shareTextractAction
+            self.shareZendeskAction = shareZendeskAction
+            self.slackAction = slackAction
+            self.smartsheetAction = smartsheetAction
             self.space = space
             self.subscribeDashboardEmailReports = subscribeDashboardEmailReports
+            self.textractAction = textractAction
             self.useAgentWebSearch = useAgentWebSearch
+            self.useAmazonBedrockARSAction = useAmazonBedrockARSAction
+            self.useAmazonBedrockFSAction = useAmazonBedrockFSAction
+            self.useAmazonBedrockKRSAction = useAmazonBedrockKRSAction
+            self.useAmazonSThreeAction = useAmazonSThreeAction
+            self.useAsanaAction = useAsanaAction
+            self.useBambooHRAction = useBambooHRAction
             self.useBedrockModels = useBedrockModels
+            self.useBoxAgentAction = useBoxAgentAction
+            self.useCanvaAgentAction = useCanvaAgentAction
+            self.useComprehendAction = useComprehendAction
+            self.useComprehendMedicalAction = useComprehendMedicalAction
+            self.useConfluenceAction = useConfluenceAction
+            self.useFactSetAction = useFactSetAction
+            self.useGenericHTTPAction = useGenericHTTPAction
+            self.useGithubAction = useGithubAction
+            self.useGoogleCalendarAction = useGoogleCalendarAction
+            self.useHubspotAction = useHubspotAction
+            self.useHuggingFaceAction = useHuggingFaceAction
+            self.useIntercomAction = useIntercomAction
+            self.useJiraAction = useJiraAction
+            self.useLinearAction = useLinearAction
+            self.useMCPAction = useMCPAction
+            self.useMSExchangeAction = useMSExchangeAction
+            self.useMSTeamsAction = useMSTeamsAction
+            self.useMondayAction = useMondayAction
+            self.useNewRelicAction = useNewRelicAction
+            self.useNotionAction = useNotionAction
+            self.useOneDriveAction = useOneDriveAction
+            self.useOpenAPIAction = useOpenAPIAction
+            self.usePagerDutyAction = usePagerDutyAction
+            self.useSAPBillOfMaterialAction = useSAPBillOfMaterialAction
+            self.useSAPBusinessPartnerAction = useSAPBusinessPartnerAction
+            self.useSAPMaterialStockAction = useSAPMaterialStockAction
+            self.useSAPPhysicalInventoryAction = useSAPPhysicalInventoryAction
+            self.useSAPProductMasterDataAction = useSAPProductMasterDataAction
+            self.useSalesforceAction = useSalesforceAction
+            self.useSandPGMIAction = useSandPGMIAction
+            self.useSandPGlobalEnergyAction = useSandPGlobalEnergyAction
+            self.useServiceNowAction = useServiceNowAction
+            self.useSharePointAction = useSharePointAction
+            self.useSlackAction = useSlackAction
+            self.useSmartsheetAction = useSmartsheetAction
+            self.useTextractAction = useTextractAction
+            self.useZendeskAction = useZendeskAction
             self.viewAccountSPICECapacity = viewAccountSPICECapacity
+            self.zendeskAction = zendeskAction
         }
     }
 }
@@ -41802,7 +42565,7 @@ public struct GenerateEmbedUrlForAnonymousUserInput: Swift.Sendable {
     public var namespace: Swift.String?
     /// How many minutes the session is valid. The session lifetime must be in [15-600] minutes range.
     public var sessionLifetimeInMinutes: Swift.Int?
-    /// The session tags used for row-level security. Before you use this parameter, make sure that you have configured the relevant datasets using the DataSet$RowLevelPermissionTagConfiguration parameter so that session tags can be used to provide row-level security. These are not the tags used for the Amazon Web Services resource tagging feature. For more information, see [Using Row-Level Security (RLS) with Tags](https://docs.aws.amazon.com/quicksight/latest/user/quicksight-dev-rls-tags.html)in the Amazon Quick Sight User Guide.
+    /// Session tags are user-specified strings that identify a session in your application. You can use these tags to implement row-level security (RLS) controls. Before you use the SessionTags parameter, make sure that you have configured the relevant datasets using the DataSet$RowLevelPermissionTagConfiguration parameter so that session tags can be used to provide row-level security. When using session tags, you must call GenerateEmbedUrlForAnonymousUser from a secure, trusted environment. The API call passes session tags that enable server-side data redaction by using the row-level security (RLS) rules configured in your datasets. A secure, trusted environment has access controls that you implement. These controls ensure that only your server or authorized users can add or modify session tags. Besides, these are not the tags used for the Amazon Web Services resource tagging feature. For more information, see [Using Row-Level Security (RLS) with Tags](https://docs.aws.amazon.com/quicksight/latest/user/quicksight-dev-rls-tags.html) in the Amazon Quick Suite User Guide.
     public var sessionTags: [QuickSightClientTypes.SessionTag]?
 
     public init(
@@ -65845,6 +66608,7 @@ extension QuickSightClientTypes.FreeFormLayoutConfiguration {
         guard let value else { return }
         try writer["CanvasSizeOptions"].write(value.canvasSizeOptions, with: QuickSightClientTypes.FreeFormLayoutCanvasSizeOptions.write(value:to:))
         try writer["Elements"].writeList(value.elements, memberWritingClosure: QuickSightClientTypes.FreeFormLayoutElement.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Groups"].writeList(value.groups, memberWritingClosure: QuickSightClientTypes.SheetLayoutGroup.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.FreeFormLayoutConfiguration {
@@ -65852,6 +66616,41 @@ extension QuickSightClientTypes.FreeFormLayoutConfiguration {
         var value = QuickSightClientTypes.FreeFormLayoutConfiguration()
         value.elements = try reader["Elements"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.FreeFormLayoutElement.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.canvasSizeOptions = try reader["CanvasSizeOptions"].readIfPresent(with: QuickSightClientTypes.FreeFormLayoutCanvasSizeOptions.read(from:))
+        value.groups = try reader["Groups"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.SheetLayoutGroup.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension QuickSightClientTypes.SheetLayoutGroup {
+
+    static func write(value: QuickSightClientTypes.SheetLayoutGroup?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Id"].write(value.id)
+        try writer["Members"].writeList(value.members, memberWritingClosure: QuickSightClientTypes.SheetLayoutGroupMember.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.SheetLayoutGroup {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.SheetLayoutGroup()
+        value.id = try reader["Id"].readIfPresent() ?? ""
+        value.members = try reader["Members"].readListIfPresent(memberReadingClosure: QuickSightClientTypes.SheetLayoutGroupMember.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension QuickSightClientTypes.SheetLayoutGroupMember {
+
+    static func write(value: QuickSightClientTypes.SheetLayoutGroupMember?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Id"].write(value.id)
+        try writer["Type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.SheetLayoutGroupMember {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = QuickSightClientTypes.SheetLayoutGroupMember()
+        value.id = try reader["Id"].readIfPresent() ?? ""
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -75729,14 +76528,68 @@ extension QuickSightClientTypes.Capabilities {
         guard let value else { return }
         try writer["Action"].write(value.action)
         try writer["AddOrRunAnomalyDetectionForAnalyses"].write(value.addOrRunAnomalyDetectionForAnalyses)
+        try writer["AmazonBedrockARSAction"].write(value.amazonBedrockARSAction)
+        try writer["AmazonBedrockFSAction"].write(value.amazonBedrockFSAction)
+        try writer["AmazonBedrockKRSAction"].write(value.amazonBedrockKRSAction)
+        try writer["AmazonSThreeAction"].write(value.amazonSThreeAction)
         try writer["Analysis"].write(value.analysis)
+        try writer["AsanaAction"].write(value.asanaAction)
         try writer["Automate"].write(value.automate)
+        try writer["BambooHRAction"].write(value.bambooHRAction)
+        try writer["BoxAgentAction"].write(value.boxAgentAction)
+        try writer["CanvaAgentAction"].write(value.canvaAgentAction)
         try writer["ChatAgent"].write(value.chatAgent)
+        try writer["ComprehendAction"].write(value.comprehendAction)
+        try writer["ComprehendMedicalAction"].write(value.comprehendMedicalAction)
+        try writer["ConfluenceAction"].write(value.confluenceAction)
+        try writer["CreateAndUpdateAmazonBedrockARSAction"].write(value.createAndUpdateAmazonBedrockARSAction)
+        try writer["CreateAndUpdateAmazonBedrockFSAction"].write(value.createAndUpdateAmazonBedrockFSAction)
+        try writer["CreateAndUpdateAmazonBedrockKRSAction"].write(value.createAndUpdateAmazonBedrockKRSAction)
+        try writer["CreateAndUpdateAmazonSThreeAction"].write(value.createAndUpdateAmazonSThreeAction)
+        try writer["CreateAndUpdateAsanaAction"].write(value.createAndUpdateAsanaAction)
+        try writer["CreateAndUpdateBambooHRAction"].write(value.createAndUpdateBambooHRAction)
+        try writer["CreateAndUpdateBoxAgentAction"].write(value.createAndUpdateBoxAgentAction)
+        try writer["CreateAndUpdateCanvaAgentAction"].write(value.createAndUpdateCanvaAgentAction)
+        try writer["CreateAndUpdateComprehendAction"].write(value.createAndUpdateComprehendAction)
+        try writer["CreateAndUpdateComprehendMedicalAction"].write(value.createAndUpdateComprehendMedicalAction)
+        try writer["CreateAndUpdateConfluenceAction"].write(value.createAndUpdateConfluenceAction)
         try writer["CreateAndUpdateDashboardEmailReports"].write(value.createAndUpdateDashboardEmailReports)
         try writer["CreateAndUpdateDataSources"].write(value.createAndUpdateDataSources)
         try writer["CreateAndUpdateDatasets"].write(value.createAndUpdateDatasets)
+        try writer["CreateAndUpdateFactSetAction"].write(value.createAndUpdateFactSetAction)
+        try writer["CreateAndUpdateGenericHTTPAction"].write(value.createAndUpdateGenericHTTPAction)
+        try writer["CreateAndUpdateGithubAction"].write(value.createAndUpdateGithubAction)
+        try writer["CreateAndUpdateGoogleCalendarAction"].write(value.createAndUpdateGoogleCalendarAction)
+        try writer["CreateAndUpdateHubspotAction"].write(value.createAndUpdateHubspotAction)
+        try writer["CreateAndUpdateHuggingFaceAction"].write(value.createAndUpdateHuggingFaceAction)
+        try writer["CreateAndUpdateIntercomAction"].write(value.createAndUpdateIntercomAction)
+        try writer["CreateAndUpdateJiraAction"].write(value.createAndUpdateJiraAction)
+        try writer["CreateAndUpdateLinearAction"].write(value.createAndUpdateLinearAction)
+        try writer["CreateAndUpdateMCPAction"].write(value.createAndUpdateMCPAction)
+        try writer["CreateAndUpdateMSExchangeAction"].write(value.createAndUpdateMSExchangeAction)
+        try writer["CreateAndUpdateMSTeamsAction"].write(value.createAndUpdateMSTeamsAction)
+        try writer["CreateAndUpdateMondayAction"].write(value.createAndUpdateMondayAction)
+        try writer["CreateAndUpdateNewRelicAction"].write(value.createAndUpdateNewRelicAction)
+        try writer["CreateAndUpdateNotionAction"].write(value.createAndUpdateNotionAction)
+        try writer["CreateAndUpdateOneDriveAction"].write(value.createAndUpdateOneDriveAction)
+        try writer["CreateAndUpdateOpenAPIAction"].write(value.createAndUpdateOpenAPIAction)
+        try writer["CreateAndUpdatePagerDutyAction"].write(value.createAndUpdatePagerDutyAction)
+        try writer["CreateAndUpdateSAPBillOfMaterialAction"].write(value.createAndUpdateSAPBillOfMaterialAction)
+        try writer["CreateAndUpdateSAPBusinessPartnerAction"].write(value.createAndUpdateSAPBusinessPartnerAction)
+        try writer["CreateAndUpdateSAPMaterialStockAction"].write(value.createAndUpdateSAPMaterialStockAction)
+        try writer["CreateAndUpdateSAPPhysicalInventoryAction"].write(value.createAndUpdateSAPPhysicalInventoryAction)
+        try writer["CreateAndUpdateSAPProductMasterDataAction"].write(value.createAndUpdateSAPProductMasterDataAction)
+        try writer["CreateAndUpdateSalesforceAction"].write(value.createAndUpdateSalesforceAction)
+        try writer["CreateAndUpdateSandPGMIAction"].write(value.createAndUpdateSandPGMIAction)
+        try writer["CreateAndUpdateSandPGlobalEnergyAction"].write(value.createAndUpdateSandPGlobalEnergyAction)
+        try writer["CreateAndUpdateServiceNowAction"].write(value.createAndUpdateServiceNowAction)
+        try writer["CreateAndUpdateSharePointAction"].write(value.createAndUpdateSharePointAction)
+        try writer["CreateAndUpdateSlackAction"].write(value.createAndUpdateSlackAction)
+        try writer["CreateAndUpdateSmartsheetAction"].write(value.createAndUpdateSmartsheetAction)
+        try writer["CreateAndUpdateTextractAction"].write(value.createAndUpdateTextractAction)
         try writer["CreateAndUpdateThemes"].write(value.createAndUpdateThemes)
         try writer["CreateAndUpdateThresholdAlerts"].write(value.createAndUpdateThresholdAlerts)
+        try writer["CreateAndUpdateZendeskAction"].write(value.createAndUpdateZendeskAction)
         try writer["CreateChatAgents"].write(value.createChatAgents)
         try writer["CreateSPICEDataset"].write(value.createSPICEDataset)
         try writer["CreateSharedFolders"].write(value.createSharedFolders)
@@ -75747,24 +76600,142 @@ extension QuickSightClientTypes.Capabilities {
         try writer["ExportToExcelInScheduledReports"].write(value.exportToExcelInScheduledReports)
         try writer["ExportToPdf"].write(value.exportToPdf)
         try writer["ExportToPdfInScheduledReports"].write(value.exportToPdfInScheduledReports)
+        try writer["FactSetAction"].write(value.factSetAction)
         try writer["Flow"].write(value.flow)
+        try writer["GenericHTTPAction"].write(value.genericHTTPAction)
+        try writer["GithubAction"].write(value.githubAction)
+        try writer["GoogleCalendarAction"].write(value.googleCalendarAction)
+        try writer["HubspotAction"].write(value.hubspotAction)
+        try writer["HuggingFaceAction"].write(value.huggingFaceAction)
         try writer["IncludeContentInScheduledReportsEmail"].write(value.includeContentInScheduledReportsEmail)
+        try writer["IntercomAction"].write(value.intercomAction)
+        try writer["JiraAction"].write(value.jiraAction)
         try writer["KnowledgeBase"].write(value.knowledgeBase)
+        try writer["LinearAction"].write(value.linearAction)
+        try writer["MCPAction"].write(value.mcpAction)
+        try writer["MSExchangeAction"].write(value.msExchangeAction)
+        try writer["MSTeamsAction"].write(value.msTeamsAction)
+        try writer["MondayAction"].write(value.mondayAction)
+        try writer["NewRelicAction"].write(value.newRelicAction)
+        try writer["NotionAction"].write(value.notionAction)
+        try writer["OneDriveAction"].write(value.oneDriveAction)
+        try writer["OpenAPIAction"].write(value.openAPIAction)
+        try writer["PagerDutyAction"].write(value.pagerDutyAction)
         try writer["PerformFlowUiTask"].write(value.performFlowUiTask)
         try writer["PrintReports"].write(value.printReports)
         try writer["PublishWithoutApproval"].write(value.publishWithoutApproval)
         try writer["RenameSharedFolders"].write(value.renameSharedFolders)
         try writer["Research"].write(value.research)
+        try writer["SAPBillOfMaterialAction"].write(value.sapBillOfMaterialAction)
+        try writer["SAPBusinessPartnerAction"].write(value.sapBusinessPartnerAction)
+        try writer["SAPMaterialStockAction"].write(value.sapMaterialStockAction)
+        try writer["SAPPhysicalInventoryAction"].write(value.sapPhysicalInventoryAction)
+        try writer["SAPProductMasterDataAction"].write(value.sapProductMasterDataAction)
+        try writer["SalesforceAction"].write(value.salesforceAction)
+        try writer["SandPGMIAction"].write(value.sandPGMIAction)
+        try writer["SandPGlobalEnergyAction"].write(value.sandPGlobalEnergyAction)
         try writer["SelfUpgradeUserRole"].write(value.selfUpgradeUserRole)
+        try writer["ServiceNowAction"].write(value.serviceNowAction)
+        try writer["ShareAmazonBedrockARSAction"].write(value.shareAmazonBedrockARSAction)
+        try writer["ShareAmazonBedrockFSAction"].write(value.shareAmazonBedrockFSAction)
+        try writer["ShareAmazonBedrockKRSAction"].write(value.shareAmazonBedrockKRSAction)
+        try writer["ShareAmazonSThreeAction"].write(value.shareAmazonSThreeAction)
         try writer["ShareAnalyses"].write(value.shareAnalyses)
+        try writer["ShareAsanaAction"].write(value.shareAsanaAction)
+        try writer["ShareBambooHRAction"].write(value.shareBambooHRAction)
+        try writer["ShareBoxAgentAction"].write(value.shareBoxAgentAction)
+        try writer["ShareCanvaAgentAction"].write(value.shareCanvaAgentAction)
+        try writer["ShareComprehendAction"].write(value.shareComprehendAction)
+        try writer["ShareComprehendMedicalAction"].write(value.shareComprehendMedicalAction)
+        try writer["ShareConfluenceAction"].write(value.shareConfluenceAction)
         try writer["ShareDashboards"].write(value.shareDashboards)
         try writer["ShareDataSources"].write(value.shareDataSources)
         try writer["ShareDatasets"].write(value.shareDatasets)
+        try writer["ShareFactSetAction"].write(value.shareFactSetAction)
+        try writer["ShareGenericHTTPAction"].write(value.shareGenericHTTPAction)
+        try writer["ShareGithubAction"].write(value.shareGithubAction)
+        try writer["ShareGoogleCalendarAction"].write(value.shareGoogleCalendarAction)
+        try writer["ShareHubspotAction"].write(value.shareHubspotAction)
+        try writer["ShareHuggingFaceAction"].write(value.shareHuggingFaceAction)
+        try writer["ShareIntercomAction"].write(value.shareIntercomAction)
+        try writer["ShareJiraAction"].write(value.shareJiraAction)
+        try writer["ShareLinearAction"].write(value.shareLinearAction)
+        try writer["ShareMCPAction"].write(value.shareMCPAction)
+        try writer["ShareMSExchangeAction"].write(value.shareMSExchangeAction)
+        try writer["ShareMSTeamsAction"].write(value.shareMSTeamsAction)
+        try writer["ShareMondayAction"].write(value.shareMondayAction)
+        try writer["ShareNewRelicAction"].write(value.shareNewRelicAction)
+        try writer["ShareNotionAction"].write(value.shareNotionAction)
+        try writer["ShareOneDriveAction"].write(value.shareOneDriveAction)
+        try writer["ShareOpenAPIAction"].write(value.shareOpenAPIAction)
+        try writer["SharePagerDutyAction"].write(value.sharePagerDutyAction)
+        try writer["SharePointAction"].write(value.sharePointAction)
+        try writer["ShareSAPBillOfMaterialAction"].write(value.shareSAPBillOfMaterialAction)
+        try writer["ShareSAPBusinessPartnerAction"].write(value.shareSAPBusinessPartnerAction)
+        try writer["ShareSAPMaterialStockAction"].write(value.shareSAPMaterialStockAction)
+        try writer["ShareSAPPhysicalInventoryAction"].write(value.shareSAPPhysicalInventoryAction)
+        try writer["ShareSAPProductMasterDataAction"].write(value.shareSAPProductMasterDataAction)
+        try writer["ShareSalesforceAction"].write(value.shareSalesforceAction)
+        try writer["ShareSandPGMIAction"].write(value.shareSandPGMIAction)
+        try writer["ShareSandPGlobalEnergyAction"].write(value.shareSandPGlobalEnergyAction)
+        try writer["ShareServiceNowAction"].write(value.shareServiceNowAction)
+        try writer["ShareSharePointAction"].write(value.shareSharePointAction)
+        try writer["ShareSlackAction"].write(value.shareSlackAction)
+        try writer["ShareSmartsheetAction"].write(value.shareSmartsheetAction)
+        try writer["ShareTextractAction"].write(value.shareTextractAction)
+        try writer["ShareZendeskAction"].write(value.shareZendeskAction)
+        try writer["SlackAction"].write(value.slackAction)
+        try writer["SmartsheetAction"].write(value.smartsheetAction)
         try writer["Space"].write(value.space)
         try writer["SubscribeDashboardEmailReports"].write(value.subscribeDashboardEmailReports)
+        try writer["TextractAction"].write(value.textractAction)
         try writer["UseAgentWebSearch"].write(value.useAgentWebSearch)
+        try writer["UseAmazonBedrockARSAction"].write(value.useAmazonBedrockARSAction)
+        try writer["UseAmazonBedrockFSAction"].write(value.useAmazonBedrockFSAction)
+        try writer["UseAmazonBedrockKRSAction"].write(value.useAmazonBedrockKRSAction)
+        try writer["UseAmazonSThreeAction"].write(value.useAmazonSThreeAction)
+        try writer["UseAsanaAction"].write(value.useAsanaAction)
+        try writer["UseBambooHRAction"].write(value.useBambooHRAction)
         try writer["UseBedrockModels"].write(value.useBedrockModels)
+        try writer["UseBoxAgentAction"].write(value.useBoxAgentAction)
+        try writer["UseCanvaAgentAction"].write(value.useCanvaAgentAction)
+        try writer["UseComprehendAction"].write(value.useComprehendAction)
+        try writer["UseComprehendMedicalAction"].write(value.useComprehendMedicalAction)
+        try writer["UseConfluenceAction"].write(value.useConfluenceAction)
+        try writer["UseFactSetAction"].write(value.useFactSetAction)
+        try writer["UseGenericHTTPAction"].write(value.useGenericHTTPAction)
+        try writer["UseGithubAction"].write(value.useGithubAction)
+        try writer["UseGoogleCalendarAction"].write(value.useGoogleCalendarAction)
+        try writer["UseHubspotAction"].write(value.useHubspotAction)
+        try writer["UseHuggingFaceAction"].write(value.useHuggingFaceAction)
+        try writer["UseIntercomAction"].write(value.useIntercomAction)
+        try writer["UseJiraAction"].write(value.useJiraAction)
+        try writer["UseLinearAction"].write(value.useLinearAction)
+        try writer["UseMCPAction"].write(value.useMCPAction)
+        try writer["UseMSExchangeAction"].write(value.useMSExchangeAction)
+        try writer["UseMSTeamsAction"].write(value.useMSTeamsAction)
+        try writer["UseMondayAction"].write(value.useMondayAction)
+        try writer["UseNewRelicAction"].write(value.useNewRelicAction)
+        try writer["UseNotionAction"].write(value.useNotionAction)
+        try writer["UseOneDriveAction"].write(value.useOneDriveAction)
+        try writer["UseOpenAPIAction"].write(value.useOpenAPIAction)
+        try writer["UsePagerDutyAction"].write(value.usePagerDutyAction)
+        try writer["UseSAPBillOfMaterialAction"].write(value.useSAPBillOfMaterialAction)
+        try writer["UseSAPBusinessPartnerAction"].write(value.useSAPBusinessPartnerAction)
+        try writer["UseSAPMaterialStockAction"].write(value.useSAPMaterialStockAction)
+        try writer["UseSAPPhysicalInventoryAction"].write(value.useSAPPhysicalInventoryAction)
+        try writer["UseSAPProductMasterDataAction"].write(value.useSAPProductMasterDataAction)
+        try writer["UseSalesforceAction"].write(value.useSalesforceAction)
+        try writer["UseSandPGMIAction"].write(value.useSandPGMIAction)
+        try writer["UseSandPGlobalEnergyAction"].write(value.useSandPGlobalEnergyAction)
+        try writer["UseServiceNowAction"].write(value.useServiceNowAction)
+        try writer["UseSharePointAction"].write(value.useSharePointAction)
+        try writer["UseSlackAction"].write(value.useSlackAction)
+        try writer["UseSmartsheetAction"].write(value.useSmartsheetAction)
+        try writer["UseTextractAction"].write(value.useTextractAction)
+        try writer["UseZendeskAction"].write(value.useZendeskAction)
         try writer["ViewAccountSPICECapacity"].write(value.viewAccountSPICECapacity)
+        try writer["ZendeskAction"].write(value.zendeskAction)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> QuickSightClientTypes.Capabilities {
@@ -75803,6 +76774,178 @@ extension QuickSightClientTypes.Capabilities {
         value.useAgentWebSearch = try reader["UseAgentWebSearch"].readIfPresent()
         value.knowledgeBase = try reader["KnowledgeBase"].readIfPresent()
         value.action = try reader["Action"].readIfPresent()
+        value.genericHTTPAction = try reader["GenericHTTPAction"].readIfPresent()
+        value.createAndUpdateGenericHTTPAction = try reader["CreateAndUpdateGenericHTTPAction"].readIfPresent()
+        value.shareGenericHTTPAction = try reader["ShareGenericHTTPAction"].readIfPresent()
+        value.useGenericHTTPAction = try reader["UseGenericHTTPAction"].readIfPresent()
+        value.asanaAction = try reader["AsanaAction"].readIfPresent()
+        value.createAndUpdateAsanaAction = try reader["CreateAndUpdateAsanaAction"].readIfPresent()
+        value.shareAsanaAction = try reader["ShareAsanaAction"].readIfPresent()
+        value.useAsanaAction = try reader["UseAsanaAction"].readIfPresent()
+        value.slackAction = try reader["SlackAction"].readIfPresent()
+        value.createAndUpdateSlackAction = try reader["CreateAndUpdateSlackAction"].readIfPresent()
+        value.shareSlackAction = try reader["ShareSlackAction"].readIfPresent()
+        value.useSlackAction = try reader["UseSlackAction"].readIfPresent()
+        value.serviceNowAction = try reader["ServiceNowAction"].readIfPresent()
+        value.createAndUpdateServiceNowAction = try reader["CreateAndUpdateServiceNowAction"].readIfPresent()
+        value.shareServiceNowAction = try reader["ShareServiceNowAction"].readIfPresent()
+        value.useServiceNowAction = try reader["UseServiceNowAction"].readIfPresent()
+        value.salesforceAction = try reader["SalesforceAction"].readIfPresent()
+        value.createAndUpdateSalesforceAction = try reader["CreateAndUpdateSalesforceAction"].readIfPresent()
+        value.shareSalesforceAction = try reader["ShareSalesforceAction"].readIfPresent()
+        value.useSalesforceAction = try reader["UseSalesforceAction"].readIfPresent()
+        value.msExchangeAction = try reader["MSExchangeAction"].readIfPresent()
+        value.createAndUpdateMSExchangeAction = try reader["CreateAndUpdateMSExchangeAction"].readIfPresent()
+        value.shareMSExchangeAction = try reader["ShareMSExchangeAction"].readIfPresent()
+        value.useMSExchangeAction = try reader["UseMSExchangeAction"].readIfPresent()
+        value.pagerDutyAction = try reader["PagerDutyAction"].readIfPresent()
+        value.createAndUpdatePagerDutyAction = try reader["CreateAndUpdatePagerDutyAction"].readIfPresent()
+        value.sharePagerDutyAction = try reader["SharePagerDutyAction"].readIfPresent()
+        value.usePagerDutyAction = try reader["UsePagerDutyAction"].readIfPresent()
+        value.jiraAction = try reader["JiraAction"].readIfPresent()
+        value.createAndUpdateJiraAction = try reader["CreateAndUpdateJiraAction"].readIfPresent()
+        value.shareJiraAction = try reader["ShareJiraAction"].readIfPresent()
+        value.useJiraAction = try reader["UseJiraAction"].readIfPresent()
+        value.confluenceAction = try reader["ConfluenceAction"].readIfPresent()
+        value.createAndUpdateConfluenceAction = try reader["CreateAndUpdateConfluenceAction"].readIfPresent()
+        value.shareConfluenceAction = try reader["ShareConfluenceAction"].readIfPresent()
+        value.useConfluenceAction = try reader["UseConfluenceAction"].readIfPresent()
+        value.oneDriveAction = try reader["OneDriveAction"].readIfPresent()
+        value.createAndUpdateOneDriveAction = try reader["CreateAndUpdateOneDriveAction"].readIfPresent()
+        value.shareOneDriveAction = try reader["ShareOneDriveAction"].readIfPresent()
+        value.useOneDriveAction = try reader["UseOneDriveAction"].readIfPresent()
+        value.sharePointAction = try reader["SharePointAction"].readIfPresent()
+        value.createAndUpdateSharePointAction = try reader["CreateAndUpdateSharePointAction"].readIfPresent()
+        value.shareSharePointAction = try reader["ShareSharePointAction"].readIfPresent()
+        value.useSharePointAction = try reader["UseSharePointAction"].readIfPresent()
+        value.msTeamsAction = try reader["MSTeamsAction"].readIfPresent()
+        value.createAndUpdateMSTeamsAction = try reader["CreateAndUpdateMSTeamsAction"].readIfPresent()
+        value.shareMSTeamsAction = try reader["ShareMSTeamsAction"].readIfPresent()
+        value.useMSTeamsAction = try reader["UseMSTeamsAction"].readIfPresent()
+        value.googleCalendarAction = try reader["GoogleCalendarAction"].readIfPresent()
+        value.createAndUpdateGoogleCalendarAction = try reader["CreateAndUpdateGoogleCalendarAction"].readIfPresent()
+        value.shareGoogleCalendarAction = try reader["ShareGoogleCalendarAction"].readIfPresent()
+        value.useGoogleCalendarAction = try reader["UseGoogleCalendarAction"].readIfPresent()
+        value.zendeskAction = try reader["ZendeskAction"].readIfPresent()
+        value.createAndUpdateZendeskAction = try reader["CreateAndUpdateZendeskAction"].readIfPresent()
+        value.shareZendeskAction = try reader["ShareZendeskAction"].readIfPresent()
+        value.useZendeskAction = try reader["UseZendeskAction"].readIfPresent()
+        value.smartsheetAction = try reader["SmartsheetAction"].readIfPresent()
+        value.createAndUpdateSmartsheetAction = try reader["CreateAndUpdateSmartsheetAction"].readIfPresent()
+        value.shareSmartsheetAction = try reader["ShareSmartsheetAction"].readIfPresent()
+        value.useSmartsheetAction = try reader["UseSmartsheetAction"].readIfPresent()
+        value.sapBusinessPartnerAction = try reader["SAPBusinessPartnerAction"].readIfPresent()
+        value.createAndUpdateSAPBusinessPartnerAction = try reader["CreateAndUpdateSAPBusinessPartnerAction"].readIfPresent()
+        value.shareSAPBusinessPartnerAction = try reader["ShareSAPBusinessPartnerAction"].readIfPresent()
+        value.useSAPBusinessPartnerAction = try reader["UseSAPBusinessPartnerAction"].readIfPresent()
+        value.sapProductMasterDataAction = try reader["SAPProductMasterDataAction"].readIfPresent()
+        value.createAndUpdateSAPProductMasterDataAction = try reader["CreateAndUpdateSAPProductMasterDataAction"].readIfPresent()
+        value.shareSAPProductMasterDataAction = try reader["ShareSAPProductMasterDataAction"].readIfPresent()
+        value.useSAPProductMasterDataAction = try reader["UseSAPProductMasterDataAction"].readIfPresent()
+        value.sapPhysicalInventoryAction = try reader["SAPPhysicalInventoryAction"].readIfPresent()
+        value.createAndUpdateSAPPhysicalInventoryAction = try reader["CreateAndUpdateSAPPhysicalInventoryAction"].readIfPresent()
+        value.shareSAPPhysicalInventoryAction = try reader["ShareSAPPhysicalInventoryAction"].readIfPresent()
+        value.useSAPPhysicalInventoryAction = try reader["UseSAPPhysicalInventoryAction"].readIfPresent()
+        value.sapBillOfMaterialAction = try reader["SAPBillOfMaterialAction"].readIfPresent()
+        value.createAndUpdateSAPBillOfMaterialAction = try reader["CreateAndUpdateSAPBillOfMaterialAction"].readIfPresent()
+        value.shareSAPBillOfMaterialAction = try reader["ShareSAPBillOfMaterialAction"].readIfPresent()
+        value.useSAPBillOfMaterialAction = try reader["UseSAPBillOfMaterialAction"].readIfPresent()
+        value.sapMaterialStockAction = try reader["SAPMaterialStockAction"].readIfPresent()
+        value.createAndUpdateSAPMaterialStockAction = try reader["CreateAndUpdateSAPMaterialStockAction"].readIfPresent()
+        value.shareSAPMaterialStockAction = try reader["ShareSAPMaterialStockAction"].readIfPresent()
+        value.useSAPMaterialStockAction = try reader["UseSAPMaterialStockAction"].readIfPresent()
+        value.factSetAction = try reader["FactSetAction"].readIfPresent()
+        value.createAndUpdateFactSetAction = try reader["CreateAndUpdateFactSetAction"].readIfPresent()
+        value.shareFactSetAction = try reader["ShareFactSetAction"].readIfPresent()
+        value.useFactSetAction = try reader["UseFactSetAction"].readIfPresent()
+        value.amazonSThreeAction = try reader["AmazonSThreeAction"].readIfPresent()
+        value.createAndUpdateAmazonSThreeAction = try reader["CreateAndUpdateAmazonSThreeAction"].readIfPresent()
+        value.shareAmazonSThreeAction = try reader["ShareAmazonSThreeAction"].readIfPresent()
+        value.useAmazonSThreeAction = try reader["UseAmazonSThreeAction"].readIfPresent()
+        value.textractAction = try reader["TextractAction"].readIfPresent()
+        value.createAndUpdateTextractAction = try reader["CreateAndUpdateTextractAction"].readIfPresent()
+        value.shareTextractAction = try reader["ShareTextractAction"].readIfPresent()
+        value.useTextractAction = try reader["UseTextractAction"].readIfPresent()
+        value.comprehendAction = try reader["ComprehendAction"].readIfPresent()
+        value.createAndUpdateComprehendAction = try reader["CreateAndUpdateComprehendAction"].readIfPresent()
+        value.shareComprehendAction = try reader["ShareComprehendAction"].readIfPresent()
+        value.useComprehendAction = try reader["UseComprehendAction"].readIfPresent()
+        value.comprehendMedicalAction = try reader["ComprehendMedicalAction"].readIfPresent()
+        value.createAndUpdateComprehendMedicalAction = try reader["CreateAndUpdateComprehendMedicalAction"].readIfPresent()
+        value.shareComprehendMedicalAction = try reader["ShareComprehendMedicalAction"].readIfPresent()
+        value.useComprehendMedicalAction = try reader["UseComprehendMedicalAction"].readIfPresent()
+        value.amazonBedrockARSAction = try reader["AmazonBedrockARSAction"].readIfPresent()
+        value.createAndUpdateAmazonBedrockARSAction = try reader["CreateAndUpdateAmazonBedrockARSAction"].readIfPresent()
+        value.shareAmazonBedrockARSAction = try reader["ShareAmazonBedrockARSAction"].readIfPresent()
+        value.useAmazonBedrockARSAction = try reader["UseAmazonBedrockARSAction"].readIfPresent()
+        value.amazonBedrockFSAction = try reader["AmazonBedrockFSAction"].readIfPresent()
+        value.createAndUpdateAmazonBedrockFSAction = try reader["CreateAndUpdateAmazonBedrockFSAction"].readIfPresent()
+        value.shareAmazonBedrockFSAction = try reader["ShareAmazonBedrockFSAction"].readIfPresent()
+        value.useAmazonBedrockFSAction = try reader["UseAmazonBedrockFSAction"].readIfPresent()
+        value.amazonBedrockKRSAction = try reader["AmazonBedrockKRSAction"].readIfPresent()
+        value.createAndUpdateAmazonBedrockKRSAction = try reader["CreateAndUpdateAmazonBedrockKRSAction"].readIfPresent()
+        value.shareAmazonBedrockKRSAction = try reader["ShareAmazonBedrockKRSAction"].readIfPresent()
+        value.useAmazonBedrockKRSAction = try reader["UseAmazonBedrockKRSAction"].readIfPresent()
+        value.mcpAction = try reader["MCPAction"].readIfPresent()
+        value.createAndUpdateMCPAction = try reader["CreateAndUpdateMCPAction"].readIfPresent()
+        value.shareMCPAction = try reader["ShareMCPAction"].readIfPresent()
+        value.useMCPAction = try reader["UseMCPAction"].readIfPresent()
+        value.openAPIAction = try reader["OpenAPIAction"].readIfPresent()
+        value.createAndUpdateOpenAPIAction = try reader["CreateAndUpdateOpenAPIAction"].readIfPresent()
+        value.shareOpenAPIAction = try reader["ShareOpenAPIAction"].readIfPresent()
+        value.useOpenAPIAction = try reader["UseOpenAPIAction"].readIfPresent()
+        value.sandPGMIAction = try reader["SandPGMIAction"].readIfPresent()
+        value.createAndUpdateSandPGMIAction = try reader["CreateAndUpdateSandPGMIAction"].readIfPresent()
+        value.shareSandPGMIAction = try reader["ShareSandPGMIAction"].readIfPresent()
+        value.useSandPGMIAction = try reader["UseSandPGMIAction"].readIfPresent()
+        value.sandPGlobalEnergyAction = try reader["SandPGlobalEnergyAction"].readIfPresent()
+        value.createAndUpdateSandPGlobalEnergyAction = try reader["CreateAndUpdateSandPGlobalEnergyAction"].readIfPresent()
+        value.shareSandPGlobalEnergyAction = try reader["ShareSandPGlobalEnergyAction"].readIfPresent()
+        value.useSandPGlobalEnergyAction = try reader["UseSandPGlobalEnergyAction"].readIfPresent()
+        value.bambooHRAction = try reader["BambooHRAction"].readIfPresent()
+        value.createAndUpdateBambooHRAction = try reader["CreateAndUpdateBambooHRAction"].readIfPresent()
+        value.shareBambooHRAction = try reader["ShareBambooHRAction"].readIfPresent()
+        value.useBambooHRAction = try reader["UseBambooHRAction"].readIfPresent()
+        value.boxAgentAction = try reader["BoxAgentAction"].readIfPresent()
+        value.createAndUpdateBoxAgentAction = try reader["CreateAndUpdateBoxAgentAction"].readIfPresent()
+        value.shareBoxAgentAction = try reader["ShareBoxAgentAction"].readIfPresent()
+        value.useBoxAgentAction = try reader["UseBoxAgentAction"].readIfPresent()
+        value.canvaAgentAction = try reader["CanvaAgentAction"].readIfPresent()
+        value.createAndUpdateCanvaAgentAction = try reader["CreateAndUpdateCanvaAgentAction"].readIfPresent()
+        value.shareCanvaAgentAction = try reader["ShareCanvaAgentAction"].readIfPresent()
+        value.useCanvaAgentAction = try reader["UseCanvaAgentAction"].readIfPresent()
+        value.githubAction = try reader["GithubAction"].readIfPresent()
+        value.createAndUpdateGithubAction = try reader["CreateAndUpdateGithubAction"].readIfPresent()
+        value.shareGithubAction = try reader["ShareGithubAction"].readIfPresent()
+        value.useGithubAction = try reader["UseGithubAction"].readIfPresent()
+        value.notionAction = try reader["NotionAction"].readIfPresent()
+        value.createAndUpdateNotionAction = try reader["CreateAndUpdateNotionAction"].readIfPresent()
+        value.shareNotionAction = try reader["ShareNotionAction"].readIfPresent()
+        value.useNotionAction = try reader["UseNotionAction"].readIfPresent()
+        value.linearAction = try reader["LinearAction"].readIfPresent()
+        value.createAndUpdateLinearAction = try reader["CreateAndUpdateLinearAction"].readIfPresent()
+        value.shareLinearAction = try reader["ShareLinearAction"].readIfPresent()
+        value.useLinearAction = try reader["UseLinearAction"].readIfPresent()
+        value.huggingFaceAction = try reader["HuggingFaceAction"].readIfPresent()
+        value.createAndUpdateHuggingFaceAction = try reader["CreateAndUpdateHuggingFaceAction"].readIfPresent()
+        value.shareHuggingFaceAction = try reader["ShareHuggingFaceAction"].readIfPresent()
+        value.useHuggingFaceAction = try reader["UseHuggingFaceAction"].readIfPresent()
+        value.mondayAction = try reader["MondayAction"].readIfPresent()
+        value.createAndUpdateMondayAction = try reader["CreateAndUpdateMondayAction"].readIfPresent()
+        value.shareMondayAction = try reader["ShareMondayAction"].readIfPresent()
+        value.useMondayAction = try reader["UseMondayAction"].readIfPresent()
+        value.hubspotAction = try reader["HubspotAction"].readIfPresent()
+        value.createAndUpdateHubspotAction = try reader["CreateAndUpdateHubspotAction"].readIfPresent()
+        value.shareHubspotAction = try reader["ShareHubspotAction"].readIfPresent()
+        value.useHubspotAction = try reader["UseHubspotAction"].readIfPresent()
+        value.intercomAction = try reader["IntercomAction"].readIfPresent()
+        value.createAndUpdateIntercomAction = try reader["CreateAndUpdateIntercomAction"].readIfPresent()
+        value.shareIntercomAction = try reader["ShareIntercomAction"].readIfPresent()
+        value.useIntercomAction = try reader["UseIntercomAction"].readIfPresent()
+        value.newRelicAction = try reader["NewRelicAction"].readIfPresent()
+        value.createAndUpdateNewRelicAction = try reader["CreateAndUpdateNewRelicAction"].readIfPresent()
+        value.shareNewRelicAction = try reader["ShareNewRelicAction"].readIfPresent()
+        value.useNewRelicAction = try reader["UseNewRelicAction"].readIfPresent()
         value.space = try reader["Space"].readIfPresent()
         value.chatAgent = try reader["ChatAgent"].readIfPresent()
         value.createChatAgents = try reader["CreateChatAgents"].readIfPresent()

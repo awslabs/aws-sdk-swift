@@ -549,6 +549,57 @@ public struct GetBrowserSessionInput: Swift.Sendable {
 
 extension BedrockAgentCoreClientTypes {
 
+    /// The Amazon S3 location configuration of a resource.
+    public struct S3Location: Swift.Sendable {
+        /// The name of the Amazon S3 bucket where the resource is stored.
+        /// This member is required.
+        public var bucket: Swift.String?
+        /// The name of the Amazon S3 prefix/key where the resource is stored.
+        /// This member is required.
+        public var `prefix`: Swift.String?
+        /// The name of the Amazon S3 version ID where the resource is stored (Optional).
+        public var versionId: Swift.String?
+
+        public init(
+            bucket: Swift.String? = nil,
+            `prefix`: Swift.String? = nil,
+            versionId: Swift.String? = nil
+        ) {
+            self.bucket = bucket
+            self.`prefix` = `prefix`
+            self.versionId = versionId
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// The location of the browser extension.
+    public enum ResourceLocation: Swift.Sendable {
+        /// The Amazon S3 location of the resource. Use this when the resource is stored in an Amazon S3 bucket.
+        case s3(BedrockAgentCoreClientTypes.S3Location)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// Browser extension configuration.
+    public struct BrowserExtension: Swift.Sendable {
+        /// The location where the browser extension files are stored. This specifies the source from which the extension will be loaded and installed.
+        /// This member is required.
+        public var location: BedrockAgentCoreClientTypes.ResourceLocation?
+
+        public init(
+            location: BedrockAgentCoreClientTypes.ResourceLocation? = nil
+        ) {
+            self.location = location
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
     public enum BrowserSessionStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case ready
         case terminated
@@ -689,6 +740,8 @@ public struct GetBrowserSessionOutput: Swift.Sendable {
     /// The time at which the browser session was created.
     /// This member is required.
     public var createdAt: Foundation.Date?
+    /// The list of browser extensions that are configured in the browser session.
+    public var extensions: [BedrockAgentCoreClientTypes.BrowserExtension]?
     /// The time at which the browser session was last updated.
     public var lastUpdatedAt: Foundation.Date?
     /// The name of the browser session.
@@ -710,6 +763,7 @@ public struct GetBrowserSessionOutput: Swift.Sendable {
     public init(
         browserIdentifier: Swift.String? = nil,
         createdAt: Foundation.Date? = nil,
+        extensions: [BedrockAgentCoreClientTypes.BrowserExtension]? = nil,
         lastUpdatedAt: Foundation.Date? = nil,
         name: Swift.String? = nil,
         sessionId: Swift.String? = nil,
@@ -721,6 +775,7 @@ public struct GetBrowserSessionOutput: Swift.Sendable {
     ) {
         self.browserIdentifier = browserIdentifier
         self.createdAt = createdAt
+        self.extensions = extensions
         self.lastUpdatedAt = lastUpdatedAt
         self.name = name
         self.sessionId = sessionId
@@ -817,6 +872,8 @@ public struct StartBrowserSessionInput: Swift.Sendable {
     public var browserIdentifier: Swift.String?
     /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. This parameter helps prevent the creation of duplicate sessions if there are temporary network issues.
     public var clientToken: Swift.String?
+    /// A list of browser extensions to load into the browser session.
+    public var extensions: [BedrockAgentCoreClientTypes.BrowserExtension]?
     /// The name of the browser session. This name helps you identify and manage the session. The name does not need to be unique.
     public var name: Swift.String?
     /// The time in seconds after which the session automatically terminates if there is no activity. The default value is 3600 seconds (1 hour). The minimum allowed value is 60 seconds, and the maximum allowed value is 28800 seconds (8 hours).
@@ -831,6 +888,7 @@ public struct StartBrowserSessionInput: Swift.Sendable {
     public init(
         browserIdentifier: Swift.String? = nil,
         clientToken: Swift.String? = nil,
+        extensions: [BedrockAgentCoreClientTypes.BrowserExtension]? = nil,
         name: Swift.String? = nil,
         sessionTimeoutSeconds: Swift.Int? = nil,
         traceId: Swift.String? = nil,
@@ -839,6 +897,7 @@ public struct StartBrowserSessionInput: Swift.Sendable {
     ) {
         self.browserIdentifier = browserIdentifier
         self.clientToken = clientToken
+        self.extensions = extensions
         self.name = name
         self.sessionTimeoutSeconds = sessionTimeoutSeconds
         self.traceId = traceId
@@ -2554,6 +2613,30 @@ public struct InvalidInputException: ClientRuntime.ModeledError, AWSClientRuntim
     public static var typeName: Swift.String { "InvalidInputException" }
     public static var fault: ClientRuntime.ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    ) {
+        self.properties.message = message
+    }
+}
+
+/// The exception that occurs when there is a retryable conflict performing an operation. This is a temporary condition that may resolve itself with retries. We recommend implementing exponential backoff retry logic in your application.
+public struct RetryableConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "RetryableConflictException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { true }
     public static var isThrottling: Swift.Bool { false }
     public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
     public internal(set) var message: Swift.String?
@@ -4453,6 +4536,7 @@ extension StartBrowserSessionInput {
     static func write(value: StartBrowserSessionInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["clientToken"].write(value.clientToken)
+        try writer["extensions"].writeList(value.extensions, memberWritingClosure: BedrockAgentCoreClientTypes.BrowserExtension.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["name"].write(value.name)
         try writer["sessionTimeoutSeconds"].write(value.sessionTimeoutSeconds)
         try writer["viewPort"].write(value.viewPort, with: BedrockAgentCoreClientTypes.ViewPort.write(value:to:))
@@ -4629,6 +4713,7 @@ extension GetBrowserSessionOutput {
         var value = GetBrowserSessionOutput()
         value.browserIdentifier = try reader["browserIdentifier"].readIfPresent() ?? ""
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.extensions = try reader["extensions"].readListIfPresent(memberReadingClosure: BedrockAgentCoreClientTypes.BrowserExtension.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.name = try reader["name"].readIfPresent()
         value.sessionId = try reader["sessionId"].readIfPresent() ?? ""
@@ -5089,6 +5174,7 @@ enum CreateEventOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "RetryableConflictException": return try RetryableConflictException.makeError(baseError: baseError)
             case "ServiceException": return try ServiceException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottledException": return try ThrottledException.makeError(baseError: baseError)
@@ -5819,6 +5905,19 @@ extension InvalidInputException {
     }
 }
 
+extension RetryableConflictException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> RetryableConflictException {
+        let reader = baseError.errorBodyReader
+        var value = RetryableConflictException()
+        value.properties.message = try reader["message"].readIfPresent() ?? ""
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
 extension ConflictException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
@@ -6122,6 +6221,64 @@ extension BedrockAgentCoreClientTypes.ViewPort {
         var value = BedrockAgentCoreClientTypes.ViewPort()
         value.width = try reader["width"].readIfPresent() ?? 0
         value.height = try reader["height"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension BedrockAgentCoreClientTypes.BrowserExtension {
+
+    static func write(value: BedrockAgentCoreClientTypes.BrowserExtension?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["location"].write(value.location, with: BedrockAgentCoreClientTypes.ResourceLocation.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.BrowserExtension {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreClientTypes.BrowserExtension()
+        value.location = try reader["location"].readIfPresent(with: BedrockAgentCoreClientTypes.ResourceLocation.read(from:))
+        return value
+    }
+}
+
+extension BedrockAgentCoreClientTypes.ResourceLocation {
+
+    static func write(value: BedrockAgentCoreClientTypes.ResourceLocation?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .s3(s3):
+                try writer["s3"].write(s3, with: BedrockAgentCoreClientTypes.S3Location.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.ResourceLocation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "s3":
+                return .s3(try reader["s3"].read(with: BedrockAgentCoreClientTypes.S3Location.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes.S3Location {
+
+    static func write(value: BedrockAgentCoreClientTypes.S3Location?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["bucket"].write(value.bucket)
+        try writer["prefix"].write(value.`prefix`)
+        try writer["versionId"].write(value.versionId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.S3Location {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreClientTypes.S3Location()
+        value.bucket = try reader["bucket"].readIfPresent() ?? ""
+        value.`prefix` = try reader["prefix"].readIfPresent() ?? ""
+        value.versionId = try reader["versionId"].readIfPresent()
         return value
     }
 }

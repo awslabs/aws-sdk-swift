@@ -2575,6 +2575,36 @@ extension BedrockRuntimeClientTypes.AudioBlock: Swift.CustomDebugStringConvertib
 
 extension BedrockRuntimeClientTypes {
 
+    /// Time-to-live duration for ephemeral cache entries
+    public enum CacheTTL: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case fiveMinutes
+        case oneHour
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CacheTTL] {
+            return [
+                .fiveMinutes,
+                .oneHour
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .fiveMinutes: return "5m"
+            case .oneHour: return "1h"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension BedrockRuntimeClientTypes {
+
     public enum CachePointType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case `default`
         case sdkUnknown(Swift.String)
@@ -2603,13 +2633,17 @@ extension BedrockRuntimeClientTypes {
 
     /// Defines a section of content to be cached for reuse in subsequent API calls.
     public struct CachePointBlock: Swift.Sendable {
+        /// Optional TTL duration for cache entries. When specified, enables extended TTL caching with the specified duration. When omitted, uses type value for caching behavior.
+        public var ttl: BedrockRuntimeClientTypes.CacheTTL?
         /// Specifies the type of cache point within the CachePointBlock.
         /// This member is required.
         public var type: BedrockRuntimeClientTypes.CachePointType?
 
         public init(
+            ttl: BedrockRuntimeClientTypes.CacheTTL? = nil,
             type: BedrockRuntimeClientTypes.CachePointType? = nil
         ) {
+            self.ttl = ttl
             self.type = type
         }
     }
@@ -4011,8 +4045,31 @@ extension BedrockRuntimeClientTypes {
 
 extension BedrockRuntimeClientTypes {
 
+    /// Cache creation metrics for a specific TTL duration
+    public struct CacheDetail: Swift.Sendable {
+        /// Number of tokens written to cache with this TTL (cache creation tokens)
+        /// This member is required.
+        public var inputTokens: Swift.Int?
+        /// TTL duration for these cached tokens
+        /// This member is required.
+        public var ttl: BedrockRuntimeClientTypes.CacheTTL?
+
+        public init(
+            inputTokens: Swift.Int? = nil,
+            ttl: BedrockRuntimeClientTypes.CacheTTL? = nil
+        ) {
+            self.inputTokens = inputTokens
+            self.ttl = ttl
+        }
+    }
+}
+
+extension BedrockRuntimeClientTypes {
+
     /// The tokens used in a message API inference call.
     public struct TokenUsage: Swift.Sendable {
+        /// Detailed breakdown of cache writes by TTL. Empty if no cache creation occurred. Sorted by TTL duration (1h before 5m).
+        public var cacheDetails: [BedrockRuntimeClientTypes.CacheDetail]?
         /// The number of input tokens read from the cache for the request.
         public var cacheReadInputTokens: Swift.Int?
         /// The number of input tokens written to the cache for the request.
@@ -4028,12 +4085,14 @@ extension BedrockRuntimeClientTypes {
         public var totalTokens: Swift.Int?
 
         public init(
+            cacheDetails: [BedrockRuntimeClientTypes.CacheDetail]? = nil,
             cacheReadInputTokens: Swift.Int? = nil,
             cacheWriteInputTokens: Swift.Int? = nil,
             inputTokens: Swift.Int? = nil,
             outputTokens: Swift.Int? = nil,
             totalTokens: Swift.Int? = nil
         ) {
+            self.cacheDetails = cacheDetails
             self.cacheReadInputTokens = cacheReadInputTokens
             self.cacheWriteInputTokens = cacheWriteInputTokens
             self.inputTokens = inputTokens
@@ -6930,6 +6989,7 @@ extension BedrockRuntimeClientTypes.CachePointBlock {
 
     static func write(value: BedrockRuntimeClientTypes.CachePointBlock?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["ttl"].write(value.ttl)
         try writer["type"].write(value.type)
     }
 
@@ -6937,6 +6997,7 @@ extension BedrockRuntimeClientTypes.CachePointBlock {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BedrockRuntimeClientTypes.CachePointBlock()
         value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.ttl = try reader["ttl"].readIfPresent()
         return value
     }
 }
@@ -7377,6 +7438,18 @@ extension BedrockRuntimeClientTypes.TokenUsage {
         value.totalTokens = try reader["totalTokens"].readIfPresent() ?? 0
         value.cacheReadInputTokens = try reader["cacheReadInputTokens"].readIfPresent()
         value.cacheWriteInputTokens = try reader["cacheWriteInputTokens"].readIfPresent()
+        value.cacheDetails = try reader["cacheDetails"].readListIfPresent(memberReadingClosure: BedrockRuntimeClientTypes.CacheDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension BedrockRuntimeClientTypes.CacheDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockRuntimeClientTypes.CacheDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockRuntimeClientTypes.CacheDetail()
+        value.ttl = try reader["ttl"].readIfPresent() ?? .sdkUnknown("")
+        value.inputTokens = try reader["inputTokens"].readIfPresent() ?? 0
         return value
     }
 }

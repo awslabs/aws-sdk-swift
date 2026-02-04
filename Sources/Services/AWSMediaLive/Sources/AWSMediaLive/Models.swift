@@ -16131,6 +16131,36 @@ extension MediaLiveClientTypes {
 
 extension MediaLiveClientTypes {
 
+    /// Av1 Timecode Insertion Behavior
+    public enum Av1TimecodeInsertionBehavior: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case disabled
+        case metadataObu
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Av1TimecodeInsertionBehavior] {
+            return [
+                .disabled,
+                .metadataObu
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .metadataObu: return "METADATA_OBU"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
     /// Av1 Settings
     public struct Av1Settings: Swift.Sendable {
         /// Configures whether MediaLive will write AFD values into the video. AUTO: MediaLive will try to preserve the input AFD value (in cases where multiple AFD values are valid). FIXED: the AFD value will be the value configured in the fixedAfd parameter. NONE: MediaLive won't write AFD into the video
@@ -16179,6 +16209,8 @@ extension MediaLiveClientTypes {
         public var temporalAq: MediaLiveClientTypes.Av1TemporalAq?
         /// Configures the timecode burn-in feature. If you enable this feature, the timecode will become part of the video.
         public var timecodeBurninSettings: MediaLiveClientTypes.TimecodeBurninSettings?
+        /// Controls how MediaLive inserts timecodes into the video output encode. DISABLED: Do not insert timecodes. METADATA_OBU: Include timecodes. MediaLive inserts timecode metadata based on the timecode from the source specified in the Timecode Config property. The timecode metadata is a metadata OBU (Open Bitstream Unit) of type METADATA_TYPE_TIMECODE, in accordance with https://aomediacodec.github.io/av1-spec/#metadata-timecode-syntax.
+        public var timecodeInsertion: MediaLiveClientTypes.Av1TimecodeInsertionBehavior?
 
         public init(
             afdSignaling: MediaLiveClientTypes.AfdSignaling? = nil,
@@ -16202,7 +16234,8 @@ extension MediaLiveClientTypes {
             sceneChangeDetect: MediaLiveClientTypes.Av1SceneChangeDetect? = nil,
             spatialAq: MediaLiveClientTypes.Av1SpatialAq? = nil,
             temporalAq: MediaLiveClientTypes.Av1TemporalAq? = nil,
-            timecodeBurninSettings: MediaLiveClientTypes.TimecodeBurninSettings? = nil
+            timecodeBurninSettings: MediaLiveClientTypes.TimecodeBurninSettings? = nil,
+            timecodeInsertion: MediaLiveClientTypes.Av1TimecodeInsertionBehavior? = nil
         ) {
             self.afdSignaling = afdSignaling
             self.bitrate = bitrate
@@ -16226,6 +16259,7 @@ extension MediaLiveClientTypes {
             self.spatialAq = spatialAq
             self.temporalAq = temporalAq
             self.timecodeBurninSettings = timecodeBurninSettings
+            self.timecodeInsertion = timecodeInsertion
         }
     }
 }
@@ -20025,6 +20059,21 @@ extension MediaLiveClientTypes {
 
 extension MediaLiveClientTypes {
 
+    /// Disabled Locking Settings
+    public struct DisabledLockingSettings: Swift.Sendable {
+        /// Optional. Only applies to CMAF Ingest Output Group and MediaPackage V2 Output Group. Enter a value here to use a custom epoch, instead of the standard epoch (which started at 1970-01-01T00:00:00 UTC). Specify the start time of the custom epoch, in YYYY-MM-DDTHH:MM:SS in UTC. The time must be 2000-01-01T00:00:00 or later. Always set the MM:SS portion to 00:00.
+        public var customEpoch: Swift.String?
+
+        public init(
+            customEpoch: Swift.String? = nil
+        ) {
+            self.customEpoch = customEpoch
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
     /// Epoch Locking Settings
     public struct EpochLockingSettings: Swift.Sendable {
         /// Optional. Enter a value here to use a custom epoch, instead of the standard epoch (which started at 1970-01-01T00:00:00 UTC). Specify the start time of the custom epoch, in YYYY-MM-DDTHH:MM:SS in UTC. The time must be 2000-01-01T00:00:00 or later. Always set the MM:SS portion to 00:00.
@@ -20076,12 +20125,16 @@ extension MediaLiveClientTypes {
 
     /// Pipeline Locking Settings
     public struct PipelineLockingSettings: Swift.Sendable {
+        /// Optional. Only applies to CMAF Ingest Output Group and MediaPackage V2 Output Group Only. Enter a value here to use a custom epoch, instead of the standard epoch (which started at 1970-01-01T00:00:00 UTC). Specify the start time of the custom epoch, in YYYY-MM-DDTHH:MM:SS in UTC. The time must be 2000-01-01T00:00:00 or later. Always set the MM:SS portion to 00:00.
+        public var customEpoch: Swift.String?
         /// The method to use to lock the video frames in the pipelines. sourceTimecode (default): Use the timecode in the source. videoAlignment: Lock frames that the encoder identifies as having matching content. If videoAlignment is selected, existing timecodes will not be used for any locking decisions.
         public var pipelineLockingMethod: MediaLiveClientTypes.PipelineLockingMethod?
 
         public init(
+            customEpoch: Swift.String? = nil,
             pipelineLockingMethod: MediaLiveClientTypes.PipelineLockingMethod? = nil
         ) {
+            self.customEpoch = customEpoch
             self.pipelineLockingMethod = pipelineLockingMethod
         }
     }
@@ -20091,15 +20144,19 @@ extension MediaLiveClientTypes {
 
     /// Output Locking Settings
     public struct OutputLockingSettings: Swift.Sendable {
+        /// Disabled Locking Settings
+        public var disabledLockingSettings: MediaLiveClientTypes.DisabledLockingSettings?
         /// Epoch Locking Settings
         public var epochLockingSettings: MediaLiveClientTypes.EpochLockingSettings?
         /// Pipeline Locking Settings
         public var pipelineLockingSettings: MediaLiveClientTypes.PipelineLockingSettings?
 
         public init(
+            disabledLockingSettings: MediaLiveClientTypes.DisabledLockingSettings? = nil,
             epochLockingSettings: MediaLiveClientTypes.EpochLockingSettings? = nil,
             pipelineLockingSettings: MediaLiveClientTypes.PipelineLockingSettings? = nil
         ) {
+            self.disabledLockingSettings = disabledLockingSettings
             self.epochLockingSettings = epochLockingSettings
             self.pipelineLockingSettings = pipelineLockingSettings
         }
@@ -36116,6 +36173,7 @@ extension MediaLiveClientTypes.Av1Settings {
         try writer["spatialAq"].write(value.spatialAq)
         try writer["temporalAq"].write(value.temporalAq)
         try writer["timecodeBurninSettings"].write(value.timecodeBurninSettings, with: MediaLiveClientTypes.TimecodeBurninSettings.write(value:to:))
+        try writer["timecodeInsertion"].write(value.timecodeInsertion)
     }
 
     static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.Av1Settings {
@@ -36143,6 +36201,7 @@ extension MediaLiveClientTypes.Av1Settings {
         value.minBitrate = try reader["minBitrate"].readIfPresent()
         value.spatialAq = try reader["spatialAq"].readIfPresent()
         value.temporalAq = try reader["temporalAq"].readIfPresent()
+        value.timecodeInsertion = try reader["timecodeInsertion"].readIfPresent()
         return value
     }
 }
@@ -38158,6 +38217,7 @@ extension MediaLiveClientTypes.OutputLockingSettings {
 
     static func write(value: MediaLiveClientTypes.OutputLockingSettings?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["disabledLockingSettings"].write(value.disabledLockingSettings, with: MediaLiveClientTypes.DisabledLockingSettings.write(value:to:))
         try writer["epochLockingSettings"].write(value.epochLockingSettings, with: MediaLiveClientTypes.EpochLockingSettings.write(value:to:))
         try writer["pipelineLockingSettings"].write(value.pipelineLockingSettings, with: MediaLiveClientTypes.PipelineLockingSettings.write(value:to:))
     }
@@ -38167,6 +38227,22 @@ extension MediaLiveClientTypes.OutputLockingSettings {
         var value = MediaLiveClientTypes.OutputLockingSettings()
         value.epochLockingSettings = try reader["epochLockingSettings"].readIfPresent(with: MediaLiveClientTypes.EpochLockingSettings.read(from:))
         value.pipelineLockingSettings = try reader["pipelineLockingSettings"].readIfPresent(with: MediaLiveClientTypes.PipelineLockingSettings.read(from:))
+        value.disabledLockingSettings = try reader["disabledLockingSettings"].readIfPresent(with: MediaLiveClientTypes.DisabledLockingSettings.read(from:))
+        return value
+    }
+}
+
+extension MediaLiveClientTypes.DisabledLockingSettings {
+
+    static func write(value: MediaLiveClientTypes.DisabledLockingSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["customEpoch"].write(value.customEpoch)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaLiveClientTypes.DisabledLockingSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaLiveClientTypes.DisabledLockingSettings()
+        value.customEpoch = try reader["customEpoch"].readIfPresent()
         return value
     }
 }
@@ -38175,6 +38251,7 @@ extension MediaLiveClientTypes.PipelineLockingSettings {
 
     static func write(value: MediaLiveClientTypes.PipelineLockingSettings?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["customEpoch"].write(value.customEpoch)
         try writer["pipelineLockingMethod"].write(value.pipelineLockingMethod)
     }
 
@@ -38182,6 +38259,7 @@ extension MediaLiveClientTypes.PipelineLockingSettings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = MediaLiveClientTypes.PipelineLockingSettings()
         value.pipelineLockingMethod = try reader["pipelineLockingMethod"].readIfPresent()
+        value.customEpoch = try reader["customEpoch"].readIfPresent()
         return value
     }
 }

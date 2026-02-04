@@ -68,7 +68,7 @@ object AWSClientRuntimeTypes {
 
 private fun runtimeSymbol(
     name: String,
-    declaration: SwiftDeclaration,
+    declaration: SwiftDeclaration?,
     spiNames: List<String> = emptyList(),
 ): Symbol =
     SwiftSymbol.make(

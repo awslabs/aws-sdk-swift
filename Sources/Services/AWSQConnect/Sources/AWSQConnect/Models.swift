@@ -630,6 +630,12 @@ extension QConnectClientTypes {
     }
 }
 
+extension QConnectClientTypes.Annotation: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
 extension QConnectClientTypes {
 
     /// Instructions for using a tool.
@@ -646,6 +652,12 @@ extension QConnectClientTypes {
             self.examples = examples
             self.instruction = instruction
         }
+    }
+}
+
+extension QConnectClientTypes.ToolInstruction: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
     }
 }
 
@@ -883,6 +895,11 @@ extension QConnectClientTypes {
             self.userInteractionConfiguration = userInteractionConfiguration
         }
     }
+}
+
+extension QConnectClientTypes.ToolConfiguration: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ToolConfiguration(toolId: \(Swift.String(describing: toolId)), toolName: \(Swift.String(describing: toolName)), toolType: \(Swift.String(describing: toolType)), userInteractionConfiguration: \(Swift.String(describing: userInteractionConfiguration)), annotations: \"CONTENT_REDACTED\", description: \"CONTENT_REDACTED\", inputSchema: \"CONTENT_REDACTED\", instruction: \"CONTENT_REDACTED\", outputFilters: \"CONTENT_REDACTED\", outputSchema: \"CONTENT_REDACTED\", overrideInputValues: \"CONTENT_REDACTED\", title: \"CONTENT_REDACTED\")"}
 }
 
 extension QConnectClientTypes {
@@ -4377,6 +4394,11 @@ extension QConnectClientTypes {
     }
 }
 
+extension QConnectClientTypes.CaseSummarizationChunkDataDetails: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CaseSummarizationChunkDataDetails(nextChunkToken: \(Swift.String(describing: nextChunkToken)), completion: \"CONTENT_REDACTED\")"}
+}
+
 extension QConnectClientTypes {
 
     public enum RelevanceLevel: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
@@ -5240,12 +5262,14 @@ extension QConnectClientTypes {
 extension QConnectClientTypes {
 
     public enum TargetType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case message
         case recommendation
         case result
         case sdkUnknown(Swift.String)
 
         public static var allCases: [TargetType] {
             return [
+                .message,
                 .recommendation,
                 .result
             ]
@@ -5258,6 +5282,7 @@ extension QConnectClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .message: return "MESSAGE"
             case .recommendation: return "RECOMMENDATION"
             case .result: return "RESULT"
             case let .sdkUnknown(s): return s
@@ -5684,6 +5709,11 @@ extension QConnectClientTypes {
             self.value = value
         }
     }
+}
+
+extension QConnectClientTypes.FilterAttribute: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "FilterAttribute(key: \(Swift.String(describing: key)), value: \"CONTENT_REDACTED\")"}
 }
 
 extension QConnectClientTypes {
@@ -6336,6 +6366,11 @@ extension QConnectClientTypes {
     }
 }
 
+extension QConnectClientTypes.ToolUseResultData: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ToolUseResultData(toolName: \(Swift.String(describing: toolName)), toolUseId: \(Swift.String(describing: toolUseId)), inputSchema: \"CONTENT_REDACTED\", toolResult: \"CONTENT_REDACTED\")"}
+}
+
 extension QConnectClientTypes {
 
     /// The message data.
@@ -6656,6 +6691,11 @@ extension QConnectClientTypes {
             self.toolUseId = toolUseId
         }
     }
+}
+
+extension QConnectClientTypes.SpanToolUseValue: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "SpanToolUseValue(name: \(Swift.String(describing: name)), toolUseId: \(Swift.String(describing: toolUseId)), arguments: \"CONTENT_REDACTED\")"}
 }
 
 extension QConnectClientTypes {
@@ -7014,19 +7054,19 @@ public struct UpdateAssistantAIAgentInput: Swift.Sendable {
     /// The configuration of the AI Agent being updated for use by default on the Amazon Q in Connect Assistant.
     /// This member is required.
     public var configuration: QConnectClientTypes.AIAgentConfigurationData?
-    /// The updated list of orchestrator configurations for the assistant AI Agent.
-    public var orchestratorConfigurationList: [QConnectClientTypes.OrchestratorConfigurationEntry]?
+    /// The orchestrator use case for the AI Agent being added.
+    public var orchestratorUseCase: Swift.String?
 
     public init(
         aiAgentType: QConnectClientTypes.AIAgentType? = nil,
         assistantId: Swift.String? = nil,
         configuration: QConnectClientTypes.AIAgentConfigurationData? = nil,
-        orchestratorConfigurationList: [QConnectClientTypes.OrchestratorConfigurationEntry]? = nil
+        orchestratorUseCase: Swift.String? = nil
     ) {
         self.aiAgentType = aiAgentType
         self.assistantId = assistantId
         self.configuration = configuration
-        self.orchestratorConfigurationList = orchestratorConfigurationList
+        self.orchestratorUseCase = orchestratorUseCase
     }
 }
 
@@ -14935,7 +14975,7 @@ extension UpdateAssistantAIAgentInput {
         guard let value else { return }
         try writer["aiAgentType"].write(value.aiAgentType)
         try writer["configuration"].write(value.configuration, with: QConnectClientTypes.AIAgentConfigurationData.write(value:to:))
-        try writer["orchestratorConfigurationList"].writeList(value.orchestratorConfigurationList, memberWritingClosure: QConnectClientTypes.OrchestratorConfigurationEntry.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["orchestratorUseCase"].write(value.orchestratorUseCase)
     }
 }
 

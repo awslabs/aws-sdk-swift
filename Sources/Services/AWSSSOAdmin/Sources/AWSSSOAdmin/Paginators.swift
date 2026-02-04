@@ -492,6 +492,37 @@ extension PaginatorSequence where OperationStackInput == ListPermissionSetsProvi
     }
 }
 extension SSOAdminClient {
+    /// Paginate over `[ListRegionsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListRegionsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListRegionsOutput`
+    public func listRegionsPaginated(input: ListRegionsInput) -> ClientRuntime.PaginatorSequence<ListRegionsInput, ListRegionsOutput> {
+        return ClientRuntime.PaginatorSequence<ListRegionsInput, ListRegionsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listRegions(input:))
+    }
+}
+
+extension ListRegionsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListRegionsInput {
+        return ListRegionsInput(
+            instanceArn: self.instanceArn,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListRegionsInput, OperationStackOutput == ListRegionsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listRegionsPaginated`
+    /// to access the nested member `[SSOAdminClientTypes.RegionMetadata]`
+    /// - Returns: `[SSOAdminClientTypes.RegionMetadata]`
+    public func regions() async throws -> [SSOAdminClientTypes.RegionMetadata] {
+        return try await self.asyncCompactMap { item in item.regions }
+    }
+}
+extension SSOAdminClient {
     /// Paginate over `[ListTagsForResourceOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
