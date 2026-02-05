@@ -1431,13 +1431,17 @@ public struct SearchCasesOutput: Swift.Sendable {
     public var cases: [ConnectCasesClientTypes.SearchCasesResponseItem?]?
     /// The token for the next set of results. This is null if there are no more results to return.
     public var nextToken: Swift.String?
+    /// The total number of cases that matched the search criteria.
+    public var totalCount: Swift.Int
 
     public init(
         cases: [ConnectCasesClientTypes.SearchCasesResponseItem?]? = nil,
-        nextToken: Swift.String? = nil
+        nextToken: Swift.String? = nil,
+        totalCount: Swift.Int = 0
     ) {
         self.cases = cases
         self.nextToken = nextToken
+        self.totalCount = totalCount
     }
 }
 
@@ -2437,6 +2441,32 @@ extension ConnectCasesClientTypes {
 
 extension ConnectCasesClientTypes {
 
+    /// Field attributes for Text field type.
+    public struct TextAttributes: Swift.Sendable {
+        /// Attribute that defines rendering component and validation.
+        /// This member is required.
+        public var isMultiline: Swift.Bool?
+
+        public init(
+            isMultiline: Swift.Bool? = nil
+        ) {
+            self.isMultiline = isMultiline
+        }
+    }
+}
+
+extension ConnectCasesClientTypes {
+
+    /// Union of field attributes.
+    public enum FieldAttributes: Swift.Sendable {
+        /// Field attributes for Text field type.
+        case text(ConnectCasesClientTypes.TextAttributes)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension ConnectCasesClientTypes {
+
     public enum FieldNamespace: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case custom
         case system
@@ -2512,6 +2542,8 @@ extension ConnectCasesClientTypes {
 
     /// Object to store detailed field information.
     public struct GetFieldResponse: Swift.Sendable {
+        /// Union of field attributes.
+        public var attributes: ConnectCasesClientTypes.FieldAttributes?
         /// Timestamp at which the resource was created.
         public var createdTime: Foundation.Date?
         /// Denotes whether or not the resource has been deleted.
@@ -2539,6 +2571,7 @@ extension ConnectCasesClientTypes {
         public var type: ConnectCasesClientTypes.FieldType?
 
         public init(
+            attributes: ConnectCasesClientTypes.FieldAttributes? = nil,
             createdTime: Foundation.Date? = nil,
             deleted: Swift.Bool = false,
             description: Swift.String? = nil,
@@ -2550,6 +2583,7 @@ extension ConnectCasesClientTypes {
             tags: [Swift.String: Swift.String?]? = nil,
             type: ConnectCasesClientTypes.FieldType? = nil
         ) {
+            self.attributes = attributes
             self.createdTime = createdTime
             self.deleted = deleted
             self.description = description
@@ -2667,6 +2701,8 @@ public struct BatchPutFieldOptionsOutput: Swift.Sendable {
 }
 
 public struct CreateFieldInput: Swift.Sendable {
+    /// Union of field attributes.
+    public var attributes: ConnectCasesClientTypes.FieldAttributes?
     /// The description of the field.
     public var description: Swift.String?
     /// The unique identifier of the Cases domain.
@@ -2680,11 +2716,13 @@ public struct CreateFieldInput: Swift.Sendable {
     public var type: ConnectCasesClientTypes.FieldType?
 
     public init(
+        attributes: ConnectCasesClientTypes.FieldAttributes? = nil,
         description: Swift.String? = nil,
         domainId: Swift.String? = nil,
         name: Swift.String? = nil,
         type: ConnectCasesClientTypes.FieldType? = nil
     ) {
+        self.attributes = attributes
         self.description = description
         self.domainId = domainId
         self.name = name
@@ -2800,6 +2838,8 @@ extension ConnectCasesClientTypes {
 
     /// Object for the summarized details of the field.
     public struct FieldSummary: Swift.Sendable {
+        /// Union of field attributes.
+        public var attributes: ConnectCasesClientTypes.FieldAttributes?
         /// The Amazon Resource Name (ARN) of the field.
         /// This member is required.
         public var fieldArn: Swift.String?
@@ -2817,12 +2857,14 @@ extension ConnectCasesClientTypes {
         public var type: ConnectCasesClientTypes.FieldType?
 
         public init(
+            attributes: ConnectCasesClientTypes.FieldAttributes? = nil,
             fieldArn: Swift.String? = nil,
             fieldId: Swift.String? = nil,
             name: Swift.String? = nil,
             namespace: ConnectCasesClientTypes.FieldNamespace? = nil,
             type: ConnectCasesClientTypes.FieldType? = nil
         ) {
+            self.attributes = attributes
             self.fieldArn = fieldArn
             self.fieldId = fieldId
             self.name = name
@@ -2849,6 +2891,8 @@ public struct ListFieldsOutput: Swift.Sendable {
 }
 
 public struct UpdateFieldInput: Swift.Sendable {
+    /// Union of field attributes.
+    public var attributes: ConnectCasesClientTypes.FieldAttributes?
     /// The description of a field.
     public var description: Swift.String?
     /// The unique identifier of the Cases domain.
@@ -2861,11 +2905,13 @@ public struct UpdateFieldInput: Swift.Sendable {
     public var name: Swift.String?
 
     public init(
+        attributes: ConnectCasesClientTypes.FieldAttributes? = nil,
         description: Swift.String? = nil,
         domainId: Swift.String? = nil,
         fieldId: Swift.String? = nil,
         name: Swift.String? = nil
     ) {
+        self.attributes = attributes
         self.description = description
         self.domainId = domainId
         self.fieldId = fieldId
@@ -4469,6 +4515,7 @@ extension CreateFieldInput {
 
     static func write(value: CreateFieldInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["attributes"].write(value.attributes, with: ConnectCasesClientTypes.FieldAttributes.write(value:to:))
         try writer["description"].write(value.description)
         try writer["name"].write(value.name)
         try writer["type"].write(value.type)
@@ -4609,6 +4656,7 @@ extension UpdateFieldInput {
 
     static func write(value: UpdateFieldInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["attributes"].write(value.attributes, with: ConnectCasesClientTypes.FieldAttributes.write(value:to:))
         try writer["description"].write(value.description)
         try writer["name"].write(value.name)
     }
@@ -5049,6 +5097,7 @@ extension SearchCasesOutput {
         var value = SearchCasesOutput()
         value.cases = try reader["cases"].readListIfPresent(memberReadingClosure: SmithyReadWrite.optionalFormOf(readingClosure: ConnectCasesClientTypes.SearchCasesResponseItem.read(from:)), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
+        value.totalCount = try reader["totalCount"].readIfPresent() ?? 0
         return value
     }
 }
@@ -6259,6 +6308,46 @@ extension ConnectCasesClientTypes.GetFieldResponse {
         value.deleted = try reader["deleted"].readIfPresent() ?? false
         value.createdTime = try reader["createdTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.lastModifiedTime = try reader["lastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.attributes = try reader["attributes"].readIfPresent(with: ConnectCasesClientTypes.FieldAttributes.read(from:))
+        return value
+    }
+}
+
+extension ConnectCasesClientTypes.FieldAttributes {
+
+    static func write(value: ConnectCasesClientTypes.FieldAttributes?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .text(text):
+                try writer["text"].write(text, with: ConnectCasesClientTypes.TextAttributes.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCasesClientTypes.FieldAttributes {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "text":
+                return .text(try reader["text"].read(with: ConnectCasesClientTypes.TextAttributes.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension ConnectCasesClientTypes.TextAttributes {
+
+    static func write(value: ConnectCasesClientTypes.TextAttributes?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["isMultiline"].write(value.isMultiline)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectCasesClientTypes.TextAttributes {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectCasesClientTypes.TextAttributes()
+        value.isMultiline = try reader["isMultiline"].readIfPresent() ?? false
         return value
     }
 }
@@ -6766,6 +6855,7 @@ extension ConnectCasesClientTypes.FieldSummary {
         value.name = try reader["name"].readIfPresent() ?? ""
         value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
         value.namespace = try reader["namespace"].readIfPresent() ?? .sdkUnknown("")
+        value.attributes = try reader["attributes"].readIfPresent(with: ConnectCasesClientTypes.FieldAttributes.read(from:))
         return value
     }
 }
