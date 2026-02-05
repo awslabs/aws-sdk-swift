@@ -4116,6 +4116,22 @@ extension CloudFrontClientTypes {
 
 extension CloudFrontClientTypes {
 
+    /// Configures mutual TLS authentication between CloudFront and your origin server.
+    public struct OriginMtlsConfig: Swift.Sendable, Swift.Equatable {
+        /// The Amazon Resource Name (ARN) of the client certificate stored in Amazon Web Services Certificate Manager (ACM) that CloudFront uses to authenticate with your origin using Mutual TLS.
+        /// This member is required.
+        public var clientCertificateArn: Swift.String?
+
+        public init(
+            clientCertificateArn: Swift.String? = nil
+        ) {
+            self.clientCertificateArn = clientCertificateArn
+        }
+    }
+}
+
+extension CloudFrontClientTypes {
+
     public enum OriginProtocolPolicy: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case httpOnly
         case httpsOnly
@@ -4216,6 +4232,8 @@ extension CloudFrontClientTypes {
         public var ipAddressType: CloudFrontClientTypes.IpAddressType?
         /// Specifies how long, in seconds, CloudFront persists its connection to the origin. The minimum timeout is 1 second, the maximum is 120 seconds, and the default (if you don't specify otherwise) is 5 seconds. For more information, see [Keep-alive timeout (custom origins only)](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/DownloadDistValuesOrigin.html#DownloadDistValuesOriginKeepaliveTimeout) in the Amazon CloudFront Developer Guide.
         public var originKeepaliveTimeout: Swift.Int?
+        /// Configures mutual TLS authentication between CloudFront and your origin server.
+        public var originMtlsConfig: CloudFrontClientTypes.OriginMtlsConfig?
         /// Specifies the protocol (HTTP or HTTPS) that CloudFront uses to connect to the origin. Valid values are:
         ///
         /// * http-only – CloudFront always uses HTTP to connect to the origin.
@@ -4235,6 +4253,7 @@ extension CloudFrontClientTypes {
             httpsPort: Swift.Int? = nil,
             ipAddressType: CloudFrontClientTypes.IpAddressType? = nil,
             originKeepaliveTimeout: Swift.Int? = nil,
+            originMtlsConfig: CloudFrontClientTypes.OriginMtlsConfig? = nil,
             originProtocolPolicy: CloudFrontClientTypes.OriginProtocolPolicy? = nil,
             originReadTimeout: Swift.Int? = nil,
             originSslProtocols: CloudFrontClientTypes.OriginSslProtocols? = nil
@@ -4243,6 +4262,7 @@ extension CloudFrontClientTypes {
             self.httpsPort = httpsPort
             self.ipAddressType = ipAddressType
             self.originKeepaliveTimeout = originKeepaliveTimeout
+            self.originMtlsConfig = originMtlsConfig
             self.originProtocolPolicy = originProtocolPolicy
             self.originReadTimeout = originReadTimeout
             self.originSslProtocols = originSslProtocols
@@ -28239,6 +28259,7 @@ extension CloudFrontClientTypes.CustomOriginConfig {
         try writer["HTTPSPort"].write(value.httpsPort)
         try writer["IpAddressType"].write(value.ipAddressType)
         try writer["OriginKeepaliveTimeout"].write(value.originKeepaliveTimeout)
+        try writer["OriginMtlsConfig"].write(value.originMtlsConfig, with: CloudFrontClientTypes.OriginMtlsConfig.write(value:to:))
         try writer["OriginProtocolPolicy"].write(value.originProtocolPolicy)
         try writer["OriginReadTimeout"].write(value.originReadTimeout)
         try writer["OriginSslProtocols"].write(value.originSslProtocols, with: CloudFrontClientTypes.OriginSslProtocols.write(value:to:))
@@ -28254,6 +28275,22 @@ extension CloudFrontClientTypes.CustomOriginConfig {
         value.originReadTimeout = try reader["OriginReadTimeout"].readIfPresent()
         value.originKeepaliveTimeout = try reader["OriginKeepaliveTimeout"].readIfPresent()
         value.ipAddressType = try reader["IpAddressType"].readIfPresent()
+        value.originMtlsConfig = try reader["OriginMtlsConfig"].readIfPresent(with: CloudFrontClientTypes.OriginMtlsConfig.read(from:))
+        return value
+    }
+}
+
+extension CloudFrontClientTypes.OriginMtlsConfig {
+
+    static func write(value: CloudFrontClientTypes.OriginMtlsConfig?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["ClientCertificateArn"].write(value.clientCertificateArn)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFrontClientTypes.OriginMtlsConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFrontClientTypes.OriginMtlsConfig()
+        value.clientCertificateArn = try reader["ClientCertificateArn"].readIfPresent() ?? ""
         return value
     }
 }

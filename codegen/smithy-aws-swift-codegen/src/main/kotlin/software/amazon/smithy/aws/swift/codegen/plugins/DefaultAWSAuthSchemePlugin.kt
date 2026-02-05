@@ -35,11 +35,11 @@ class DefaultAWSAuthSchemePlugin(
             writer.write("public init() {}")
             writer.write("")
             writer.openBlock(
-                "public func configureClient(clientConfiguration: \$N) throws {",
+                "public func configureClient(clientConfiguration: inout \$N) async throws {",
                 "}",
                 ClientRuntimeTypes.Core.ClientConfiguration,
             ) {
-                writer.openBlock("if let config = clientConfiguration as? ${serviceConfig.typeName} {", "}") {
+                writer.openBlock("if var config = clientConfiguration as? ${serviceConfig.sendableTypeName} {", "}") {
                     writer.write(
                         "config.authSchemeResolver = \$L",
                         "Default${AuthSchemeResolverGenerator.getSdkId(ctx)}AuthSchemeResolver()",
@@ -67,6 +67,7 @@ class DefaultAWSAuthSchemePlugin(
                             SmithyIdentityTypes.StaticBearerTokenIdentityResolver,
                         )
                     }
+                    writer.write("clientConfiguration = config")
                 }
             }
         }

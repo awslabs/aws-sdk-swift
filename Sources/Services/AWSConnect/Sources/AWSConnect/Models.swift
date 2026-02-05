@@ -17682,11 +17682,13 @@ public struct GetContactAttributesOutput: Swift.Sendable {
 extension ConnectClientTypes {
 
     public enum ContactMetricName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case estimatedWaitTime
         case positionInQueue
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ContactMetricName] {
             return [
+                .estimatedWaitTime,
                 .positionInQueue
             ]
         }
@@ -17698,6 +17700,7 @@ extension ConnectClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .estimatedWaitTime: return "ESTIMATED_WAIT_TIME"
             case .positionInQueue: return "POSITION_IN_QUEUE"
             case let .sdkUnknown(s): return s
             }
@@ -17707,9 +17710,9 @@ extension ConnectClientTypes {
 
 extension ConnectClientTypes {
 
-    /// The object that contains information about metric being requested.
+    /// Contains the details of a metric to be retrieved for a contact. Use this object to specify which contact level metrics you want to include in your GetContactMetrics request.
     public struct ContactMetricInfo: Swift.Sendable {
-        /// The name of the metric being retrieved in type String.
+        /// The name of the metric to retrieve. Supported values are POSITION_IN_QUEUE (returns the contact's current position in the queue) and ESTIMATED_WAIT_TIME (returns the predicted wait time in seconds).
         /// This member is required.
         public var name: ConnectClientTypes.ContactMetricName?
 
@@ -17728,7 +17731,7 @@ public struct GetContactMetricsInput: Swift.Sendable {
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
-    /// A list of contact-level metrics to retrieve.
+    /// A list of contact level metrics to retrieve.Supported metrics include POSITION_IN_QUEUE (the contact's current position in the queue) and ESTIMATED_WAIT_TIME (the predicted time in seconds until the contact is connected to an agent)
     /// This member is required.
     public var metrics: [ConnectClientTypes.ContactMetricInfo]?
 
@@ -17745,9 +17748,9 @@ public struct GetContactMetricsInput: Swift.Sendable {
 
 extension ConnectClientTypes {
 
-    /// Object which contains the number.
+    /// Contains the numeric value of a contact metric result.
     public enum ContactMetricValue: Swift.Sendable {
-        /// The number of type Double. This number is the contact's position in queue.
+        /// The numeric value of the metric result. For POSITION_IN_QUEUE, this represents the contact's current position in the queue (e.g., 3.00 means third in line). For ESTIMATED_WAIT_TIME, this represents the predicted wait time in seconds (e.g., 120.00 means approximately 2 minutes).
         case number(Swift.Double)
         case sdkUnknown(Swift.String)
     }
@@ -17755,12 +17758,12 @@ extension ConnectClientTypes {
 
 extension ConnectClientTypes {
 
-    /// Object containing information about metric requested for the contact.
+    /// Contains the result of a requested metric for the contact. This object is returned as part of the GetContactMetrics response and includes both the metric name and its calculated value.
     public struct ContactMetricResult: Swift.Sendable {
-        /// The name of the metric being retrieved in type String.
+        /// The name of the metric that was retrieved. This corresponds to the metric name specified in the request, such as POSITION_IN_QUEUE or ESTIMATED_WAIT_TIME.
         /// This member is required.
         public var name: ConnectClientTypes.ContactMetricName?
-        /// Object result associated with the metric received.
+        /// The calculated value for the requested metric. This object contains the numeric result based on the contact's current state in the queue.
         /// This member is required.
         public var value: ConnectClientTypes.ContactMetricValue?
 
@@ -17777,9 +17780,9 @@ extension ConnectClientTypes {
 public struct GetContactMetricsOutput: Swift.Sendable {
     /// The ARN of the contact for which metrics were retrieved.
     public var arn: Swift.String?
-    /// The unique identifier of the contact for which metrics were retrieved.
+    /// The unique identifier of the contact for which metrics were retrieved. This matches the ContactId provided in the request.
     public var id: Swift.String?
-    /// A list of metric results containing the calculated values for each requested metric. Each result includes the metric name and its corresponding calculated value.
+    /// A list of metric results containing the calculated values for each requested metric. Each result includes the metric name and its corresponding value. For example, POSITION_IN_QUEUE returns a numeric value representing the contact's position in queue, and ESTIMATED_WAIT_TIME returns the predicted wait time in seconds.
     public var metricResults: [ConnectClientTypes.ContactMetricResult]?
 
     public init(
@@ -17807,6 +17810,7 @@ extension ConnectClientTypes {
         case agentsStaffed
         case contactsInQueue
         case contactsScheduled
+        case estimatedWaitTime
         case oldestContactAge
         case slotsActive
         case slotsAvailable
@@ -17824,6 +17828,7 @@ extension ConnectClientTypes {
                 .agentsStaffed,
                 .contactsInQueue,
                 .contactsScheduled,
+                .estimatedWaitTime,
                 .oldestContactAge,
                 .slotsActive,
                 .slotsAvailable
@@ -17847,6 +17852,7 @@ extension ConnectClientTypes {
             case .agentsStaffed: return "AGENTS_STAFFED"
             case .contactsInQueue: return "CONTACTS_IN_QUEUE"
             case .contactsScheduled: return "CONTACTS_SCHEDULED"
+            case .estimatedWaitTime: return "ESTIMATED_WAIT_TIME"
             case .oldestContactAge: return "OLDEST_CONTACT_AGE"
             case .slotsActive: return "SLOTS_ACTIVE"
             case .slotsAvailable: return "SLOTS_AVAILABLE"
@@ -18043,7 +18049,14 @@ extension ConnectClientTypes {
 }
 
 public struct GetCurrentMetricDataInput: Swift.Sendable {
-    /// The metrics to retrieve. Specify the name or metricId, and unit for each metric. The following metrics are available. For a description of all the metrics, see [Metrics definitions](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html) in the Amazon Connect Administrator Guide. MetricId should be used to reference custom metrics or out of the box metrics as Arn. If using MetricId, the limit is 10 MetricId per request. AGENTS_AFTER_CONTACT_WORK Unit: COUNT Name in real-time metrics report: [ACW](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#aftercallwork-real-time) AGENTS_AVAILABLE Unit: COUNT Name in real-time metrics report: [Available](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#available-real-time) AGENTS_ERROR Unit: COUNT Name in real-time metrics report: [Error](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#error-real-time) AGENTS_NON_PRODUCTIVE Unit: COUNT Name in real-time metrics report: [NPT (Non-Productive Time)](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#non-productive-time-real-time) AGENTS_ON_CALL Unit: COUNT Name in real-time metrics report: [On contact](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#on-call-real-time) AGENTS_ON_CONTACT Unit: COUNT Name in real-time metrics report: [On contact](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#on-call-real-time) AGENTS_ONLINE Unit: COUNT Name in real-time metrics report: [Online](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#online-real-time) AGENTS_STAFFED Unit: COUNT Name in real-time metrics report: [Staffed](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#staffed-real-time) CONTACTS_IN_QUEUE Unit: COUNT Name in real-time metrics report: [In queue](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#in-queue-real-time) CONTACTS_SCHEDULED Unit: COUNT Name in real-time metrics report: [Scheduled](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#scheduled-real-time) OLDEST_CONTACT_AGE Unit: SECONDS When you use groupings, Unit says SECONDS and the Value is returned in SECONDS. When you do not use groupings, Unit says SECONDS but the Value is returned in MILLISECONDS. For example, if you get a response like this: { "Metric": { "Name": "OLDEST_CONTACT_AGE", "Unit": "SECONDS" }, "Value": 24113.0 } The actual OLDEST_CONTACT_AGE is 24 seconds. When the filter RoutingStepExpression is used, this metric is still calculated from enqueue time. For example, if a contact that has been queued under  for 10 seconds has expired and  becomes active, then OLDEST_CONTACT_AGE for this queue will be counted starting from 10, not 0. Name in real-time metrics report: [Oldest](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#oldest-real-time) SLOTS_ACTIVE Unit: COUNT Name in real-time metrics report: [Active](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#active-real-time) SLOTS_AVAILABLE Unit: COUNT Name in real-time metrics report: [Availability](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#availability-real-time)
+    /// The metrics to retrieve. Specify the name or metricId, and unit for each metric. The following metrics are available. For a description of all the metrics, see [Metrics definitions](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html) in the Amazon Connect Administrator Guide. MetricId should be used to reference custom metrics or out of the box metrics as Arn. If using MetricId, the limit is 10 MetricId per request. AGENTS_AFTER_CONTACT_WORK Unit: COUNT Name in real-time metrics report: [ACW](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#aftercallwork-real-time) AGENTS_AVAILABLE Unit: COUNT Name in real-time metrics report: [Available](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#available-real-time) AGENTS_ERROR Unit: COUNT Name in real-time metrics report: [Error](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#error-real-time) AGENTS_NON_PRODUCTIVE Unit: COUNT Name in real-time metrics report: [NPT (Non-Productive Time)](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#non-productive-time-real-time) AGENTS_ON_CALL Unit: COUNT Name in real-time metrics report: [On contact](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#on-call-real-time) AGENTS_ON_CONTACT Unit: COUNT Name in real-time metrics report: [On contact](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#on-call-real-time) AGENTS_ONLINE Unit: COUNT Name in real-time metrics report: [Online](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#online-real-time) AGENTS_STAFFED Unit: COUNT Name in real-time metrics report: [Staffed](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#staffed-real-time) CONTACTS_IN_QUEUE Unit: COUNT Name in real-time metrics report: [In queue](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#in-queue-real-time) CONTACTS_SCHEDULED Unit: COUNT Name in real-time metrics report: [Scheduled](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#scheduled-real-time) ESTIMATED_WAIT_TIME Unit: SECONDS This metric supports filter and grouping combination only used for core routing purpose. Valid filter and grouping use cases:
+    ///
+    /// * Filter by a list of [Queues] and a list of [Channels], group by [“QUEUE”, “CHANNEL”]
+    ///
+    /// * Filter by a singleton list of [Queue], a singleton list of [Channel], a list of [RoutingStepExpression], group by [“ROUTING_STEP_EXPRESSION”].
+    ///
+    ///
+    /// OLDEST_CONTACT_AGE Unit: SECONDS When you use groupings, Unit says SECONDS and the Value is returned in SECONDS. When you do not use groupings, Unit says SECONDS but the Value is returned in MILLISECONDS. For example, if you get a response like this: { "Metric": { "Name": "OLDEST_CONTACT_AGE", "Unit": "SECONDS" }, "Value": 24113.0 } The actual OLDEST_CONTACT_AGE is 24 seconds. When the filter RoutingStepExpression is used, this metric is still calculated from enqueue time. For example, if a contact that has been queued under  for 10 seconds has expired and  becomes active, then OLDEST_CONTACT_AGE for this queue will be counted starting from 10, not 0. Name in real-time metrics report: [Oldest](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#oldest-real-time) SLOTS_ACTIVE Unit: COUNT Name in real-time metrics report: [Active](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#active-real-time) SLOTS_AVAILABLE Unit: COUNT Name in real-time metrics report: [Availability](https://docs.aws.amazon.com/connect/latest/adminguide/metrics-definitions.html#availability-real-time)
     /// This member is required.
     public var currentMetrics: [ConnectClientTypes.CurrentMetric]?
     /// The filters to apply to returned metrics. You can filter up to the following limits:
