@@ -831,6 +831,25 @@ public struct UpdateAgreementOutput: Swift.Sendable {
 
 extension TransferClientTypes {
 
+    /// Contains the configuration details for asynchronous Message Disposition Notification (MDN) responses in AS2 connectors. This configuration specifies where asynchronous MDN responses should be sent and which servers should handle them.
+    public struct As2AsyncMdnConnectorConfig: Swift.Sendable {
+        /// A list of server identifiers that can handle asynchronous MDN responses. You can specify between 1 and 10 server IDs.
+        public var serverIds: [Swift.String]?
+        /// The URL endpoint where asynchronous MDN responses should be sent.
+        public var url: Swift.String?
+
+        public init(
+            serverIds: [Swift.String]? = nil,
+            url: Swift.String? = nil
+        ) {
+            self.serverIds = serverIds
+            self.url = url
+        }
+    }
+}
+
+extension TransferClientTypes {
+
     public enum CompressionEnum: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case disabled
         case zlib
@@ -899,12 +918,14 @@ extension TransferClientTypes {
 extension TransferClientTypes {
 
     public enum MdnResponse: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case async
         case `none`
         case sync
         case sdkUnknown(Swift.String)
 
         public static var allCases: [MdnResponse] {
             return [
+                .async,
                 .none,
                 .sync
             ]
@@ -917,6 +938,7 @@ extension TransferClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .async: return "ASYNC"
             case .none: return "NONE"
             case .sync: return "SYNC"
             case let .sdkUnknown(s): return s
@@ -1037,6 +1059,8 @@ extension TransferClientTypes {
 
     /// Contains the details for an AS2 connector object. The connector object is used for AS2 outbound processes, to connect the Transfer Family customer with the trading partner.
     public struct As2ConnectorConfig: Swift.Sendable {
+        /// Configuration settings for asynchronous Message Disposition Notification (MDN) responses. This allows you to configure where asynchronous MDN responses should be sent and which servers should handle them.
+        public var asyncMdnConfig: TransferClientTypes.As2AsyncMdnConnectorConfig?
         /// Provides Basic authentication support to the AS2 Connectors API. To use Basic authentication, you must provide the name or Amazon Resource Name (ARN) of a secret in Secrets Manager. The default value for this parameter is null, which indicates that Basic authentication is not enabled for the connector. If the connector should use Basic authentication, the secret needs to be in the following format: { "Username": "user-name", "Password": "user-password" } Replace user-name and user-password with the credentials for the actual user that is being authenticated. Note the following:
         ///
         /// * You are storing these credentials in Secrets Manager, not passing them directly into this API.
@@ -1074,6 +1098,7 @@ extension TransferClientTypes {
         public var signingAlgorithm: TransferClientTypes.SigningAlg?
 
         public init(
+            asyncMdnConfig: TransferClientTypes.As2AsyncMdnConnectorConfig? = nil,
             basicAuthSecretId: Swift.String? = nil,
             compression: TransferClientTypes.CompressionEnum? = nil,
             encryptionAlgorithm: TransferClientTypes.EncryptionAlg? = nil,
@@ -1085,6 +1110,7 @@ extension TransferClientTypes {
             preserveContentType: TransferClientTypes.PreserveContentType? = nil,
             signingAlgorithm: TransferClientTypes.SigningAlg? = nil
         ) {
+            self.asyncMdnConfig = asyncMdnConfig
             self.basicAuthSecretId = basicAuthSecretId
             self.compression = compression
             self.encryptionAlgorithm = encryptionAlgorithm
@@ -1097,6 +1123,11 @@ extension TransferClientTypes {
             self.signingAlgorithm = signingAlgorithm
         }
     }
+}
+
+extension TransferClientTypes.As2ConnectorConfig: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "As2ConnectorConfig(asyncMdnConfig: \(Swift.String(describing: asyncMdnConfig)), basicAuthSecretId: \(Swift.String(describing: basicAuthSecretId)), compression: \(Swift.String(describing: compression)), encryptionAlgorithm: \(Swift.String(describing: encryptionAlgorithm)), localProfileId: \(Swift.String(describing: localProfileId)), mdnResponse: \(Swift.String(describing: mdnResponse)), mdnSigningAlgorithm: \(Swift.String(describing: mdnSigningAlgorithm)), partnerProfileId: \(Swift.String(describing: partnerProfileId)), preserveContentType: \(Swift.String(describing: preserveContentType)), signingAlgorithm: \(Swift.String(describing: signingAlgorithm)), messageSubject: \"CONTENT_REDACTED\")"}
 }
 
 extension TransferClientTypes {
@@ -3572,6 +3603,31 @@ public struct CreateWorkflowOutput: Swift.Sendable {
         workflowId: Swift.String? = nil
     ) {
         self.workflowId = workflowId
+    }
+}
+
+extension TransferClientTypes {
+
+    /// Represents a custom HTTP header that can be included in AS2 messages. Each header consists of a key-value pair.
+    public struct CustomHttpHeader: Swift.Sendable {
+        /// The name of the custom HTTP header.
+        public var key: Swift.String?
+        /// The value of the custom HTTP header.
+        public var value: Swift.String?
+
+        public init(
+            key: Swift.String? = nil,
+            value: Swift.String? = nil
+        ) {
+            self.key = key
+            self.value = value
+        }
+    }
+}
+
+extension TransferClientTypes.CustomHttpHeader: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
     }
 }
 
@@ -6089,6 +6145,8 @@ public struct StartFileTransferInput: Swift.Sendable {
     /// The unique identifier for the connector.
     /// This member is required.
     public var connectorId: Swift.String?
+    /// An array of key-value pairs that represent custom HTTP headers to include in AS2 messages. These headers are added to the AS2 message when sending files to your trading partner.
+    public var customHttpHeaders: [TransferClientTypes.CustomHttpHeader]?
     /// For an inbound transfer, the LocaDirectoryPath specifies the destination for one or more files that are transferred from the partner's SFTP server.
     public var localDirectoryPath: Swift.String?
     /// For an outbound transfer, the RemoteDirectoryPath specifies the destination for one or more files that are transferred to the partner's SFTP server. If you don't specify a RemoteDirectoryPath, the destination for transferred files is the SFTP user's home directory.
@@ -6100,17 +6158,24 @@ public struct StartFileTransferInput: Swift.Sendable {
 
     public init(
         connectorId: Swift.String? = nil,
+        customHttpHeaders: [TransferClientTypes.CustomHttpHeader]? = nil,
         localDirectoryPath: Swift.String? = nil,
         remoteDirectoryPath: Swift.String? = nil,
         retrieveFilePaths: [Swift.String]? = nil,
         sendFilePaths: [Swift.String]? = nil
     ) {
         self.connectorId = connectorId
+        self.customHttpHeaders = customHttpHeaders
         self.localDirectoryPath = localDirectoryPath
         self.remoteDirectoryPath = remoteDirectoryPath
         self.retrieveFilePaths = retrieveFilePaths
         self.sendFilePaths = sendFilePaths
     }
+}
+
+extension StartFileTransferInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "StartFileTransferInput(connectorId: \(Swift.String(describing: connectorId)), localDirectoryPath: \(Swift.String(describing: localDirectoryPath)), remoteDirectoryPath: \(Swift.String(describing: remoteDirectoryPath)), retrieveFilePaths: \(Swift.String(describing: retrieveFilePaths)), sendFilePaths: \(Swift.String(describing: sendFilePaths)), customHttpHeaders: \"CONTENT_REDACTED\")"}
 }
 
 public struct StartFileTransferOutput: Swift.Sendable {
@@ -7674,6 +7739,7 @@ extension StartFileTransferInput {
     static func write(value: StartFileTransferInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["ConnectorId"].write(value.connectorId)
+        try writer["CustomHttpHeaders"].writeList(value.customHttpHeaders, memberWritingClosure: TransferClientTypes.CustomHttpHeader.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["LocalDirectoryPath"].write(value.localDirectoryPath)
         try writer["RemoteDirectoryPath"].write(value.remoteDirectoryPath)
         try writer["RetrieveFilePaths"].writeList(value.retrieveFilePaths, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -10298,6 +10364,7 @@ extension TransferClientTypes.As2ConnectorConfig {
 
     static func write(value: TransferClientTypes.As2ConnectorConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["AsyncMdnConfig"].write(value.asyncMdnConfig, with: TransferClientTypes.As2AsyncMdnConnectorConfig.write(value:to:))
         try writer["BasicAuthSecretId"].write(value.basicAuthSecretId)
         try writer["Compression"].write(value.compression)
         try writer["EncryptionAlgorithm"].write(value.encryptionAlgorithm)
@@ -10323,6 +10390,24 @@ extension TransferClientTypes.As2ConnectorConfig {
         value.mdnResponse = try reader["MdnResponse"].readIfPresent()
         value.basicAuthSecretId = try reader["BasicAuthSecretId"].readIfPresent()
         value.preserveContentType = try reader["PreserveContentType"].readIfPresent()
+        value.asyncMdnConfig = try reader["AsyncMdnConfig"].readIfPresent(with: TransferClientTypes.As2AsyncMdnConnectorConfig.read(from:))
+        return value
+    }
+}
+
+extension TransferClientTypes.As2AsyncMdnConnectorConfig {
+
+    static func write(value: TransferClientTypes.As2AsyncMdnConnectorConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ServerIds"].writeList(value.serverIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Url"].write(value.url)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TransferClientTypes.As2AsyncMdnConnectorConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TransferClientTypes.As2AsyncMdnConnectorConfig()
+        value.url = try reader["Url"].readIfPresent()
+        value.serverIds = try reader["ServerIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -11225,6 +11310,15 @@ extension TransferClientTypes.WebAppVpcConfig {
         try writer["SecurityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["SubnetIds"].writeList(value.subnetIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["VpcId"].write(value.vpcId)
+    }
+}
+
+extension TransferClientTypes.CustomHttpHeader {
+
+    static func write(value: TransferClientTypes.CustomHttpHeader?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Key"].write(value.key)
+        try writer["Value"].write(value.value)
     }
 }
 

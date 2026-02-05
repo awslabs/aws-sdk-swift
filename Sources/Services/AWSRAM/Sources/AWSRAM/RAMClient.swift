@@ -689,7 +689,7 @@ extension RAMClient {
 
     /// Performs the `AssociateResourceShare` operation on the `RAM` service.
     ///
-    /// Adds the specified list of principals and list of resources to a resource share. Principals that already have access to this resource share immediately receive access to the added resources. Newly added principals immediately receive access to the resources shared in this resource share.
+    /// Adds the specified list of principals, resources, and source constraints to a resource share. Principals that already have access to this resource share immediately receive access to the added resources. Newly added principals immediately receive access to the resources shared in this resource share.
     ///
     /// - Parameter input: [no documentation found] (Type: `AssociateResourceShareInput`)
     ///
@@ -704,7 +704,7 @@ extension RAMClient {
     /// - `InvalidStateTransitionException` : The operation failed because the requested operation isn't valid for the resource share in its current state.
     /// - `MalformedArnException` : The operation failed because the specified [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) has a format that isn't valid.
     /// - `OperationNotPermittedException` : The operation failed because the requested operation isn't permitted.
-    /// - `ResourceShareLimitExceededException` : The operation failed because it would exceed the limit for resource shares for your account. To view the limits for your Amazon Web Services account, see the [RAM page in the Service Quotas console](https://console.aws.amazon.com/servicequotas/home/services/ram/quotas).
+    /// - `ResourceShareLimitExceededException` : The operation failed because it would exceed the limit for resource shares for your account. You can associate up to 100 resources per call. To view the limits for your Amazon Web Services account, see the [RAM page in the Service Quotas console](https://console.aws.amazon.com/servicequotas/home/services/ram/quotas).
     /// - `ServerInternalException` : The operation failed because the service could not respond to the request due to an internal problem. Try again later.
     /// - `ServiceUnavailableException` : The operation failed because the service isn't available. Try again later.
     /// - `ThrottlingException` : The operation failed because it exceeded the rate at which you are allowed to perform this operation. Please try again later.
@@ -995,7 +995,7 @@ extension RAMClient {
 
     /// Performs the `CreateResourceShare` operation on the `RAM` service.
     ///
-    /// Creates a resource share. You can provide a list of the [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) for the resources that you want to share, a list of principals you want to share the resources with, and the permissions to grant those principals. Sharing a resource makes it available for use by principals outside of the Amazon Web Services account that created the resource. Sharing doesn't change any permissions or quotas that apply to the resource in the account that created it.
+    /// Creates a resource share. You can provide a list of the [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) for the resources that you want to share, a list of principals you want to share the resources with, the permissions to grant those principals, and optionally source constraints to enhance security for service principal sharing. Sharing a resource makes it available for use by principals outside of the Amazon Web Services account that created the resource. Sharing doesn't change any permissions or quotas that apply to the resource in the account that created it.
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateResourceShareInput`)
     ///
@@ -1010,11 +1010,12 @@ extension RAMClient {
     /// - `InvalidStateTransitionException` : The operation failed because the requested operation isn't valid for the resource share in its current state.
     /// - `MalformedArnException` : The operation failed because the specified [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) has a format that isn't valid.
     /// - `OperationNotPermittedException` : The operation failed because the requested operation isn't permitted.
-    /// - `ResourceShareLimitExceededException` : The operation failed because it would exceed the limit for resource shares for your account. To view the limits for your Amazon Web Services account, see the [RAM page in the Service Quotas console](https://console.aws.amazon.com/servicequotas/home/services/ram/quotas).
+    /// - `ResourceShareLimitExceededException` : The operation failed because it would exceed the limit for resource shares for your account. You can associate up to 100 resources per call. To view the limits for your Amazon Web Services account, see the [RAM page in the Service Quotas console](https://console.aws.amazon.com/servicequotas/home/services/ram/quotas).
     /// - `ServerInternalException` : The operation failed because the service could not respond to the request due to an internal problem. Try again later.
     /// - `ServiceUnavailableException` : The operation failed because the service isn't available. Try again later.
     /// - `TagLimitExceededException` : The operation failed because it would exceed the limit for tags for your Amazon Web Services account.
     /// - `TagPolicyViolationException` : The operation failed because the specified tag key is a reserved word and can't be used.
+    /// - `ThrottlingException` : The operation failed because it exceeded the rate at which you are allowed to perform this operation. Please try again later.
     /// - `UnknownResourceException` : The operation failed because a specified resource couldn't be found.
     public func createResourceShare(input: CreateResourceShareInput) async throws -> CreateResourceShareOutput {
         let context = Smithy.ContextBuilder()
@@ -1236,6 +1237,7 @@ extension RAMClient {
     /// - `OperationNotPermittedException` : The operation failed because the requested operation isn't permitted.
     /// - `ServerInternalException` : The operation failed because the service could not respond to the request due to an internal problem. Try again later.
     /// - `ServiceUnavailableException` : The operation failed because the service isn't available. Try again later.
+    /// - `ThrottlingException` : The operation failed because it exceeded the rate at which you are allowed to perform this operation. Please try again later.
     /// - `UnknownResourceException` : The operation failed because a specified resource couldn't be found.
     public func deleteResourceShare(input: DeleteResourceShareInput) async throws -> DeleteResourceShareOutput {
         let context = Smithy.ContextBuilder()
@@ -1293,7 +1295,7 @@ extension RAMClient {
 
     /// Performs the `DisassociateResourceShare` operation on the `RAM` service.
     ///
-    /// Removes the specified principals or resources from participating in the specified resource share.
+    /// Removes the specified principals, resources, or source constraints from participating in the specified resource share.
     ///
     /// - Parameter input: [no documentation found] (Type: `DisassociateResourceShareInput`)
     ///
@@ -1308,9 +1310,10 @@ extension RAMClient {
     /// - `InvalidStateTransitionException` : The operation failed because the requested operation isn't valid for the resource share in its current state.
     /// - `MalformedArnException` : The operation failed because the specified [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) has a format that isn't valid.
     /// - `OperationNotPermittedException` : The operation failed because the requested operation isn't permitted.
-    /// - `ResourceShareLimitExceededException` : The operation failed because it would exceed the limit for resource shares for your account. To view the limits for your Amazon Web Services account, see the [RAM page in the Service Quotas console](https://console.aws.amazon.com/servicequotas/home/services/ram/quotas).
+    /// - `ResourceShareLimitExceededException` : The operation failed because it would exceed the limit for resource shares for your account. You can associate up to 100 resources per call. To view the limits for your Amazon Web Services account, see the [RAM page in the Service Quotas console](https://console.aws.amazon.com/servicequotas/home/services/ram/quotas).
     /// - `ServerInternalException` : The operation failed because the service could not respond to the request due to an internal problem. Try again later.
     /// - `ServiceUnavailableException` : The operation failed because the service isn't available. Try again later.
+    /// - `ThrottlingException` : The operation failed because it exceeded the rate at which you are allowed to perform this operation. Please try again later.
     /// - `UnknownResourceException` : The operation failed because a specified resource couldn't be found.
     public func disassociateResourceShare(input: DisassociateResourceShareInput) async throws -> DisassociateResourceShareOutput {
         let context = Smithy.ContextBuilder()
@@ -1585,7 +1588,7 @@ extension RAMClient {
 
     /// Performs the `GetResourcePolicies` operation on the `RAM` service.
     ///
-    /// Retrieves the resource policies for the specified resources that you own and have shared.
+    /// Retrieves the resource policies for the specified resources that you own and have shared. Always check the NextToken response parameter for a null value when calling a paginated operation. These operations can occasionally return an empty set of results even when there are more results available. The NextToken response parameter value is null only when there are no more results to display.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetResourcePoliciesInput`)
     ///
@@ -1658,7 +1661,7 @@ extension RAMClient {
 
     /// Performs the `GetResourceShareAssociations` operation on the `RAM` service.
     ///
-    /// Retrieves the lists of resources and principals that associated for resource shares that you own.
+    /// Retrieves the lists of resources and principals that associated for resource shares that you own. Always check the NextToken response parameter for a null value when calling a paginated operation. These operations can occasionally return an empty set of results even when there are more results available. The NextToken response parameter value is null only when there are no more results to display.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetResourceShareAssociationsInput`)
     ///
@@ -1732,7 +1735,7 @@ extension RAMClient {
 
     /// Performs the `GetResourceShareInvitations` operation on the `RAM` service.
     ///
-    /// Retrieves details about invitations that you have received for resource shares.
+    /// Retrieves details about invitations that you have received for resource shares. Always check the NextToken response parameter for a null value when calling a paginated operation. These operations can occasionally return an empty set of results even when there are more results available. The NextToken response parameter value is null only when there are no more results to display.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetResourceShareInvitationsInput`)
     ///
@@ -1807,7 +1810,7 @@ extension RAMClient {
 
     /// Performs the `GetResourceShares` operation on the `RAM` service.
     ///
-    /// Retrieves details about the resource shares that you own or that are shared with you.
+    /// Retrieves details about the resource shares that you own or that are shared with you. Always check the NextToken response parameter for a null value when calling a paginated operation. These operations can occasionally return an empty set of results even when there are more results available. The NextToken response parameter value is null only when there are no more results to display.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetResourceSharesInput`)
     ///
@@ -1880,7 +1883,7 @@ extension RAMClient {
 
     /// Performs the `ListPendingInvitationResources` operation on the `RAM` service.
     ///
-    /// Lists the resources in a resource share that is shared with you but for which the invitation is still PENDING. That means that you haven't accepted or rejected the invitation and the invitation hasn't expired.
+    /// Lists the resources in a resource share that is shared with you but for which the invitation is still PENDING. That means that you haven't accepted or rejected the invitation and the invitation hasn't expired. Always check the NextToken response parameter for a null value when calling a paginated operation. These operations can occasionally return an empty set of results even when there are more results available. The NextToken response parameter value is null only when there are no more results to display.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListPendingInvitationResourcesInput`)
     ///
@@ -1956,7 +1959,7 @@ extension RAMClient {
 
     /// Performs the `ListPermissionAssociations` operation on the `RAM` service.
     ///
-    /// Lists information about the managed permission and its associations to any resource shares that use this managed permission. This lets you see which resource shares use which versions of the specified managed permission.
+    /// Lists information about the managed permission and its associations to any resource shares that use this managed permission. This lets you see which resource shares use which versions of the specified managed permission. Always check the NextToken response parameter for a null value when calling a paginated operation. These operations can occasionally return an empty set of results even when there are more results available. The NextToken response parameter value is null only when there are no more results to display.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListPermissionAssociationsInput`)
     ///
@@ -2028,7 +2031,7 @@ extension RAMClient {
 
     /// Performs the `ListPermissionVersions` operation on the `RAM` service.
     ///
-    /// Lists the available versions of the specified RAM permission.
+    /// Lists the available versions of the specified RAM permission. Always check the NextToken response parameter for a null value when calling a paginated operation. These operations can occasionally return an empty set of results even when there are more results available. The NextToken response parameter value is null only when there are no more results to display.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListPermissionVersionsInput`)
     ///
@@ -2102,7 +2105,7 @@ extension RAMClient {
 
     /// Performs the `ListPermissions` operation on the `RAM` service.
     ///
-    /// Retrieves a list of available RAM permissions that you can use for the supported resource types.
+    /// Retrieves a list of available RAM permissions that you can use for the supported resource types. Always check the NextToken response parameter for a null value when calling a paginated operation. These operations can occasionally return an empty set of results even when there are more results available. The NextToken response parameter value is null only when there are no more results to display.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListPermissionsInput`)
     ///
@@ -2174,7 +2177,7 @@ extension RAMClient {
 
     /// Performs the `ListPrincipals` operation on the `RAM` service.
     ///
-    /// Lists the principals that you are sharing resources with or that are sharing resources with you.
+    /// Lists the principals that you are sharing resources with or that are sharing resources with you. Always check the NextToken response parameter for a null value when calling a paginated operation. These operations can occasionally return an empty set of results even when there are more results available. The NextToken response parameter value is null only when there are no more results to display.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListPrincipalsInput`)
     ///
@@ -2247,7 +2250,7 @@ extension RAMClient {
 
     /// Performs the `ListReplacePermissionAssociationsWork` operation on the `RAM` service.
     ///
-    /// Retrieves the current status of the asynchronous tasks performed by RAM when you perform the [ReplacePermissionAssociationsWork] operation.
+    /// Retrieves the current status of the asynchronous tasks performed by RAM when you perform the [ReplacePermissionAssociationsWork] operation. Always check the NextToken response parameter for a null value when calling a paginated operation. These operations can occasionally return an empty set of results even when there are more results available. The NextToken response parameter value is null only when there are no more results to display.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListReplacePermissionAssociationsWorkInput`)
     ///
@@ -2318,7 +2321,7 @@ extension RAMClient {
 
     /// Performs the `ListResourceSharePermissions` operation on the `RAM` service.
     ///
-    /// Lists the RAM permissions that are associated with a resource share.
+    /// Lists the RAM permissions that are associated with a resource share. Always check the NextToken response parameter for a null value when calling a paginated operation. These operations can occasionally return an empty set of results even when there are more results available. The NextToken response parameter value is null only when there are no more results to display.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListResourceSharePermissionsInput`)
     ///
@@ -2463,7 +2466,7 @@ extension RAMClient {
 
     /// Performs the `ListResources` operation on the `RAM` service.
     ///
-    /// Lists the resources that you added to a resource share or the resources that are shared with you.
+    /// Lists the resources that you added to a resource share or the resources that are shared with you. Always check the NextToken response parameter for a null value when calling a paginated operation. These operations can occasionally return an empty set of results even when there are more results available. The NextToken response parameter value is null only when there are no more results to display.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListResourcesInput`)
     ///
@@ -2535,6 +2538,79 @@ extension RAMClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `ListSourceAssociations` operation on the `RAM` service.
+    ///
+    /// Lists source associations for resource shares. Source associations control which sources can be used with service principals in resource shares. This operation provides visibility into source associations for resource share owners. You can filter the results by resource share Amazon Resource Name (ARN), source ID, source type, or association status. We recommend using pagination to ensure that the operation returns quickly and successfully.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `ListSourceAssociationsInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `ListSourceAssociationsOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidNextTokenException` : The operation failed because the specified value for NextToken isn't valid. You must specify a value you received in the NextToken response of a previous call to this operation.
+    /// - `InvalidParameterException` : The operation failed because a parameter you specified isn't valid.
+    /// - `MalformedArnException` : The operation failed because the specified [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) has a format that isn't valid.
+    /// - `ServerInternalException` : The operation failed because the service could not respond to the request due to an internal problem. Try again later.
+    /// - `ServiceUnavailableException` : The operation failed because the service isn't available. Try again later.
+    /// - `UnknownResourceException` : The operation failed because a specified resource couldn't be found.
+    public func listSourceAssociations(input: ListSourceAssociationsInput) async throws -> ListSourceAssociationsOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listSourceAssociations")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "ram")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<ListSourceAssociationsInput, ListSourceAssociationsOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<ListSourceAssociationsInput, ListSourceAssociationsOutput>(ListSourceAssociationsInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<ListSourceAssociationsInput, ListSourceAssociationsOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<ListSourceAssociationsInput, ListSourceAssociationsOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<ListSourceAssociationsInput, ListSourceAssociationsOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: ListSourceAssociationsInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<ListSourceAssociationsInput, ListSourceAssociationsOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<ListSourceAssociationsOutput>(ListSourceAssociationsOutput.httpOutput(from:), ListSourceAssociationsOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<ListSourceAssociationsInput, ListSourceAssociationsOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<ListSourceAssociationsOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("RAM", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<ListSourceAssociationsOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<ListSourceAssociationsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<ListSourceAssociationsInput, ListSourceAssociationsOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<ListSourceAssociationsInput, ListSourceAssociationsOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<ListSourceAssociationsInput, ListSourceAssociationsOutput>(serviceID: serviceName, version: RAMClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "RAM")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "ListSourceAssociations")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `PromotePermissionCreatedFromPolicy` operation on the `RAM` service.
     ///
     /// When you attach a resource-based policy to a resource, RAM automatically creates a resource share of featureSet=CREATED_FROM_POLICY with a managed permission that has the same IAM permissions as the original resource-based policy. However, this type of managed permission is visible to only the resource share owner, and the associated resource share can't be modified by using RAM. This operation creates a separate, fully manageable customer managed permission that has the same IAM permissions as the original resource-based policy. You can associate this customer managed permission to any resource shares. Before you use [PromoteResourceShareCreatedFromPolicy], you should first run this operation to ensure that you have an appropriate customer managed permission that can be associated with the promoted resource share.
@@ -2553,6 +2629,7 @@ extension RAMClient {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidParameterException` : The operation failed because a parameter you specified isn't valid.
+    /// - `InvalidPolicyException` : The operation failed because a policy you specified isn't valid.
     /// - `MalformedArnException` : The operation failed because the specified [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) has a format that isn't valid.
     /// - `MissingRequiredParameterException` : The operation failed because a required input parameter is missing.
     /// - `OperationNotPermittedException` : The operation failed because the requested operation isn't permitted.
@@ -2631,7 +2708,7 @@ extension RAMClient {
     /// - `MalformedArnException` : The operation failed because the specified [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) has a format that isn't valid.
     /// - `MissingRequiredParameterException` : The operation failed because a required input parameter is missing.
     /// - `OperationNotPermittedException` : The operation failed because the requested operation isn't permitted.
-    /// - `ResourceShareLimitExceededException` : The operation failed because it would exceed the limit for resource shares for your account. To view the limits for your Amazon Web Services account, see the [RAM page in the Service Quotas console](https://console.aws.amazon.com/servicequotas/home/services/ram/quotas).
+    /// - `ResourceShareLimitExceededException` : The operation failed because it would exceed the limit for resource shares for your account. You can associate up to 100 resources per call. To view the limits for your Amazon Web Services account, see the [RAM page in the Service Quotas console](https://console.aws.amazon.com/servicequotas/home/services/ram/quotas).
     /// - `ServerInternalException` : The operation failed because the service could not respond to the request due to an internal problem. Try again later.
     /// - `ServiceUnavailableException` : The operation failed because the service isn't available. Try again later.
     /// - `UnknownResourceException` : The operation failed because a specified resource couldn't be found.
