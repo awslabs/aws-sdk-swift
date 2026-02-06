@@ -1862,12 +1862,12 @@ extension PartnerCentralSellingClientTypes {
 
 extension PartnerCentralSellingClientTypes {
 
-    /// Details for a specific optimization recommendation
+    /// Specific optimization strategies partners can implement to reduce costs.
     public struct AwsProductOptimization: Swift.Sendable {
-        /// Human-readable explanation of the optimization strategy
+        /// Human-readable explanation of the optimization strategy.
         /// This member is required.
         public var description: Swift.String?
-        /// Quantified cost savings achievable by implementing this optimization
+        /// Quantified cost savings achievable by implementing this optimization.
         /// This member is required.
         public var savingsAmount: Swift.String?
 
@@ -1888,24 +1888,24 @@ extension PartnerCentralSellingClientTypes.AwsProductOptimization: Swift.CustomD
 
 extension PartnerCentralSellingClientTypes {
 
-    /// AWS services with program eligibility indicators (MAP, modernization pathways), cost estimates, and optimization recommendations.
+    /// List of AWS services with program eligibility indicators (MAP, modernization pathways), cost estimates, and optimization recommendations.
     public struct AwsProductDetails: Swift.Sendable {
-        /// Baseline service cost before optimizations (may be null for AWS-sourced predictions)
+        /// Baseline service cost before optimizations.
         public var amount: Swift.String?
-        /// List of program and pathway categories this product is eligible for
+        /// List of program and pathway categories this product is eligible for.
         /// This member is required.
         public var categories: [Swift.String]?
-        /// List of specific optimization recommendations for this product
+        /// List of specific optimization recommendations for this product.
         /// This member is required.
         public var optimizations: [PartnerCentralSellingClientTypes.AwsProductOptimization]?
-        /// Service cost after applying optimizations (may be null for AWS-sourced predictions)
+        /// Service cost after applying optimizations.
         public var optimizedAmount: Swift.String?
-        /// Service-specific cost reduction through optimizations (may be null for AWS-sourced predictions)
+        /// Service-specific cost reduction through optimizations.
         public var potentialSavingsAmount: Swift.String?
-        /// AWS Partner Central product identifier used for opportunity association
+        /// AWS Partner Central product identifier used for opportunity association.
         /// This member is required.
         public var productCode: Swift.String?
-        /// Pricing Calculator service code (links to original calculator URL)
+        /// Pricing Calculator service code.
         public var serviceCode: Swift.String?
 
         public init(
@@ -2490,23 +2490,23 @@ extension PartnerCentralSellingClientTypes {
 
     /// Comprehensive spend analysis for a single source (AWS or Partner) including total amounts, optimization savings, program category breakdowns, and detailed product-level insights.
     public struct AwsProductInsights: Swift.Sendable {
-        /// Product-level details including costs and optimization recommendations
+        /// Product-level details including costs and optimization recommendations.
         /// This member is required.
         public var awsProducts: [PartnerCentralSellingClientTypes.AwsProductDetails]?
-        /// ISO 4217 currency code (e.g., "USD") ensuring consistent representation across calculations
+        /// ISO 4217 currency code.
         /// This member is required.
         public var currencyCode: PartnerCentralSellingClientTypes.CurrencyCode?
-        /// Time period for spend amounts: "Monthly" or "Annually"
+        /// Time period for spend amounts.
         /// This member is required.
         public var frequency: PartnerCentralSellingClientTypes.PaymentFrequency?
-        /// Total estimated spend for this source before optimizations
+        /// Total estimated spend for this source before optimizations.
         public var totalAmount: Swift.String?
-        /// Spend amounts mapped to AWS programs and modernization pathways
+        /// Spend amounts mapped to AWS programs and modernization pathways.
         /// This member is required.
         public var totalAmountByCategory: [Swift.String: Swift.String]?
-        /// Total estimated spend after applying recommended optimizations
+        /// Total estimated spend after applying recommended optimizations.
         public var totalOptimizedAmount: Swift.String?
-        /// Quantified savings achievable through implementing optimizations
+        /// Quantified savings achievable through implementing optimizations.
         public var totalPotentialSavingsAmount: Swift.String?
 
         public init(
@@ -2536,11 +2536,11 @@ extension PartnerCentralSellingClientTypes.AwsProductInsights: Swift.CustomDebug
 
 extension PartnerCentralSellingClientTypes {
 
-    /// Source-separated spend insights that provide independent analysis for AWS predictions and partner estimates
+    /// Source-separated spend insights that provide independent analysis for AWS recommendations and partner estimates.
     public struct AwsProductsSpendInsightsBySource: Swift.Sendable {
-        /// AI-generated insights including recommended products from AWS
+        /// AI-generated insights including recommended products from AWS.
         public var aws: PartnerCentralSellingClientTypes.AwsProductInsights?
-        /// Partner-sourced insights derived from Pricing Calculator URLs including detailed service costs and optimizations
+        /// Partner-sourced insights derived from Pricing Calculator URLs.
         public var partner: PartnerCentralSellingClientTypes.AwsProductInsights?
 
         public init(
@@ -2589,7 +2589,7 @@ extension PartnerCentralSellingClientTypes {
 
     /// Contains insights provided by AWS for the opportunity, offering recommendations and analysis that can help the partner optimize their engagement and strategy.
     public struct AwsOpportunityInsights: Swift.Sendable {
-        /// Source-separated spend insights that provide independent analysis for AWS predictions and partner estimates
+        /// Source-separated spend insights that provide independent analysis for AWS recommendations and partner estimates.
         public var awsProductsSpendInsightsBySource: PartnerCentralSellingClientTypes.AwsProductsSpendInsightsBySource?
         /// Represents a score assigned by AWS to indicate the level of engagement and potential success for the opportunity. This score helps partners prioritize their efforts.
         public var engagementScore: PartnerCentralSellingClientTypes.EngagementScore?
@@ -2829,7 +2829,7 @@ extension PartnerCentralSellingClientTypes {
 
     /// Captures details about the project associated with the opportunity, including objectives, scope, and customer requirements.
     public struct AwsOpportunityProject: Swift.Sendable {
-        /// AWS partition where the opportunity will be deployed. Possible values: 'aws-eusc' for AWS European Sovereign Cloud, null for all other partitions
+        /// AWS partition where the opportunity will be deployed. Possible values: aws-eusc for AWS European Sovereign Cloud, null for all other partitions.
         public var awsPartition: PartnerCentralSellingClientTypes.AwsPartition?
         /// Indicates the expected spending by the customer over the course of the project. This value helps partners and AWS estimate the financial impact of the opportunity. Use the [AWS Pricing Calculator](https://calculator.aws/#/) to create an estimate of the customer’s total spend. If only annual recurring revenue (ARR) is available, distribute it across 12 months to provide an average monthly value.
         public var expectedCustomerSpend: [PartnerCentralSellingClientTypes.ExpectedCustomerSpend]?
@@ -2865,6 +2865,73 @@ extension PartnerCentralSellingClientTypes {
 
 extension PartnerCentralSellingClientTypes {
 
+    public enum SalesInvolvementType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case coSell
+        case forVisibilityOnly
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SalesInvolvementType] {
+            return [
+                .coSell,
+                .forVisibilityOnly
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .coSell: return "Co-Sell"
+            case .forVisibilityOnly: return "For Visibility Only"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension PartnerCentralSellingClientTypes {
+
+    public enum InvolvementTypeChangeReason: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case changeInDealInformation
+        case customerRequested
+        case expansionOpportunity
+        case riskMitigation
+        case technicalComplexity
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [InvolvementTypeChangeReason] {
+            return [
+                .changeInDealInformation,
+                .customerRequested,
+                .expansionOpportunity,
+                .riskMitigation,
+                .technicalComplexity
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .changeInDealInformation: return "Change in Deal Information"
+            case .customerRequested: return "Customer Requested"
+            case .expansionOpportunity: return "Expansion Opportunity"
+            case .riskMitigation: return "Risk Mitigation"
+            case .technicalComplexity: return "Technical Complexity"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension PartnerCentralSellingClientTypes {
+
     /// Represents an Amazon Web Services team member for the engagement. This structure includes details such as name, email, and business title.
     public struct AwsTeamMember: Swift.Sendable {
         /// Specifies the Amazon Web Services team member's business title and indicates their organizational role.
@@ -2893,6 +2960,119 @@ extension PartnerCentralSellingClientTypes {
 extension PartnerCentralSellingClientTypes.AwsTeamMember: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "AwsTeamMember(businessTitle: \(Swift.String(describing: businessTitle)), email: \"CONTENT_REDACTED\", firstName: \"CONTENT_REDACTED\", lastName: \"CONTENT_REDACTED\")"}
+}
+
+extension PartnerCentralSellingClientTypes {
+
+    public enum OpportunityOrigin: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case awsReferral
+        case partnerReferral
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [OpportunityOrigin] {
+            return [
+                .awsReferral,
+                .partnerReferral
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .awsReferral: return "AWS Referral"
+            case .partnerReferral: return "Partner Referral"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension PartnerCentralSellingClientTypes {
+
+    public enum Visibility: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case full
+        case limited
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Visibility] {
+            return [
+                .full,
+                .limited
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .full: return "Full"
+            case .limited: return "Limited"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension PartnerCentralSellingClientTypes {
+
+    /// Provides a comprehensive view of AwsOpportunitySummaryFullView template.
+    public struct AwsOpportunitySummaryFullView: Swift.Sendable {
+        /// Represents the customer associated with the AWS opportunity. This field captures key details about the customer that are necessary for managing the opportunity.
+        public var customer: PartnerCentralSellingClientTypes.AwsOpportunityCustomer?
+        /// Contains insights provided by AWS for the opportunity, offering recommendations and analysis that can help the partner optimize their engagement and strategy.
+        public var insights: PartnerCentralSellingClientTypes.AwsOpportunityInsights?
+        /// Type of AWS involvement in the opportunity.
+        public var involvementType: PartnerCentralSellingClientTypes.SalesInvolvementType?
+        /// Reason for changes in AWS involvement type for the opportunity.
+        public var involvementTypeChangeReason: PartnerCentralSellingClientTypes.InvolvementTypeChangeReason?
+        /// Tracks the lifecycle of the AWS opportunity, including stages such as qualification, validation, and closure. This field helps partners understand the current status and progression of the opportunity.
+        public var lifeCycle: PartnerCentralSellingClientTypes.AwsOpportunityLifeCycle?
+        /// AWS team members involved in the opportunity.
+        public var opportunityTeam: [PartnerCentralSellingClientTypes.AwsTeamMember]?
+        /// Source origin of the AWS opportunity.
+        public var origin: PartnerCentralSellingClientTypes.OpportunityOrigin?
+        /// Captures details about the project associated with the opportunity, including objectives, scope, and customer requirements.
+        public var project: PartnerCentralSellingClientTypes.AwsOpportunityProject?
+        /// Represents other entities related to the AWS opportunity, such as AWS products, partner solutions, and marketplace offers. These associations help build a complete picture of the solution being sold.
+        public var relatedEntityIds: PartnerCentralSellingClientTypes.AwsOpportunityRelatedEntities?
+        /// Identifier of the related partner opportunity.
+        public var relatedOpportunityId: Swift.String?
+        /// Visibility level for the AWS opportunity.
+        public var visibility: PartnerCentralSellingClientTypes.Visibility?
+
+        public init(
+            customer: PartnerCentralSellingClientTypes.AwsOpportunityCustomer? = nil,
+            insights: PartnerCentralSellingClientTypes.AwsOpportunityInsights? = nil,
+            involvementType: PartnerCentralSellingClientTypes.SalesInvolvementType? = nil,
+            involvementTypeChangeReason: PartnerCentralSellingClientTypes.InvolvementTypeChangeReason? = nil,
+            lifeCycle: PartnerCentralSellingClientTypes.AwsOpportunityLifeCycle? = nil,
+            opportunityTeam: [PartnerCentralSellingClientTypes.AwsTeamMember]? = nil,
+            origin: PartnerCentralSellingClientTypes.OpportunityOrigin? = nil,
+            project: PartnerCentralSellingClientTypes.AwsOpportunityProject? = nil,
+            relatedEntityIds: PartnerCentralSellingClientTypes.AwsOpportunityRelatedEntities? = nil,
+            relatedOpportunityId: Swift.String? = nil,
+            visibility: PartnerCentralSellingClientTypes.Visibility? = nil
+        ) {
+            self.customer = customer
+            self.insights = insights
+            self.involvementType = involvementType
+            self.involvementTypeChangeReason = involvementTypeChangeReason
+            self.lifeCycle = lifeCycle
+            self.opportunityTeam = opportunityTeam
+            self.origin = origin
+            self.project = project
+            self.relatedEntityIds = relatedEntityIds
+            self.relatedOpportunityId = relatedOpportunityId
+            self.visibility = visibility
+        }
+    }
 }
 
 /// This error occurs when the request would cause a service quota to be exceeded. Service quotas represent the maximum allowed use of a specific resource, and this error indicates that the request would surpass that limit. Suggested action: Review the [Quotas](https://docs.aws.amazon.com/partner-central/latest/selling-api/quotas.html) for the resource, and either reduce usage or request a quota increase.
@@ -4174,64 +4354,6 @@ public struct ListEngagementFromOpportunityTasksOutput: Swift.Sendable {
     ) {
         self.nextToken = nextToken
         self.taskSummaries = taskSummaries
-    }
-}
-
-extension PartnerCentralSellingClientTypes {
-
-    public enum SalesInvolvementType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case coSell
-        case forVisibilityOnly
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [SalesInvolvementType] {
-            return [
-                .coSell,
-                .forVisibilityOnly
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .coSell: return "Co-Sell"
-            case .forVisibilityOnly: return "For Visibility Only"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension PartnerCentralSellingClientTypes {
-
-    public enum Visibility: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case full
-        case limited
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [Visibility] {
-            return [
-                .full,
-                .limited
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .full: return "Full"
-            case .limited: return "Limited"
-            case let .sdkUnknown(s): return s
-            }
-        }
     }
 }
 
@@ -5698,35 +5820,6 @@ extension PartnerCentralSellingClientTypes {
 
 extension PartnerCentralSellingClientTypes {
 
-    public enum OpportunityOrigin: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case awsReferral
-        case partnerReferral
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [OpportunityOrigin] {
-            return [
-                .awsReferral,
-                .partnerReferral
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .awsReferral: return "AWS Referral"
-            case .partnerReferral: return "Partner Referral"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension PartnerCentralSellingClientTypes {
-
     public enum PrimaryNeedFromAws: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case coSellArchitecturalValidation
         case coSellBusinessPresentation
@@ -5924,7 +6017,7 @@ extension PartnerCentralSellingClientTypes {
         public var additionalComments: Swift.String?
         /// Specifies the Amazon Partner Network (APN) program that influenced the Opportunity. APN programs refer to specific partner programs or initiatives that can impact the Opportunity. Valid values: APN Immersion Days | APN Solution Space | ATO (Authority to Operate) | AWS Marketplace Campaign | IS Immersion Day SFID Program | ISV Workload Migration | Migration Acceleration Program | P3 | Partner Launch Initiative | Partner Opportunity Acceleration Funded | The Next Smart | VMware Cloud on AWS | Well-Architected | Windows | Workspaces/AppStream Accelerator Program | WWPS NDPP
         public var apnPrograms: [Swift.String]?
-        /// AWS partition where the opportunity will be deployed. Possible values: 'aws-eusc' for AWS European Sovereign Cloud, null for all other partitions
+        /// AWS partition where the opportunity will be deployed. Possible values: aws-eusc for AWS European Sovereign Cloud, null for all other partitions.
         public var awsPartition: PartnerCentralSellingClientTypes.AwsPartition?
         /// Name of the Opportunity's competitor (if any). Use Other to submit a value not in the picklist.
         public var competitorName: PartnerCentralSellingClientTypes.CompetitorName?
@@ -6248,44 +6341,6 @@ public struct GetAwsOpportunitySummaryInput: Swift.Sendable {
     }
 }
 
-extension PartnerCentralSellingClientTypes {
-
-    public enum InvolvementTypeChangeReason: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case changeInDealInformation
-        case customerRequested
-        case expansionOpportunity
-        case riskMitigation
-        case technicalComplexity
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [InvolvementTypeChangeReason] {
-            return [
-                .changeInDealInformation,
-                .customerRequested,
-                .expansionOpportunity,
-                .riskMitigation,
-                .technicalComplexity
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .changeInDealInformation: return "Change in Deal Information"
-            case .customerRequested: return "Customer Requested"
-            case .expansionOpportunity: return "Expansion Opportunity"
-            case .riskMitigation: return "Risk Mitigation"
-            case .technicalComplexity: return "Technical Complexity"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
 public struct GetAwsOpportunitySummaryOutput: Swift.Sendable {
     /// Specifies the catalog in which the AWS Opportunity exists. This is the environment (e.g., AWS or Sandbox) where the opportunity is being managed.
     /// This member is required.
@@ -6486,6 +6541,25 @@ public struct GetOpportunityOutput: Swift.Sendable {
 
 extension PartnerCentralSellingClientTypes {
 
+    /// Filter for opportunities based on creation date range.
+    public struct CreatedDateFilter: Swift.Sendable {
+        /// Filter opportunities created after this date.
+        public var afterCreatedDate: Foundation.Date?
+        /// Filter opportunities created before this date.
+        public var beforeCreatedDate: Foundation.Date?
+
+        public init(
+            afterCreatedDate: Foundation.Date? = nil,
+            beforeCreatedDate: Foundation.Date? = nil
+        ) {
+            self.afterCreatedDate = afterCreatedDate
+            self.beforeCreatedDate = beforeCreatedDate
+        }
+    }
+}
+
+extension PartnerCentralSellingClientTypes {
+
     /// Defines a filter to retrieve opportunities based on the last modified date. This filter is useful for tracking changes or updates to opportunities over time.
     public struct LastModifiedDate: Swift.Sendable {
         /// Specifies the date after which the opportunities were modified. Use this filter to retrieve only those opportunities that were modified after a given timestamp.
@@ -6506,6 +6580,7 @@ extension PartnerCentralSellingClientTypes {
 extension PartnerCentralSellingClientTypes {
 
     public enum OpportunitySortName: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case createdDate
         case customerCompanyName
         case identifier
         case lastModifieddate
@@ -6513,6 +6588,7 @@ extension PartnerCentralSellingClientTypes {
 
         public static var allCases: [OpportunitySortName] {
             return [
+                .createdDate,
                 .customerCompanyName,
                 .identifier,
                 .lastModifieddate
@@ -6526,6 +6602,7 @@ extension PartnerCentralSellingClientTypes {
 
         public var rawValue: Swift.String {
             switch self {
+            case .createdDate: return "CreatedDate"
             case .customerCompanyName: return "CustomerCompanyName"
             case .identifier: return "Identifier"
             case .lastModifieddate: return "LastModifiedDate"
@@ -6560,6 +6637,8 @@ public struct ListOpportunitiesInput: Swift.Sendable {
     /// Specifies the catalog associated with the request. This field takes a string value from a predefined list: AWS or Sandbox. The catalog determines which environment the opportunities are listed in. Use AWS for listing real opportunities in the Amazon Web Services catalog, and Sandbox for testing in secure, isolated environments.
     /// This member is required.
     public var catalog: Swift.String?
+    /// Filter opportunities by creation date criteria.
+    public var createdDate: PartnerCentralSellingClientTypes.CreatedDateFilter?
     /// Filters the opportunities based on the customer's company name. This allows partners to search for opportunities associated with a specific customer by matching the provided company name string.
     public var customerCompanyName: [Swift.String]?
     /// Filters the opportunities based on the opportunity identifier. This allows partners to retrieve specific opportunities by providing their unique identifiers, ensuring precise results.
@@ -6579,6 +6658,7 @@ public struct ListOpportunitiesInput: Swift.Sendable {
 
     public init(
         catalog: Swift.String? = nil,
+        createdDate: PartnerCentralSellingClientTypes.CreatedDateFilter? = nil,
         customerCompanyName: [Swift.String]? = nil,
         identifier: [Swift.String]? = nil,
         lastModifiedDate: PartnerCentralSellingClientTypes.LastModifiedDate? = nil,
@@ -6589,6 +6669,7 @@ public struct ListOpportunitiesInput: Swift.Sendable {
         sort: PartnerCentralSellingClientTypes.OpportunitySort? = nil
     ) {
         self.catalog = catalog
+        self.createdDate = createdDate
         self.customerCompanyName = customerCompanyName
         self.identifier = identifier
         self.lastModifiedDate = lastModifiedDate
@@ -7401,6 +7482,8 @@ extension PartnerCentralSellingClientTypes {
     public enum ResourceSnapshotPayload: Swift.Sendable {
         /// An object that contains an opportunity's subset of fields.
         case opportunitysummary(PartnerCentralSellingClientTypes.OpportunitySummaryView)
+        /// Provides a comprehensive view of AwsOpportunitySummaryFullView template.
+        case awsopportunitysummaryfullview(PartnerCentralSellingClientTypes.AwsOpportunitySummaryFullView)
         case sdkUnknown(Swift.String)
     }
 }
@@ -7427,6 +7510,8 @@ public struct GetResourceSnapshotOutput: Swift.Sendable {
     public var resourceType: PartnerCentralSellingClientTypes.ResourceType?
     /// The revision number of this snapshot. This is a positive integer that is sequential and unique within the context of a resource view.
     public var revision: Swift.Int?
+    /// Target member accounts associated with the resource snapshot.
+    public var targetMemberAccounts: [Swift.String]?
 
     public init(
         arn: Swift.String? = nil,
@@ -7438,7 +7523,8 @@ public struct GetResourceSnapshotOutput: Swift.Sendable {
         resourceId: Swift.String? = nil,
         resourceSnapshotTemplateName: Swift.String? = nil,
         resourceType: PartnerCentralSellingClientTypes.ResourceType? = nil,
-        revision: Swift.Int? = nil
+        revision: Swift.Int? = nil,
+        targetMemberAccounts: [Swift.String]? = nil
     ) {
         self.arn = arn
         self.catalog = catalog
@@ -7450,12 +7536,13 @@ public struct GetResourceSnapshotOutput: Swift.Sendable {
         self.resourceSnapshotTemplateName = resourceSnapshotTemplateName
         self.resourceType = resourceType
         self.revision = revision
+        self.targetMemberAccounts = targetMemberAccounts
     }
 }
 
 extension GetResourceSnapshotOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetResourceSnapshotOutput(arn: \(Swift.String(describing: arn)), catalog: \(Swift.String(describing: catalog)), createdAt: \(Swift.String(describing: createdAt)), engagementId: \(Swift.String(describing: engagementId)), payload: \(Swift.String(describing: payload)), resourceId: \(Swift.String(describing: resourceId)), resourceSnapshotTemplateName: \(Swift.String(describing: resourceSnapshotTemplateName)), resourceType: \(Swift.String(describing: resourceType)), revision: \(Swift.String(describing: revision)), createdBy: \"CONTENT_REDACTED\")"}
+        "GetResourceSnapshotOutput(arn: \(Swift.String(describing: arn)), catalog: \(Swift.String(describing: catalog)), createdAt: \(Swift.String(describing: createdAt)), engagementId: \(Swift.String(describing: engagementId)), payload: \(Swift.String(describing: payload)), resourceId: \(Swift.String(describing: resourceId)), resourceSnapshotTemplateName: \(Swift.String(describing: resourceSnapshotTemplateName)), resourceType: \(Swift.String(describing: resourceType)), revision: \(Swift.String(describing: revision)), createdBy: \"CONTENT_REDACTED\", targetMemberAccounts: \"CONTENT_REDACTED\")"}
 }
 
 public struct ListEngagementResourceAssociationsInput: Swift.Sendable {
@@ -8924,6 +9011,7 @@ extension ListOpportunitiesInput {
     static func write(value: ListOpportunitiesInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Catalog"].write(value.catalog)
+        try writer["CreatedDate"].write(value.createdDate, with: PartnerCentralSellingClientTypes.CreatedDateFilter.write(value:to:))
         try writer["CustomerCompanyName"].writeList(value.customerCompanyName, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Identifier"].writeList(value.identifier, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["LastModifiedDate"].write(value.lastModifiedDate, with: PartnerCentralSellingClientTypes.LastModifiedDate.write(value:to:))
@@ -9367,6 +9455,7 @@ extension GetResourceSnapshotOutput {
         value.resourceSnapshotTemplateName = try reader["ResourceSnapshotTemplateName"].readIfPresent()
         value.resourceType = try reader["ResourceType"].readIfPresent()
         value.revision = try reader["Revision"].readIfPresent()
+        value.targetMemberAccounts = try reader["TargetMemberAccounts"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -11429,9 +11518,31 @@ extension PartnerCentralSellingClientTypes.ResourceSnapshotPayload {
         switch name {
             case "OpportunitySummary":
                 return .opportunitysummary(try reader["OpportunitySummary"].read(with: PartnerCentralSellingClientTypes.OpportunitySummaryView.read(from:)))
+            case "AwsOpportunitySummaryFullView":
+                return .awsopportunitysummaryfullview(try reader["AwsOpportunitySummaryFullView"].read(with: PartnerCentralSellingClientTypes.AwsOpportunitySummaryFullView.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
+    }
+}
+
+extension PartnerCentralSellingClientTypes.AwsOpportunitySummaryFullView {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.AwsOpportunitySummaryFullView {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PartnerCentralSellingClientTypes.AwsOpportunitySummaryFullView()
+        value.relatedOpportunityId = try reader["RelatedOpportunityId"].readIfPresent()
+        value.origin = try reader["Origin"].readIfPresent()
+        value.involvementType = try reader["InvolvementType"].readIfPresent()
+        value.visibility = try reader["Visibility"].readIfPresent()
+        value.lifeCycle = try reader["LifeCycle"].readIfPresent(with: PartnerCentralSellingClientTypes.AwsOpportunityLifeCycle.read(from:))
+        value.opportunityTeam = try reader["OpportunityTeam"].readListIfPresent(memberReadingClosure: PartnerCentralSellingClientTypes.AwsTeamMember.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.insights = try reader["Insights"].readIfPresent(with: PartnerCentralSellingClientTypes.AwsOpportunityInsights.read(from:))
+        value.involvementTypeChangeReason = try reader["InvolvementTypeChangeReason"].readIfPresent()
+        value.relatedEntityIds = try reader["RelatedEntityIds"].readIfPresent(with: PartnerCentralSellingClientTypes.AwsOpportunityRelatedEntities.read(from:))
+        value.customer = try reader["Customer"].readIfPresent(with: PartnerCentralSellingClientTypes.AwsOpportunityCustomer.read(from:))
+        value.project = try reader["Project"].readIfPresent(with: PartnerCentralSellingClientTypes.AwsOpportunityProject.read(from:))
+        return value
     }
 }
 
@@ -11807,6 +11918,15 @@ extension PartnerCentralSellingClientTypes.LastModifiedDate {
         guard let value else { return }
         try writer["AfterLastModifiedDate"].writeTimestamp(value.afterLastModifiedDate, format: SmithyTimestamps.TimestampFormat.dateTime)
         try writer["BeforeLastModifiedDate"].writeTimestamp(value.beforeLastModifiedDate, format: SmithyTimestamps.TimestampFormat.dateTime)
+    }
+}
+
+extension PartnerCentralSellingClientTypes.CreatedDateFilter {
+
+    static func write(value: PartnerCentralSellingClientTypes.CreatedDateFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AfterCreatedDate"].writeTimestamp(value.afterCreatedDate, format: SmithyTimestamps.TimestampFormat.dateTime)
+        try writer["BeforeCreatedDate"].writeTimestamp(value.beforeCreatedDate, format: SmithyTimestamps.TimestampFormat.dateTime)
     }
 }
 

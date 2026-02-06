@@ -3496,6 +3496,8 @@ public struct CreateJobInput: Swift.Sendable {
     public var sourceJobId: Swift.String?
     /// The storage profile ID for the storage profile to connect to the job.
     public var storageProfileId: Swift.String?
+    /// The tags to add to your job. Each tag consists of a tag key and a tag value. Tag keys and values are both required, but tag values can be empty strings.
+    public var tags: [Swift.String: Swift.String]?
     /// The initial job status when it is created. Jobs that are created with a SUSPENDED status will not run until manually requeued.
     public var targetTaskRunStatus: DeadlineClientTypes.CreateJobTargetTaskRunStatus?
     /// The job template to use for this job.
@@ -3517,6 +3519,7 @@ public struct CreateJobInput: Swift.Sendable {
         queueId: Swift.String? = nil,
         sourceJobId: Swift.String? = nil,
         storageProfileId: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil,
         targetTaskRunStatus: DeadlineClientTypes.CreateJobTargetTaskRunStatus? = nil,
         template: Swift.String? = nil,
         templateType: DeadlineClientTypes.JobTemplateType? = nil
@@ -3534,6 +3537,7 @@ public struct CreateJobInput: Swift.Sendable {
         self.queueId = queueId
         self.sourceJobId = sourceJobId
         self.storageProfileId = storageProfileId
+        self.tags = tags
         self.targetTaskRunStatus = targetTaskRunStatus
         self.template = template
         self.templateType = templateType
@@ -3542,7 +3546,7 @@ public struct CreateJobInput: Swift.Sendable {
 
 extension CreateJobInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateJobInput(attachments: \(Swift.String(describing: attachments)), clientToken: \(Swift.String(describing: clientToken)), farmId: \(Swift.String(describing: farmId)), maxFailedTasksCount: \(Swift.String(describing: maxFailedTasksCount)), maxRetriesPerTask: \(Swift.String(describing: maxRetriesPerTask)), maxWorkerCount: \(Swift.String(describing: maxWorkerCount)), nameOverride: \(Swift.String(describing: nameOverride)), priority: \(Swift.String(describing: priority)), queueId: \(Swift.String(describing: queueId)), sourceJobId: \(Swift.String(describing: sourceJobId)), storageProfileId: \(Swift.String(describing: storageProfileId)), targetTaskRunStatus: \(Swift.String(describing: targetTaskRunStatus)), templateType: \(Swift.String(describing: templateType)), descriptionOverride: \"CONTENT_REDACTED\", parameters: \"CONTENT_REDACTED\", template: \"CONTENT_REDACTED\")"}
+        "CreateJobInput(attachments: \(Swift.String(describing: attachments)), clientToken: \(Swift.String(describing: clientToken)), farmId: \(Swift.String(describing: farmId)), maxFailedTasksCount: \(Swift.String(describing: maxFailedTasksCount)), maxRetriesPerTask: \(Swift.String(describing: maxRetriesPerTask)), maxWorkerCount: \(Swift.String(describing: maxWorkerCount)), nameOverride: \(Swift.String(describing: nameOverride)), priority: \(Swift.String(describing: priority)), queueId: \(Swift.String(describing: queueId)), sourceJobId: \(Swift.String(describing: sourceJobId)), storageProfileId: \(Swift.String(describing: storageProfileId)), tags: \(Swift.String(describing: tags)), targetTaskRunStatus: \(Swift.String(describing: targetTaskRunStatus)), templateType: \(Swift.String(describing: templateType)), descriptionOverride: \"CONTENT_REDACTED\", parameters: \"CONTENT_REDACTED\", template: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateJobOutput: Swift.Sendable {
@@ -14175,6 +14179,7 @@ extension CreateJobInput {
         try writer["priority"].write(value.priority)
         try writer["sourceJobId"].write(value.sourceJobId)
         try writer["storageProfileId"].write(value.storageProfileId)
+        try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["targetTaskRunStatus"].write(value.targetTaskRunStatus)
         try writer["template"].write(value.template)
         try writer["templateType"].write(value.templateType)

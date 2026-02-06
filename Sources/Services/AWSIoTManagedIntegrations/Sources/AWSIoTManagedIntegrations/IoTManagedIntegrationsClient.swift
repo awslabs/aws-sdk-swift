@@ -5011,7 +5011,7 @@ extension IoTManagedIntegrationsClient {
 
     /// Performs the `ListTagsForResource` operation on the `IoTManagedIntegrations` service.
     ///
-    /// List tags for the specified resource.
+    /// Lists the tags for a specified resource.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListTagsForResourceInput`)
     ///
@@ -5668,6 +5668,7 @@ extension IoTManagedIntegrationsClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : User is not authorized.
+    /// - `ConflictException` : There is a conflict with the request.
     /// - `InternalServerException` : Internal error from the service that indicates an unexpected error or that the service is unavailable.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ServiceUnavailableException` : The service is temporarily unavailable.
@@ -5803,7 +5804,7 @@ extension IoTManagedIntegrationsClient {
 
     /// Performs the `TagResource` operation on the `IoTManagedIntegrations` service.
     ///
-    /// Add tags for the specified resource.
+    /// Adds tags to a specified resource.
     ///
     /// - Parameter input: [no documentation found] (Type: `TagResourceInput`)
     ///
@@ -5875,7 +5876,7 @@ extension IoTManagedIntegrationsClient {
 
     /// Performs the `UntagResource` operation on the `IoTManagedIntegrations` service.
     ///
-    /// Remove tags for the specified resource.
+    /// Removes tags from a specified resource.
     ///
     /// - Parameter input: [no documentation found] (Type: `UntagResourceInput`)
     ///
