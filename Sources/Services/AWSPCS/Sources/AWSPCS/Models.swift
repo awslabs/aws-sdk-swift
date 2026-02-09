@@ -701,6 +701,7 @@ extension PCSClientTypes {
         case deleted
         case deleteFailed
         case deleting
+        case resuming
         case suspended
         case suspending
         case updateFailed
@@ -715,6 +716,7 @@ extension PCSClientTypes {
                 .deleted,
                 .deleteFailed,
                 .deleting,
+                .resuming,
                 .suspended,
                 .suspending,
                 .updateFailed,
@@ -735,6 +737,7 @@ extension PCSClientTypes {
             case .deleted: return "DELETED"
             case .deleteFailed: return "DELETE_FAILED"
             case .deleting: return "DELETING"
+            case .resuming: return "RESUMING"
             case .suspended: return "SUSPENDED"
             case .suspending: return "SUSPENDING"
             case .updateFailed: return "UPDATE_FAILED"
@@ -1566,6 +1569,7 @@ extension PCSClientTypes {
         case creating
         case deleteFailed
         case deleting
+        case resuming
         case suspended
         case suspending
         case updateFailed
@@ -1579,6 +1583,7 @@ extension PCSClientTypes {
                 .creating,
                 .deleteFailed,
                 .deleting,
+                .resuming,
                 .suspended,
                 .suspending,
                 .updateFailed,
@@ -1598,6 +1603,7 @@ extension PCSClientTypes {
             case .creating: return "CREATING"
             case .deleteFailed: return "DELETE_FAILED"
             case .deleting: return "DELETING"
+            case .resuming: return "RESUMING"
             case .suspended: return "SUSPENDED"
             case .suspending: return "SUSPENDING"
             case .updateFailed: return "UPDATE_FAILED"
@@ -1895,6 +1901,7 @@ extension PCSClientTypes {
         case creating
         case deleteFailed
         case deleting
+        case resuming
         case suspended
         case suspending
         case updateFailed
@@ -1908,6 +1915,7 @@ extension PCSClientTypes {
                 .creating,
                 .deleteFailed,
                 .deleting,
+                .resuming,
                 .suspended,
                 .suspending,
                 .updateFailed,
@@ -1927,6 +1935,7 @@ extension PCSClientTypes {
             case .creating: return "CREATING"
             case .deleteFailed: return "DELETE_FAILED"
             case .deleting: return "DELETING"
+            case .resuming: return "RESUMING"
             case .suspended: return "SUSPENDED"
             case .suspending: return "SUSPENDING"
             case .updateFailed: return "UPDATE_FAILED"

@@ -1041,7 +1041,7 @@ extension NeptuneGraphClient {
 
     /// Performs the `CreatePrivateGraphEndpoint` operation on the `NeptuneGraph` service.
     ///
-    /// Create a private graph endpoint to allow private access from to the graph from within a VPC. You can attach security groups to the private graph endpoint. VPC endpoint charges apply.
+    /// Create a private graph endpoint to allow private access to the graph from within a VPC. You can attach security groups to the private graph endpoint. VPC endpoint charges apply.
     ///
     /// - Parameter input: [no documentation found] (Type: `CreatePrivateGraphEndpointInput`)
     ///
@@ -1184,7 +1184,7 @@ extension NeptuneGraphClient {
 
     /// Performs the `DeleteGraphSnapshot` operation on the `NeptuneGraph` service.
     ///
-    /// Deletes the specifed graph snapshot.
+    /// Deletes the specified graph snapshot.
     ///
     /// - Parameter input: [no documentation found] (Type: `DeleteGraphSnapshotInput`)
     ///

@@ -326,7 +326,7 @@ public struct InvokeAgentRuntimeInput: Swift.Sendable {
     public var accept: Swift.String?
     /// The identifier of the Amazon Web Services account for the agent runtime resource.
     public var accountId: Swift.String?
-    /// The Amazon Web Services Resource Name (ARN) of the agent runtime to invoke. The ARN uniquely identifies the agent runtime resource in Amazon Bedrock.
+    /// The Amazon Web Services Resource Name (ARN) of the agent runtime to invoke. The ARN uniquely identifies the agent runtime resource in Amazon Bedrock AgentCore.
     /// This member is required.
     public var agentRuntimeArn: Swift.String?
     /// Additional context information for distributed tracing.
@@ -340,7 +340,7 @@ public struct InvokeAgentRuntimeInput: Swift.Sendable {
     /// The input data to send to the agent runtime. The format of this data depends on the specific agent configuration and must match the specified content type. For most agents, this is a JSON object containing the user's request.
     /// This member is required.
     public var payload: Foundation.Data?
-    /// The qualifier to use for the agent runtime. This can be a version number or an endpoint name that points to a specific version. If not specified, Amazon Bedrock uses the default version of the agent runtime.
+    /// The qualifier to use for the agent runtime. This can be a version number or an endpoint name that points to a specific version. If not specified, Amazon Bedrock AgentCore uses the default version of the agent runtime.
     public var qualifier: Swift.String?
     /// The identifier of the runtime session.
     public var runtimeSessionId: Swift.String?
@@ -530,6 +530,67 @@ public struct StopRuntimeSessionOutput: Swift.Sendable {
     }
 }
 
+public struct SaveBrowserSessionProfileInput: Swift.Sendable {
+    /// The unique identifier of the browser associated with the session from which to save the profile.
+    /// This member is required.
+    public var browserIdentifier: Swift.String?
+    /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock AgentCore ignores the request, but does not return an error.
+    public var clientToken: Swift.String?
+    /// The unique identifier for the browser profile. This identifier is used to reference the profile when starting new browser sessions. The identifier must follow the pattern of an alphanumeric name (up to 48 characters) followed by a hyphen and a 10-character alphanumeric suffix.
+    /// This member is required.
+    public var profileIdentifier: Swift.String?
+    /// The unique identifier of the browser session from which to save the profile. The session must be active when saving the profile.
+    /// This member is required.
+    public var sessionId: Swift.String?
+    /// The trace identifier for request tracking.
+    public var traceId: Swift.String?
+    /// The parent trace information for distributed tracing.
+    public var traceParent: Swift.String?
+
+    public init(
+        browserIdentifier: Swift.String? = nil,
+        clientToken: Swift.String? = nil,
+        profileIdentifier: Swift.String? = nil,
+        sessionId: Swift.String? = nil,
+        traceId: Swift.String? = nil,
+        traceParent: Swift.String? = nil
+    ) {
+        self.browserIdentifier = browserIdentifier
+        self.clientToken = clientToken
+        self.profileIdentifier = profileIdentifier
+        self.sessionId = sessionId
+        self.traceId = traceId
+        self.traceParent = traceParent
+    }
+}
+
+public struct SaveBrowserSessionProfileOutput: Swift.Sendable {
+    /// The unique identifier of the browser associated with the session from which the profile was saved.
+    /// This member is required.
+    public var browserIdentifier: Swift.String?
+    /// The timestamp when the browser profile was last updated. This value is in ISO 8601 format.
+    /// This member is required.
+    public var lastUpdatedAt: Foundation.Date?
+    /// The unique identifier of the saved browser profile.
+    /// This member is required.
+    public var profileIdentifier: Swift.String?
+    /// The unique identifier of the browser session from which the profile was saved.
+    /// This member is required.
+    public var sessionId: Swift.String?
+
+    public init(
+        browserIdentifier: Swift.String? = nil,
+        lastUpdatedAt: Foundation.Date? = nil,
+        profileIdentifier: Swift.String? = nil,
+        sessionId: Swift.String? = nil
+    ) {
+        self.browserIdentifier = browserIdentifier
+        self.lastUpdatedAt = lastUpdatedAt
+        self.profileIdentifier = profileIdentifier
+        self.sessionId = sessionId
+    }
+}
+
 public struct GetBrowserSessionInput: Swift.Sendable {
     /// The unique identifier of the browser associated with the session.
     /// This member is required.
@@ -600,6 +661,22 @@ extension BedrockAgentCoreClientTypes {
 
 extension BedrockAgentCoreClientTypes {
 
+    /// The configuration for a browser profile in Amazon Bedrock AgentCore. A browser profile contains persistent browser data such as cookies and local storage that can be saved from one browser session and reused in subsequent sessions. Browser profiles enable continuity for tasks that require authentication, maintain user preferences, or depend on previously stored browser state.
+    public struct BrowserProfileConfiguration: Swift.Sendable {
+        /// The unique identifier of the browser profile. This identifier is used to reference the profile when starting new browser sessions or saving session data to the profile.
+        /// This member is required.
+        public var profileIdentifier: Swift.String?
+
+        public init(
+            profileIdentifier: Swift.String? = nil
+        ) {
+            self.profileIdentifier = profileIdentifier
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
     public enum BrowserSessionStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case ready
         case terminated
@@ -658,7 +735,7 @@ extension BedrockAgentCoreClientTypes {
 
 extension BedrockAgentCoreClientTypes {
 
-    /// The configuration for a stream that enables programmatic control of a browser session in Amazon Bedrock. This stream provides a bidirectional communication channel for sending commands to the browser and receiving responses, allowing agents to automate web interactions such as navigation, form filling, and element clicking.
+    /// The configuration for a stream that enables programmatic control of a browser session in Amazon Bedrock AgentCore. This stream provides a bidirectional communication channel for sending commands to the browser and receiving responses, allowing agents to automate web interactions such as navigation, form filling, and element clicking.
     public struct AutomationStream: Swift.Sendable {
         /// The endpoint URL for the automation stream. This URL is used to establish a WebSocket connection to the stream for sending commands and receiving responses.
         /// This member is required.
@@ -679,7 +756,7 @@ extension BedrockAgentCoreClientTypes {
 
 extension BedrockAgentCoreClientTypes {
 
-    /// The configuration for a stream that provides a visual representation of a browser session in Amazon Bedrock. This stream enables agents to observe the current state of the browser, including rendered web pages, visual elements, and the results of interactions.
+    /// The configuration for a stream that provides a visual representation of a browser session in Amazon Bedrock AgentCore. This stream enables agents to observe the current state of the browser, including rendered web pages, visual elements, and the results of interactions.
     public struct LiveViewStream: Swift.Sendable {
         /// The endpoint URL for the live view stream. This URL is used to establish a connection to receive visual updates from the browser session.
         public var streamEndpoint: Swift.String?
@@ -694,7 +771,7 @@ extension BedrockAgentCoreClientTypes {
 
 extension BedrockAgentCoreClientTypes {
 
-    /// The collection of streams associated with a browser session in Amazon Bedrock. These streams provide different ways to interact with and observe the browser session, including programmatic control and visual representation of the browser content.
+    /// The collection of streams associated with a browser session in Amazon Bedrock AgentCore. These streams provide different ways to interact with and observe the browser session, including programmatic control and visual representation of the browser content.
     public struct BrowserSessionStream: Swift.Sendable {
         /// The stream that enables programmatic control of the browser. This stream allows agents to perform actions such as navigating to URLs, clicking elements, and filling forms.
         /// This member is required.
@@ -746,6 +823,8 @@ public struct GetBrowserSessionOutput: Swift.Sendable {
     public var lastUpdatedAt: Foundation.Date?
     /// The name of the browser session.
     public var name: Swift.String?
+    /// The browser profile configuration associated with this session. Contains the profile identifier that links to persistent browser data such as cookies and local storage.
+    public var profileConfiguration: BedrockAgentCoreClientTypes.BrowserProfileConfiguration?
     /// The identifier of the browser session.
     /// This member is required.
     public var sessionId: Swift.String?
@@ -766,6 +845,7 @@ public struct GetBrowserSessionOutput: Swift.Sendable {
         extensions: [BedrockAgentCoreClientTypes.BrowserExtension]? = nil,
         lastUpdatedAt: Foundation.Date? = nil,
         name: Swift.String? = nil,
+        profileConfiguration: BedrockAgentCoreClientTypes.BrowserProfileConfiguration? = nil,
         sessionId: Swift.String? = nil,
         sessionReplayArtifact: Swift.String? = nil,
         sessionTimeoutSeconds: Swift.Int? = nil,
@@ -778,6 +858,7 @@ public struct GetBrowserSessionOutput: Swift.Sendable {
         self.extensions = extensions
         self.lastUpdatedAt = lastUpdatedAt
         self.name = name
+        self.profileConfiguration = profileConfiguration
         self.sessionId = sessionId
         self.sessionReplayArtifact = sessionReplayArtifact
         self.sessionTimeoutSeconds = sessionTimeoutSeconds
@@ -793,7 +874,7 @@ public struct ListBrowserSessionsInput: Swift.Sendable {
     public var browserIdentifier: Swift.String?
     /// The maximum number of results to return in a single call. The default value is 10. Valid values range from 1 to 100. To retrieve the remaining results, make another call with the returned nextToken value.
     public var maxResults: Swift.Int?
-    /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results. If not specified, Amazon Bedrock returns the first page of results.
+    /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results. If not specified, Amazon Bedrock AgentCore returns the first page of results.
     public var nextToken: Swift.String?
     /// The status of the browser sessions to list. Valid values include ACTIVE, STOPPING, and STOPPED. If not specified, sessions with any status are returned.
     public var status: BedrockAgentCoreClientTypes.BrowserSessionStatus?
@@ -813,7 +894,7 @@ public struct ListBrowserSessionsInput: Swift.Sendable {
 
 extension BedrockAgentCoreClientTypes {
 
-    /// A condensed representation of a browser session in Amazon Bedrock. This structure contains key information about a browser session, including identifiers, status, and timestamps, without the full details of the session configuration and streams.
+    /// A condensed representation of a browser session in Amazon Bedrock AgentCore. This structure contains key information about a browser session, including identifiers, status, and timestamps, without the full details of the session configuration and streams.
     public struct BrowserSessionSummary: Swift.Sendable {
         /// The unique identifier of the browser associated with the session. This identifier specifies which browser environment is used for the session.
         /// This member is required.
@@ -870,19 +951,21 @@ public struct StartBrowserSessionInput: Swift.Sendable {
     /// The unique identifier of the browser to use for this session. This identifier specifies which browser environment to initialize for the session.
     /// This member is required.
     public var browserIdentifier: Swift.String?
-    /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. This parameter helps prevent the creation of duplicate sessions if there are temporary network issues.
+    /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock AgentCore ignores the request, but does not return an error. This parameter helps prevent the creation of duplicate sessions if there are temporary network issues.
     public var clientToken: Swift.String?
     /// A list of browser extensions to load into the browser session.
     public var extensions: [BedrockAgentCoreClientTypes.BrowserExtension]?
     /// The name of the browser session. This name helps you identify and manage the session. The name does not need to be unique.
     public var name: Swift.String?
+    /// The browser profile configuration to use for this session. A browser profile contains persistent data such as cookies and local storage that can be reused across multiple browser sessions. If specified, the session initializes with the profile's stored data, enabling continuity for tasks that require authentication or personalized settings.
+    public var profileConfiguration: BedrockAgentCoreClientTypes.BrowserProfileConfiguration?
     /// The time in seconds after which the session automatically terminates if there is no activity. The default value is 3600 seconds (1 hour). The minimum allowed value is 60 seconds, and the maximum allowed value is 28800 seconds (8 hours).
     public var sessionTimeoutSeconds: Swift.Int?
     /// The trace identifier for request tracking.
     public var traceId: Swift.String?
     /// The parent trace information for distributed tracing.
     public var traceParent: Swift.String?
-    /// The dimensions of the browser viewport for this session. This determines the visible area of the web content and affects how web pages are rendered. If not specified, Amazon Bedrock uses a default viewport size.
+    /// The dimensions of the browser viewport for this session. This determines the visible area of the web content and affects how web pages are rendered. If not specified, Amazon Bedrock AgentCore uses a default viewport size.
     public var viewPort: BedrockAgentCoreClientTypes.ViewPort?
 
     public init(
@@ -890,6 +973,7 @@ public struct StartBrowserSessionInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         extensions: [BedrockAgentCoreClientTypes.BrowserExtension]? = nil,
         name: Swift.String? = nil,
+        profileConfiguration: BedrockAgentCoreClientTypes.BrowserProfileConfiguration? = nil,
         sessionTimeoutSeconds: Swift.Int? = nil,
         traceId: Swift.String? = nil,
         traceParent: Swift.String? = nil,
@@ -899,6 +983,7 @@ public struct StartBrowserSessionInput: Swift.Sendable {
         self.clientToken = clientToken
         self.extensions = extensions
         self.name = name
+        self.profileConfiguration = profileConfiguration
         self.sessionTimeoutSeconds = sessionTimeoutSeconds
         self.traceId = traceId
         self.traceParent = traceParent
@@ -936,7 +1021,7 @@ public struct StopBrowserSessionInput: Swift.Sendable {
     /// The unique identifier of the browser associated with the session.
     /// This member is required.
     public var browserIdentifier: Swift.String?
-    /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error.
+    /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock AgentCore ignores the request, but does not return an error.
     public var clientToken: Swift.String?
     /// The unique identifier of the browser session to stop.
     /// This member is required.
@@ -1041,7 +1126,7 @@ public struct UpdateBrowserStreamOutput: Swift.Sendable {
     /// The identifier of the browser session.
     /// This member is required.
     public var sessionId: Swift.String?
-    /// The collection of streams associated with a browser session in Amazon Bedrock. These streams provide different ways to interact with and observe the browser session, including programmatic control and visual representation of the browser content.
+    /// The collection of streams associated with a browser session in Amazon Bedrock AgentCore. These streams provide different ways to interact with and observe the browser session, including programmatic control and visual representation of the browser content.
     /// This member is required.
     public var streams: BedrockAgentCoreClientTypes.BrowserSessionStream?
     /// The time at which the browser stream was updated.
@@ -1147,7 +1232,7 @@ public struct ListCodeInterpreterSessionsInput: Swift.Sendable {
     public var codeInterpreterIdentifier: Swift.String?
     /// The maximum number of results to return in a single call. The default value is 10. Valid values range from 1 to 100. To retrieve the remaining results, make another call with the returned nextToken value.
     public var maxResults: Swift.Int?
-    /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results. If not specified, Amazon Bedrock returns the first page of results.
+    /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results. If not specified, Amazon Bedrock AgentCore returns the first page of results.
     public var nextToken: Swift.String?
     /// The status of the code interpreter sessions to list. Valid values include ACTIVE, STOPPING, and STOPPED. If not specified, sessions with any status are returned.
     public var status: BedrockAgentCoreClientTypes.CodeInterpreterSessionStatus?
@@ -1167,7 +1252,7 @@ public struct ListCodeInterpreterSessionsInput: Swift.Sendable {
 
 extension BedrockAgentCoreClientTypes {
 
-    /// A condensed representation of a code interpreter session in Amazon Bedrock. This structure contains key information about a code interpreter session, including identifiers, status, and timestamps, without the full details of the session configuration.
+    /// A condensed representation of a code interpreter session in Amazon Bedrock AgentCore. This structure contains key information about a code interpreter session, including identifiers, status, and timestamps, without the full details of the session configuration.
     public struct CodeInterpreterSessionSummary: Swift.Sendable {
         /// The unique identifier of the code interpreter associated with the session. This identifier specifies which code interpreter environment is used for the session.
         /// This member is required.
@@ -1221,7 +1306,7 @@ public struct ListCodeInterpreterSessionsOutput: Swift.Sendable {
 }
 
 public struct StartCodeInterpreterSessionInput: Swift.Sendable {
-    /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. This parameter helps prevent the creation of duplicate sessions if there are temporary network issues.
+    /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock AgentCore ignores the request, but does not return an error. This parameter helps prevent the creation of duplicate sessions if there are temporary network issues.
     public var clientToken: Swift.String?
     /// The unique identifier of the code interpreter to use for this session. This identifier specifies which code interpreter environment to initialize for the session.
     /// This member is required.
@@ -1275,7 +1360,7 @@ public struct StartCodeInterpreterSessionOutput: Swift.Sendable {
 }
 
 public struct StopCodeInterpreterSessionInput: Swift.Sendable {
-    /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error.
+    /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock AgentCore ignores the request, but does not return an error.
     public var clientToken: Swift.String?
     /// The unique identifier of the code interpreter associated with the session.
     /// This member is required.
@@ -1896,7 +1981,7 @@ extension BedrockAgentCoreClientTypes {
 
 extension BedrockAgentCoreClientTypes {
 
-    /// The collection of arguments that specify the operation to perform and its parameters when invoking a tool in Amazon Bedrock. Different tools require different arguments, and this structure provides a flexible way to pass the appropriate arguments to each tool type.
+    /// The collection of arguments that specify the operation to perform and its parameters when invoking a tool in Amazon Bedrock AgentCore. Different tools require different arguments, and this structure provides a flexible way to pass the appropriate arguments to each tool type.
     public struct ToolArguments: Swift.Sendable {
         /// Whether to clear the context for the tool.
         public var clearContext: Swift.Bool?
@@ -2243,7 +2328,7 @@ extension BedrockAgentCoreClientTypes {
 
 extension BedrockAgentCoreClientTypes {
 
-    /// The output produced by executing code in a code interpreter session in Amazon Bedrock. This structure contains the results of code execution, including textual output, structured data, and error information. Agents use these results to generate responses that incorporate computation, data analysis, and visualization.
+    /// The output produced by executing code in a code interpreter session in Amazon Bedrock AgentCore. This structure contains the results of code execution, including textual output, structured data, and error information. Agents use these results to generate responses that incorporate computation, data analysis, and visualization.
     public struct CodeInterpreterResult: Swift.Sendable {
         /// The textual content of the execution result. This includes standard output from the code execution, such as print statements, console output, and text representations of results.
         /// This member is required.
@@ -2269,7 +2354,7 @@ extension BedrockAgentCoreClientTypes {
 
     /// Contains output from a code interpreter stream.
     public enum CodeInterpreterStreamOutput: Swift.Sendable {
-        /// The output produced by executing code in a code interpreter session in Amazon Bedrock. This structure contains the results of code execution, including textual output, structured data, and error information. Agents use these results to generate responses that incorporate computation, data analysis, and visualization.
+        /// The output produced by executing code in a code interpreter session in Amazon Bedrock AgentCore. This structure contains the results of code execution, including textual output, structured data, and error information. Agents use these results to generate responses that incorporate computation, data analysis, and visualization.
         case result(BedrockAgentCoreClientTypes.CodeInterpreterResult)
         case sdkUnknown(Swift.String)
     }
@@ -3416,7 +3501,7 @@ public struct ListMemoryRecordsInput: Swift.Sendable {
     public var memoryId: Swift.String?
     /// The memory strategy identifier to filter memory records by. If specified, only memory records with this strategy ID are returned.
     public var memoryStrategyId: Swift.String?
-    /// The namespace to filter memory records by. If specified, only memory records in this namespace are returned.
+    /// The namespace prefix to filter memory records by. Returns all memory records in namespaces that start with the provided prefix.
     /// This member is required.
     public var namespace: Swift.String?
     /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
@@ -3628,7 +3713,7 @@ public struct RetrieveMemoryRecordsInput: Swift.Sendable {
     /// The identifier of the AgentCore Memory resource from which to retrieve memory records.
     /// This member is required.
     public var memoryId: Swift.String?
-    /// The namespace to filter memory records by.
+    /// The namespace prefix to filter memory records by. Searches for memory records in namespaces that start with the provided prefix.
     /// This member is required.
     public var namespace: Swift.String?
     /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
@@ -4134,6 +4219,30 @@ extension RetrieveMemoryRecordsInput {
     }
 }
 
+extension SaveBrowserSessionProfileInput {
+
+    static func urlPathProvider(_ value: SaveBrowserSessionProfileInput) -> Swift.String? {
+        guard let profileIdentifier = value.profileIdentifier else {
+            return nil
+        }
+        return "/browser-profiles/\(profileIdentifier.urlPercentEncoding())/save"
+    }
+}
+
+extension SaveBrowserSessionProfileInput {
+
+    static func headerProvider(_ value: SaveBrowserSessionProfileInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
+        if let traceId = value.traceId {
+            items.add(SmithyHTTPAPI.Header(name: "X-Amzn-Trace-Id", value: Swift.String(traceId)))
+        }
+        if let traceParent = value.traceParent {
+            items.add(SmithyHTTPAPI.Header(name: "traceparent", value: Swift.String(traceParent)))
+        }
+        return items
+    }
+}
+
 extension StartBrowserSessionInput {
 
     static func urlPathProvider(_ value: StartBrowserSessionInput) -> Swift.String? {
@@ -4531,6 +4640,16 @@ extension RetrieveMemoryRecordsInput {
     }
 }
 
+extension SaveBrowserSessionProfileInput {
+
+    static func write(value: SaveBrowserSessionProfileInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["browserIdentifier"].write(value.browserIdentifier)
+        try writer["clientToken"].write(value.clientToken)
+        try writer["sessionId"].write(value.sessionId)
+    }
+}
+
 extension StartBrowserSessionInput {
 
     static func write(value: StartBrowserSessionInput?, to writer: SmithyJSON.Writer) throws {
@@ -4538,6 +4657,7 @@ extension StartBrowserSessionInput {
         try writer["clientToken"].write(value.clientToken)
         try writer["extensions"].writeList(value.extensions, memberWritingClosure: BedrockAgentCoreClientTypes.BrowserExtension.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["name"].write(value.name)
+        try writer["profileConfiguration"].write(value.profileConfiguration, with: BedrockAgentCoreClientTypes.BrowserProfileConfiguration.write(value:to:))
         try writer["sessionTimeoutSeconds"].write(value.sessionTimeoutSeconds)
         try writer["viewPort"].write(value.viewPort, with: BedrockAgentCoreClientTypes.ViewPort.write(value:to:))
     }
@@ -4716,6 +4836,7 @@ extension GetBrowserSessionOutput {
         value.extensions = try reader["extensions"].readListIfPresent(memberReadingClosure: BedrockAgentCoreClientTypes.BrowserExtension.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.name = try reader["name"].readIfPresent()
+        value.profileConfiguration = try reader["profileConfiguration"].readIfPresent(with: BedrockAgentCoreClientTypes.BrowserProfileConfiguration.read(from:))
         value.sessionId = try reader["sessionId"].readIfPresent() ?? ""
         value.sessionReplayArtifact = try reader["sessionReplayArtifact"].readIfPresent()
         value.sessionTimeoutSeconds = try reader["sessionTimeoutSeconds"].readIfPresent()
@@ -4987,6 +5108,21 @@ extension RetrieveMemoryRecordsOutput {
         var value = RetrieveMemoryRecordsOutput()
         value.memoryRecordSummaries = try reader["memoryRecordSummaries"].readListIfPresent(memberReadingClosure: BedrockAgentCoreClientTypes.MemoryRecordSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension SaveBrowserSessionProfileOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> SaveBrowserSessionProfileOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = SaveBrowserSessionProfileOutput()
+        value.browserIdentifier = try reader["browserIdentifier"].readIfPresent() ?? ""
+        value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.profileIdentifier = try reader["profileIdentifier"].readIfPresent() ?? ""
+        value.sessionId = try reader["sessionId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -5626,6 +5762,25 @@ enum RetrieveMemoryRecordsOutputError {
             case "ServiceException": return try ServiceException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottledException": return try ThrottledException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum SaveBrowserSessionProfileOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -6279,6 +6434,21 @@ extension BedrockAgentCoreClientTypes.S3Location {
         value.bucket = try reader["bucket"].readIfPresent() ?? ""
         value.`prefix` = try reader["prefix"].readIfPresent() ?? ""
         value.versionId = try reader["versionId"].readIfPresent()
+        return value
+    }
+}
+
+extension BedrockAgentCoreClientTypes.BrowserProfileConfiguration {
+
+    static func write(value: BedrockAgentCoreClientTypes.BrowserProfileConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["profileIdentifier"].write(value.profileIdentifier)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.BrowserProfileConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreClientTypes.BrowserProfileConfiguration()
+        value.profileIdentifier = try reader["profileIdentifier"].readIfPresent() ?? ""
         return value
     }
 }
