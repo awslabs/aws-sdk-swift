@@ -765,6 +765,41 @@ extension GlueClientTypes {
 
 extension GlueClientTypes {
 
+    public enum PropertyLocation: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case body
+        case header
+        case path
+        case queryParam
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PropertyLocation] {
+            return [
+                .body,
+                .header,
+                .path,
+                .queryParam
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .body: return "BODY"
+            case .header: return "HEADER"
+            case .path: return "PATH"
+            case .queryParam: return "QUERY_PARAM"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GlueClientTypes {
+
     public enum PropertyType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case readOnly
         case secret
@@ -814,9 +849,13 @@ extension GlueClientTypes {
         /// A description of the property.
         /// This member is required.
         public var description: Swift.String?
+        /// A key name to use when sending this property in API requests, if different from the display name.
+        public var keyOverride: Swift.String?
         /// The name of the property.
         /// This member is required.
         public var name: Swift.String?
+        /// Specifies where this property should be included in REST requests, such as in headers, query parameters, or request body.
+        public var propertyLocation: GlueClientTypes.PropertyLocation?
         /// Describes the type of property.
         /// This member is required.
         public var propertyTypes: [GlueClientTypes.PropertyType]?
@@ -829,7 +868,9 @@ extension GlueClientTypes {
             dataOperationScopes: [GlueClientTypes.DataOperation]? = nil,
             defaultValue: Swift.String? = nil,
             description: Swift.String? = nil,
+            keyOverride: Swift.String? = nil,
             name: Swift.String? = nil,
+            propertyLocation: GlueClientTypes.PropertyLocation? = nil,
             propertyTypes: [GlueClientTypes.PropertyType]? = [],
             `required`: Swift.Bool? = nil
         ) {
@@ -837,7 +878,9 @@ extension GlueClientTypes {
             self.dataOperationScopes = dataOperationScopes
             self.defaultValue = defaultValue
             self.description = description
+            self.keyOverride = keyOverride
             self.name = name
+            self.propertyLocation = propertyLocation
             self.propertyTypes = propertyTypes
             self.`required` = `required`
         }
@@ -15718,6 +15761,23 @@ public struct DeleteConnectionOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct DeleteConnectionTypeInput: Swift.Sendable {
+    /// The name of the connection type to delete. Must reference an existing registered connection type.
+    /// This member is required.
+    public var connectionType: Swift.String?
+
+    public init(
+        connectionType: Swift.String? = nil
+    ) {
+        self.connectionType = connectionType
+    }
+}
+
+public struct DeleteConnectionTypeOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 /// The operation cannot be performed because the crawler is already running.
 public struct CrawlerRunningException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
@@ -16679,6 +16739,374 @@ extension GlueClientTypes {
     }
 }
 
+extension GlueClientTypes {
+
+    public enum FieldDataType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case array
+        case bigint
+        case binary
+        case boolean
+        case byte
+        case date
+        case decimal
+        case double
+        case float
+        case int
+        case long
+        case map
+        case short
+        case smallint
+        case string
+        case `struct`
+        case timestamp
+        case union
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FieldDataType] {
+            return [
+                .array,
+                .bigint,
+                .binary,
+                .boolean,
+                .byte,
+                .date,
+                .decimal,
+                .double,
+                .float,
+                .int,
+                .long,
+                .map,
+                .short,
+                .smallint,
+                .string,
+                .struct,
+                .timestamp,
+                .union
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .array: return "ARRAY"
+            case .bigint: return "BIGINT"
+            case .binary: return "BINARY"
+            case .boolean: return "BOOLEAN"
+            case .byte: return "BYTE"
+            case .date: return "DATE"
+            case .decimal: return "DECIMAL"
+            case .double: return "DOUBLE"
+            case .float: return "FLOAT"
+            case .int: return "INT"
+            case .long: return "LONG"
+            case .map: return "MAP"
+            case .short: return "SHORT"
+            case .smallint: return "SMALLINT"
+            case .string: return "STRING"
+            case .struct: return "STRUCT"
+            case .timestamp: return "TIMESTAMP"
+            case .union: return "UNION"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    /// Defines a field in an entity schema for REST connector data sources, specifying the field name and data type.
+    public struct FieldDefinition: Swift.Sendable {
+        /// The data type of the field.
+        /// This member is required.
+        public var fieldDataType: GlueClientTypes.FieldDataType?
+        /// The name of the field in the entity schema.
+        /// This member is required.
+        public var name: Swift.String?
+
+        public init(
+            fieldDataType: GlueClientTypes.FieldDataType? = nil,
+            name: Swift.String? = nil
+        ) {
+            self.fieldDataType = fieldDataType
+            self.name = name
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    /// Configuration that defines how to extract values from HTTP response content or headers for use in subsequent requests or parameter mapping.
+    public struct ResponseExtractionMapping: Swift.Sendable {
+        /// A JSON path expression that specifies how to extract a value from the response body content.
+        public var contentPath: Swift.String?
+        /// The name of an HTTP response header from which to extract the value.
+        public var headerKey: Swift.String?
+
+        public init(
+            contentPath: Swift.String? = nil,
+            headerKey: Swift.String? = nil
+        ) {
+            self.contentPath = contentPath
+            self.headerKey = headerKey
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    /// Parameter extraction configuration that defines how to extract and map values from API responses to request parameters.
+    public struct ExtractedParameter: Swift.Sendable {
+        /// The default value to use if the parameter cannot be extracted from the response.
+        public var defaultValue: Swift.String?
+        /// The parameter key name that will be used in subsequent requests.
+        public var key: Swift.String?
+        /// Specifies where this extracted parameter should be placed in subsequent requests, such as in headers, query parameters, or request body.
+        public var propertyLocation: GlueClientTypes.PropertyLocation?
+        /// The JSON path or extraction mapping that defines how to extract the parameter value from API responses.
+        public var value: GlueClientTypes.ResponseExtractionMapping?
+
+        public init(
+            defaultValue: Swift.String? = nil,
+            key: Swift.String? = nil,
+            propertyLocation: GlueClientTypes.PropertyLocation? = nil,
+            value: GlueClientTypes.ResponseExtractionMapping? = nil
+        ) {
+            self.defaultValue = defaultValue
+            self.key = key
+            self.propertyLocation = propertyLocation
+            self.value = value
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    /// Cursor-based pagination configuration that defines how to handle pagination using cursor tokens or next page identifiers.
+    public struct CursorConfiguration: Swift.Sendable {
+        /// The parameter name used to specify the maximum number of results to return per page.
+        public var limitParameter: GlueClientTypes.ExtractedParameter?
+        /// The parameter name or JSON path that contains the cursor or token for retrieving the next page of results.
+        /// This member is required.
+        public var nextPage: GlueClientTypes.ExtractedParameter?
+
+        public init(
+            limitParameter: GlueClientTypes.ExtractedParameter? = nil,
+            nextPage: GlueClientTypes.ExtractedParameter? = nil
+        ) {
+            self.limitParameter = limitParameter
+            self.nextPage = nextPage
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    /// Offset-based pagination configuration that defines how to handle pagination using numeric offsets and limits.
+    public struct OffsetConfiguration: Swift.Sendable {
+        /// The parameter name used to specify the maximum number of results to return per page.
+        /// This member is required.
+        public var limitParameter: GlueClientTypes.ExtractedParameter?
+        /// The parameter name used to specify the starting position or offset for retrieving results.
+        /// This member is required.
+        public var offsetParameter: GlueClientTypes.ExtractedParameter?
+
+        public init(
+            limitParameter: GlueClientTypes.ExtractedParameter? = nil,
+            offsetParameter: GlueClientTypes.ExtractedParameter? = nil
+        ) {
+            self.limitParameter = limitParameter
+            self.offsetParameter = offsetParameter
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    /// Configuration that defines how to handle paginated responses from REST APIs, supporting different pagination strategies used by various services.
+    public struct PaginationConfiguration: Swift.Sendable {
+        /// Configuration for cursor-based pagination, where the API provides a cursor or token to retrieve the next page of results.
+        public var cursorConfiguration: GlueClientTypes.CursorConfiguration?
+        /// Configuration for offset-based pagination, where the API uses numeric offsets and limits to control which results are returned.
+        public var offsetConfiguration: GlueClientTypes.OffsetConfiguration?
+
+        public init(
+            cursorConfiguration: GlueClientTypes.CursorConfiguration? = nil,
+            offsetConfiguration: GlueClientTypes.OffsetConfiguration? = nil
+        ) {
+            self.cursorConfiguration = cursorConfiguration
+            self.offsetConfiguration = offsetConfiguration
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    public enum HTTPMethod: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case `get`
+        case post
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [HTTPMethod] {
+            return [
+                .get,
+                .post
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .get: return "GET"
+            case .post: return "POST"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    /// Defines a property configuration for connection types, default values, and where the property should be used in requests.
+    public struct ConnectorProperty: Swift.Sendable {
+        /// A list of AllowedValue objects representing the values allowed for the property.
+        public var allowedValues: [Swift.String]?
+        /// The default value for the property.
+        public var defaultValue: Swift.String?
+        /// A key name to use when sending this property in API requests, if different from the display name.
+        public var keyOverride: Swift.String?
+        /// The name of the property.
+        /// This member is required.
+        public var name: Swift.String?
+        /// Specifies where this property should be included in REST requests, such as in headers, query parameters, or request body.
+        public var propertyLocation: GlueClientTypes.PropertyLocation?
+        /// The data type of this property
+        /// This member is required.
+        public var propertyType: GlueClientTypes.PropertyType?
+        /// Indicates whether the property is required.
+        /// This member is required.
+        public var `required`: Swift.Bool?
+
+        public init(
+            allowedValues: [Swift.String]? = nil,
+            defaultValue: Swift.String? = nil,
+            keyOverride: Swift.String? = nil,
+            name: Swift.String? = nil,
+            propertyLocation: GlueClientTypes.PropertyLocation? = nil,
+            propertyType: GlueClientTypes.PropertyType? = nil,
+            `required`: Swift.Bool? = nil
+        ) {
+            self.allowedValues = allowedValues
+            self.defaultValue = defaultValue
+            self.keyOverride = keyOverride
+            self.name = name
+            self.propertyLocation = propertyLocation
+            self.propertyType = propertyType
+            self.`required` = `required`
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    /// Configuration that defines how to parse JSON responses from REST API calls, including paths to result data and error information.
+    public struct ResponseConfiguration: Swift.Sendable {
+        /// The JSON path expression that identifies where error information is located within API responses when requests fail.
+        public var errorPath: Swift.String?
+        /// The JSON path expression that identifies where the actual result data is located within the API response.
+        /// This member is required.
+        public var resultPath: Swift.String?
+
+        public init(
+            errorPath: Swift.String? = nil,
+            resultPath: Swift.String? = nil
+        ) {
+            self.errorPath = errorPath
+            self.resultPath = resultPath
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    /// Configuration that defines how to make requests to endpoints, including request methods, paths, parameters, and response handling.
+    public struct SourceConfiguration: Swift.Sendable {
+        /// Configuration for handling paginated responses from the REST API, supporting both cursor-based and offset-based pagination strategies.
+        public var paginationConfiguration: GlueClientTypes.PaginationConfiguration?
+        /// The HTTP method to use for requests to this endpoint, such as GET, POST.
+        public var requestMethod: GlueClientTypes.HTTPMethod?
+        /// Configuration for request parameters that should be included in API calls, such as query parameters, headers, or body content.
+        public var requestParameters: [GlueClientTypes.ConnectorProperty]?
+        /// The URL path for the REST endpoint, which may include parameter placeholders that will be replaced with actual values during requests.
+        public var requestPath: Swift.String?
+        /// Configuration that defines how to parse and extract data from API responses, including success and error handling.
+        public var responseConfiguration: GlueClientTypes.ResponseConfiguration?
+
+        public init(
+            paginationConfiguration: GlueClientTypes.PaginationConfiguration? = nil,
+            requestMethod: GlueClientTypes.HTTPMethod? = nil,
+            requestParameters: [GlueClientTypes.ConnectorProperty]? = nil,
+            requestPath: Swift.String? = nil,
+            responseConfiguration: GlueClientTypes.ResponseConfiguration? = nil
+        ) {
+            self.paginationConfiguration = paginationConfiguration
+            self.requestMethod = requestMethod
+            self.requestParameters = requestParameters
+            self.requestPath = requestPath
+            self.responseConfiguration = responseConfiguration
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    /// Configuration that defines how to interact with a specific data entity through the REST API, including its access patterns and schema definition.
+    public struct EntityConfiguration: Swift.Sendable {
+        /// The schema definition for this entity, including field names, types, and other metadata that describes the structure of the data.
+        public var schema: [Swift.String: GlueClientTypes.FieldDefinition]?
+        /// The source configuration that defines how to make requests to access this entity's data through the REST API.
+        public var sourceConfiguration: GlueClientTypes.SourceConfiguration?
+
+        public init(
+            schema: [Swift.String: GlueClientTypes.FieldDefinition]? = nil,
+            sourceConfiguration: GlueClientTypes.SourceConfiguration? = nil
+        ) {
+            self.schema = schema
+            self.sourceConfiguration = sourceConfiguration
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    /// Configuration that defines HTTP request and response handling, validation endpoints, and entity configurations for REST API interactions.
+    public struct RestConfiguration: Swift.Sendable {
+        /// A map of entity configurations that define how to interact with different data entities available through the REST API, including their schemas and access patterns.
+        public var entityConfigurations: [Swift.String: GlueClientTypes.EntityConfiguration]?
+        /// Global configuration settings that apply to all REST API requests for this connection type, including common request methods, paths, and parameters.
+        public var globalSourceConfiguration: GlueClientTypes.SourceConfiguration?
+        /// Configuration for the endpoint used to validate connection credentials and test connectivity during connection creation.
+        public var validationEndpointConfiguration: GlueClientTypes.SourceConfiguration?
+
+        public init(
+            entityConfigurations: [Swift.String: GlueClientTypes.EntityConfiguration]? = nil,
+            globalSourceConfiguration: GlueClientTypes.SourceConfiguration? = nil,
+            validationEndpointConfiguration: GlueClientTypes.SourceConfiguration? = nil
+        ) {
+            self.entityConfigurations = entityConfigurations
+            self.globalSourceConfiguration = globalSourceConfiguration
+            self.validationEndpointConfiguration = validationEndpointConfiguration
+        }
+    }
+}
+
 public struct DescribeConnectionTypeOutput: Swift.Sendable {
     /// Connection properties specific to the Athena compute environment.
     public var athenaConnectionProperties: [Swift.String: GlueClientTypes.Property]?
@@ -16700,6 +17128,8 @@ public struct DescribeConnectionTypeOutput: Swift.Sendable {
     public var physicalConnectionRequirements: [Swift.String: GlueClientTypes.Property]?
     /// Connection properties specific to the Python compute environment.
     public var pythonConnectionProperties: [Swift.String: GlueClientTypes.Property]?
+    /// HTTP request and response configuration, validation endpoint, and entity configurations for REST based data source.
+    public var restConfiguration: GlueClientTypes.RestConfiguration?
     /// Connection properties specific to the Spark compute environment.
     public var sparkConnectionProperties: [Swift.String: GlueClientTypes.Property]?
 
@@ -16714,6 +17144,7 @@ public struct DescribeConnectionTypeOutput: Swift.Sendable {
         description: Swift.String? = nil,
         physicalConnectionRequirements: [Swift.String: GlueClientTypes.Property]? = nil,
         pythonConnectionProperties: [Swift.String: GlueClientTypes.Property]? = nil,
+        restConfiguration: GlueClientTypes.RestConfiguration? = nil,
         sparkConnectionProperties: [Swift.String: GlueClientTypes.Property]? = nil
     ) {
         self.athenaConnectionProperties = athenaConnectionProperties
@@ -16726,6 +17157,7 @@ public struct DescribeConnectionTypeOutput: Swift.Sendable {
         self.description = description
         self.physicalConnectionRequirements = physicalConnectionRequirements
         self.pythonConnectionProperties = pythonConnectionProperties
+        self.restConfiguration = restConfiguration
         self.sparkConnectionProperties = sparkConnectionProperties
     }
 }
@@ -16756,77 +17188,6 @@ public struct DescribeEntityInput: Swift.Sendable {
         self.dataStoreApiVersion = dataStoreApiVersion
         self.entityName = entityName
         self.nextToken = nextToken
-    }
-}
-
-extension GlueClientTypes {
-
-    public enum FieldDataType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case array
-        case bigint
-        case boolean
-        case byte
-        case date
-        case decimal
-        case double
-        case float
-        case int
-        case long
-        case map
-        case short
-        case smallint
-        case string
-        case `struct`
-        case timestamp
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [FieldDataType] {
-            return [
-                .array,
-                .bigint,
-                .boolean,
-                .byte,
-                .date,
-                .decimal,
-                .double,
-                .float,
-                .int,
-                .long,
-                .map,
-                .short,
-                .smallint,
-                .string,
-                .struct,
-                .timestamp
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .array: return "ARRAY"
-            case .bigint: return "BIGINT"
-            case .boolean: return "BOOLEAN"
-            case .byte: return "BYTE"
-            case .date: return "DATE"
-            case .decimal: return "DECIMAL"
-            case .double: return "DOUBLE"
-            case .float: return "FLOAT"
-            case .int: return "INT"
-            case .long: return "LONG"
-            case .map: return "MAP"
-            case .short: return "SHORT"
-            case .smallint: return "SMALLINT"
-            case .string: return "STRING"
-            case .struct: return "STRUCT"
-            case .timestamp: return "TIMESTAMP"
-            case let .sdkUnknown(s): return s
-            }
-        }
     }
 }
 
@@ -23980,7 +24341,7 @@ public struct ListConnectionTypesInput: Swift.Sendable {
 
 extension GlueClientTypes {
 
-    /// Represents a variant of a connection type in Glue Data Catalog. Connection type variants provide specific configurations and behaviors for different implementations of the same general connection type.
+    /// Represents a variant of a connection type in Glue. Connection type variants provide specific configurations and behaviors for different implementations of the same general connection type.
     public struct ConnectionTypeVariant: Swift.Sendable {
         /// The unique identifier for the connection type variant. This name is used internally to identify the specific variant of a connection type.
         public var connectionTypeVariantName: Swift.String?
@@ -26215,6 +26576,380 @@ public struct QuerySchemaVersionMetadataOutput: Swift.Sendable {
         self.metadataInfoMap = metadataInfoMap
         self.nextToken = nextToken
         self.schemaVersionId = schemaVersionId
+    }
+}
+
+extension GlueClientTypes {
+
+    /// Configuration that defines the base URL and additional request parameters needed during connection creation.
+    public struct ConnectionPropertiesConfiguration: Swift.Sendable {
+        /// Key-value pairs of additional request parameters that may be needed during connection creation, such as API versions or service-specific configuration options.
+        public var additionalRequestParameters: [GlueClientTypes.ConnectorProperty]?
+        /// The base instance URL for the endpoint that this connection type will connect to.
+        public var url: GlueClientTypes.ConnectorProperty?
+
+        public init(
+            additionalRequestParameters: [GlueClientTypes.ConnectorProperty]? = nil,
+            url: GlueClientTypes.ConnectorProperty? = nil
+        ) {
+            self.additionalRequestParameters = additionalRequestParameters
+            self.url = url
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    /// Basic authentication configuration that defines the username and password properties for HTTP Basic authentication.
+    public struct BasicAuthenticationProperties: Swift.Sendable {
+        /// The password property name to use for Basic authentication credentials.
+        public var password: GlueClientTypes.ConnectorProperty?
+        /// The username property name to use for Basic authentication credentials.
+        public var username: GlueClientTypes.ConnectorProperty?
+
+        public init(
+            password: GlueClientTypes.ConnectorProperty? = nil,
+            username: GlueClientTypes.ConnectorProperty? = nil
+        ) {
+            self.password = password
+            self.username = username
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    /// Custom authentication configuration that allows for flexible authentication mechanisms beyond standard Basic and OAuth2 flows.
+    public struct CustomAuthenticationProperties: Swift.Sendable {
+        /// A map of custom authentication parameters that define the specific authentication mechanism and required properties.
+        /// This member is required.
+        public var authenticationParameters: [GlueClientTypes.ConnectorProperty]?
+
+        public init(
+            authenticationParameters: [GlueClientTypes.ConnectorProperty]? = nil
+        ) {
+            self.authenticationParameters = authenticationParameters
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    public enum ContentType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case applicationJson
+        case urlEncoded
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ContentType] {
+            return [
+                .applicationJson,
+                .urlEncoded
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .applicationJson: return "APPLICATION_JSON"
+            case .urlEncoded: return "URL_ENCODED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    /// OAuth2 authorization code configuration that defines the properties needed for the Authorization Code grant type flow.
+    public struct ConnectorAuthorizationCodeProperties: Swift.Sendable {
+        /// The authorization code received from the authorization server after user consent.
+        public var authorizationCode: GlueClientTypes.ConnectorProperty?
+        /// The authorization endpoint URL where users will be redirected to grant authorization.
+        public var authorizationCodeUrl: GlueClientTypes.ConnectorProperty?
+        /// The OAuth2 client identifier provided by the authorization server.
+        public var clientId: GlueClientTypes.ConnectorProperty?
+        /// The OAuth2 client secret provided by the authorization server.
+        public var clientSecret: GlueClientTypes.ConnectorProperty?
+        /// The content type to use for token exchange requests, such as application/x-www-form-urlencoded or application/json.
+        public var contentType: GlueClientTypes.ContentType?
+        /// The OAuth2 prompt parameter that controls the authorization server's behavior during user authentication.
+        public var prompt: GlueClientTypes.ConnectorProperty?
+        /// The redirect URI that must match the URI registered with the authorization server.
+        public var redirectUri: GlueClientTypes.ConnectorProperty?
+        /// The HTTP method to use when making token exchange requests, typically POST.
+        public var requestMethod: GlueClientTypes.HTTPMethod?
+        /// The OAuth2 scope that defines the level of access requested for the authorization code flow.
+        public var scope: GlueClientTypes.ConnectorProperty?
+        /// The token endpoint URL where the authorization code will be exchanged for an access token.
+        public var tokenUrl: GlueClientTypes.ConnectorProperty?
+        /// Additional parameters to include in token URL requests as key-value pairs.
+        public var tokenUrlParameters: [GlueClientTypes.ConnectorProperty]?
+
+        public init(
+            authorizationCode: GlueClientTypes.ConnectorProperty? = nil,
+            authorizationCodeUrl: GlueClientTypes.ConnectorProperty? = nil,
+            clientId: GlueClientTypes.ConnectorProperty? = nil,
+            clientSecret: GlueClientTypes.ConnectorProperty? = nil,
+            contentType: GlueClientTypes.ContentType? = nil,
+            prompt: GlueClientTypes.ConnectorProperty? = nil,
+            redirectUri: GlueClientTypes.ConnectorProperty? = nil,
+            requestMethod: GlueClientTypes.HTTPMethod? = nil,
+            scope: GlueClientTypes.ConnectorProperty? = nil,
+            tokenUrl: GlueClientTypes.ConnectorProperty? = nil,
+            tokenUrlParameters: [GlueClientTypes.ConnectorProperty]? = nil
+        ) {
+            self.authorizationCode = authorizationCode
+            self.authorizationCodeUrl = authorizationCodeUrl
+            self.clientId = clientId
+            self.clientSecret = clientSecret
+            self.contentType = contentType
+            self.prompt = prompt
+            self.redirectUri = redirectUri
+            self.requestMethod = requestMethod
+            self.scope = scope
+            self.tokenUrl = tokenUrl
+            self.tokenUrlParameters = tokenUrlParameters
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    /// OAuth2 client credentials configuration that defines the properties needed for the Client Credentials grant type flow.
+    public struct ClientCredentialsProperties: Swift.Sendable {
+        /// The OAuth2 client identifier provided by the authorization server.
+        public var clientId: GlueClientTypes.ConnectorProperty?
+        /// The OAuth2 client secret provided by the authorization server.
+        public var clientSecret: GlueClientTypes.ConnectorProperty?
+        /// The content type to use for token requests, such as application/x-www-form-urlencoded or application/json.
+        public var contentType: GlueClientTypes.ContentType?
+        /// The HTTP method to use when making token requests, typically POST.
+        public var requestMethod: GlueClientTypes.HTTPMethod?
+        /// The OAuth2 scope that defines the level of access requested for the client credentials flow.
+        public var scope: GlueClientTypes.ConnectorProperty?
+        /// The token endpoint URL where the client will request access tokens using client credentials.
+        public var tokenUrl: GlueClientTypes.ConnectorProperty?
+        /// Additional parameters to include in token URL requests as key-value pairs.
+        public var tokenUrlParameters: [GlueClientTypes.ConnectorProperty]?
+
+        public init(
+            clientId: GlueClientTypes.ConnectorProperty? = nil,
+            clientSecret: GlueClientTypes.ConnectorProperty? = nil,
+            contentType: GlueClientTypes.ContentType? = nil,
+            requestMethod: GlueClientTypes.HTTPMethod? = nil,
+            scope: GlueClientTypes.ConnectorProperty? = nil,
+            tokenUrl: GlueClientTypes.ConnectorProperty? = nil,
+            tokenUrlParameters: [GlueClientTypes.ConnectorProperty]? = nil
+        ) {
+            self.clientId = clientId
+            self.clientSecret = clientSecret
+            self.contentType = contentType
+            self.requestMethod = requestMethod
+            self.scope = scope
+            self.tokenUrl = tokenUrl
+            self.tokenUrlParameters = tokenUrlParameters
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    /// JWT bearer token configuration that defines the properties needed for the JWT Bearer grant type flow.
+    public struct JWTBearerProperties: Swift.Sendable {
+        /// The content type to use for JWT bearer token requests, such as application/x-www-form-urlencoded or application/json.
+        public var contentType: GlueClientTypes.ContentType?
+        /// The JWT token to be used in the bearer token grant flow for authentication.
+        public var jwtToken: GlueClientTypes.ConnectorProperty?
+        /// The HTTP method to use when making JWT bearer token requests, typically POST.
+        public var requestMethod: GlueClientTypes.HTTPMethod?
+        /// The token endpoint URL where the JWT bearer token will be exchanged for an access token.
+        public var tokenUrl: GlueClientTypes.ConnectorProperty?
+        /// Additional parameters to include in token URL requests as key-value pairs.
+        public var tokenUrlParameters: [GlueClientTypes.ConnectorProperty]?
+
+        public init(
+            contentType: GlueClientTypes.ContentType? = nil,
+            jwtToken: GlueClientTypes.ConnectorProperty? = nil,
+            requestMethod: GlueClientTypes.HTTPMethod? = nil,
+            tokenUrl: GlueClientTypes.ConnectorProperty? = nil,
+            tokenUrlParameters: [GlueClientTypes.ConnectorProperty]? = nil
+        ) {
+            self.contentType = contentType
+            self.jwtToken = jwtToken
+            self.requestMethod = requestMethod
+            self.tokenUrl = tokenUrl
+            self.tokenUrlParameters = tokenUrlParameters
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    public enum ConnectorOAuth2GrantType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case authorizationCode
+        case clientCredentials
+        case jwtBearer
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ConnectorOAuth2GrantType] {
+            return [
+                .authorizationCode,
+                .clientCredentials,
+                .jwtBearer
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .authorizationCode: return "AUTHORIZATION_CODE"
+            case .clientCredentials: return "CLIENT_CREDENTIALS"
+            case .jwtBearer: return "JWT_BEARER"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    /// OAuth2 configuration container that defines the authentication properties and flow-specific configurations for OAuth2-based connections.
+    public struct ConnectorOAuth2Properties: Swift.Sendable {
+        /// Configuration properties specific to the OAuth2 Authorization Code grant type flow.
+        public var authorizationCodeProperties: GlueClientTypes.ConnectorAuthorizationCodeProperties?
+        /// Configuration properties specific to the OAuth2 Client Credentials grant type flow.
+        public var clientCredentialsProperties: GlueClientTypes.ClientCredentialsProperties?
+        /// Configuration properties specific to the OAuth2 JWT Bearer grant type flow.
+        public var jwtBearerProperties: GlueClientTypes.JWTBearerProperties?
+        /// The OAuth2 grant type to use for authentication, such as CLIENT_CREDENTIALS, JWT_BEARER, or AUTHORIZATION_CODE.
+        /// This member is required.
+        public var oAuth2GrantType: GlueClientTypes.ConnectorOAuth2GrantType?
+
+        public init(
+            authorizationCodeProperties: GlueClientTypes.ConnectorAuthorizationCodeProperties? = nil,
+            clientCredentialsProperties: GlueClientTypes.ClientCredentialsProperties? = nil,
+            jwtBearerProperties: GlueClientTypes.JWTBearerProperties? = nil,
+            oAuth2GrantType: GlueClientTypes.ConnectorOAuth2GrantType? = nil
+        ) {
+            self.authorizationCodeProperties = authorizationCodeProperties
+            self.clientCredentialsProperties = clientCredentialsProperties
+            self.jwtBearerProperties = jwtBearerProperties
+            self.oAuth2GrantType = oAuth2GrantType
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    /// Configuration that defines the supported authentication types and required properties for the connection type.
+    public struct ConnectorAuthenticationConfiguration: Swift.Sendable {
+        /// A list of authentication types supported by this connection type, such as Basic, OAuth2, or Custom authentication methods.
+        /// This member is required.
+        public var authenticationTypes: [GlueClientTypes.AuthenticationType]?
+        /// Basic authentication configuration that defines the username and password properties for HTTP Basic authentication.
+        public var basicAuthenticationProperties: GlueClientTypes.BasicAuthenticationProperties?
+        /// Custom authentication configuration that allows for flexible authentication mechanisms beyond standard Basic and OAuth2 flows.
+        public var customAuthenticationProperties: GlueClientTypes.CustomAuthenticationProperties?
+        /// OAuth2 configuration container that defines the authentication properties and flow-specific configurations for OAuth2-based connections.
+        public var oAuth2Properties: GlueClientTypes.ConnectorOAuth2Properties?
+
+        public init(
+            authenticationTypes: [GlueClientTypes.AuthenticationType]? = nil,
+            basicAuthenticationProperties: GlueClientTypes.BasicAuthenticationProperties? = nil,
+            customAuthenticationProperties: GlueClientTypes.CustomAuthenticationProperties? = nil,
+            oAuth2Properties: GlueClientTypes.ConnectorOAuth2Properties? = nil
+        ) {
+            self.authenticationTypes = authenticationTypes
+            self.basicAuthenticationProperties = basicAuthenticationProperties
+            self.customAuthenticationProperties = customAuthenticationProperties
+            self.oAuth2Properties = oAuth2Properties
+        }
+    }
+}
+
+extension GlueClientTypes {
+
+    public enum IntegrationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case rest
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [IntegrationType] {
+            return [
+                .rest
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .rest: return "REST"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct RegisterConnectionTypeInput: Swift.Sendable {
+    /// Defines the base URL and additional request parameters needed during connection creation for this connection type.
+    /// This member is required.
+    public var connectionProperties: GlueClientTypes.ConnectionPropertiesConfiguration?
+    /// The name of the connection type. Must be between 1 and 255 characters and must be prefixed with "REST-" to indicate it is a REST-based connector.
+    /// This member is required.
+    public var connectionType: Swift.String?
+    /// Defines the supported authentication types and required properties for this connection type, including Basic, OAuth2, and Custom authentication methods.
+    /// This member is required.
+    public var connectorAuthenticationConfiguration: GlueClientTypes.ConnectorAuthenticationConfiguration?
+    /// A description of the connection type. Can be up to 2048 characters and provides details about the purpose and functionality of the connection type.
+    public var description: Swift.String?
+    /// The integration type for the connection. Currently only "REST" protocol is supported.
+    /// This member is required.
+    public var integrationType: GlueClientTypes.IntegrationType?
+    /// Defines the HTTP request and response configuration, validation endpoint, and entity configurations for REST API interactions.
+    /// This member is required.
+    public var restConfiguration: GlueClientTypes.RestConfiguration?
+    /// The tags you assign to the connection type.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        connectionProperties: GlueClientTypes.ConnectionPropertiesConfiguration? = nil,
+        connectionType: Swift.String? = nil,
+        connectorAuthenticationConfiguration: GlueClientTypes.ConnectorAuthenticationConfiguration? = nil,
+        description: Swift.String? = nil,
+        integrationType: GlueClientTypes.IntegrationType? = nil,
+        restConfiguration: GlueClientTypes.RestConfiguration? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.connectionProperties = connectionProperties
+        self.connectionType = connectionType
+        self.connectorAuthenticationConfiguration = connectorAuthenticationConfiguration
+        self.description = description
+        self.integrationType = integrationType
+        self.restConfiguration = restConfiguration
+        self.tags = tags
+    }
+}
+
+/// Contains the Amazon Resource Name (ARN) of the newly registered connection type.
+public struct RegisterConnectionTypeOutput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) of the registered connection type. This unique identifier can be used to reference the connection type in other Glue operations.
+    public var connectionTypeArn: Swift.String?
+
+    public init(
+        connectionTypeArn: Swift.String? = nil
+    ) {
+        self.connectionTypeArn = connectionTypeArn
     }
 }
 
@@ -30785,6 +31520,13 @@ extension DeleteConnectionInput {
     }
 }
 
+extension DeleteConnectionTypeInput {
+
+    static func urlPathProvider(_ value: DeleteConnectionTypeInput) -> Swift.String? {
+        return "/"
+    }
+}
+
 extension DeleteCrawlerInput {
 
     static func urlPathProvider(_ value: DeleteCrawlerInput) -> Swift.String? {
@@ -31789,6 +32531,13 @@ extension PutWorkflowRunPropertiesInput {
 extension QuerySchemaVersionMetadataInput {
 
     static func urlPathProvider(_ value: QuerySchemaVersionMetadataInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+extension RegisterConnectionTypeInput {
+
+    static func urlPathProvider(_ value: RegisterConnectionTypeInput) -> Swift.String? {
         return "/"
     }
 }
@@ -32887,6 +33636,14 @@ extension DeleteConnectionInput {
         guard let value else { return }
         try writer["CatalogId"].write(value.catalogId)
         try writer["ConnectionName"].write(value.connectionName)
+    }
+}
+
+extension DeleteConnectionTypeInput {
+
+    static func write(value: DeleteConnectionTypeInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ConnectionType"].write(value.connectionType)
     }
 }
 
@@ -34325,6 +35082,20 @@ extension QuerySchemaVersionMetadataInput {
     }
 }
 
+extension RegisterConnectionTypeInput {
+
+    static func write(value: RegisterConnectionTypeInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ConnectionProperties"].write(value.connectionProperties, with: GlueClientTypes.ConnectionPropertiesConfiguration.write(value:to:))
+        try writer["ConnectionType"].write(value.connectionType)
+        try writer["ConnectorAuthenticationConfiguration"].write(value.connectorAuthenticationConfiguration, with: GlueClientTypes.ConnectorAuthenticationConfiguration.write(value:to:))
+        try writer["Description"].write(value.description)
+        try writer["IntegrationType"].write(value.integrationType)
+        try writer["RestConfiguration"].write(value.restConfiguration, with: GlueClientTypes.RestConfiguration.write(value:to:))
+        try writer["Tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
 extension RegisterSchemaVersionInput {
 
     static func write(value: RegisterSchemaVersionInput?, to writer: SmithyJSON.Writer) throws {
@@ -35657,6 +36428,13 @@ extension DeleteConnectionOutput {
     }
 }
 
+extension DeleteConnectionTypeOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteConnectionTypeOutput {
+        return DeleteConnectionTypeOutput()
+    }
+}
+
 extension DeleteCrawlerOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteCrawlerOutput {
@@ -35921,6 +36699,7 @@ extension DescribeConnectionTypeOutput {
         value.description = try reader["Description"].readIfPresent()
         value.physicalConnectionRequirements = try reader["PhysicalConnectionRequirements"].readMapIfPresent(valueReadingClosure: GlueClientTypes.Property.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.pythonConnectionProperties = try reader["PythonConnectionProperties"].readMapIfPresent(valueReadingClosure: GlueClientTypes.Property.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.restConfiguration = try reader["RestConfiguration"].readIfPresent(with: GlueClientTypes.RestConfiguration.read(from:))
         value.sparkConnectionProperties = try reader["SparkConnectionProperties"].readMapIfPresent(valueReadingClosure: GlueClientTypes.Property.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
@@ -37528,6 +38307,18 @@ extension QuerySchemaVersionMetadataOutput {
         value.metadataInfoMap = try reader["MetadataInfoMap"].readMapIfPresent(valueReadingClosure: GlueClientTypes.MetadataInfo.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.nextToken = try reader["NextToken"].readIfPresent()
         value.schemaVersionId = try reader["SchemaVersionId"].readIfPresent()
+        return value
+    }
+}
+
+extension RegisterConnectionTypeOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> RegisterConnectionTypeOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = RegisterConnectionTypeOutput()
+        value.connectionTypeArn = try reader["ConnectionTypeArn"].readIfPresent()
         return value
     }
 }
@@ -39224,6 +40015,25 @@ enum DeleteConnectionOutputError {
         switch baseError.code {
             case "EntityNotFoundException": return try EntityNotFoundException.makeError(baseError: baseError)
             case "OperationTimeoutException": return try OperationTimeoutException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteConnectionTypeOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "EntityNotFoundException": return try EntityNotFoundException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
+            case "OperationTimeoutException": return try OperationTimeoutException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -41750,6 +42560,25 @@ enum QuerySchemaVersionMetadataOutputError {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
             case "EntityNotFoundException": return try EntityNotFoundException.makeError(baseError: baseError)
             case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum RegisterConnectionTypeOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidInputException": return try InvalidInputException.makeError(baseError: baseError)
+            case "OperationTimeoutException": return try OperationTimeoutException.makeError(baseError: baseError)
+            case "ResourceNumberLimitExceededException": return try ResourceNumberLimitExceededException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -48177,6 +49006,8 @@ extension GlueClientTypes.Property {
         value.propertyTypes = try reader["PropertyTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<GlueClientTypes.PropertyType>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.allowedValues = try reader["AllowedValues"].readListIfPresent(memberReadingClosure: GlueClientTypes.AllowedValue.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.dataOperationScopes = try reader["DataOperationScopes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<GlueClientTypes.DataOperation>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.keyOverride = try reader["KeyOverride"].readIfPresent()
+        value.propertyLocation = try reader["PropertyLocation"].readIfPresent()
         return value
     }
 }
@@ -48220,6 +49051,215 @@ extension GlueClientTypes.ComputeEnvironmentConfiguration {
         value.connectionOptionNameOverrides = try reader["ConnectionOptionNameOverrides"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
         value.connectionPropertiesRequiredOverrides = try reader["ConnectionPropertiesRequiredOverrides"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.physicalConnectionPropertiesRequired = try reader["PhysicalConnectionPropertiesRequired"].readIfPresent()
+        return value
+    }
+}
+
+extension GlueClientTypes.RestConfiguration {
+
+    static func write(value: GlueClientTypes.RestConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["EntityConfigurations"].writeMap(value.entityConfigurations, valueWritingClosure: GlueClientTypes.EntityConfiguration.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["GlobalSourceConfiguration"].write(value.globalSourceConfiguration, with: GlueClientTypes.SourceConfiguration.write(value:to:))
+        try writer["ValidationEndpointConfiguration"].write(value.validationEndpointConfiguration, with: GlueClientTypes.SourceConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.RestConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.RestConfiguration()
+        value.globalSourceConfiguration = try reader["GlobalSourceConfiguration"].readIfPresent(with: GlueClientTypes.SourceConfiguration.read(from:))
+        value.validationEndpointConfiguration = try reader["ValidationEndpointConfiguration"].readIfPresent(with: GlueClientTypes.SourceConfiguration.read(from:))
+        value.entityConfigurations = try reader["EntityConfigurations"].readMapIfPresent(valueReadingClosure: GlueClientTypes.EntityConfiguration.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension GlueClientTypes.EntityConfiguration {
+
+    static func write(value: GlueClientTypes.EntityConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Schema"].writeMap(value.schema, valueWritingClosure: GlueClientTypes.FieldDefinition.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["SourceConfiguration"].write(value.sourceConfiguration, with: GlueClientTypes.SourceConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.EntityConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.EntityConfiguration()
+        value.sourceConfiguration = try reader["SourceConfiguration"].readIfPresent(with: GlueClientTypes.SourceConfiguration.read(from:))
+        value.schema = try reader["Schema"].readMapIfPresent(valueReadingClosure: GlueClientTypes.FieldDefinition.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension GlueClientTypes.FieldDefinition {
+
+    static func write(value: GlueClientTypes.FieldDefinition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FieldDataType"].write(value.fieldDataType)
+        try writer["Name"].write(value.name)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.FieldDefinition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.FieldDefinition()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.fieldDataType = try reader["FieldDataType"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension GlueClientTypes.SourceConfiguration {
+
+    static func write(value: GlueClientTypes.SourceConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["PaginationConfiguration"].write(value.paginationConfiguration, with: GlueClientTypes.PaginationConfiguration.write(value:to:))
+        try writer["RequestMethod"].write(value.requestMethod)
+        try writer["RequestParameters"].writeList(value.requestParameters, memberWritingClosure: GlueClientTypes.ConnectorProperty.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["RequestPath"].write(value.requestPath)
+        try writer["ResponseConfiguration"].write(value.responseConfiguration, with: GlueClientTypes.ResponseConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.SourceConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.SourceConfiguration()
+        value.requestMethod = try reader["RequestMethod"].readIfPresent()
+        value.requestPath = try reader["RequestPath"].readIfPresent()
+        value.requestParameters = try reader["RequestParameters"].readListIfPresent(memberReadingClosure: GlueClientTypes.ConnectorProperty.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.responseConfiguration = try reader["ResponseConfiguration"].readIfPresent(with: GlueClientTypes.ResponseConfiguration.read(from:))
+        value.paginationConfiguration = try reader["PaginationConfiguration"].readIfPresent(with: GlueClientTypes.PaginationConfiguration.read(from:))
+        return value
+    }
+}
+
+extension GlueClientTypes.PaginationConfiguration {
+
+    static func write(value: GlueClientTypes.PaginationConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CursorConfiguration"].write(value.cursorConfiguration, with: GlueClientTypes.CursorConfiguration.write(value:to:))
+        try writer["OffsetConfiguration"].write(value.offsetConfiguration, with: GlueClientTypes.OffsetConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.PaginationConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.PaginationConfiguration()
+        value.cursorConfiguration = try reader["CursorConfiguration"].readIfPresent(with: GlueClientTypes.CursorConfiguration.read(from:))
+        value.offsetConfiguration = try reader["OffsetConfiguration"].readIfPresent(with: GlueClientTypes.OffsetConfiguration.read(from:))
+        return value
+    }
+}
+
+extension GlueClientTypes.OffsetConfiguration {
+
+    static func write(value: GlueClientTypes.OffsetConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["LimitParameter"].write(value.limitParameter, with: GlueClientTypes.ExtractedParameter.write(value:to:))
+        try writer["OffsetParameter"].write(value.offsetParameter, with: GlueClientTypes.ExtractedParameter.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.OffsetConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.OffsetConfiguration()
+        value.offsetParameter = try reader["OffsetParameter"].readIfPresent(with: GlueClientTypes.ExtractedParameter.read(from:))
+        value.limitParameter = try reader["LimitParameter"].readIfPresent(with: GlueClientTypes.ExtractedParameter.read(from:))
+        return value
+    }
+}
+
+extension GlueClientTypes.ExtractedParameter {
+
+    static func write(value: GlueClientTypes.ExtractedParameter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DefaultValue"].write(value.defaultValue)
+        try writer["Key"].write(value.key)
+        try writer["PropertyLocation"].write(value.propertyLocation)
+        try writer["Value"].write(value.value, with: GlueClientTypes.ResponseExtractionMapping.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.ExtractedParameter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.ExtractedParameter()
+        value.key = try reader["Key"].readIfPresent()
+        value.defaultValue = try reader["DefaultValue"].readIfPresent()
+        value.propertyLocation = try reader["PropertyLocation"].readIfPresent()
+        value.value = try reader["Value"].readIfPresent(with: GlueClientTypes.ResponseExtractionMapping.read(from:))
+        return value
+    }
+}
+
+extension GlueClientTypes.ResponseExtractionMapping {
+
+    static func write(value: GlueClientTypes.ResponseExtractionMapping?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ContentPath"].write(value.contentPath)
+        try writer["HeaderKey"].write(value.headerKey)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.ResponseExtractionMapping {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.ResponseExtractionMapping()
+        value.contentPath = try reader["ContentPath"].readIfPresent()
+        value.headerKey = try reader["HeaderKey"].readIfPresent()
+        return value
+    }
+}
+
+extension GlueClientTypes.CursorConfiguration {
+
+    static func write(value: GlueClientTypes.CursorConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["LimitParameter"].write(value.limitParameter, with: GlueClientTypes.ExtractedParameter.write(value:to:))
+        try writer["NextPage"].write(value.nextPage, with: GlueClientTypes.ExtractedParameter.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.CursorConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.CursorConfiguration()
+        value.nextPage = try reader["NextPage"].readIfPresent(with: GlueClientTypes.ExtractedParameter.read(from:))
+        value.limitParameter = try reader["LimitParameter"].readIfPresent(with: GlueClientTypes.ExtractedParameter.read(from:))
+        return value
+    }
+}
+
+extension GlueClientTypes.ResponseConfiguration {
+
+    static func write(value: GlueClientTypes.ResponseConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ErrorPath"].write(value.errorPath)
+        try writer["ResultPath"].write(value.resultPath)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.ResponseConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.ResponseConfiguration()
+        value.resultPath = try reader["ResultPath"].readIfPresent() ?? ""
+        value.errorPath = try reader["ErrorPath"].readIfPresent()
+        return value
+    }
+}
+
+extension GlueClientTypes.ConnectorProperty {
+
+    static func write(value: GlueClientTypes.ConnectorProperty?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AllowedValues"].writeList(value.allowedValues, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["DefaultValue"].write(value.defaultValue)
+        try writer["KeyOverride"].write(value.keyOverride)
+        try writer["Name"].write(value.name)
+        try writer["PropertyLocation"].write(value.propertyLocation)
+        try writer["PropertyType"].write(value.propertyType)
+        try writer["Required"].write(value.`required`)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.ConnectorProperty {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.ConnectorProperty()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.keyOverride = try reader["KeyOverride"].readIfPresent()
+        value.`required` = try reader["Required"].readIfPresent() ?? false
+        value.defaultValue = try reader["DefaultValue"].readIfPresent()
+        value.allowedValues = try reader["AllowedValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.propertyLocation = try reader["PropertyLocation"].readIfPresent()
+        value.propertyType = try reader["PropertyType"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -50839,6 +51879,98 @@ extension GlueClientTypes.MetadataKeyValuePair {
         guard let value else { return }
         try writer["MetadataKey"].write(value.metadataKey)
         try writer["MetadataValue"].write(value.metadataValue)
+    }
+}
+
+extension GlueClientTypes.ConnectionPropertiesConfiguration {
+
+    static func write(value: GlueClientTypes.ConnectionPropertiesConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AdditionalRequestParameters"].writeList(value.additionalRequestParameters, memberWritingClosure: GlueClientTypes.ConnectorProperty.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Url"].write(value.url, with: GlueClientTypes.ConnectorProperty.write(value:to:))
+    }
+}
+
+extension GlueClientTypes.ConnectorAuthenticationConfiguration {
+
+    static func write(value: GlueClientTypes.ConnectorAuthenticationConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AuthenticationTypes"].writeList(value.authenticationTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<GlueClientTypes.AuthenticationType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["BasicAuthenticationProperties"].write(value.basicAuthenticationProperties, with: GlueClientTypes.BasicAuthenticationProperties.write(value:to:))
+        try writer["CustomAuthenticationProperties"].write(value.customAuthenticationProperties, with: GlueClientTypes.CustomAuthenticationProperties.write(value:to:))
+        try writer["OAuth2Properties"].write(value.oAuth2Properties, with: GlueClientTypes.ConnectorOAuth2Properties.write(value:to:))
+    }
+}
+
+extension GlueClientTypes.CustomAuthenticationProperties {
+
+    static func write(value: GlueClientTypes.CustomAuthenticationProperties?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AuthenticationParameters"].writeList(value.authenticationParameters, memberWritingClosure: GlueClientTypes.ConnectorProperty.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension GlueClientTypes.BasicAuthenticationProperties {
+
+    static func write(value: GlueClientTypes.BasicAuthenticationProperties?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Password"].write(value.password, with: GlueClientTypes.ConnectorProperty.write(value:to:))
+        try writer["Username"].write(value.username, with: GlueClientTypes.ConnectorProperty.write(value:to:))
+    }
+}
+
+extension GlueClientTypes.ConnectorOAuth2Properties {
+
+    static func write(value: GlueClientTypes.ConnectorOAuth2Properties?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AuthorizationCodeProperties"].write(value.authorizationCodeProperties, with: GlueClientTypes.ConnectorAuthorizationCodeProperties.write(value:to:))
+        try writer["ClientCredentialsProperties"].write(value.clientCredentialsProperties, with: GlueClientTypes.ClientCredentialsProperties.write(value:to:))
+        try writer["JWTBearerProperties"].write(value.jwtBearerProperties, with: GlueClientTypes.JWTBearerProperties.write(value:to:))
+        try writer["OAuth2GrantType"].write(value.oAuth2GrantType)
+    }
+}
+
+extension GlueClientTypes.ConnectorAuthorizationCodeProperties {
+
+    static func write(value: GlueClientTypes.ConnectorAuthorizationCodeProperties?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AuthorizationCode"].write(value.authorizationCode, with: GlueClientTypes.ConnectorProperty.write(value:to:))
+        try writer["AuthorizationCodeUrl"].write(value.authorizationCodeUrl, with: GlueClientTypes.ConnectorProperty.write(value:to:))
+        try writer["ClientId"].write(value.clientId, with: GlueClientTypes.ConnectorProperty.write(value:to:))
+        try writer["ClientSecret"].write(value.clientSecret, with: GlueClientTypes.ConnectorProperty.write(value:to:))
+        try writer["ContentType"].write(value.contentType)
+        try writer["Prompt"].write(value.prompt, with: GlueClientTypes.ConnectorProperty.write(value:to:))
+        try writer["RedirectUri"].write(value.redirectUri, with: GlueClientTypes.ConnectorProperty.write(value:to:))
+        try writer["RequestMethod"].write(value.requestMethod)
+        try writer["Scope"].write(value.scope, with: GlueClientTypes.ConnectorProperty.write(value:to:))
+        try writer["TokenUrl"].write(value.tokenUrl, with: GlueClientTypes.ConnectorProperty.write(value:to:))
+        try writer["TokenUrlParameters"].writeList(value.tokenUrlParameters, memberWritingClosure: GlueClientTypes.ConnectorProperty.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension GlueClientTypes.JWTBearerProperties {
+
+    static func write(value: GlueClientTypes.JWTBearerProperties?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ContentType"].write(value.contentType)
+        try writer["JwtToken"].write(value.jwtToken, with: GlueClientTypes.ConnectorProperty.write(value:to:))
+        try writer["RequestMethod"].write(value.requestMethod)
+        try writer["TokenUrl"].write(value.tokenUrl, with: GlueClientTypes.ConnectorProperty.write(value:to:))
+        try writer["TokenUrlParameters"].writeList(value.tokenUrlParameters, memberWritingClosure: GlueClientTypes.ConnectorProperty.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension GlueClientTypes.ClientCredentialsProperties {
+
+    static func write(value: GlueClientTypes.ClientCredentialsProperties?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ClientId"].write(value.clientId, with: GlueClientTypes.ConnectorProperty.write(value:to:))
+        try writer["ClientSecret"].write(value.clientSecret, with: GlueClientTypes.ConnectorProperty.write(value:to:))
+        try writer["ContentType"].write(value.contentType)
+        try writer["RequestMethod"].write(value.requestMethod)
+        try writer["Scope"].write(value.scope, with: GlueClientTypes.ConnectorProperty.write(value:to:))
+        try writer["TokenUrl"].write(value.tokenUrl, with: GlueClientTypes.ConnectorProperty.write(value:to:))
+        try writer["TokenUrlParameters"].writeList(value.tokenUrlParameters, memberWritingClosure: GlueClientTypes.ConnectorProperty.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 

@@ -154,7 +154,7 @@ extension ARCRegionswitchClientTypes {
         public var comment: Swift.String?
         /// The timestamp when the plan execution was ended.
         public var endTime: Foundation.Date?
-        /// The plan execution action. Valid values are Activate, to activate an Amazon Web Services Region, or Deactivate, to deactivate a Region.
+        /// The plan execution action. Valid values are activate, to activate an Amazon Web Services Region, or deactivate, to deactivate a Region.
         /// This member is required.
         public var executionAction: ARCRegionswitchClientTypes.ExecutionAction?
         /// The execution identifier of a plan execution.
@@ -166,7 +166,7 @@ extension ARCRegionswitchClientTypes {
         /// The plan execution state. Provides the state of a plan execution, for example, In Progress or Paused by Operator.
         /// This member is required.
         public var executionState: ARCRegionswitchClientTypes.ExecutionState?
-        /// The plan execution mode. Valid values are Practice, for testing without making actual changes, or Recovery, for actual traffic shifting and application recovery.
+        /// The plan execution mode. Valid values are graceful, for graceful executions, or ungraceful, for ungraceful executions.
         /// This member is required.
         public var mode: ARCRegionswitchClientTypes.ExecutionMode?
         /// The Amazon Resource Name (ARN) of the plan.
@@ -913,7 +913,7 @@ extension ARCRegionswitchClientTypes {
         /// The name of the CloudWatch alarm associated with the condition.
         /// This member is required.
         public var associatedAlarmName: Swift.String?
-        /// The condition that must be met. Valid values include ALARM and OK.
+        /// The condition that must be met. Valid values include green and red.
         /// This member is required.
         public var condition: ARCRegionswitchClientTypes.AlarmCondition?
 
@@ -931,7 +931,7 @@ extension ARCRegionswitchClientTypes {
 
     /// Defines a condition that can automatically trigger the execution of a Region switch plan.
     public struct Trigger: Swift.Sendable {
-        /// The action to perform when the trigger fires. Valid values include ACTIVATE and DEACTIVATE.
+        /// The action to perform when the trigger fires. Valid values include activate and deactivate.
         /// This member is required.
         public var action: ARCRegionswitchClientTypes.WorkflowTargetAction?
         /// The conditions that must be met for the trigger to fire.
@@ -2603,14 +2603,14 @@ public struct UntagResourceOutput: Swift.Sendable {
 }
 
 public struct StartPlanExecutionInput: Swift.Sendable {
-    /// The action to perform. Valid values are ACTIVATE (to shift traffic to the target Region) or DEACTIVATE (to shift traffic away from the target Region).
+    /// The action to perform. Valid values are activate (to shift traffic to the target Region) or deactivate (to shift traffic away from the target Region).
     /// This member is required.
     public var action: ARCRegionswitchClientTypes.ExecutionAction?
     /// An optional comment explaining why the plan execution is being started.
     public var comment: Swift.String?
     /// A boolean value indicating whether to use the latest version of the plan. If set to false, you must specify a specific version.
     public var latestVersion: Swift.String?
-    /// The plan execution mode. Valid values are Practice, for testing without making actual changes, or Recovery, for actual traffic shifting and application recovery.
+    /// The plan execution mode. Valid values are graceful, for starting the execution in graceful mode, or ungraceful, for starting the execution in ungraceful mode.
     public var mode: ARCRegionswitchClientTypes.ExecutionMode?
     /// The Amazon Resource Name (ARN) of the plan to execute.
     /// This member is required.
@@ -2879,7 +2879,7 @@ extension ARCRegionswitchClientTypes {
         public var steps: [ARCRegionswitchClientTypes.Step]?
         /// The description of the workflow.
         public var workflowDescription: Swift.String?
-        /// The action that the workflow performs. Valid values include ACTIVATE and DEACTIVATE.
+        /// The action that the workflow performs. Valid values include activate and deactivate.
         /// This member is required.
         public var workflowTargetAction: ARCRegionswitchClientTypes.WorkflowTargetAction?
         /// The Amazon Web Services Region that the workflow targets.
@@ -3097,7 +3097,7 @@ public struct GetPlanExecutionOutput: Swift.Sendable {
     public var comment: Swift.String?
     /// The time (UTC) when the plan execution ended.
     public var endTime: Foundation.Date?
-    /// The plan execution action. Valid values are Activate, to activate an Amazon Web Services Region, or Deactivate, to deactivate a Region.
+    /// The plan execution action. Valid values are activate, to activate an Amazon Web Services Region, or deactivate, to deactivate a Region.
     /// This member is required.
     public var executionAction: ARCRegionswitchClientTypes.ExecutionAction?
     /// The execution identifier of a plan execution.
@@ -3111,7 +3111,7 @@ public struct GetPlanExecutionOutput: Swift.Sendable {
     public var executionState: ARCRegionswitchClientTypes.ExecutionState?
     /// Information about the location of a generated report, or the cause of its failure.
     public var generatedReportDetails: [ARCRegionswitchClientTypes.GeneratedReport]?
-    /// The plan execution mode. Valid values are Practice, for testing without making actual changes, or Recovery, for actual traffic shifting and application recovery.
+    /// The plan execution mode. Valid values are graceful, for graceful executions, or ungraceful, for ungraceful executions.
     /// This member is required.
     public var mode: ARCRegionswitchClientTypes.ExecutionMode?
     /// Specifies that you want to receive the next page of results. Valid only if you received a nextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value provided by the previous call's nextToken response to request the next page of results.

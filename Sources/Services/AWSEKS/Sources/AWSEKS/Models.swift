@@ -1686,6 +1686,7 @@ extension EKSClientTypes {
         case loggingUpdate
         case remoteNetworkConfigUpdate
         case upgradePolicyUpdate
+        case vendedLogsUpdate
         case versionUpdate
         case vpcConfigUpdate
         case zonalShiftConfigUpdate
@@ -1706,6 +1707,7 @@ extension EKSClientTypes {
                 .loggingUpdate,
                 .remoteNetworkConfigUpdate,
                 .upgradePolicyUpdate,
+                .vendedLogsUpdate,
                 .versionUpdate,
                 .vpcConfigUpdate,
                 .zonalShiftConfigUpdate
@@ -1732,6 +1734,7 @@ extension EKSClientTypes {
             case .loggingUpdate: return "LoggingUpdate"
             case .remoteNetworkConfigUpdate: return "RemoteNetworkConfigUpdate"
             case .upgradePolicyUpdate: return "UpgradePolicyUpdate"
+            case .vendedLogsUpdate: return "VendedLogsUpdate"
             case .versionUpdate: return "VersionUpdate"
             case .vpcConfigUpdate: return "VpcConfigUpdate"
             case .zonalShiftConfigUpdate: return "ZonalShiftConfigUpdate"

@@ -1796,7 +1796,7 @@ public struct CreatePrivateGraphEndpointInput: Swift.Sendable {
     public var subnetIds: [Swift.String]?
     /// The VPC in which the private graph endpoint needs to be created.
     public var vpcId: Swift.String?
-    /// Security groups to be attached to the private graph endpoint..
+    /// Security groups to be attached to the private graph endpoint.
     public var vpcSecurityGroupIds: [Swift.String]?
 
     public init(
@@ -1854,7 +1854,7 @@ public struct CreatePrivateGraphEndpointOutput: Swift.Sendable {
     /// Subnets in which the private graph endpoint ENIs are created.
     /// This member is required.
     public var subnetIds: [Swift.String]?
-    /// Endpoint ID of the prviate grpah endpoint.
+    /// Endpoint ID of the private graph endpoint.
     public var vpcEndpointId: Swift.String?
     /// VPC in which the private graph endpoint is created.
     /// This member is required.
@@ -2583,7 +2583,7 @@ extension NeptuneGraphClientTypes {
 }
 
 public struct CancelImportTaskOutput: Swift.Sendable {
-    /// Specifies the format of S3 data to be imported. Valid values are CSV, which identifies the [Gremlin CSV format](https://docs.aws.amazon.com/neptune/latest/userguide/bulk-load-tutorial-format-gremlin.html) or OPENCYPHER, which identies the [openCypher load format](https://docs.aws.amazon.com/neptune/latest/userguide/bulk-load-tutorial-format-opencypher.html).
+    /// Specifies the format of S3 data to be imported. Valid values are CSV, which identifies the [Gremlin CSV format](https://docs.aws.amazon.com/neptune/latest/userguide/bulk-load-tutorial-format-gremlin.html) or OPENCYPHER, which identifies the [openCypher load format](https://docs.aws.amazon.com/neptune/latest/userguide/bulk-load-tutorial-format-opencypher.html).
     public var format: NeptuneGraphClientTypes.Format?
     /// The unique identifier of the Neptune Analytics graph.
     public var graphId: Swift.String?
@@ -2869,7 +2869,7 @@ extension NeptuneGraphClientTypes {
 
 extension NeptuneGraphClientTypes {
 
-    /// Specifies whihc properties of that label should be included in the export.
+    /// Specifies which properties of that label should be included in the export.
     public struct ExportFilterElement: Swift.Sendable {
         /// Each property is defined by a key-value pair, where the key is the desired output property name (e.g. "name"), and the value is an object.
         public var properties: [Swift.String: NeptuneGraphClientTypes.ExportFilterPropertyAttributes]?
@@ -3058,7 +3058,7 @@ extension NeptuneGraphClientTypes {
 public struct GetImportTaskOutput: Swift.Sendable {
     /// The number of the current attempts to execute the import task.
     public var attemptNumber: Swift.Int?
-    /// Specifies the format of S3 data to be imported. Valid values are CSV, which identifies the [Gremlin CSV format](https://docs.aws.amazon.com/neptune/latest/userguide/bulk-load-tutorial-format-gremlin.html) or OPENCYPHER, which identies the [openCypher load format](https://docs.aws.amazon.com/neptune/latest/userguide/bulk-load-tutorial-format-opencypher.html).
+    /// Specifies the format of S3 data to be imported. Valid values are CSV, which identifies the [Gremlin CSV format](https://docs.aws.amazon.com/neptune/latest/userguide/bulk-load-tutorial-format-gremlin.html) or OPENCYPHER, which identifies the [openCypher load format](https://docs.aws.amazon.com/neptune/latest/userguide/bulk-load-tutorial-format-opencypher.html).
     public var format: NeptuneGraphClientTypes.Format?
     /// The unique identifier of the Neptune Analytics graph.
     public var graphId: Swift.String?
@@ -3396,7 +3396,7 @@ public struct StartImportTaskInput: Swift.Sendable {
     public var blankNodeHandling: NeptuneGraphClientTypes.BlankNodeHandling?
     /// If set to true, the task halts when an import error is encountered. If set to false, the task skips the data that caused the error and continues if possible.
     public var failOnError: Swift.Bool?
-    /// Specifies the format of Amazon S3 data to be imported. Valid values are CSV, which identifies the Gremlin CSV format or OPENCYPHER, which identies the openCypher load format.
+    /// Specifies the format of Amazon S3 data to be imported. Valid values are CSV, which identifies the Gremlin CSV format or OPENCYPHER, which identifies the openCypher load format.
     public var format: NeptuneGraphClientTypes.Format?
     /// The unique identifier of the Neptune Analytics graph.
     /// This member is required.
@@ -3434,7 +3434,7 @@ public struct StartImportTaskInput: Swift.Sendable {
 }
 
 public struct StartImportTaskOutput: Swift.Sendable {
-    /// Specifies the format of Amazon S3 data to be imported. Valid values are CSV, which identifies the Gremlin CSV format or OPENCYPHER, which identies the openCypher load format.
+    /// Specifies the format of Amazon S3 data to be imported. Valid values are CSV, which identifies the Gremlin CSV format or OPENCYPHER, which identifies the openCypher load format.
     public var format: NeptuneGraphClientTypes.Format?
     /// The unique identifier of the Neptune Analytics graph.
     public var graphId: Swift.String?

@@ -3595,6 +3595,8 @@ public struct StartLoaderJobInput: Swift.Sendable {
     ///
     /// Because of the dependencies parameter, the bulk loader will not start Job-C until Job-A and Job-B have completed successfully. If either one of them fails, Job-C will not be executed, and its status will be set to LOAD_FAILED_BECAUSE_DEPENDENCY_NOT_SATISFIED. You can set up multiple levels of dependency in this way, so that the failure of one job will cause all requests that are directly or indirectly dependent on it to be cancelled.
     public var dependencies: [Swift.String]?
+    /// edgeOnlyLoad – A flag that controls file processing order during bulk loading. Allowed values: "TRUE", "FALSE". Default value: "FALSE". When this parameter is set to "FALSE", the loader automatically loads vertex files first, then edge files afterwards. It does this by first scanning all files to determine their contents (vertices or edges). When this parameter is set to "TRUE", the loader skips the initial scanning phase and immediately loads all files in the order they appear.
+    public var edgeOnlyLoad: Swift.Bool?
     /// failOnError – A flag to toggle a complete stop on an error. Allowed values: "TRUE", "FALSE". Default value: "TRUE". When this parameter is set to "FALSE", the loader tries to load all the data in the location specified, skipping any entries with errors. When this parameter is set to "TRUE", the loader stops as soon as it encounters an error. Data loaded up to that point persists.
     public var failOnError: Swift.Bool?
     /// The format of the data. For more information about data formats for the Neptune Loader command, see [Load Data Formats](https://docs.aws.amazon.com/neptune/latest/userguide/bulk-load-tutorial-format.html). Allowed values
@@ -3668,6 +3670,7 @@ public struct StartLoaderJobInput: Swift.Sendable {
 
     public init(
         dependencies: [Swift.String]? = nil,
+        edgeOnlyLoad: Swift.Bool? = nil,
         failOnError: Swift.Bool? = nil,
         format: NeptunedataClientTypes.Format? = nil,
         iamRoleArn: Swift.String? = nil,
@@ -3681,6 +3684,7 @@ public struct StartLoaderJobInput: Swift.Sendable {
         userProvidedEdgeIds: Swift.Bool? = nil
     ) {
         self.dependencies = dependencies
+        self.edgeOnlyLoad = edgeOnlyLoad
         self.failOnError = failOnError
         self.format = format
         self.iamRoleArn = iamRoleArn
@@ -4820,6 +4824,7 @@ extension StartLoaderJobInput {
     static func write(value: StartLoaderJobInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["dependencies"].writeList(value.dependencies, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["edgeOnlyLoad"].write(value.edgeOnlyLoad)
         try writer["failOnError"].write(value.failOnError)
         try writer["format"].write(value.format)
         try writer["iamRoleArn"].write(value.iamRoleArn)

@@ -14,7 +14,7 @@ public class DefaultAWSClientPlugin: Plugin {
         self.clientName = clientName
     }
 
-    public func configureClient(clientConfiguration: inout ClientConfiguration) async throws {
+    public func configureClient<Config: ClientConfiguration>(clientConfiguration: inout Config) async throws {
         guard var config = clientConfiguration as? (DefaultClientConfiguration
             & AWSDefaultClientConfiguration
             & AWSRegionClientConfiguration) else { return }
@@ -22,6 +22,8 @@ public class DefaultAWSClientPlugin: Plugin {
             config.awsRetryMode,
             config.maxAttempts
         )
-        clientConfiguration = config as ClientConfiguration
+
+        guard let modifiedConfig = config as? Config else { return }
+        clientConfiguration = modifiedConfig
     }
 }

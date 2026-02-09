@@ -640,19 +640,23 @@ public struct InvokeDataAutomationInput: Swift.Sendable {
     /// Input configuration.
     /// This member is required.
     public var inputConfiguration: BedrockDataAutomationRuntimeClientTypes.SyncInputConfiguration?
+    /// Output configuration.
+    public var outputConfiguration: BedrockDataAutomationRuntimeClientTypes.OutputConfiguration?
 
     public init(
         blueprints: [BedrockDataAutomationRuntimeClientTypes.Blueprint]? = nil,
         dataAutomationConfiguration: BedrockDataAutomationRuntimeClientTypes.DataAutomationConfiguration? = nil,
         dataAutomationProfileArn: Swift.String? = nil,
         encryptionConfiguration: BedrockDataAutomationRuntimeClientTypes.EncryptionConfiguration? = nil,
-        inputConfiguration: BedrockDataAutomationRuntimeClientTypes.SyncInputConfiguration? = nil
+        inputConfiguration: BedrockDataAutomationRuntimeClientTypes.SyncInputConfiguration? = nil,
+        outputConfiguration: BedrockDataAutomationRuntimeClientTypes.OutputConfiguration? = nil
     ) {
         self.blueprints = blueprints
         self.dataAutomationConfiguration = dataAutomationConfiguration
         self.dataAutomationProfileArn = dataAutomationProfileArn
         self.encryptionConfiguration = encryptionConfiguration
         self.inputConfiguration = inputConfiguration
+        self.outputConfiguration = outputConfiguration
     }
 }
 
@@ -747,17 +751,20 @@ extension BedrockDataAutomationRuntimeClientTypes {
 
 /// Invoke Data Automation Response
 public struct InvokeDataAutomationOutput: Swift.Sendable {
+    /// Output configuration
+    public var outputConfiguration: BedrockDataAutomationRuntimeClientTypes.OutputConfiguration?
     /// List of outputs for each logical sub-doc
-    /// This member is required.
     public var outputSegments: [BedrockDataAutomationRuntimeClientTypes.OutputSegment]?
     /// Detected semantic modality
     /// This member is required.
     public var semanticModality: BedrockDataAutomationRuntimeClientTypes.SemanticModality?
 
     public init(
-        outputSegments: [BedrockDataAutomationRuntimeClientTypes.OutputSegment]? = nil,
+        outputConfiguration: BedrockDataAutomationRuntimeClientTypes.OutputConfiguration? = nil,
+        outputSegments: [BedrockDataAutomationRuntimeClientTypes.OutputSegment]? = [],
         semanticModality: BedrockDataAutomationRuntimeClientTypes.SemanticModality? = nil
     ) {
+        self.outputConfiguration = outputConfiguration
         self.outputSegments = outputSegments
         self.semanticModality = semanticModality
     }
@@ -889,6 +896,7 @@ extension InvokeDataAutomationInput {
         try writer["dataAutomationProfileArn"].write(value.dataAutomationProfileArn)
         try writer["encryptionConfiguration"].write(value.encryptionConfiguration, with: BedrockDataAutomationRuntimeClientTypes.EncryptionConfiguration.write(value:to:))
         try writer["inputConfiguration"].write(value.inputConfiguration, with: BedrockDataAutomationRuntimeClientTypes.SyncInputConfiguration.write(value:to:))
+        try writer["outputConfiguration"].write(value.outputConfiguration, with: BedrockDataAutomationRuntimeClientTypes.OutputConfiguration.write(value:to:))
     }
 }
 
@@ -959,6 +967,7 @@ extension InvokeDataAutomationOutput {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let reader = responseReader
         var value = InvokeDataAutomationOutput()
+        value.outputConfiguration = try reader["outputConfiguration"].readIfPresent(with: BedrockDataAutomationRuntimeClientTypes.OutputConfiguration.read(from:))
         value.outputSegments = try reader["outputSegments"].readListIfPresent(memberReadingClosure: BedrockDataAutomationRuntimeClientTypes.OutputSegment.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.semanticModality = try reader["semanticModality"].readIfPresent() ?? .sdkUnknown("")
         return value
