@@ -1082,6 +1082,8 @@ extension TransferClientTypes {
         public var localProfileId: Swift.String?
         /// Used for outbound requests (from an Transfer Family connector to a partner AS2 server) to determine whether the partner response for transfers is synchronous or asynchronous. Specify either of the following values:
         ///
+        /// * ASYNC: The system expects an asynchronous MDN response, confirming that the file was transferred successfully (or not).
+        ///
         /// * SYNC: The system expects a synchronous MDN response, confirming that the file was transferred successfully (or not).
         ///
         /// * NONE: Specifies that no MDN response is required.
