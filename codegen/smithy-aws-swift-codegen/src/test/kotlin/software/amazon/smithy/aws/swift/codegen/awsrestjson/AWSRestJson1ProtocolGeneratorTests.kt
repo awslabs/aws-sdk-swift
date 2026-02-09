@@ -65,11 +65,12 @@ extension ExplicitBlobInput {
 public final class ExampleClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "ExampleClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: ExampleClient.ExampleClientConfig
+    public let config: ExampleClient.ExampleClientConfig
     let serviceName = "Example"
 
     @available(*, deprecated, message: "Use ExampleClient.ExampleClientConfig instead")
     public typealias Config = ExampleClient.ExampleClientConfiguration
+    public typealias Configuration = ExampleClient.ExampleClientConfig
 
     public required init(config: ExampleClient.ExampleClientConfig) {
         ClientRuntime.initialize()
