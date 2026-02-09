@@ -1084,6 +1084,198 @@ extension EC2Client {
         return try await waiter.waitUntil(options: options, input: input)
     }
 
+    static func secondaryNetworkCreateCompleteWaiterConfig() throws -> SmithyWaitersAPI.WaiterConfiguration<DescribeSecondaryNetworksInput, DescribeSecondaryNetworksOutput> {
+        let acceptors: [SmithyWaitersAPI.WaiterConfiguration<DescribeSecondaryNetworksInput, DescribeSecondaryNetworksOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeSecondaryNetworksInput, result: Swift.Result<DescribeSecondaryNetworksOutput, Swift.Error>) -> Bool in
+                // JMESPath expression: "SecondaryNetworks[].State"
+                // JMESPath comparator: "allStringEquals"
+                // JMESPath expected value: "create-complete"
+                guard case .success(let output) = result else { return false }
+                let secondaryNetworks = output.secondaryNetworks
+                let projection: [EC2ClientTypes.SecondaryNetworkState]? = secondaryNetworks?.compactMap { original in
+                    let state = original.state
+                    return state
+                }
+                return (projection?.count ?? 0) >= 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "create-complete") } ?? false)
+            }),
+            .init(state: .failure, matcher: { (input: DescribeSecondaryNetworksInput, result: Swift.Result<DescribeSecondaryNetworksOutput, Swift.Error>) -> Bool in
+                // JMESPath expression: "SecondaryNetworks[].State"
+                // JMESPath comparator: "anyStringEquals"
+                // JMESPath expected value: "create-failed"
+                guard case .success(let output) = result else { return false }
+                let secondaryNetworks = output.secondaryNetworks
+                let projection: [EC2ClientTypes.SecondaryNetworkState]? = secondaryNetworks?.compactMap { original in
+                    let state = original.state
+                    return state
+                }
+                return projection?.contains(where: { SmithyWaitersAPI.JMESUtils.compare($0, ==, "create-failed") }) ?? false
+            }),
+            .init(state: .retry, matcher: { (input: DescribeSecondaryNetworksInput, result: Swift.Result<DescribeSecondaryNetworksOutput, Swift.Error>) -> Bool in
+                guard case .failure(let error) = result else { return false }
+                return (error as? ClientRuntime.ServiceError)?.typeName == "InvalidSecondaryNetworkId.NotFound"
+            }),
+        ]
+        return try SmithyWaitersAPI.WaiterConfiguration<DescribeSecondaryNetworksInput, DescribeSecondaryNetworksOutput>(acceptors: acceptors, minDelay: 10.0, maxDelay: 120.0)
+    }
+
+    /// Initiates waiting for the SecondaryNetworkCreateComplete event on the describeSecondaryNetworks operation.
+    /// The operation will be tried and (if necessary) retried until the wait succeeds, fails, or times out.
+    /// Returns a `WaiterOutcome` asynchronously on waiter success, throws an error asynchronously on
+    /// waiter failure or timeout.
+    /// - Parameters:
+    ///   - options: `WaiterOptions` to be used to configure this wait.
+    ///   - input: The `DescribeSecondaryNetworksInput` object to be used as a parameter when performing the operation.
+    /// - Returns: A `WaiterOutcome` with the result of the final, successful performance of the operation.
+    /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
+    /// or there is an error not handled by any `Acceptor.`
+    /// `WaiterTimeoutError` if the waiter times out.
+    public func waitUntilSecondaryNetworkCreateComplete(options: SmithyWaitersAPI.WaiterOptions, input: DescribeSecondaryNetworksInput) async throws -> SmithyWaitersAPI.WaiterOutcome<DescribeSecondaryNetworksOutput> {
+        let waiter = SmithyWaitersAPI.Waiter(config: try Self.secondaryNetworkCreateCompleteWaiterConfig(), operation: self.describeSecondaryNetworks(input:))
+        return try await waiter.waitUntil(options: options, input: input)
+    }
+
+    static func secondaryNetworkDeleteCompleteWaiterConfig() throws -> SmithyWaitersAPI.WaiterConfiguration<DescribeSecondaryNetworksInput, DescribeSecondaryNetworksOutput> {
+        let acceptors: [SmithyWaitersAPI.WaiterConfiguration<DescribeSecondaryNetworksInput, DescribeSecondaryNetworksOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeSecondaryNetworksInput, result: Swift.Result<DescribeSecondaryNetworksOutput, Swift.Error>) -> Bool in
+                // JMESPath expression: "SecondaryNetworks[].State"
+                // JMESPath comparator: "allStringEquals"
+                // JMESPath expected value: "delete-complete"
+                guard case .success(let output) = result else { return false }
+                let secondaryNetworks = output.secondaryNetworks
+                let projection: [EC2ClientTypes.SecondaryNetworkState]? = secondaryNetworks?.compactMap { original in
+                    let state = original.state
+                    return state
+                }
+                return (projection?.count ?? 0) >= 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "delete-complete") } ?? false)
+            }),
+            .init(state: .failure, matcher: { (input: DescribeSecondaryNetworksInput, result: Swift.Result<DescribeSecondaryNetworksOutput, Swift.Error>) -> Bool in
+                // JMESPath expression: "SecondaryNetworks[].State"
+                // JMESPath comparator: "anyStringEquals"
+                // JMESPath expected value: "delete-failed"
+                guard case .success(let output) = result else { return false }
+                let secondaryNetworks = output.secondaryNetworks
+                let projection: [EC2ClientTypes.SecondaryNetworkState]? = secondaryNetworks?.compactMap { original in
+                    let state = original.state
+                    return state
+                }
+                return projection?.contains(where: { SmithyWaitersAPI.JMESUtils.compare($0, ==, "delete-failed") }) ?? false
+            }),
+        ]
+        return try SmithyWaitersAPI.WaiterConfiguration<DescribeSecondaryNetworksInput, DescribeSecondaryNetworksOutput>(acceptors: acceptors, minDelay: 10.0, maxDelay: 120.0)
+    }
+
+    /// Initiates waiting for the SecondaryNetworkDeleteComplete event on the describeSecondaryNetworks operation.
+    /// The operation will be tried and (if necessary) retried until the wait succeeds, fails, or times out.
+    /// Returns a `WaiterOutcome` asynchronously on waiter success, throws an error asynchronously on
+    /// waiter failure or timeout.
+    /// - Parameters:
+    ///   - options: `WaiterOptions` to be used to configure this wait.
+    ///   - input: The `DescribeSecondaryNetworksInput` object to be used as a parameter when performing the operation.
+    /// - Returns: A `WaiterOutcome` with the result of the final, successful performance of the operation.
+    /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
+    /// or there is an error not handled by any `Acceptor.`
+    /// `WaiterTimeoutError` if the waiter times out.
+    public func waitUntilSecondaryNetworkDeleteComplete(options: SmithyWaitersAPI.WaiterOptions, input: DescribeSecondaryNetworksInput) async throws -> SmithyWaitersAPI.WaiterOutcome<DescribeSecondaryNetworksOutput> {
+        let waiter = SmithyWaitersAPI.Waiter(config: try Self.secondaryNetworkDeleteCompleteWaiterConfig(), operation: self.describeSecondaryNetworks(input:))
+        return try await waiter.waitUntil(options: options, input: input)
+    }
+
+    static func secondarySubnetCreateCompleteWaiterConfig() throws -> SmithyWaitersAPI.WaiterConfiguration<DescribeSecondarySubnetsInput, DescribeSecondarySubnetsOutput> {
+        let acceptors: [SmithyWaitersAPI.WaiterConfiguration<DescribeSecondarySubnetsInput, DescribeSecondarySubnetsOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeSecondarySubnetsInput, result: Swift.Result<DescribeSecondarySubnetsOutput, Swift.Error>) -> Bool in
+                // JMESPath expression: "SecondarySubnets[].State"
+                // JMESPath comparator: "allStringEquals"
+                // JMESPath expected value: "create-complete"
+                guard case .success(let output) = result else { return false }
+                let secondarySubnets = output.secondarySubnets
+                let projection: [EC2ClientTypes.SecondarySubnetState]? = secondarySubnets?.compactMap { original in
+                    let state = original.state
+                    return state
+                }
+                return (projection?.count ?? 0) >= 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "create-complete") } ?? false)
+            }),
+            .init(state: .failure, matcher: { (input: DescribeSecondarySubnetsInput, result: Swift.Result<DescribeSecondarySubnetsOutput, Swift.Error>) -> Bool in
+                // JMESPath expression: "SecondarySubnets[].State"
+                // JMESPath comparator: "anyStringEquals"
+                // JMESPath expected value: "delete-failed"
+                guard case .success(let output) = result else { return false }
+                let secondarySubnets = output.secondarySubnets
+                let projection: [EC2ClientTypes.SecondarySubnetState]? = secondarySubnets?.compactMap { original in
+                    let state = original.state
+                    return state
+                }
+                return projection?.contains(where: { SmithyWaitersAPI.JMESUtils.compare($0, ==, "delete-failed") }) ?? false
+            }),
+            .init(state: .retry, matcher: { (input: DescribeSecondarySubnetsInput, result: Swift.Result<DescribeSecondarySubnetsOutput, Swift.Error>) -> Bool in
+                guard case .failure(let error) = result else { return false }
+                return (error as? ClientRuntime.ServiceError)?.typeName == "InvalidSecondarySubnetId.NotFound"
+            }),
+        ]
+        return try SmithyWaitersAPI.WaiterConfiguration<DescribeSecondarySubnetsInput, DescribeSecondarySubnetsOutput>(acceptors: acceptors, minDelay: 10.0, maxDelay: 120.0)
+    }
+
+    /// Initiates waiting for the SecondarySubnetCreateComplete event on the describeSecondarySubnets operation.
+    /// The operation will be tried and (if necessary) retried until the wait succeeds, fails, or times out.
+    /// Returns a `WaiterOutcome` asynchronously on waiter success, throws an error asynchronously on
+    /// waiter failure or timeout.
+    /// - Parameters:
+    ///   - options: `WaiterOptions` to be used to configure this wait.
+    ///   - input: The `DescribeSecondarySubnetsInput` object to be used as a parameter when performing the operation.
+    /// - Returns: A `WaiterOutcome` with the result of the final, successful performance of the operation.
+    /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
+    /// or there is an error not handled by any `Acceptor.`
+    /// `WaiterTimeoutError` if the waiter times out.
+    public func waitUntilSecondarySubnetCreateComplete(options: SmithyWaitersAPI.WaiterOptions, input: DescribeSecondarySubnetsInput) async throws -> SmithyWaitersAPI.WaiterOutcome<DescribeSecondarySubnetsOutput> {
+        let waiter = SmithyWaitersAPI.Waiter(config: try Self.secondarySubnetCreateCompleteWaiterConfig(), operation: self.describeSecondarySubnets(input:))
+        return try await waiter.waitUntil(options: options, input: input)
+    }
+
+    static func secondarySubnetDeleteCompleteWaiterConfig() throws -> SmithyWaitersAPI.WaiterConfiguration<DescribeSecondarySubnetsInput, DescribeSecondarySubnetsOutput> {
+        let acceptors: [SmithyWaitersAPI.WaiterConfiguration<DescribeSecondarySubnetsInput, DescribeSecondarySubnetsOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: DescribeSecondarySubnetsInput, result: Swift.Result<DescribeSecondarySubnetsOutput, Swift.Error>) -> Bool in
+                // JMESPath expression: "SecondarySubnets[].State"
+                // JMESPath comparator: "allStringEquals"
+                // JMESPath expected value: "delete-complete"
+                guard case .success(let output) = result else { return false }
+                let secondarySubnets = output.secondarySubnets
+                let projection: [EC2ClientTypes.SecondarySubnetState]? = secondarySubnets?.compactMap { original in
+                    let state = original.state
+                    return state
+                }
+                return (projection?.count ?? 0) >= 1 && (projection?.allSatisfy { SmithyWaitersAPI.JMESUtils.compare($0, ==, "delete-complete") } ?? false)
+            }),
+            .init(state: .failure, matcher: { (input: DescribeSecondarySubnetsInput, result: Swift.Result<DescribeSecondarySubnetsOutput, Swift.Error>) -> Bool in
+                // JMESPath expression: "SecondarySubnets[].State"
+                // JMESPath comparator: "anyStringEquals"
+                // JMESPath expected value: "delete-failed"
+                guard case .success(let output) = result else { return false }
+                let secondarySubnets = output.secondarySubnets
+                let projection: [EC2ClientTypes.SecondarySubnetState]? = secondarySubnets?.compactMap { original in
+                    let state = original.state
+                    return state
+                }
+                return projection?.contains(where: { SmithyWaitersAPI.JMESUtils.compare($0, ==, "delete-failed") }) ?? false
+            }),
+        ]
+        return try SmithyWaitersAPI.WaiterConfiguration<DescribeSecondarySubnetsInput, DescribeSecondarySubnetsOutput>(acceptors: acceptors, minDelay: 10.0, maxDelay: 120.0)
+    }
+
+    /// Initiates waiting for the SecondarySubnetDeleteComplete event on the describeSecondarySubnets operation.
+    /// The operation will be tried and (if necessary) retried until the wait succeeds, fails, or times out.
+    /// Returns a `WaiterOutcome` asynchronously on waiter success, throws an error asynchronously on
+    /// waiter failure or timeout.
+    /// - Parameters:
+    ///   - options: `WaiterOptions` to be used to configure this wait.
+    ///   - input: The `DescribeSecondarySubnetsInput` object to be used as a parameter when performing the operation.
+    /// - Returns: A `WaiterOutcome` with the result of the final, successful performance of the operation.
+    /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
+    /// or there is an error not handled by any `Acceptor.`
+    /// `WaiterTimeoutError` if the waiter times out.
+    public func waitUntilSecondarySubnetDeleteComplete(options: SmithyWaitersAPI.WaiterOptions, input: DescribeSecondarySubnetsInput) async throws -> SmithyWaitersAPI.WaiterOutcome<DescribeSecondarySubnetsOutput> {
+        let waiter = SmithyWaitersAPI.Waiter(config: try Self.secondarySubnetDeleteCompleteWaiterConfig(), operation: self.describeSecondarySubnets(input:))
+        return try await waiter.waitUntil(options: options, input: input)
+    }
+
     static func securityGroupExistsWaiterConfig() throws -> SmithyWaitersAPI.WaiterConfiguration<DescribeSecurityGroupsInput, DescribeSecurityGroupsOutput> {
         let acceptors: [SmithyWaitersAPI.WaiterConfiguration<DescribeSecurityGroupsInput, DescribeSecurityGroupsOutput>.Acceptor] = [
             .init(state: .success, matcher: { (input: DescribeSecurityGroupsInput, result: Swift.Result<DescribeSecurityGroupsOutput, Swift.Error>) -> Bool in
