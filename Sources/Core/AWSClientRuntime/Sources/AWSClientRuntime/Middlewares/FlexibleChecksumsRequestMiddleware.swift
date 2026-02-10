@@ -39,14 +39,37 @@ public struct FlexibleChecksumsRequestMiddleware<OperationStackInput, OperationS
             throw ClientError.unknownError("No logger found!")
         }
 
+        // Get the enableAWSChunked configuration from context
+        let enableAWSChunked = attributes.enableAWSChunked
+
         if case(.stream(let stream)) = builder.body {
             attributes.isChunkedEligibleStream = stream.isEligibleForChunkedStreaming
-            if stream.isEligibleForChunkedStreaming {
+            
+            // Determine if aws-chunked should be applied based on three-way logic
+            let shouldApplyAwsChunked: Bool
+            if let enableAWSChunked = enableAWSChunked {
+                // Explicit configuration takes precedence (force enable or force disable)
+                shouldApplyAwsChunked = enableAWSChunked
+            } else {
+                // Fall back to auto-detection based on stream eligibility
+                shouldApplyAwsChunked = stream.isEligibleForChunkedStreaming
+            }
+            
+            if shouldApplyAwsChunked {
                 try builder.setAwsChunkedHeaders() // x-amz-decoded-content-length
             }
         } else if case(.noStream) = builder.body {
+            // Check if user tried to force enable aws-chunked with non-stream body
+            if enableAWSChunked == true {
+                throw ClientError.dataNotFound("Cannot enable aws-chunked encoding: request body is not a stream")
+            }
             logger.debug("Request body is empty. Skipping request checksum calculation...")
             return
+        } else if case(.data) = builder.body {
+            // Check if user tried to force enable aws-chunked with data body
+            if enableAWSChunked == true {
+                throw ClientError.dataNotFound("Cannot enable aws-chunked encoding: request body is not a stream")
+            }
         }
 
         // E.g., prefix for x-amz-checksum-crc32
@@ -110,11 +133,21 @@ public struct FlexibleChecksumsRequestMiddleware<OperationStackInput, OperationS
         case .data(let data):
             try await calculateAndAddChecksumHeader(data: data)
         case .stream(let stream):
-            if stream.isEligibleForChunkedStreaming {
+            // Determine if we should use aws-chunked based on configuration and stream eligibility
+            let shouldUseAwsChunked: Bool
+            if let enableAWSChunked = attributes.enableAWSChunked {
+                // Explicit configuration takes precedence
+                shouldUseAwsChunked = enableAWSChunked && stream.isEligibleForChunkedStreaming
+            } else {
+                // Fall back to auto-detection
+                shouldUseAwsChunked = stream.isEligibleForChunkedStreaming
+            }
+            
+            if shouldUseAwsChunked {
                 // Handle calculating and adding checksum header in ChunkedStream
                 builder.updateHeader(name: "x-amz-trailer", value: [checksumHashHeaderName])
             } else {
-                // If not eligible for chunked streaming, calculate and add checksum to request header now instead of as a trailing header.
+                // If not using aws-chunked, calculate and add checksum to request header now instead of as a trailing header.
                 let streamBytes: Data?
                 if stream.isSeekable {
                     // Need to save current position to reset stream position after reading
