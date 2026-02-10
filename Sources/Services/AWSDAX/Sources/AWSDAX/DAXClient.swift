@@ -72,11 +72,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class DAXClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "DAXClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: DAXClient.DAXClientConfig
+    public let config: DAXClient.DAXClientConfig
     let serviceName = "DAX"
 
     @available(*, deprecated, message: "Use DAXClient.DAXClientConfig instead")
     public typealias Config = DAXClient.DAXClientConfiguration
+    public typealias Configuration = DAXClient.DAXClientConfig
 
     public required init(config: DAXClient.DAXClientConfig) {
         ClientRuntime.initialize()

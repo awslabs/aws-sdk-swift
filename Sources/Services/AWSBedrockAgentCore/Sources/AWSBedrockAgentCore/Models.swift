@@ -677,6 +677,106 @@ extension BedrockAgentCoreClientTypes {
 
 extension BedrockAgentCoreClientTypes {
 
+    /// Configuration for domains that should bypass all proxies and connect directly to the internet. These bypass rules take precedence over all proxy routing rules.
+    public struct ProxyBypass: Swift.Sendable {
+        /// Array of domain patterns that should bypass the proxy. Supports .amazonaws.com for subdomain matching or amazonaws.com for exact domain matching. Requests to these domains connect directly without using any proxy. Maximum 253 characters per pattern.
+        public var domainPatterns: [Swift.String]?
+
+        public init(
+            domainPatterns: [Swift.String]? = nil
+        ) {
+            self.domainPatterns = domainPatterns
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// Configuration for HTTP Basic Authentication using credentials stored in Amazon Web Services Secrets Manager. The secret must contain a JSON object with username and password string fields. Username allows alphanumeric characters and @._+=- symbols (pattern: ^[a-zA-Z0-9@._+=\-]+$). Password allows alphanumeric characters and @._+=-!#$%&* symbols (pattern: ^[a-zA-Z0-9@._+=\-!#$%&*]+$). Both fields have a maximum length of 256 characters.
+    public struct BasicAuth: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager secret containing proxy credentials. The secret must be a JSON object with username and password string fields that meet validation requirements. The caller must have secretsmanager:GetSecretValue permission for this ARN. Example secret format: {"username": "proxy_user", "password": "secure_password"}
+        /// This member is required.
+        public var secretArn: Swift.String?
+
+        public init(
+            secretArn: Swift.String? = nil
+        ) {
+            self.secretArn = secretArn
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// Union type representing different proxy authentication methods. Currently supports HTTP Basic Authentication (username and password).
+    public enum ProxyCredentials: Swift.Sendable {
+        /// HTTP Basic Authentication credentials (username and password) stored in Amazon Web Services Secrets Manager.
+        case basicauth(BedrockAgentCoreClientTypes.BasicAuth)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// Configuration for a customer-managed external proxy server. Includes server location, optional domain-based routing patterns, and authentication credentials.
+    public struct ExternalProxy: Swift.Sendable {
+        /// Optional authentication credentials for the proxy server. If omitted, the proxy is accessed without authentication (useful for IP-allowlisted proxies).
+        public var credentials: BedrockAgentCoreClientTypes.ProxyCredentials?
+        /// Optional array of domain patterns that should route through this specific proxy. Supports .example.com for subdomain matching (matches any subdomain of example.com) or example.com for exact domain matching. If omitted, this proxy acts as a catch-all for domains not matched by other proxies. Maximum 100 patterns per proxy, each up to 253 characters.
+        public var domainPatterns: [Swift.String]?
+        /// The port number of the proxy server. Valid range: 1-65535.
+        /// This member is required.
+        public var port: Swift.Int?
+        /// The hostname of the proxy server. Must be a valid DNS hostname (maximum 253 characters).
+        /// This member is required.
+        public var server: Swift.String?
+
+        public init(
+            credentials: BedrockAgentCoreClientTypes.ProxyCredentials? = nil,
+            domainPatterns: [Swift.String]? = nil,
+            port: Swift.Int? = nil,
+            server: Swift.String? = nil
+        ) {
+            self.credentials = credentials
+            self.domainPatterns = domainPatterns
+            self.port = port
+            self.server = server
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// Union type representing different proxy configurations. Currently supports external customer-managed proxies.
+    public enum Proxy: Swift.Sendable {
+        /// Configuration for an external customer-managed proxy server.
+        case externalproxy(BedrockAgentCoreClientTypes.ExternalProxy)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// Configuration for routing browser traffic through customer-managed proxy servers. Supports 1-5 proxy servers for domain-based routing and proxy bypass rules.
+    public struct ProxyConfiguration: Swift.Sendable {
+        /// Optional configuration for domains that should bypass all proxies and connect directly to their destination, like the internet. Takes precedence over all proxy routing rules.
+        public var bypass: BedrockAgentCoreClientTypes.ProxyBypass?
+        /// An array of 1-5 proxy server configurations for domain-based routing. Each proxy can specify which domains it handles via domainPatterns, enabling flexible routing of different traffic through different proxies based on destination domain.
+        /// This member is required.
+        public var proxies: [BedrockAgentCoreClientTypes.Proxy]?
+
+        public init(
+            bypass: BedrockAgentCoreClientTypes.ProxyBypass? = nil,
+            proxies: [BedrockAgentCoreClientTypes.Proxy]? = nil
+        ) {
+            self.bypass = bypass
+            self.proxies = proxies
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
     public enum BrowserSessionStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case ready
         case terminated
@@ -825,6 +925,8 @@ public struct GetBrowserSessionOutput: Swift.Sendable {
     public var name: Swift.String?
     /// The browser profile configuration associated with this session. Contains the profile identifier that links to persistent browser data such as cookies and local storage.
     public var profileConfiguration: BedrockAgentCoreClientTypes.BrowserProfileConfiguration?
+    /// The active proxy configuration for this browser session. This field is only present if proxy configuration was provided when the session was started using StartBrowserSession. The configuration includes proxy servers, domain bypass rules and the proxy authentication credentials.
+    public var proxyConfiguration: BedrockAgentCoreClientTypes.ProxyConfiguration?
     /// The identifier of the browser session.
     /// This member is required.
     public var sessionId: Swift.String?
@@ -846,6 +948,7 @@ public struct GetBrowserSessionOutput: Swift.Sendable {
         lastUpdatedAt: Foundation.Date? = nil,
         name: Swift.String? = nil,
         profileConfiguration: BedrockAgentCoreClientTypes.BrowserProfileConfiguration? = nil,
+        proxyConfiguration: BedrockAgentCoreClientTypes.ProxyConfiguration? = nil,
         sessionId: Swift.String? = nil,
         sessionReplayArtifact: Swift.String? = nil,
         sessionTimeoutSeconds: Swift.Int? = nil,
@@ -859,6 +962,7 @@ public struct GetBrowserSessionOutput: Swift.Sendable {
         self.lastUpdatedAt = lastUpdatedAt
         self.name = name
         self.profileConfiguration = profileConfiguration
+        self.proxyConfiguration = proxyConfiguration
         self.sessionId = sessionId
         self.sessionReplayArtifact = sessionReplayArtifact
         self.sessionTimeoutSeconds = sessionTimeoutSeconds
@@ -959,6 +1063,8 @@ public struct StartBrowserSessionInput: Swift.Sendable {
     public var name: Swift.String?
     /// The browser profile configuration to use for this session. A browser profile contains persistent data such as cookies and local storage that can be reused across multiple browser sessions. If specified, the session initializes with the profile's stored data, enabling continuity for tasks that require authentication or personalized settings.
     public var profileConfiguration: BedrockAgentCoreClientTypes.BrowserProfileConfiguration?
+    /// Optional proxy configuration for routing browser traffic through customer-specified proxy servers. When provided, enables HTTP Basic authentication via Amazon Web Services Secrets Manager and domain-based routing rules. Requires secretsmanager:GetSecretValue IAM permission for the specified secret ARNs.
+    public var proxyConfiguration: BedrockAgentCoreClientTypes.ProxyConfiguration?
     /// The time in seconds after which the session automatically terminates if there is no activity. The default value is 3600 seconds (1 hour). The minimum allowed value is 60 seconds, and the maximum allowed value is 28800 seconds (8 hours).
     public var sessionTimeoutSeconds: Swift.Int?
     /// The trace identifier for request tracking.
@@ -974,6 +1080,7 @@ public struct StartBrowserSessionInput: Swift.Sendable {
         extensions: [BedrockAgentCoreClientTypes.BrowserExtension]? = nil,
         name: Swift.String? = nil,
         profileConfiguration: BedrockAgentCoreClientTypes.BrowserProfileConfiguration? = nil,
+        proxyConfiguration: BedrockAgentCoreClientTypes.ProxyConfiguration? = nil,
         sessionTimeoutSeconds: Swift.Int? = nil,
         traceId: Swift.String? = nil,
         traceParent: Swift.String? = nil,
@@ -984,6 +1091,7 @@ public struct StartBrowserSessionInput: Swift.Sendable {
         self.extensions = extensions
         self.name = name
         self.profileConfiguration = profileConfiguration
+        self.proxyConfiguration = proxyConfiguration
         self.sessionTimeoutSeconds = sessionTimeoutSeconds
         self.traceId = traceId
         self.traceParent = traceParent
@@ -4658,6 +4766,7 @@ extension StartBrowserSessionInput {
         try writer["extensions"].writeList(value.extensions, memberWritingClosure: BedrockAgentCoreClientTypes.BrowserExtension.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["name"].write(value.name)
         try writer["profileConfiguration"].write(value.profileConfiguration, with: BedrockAgentCoreClientTypes.BrowserProfileConfiguration.write(value:to:))
+        try writer["proxyConfiguration"].write(value.proxyConfiguration, with: BedrockAgentCoreClientTypes.ProxyConfiguration.write(value:to:))
         try writer["sessionTimeoutSeconds"].write(value.sessionTimeoutSeconds)
         try writer["viewPort"].write(value.viewPort, with: BedrockAgentCoreClientTypes.ViewPort.write(value:to:))
     }
@@ -4837,6 +4946,7 @@ extension GetBrowserSessionOutput {
         value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.name = try reader["name"].readIfPresent()
         value.profileConfiguration = try reader["profileConfiguration"].readIfPresent(with: BedrockAgentCoreClientTypes.BrowserProfileConfiguration.read(from:))
+        value.proxyConfiguration = try reader["proxyConfiguration"].readIfPresent(with: BedrockAgentCoreClientTypes.ProxyConfiguration.read(from:))
         value.sessionId = try reader["sessionId"].readIfPresent() ?? ""
         value.sessionReplayArtifact = try reader["sessionReplayArtifact"].readIfPresent()
         value.sessionTimeoutSeconds = try reader["sessionTimeoutSeconds"].readIfPresent()
@@ -6481,6 +6591,122 @@ extension BedrockAgentCoreClientTypes.AutomationStream {
         var value = BedrockAgentCoreClientTypes.AutomationStream()
         value.streamEndpoint = try reader["streamEndpoint"].readIfPresent() ?? ""
         value.streamStatus = try reader["streamStatus"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension BedrockAgentCoreClientTypes.ProxyConfiguration {
+
+    static func write(value: BedrockAgentCoreClientTypes.ProxyConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["bypass"].write(value.bypass, with: BedrockAgentCoreClientTypes.ProxyBypass.write(value:to:))
+        try writer["proxies"].writeList(value.proxies, memberWritingClosure: BedrockAgentCoreClientTypes.Proxy.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.ProxyConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreClientTypes.ProxyConfiguration()
+        value.proxies = try reader["proxies"].readListIfPresent(memberReadingClosure: BedrockAgentCoreClientTypes.Proxy.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.bypass = try reader["bypass"].readIfPresent(with: BedrockAgentCoreClientTypes.ProxyBypass.read(from:))
+        return value
+    }
+}
+
+extension BedrockAgentCoreClientTypes.ProxyBypass {
+
+    static func write(value: BedrockAgentCoreClientTypes.ProxyBypass?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["domainPatterns"].writeList(value.domainPatterns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.ProxyBypass {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreClientTypes.ProxyBypass()
+        value.domainPatterns = try reader["domainPatterns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension BedrockAgentCoreClientTypes.Proxy {
+
+    static func write(value: BedrockAgentCoreClientTypes.Proxy?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .externalproxy(externalproxy):
+                try writer["externalProxy"].write(externalproxy, with: BedrockAgentCoreClientTypes.ExternalProxy.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.Proxy {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "externalProxy":
+                return .externalproxy(try reader["externalProxy"].read(with: BedrockAgentCoreClientTypes.ExternalProxy.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes.ExternalProxy {
+
+    static func write(value: BedrockAgentCoreClientTypes.ExternalProxy?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["credentials"].write(value.credentials, with: BedrockAgentCoreClientTypes.ProxyCredentials.write(value:to:))
+        try writer["domainPatterns"].writeList(value.domainPatterns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["port"].write(value.port)
+        try writer["server"].write(value.server)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.ExternalProxy {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreClientTypes.ExternalProxy()
+        value.server = try reader["server"].readIfPresent() ?? ""
+        value.port = try reader["port"].readIfPresent() ?? 0
+        value.domainPatterns = try reader["domainPatterns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.credentials = try reader["credentials"].readIfPresent(with: BedrockAgentCoreClientTypes.ProxyCredentials.read(from:))
+        return value
+    }
+}
+
+extension BedrockAgentCoreClientTypes.ProxyCredentials {
+
+    static func write(value: BedrockAgentCoreClientTypes.ProxyCredentials?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .basicauth(basicauth):
+                try writer["basicAuth"].write(basicauth, with: BedrockAgentCoreClientTypes.BasicAuth.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.ProxyCredentials {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "basicAuth":
+                return .basicauth(try reader["basicAuth"].read(with: BedrockAgentCoreClientTypes.BasicAuth.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes.BasicAuth {
+
+    static func write(value: BedrockAgentCoreClientTypes.BasicAuth?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["secretArn"].write(value.secretArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.BasicAuth {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreClientTypes.BasicAuth()
+        value.secretArn = try reader["secretArn"].readIfPresent() ?? ""
         return value
     }
 }

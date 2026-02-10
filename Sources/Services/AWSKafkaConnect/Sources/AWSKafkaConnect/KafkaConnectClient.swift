@@ -72,11 +72,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class KafkaConnectClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "KafkaConnectClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: KafkaConnectClient.KafkaConnectClientConfig
+    public let config: KafkaConnectClient.KafkaConnectClientConfig
     let serviceName = "KafkaConnect"
 
     @available(*, deprecated, message: "Use KafkaConnectClient.KafkaConnectClientConfig instead")
     public typealias Config = KafkaConnectClient.KafkaConnectClientConfiguration
+    public typealias Configuration = KafkaConnectClient.KafkaConnectClientConfig
 
     public required init(config: KafkaConnectClient.KafkaConnectClientConfig) {
         ClientRuntime.initialize()

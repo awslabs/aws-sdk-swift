@@ -1914,6 +1914,8 @@ extension RDSClientTypes {
         public var allocatedStorage: Swift.Int?
         /// The list of Availability Zones (AZs) where instances in the DB cluster snapshot can be restored.
         public var availabilityZones: [Swift.String]?
+        /// The number of days for which automatic DB snapshots are retained.
+        public var backupRetentionPeriod: Swift.Int?
         /// The time when the DB cluster was created, in Universal Coordinated Time (UTC).
         public var clusterCreateTime: Foundation.Date?
         /// The DB cluster identifier of the DB cluster that this DB cluster snapshot was created from.
@@ -1944,6 +1946,8 @@ extension RDSClientTypes {
         public var percentProgress: Swift.Int?
         /// The port that the DB cluster was listening on at the time of the snapshot.
         public var port: Swift.Int?
+        /// The daily time range during which automated backups are created if automated backups are enabled, as determined by the BackupRetentionPeriod.
+        public var preferredBackupWindow: Swift.String?
         /// The time when the snapshot was taken, in Universal Coordinated Time (UTC).
         public var snapshotCreateTime: Foundation.Date?
         /// The type of the DB cluster snapshot.
@@ -1972,6 +1976,7 @@ extension RDSClientTypes {
         public init(
             allocatedStorage: Swift.Int? = nil,
             availabilityZones: [Swift.String]? = nil,
+            backupRetentionPeriod: Swift.Int? = nil,
             clusterCreateTime: Foundation.Date? = nil,
             dbClusterIdentifier: Swift.String? = nil,
             dbClusterResourceId: Swift.String? = nil,
@@ -1987,6 +1992,7 @@ extension RDSClientTypes {
             masterUsername: Swift.String? = nil,
             percentProgress: Swift.Int? = nil,
             port: Swift.Int? = nil,
+            preferredBackupWindow: Swift.String? = nil,
             snapshotCreateTime: Foundation.Date? = nil,
             snapshotType: Swift.String? = nil,
             sourceDBClusterSnapshotArn: Swift.String? = nil,
@@ -1999,6 +2005,7 @@ extension RDSClientTypes {
         ) {
             self.allocatedStorage = allocatedStorage
             self.availabilityZones = availabilityZones
+            self.backupRetentionPeriod = backupRetentionPeriod
             self.clusterCreateTime = clusterCreateTime
             self.dbClusterIdentifier = dbClusterIdentifier
             self.dbClusterResourceId = dbClusterResourceId
@@ -2014,6 +2021,7 @@ extension RDSClientTypes {
             self.masterUsername = masterUsername
             self.percentProgress = percentProgress
             self.port = port
+            self.preferredBackupWindow = preferredBackupWindow
             self.snapshotCreateTime = snapshotCreateTime
             self.snapshotType = snapshotType
             self.sourceDBClusterSnapshotArn = sourceDBClusterSnapshotArn
@@ -2335,6 +2343,8 @@ extension RDSClientTypes {
         public var allocatedStorage: Swift.Int?
         /// Specifies the name of the Availability Zone the DB instance was located in at the time of the DB snapshot.
         public var availabilityZone: Swift.String?
+        /// The number of days for which automatic DB snapshots are retained.
+        public var backupRetentionPeriod: Swift.Int?
         /// Specifies the DB instance identifier of the DB instance this DB snapshot was created from.
         public var dbInstanceIdentifier: Swift.String?
         /// The Amazon Resource Name (ARN) for the DB snapshot.
@@ -2375,6 +2385,8 @@ extension RDSClientTypes {
         public var percentProgress: Swift.Int?
         /// Specifies the port that the database engine was listening on at the time of the snapshot.
         public var port: Swift.Int?
+        /// The daily time range during which automated backups are created if automated backups are enabled, as determined by the BackupRetentionPeriod.
+        public var preferredBackupWindow: Swift.String?
         /// The number of CPU cores and the number of threads per core for the DB instance class of the DB instance when the DB snapshot was created.
         public var processorFeatures: [RDSClientTypes.ProcessorFeature]?
         /// Specifies the name of the Availability Zone where RDS stores the DB snapshot. This value is valid only for snapshots that RDS stores on a Dedicated Local Zone.
@@ -2410,6 +2422,7 @@ extension RDSClientTypes {
             additionalStorageVolumes: [RDSClientTypes.AdditionalStorageVolume]? = nil,
             allocatedStorage: Swift.Int? = nil,
             availabilityZone: Swift.String? = nil,
+            backupRetentionPeriod: Swift.Int? = nil,
             dbInstanceIdentifier: Swift.String? = nil,
             dbSnapshotArn: Swift.String? = nil,
             dbSnapshotIdentifier: Swift.String? = nil,
@@ -2430,6 +2443,7 @@ extension RDSClientTypes {
             originalSnapshotCreateTime: Foundation.Date? = nil,
             percentProgress: Swift.Int? = nil,
             port: Swift.Int? = nil,
+            preferredBackupWindow: Swift.String? = nil,
             processorFeatures: [RDSClientTypes.ProcessorFeature]? = nil,
             snapshotAvailabilityZone: Swift.String? = nil,
             snapshotCreateTime: Foundation.Date? = nil,
@@ -2449,6 +2463,7 @@ extension RDSClientTypes {
             self.additionalStorageVolumes = additionalStorageVolumes
             self.allocatedStorage = allocatedStorage
             self.availabilityZone = availabilityZone
+            self.backupRetentionPeriod = backupRetentionPeriod
             self.dbInstanceIdentifier = dbInstanceIdentifier
             self.dbSnapshotArn = dbSnapshotArn
             self.dbSnapshotIdentifier = dbSnapshotIdentifier
@@ -2469,6 +2484,7 @@ extension RDSClientTypes {
             self.originalSnapshotCreateTime = originalSnapshotCreateTime
             self.percentProgress = percentProgress
             self.port = port
+            self.preferredBackupWindow = preferredBackupWindow
             self.processorFeatures = processorFeatures
             self.snapshotAvailabilityZone = snapshotAvailabilityZone
             self.snapshotCreateTime = snapshotCreateTime
@@ -10596,6 +10612,8 @@ extension RDSClientTypes {
         public var masterUsername: Swift.String?
         /// The port number that the automated backup used for connections. Default: Inherits from the source DB cluster Valid Values: 1150-65535
         public var port: Swift.Int?
+        /// The daily time range during which automated backups are created if automated backups are enabled, as determined by the BackupRetentionPeriod.
+        public var preferredBackupWindow: Swift.String?
         /// The Amazon Web Services Region associated with the automated backup.
         public var region: Swift.String?
         /// Earliest and latest time an instance can be restored to:
@@ -10634,6 +10652,7 @@ extension RDSClientTypes {
             licenseModel: Swift.String? = nil,
             masterUsername: Swift.String? = nil,
             port: Swift.Int? = nil,
+            preferredBackupWindow: Swift.String? = nil,
             region: Swift.String? = nil,
             restoreWindow: RDSClientTypes.RestoreWindow? = nil,
             status: Swift.String? = nil,
@@ -10661,6 +10680,7 @@ extension RDSClientTypes {
             self.licenseModel = licenseModel
             self.masterUsername = masterUsername
             self.port = port
+            self.preferredBackupWindow = preferredBackupWindow
             self.region = region
             self.restoreWindow = restoreWindow
             self.status = status
@@ -11027,6 +11047,8 @@ extension RDSClientTypes {
         public var optionGroupName: Swift.String?
         /// The port number that the automated backup used for connections. Default: Inherits from the source DB instance Valid Values: 1150-65535
         public var port: Swift.Int?
+        /// The daily time range during which automated backups are created if automated backups are enabled, as determined by the BackupRetentionPeriod.
+        public var preferredBackupWindow: Swift.String?
         /// The Amazon Web Services Region associated with the automated backup.
         public var region: Swift.String?
         /// The earliest and latest time a DB instance can be restored to.
@@ -11077,6 +11099,7 @@ extension RDSClientTypes {
             multiTenant: Swift.Bool? = nil,
             optionGroupName: Swift.String? = nil,
             port: Swift.Int? = nil,
+            preferredBackupWindow: Swift.String? = nil,
             region: Swift.String? = nil,
             restoreWindow: RDSClientTypes.RestoreWindow? = nil,
             status: Swift.String? = nil,
@@ -11111,6 +11134,7 @@ extension RDSClientTypes {
             self.multiTenant = multiTenant
             self.optionGroupName = optionGroupName
             self.port = port
+            self.preferredBackupWindow = preferredBackupWindow
             self.region = region
             self.restoreWindow = restoreWindow
             self.status = status
@@ -20345,6 +20369,10 @@ public struct RestoreDBClusterFromSnapshotInput: Swift.Sendable {
     ///
     /// Valid for: Aurora DB clusters only
     public var backtrackWindow: Swift.Int?
+    /// The number of days for which automated backups are retained. Specify a minimum value of 1. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters Default: Uses existing setting Constraints:
+    ///
+    /// * Must be a value from 1 to 35.
+    public var backupRetentionPeriod: Swift.Int?
     /// Specifies whether to copy all tags from the restored DB cluster to snapshots of the restored DB cluster. The default is not to copy them. Valid for: Aurora DB clusters and Multi-AZ DB clusters
     public var copyTagsToSnapshot: Swift.Bool?
     /// The database name for the restored DB cluster. Valid for: Aurora DB clusters and Multi-AZ DB clusters
@@ -20447,6 +20475,16 @@ public struct RestoreDBClusterFromSnapshotInput: Swift.Sendable {
     public var performanceInsightsRetentionPeriod: Swift.Int?
     /// The port number on which the new DB cluster accepts connections. Constraints: This value must be 1150-65535 Default: The same port as the original DB cluster. Valid for: Aurora DB clusters and Multi-AZ DB clusters
     public var port: Swift.Int?
+    /// The daily time range during which automated backups are created if automated backups are enabled, using the BackupRetentionPeriod parameter. The default is a 30-minute window selected at random from an 8-hour block of time for each Amazon Web Services Region. To view the time blocks available, see [ Backup window](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/Aurora.Managing.Backups.html#Aurora.Managing.Backups.BackupWindow) in the Amazon Aurora User Guide. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters Constraints:
+    ///
+    /// * Must be in the format hh24:mi-hh24:mi.
+    ///
+    /// * Must be in Universal Coordinated Time (UTC).
+    ///
+    /// * Must not conflict with the preferred maintenance window.
+    ///
+    /// * Must be at least 30 minutes.
+    public var preferredBackupWindow: Swift.String?
     /// Specifies whether the DB cluster is publicly accessible. When the DB cluster is publicly accessible, its Domain Name System (DNS) endpoint resolves to the private IP address from within the DB cluster's virtual private cloud (VPC). It resolves to the public IP address from outside of the DB cluster's VPC. Access to the DB cluster is ultimately controlled by the security group it uses. That public access is not permitted if the security group assigned to the DB cluster doesn't permit it. When the DB cluster isn't publicly accessible, it is an internal DB cluster with a DNS name that resolves to a private IP address. Default: The default behavior varies depending on whether DBSubnetGroupName is specified. If DBSubnetGroupName isn't specified, and PubliclyAccessible isn't specified, the following applies:
     ///
     /// * If the default VPC in the target Region doesn’t have an internet gateway attached to it, the DB cluster is private.
@@ -20491,6 +20529,7 @@ public struct RestoreDBClusterFromSnapshotInput: Swift.Sendable {
     public init(
         availabilityZones: [Swift.String]? = nil,
         backtrackWindow: Swift.Int? = nil,
+        backupRetentionPeriod: Swift.Int? = nil,
         copyTagsToSnapshot: Swift.Bool? = nil,
         databaseName: Swift.String? = nil,
         dbClusterIdentifier: Swift.String? = nil,
@@ -20516,6 +20555,7 @@ public struct RestoreDBClusterFromSnapshotInput: Swift.Sendable {
         performanceInsightsKMSKeyId: Swift.String? = nil,
         performanceInsightsRetentionPeriod: Swift.Int? = nil,
         port: Swift.Int? = nil,
+        preferredBackupWindow: Swift.String? = nil,
         publiclyAccessible: Swift.Bool? = nil,
         rdsCustomClusterConfiguration: RDSClientTypes.RdsCustomClusterConfiguration? = nil,
         scalingConfiguration: RDSClientTypes.ScalingConfiguration? = nil,
@@ -20528,6 +20568,7 @@ public struct RestoreDBClusterFromSnapshotInput: Swift.Sendable {
     ) {
         self.availabilityZones = availabilityZones
         self.backtrackWindow = backtrackWindow
+        self.backupRetentionPeriod = backupRetentionPeriod
         self.copyTagsToSnapshot = copyTagsToSnapshot
         self.databaseName = databaseName
         self.dbClusterIdentifier = dbClusterIdentifier
@@ -20553,6 +20594,7 @@ public struct RestoreDBClusterFromSnapshotInput: Swift.Sendable {
         self.performanceInsightsKMSKeyId = performanceInsightsKMSKeyId
         self.performanceInsightsRetentionPeriod = performanceInsightsRetentionPeriod
         self.port = port
+        self.preferredBackupWindow = preferredBackupWindow
         self.publiclyAccessible = publiclyAccessible
         self.rdsCustomClusterConfiguration = rdsCustomClusterConfiguration
         self.scalingConfiguration = scalingConfiguration
@@ -20585,6 +20627,10 @@ public struct RestoreDBClusterToPointInTimeInput: Swift.Sendable {
     ///
     /// Valid for: Aurora MySQL DB clusters only
     public var backtrackWindow: Swift.Int?
+    /// The number of days for which automated backups are retained. Specify a minimum value of 1. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters Default: Uses existing setting Constraints:
+    ///
+    /// * Must be a value from 1 to 35.
+    public var backupRetentionPeriod: Swift.Int?
     /// Specifies whether to copy all tags from the restored DB cluster to snapshots of the restored DB cluster. The default is not to copy them. Valid for: Aurora DB clusters and Multi-AZ DB clusters
     public var copyTagsToSnapshot: Swift.Bool?
     /// The name of the new DB cluster to be created. Constraints:
@@ -20680,6 +20726,16 @@ public struct RestoreDBClusterToPointInTimeInput: Swift.Sendable {
     public var performanceInsightsRetentionPeriod: Swift.Int?
     /// The port number on which the new DB cluster accepts connections. Constraints: A value from 1150-65535. Default: The default port for the engine. Valid for: Aurora DB clusters and Multi-AZ DB clusters
     public var port: Swift.Int?
+    /// The daily time range during which automated backups are created if automated backups are enabled, using the BackupRetentionPeriod parameter. The default is a 30-minute window selected at random from an 8-hour block of time for each Amazon Web Services Region. To view the time blocks available, see [ Backup window](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/Aurora.Managing.Backups.html#Aurora.Managing.Backups.BackupWindow) in the Amazon Aurora User Guide. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters Constraints:
+    ///
+    /// * Must be in the format hh24:mi-hh24:mi.
+    ///
+    /// * Must be in Universal Coordinated Time (UTC).
+    ///
+    /// * Must not conflict with the preferred maintenance window.
+    ///
+    /// * Must be at least 30 minutes.
+    public var preferredBackupWindow: Swift.String?
     /// Specifies whether the DB cluster is publicly accessible. When the DB cluster is publicly accessible, its Domain Name System (DNS) endpoint resolves to the private IP address from within the DB cluster's virtual private cloud (VPC). It resolves to the public IP address from outside of the DB cluster's VPC. Access to the DB cluster is ultimately controlled by the security group it uses. That public access is not permitted if the security group assigned to the DB cluster doesn't permit it. When the DB cluster isn't publicly accessible, it is an internal DB cluster with a DNS name that resolves to a private IP address. Default: The default behavior varies depending on whether DBSubnetGroupName is specified. If DBSubnetGroupName isn't specified, and PubliclyAccessible isn't specified, the following applies:
     ///
     /// * If the default VPC in the target Region doesn’t have an internet gateway attached to it, the DB cluster is private.
@@ -20748,6 +20804,7 @@ public struct RestoreDBClusterToPointInTimeInput: Swift.Sendable {
 
     public init(
         backtrackWindow: Swift.Int? = nil,
+        backupRetentionPeriod: Swift.Int? = nil,
         copyTagsToSnapshot: Swift.Bool? = nil,
         dbClusterIdentifier: Swift.String? = nil,
         dbClusterInstanceClass: Swift.String? = nil,
@@ -20770,6 +20827,7 @@ public struct RestoreDBClusterToPointInTimeInput: Swift.Sendable {
         performanceInsightsKMSKeyId: Swift.String? = nil,
         performanceInsightsRetentionPeriod: Swift.Int? = nil,
         port: Swift.Int? = nil,
+        preferredBackupWindow: Swift.String? = nil,
         publiclyAccessible: Swift.Bool? = nil,
         rdsCustomClusterConfiguration: RDSClientTypes.RdsCustomClusterConfiguration? = nil,
         restoreToTime: Foundation.Date? = nil,
@@ -20785,6 +20843,7 @@ public struct RestoreDBClusterToPointInTimeInput: Swift.Sendable {
         vpcSecurityGroupIds: [Swift.String]? = nil
     ) {
         self.backtrackWindow = backtrackWindow
+        self.backupRetentionPeriod = backupRetentionPeriod
         self.copyTagsToSnapshot = copyTagsToSnapshot
         self.dbClusterIdentifier = dbClusterIdentifier
         self.dbClusterInstanceClass = dbClusterInstanceClass
@@ -20807,6 +20866,7 @@ public struct RestoreDBClusterToPointInTimeInput: Swift.Sendable {
         self.performanceInsightsKMSKeyId = performanceInsightsKMSKeyId
         self.performanceInsightsRetentionPeriod = performanceInsightsRetentionPeriod
         self.port = port
+        self.preferredBackupWindow = preferredBackupWindow
         self.publiclyAccessible = publiclyAccessible
         self.rdsCustomClusterConfiguration = rdsCustomClusterConfiguration
         self.restoreToTime = restoreToTime
@@ -20844,6 +20904,14 @@ public struct RestoreDBInstanceFromDBSnapshotInput: Swift.Sendable {
     public var autoMinorVersionUpgrade: Swift.Bool?
     /// The Availability Zone (AZ) where the DB instance will be created. Default: A random, system-chosen Availability Zone. Constraint: You can't specify the AvailabilityZone parameter if the DB instance is a Multi-AZ deployment. Example: us-east-1a
     public var availabilityZone: Swift.String?
+    /// The number of days to retain automated backups. Setting this parameter to a positive number enables backups. Setting this parameter to 0 disables automated backups. Enabling and disabling backups can result in a brief I/O suspension that lasts from a few seconds to a few minutes, depending on the size and class of your DB instance. This setting doesn't apply to Amazon Aurora DB instances. The retention period for automated backups is managed by the DB cluster. For more information, see ModifyDBCluster. Default: Uses existing setting Constraints:
+    ///
+    /// * Must be a value from 0 to 35.
+    ///
+    /// * Can't be set to 0 if the DB instance is a source to read replicas.
+    ///
+    /// * Can't be set to 0 for an RDS Custom for Oracle DB instance.
+    public var backupRetentionPeriod: Swift.Int?
     /// Specifies where automated backups and manual snapshots are stored for the restored DB instance. Possible values are local (Dedicated Local Zone), outposts (Amazon Web Services Outposts), and region (Amazon Web Services Region). The default is region. For more information, see [Working with Amazon RDS on Amazon Web Services Outposts](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/rds-on-outposts.html) in the Amazon RDS User Guide.
     public var backupTarget: Swift.String?
     /// The CA certificate identifier to use for the DB instance's server certificate. This setting doesn't apply to RDS Custom DB instances. For more information, see [Using SSL/TLS to encrypt a connection to a DB instance](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.SSL.html) in the Amazon RDS User Guide and [ Using SSL/TLS to encrypt a connection to a DB cluster](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/UsingWithRDS.SSL.html) in the Amazon Aurora User Guide.
@@ -21030,6 +21098,16 @@ public struct RestoreDBInstanceFromDBSnapshotInput: Swift.Sendable {
     public var optionGroupName: Swift.String?
     /// The port number on which the database accepts connections. Default: The same port as the original DB instance Constraints: Value must be 1150-65535
     public var port: Swift.Int?
+    /// The daily time range during which automated backups are created if automated backups are enabled, as determined by the BackupRetentionPeriod parameter. Changing this parameter doesn't result in an outage and the change is asynchronously applied as soon as possible. The default is a 30-minute window selected at random from an 8-hour block of time for each Amazon Web Services Region. For more information, see [Backup window](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_WorkingWithAutomatedBackups.html#USER_WorkingWithAutomatedBackups.BackupWindow) in the Amazon RDS User Guide. This setting doesn't apply to Amazon Aurora DB instances. The daily time range for creating automated backups is managed by the DB cluster. For more information, see ModifyDBCluster. Constraints:
+    ///
+    /// * Must be in the format hh24:mi-hh24:mi.
+    ///
+    /// * Must be in Universal Coordinated Time (UTC).
+    ///
+    /// * Must not conflict with the preferred maintenance window.
+    ///
+    /// * Must be at least 30 minutes.
+    public var preferredBackupWindow: Swift.String?
     /// The number of CPU cores and the number of threads per core for the DB instance class of the DB instance. This setting doesn't apply to RDS Custom.
     public var processorFeatures: [RDSClientTypes.ProcessorFeature]?
     /// Specifies whether the DB instance is publicly accessible. When the DB instance is publicly accessible, its Domain Name System (DNS) endpoint resolves to the private IP address from within the DB instance's virtual private cloud (VPC). It resolves to the public IP address from outside of the DB instance's VPC. Access to the DB instance is ultimately controlled by the security group it uses. That public access is not permitted if the security group assigned to the DB instance doesn't permit it. When the DB instance isn't publicly accessible, it is an internal DB instance with a DNS name that resolves to a private IP address. For more information, see [CreateDBInstance].
@@ -21058,6 +21136,7 @@ public struct RestoreDBInstanceFromDBSnapshotInput: Swift.Sendable {
         allocatedStorage: Swift.Int? = nil,
         autoMinorVersionUpgrade: Swift.Bool? = nil,
         availabilityZone: Swift.String? = nil,
+        backupRetentionPeriod: Swift.Int? = nil,
         backupTarget: Swift.String? = nil,
         caCertificateIdentifier: Swift.String? = nil,
         copyTagsToSnapshot: Swift.Bool? = nil,
@@ -21090,6 +21169,7 @@ public struct RestoreDBInstanceFromDBSnapshotInput: Swift.Sendable {
         networkType: Swift.String? = nil,
         optionGroupName: Swift.String? = nil,
         port: Swift.Int? = nil,
+        preferredBackupWindow: Swift.String? = nil,
         processorFeatures: [RDSClientTypes.ProcessorFeature]? = nil,
         publiclyAccessible: Swift.Bool? = nil,
         storageThroughput: Swift.Int? = nil,
@@ -21105,6 +21185,7 @@ public struct RestoreDBInstanceFromDBSnapshotInput: Swift.Sendable {
         self.allocatedStorage = allocatedStorage
         self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
         self.availabilityZone = availabilityZone
+        self.backupRetentionPeriod = backupRetentionPeriod
         self.backupTarget = backupTarget
         self.caCertificateIdentifier = caCertificateIdentifier
         self.copyTagsToSnapshot = copyTagsToSnapshot
@@ -21137,6 +21218,7 @@ public struct RestoreDBInstanceFromDBSnapshotInput: Swift.Sendable {
         self.networkType = networkType
         self.optionGroupName = optionGroupName
         self.port = port
+        self.preferredBackupWindow = preferredBackupWindow
         self.processorFeatures = processorFeatures
         self.publiclyAccessible = publiclyAccessible
         self.storageThroughput = storageThroughput
@@ -21152,7 +21234,7 @@ public struct RestoreDBInstanceFromDBSnapshotInput: Swift.Sendable {
 
 extension RestoreDBInstanceFromDBSnapshotInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "RestoreDBInstanceFromDBSnapshotInput(additionalStorageVolumes: \(Swift.String(describing: additionalStorageVolumes)), allocatedStorage: \(Swift.String(describing: allocatedStorage)), autoMinorVersionUpgrade: \(Swift.String(describing: autoMinorVersionUpgrade)), availabilityZone: \(Swift.String(describing: availabilityZone)), backupTarget: \(Swift.String(describing: backupTarget)), caCertificateIdentifier: \(Swift.String(describing: caCertificateIdentifier)), copyTagsToSnapshot: \(Swift.String(describing: copyTagsToSnapshot)), customIamInstanceProfile: \(Swift.String(describing: customIamInstanceProfile)), dbClusterSnapshotIdentifier: \(Swift.String(describing: dbClusterSnapshotIdentifier)), dbInstanceClass: \(Swift.String(describing: dbInstanceClass)), dbInstanceIdentifier: \(Swift.String(describing: dbInstanceIdentifier)), dbName: \(Swift.String(describing: dbName)), dbParameterGroupName: \(Swift.String(describing: dbParameterGroupName)), dbSnapshotIdentifier: \(Swift.String(describing: dbSnapshotIdentifier)), dbSubnetGroupName: \(Swift.String(describing: dbSubnetGroupName)), dedicatedLogVolume: \(Swift.String(describing: dedicatedLogVolume)), deletionProtection: \(Swift.String(describing: deletionProtection)), domain: \(Swift.String(describing: domain)), domainAuthSecretArn: \(Swift.String(describing: domainAuthSecretArn)), domainDnsIps: \(Swift.String(describing: domainDnsIps)), domainFqdn: \(Swift.String(describing: domainFqdn)), domainIAMRoleName: \(Swift.String(describing: domainIAMRoleName)), domainOu: \(Swift.String(describing: domainOu)), enableCloudwatchLogsExports: \(Swift.String(describing: enableCloudwatchLogsExports)), enableCustomerOwnedIp: \(Swift.String(describing: enableCustomerOwnedIp)), enableIAMDatabaseAuthentication: \(Swift.String(describing: enableIAMDatabaseAuthentication)), engine: \(Swift.String(describing: engine)), engineLifecycleSupport: \(Swift.String(describing: engineLifecycleSupport)), iops: \(Swift.String(describing: iops)), licenseModel: \(Swift.String(describing: licenseModel)), manageMasterUserPassword: \(Swift.String(describing: manageMasterUserPassword)), masterUserSecretKmsKeyId: \(Swift.String(describing: masterUserSecretKmsKeyId)), multiAZ: \(Swift.String(describing: multiAZ)), networkType: \(Swift.String(describing: networkType)), optionGroupName: \(Swift.String(describing: optionGroupName)), port: \(Swift.String(describing: port)), processorFeatures: \(Swift.String(describing: processorFeatures)), publiclyAccessible: \(Swift.String(describing: publiclyAccessible)), storageThroughput: \(Swift.String(describing: storageThroughput)), storageType: \(Swift.String(describing: storageType)), tagSpecifications: \(Swift.String(describing: tagSpecifications)), tags: \(Swift.String(describing: tags)), tdeCredentialArn: \(Swift.String(describing: tdeCredentialArn)), useDefaultProcessorFeatures: \(Swift.String(describing: useDefaultProcessorFeatures)), vpcSecurityGroupIds: \(Swift.String(describing: vpcSecurityGroupIds)), tdeCredentialPassword: \"CONTENT_REDACTED\")"}
+        "RestoreDBInstanceFromDBSnapshotInput(additionalStorageVolumes: \(Swift.String(describing: additionalStorageVolumes)), allocatedStorage: \(Swift.String(describing: allocatedStorage)), autoMinorVersionUpgrade: \(Swift.String(describing: autoMinorVersionUpgrade)), availabilityZone: \(Swift.String(describing: availabilityZone)), backupRetentionPeriod: \(Swift.String(describing: backupRetentionPeriod)), backupTarget: \(Swift.String(describing: backupTarget)), caCertificateIdentifier: \(Swift.String(describing: caCertificateIdentifier)), copyTagsToSnapshot: \(Swift.String(describing: copyTagsToSnapshot)), customIamInstanceProfile: \(Swift.String(describing: customIamInstanceProfile)), dbClusterSnapshotIdentifier: \(Swift.String(describing: dbClusterSnapshotIdentifier)), dbInstanceClass: \(Swift.String(describing: dbInstanceClass)), dbInstanceIdentifier: \(Swift.String(describing: dbInstanceIdentifier)), dbName: \(Swift.String(describing: dbName)), dbParameterGroupName: \(Swift.String(describing: dbParameterGroupName)), dbSnapshotIdentifier: \(Swift.String(describing: dbSnapshotIdentifier)), dbSubnetGroupName: \(Swift.String(describing: dbSubnetGroupName)), dedicatedLogVolume: \(Swift.String(describing: dedicatedLogVolume)), deletionProtection: \(Swift.String(describing: deletionProtection)), domain: \(Swift.String(describing: domain)), domainAuthSecretArn: \(Swift.String(describing: domainAuthSecretArn)), domainDnsIps: \(Swift.String(describing: domainDnsIps)), domainFqdn: \(Swift.String(describing: domainFqdn)), domainIAMRoleName: \(Swift.String(describing: domainIAMRoleName)), domainOu: \(Swift.String(describing: domainOu)), enableCloudwatchLogsExports: \(Swift.String(describing: enableCloudwatchLogsExports)), enableCustomerOwnedIp: \(Swift.String(describing: enableCustomerOwnedIp)), enableIAMDatabaseAuthentication: \(Swift.String(describing: enableIAMDatabaseAuthentication)), engine: \(Swift.String(describing: engine)), engineLifecycleSupport: \(Swift.String(describing: engineLifecycleSupport)), iops: \(Swift.String(describing: iops)), licenseModel: \(Swift.String(describing: licenseModel)), manageMasterUserPassword: \(Swift.String(describing: manageMasterUserPassword)), masterUserSecretKmsKeyId: \(Swift.String(describing: masterUserSecretKmsKeyId)), multiAZ: \(Swift.String(describing: multiAZ)), networkType: \(Swift.String(describing: networkType)), optionGroupName: \(Swift.String(describing: optionGroupName)), port: \(Swift.String(describing: port)), preferredBackupWindow: \(Swift.String(describing: preferredBackupWindow)), processorFeatures: \(Swift.String(describing: processorFeatures)), publiclyAccessible: \(Swift.String(describing: publiclyAccessible)), storageThroughput: \(Swift.String(describing: storageThroughput)), storageType: \(Swift.String(describing: storageType)), tagSpecifications: \(Swift.String(describing: tagSpecifications)), tags: \(Swift.String(describing: tags)), tdeCredentialArn: \(Swift.String(describing: tdeCredentialArn)), useDefaultProcessorFeatures: \(Swift.String(describing: useDefaultProcessorFeatures)), vpcSecurityGroupIds: \(Swift.String(describing: vpcSecurityGroupIds)), tdeCredentialPassword: \"CONTENT_REDACTED\")"}
 }
 
 public struct RestoreDBInstanceFromDBSnapshotOutput: Swift.Sendable {
@@ -21533,6 +21615,14 @@ public struct RestoreDBInstanceToPointInTimeInput: Swift.Sendable {
     ///
     /// Example: us-east-1a
     public var availabilityZone: Swift.String?
+    /// The number of days to retain automated backups. Setting this parameter to a positive number enables backups. Setting this parameter to 0 disables automated backups. Enabling and disabling backups can result in a brief I/O suspension that lasts from a few seconds to a few minutes, depending on the size and class of your DB instance. This setting doesn't apply to Amazon Aurora DB instances. The retention period for automated backups is managed by the DB cluster. For more information, see ModifyDBCluster. Default: Uses existing setting Constraints:
+    ///
+    /// * Must be a value from 0 to 35.
+    ///
+    /// * Can't be set to 0 if the DB instance is a source to read replicas.
+    ///
+    /// * Can't be set to 0 for an RDS Custom for Oracle DB instance.
+    public var backupRetentionPeriod: Swift.Int?
     /// The location for storing automated backups and manual snapshots for the restored DB instance. Valid Values:
     ///
     /// * local (Dedicated Local Zone)
@@ -21712,6 +21802,16 @@ public struct RestoreDBInstanceToPointInTimeInput: Swift.Sendable {
     ///
     /// * The value must be 1150-65535.
     public var port: Swift.Int?
+    /// The daily time range during which automated backups are created if automated backups are enabled, as determined by the BackupRetentionPeriod parameter. Changing this parameter doesn't result in an outage and the change is asynchronously applied as soon as possible. The default is a 30-minute window selected at random from an 8-hour block of time for each Amazon Web Services Region. For more information, see [Backup window](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_WorkingWithAutomatedBackups.html#USER_WorkingWithAutomatedBackups.BackupWindow) in the Amazon RDS User Guide. This setting doesn't apply to Amazon Aurora DB instances. The daily time range for creating automated backups is managed by the DB cluster. For more information, see ModifyDBCluster. Constraints:
+    ///
+    /// * Must be in the format hh24:mi-hh24:mi.
+    ///
+    /// * Must be in Universal Coordinated Time (UTC).
+    ///
+    /// * Must not conflict with the preferred maintenance window.
+    ///
+    /// * Must be at least 30 minutes.
+    public var preferredBackupWindow: Swift.String?
     /// The number of CPU cores and the number of threads per core for the DB instance class of the DB instance. This setting doesn't apply to RDS Custom.
     public var processorFeatures: [RDSClientTypes.ProcessorFeature]?
     /// Specifies whether the DB instance is publicly accessible. When the DB cluster is publicly accessible, its Domain Name System (DNS) endpoint resolves to the private IP address from within the DB cluster's virtual private cloud (VPC). It resolves to the public IP address from outside of the DB cluster's VPC. Access to the DB cluster is ultimately controlled by the security group it uses. That public access isn't permitted if the security group assigned to the DB cluster doesn't permit it. When the DB instance isn't publicly accessible, it is an internal DB instance with a DNS name that resolves to a private IP address. For more information, see [CreateDBInstance].
@@ -21774,6 +21874,7 @@ public struct RestoreDBInstanceToPointInTimeInput: Swift.Sendable {
         allocatedStorage: Swift.Int? = nil,
         autoMinorVersionUpgrade: Swift.Bool? = nil,
         availabilityZone: Swift.String? = nil,
+        backupRetentionPeriod: Swift.Int? = nil,
         backupTarget: Swift.String? = nil,
         caCertificateIdentifier: Swift.String? = nil,
         copyTagsToSnapshot: Swift.Bool? = nil,
@@ -21804,6 +21905,7 @@ public struct RestoreDBInstanceToPointInTimeInput: Swift.Sendable {
         networkType: Swift.String? = nil,
         optionGroupName: Swift.String? = nil,
         port: Swift.Int? = nil,
+        preferredBackupWindow: Swift.String? = nil,
         processorFeatures: [RDSClientTypes.ProcessorFeature]? = nil,
         publiclyAccessible: Swift.Bool? = nil,
         restoreTime: Foundation.Date? = nil,
@@ -21825,6 +21927,7 @@ public struct RestoreDBInstanceToPointInTimeInput: Swift.Sendable {
         self.allocatedStorage = allocatedStorage
         self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
         self.availabilityZone = availabilityZone
+        self.backupRetentionPeriod = backupRetentionPeriod
         self.backupTarget = backupTarget
         self.caCertificateIdentifier = caCertificateIdentifier
         self.copyTagsToSnapshot = copyTagsToSnapshot
@@ -21855,6 +21958,7 @@ public struct RestoreDBInstanceToPointInTimeInput: Swift.Sendable {
         self.networkType = networkType
         self.optionGroupName = optionGroupName
         self.port = port
+        self.preferredBackupWindow = preferredBackupWindow
         self.processorFeatures = processorFeatures
         self.publiclyAccessible = publiclyAccessible
         self.restoreTime = restoreTime
@@ -21876,7 +21980,7 @@ public struct RestoreDBInstanceToPointInTimeInput: Swift.Sendable {
 
 extension RestoreDBInstanceToPointInTimeInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "RestoreDBInstanceToPointInTimeInput(additionalStorageVolumes: \(Swift.String(describing: additionalStorageVolumes)), allocatedStorage: \(Swift.String(describing: allocatedStorage)), autoMinorVersionUpgrade: \(Swift.String(describing: autoMinorVersionUpgrade)), availabilityZone: \(Swift.String(describing: availabilityZone)), backupTarget: \(Swift.String(describing: backupTarget)), caCertificateIdentifier: \(Swift.String(describing: caCertificateIdentifier)), copyTagsToSnapshot: \(Swift.String(describing: copyTagsToSnapshot)), customIamInstanceProfile: \(Swift.String(describing: customIamInstanceProfile)), dbInstanceClass: \(Swift.String(describing: dbInstanceClass)), dbName: \(Swift.String(describing: dbName)), dbParameterGroupName: \(Swift.String(describing: dbParameterGroupName)), dbSubnetGroupName: \(Swift.String(describing: dbSubnetGroupName)), dedicatedLogVolume: \(Swift.String(describing: dedicatedLogVolume)), deletionProtection: \(Swift.String(describing: deletionProtection)), domain: \(Swift.String(describing: domain)), domainAuthSecretArn: \(Swift.String(describing: domainAuthSecretArn)), domainDnsIps: \(Swift.String(describing: domainDnsIps)), domainFqdn: \(Swift.String(describing: domainFqdn)), domainIAMRoleName: \(Swift.String(describing: domainIAMRoleName)), domainOu: \(Swift.String(describing: domainOu)), enableCloudwatchLogsExports: \(Swift.String(describing: enableCloudwatchLogsExports)), enableCustomerOwnedIp: \(Swift.String(describing: enableCustomerOwnedIp)), enableIAMDatabaseAuthentication: \(Swift.String(describing: enableIAMDatabaseAuthentication)), engine: \(Swift.String(describing: engine)), engineLifecycleSupport: \(Swift.String(describing: engineLifecycleSupport)), iops: \(Swift.String(describing: iops)), licenseModel: \(Swift.String(describing: licenseModel)), manageMasterUserPassword: \(Swift.String(describing: manageMasterUserPassword)), masterUserSecretKmsKeyId: \(Swift.String(describing: masterUserSecretKmsKeyId)), maxAllocatedStorage: \(Swift.String(describing: maxAllocatedStorage)), multiAZ: \(Swift.String(describing: multiAZ)), networkType: \(Swift.String(describing: networkType)), optionGroupName: \(Swift.String(describing: optionGroupName)), port: \(Swift.String(describing: port)), processorFeatures: \(Swift.String(describing: processorFeatures)), publiclyAccessible: \(Swift.String(describing: publiclyAccessible)), restoreTime: \(Swift.String(describing: restoreTime)), sourceDBInstanceAutomatedBackupsArn: \(Swift.String(describing: sourceDBInstanceAutomatedBackupsArn)), sourceDBInstanceIdentifier: \(Swift.String(describing: sourceDBInstanceIdentifier)), sourceDbiResourceId: \(Swift.String(describing: sourceDbiResourceId)), storageThroughput: \(Swift.String(describing: storageThroughput)), storageType: \(Swift.String(describing: storageType)), tagSpecifications: \(Swift.String(describing: tagSpecifications)), tags: \(Swift.String(describing: tags)), targetDBInstanceIdentifier: \(Swift.String(describing: targetDBInstanceIdentifier)), tdeCredentialArn: \(Swift.String(describing: tdeCredentialArn)), useDefaultProcessorFeatures: \(Swift.String(describing: useDefaultProcessorFeatures)), useLatestRestorableTime: \(Swift.String(describing: useLatestRestorableTime)), vpcSecurityGroupIds: \(Swift.String(describing: vpcSecurityGroupIds)), tdeCredentialPassword: \"CONTENT_REDACTED\")"}
+        "RestoreDBInstanceToPointInTimeInput(additionalStorageVolumes: \(Swift.String(describing: additionalStorageVolumes)), allocatedStorage: \(Swift.String(describing: allocatedStorage)), autoMinorVersionUpgrade: \(Swift.String(describing: autoMinorVersionUpgrade)), availabilityZone: \(Swift.String(describing: availabilityZone)), backupRetentionPeriod: \(Swift.String(describing: backupRetentionPeriod)), backupTarget: \(Swift.String(describing: backupTarget)), caCertificateIdentifier: \(Swift.String(describing: caCertificateIdentifier)), copyTagsToSnapshot: \(Swift.String(describing: copyTagsToSnapshot)), customIamInstanceProfile: \(Swift.String(describing: customIamInstanceProfile)), dbInstanceClass: \(Swift.String(describing: dbInstanceClass)), dbName: \(Swift.String(describing: dbName)), dbParameterGroupName: \(Swift.String(describing: dbParameterGroupName)), dbSubnetGroupName: \(Swift.String(describing: dbSubnetGroupName)), dedicatedLogVolume: \(Swift.String(describing: dedicatedLogVolume)), deletionProtection: \(Swift.String(describing: deletionProtection)), domain: \(Swift.String(describing: domain)), domainAuthSecretArn: \(Swift.String(describing: domainAuthSecretArn)), domainDnsIps: \(Swift.String(describing: domainDnsIps)), domainFqdn: \(Swift.String(describing: domainFqdn)), domainIAMRoleName: \(Swift.String(describing: domainIAMRoleName)), domainOu: \(Swift.String(describing: domainOu)), enableCloudwatchLogsExports: \(Swift.String(describing: enableCloudwatchLogsExports)), enableCustomerOwnedIp: \(Swift.String(describing: enableCustomerOwnedIp)), enableIAMDatabaseAuthentication: \(Swift.String(describing: enableIAMDatabaseAuthentication)), engine: \(Swift.String(describing: engine)), engineLifecycleSupport: \(Swift.String(describing: engineLifecycleSupport)), iops: \(Swift.String(describing: iops)), licenseModel: \(Swift.String(describing: licenseModel)), manageMasterUserPassword: \(Swift.String(describing: manageMasterUserPassword)), masterUserSecretKmsKeyId: \(Swift.String(describing: masterUserSecretKmsKeyId)), maxAllocatedStorage: \(Swift.String(describing: maxAllocatedStorage)), multiAZ: \(Swift.String(describing: multiAZ)), networkType: \(Swift.String(describing: networkType)), optionGroupName: \(Swift.String(describing: optionGroupName)), port: \(Swift.String(describing: port)), preferredBackupWindow: \(Swift.String(describing: preferredBackupWindow)), processorFeatures: \(Swift.String(describing: processorFeatures)), publiclyAccessible: \(Swift.String(describing: publiclyAccessible)), restoreTime: \(Swift.String(describing: restoreTime)), sourceDBInstanceAutomatedBackupsArn: \(Swift.String(describing: sourceDBInstanceAutomatedBackupsArn)), sourceDBInstanceIdentifier: \(Swift.String(describing: sourceDBInstanceIdentifier)), sourceDbiResourceId: \(Swift.String(describing: sourceDbiResourceId)), storageThroughput: \(Swift.String(describing: storageThroughput)), storageType: \(Swift.String(describing: storageType)), tagSpecifications: \(Swift.String(describing: tagSpecifications)), tags: \(Swift.String(describing: tags)), targetDBInstanceIdentifier: \(Swift.String(describing: targetDBInstanceIdentifier)), tdeCredentialArn: \(Swift.String(describing: tdeCredentialArn)), useDefaultProcessorFeatures: \(Swift.String(describing: useDefaultProcessorFeatures)), useLatestRestorableTime: \(Swift.String(describing: useLatestRestorableTime)), vpcSecurityGroupIds: \(Swift.String(describing: vpcSecurityGroupIds)), tdeCredentialPassword: \"CONTENT_REDACTED\")"}
 }
 
 public struct RestoreDBInstanceToPointInTimeOutput: Swift.Sendable {
@@ -25894,6 +25998,7 @@ extension RestoreDBClusterFromSnapshotInput {
         guard let value else { return }
         try writer["AvailabilityZones"].writeList(value.availabilityZones, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "AvailabilityZone", isFlattened: false)
         try writer["BacktrackWindow"].write(value.backtrackWindow)
+        try writer["BackupRetentionPeriod"].write(value.backupRetentionPeriod)
         try writer["CopyTagsToSnapshot"].write(value.copyTagsToSnapshot)
         try writer["DBClusterIdentifier"].write(value.dbClusterIdentifier)
         try writer["DBClusterInstanceClass"].write(value.dbClusterInstanceClass)
@@ -25919,6 +26024,7 @@ extension RestoreDBClusterFromSnapshotInput {
         try writer["PerformanceInsightsKMSKeyId"].write(value.performanceInsightsKMSKeyId)
         try writer["PerformanceInsightsRetentionPeriod"].write(value.performanceInsightsRetentionPeriod)
         try writer["Port"].write(value.port)
+        try writer["PreferredBackupWindow"].write(value.preferredBackupWindow)
         try writer["PubliclyAccessible"].write(value.publiclyAccessible)
         try writer["RdsCustomClusterConfiguration"].write(value.rdsCustomClusterConfiguration, with: RDSClientTypes.RdsCustomClusterConfiguration.write(value:to:))
         try writer["ScalingConfiguration"].write(value.scalingConfiguration, with: RDSClientTypes.ScalingConfiguration.write(value:to:))
@@ -25938,6 +26044,7 @@ extension RestoreDBClusterToPointInTimeInput {
     static func write(value: RestoreDBClusterToPointInTimeInput?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
         try writer["BacktrackWindow"].write(value.backtrackWindow)
+        try writer["BackupRetentionPeriod"].write(value.backupRetentionPeriod)
         try writer["CopyTagsToSnapshot"].write(value.copyTagsToSnapshot)
         try writer["DBClusterIdentifier"].write(value.dbClusterIdentifier)
         try writer["DBClusterInstanceClass"].write(value.dbClusterInstanceClass)
@@ -25960,6 +26067,7 @@ extension RestoreDBClusterToPointInTimeInput {
         try writer["PerformanceInsightsKMSKeyId"].write(value.performanceInsightsKMSKeyId)
         try writer["PerformanceInsightsRetentionPeriod"].write(value.performanceInsightsRetentionPeriod)
         try writer["Port"].write(value.port)
+        try writer["PreferredBackupWindow"].write(value.preferredBackupWindow)
         try writer["PubliclyAccessible"].write(value.publiclyAccessible)
         try writer["RdsCustomClusterConfiguration"].write(value.rdsCustomClusterConfiguration, with: RDSClientTypes.RdsCustomClusterConfiguration.write(value:to:))
         try writer["RestoreToTime"].writeTimestamp(value.restoreToTime, format: SmithyTimestamps.TimestampFormat.dateTime)
@@ -25986,6 +26094,7 @@ extension RestoreDBInstanceFromDBSnapshotInput {
         try writer["AllocatedStorage"].write(value.allocatedStorage)
         try writer["AutoMinorVersionUpgrade"].write(value.autoMinorVersionUpgrade)
         try writer["AvailabilityZone"].write(value.availabilityZone)
+        try writer["BackupRetentionPeriod"].write(value.backupRetentionPeriod)
         try writer["BackupTarget"].write(value.backupTarget)
         try writer["CACertificateIdentifier"].write(value.caCertificateIdentifier)
         try writer["CopyTagsToSnapshot"].write(value.copyTagsToSnapshot)
@@ -26018,6 +26127,7 @@ extension RestoreDBInstanceFromDBSnapshotInput {
         try writer["NetworkType"].write(value.networkType)
         try writer["OptionGroupName"].write(value.optionGroupName)
         try writer["Port"].write(value.port)
+        try writer["PreferredBackupWindow"].write(value.preferredBackupWindow)
         try writer["ProcessorFeatures"].writeList(value.processorFeatures, memberWritingClosure: RDSClientTypes.ProcessorFeature.write(value:to:), memberNodeInfo: "ProcessorFeature", isFlattened: false)
         try writer["PubliclyAccessible"].write(value.publiclyAccessible)
         try writer["StorageThroughput"].write(value.storageThroughput)
@@ -26104,6 +26214,7 @@ extension RestoreDBInstanceToPointInTimeInput {
         try writer["AllocatedStorage"].write(value.allocatedStorage)
         try writer["AutoMinorVersionUpgrade"].write(value.autoMinorVersionUpgrade)
         try writer["AvailabilityZone"].write(value.availabilityZone)
+        try writer["BackupRetentionPeriod"].write(value.backupRetentionPeriod)
         try writer["BackupTarget"].write(value.backupTarget)
         try writer["CACertificateIdentifier"].write(value.caCertificateIdentifier)
         try writer["CopyTagsToSnapshot"].write(value.copyTagsToSnapshot)
@@ -26134,6 +26245,7 @@ extension RestoreDBInstanceToPointInTimeInput {
         try writer["NetworkType"].write(value.networkType)
         try writer["OptionGroupName"].write(value.optionGroupName)
         try writer["Port"].write(value.port)
+        try writer["PreferredBackupWindow"].write(value.preferredBackupWindow)
         try writer["ProcessorFeatures"].writeList(value.processorFeatures, memberWritingClosure: RDSClientTypes.ProcessorFeature.write(value:to:), memberNodeInfo: "ProcessorFeature", isFlattened: false)
         try writer["PubliclyAccessible"].write(value.publiclyAccessible)
         try writer["RestoreTime"].writeTimestamp(value.restoreTime, format: SmithyTimestamps.TimestampFormat.dateTime)
@@ -33355,6 +33467,8 @@ extension RDSClientTypes.DBClusterSnapshot {
         value.snapshotType = try reader["SnapshotType"].readIfPresent()
         value.percentProgress = try reader["PercentProgress"].readIfPresent()
         value.storageEncrypted = try reader["StorageEncrypted"].readIfPresent()
+        value.backupRetentionPeriod = try reader["BackupRetentionPeriod"].readIfPresent()
+        value.preferredBackupWindow = try reader["PreferredBackupWindow"].readIfPresent()
         value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
         value.dbClusterSnapshotArn = try reader["DBClusterSnapshotArn"].readIfPresent()
         value.sourceDBClusterSnapshotArn = try reader["SourceDBClusterSnapshotArn"].readIfPresent()
@@ -33426,6 +33540,8 @@ extension RDSClientTypes.DBSnapshot {
         value.storageType = try reader["StorageType"].readIfPresent()
         value.tdeCredentialArn = try reader["TdeCredentialArn"].readIfPresent()
         value.encrypted = try reader["Encrypted"].readIfPresent()
+        value.backupRetentionPeriod = try reader["BackupRetentionPeriod"].readIfPresent()
+        value.preferredBackupWindow = try reader["PreferredBackupWindow"].readIfPresent()
         value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
         value.dbSnapshotArn = try reader["DBSnapshotArn"].readIfPresent()
         value.timezone = try reader["Timezone"].readIfPresent()
@@ -34400,6 +34516,7 @@ extension RDSClientTypes.DBClusterAutomatedBackup {
         value.engineVersion = try reader["EngineVersion"].readIfPresent()
         value.dbClusterArn = try reader["DBClusterArn"].readIfPresent()
         value.backupRetentionPeriod = try reader["BackupRetentionPeriod"].readIfPresent()
+        value.preferredBackupWindow = try reader["PreferredBackupWindow"].readIfPresent()
         value.engineMode = try reader["EngineMode"].readIfPresent()
         value.availabilityZones = try reader["AvailabilityZones"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "AvailabilityZone", isFlattened: false)
         value.port = try reader["Port"].readIfPresent()
@@ -34454,6 +34571,7 @@ extension RDSClientTypes.DBInstanceAutomatedBackup {
         value.timezone = try reader["Timezone"].readIfPresent()
         value.iamDatabaseAuthenticationEnabled = try reader["IAMDatabaseAuthenticationEnabled"].readIfPresent()
         value.backupRetentionPeriod = try reader["BackupRetentionPeriod"].readIfPresent()
+        value.preferredBackupWindow = try reader["PreferredBackupWindow"].readIfPresent()
         value.dbInstanceAutomatedBackupsArn = try reader["DBInstanceAutomatedBackupsArn"].readIfPresent()
         value.dbInstanceAutomatedBackupsReplications = try reader["DBInstanceAutomatedBackupsReplications"].readListIfPresent(memberReadingClosure: RDSClientTypes.DBInstanceAutomatedBackupsReplication.read(from:), memberNodeInfo: "DBInstanceAutomatedBackupsReplication", isFlattened: false)
         value.backupTarget = try reader["BackupTarget"].readIfPresent()

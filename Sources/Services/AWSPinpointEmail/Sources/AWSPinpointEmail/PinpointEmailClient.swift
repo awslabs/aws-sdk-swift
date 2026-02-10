@@ -72,11 +72,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class PinpointEmailClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "PinpointEmailClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: PinpointEmailClient.PinpointEmailClientConfig
+    public let config: PinpointEmailClient.PinpointEmailClientConfig
     let serviceName = "Pinpoint Email"
 
     @available(*, deprecated, message: "Use PinpointEmailClient.PinpointEmailClientConfig instead")
     public typealias Config = PinpointEmailClient.PinpointEmailClientConfiguration
+    public typealias Configuration = PinpointEmailClient.PinpointEmailClientConfig
 
     public required init(config: PinpointEmailClient.PinpointEmailClientConfig) {
         ClientRuntime.initialize()

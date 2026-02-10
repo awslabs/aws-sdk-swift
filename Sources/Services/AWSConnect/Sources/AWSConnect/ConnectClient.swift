@@ -74,11 +74,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class ConnectClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "ConnectClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: ConnectClient.ConnectClientConfig
+    public let config: ConnectClient.ConnectClientConfig
     let serviceName = "Connect"
 
     @available(*, deprecated, message: "Use ConnectClient.ConnectClientConfig instead")
     public typealias Config = ConnectClient.ConnectClientConfiguration
+    public typealias Configuration = ConnectClient.ConnectClientConfig
 
     public required init(config: ConnectClient.ConnectClientConfig) {
         ClientRuntime.initialize()
@@ -5136,7 +5137,18 @@ extension ConnectClient {
 
     /// Performs the `CreateUser` operation on the `Connect` service.
     ///
-    /// Creates a user account for the specified Amazon Connect instance. Certain [UserIdentityInfo](https://docs.aws.amazon.com/connect/latest/APIReference/API_UserIdentityInfo.html) parameters are required in some situations. For example, Email, FirstName and LastName are required if you are using Amazon Connect or SAML for identity management. For information about how to create users using the Amazon Connect admin website, see [Add Users](https://docs.aws.amazon.com/connect/latest/adminguide/user-management.html) in the Amazon Connect Administrator Guide.
+    /// Creates a user account for the specified Amazon Connect instance. Certain [UserIdentityInfo](https://docs.aws.amazon.com/connect/latest/APIReference/API_UserIdentityInfo.html) parameters are required in some situations. For example, Email, FirstName and LastName are required if you are using Amazon Connect or SAML for identity management. Fields in PhoneConfig cannot be set simultaneously with their corresponding channel-specific configuration parameters. Specifically:
+    ///
+    /// * PhoneConfig.AutoAccept conflicts with AutoAcceptConfigs
+    ///
+    /// * PhoneConfig.AfterContactWorkTimeLimit conflicts with AfterContactWorkConfigs
+    ///
+    /// * PhoneConfig.PhoneType and PhoneConfig.PhoneNumber conflict with PhoneNumberConfigs
+    ///
+    /// * PhoneConfig.PersistentConnection conflicts with PersistentConnectionConfigs
+    ///
+    ///
+    /// We recommend using channel-specific parameters such as AutoAcceptConfigs, AfterContactWorkConfigs, PhoneNumberConfigs, PersistentConnectionConfigs, and VoiceEnhancementConfigs for per-channel configuration. For information about how to create users using the Amazon Connect admin website, see [Add Users](https://docs.aws.amazon.com/connect/latest/adminguide/user-management.html) in the Amazon Connect Administrator Guide.
     ///
     /// - Parameter input: [no documentation found] (Type: `CreateUserInput`)
     ///
@@ -25505,6 +25517,79 @@ extension ConnectClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `UpdateUserConfig` operation on the `Connect` service.
+    ///
+    /// Updates the configuration settings for the specified user, including per-channel auto-accept and after contact work (ACW) timeout settings. This operation replaces the UpdateUserPhoneConfig API. While UpdateUserPhoneConfig applies the same ACW timeout to all channels, UpdateUserConfig allows you to set different auto-accept and ACW timeout values for each channel type.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `UpdateUserConfigInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UpdateUserConfigOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConditionalOperationFailedException` : Request processing failed because dependent condition failed.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
+    public func updateUserConfig(input: UpdateUserConfigInput) async throws -> UpdateUserConfigOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateUserConfig")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "connect")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateUserConfigInput, UpdateUserConfigOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateUserConfigInput, UpdateUserConfigOutput>(UpdateUserConfigInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateUserConfigInput, UpdateUserConfigOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateUserConfigInput, UpdateUserConfigOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateUserConfigInput, UpdateUserConfigOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateUserConfigInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateUserConfigInput, UpdateUserConfigOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateUserConfigOutput>(UpdateUserConfigOutput.httpOutput(from:), UpdateUserConfigOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateUserConfigInput, UpdateUserConfigOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateUserConfigOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Connect", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateUserConfigOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateUserConfigOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateUserConfigInput, UpdateUserConfigOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateUserConfigInput, UpdateUserConfigOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateUserConfigInput, UpdateUserConfigOutput>(serviceID: serviceName, version: ConnectClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Connect")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateUserConfig")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `UpdateUserHierarchy` operation on the `Connect` service.
     ///
     /// Assigns the specified hierarchy group to the specified user.
@@ -25797,7 +25882,7 @@ extension ConnectClient {
 
     /// Performs the `UpdateUserPhoneConfig` operation on the `Connect` service.
     ///
-    /// Updates the phone configuration settings for the specified user.
+    /// Updates the phone configuration settings for the specified user. We recommend using the [UpdateUserConfig](https://docs.aws.amazon.com/connect/latest/APIReference/API_UpdateUserConfig.html) API, which supports additional functionality that is not available in the UpdateUserPhoneConfig API, such as voice enhancement settings and per-channel configuration for auto-accept and After Contact Work (ACW) timeouts. In comparison, the UpdateUserPhoneConfig API will always set the same ACW timeouts to all channels the user handles.
     ///
     /// - Parameter input: [no documentation found] (Type: `UpdateUserPhoneConfigInput`)
     ///

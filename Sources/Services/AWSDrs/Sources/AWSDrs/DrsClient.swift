@@ -71,11 +71,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class DrsClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "DrsClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: DrsClient.DrsClientConfig
+    public let config: DrsClient.DrsClientConfig
     let serviceName = "drs"
 
     @available(*, deprecated, message: "Use DrsClient.DrsClientConfig instead")
     public typealias Config = DrsClient.DrsClientConfiguration
+    public typealias Configuration = DrsClient.DrsClientConfig
 
     public required init(config: DrsClient.DrsClientConfig) {
         ClientRuntime.initialize()

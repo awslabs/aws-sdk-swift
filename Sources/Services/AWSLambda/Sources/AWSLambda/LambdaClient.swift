@@ -79,11 +79,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class LambdaClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "LambdaClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: LambdaClient.LambdaClientConfig
+    public let config: LambdaClient.LambdaClientConfig
     let serviceName = "Lambda"
 
     @available(*, deprecated, message: "Use LambdaClient.LambdaClientConfig instead")
     public typealias Config = LambdaClient.LambdaClientConfiguration
+    public typealias Configuration = LambdaClient.LambdaClientConfig
 
     public required init(config: LambdaClient.LambdaClientConfig) {
         ClientRuntime.initialize()

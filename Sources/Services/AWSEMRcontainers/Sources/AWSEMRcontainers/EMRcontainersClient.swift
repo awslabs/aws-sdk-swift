@@ -73,11 +73,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class EMRcontainersClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "EMRcontainersClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: EMRcontainersClient.EMRcontainersClientConfig
+    public let config: EMRcontainersClient.EMRcontainersClientConfig
     let serviceName = "EMR containers"
 
     @available(*, deprecated, message: "Use EMRcontainersClient.EMRcontainersClientConfig instead")
     public typealias Config = EMRcontainersClient.EMRcontainersClientConfiguration
+    public typealias Configuration = EMRcontainersClient.EMRcontainersClientConfig
 
     public required init(config: EMRcontainersClient.EMRcontainersClientConfig) {
         ClientRuntime.initialize()

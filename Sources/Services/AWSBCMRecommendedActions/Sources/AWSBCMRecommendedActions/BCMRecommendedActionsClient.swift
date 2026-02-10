@@ -71,11 +71,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class BCMRecommendedActionsClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "BCMRecommendedActionsClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: BCMRecommendedActionsClient.BCMRecommendedActionsClientConfig
+    public let config: BCMRecommendedActionsClient.BCMRecommendedActionsClientConfig
     let serviceName = "BCM Recommended Actions"
 
     @available(*, deprecated, message: "Use BCMRecommendedActionsClient.BCMRecommendedActionsClientConfig instead")
     public typealias Config = BCMRecommendedActionsClient.BCMRecommendedActionsClientConfiguration
+    public typealias Configuration = BCMRecommendedActionsClient.BCMRecommendedActionsClientConfig
 
     public required init(config: BCMRecommendedActionsClient.BCMRecommendedActionsClientConfig) {
         ClientRuntime.initialize()

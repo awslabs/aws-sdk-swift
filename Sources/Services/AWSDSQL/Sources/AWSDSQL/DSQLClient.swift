@@ -73,11 +73,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class DSQLClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "DSQLClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: DSQLClient.DSQLClientConfig
+    public let config: DSQLClient.DSQLClientConfig
     let serviceName = "DSQL"
 
     @available(*, deprecated, message: "Use DSQLClient.DSQLClientConfig instead")
     public typealias Config = DSQLClient.DSQLClientConfiguration
+    public typealias Configuration = DSQLClient.DSQLClientConfig
 
     public required init(config: DSQLClient.DSQLClientConfig) {
         ClientRuntime.initialize()

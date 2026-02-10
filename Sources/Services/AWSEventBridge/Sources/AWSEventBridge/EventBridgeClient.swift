@@ -74,11 +74,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class EventBridgeClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "EventBridgeClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: EventBridgeClient.EventBridgeClientConfig
+    public let config: EventBridgeClient.EventBridgeClientConfig
     let serviceName = "EventBridge"
 
     @available(*, deprecated, message: "Use EventBridgeClient.EventBridgeClientConfig instead")
     public typealias Config = EventBridgeClient.EventBridgeClientConfiguration
+    public typealias Configuration = EventBridgeClient.EventBridgeClientConfig
 
     public required init(config: EventBridgeClient.EventBridgeClientConfig) {
         ClientRuntime.initialize()

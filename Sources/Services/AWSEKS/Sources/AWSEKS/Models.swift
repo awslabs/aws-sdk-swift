@@ -4851,6 +4851,12 @@ public struct CreatePodIdentityAssociationInput: Swift.Sendable {
     /// The name of the Kubernetes namespace inside the cluster to create the EKS Pod Identity association in. The service account and the Pods that use the service account must be in this namespace.
     /// This member is required.
     public var namespace: Swift.String?
+    /// An optional IAM policy in JSON format (as an escaped string) that applies additional restrictions to this pod identity association beyond the IAM policies attached to the IAM role. This policy is applied as the intersection of the role's policies and this policy, allowing you to reduce the permissions that applications in the pods can use. Use this policy to enforce least privilege access while still leveraging a shared IAM role across multiple applications. Important considerations
+    ///
+    /// * Session tags: When using this policy, disableSessionTags must be set to true.
+    ///
+    /// * Target role permissions: If you specify both a TargetRoleArn and a policy, the policy restrictions apply only to the target role's permissions, not to the initial role used for assuming the target role.
+    public var policy: Swift.String?
     /// The Amazon Resource Name (ARN) of the IAM role to associate with the service account. The EKS Pod Identity agent manages credentials to assume this role for applications in the containers in the Pods that use this service account.
     /// This member is required.
     public var roleArn: Swift.String?
@@ -4881,6 +4887,7 @@ public struct CreatePodIdentityAssociationInput: Swift.Sendable {
         clusterName: Swift.String? = nil,
         disableSessionTags: Swift.Bool? = nil,
         namespace: Swift.String? = nil,
+        policy: Swift.String? = nil,
         roleArn: Swift.String? = nil,
         serviceAccount: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil,
@@ -4890,6 +4897,7 @@ public struct CreatePodIdentityAssociationInput: Swift.Sendable {
         self.clusterName = clusterName
         self.disableSessionTags = disableSessionTags
         self.namespace = namespace
+        self.policy = policy
         self.roleArn = roleArn
         self.serviceAccount = serviceAccount
         self.tags = tags
@@ -4919,6 +4927,8 @@ extension EKSClientTypes {
         public var namespace: Swift.String?
         /// If defined, the EKS Pod Identity association is owned by an Amazon EKS add-on.
         public var ownerArn: Swift.String?
+        /// An optional IAM policy in JSON format (as an escaped string) that applies additional restrictions to this pod identity association beyond the IAM policies attached to the IAM role. This policy is applied as the intersection of the role's policies and this policy, allowing you to reduce the permissions that applications in the pods can use. Use this policy to enforce least privilege access while still leveraging a shared IAM role across multiple applications.
+        public var policy: Swift.String?
         /// The Amazon Resource Name (ARN) of the IAM role to associate with the service account. The EKS Pod Identity agent manages credentials to assume this role for applications in the containers in the Pods that use this service account.
         public var roleArn: Swift.String?
         /// The name of the Kubernetes service account inside the cluster to associate the IAM credentials with.
@@ -4952,6 +4962,7 @@ extension EKSClientTypes {
             modifiedAt: Foundation.Date? = nil,
             namespace: Swift.String? = nil,
             ownerArn: Swift.String? = nil,
+            policy: Swift.String? = nil,
             roleArn: Swift.String? = nil,
             serviceAccount: Swift.String? = nil,
             tags: [Swift.String: Swift.String]? = nil,
@@ -4966,6 +4977,7 @@ extension EKSClientTypes {
             self.modifiedAt = modifiedAt
             self.namespace = namespace
             self.ownerArn = ownerArn
+            self.policy = policy
             self.roleArn = roleArn
             self.serviceAccount = serviceAccount
             self.tags = tags
@@ -7770,6 +7782,12 @@ public struct UpdatePodIdentityAssociationInput: Swift.Sendable {
     public var clusterName: Swift.String?
     /// Disable the automatic sessions tags that are appended by EKS Pod Identity. EKS Pod Identity adds a pre-defined set of session tags when it assumes the role. You can use these tags to author a single role that can work across resources by allowing access to Amazon Web Services resources based on matching tags. By default, EKS Pod Identity attaches six tags, including tags for cluster name, namespace, and service account name. For the list of tags added by EKS Pod Identity, see [List of session tags added by EKS Pod Identity](https://docs.aws.amazon.com/eks/latest/userguide/pod-id-abac.html#pod-id-abac-tags) in the Amazon EKS User Guide. Amazon Web Services compresses inline session policies, managed policy ARNs, and session tags into a packed binary format that has a separate limit. If you receive a PackedPolicyTooLarge error indicating the packed binary format has exceeded the size limit, you can attempt to reduce the size by disabling the session tags added by EKS Pod Identity.
     public var disableSessionTags: Swift.Bool?
+    /// An optional IAM policy in JSON format (as an escaped string) that applies additional restrictions to this pod identity association beyond the IAM policies attached to the IAM role. This policy is applied as the intersection of the role's policies and this policy, allowing you to reduce the permissions that applications in the pods can use. Use this policy to enforce least privilege access while still leveraging a shared IAM role across multiple applications. Important considerations
+    ///
+    /// * Session tags: When using this policy, disableSessionTags must be set to true.
+    ///
+    /// * Target role permissions: If you specify both a TargetRoleArn and a policy, the policy restrictions apply only to the target role's permissions, not to the initial role used for assuming the target role.
+    public var policy: Swift.String?
     /// The new IAM role to change in the association.
     public var roleArn: Swift.String?
     /// The Amazon Resource Name (ARN) of the target IAM role to associate with the service account. This role is assumed by using the EKS Pod Identity association role, then the credentials for this role are injected into the Pod. When you run applications on Amazon EKS, your application might need to access Amazon Web Services resources from a different role that exists in the same or different Amazon Web Services account. For example, your application running in “Account A” might need to access resources, such as buckets in “Account B” or within “Account A” itself. You can create a association to access Amazon Web Services resources in “Account B” by creating two IAM roles: a role in “Account A” and a role in “Account B” (which can be the same or different account), each with the necessary trust and permission policies. After you provide these roles in the IAM role and Target IAM role fields, EKS will perform role chaining to ensure your application gets the required permissions. This means Role A will assume Role B, allowing your Pods to securely access resources like S3 buckets in the target account.
@@ -7780,6 +7798,7 @@ public struct UpdatePodIdentityAssociationInput: Swift.Sendable {
         clientRequestToken: Swift.String? = nil,
         clusterName: Swift.String? = nil,
         disableSessionTags: Swift.Bool? = nil,
+        policy: Swift.String? = nil,
         roleArn: Swift.String? = nil,
         targetRoleArn: Swift.String? = nil
     ) {
@@ -7787,6 +7806,7 @@ public struct UpdatePodIdentityAssociationInput: Swift.Sendable {
         self.clientRequestToken = clientRequestToken
         self.clusterName = clusterName
         self.disableSessionTags = disableSessionTags
+        self.policy = policy
         self.roleArn = roleArn
         self.targetRoleArn = targetRoleArn
     }
@@ -9024,6 +9044,7 @@ extension CreatePodIdentityAssociationInput {
         try writer["clientRequestToken"].write(value.clientRequestToken)
         try writer["disableSessionTags"].write(value.disableSessionTags)
         try writer["namespace"].write(value.namespace)
+        try writer["policy"].write(value.policy)
         try writer["roleArn"].write(value.roleArn)
         try writer["serviceAccount"].write(value.serviceAccount)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -9180,6 +9201,7 @@ extension UpdatePodIdentityAssociationInput {
         guard let value else { return }
         try writer["clientRequestToken"].write(value.clientRequestToken)
         try writer["disableSessionTags"].write(value.disableSessionTags)
+        try writer["policy"].write(value.policy)
         try writer["roleArn"].write(value.roleArn)
         try writer["targetRoleArn"].write(value.targetRoleArn)
     }
@@ -12293,6 +12315,7 @@ extension EKSClientTypes.PodIdentityAssociation {
         value.disableSessionTags = try reader["disableSessionTags"].readIfPresent()
         value.targetRoleArn = try reader["targetRoleArn"].readIfPresent()
         value.externalId = try reader["externalId"].readIfPresent()
+        value.policy = try reader["policy"].readIfPresent()
         return value
     }
 }

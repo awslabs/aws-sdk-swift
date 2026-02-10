@@ -73,11 +73,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class TextractClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "TextractClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: TextractClient.TextractClientConfig
+    public let config: TextractClient.TextractClientConfig
     let serviceName = "Textract"
 
     @available(*, deprecated, message: "Use TextractClient.TextractClientConfig instead")
     public typealias Config = TextractClient.TextractClientConfiguration
+    public typealias Configuration = TextractClient.TextractClientConfig
 
     public required init(config: TextractClient.TextractClientConfig) {
         ClientRuntime.initialize()

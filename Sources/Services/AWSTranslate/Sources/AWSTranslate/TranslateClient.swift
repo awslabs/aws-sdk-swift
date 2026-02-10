@@ -73,11 +73,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class TranslateClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "TranslateClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: TranslateClient.TranslateClientConfig
+    public let config: TranslateClient.TranslateClientConfig
     let serviceName = "Translate"
 
     @available(*, deprecated, message: "Use TranslateClient.TranslateClientConfig instead")
     public typealias Config = TranslateClient.TranslateClientConfiguration
+    public typealias Configuration = TranslateClient.TranslateClientConfig
 
     public required init(config: TranslateClient.TranslateClientConfig) {
         ClientRuntime.initialize()

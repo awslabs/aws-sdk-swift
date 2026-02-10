@@ -74,11 +74,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class IoTManagedIntegrationsClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "IoTManagedIntegrationsClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: IoTManagedIntegrationsClient.IoTManagedIntegrationsClientConfig
+    public let config: IoTManagedIntegrationsClient.IoTManagedIntegrationsClientConfig
     let serviceName = "IoT Managed Integrations"
 
     @available(*, deprecated, message: "Use IoTManagedIntegrationsClient.IoTManagedIntegrationsClientConfig instead")
     public typealias Config = IoTManagedIntegrationsClient.IoTManagedIntegrationsClientConfiguration
+    public typealias Configuration = IoTManagedIntegrationsClient.IoTManagedIntegrationsClientConfig
 
     public required init(config: IoTManagedIntegrationsClient.IoTManagedIntegrationsClientConfig) {
         ClientRuntime.initialize()

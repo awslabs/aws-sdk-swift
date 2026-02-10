@@ -75,11 +75,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class LexRuntimeClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "LexRuntimeClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: LexRuntimeClient.LexRuntimeClientConfig
+    public let config: LexRuntimeClient.LexRuntimeClientConfig
     let serviceName = "Lex Runtime"
 
     @available(*, deprecated, message: "Use LexRuntimeClient.LexRuntimeClientConfig instead")
     public typealias Config = LexRuntimeClient.LexRuntimeClientConfiguration
+    public typealias Configuration = LexRuntimeClient.LexRuntimeClientConfig
 
     public required init(config: LexRuntimeClient.LexRuntimeClientConfig) {
         ClientRuntime.initialize()

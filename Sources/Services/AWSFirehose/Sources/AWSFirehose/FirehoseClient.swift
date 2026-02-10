@@ -71,11 +71,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class FirehoseClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "FirehoseClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: FirehoseClient.FirehoseClientConfig
+    public let config: FirehoseClient.FirehoseClientConfig
     let serviceName = "Firehose"
 
     @available(*, deprecated, message: "Use FirehoseClient.FirehoseClientConfig instead")
     public typealias Config = FirehoseClient.FirehoseClientConfiguration
+    public typealias Configuration = FirehoseClient.FirehoseClientConfig
 
     public required init(config: FirehoseClient.FirehoseClientConfig) {
         ClientRuntime.initialize()

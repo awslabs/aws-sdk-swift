@@ -71,11 +71,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class LicenseManagerUserSubscriptionsClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "LicenseManagerUserSubscriptionsClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: LicenseManagerUserSubscriptionsClient.LicenseManagerUserSubscriptionsClientConfig
+    public let config: LicenseManagerUserSubscriptionsClient.LicenseManagerUserSubscriptionsClientConfig
     let serviceName = "License Manager User Subscriptions"
 
     @available(*, deprecated, message: "Use LicenseManagerUserSubscriptionsClient.LicenseManagerUserSubscriptionsClientConfig instead")
     public typealias Config = LicenseManagerUserSubscriptionsClient.LicenseManagerUserSubscriptionsClientConfiguration
+    public typealias Configuration = LicenseManagerUserSubscriptionsClient.LicenseManagerUserSubscriptionsClientConfig
 
     public required init(config: LicenseManagerUserSubscriptionsClient.LicenseManagerUserSubscriptionsClientConfig) {
         ClientRuntime.initialize()

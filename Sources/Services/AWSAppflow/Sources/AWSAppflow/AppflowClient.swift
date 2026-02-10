@@ -73,11 +73,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class AppflowClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "AppflowClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: AppflowClient.AppflowClientConfig
+    public let config: AppflowClient.AppflowClientConfig
     let serviceName = "Appflow"
 
     @available(*, deprecated, message: "Use AppflowClient.AppflowClientConfig instead")
     public typealias Config = AppflowClient.AppflowClientConfiguration
+    public typealias Configuration = AppflowClient.AppflowClientConfig
 
     public required init(config: AppflowClient.AppflowClientConfig) {
         ClientRuntime.initialize()

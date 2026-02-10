@@ -73,11 +73,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class TimestreamQueryClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "TimestreamQueryClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: TimestreamQueryClient.TimestreamQueryClientConfig
+    public let config: TimestreamQueryClient.TimestreamQueryClientConfig
     let serviceName = "Timestream Query"
 
     @available(*, deprecated, message: "Use TimestreamQueryClient.TimestreamQueryClientConfig instead")
     public typealias Config = TimestreamQueryClient.TimestreamQueryClientConfiguration
+    public typealias Configuration = TimestreamQueryClient.TimestreamQueryClientConfig
 
     public required init(config: TimestreamQueryClient.TimestreamQueryClientConfig) {
         ClientRuntime.initialize()

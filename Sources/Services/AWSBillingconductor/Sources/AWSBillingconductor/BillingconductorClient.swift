@@ -73,11 +73,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class BillingconductorClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "BillingconductorClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: BillingconductorClient.BillingconductorClientConfig
+    public let config: BillingconductorClient.BillingconductorClientConfig
     let serviceName = "billingconductor"
 
     @available(*, deprecated, message: "Use BillingconductorClient.BillingconductorClientConfig instead")
     public typealias Config = BillingconductorClient.BillingconductorClientConfiguration
+    public typealias Configuration = BillingconductorClient.BillingconductorClientConfig
 
     public required init(config: BillingconductorClient.BillingconductorClientConfig) {
         ClientRuntime.initialize()

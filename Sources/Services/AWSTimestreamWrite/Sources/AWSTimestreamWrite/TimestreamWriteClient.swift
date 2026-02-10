@@ -72,11 +72,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class TimestreamWriteClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "TimestreamWriteClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: TimestreamWriteClient.TimestreamWriteClientConfig
+    public let config: TimestreamWriteClient.TimestreamWriteClientConfig
     let serviceName = "Timestream Write"
 
     @available(*, deprecated, message: "Use TimestreamWriteClient.TimestreamWriteClientConfig instead")
     public typealias Config = TimestreamWriteClient.TimestreamWriteClientConfiguration
+    public typealias Configuration = TimestreamWriteClient.TimestreamWriteClientConfig
 
     public required init(config: TimestreamWriteClient.TimestreamWriteClientConfig) {
         ClientRuntime.initialize()

@@ -73,11 +73,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class WorkSpacesWebClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "WorkSpacesWebClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: WorkSpacesWebClient.WorkSpacesWebClientConfig
+    public let config: WorkSpacesWebClient.WorkSpacesWebClientConfig
     let serviceName = "WorkSpaces Web"
 
     @available(*, deprecated, message: "Use WorkSpacesWebClient.WorkSpacesWebClientConfig instead")
     public typealias Config = WorkSpacesWebClient.WorkSpacesWebClientConfiguration
+    public typealias Configuration = WorkSpacesWebClient.WorkSpacesWebClientConfig
 
     public required init(config: WorkSpacesWebClient.WorkSpacesWebClientConfig) {
         ClientRuntime.initialize()

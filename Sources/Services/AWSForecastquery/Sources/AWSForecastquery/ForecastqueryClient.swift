@@ -71,11 +71,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class ForecastqueryClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "ForecastqueryClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: ForecastqueryClient.ForecastqueryClientConfig
+    public let config: ForecastqueryClient.ForecastqueryClientConfig
     let serviceName = "forecastquery"
 
     @available(*, deprecated, message: "Use ForecastqueryClient.ForecastqueryClientConfig instead")
     public typealias Config = ForecastqueryClient.ForecastqueryClientConfiguration
+    public typealias Configuration = ForecastqueryClient.ForecastqueryClientConfig
 
     public required init(config: ForecastqueryClient.ForecastqueryClientConfig) {
         ClientRuntime.initialize()

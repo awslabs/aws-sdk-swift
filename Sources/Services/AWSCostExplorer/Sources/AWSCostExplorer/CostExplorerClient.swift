@@ -71,11 +71,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class CostExplorerClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "CostExplorerClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: CostExplorerClient.CostExplorerClientConfig
+    public let config: CostExplorerClient.CostExplorerClientConfig
     let serviceName = "Cost Explorer"
 
     @available(*, deprecated, message: "Use CostExplorerClient.CostExplorerClientConfig instead")
     public typealias Config = CostExplorerClient.CostExplorerClientConfiguration
+    public typealias Configuration = CostExplorerClient.CostExplorerClientConfig
 
     public required init(config: CostExplorerClient.CostExplorerClientConfig) {
         ClientRuntime.initialize()

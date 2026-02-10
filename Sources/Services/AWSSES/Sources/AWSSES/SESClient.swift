@@ -70,11 +70,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class SESClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "SESClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: SESClient.SESClientConfig
+    public let config: SESClient.SESClientConfig
     let serviceName = "SES"
 
     @available(*, deprecated, message: "Use SESClient.SESClientConfig instead")
     public typealias Config = SESClient.SESClientConfiguration
+    public typealias Configuration = SESClient.SESClientConfig
 
     public required init(config: SESClient.SESClientConfig) {
         ClientRuntime.initialize()

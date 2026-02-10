@@ -72,11 +72,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class ResourceGroupsClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "ResourceGroupsClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: ResourceGroupsClient.ResourceGroupsClientConfig
+    public let config: ResourceGroupsClient.ResourceGroupsClientConfig
     let serviceName = "Resource Groups"
 
     @available(*, deprecated, message: "Use ResourceGroupsClient.ResourceGroupsClientConfig instead")
     public typealias Config = ResourceGroupsClient.ResourceGroupsClientConfiguration
+    public typealias Configuration = ResourceGroupsClient.ResourceGroupsClientConfig
 
     public required init(config: ResourceGroupsClient.ResourceGroupsClientConfig) {
         ClientRuntime.initialize()

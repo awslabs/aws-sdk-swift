@@ -72,11 +72,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class ARCZonalShiftClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "ARCZonalShiftClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: ARCZonalShiftClient.ARCZonalShiftClientConfig
+    public let config: ARCZonalShiftClient.ARCZonalShiftClientConfig
     let serviceName = "ARC Zonal Shift"
 
     @available(*, deprecated, message: "Use ARCZonalShiftClient.ARCZonalShiftClientConfig instead")
     public typealias Config = ARCZonalShiftClient.ARCZonalShiftClientConfiguration
+    public typealias Configuration = ARCZonalShiftClient.ARCZonalShiftClientConfig
 
     public required init(config: ARCZonalShiftClient.ARCZonalShiftClientConfig) {
         ClientRuntime.initialize()

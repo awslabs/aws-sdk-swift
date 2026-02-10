@@ -71,11 +71,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class LaunchWizardClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "LaunchWizardClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: LaunchWizardClient.LaunchWizardClientConfig
+    public let config: LaunchWizardClient.LaunchWizardClientConfig
     let serviceName = "Launch Wizard"
 
     @available(*, deprecated, message: "Use LaunchWizardClient.LaunchWizardClientConfig instead")
     public typealias Config = LaunchWizardClient.LaunchWizardClientConfiguration
+    public typealias Configuration = LaunchWizardClient.LaunchWizardClientConfig
 
     public required init(config: LaunchWizardClient.LaunchWizardClientConfig) {
         ClientRuntime.initialize()

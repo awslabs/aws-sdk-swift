@@ -364,6 +364,11 @@ public struct UpdateSecurityProfileOutput: Swift.Sendable {
     public init() { }
 }
 
+public struct UpdateUserConfigOutput: Swift.Sendable {
+
+    public init() { }
+}
+
 public struct UpdateUserHierarchyGroupNameOutput: Swift.Sendable {
 
     public init() { }
@@ -721,6 +726,81 @@ extension ConnectClientTypes {
 
 extension ConnectClientTypes {
 
+    /// Configuration settings for after contact work (ACW) timeout.
+    public struct AfterContactWorkConfig: Swift.Sendable {
+        /// The ACW timeout duration in seconds. Minimum: 1 second. Maximum: 2,000,000 seconds (24 days). Enter 0 for indefinite ACW time.
+        public var afterContactWorkTimeLimit: Swift.Int
+
+        public init(
+            afterContactWorkTimeLimit: Swift.Int = 0
+        ) {
+            self.afterContactWorkTimeLimit = afterContactWorkTimeLimit
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    public enum Channel: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case chat
+        case email
+        case task
+        case voice
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Channel] {
+            return [
+                .chat,
+                .email,
+                .task,
+                .voice
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .chat: return "CHAT"
+            case .email: return "EMAIL"
+            case .task: return "TASK"
+            case .voice: return "VOICE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// Configuration settings for after contact work (ACW) timeout for a specific channel.
+    public struct AfterContactWorkConfigPerChannel: Swift.Sendable {
+        /// The ACW timeout settings for this channel.
+        /// This member is required.
+        public var afterContactWorkConfig: ConnectClientTypes.AfterContactWorkConfig?
+        /// The ACW timeout settings for agent-first callbacks. This setting only applies to the VOICE channel.
+        public var agentFirstCallbackAfterContactWorkConfig: ConnectClientTypes.AfterContactWorkConfig?
+        /// The channel for this ACW timeout configuration. Valid values: VOICE, CHAT, TASK, EMAIL.
+        /// This member is required.
+        public var channel: ConnectClientTypes.Channel?
+
+        public init(
+            afterContactWorkConfig: ConnectClientTypes.AfterContactWorkConfig? = nil,
+            agentFirstCallbackAfterContactWorkConfig: ConnectClientTypes.AfterContactWorkConfig? = nil,
+            channel: ConnectClientTypes.Channel? = nil
+        ) {
+            self.afterContactWorkConfig = afterContactWorkConfig
+            self.agentFirstCallbackAfterContactWorkConfig = agentFirstCallbackAfterContactWorkConfig
+            self.channel = channel
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
     public enum AgentAvailabilityTimer: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case timeSinceLastActivity
         case timeSinceLastInbound
@@ -829,41 +909,6 @@ extension ConnectClientTypes {
             case .missed: return "MISSED"
             case .pending: return "PENDING"
             case .rejected: return "REJECTED"
-            case let .sdkUnknown(s): return s
-            }
-        }
-    }
-}
-
-extension ConnectClientTypes {
-
-    public enum Channel: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case chat
-        case email
-        case task
-        case voice
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [Channel] {
-            return [
-                .chat,
-                .email,
-                .task,
-                .voice
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .chat: return "CHAT"
-            case .email: return "EMAIL"
-            case .task: return "TASK"
-            case .voice: return "VOICE"
             case let .sdkUnknown(s): return s
             }
         }
@@ -9834,6 +9879,31 @@ public struct CreateUseCaseOutput: Swift.Sendable {
 
 extension ConnectClientTypes {
 
+    /// Configuration settings for auto-accept for a specific channel.
+    public struct AutoAcceptConfig: Swift.Sendable {
+        /// Indicates whether auto-accept is enabled for agent-first callbacks. This setting only applies to the VOICE channel.
+        public var agentFirstCallbackAutoAccept: Swift.Bool?
+        /// Indicates whether auto-accept is enabled for this channel. When enabled, available agents are automatically connected to contacts from this channel.
+        /// This member is required.
+        public var autoAccept: Swift.Bool
+        /// The channel for this auto-accept configuration. Valid values: VOICE, CHAT, TASK, EMAIL.
+        /// This member is required.
+        public var channel: ConnectClientTypes.Channel?
+
+        public init(
+            agentFirstCallbackAutoAccept: Swift.Bool? = nil,
+            autoAccept: Swift.Bool = false,
+            channel: ConnectClientTypes.Channel? = nil
+        ) {
+            self.agentFirstCallbackAutoAccept = agentFirstCallbackAutoAccept
+            self.autoAccept = autoAccept
+            self.channel = channel
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
     /// Contains information about the identity of a user. For Amazon Connect instances that are created with the EXISTING_DIRECTORY identity management type, FirstName, LastName, and Email cannot be updated from within Amazon Connect because they are managed by the directory. The FirstName and LastName length constraints below apply only to instances using SAML for identity management. If you are using Amazon Connect for identity management, the length constraints are 1-255 for FirstName, and 1-256 for LastName.
     public struct UserIdentityInfo: Swift.Sendable {
         /// The email address. If you are using SAML for identity management and include this parameter, an error is returned.
@@ -9866,6 +9936,27 @@ extension ConnectClientTypes {
 extension ConnectClientTypes.UserIdentityInfo: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "UserIdentityInfo(mobile: \(Swift.String(describing: mobile)), email: \"CONTENT_REDACTED\", firstName: \"CONTENT_REDACTED\", lastName: \"CONTENT_REDACTED\", secondaryEmail: \"CONTENT_REDACTED\")"}
+}
+
+extension ConnectClientTypes {
+
+    /// Configuration settings for persistent connection for a specific channel.
+    public struct PersistentConnectionConfig: Swift.Sendable {
+        /// Configuration settings for persistent connection. Only VOICE is supported for this data type.
+        /// This member is required.
+        public var channel: ConnectClientTypes.Channel?
+        /// Indicates whether persistent connection is enabled. When enabled, the agent's connection is maintained after a call ends, enabling subsequent calls to connect faster.
+        /// This member is required.
+        public var persistentConnection: Swift.Bool?
+
+        public init(
+            channel: ConnectClientTypes.Channel? = nil,
+            persistentConnection: Swift.Bool? = false
+        ) {
+            self.channel = channel
+            self.persistentConnection = persistentConnection
+        }
+    }
 }
 
 extension ConnectClientTypes {
@@ -9910,7 +10001,6 @@ extension ConnectClientTypes {
         /// The persistent connection setting for the user.
         public var persistentConnection: Swift.Bool?
         /// The phone type.
-        /// This member is required.
         public var phoneType: ConnectClientTypes.PhoneType?
 
         public init(
@@ -9918,7 +10008,7 @@ extension ConnectClientTypes {
             autoAccept: Swift.Bool = false,
             deskPhoneNumber: Swift.String? = nil,
             persistentConnection: Swift.Bool? = false,
-            phoneType: ConnectClientTypes.PhoneType? = nil
+            phoneType: ConnectClientTypes.PhoneType? = .softPhone
         ) {
             self.afterContactWorkTimeLimit = afterContactWorkTimeLimit
             self.autoAccept = autoAccept
@@ -9929,7 +10019,99 @@ extension ConnectClientTypes {
     }
 }
 
+extension ConnectClientTypes.UserPhoneConfig: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UserPhoneConfig(afterContactWorkTimeLimit: \(Swift.String(describing: afterContactWorkTimeLimit)), autoAccept: \(Swift.String(describing: autoAccept)), persistentConnection: \(Swift.String(describing: persistentConnection)), phoneType: \(Swift.String(describing: phoneType)), deskPhoneNumber: \"CONTENT_REDACTED\")"}
+}
+
+extension ConnectClientTypes {
+
+    /// Configuration settings for phone type and phone number.
+    public struct PhoneNumberConfig: Swift.Sendable {
+        /// The channel for this phone number configuration. Only VOICE is supported for this data type.
+        /// This member is required.
+        public var channel: ConnectClientTypes.Channel?
+        /// The phone number for the user's desk phone.
+        public var phoneNumber: Swift.String?
+        /// The phone type. Valid values: SOFT_PHONE, DESK_PHONE.
+        /// This member is required.
+        public var phoneType: ConnectClientTypes.PhoneType?
+
+        public init(
+            channel: ConnectClientTypes.Channel? = nil,
+            phoneNumber: Swift.String? = nil,
+            phoneType: ConnectClientTypes.PhoneType? = nil
+        ) {
+            self.channel = channel
+            self.phoneNumber = phoneNumber
+            self.phoneType = phoneType
+        }
+    }
+}
+
+extension ConnectClientTypes.PhoneNumberConfig: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "PhoneNumberConfig(channel: \(Swift.String(describing: channel)), phoneType: \(Swift.String(describing: phoneType)), phoneNumber: \"CONTENT_REDACTED\")"}
+}
+
+extension ConnectClientTypes {
+
+    public enum VoiceEnhancementMode: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case noiseSuppression
+        case `none`
+        case voiceIsolation
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [VoiceEnhancementMode] {
+            return [
+                .noiseSuppression,
+                .none,
+                .voiceIsolation
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .noiseSuppression: return "NOISE_SUPPRESSION"
+            case .none: return "NONE"
+            case .voiceIsolation: return "VOICE_ISOLATION"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension ConnectClientTypes {
+
+    /// Configuration settings for voice enhancement.
+    public struct VoiceEnhancementConfig: Swift.Sendable {
+        /// The channel for this voice enhancement configuration. Only VOICE is supported for this data type.
+        /// This member is required.
+        public var channel: ConnectClientTypes.Channel?
+        /// The voice enhancement mode.
+        /// This member is required.
+        public var voiceEnhancementMode: ConnectClientTypes.VoiceEnhancementMode?
+
+        public init(
+            channel: ConnectClientTypes.Channel? = nil,
+            voiceEnhancementMode: ConnectClientTypes.VoiceEnhancementMode? = nil
+        ) {
+            self.channel = channel
+            self.voiceEnhancementMode = voiceEnhancementMode
+        }
+    }
+}
+
 public struct CreateUserInput: Swift.Sendable {
+    /// The list of after contact work (ACW) timeout configuration settings for each channel.
+    public var afterContactWorkConfigs: [ConnectClientTypes.AfterContactWorkConfigPerChannel]?
+    /// The list of auto-accept configuration settings for each channel.
+    public var autoAcceptConfigs: [ConnectClientTypes.AutoAcceptConfig]?
     /// The identifier of the user account in the directory used for identity management. If Amazon Connect cannot access the directory, you can specify this identifier to authenticate users. If you include the identifier, we assume that Amazon Connect cannot access the directory. Otherwise, the identity information is used to authenticate users from your directory. This parameter is required if you are using an existing directory for identity management in Amazon Connect when Amazon Connect cannot access your directory to authenticate users. If you are using SAML for identity management and include this parameter, an error is returned.
     public var directoryUserId: Swift.String?
     /// The identifier of the hierarchy group for the user.
@@ -9941,9 +10123,12 @@ public struct CreateUserInput: Swift.Sendable {
     public var instanceId: Swift.String?
     /// The password for the user account. A password is required if you are using Amazon Connect for identity management. Otherwise, it is an error to include a password.
     public var password: Swift.String?
-    /// The phone settings for the user.
-    /// This member is required.
+    /// The list of persistent connection configuration settings for each channel.
+    public var persistentConnectionConfigs: [ConnectClientTypes.PersistentConnectionConfig]?
+    /// The phone settings for the user. This parameter is optional. If not provided, the user can be configured using channel-specific parameters such as AutoAcceptConfigs, AfterContactWorkConfigs, PhoneNumberConfigs, PersistentConnectionConfigs, and VoiceEnhancementConfigs.
     public var phoneConfig: ConnectClientTypes.UserPhoneConfig?
+    /// The list of phone number configuration settings for each channel.
+    public var phoneNumberConfigs: [ConnectClientTypes.PhoneNumberConfig]?
     /// The identifier of the routing profile for the user.
     /// This member is required.
     public var routingProfileId: Swift.String?
@@ -9961,35 +10146,47 @@ public struct CreateUserInput: Swift.Sendable {
     /// * Incorrect: testuser@example
     /// This member is required.
     public var username: Swift.String?
+    /// The list of voice enhancement configuration settings for each channel.
+    public var voiceEnhancementConfigs: [ConnectClientTypes.VoiceEnhancementConfig]?
 
     public init(
+        afterContactWorkConfigs: [ConnectClientTypes.AfterContactWorkConfigPerChannel]? = nil,
+        autoAcceptConfigs: [ConnectClientTypes.AutoAcceptConfig]? = nil,
         directoryUserId: Swift.String? = nil,
         hierarchyGroupId: Swift.String? = nil,
         identityInfo: ConnectClientTypes.UserIdentityInfo? = nil,
         instanceId: Swift.String? = nil,
         password: Swift.String? = nil,
+        persistentConnectionConfigs: [ConnectClientTypes.PersistentConnectionConfig]? = nil,
         phoneConfig: ConnectClientTypes.UserPhoneConfig? = nil,
+        phoneNumberConfigs: [ConnectClientTypes.PhoneNumberConfig]? = nil,
         routingProfileId: Swift.String? = nil,
         securityProfileIds: [Swift.String]? = nil,
         tags: [Swift.String: Swift.String]? = nil,
-        username: Swift.String? = nil
+        username: Swift.String? = nil,
+        voiceEnhancementConfigs: [ConnectClientTypes.VoiceEnhancementConfig]? = nil
     ) {
+        self.afterContactWorkConfigs = afterContactWorkConfigs
+        self.autoAcceptConfigs = autoAcceptConfigs
         self.directoryUserId = directoryUserId
         self.hierarchyGroupId = hierarchyGroupId
         self.identityInfo = identityInfo
         self.instanceId = instanceId
         self.password = password
+        self.persistentConnectionConfigs = persistentConnectionConfigs
         self.phoneConfig = phoneConfig
+        self.phoneNumberConfigs = phoneNumberConfigs
         self.routingProfileId = routingProfileId
         self.securityProfileIds = securityProfileIds
         self.tags = tags
         self.username = username
+        self.voiceEnhancementConfigs = voiceEnhancementConfigs
     }
 }
 
 extension CreateUserInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateUserInput(directoryUserId: \(Swift.String(describing: directoryUserId)), hierarchyGroupId: \(Swift.String(describing: hierarchyGroupId)), identityInfo: \(Swift.String(describing: identityInfo)), instanceId: \(Swift.String(describing: instanceId)), phoneConfig: \(Swift.String(describing: phoneConfig)), routingProfileId: \(Swift.String(describing: routingProfileId)), securityProfileIds: \(Swift.String(describing: securityProfileIds)), tags: \(Swift.String(describing: tags)), username: \(Swift.String(describing: username)), password: \"CONTENT_REDACTED\")"}
+        "CreateUserInput(afterContactWorkConfigs: \(Swift.String(describing: afterContactWorkConfigs)), autoAcceptConfigs: \(Swift.String(describing: autoAcceptConfigs)), directoryUserId: \(Swift.String(describing: directoryUserId)), hierarchyGroupId: \(Swift.String(describing: hierarchyGroupId)), identityInfo: \(Swift.String(describing: identityInfo)), instanceId: \(Swift.String(describing: instanceId)), persistentConnectionConfigs: \(Swift.String(describing: persistentConnectionConfigs)), phoneConfig: \(Swift.String(describing: phoneConfig)), phoneNumberConfigs: \(Swift.String(describing: phoneNumberConfigs)), routingProfileId: \(Swift.String(describing: routingProfileId)), securityProfileIds: \(Swift.String(describing: securityProfileIds)), tags: \(Swift.String(describing: tags)), username: \(Swift.String(describing: username)), voiceEnhancementConfigs: \(Swift.String(describing: voiceEnhancementConfigs)), password: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateUserOutput: Swift.Sendable {
@@ -16457,8 +16654,12 @@ extension ConnectClientTypes {
 
     /// Contains information about a user account for an Amazon Connect instance.
     public struct User: Swift.Sendable {
+        /// The list of after contact work (ACW) timeout configuration settings for each channel.
+        public var afterContactWorkConfigs: [ConnectClientTypes.AfterContactWorkConfigPerChannel]?
         /// The Amazon Resource Name (ARN) of the user account.
         public var arn: Swift.String?
+        /// The list of auto-accept configuration settings for each channel.
+        public var autoAcceptConfigs: [ConnectClientTypes.AutoAcceptConfig]?
         /// The identifier of the user account in the directory used for identity management.
         public var directoryUserId: Swift.String?
         /// The identifier of the hierarchy group for the user.
@@ -16471,8 +16672,12 @@ extension ConnectClientTypes {
         public var lastModifiedRegion: Swift.String?
         /// The timestamp when this resource was last modified.
         public var lastModifiedTime: Foundation.Date?
+        /// The list of persistent connection configuration settings for each channel.
+        public var persistentConnectionConfigs: [ConnectClientTypes.PersistentConnectionConfig]?
         /// Information about the phone configuration for the user.
         public var phoneConfig: ConnectClientTypes.UserPhoneConfig?
+        /// The list of phone number configuration settings for each channel.
+        public var phoneNumberConfigs: [ConnectClientTypes.PhoneNumberConfig]?
         /// The identifier of the routing profile for the user.
         public var routingProfileId: Swift.String?
         /// The identifiers of the security profiles for the user.
@@ -16481,33 +16686,45 @@ extension ConnectClientTypes {
         public var tags: [Swift.String: Swift.String]?
         /// The user name assigned to the user account.
         public var username: Swift.String?
+        /// The list of voice enhancement configuration settings for each channel.
+        public var voiceEnhancementConfigs: [ConnectClientTypes.VoiceEnhancementConfig]?
 
         public init(
+            afterContactWorkConfigs: [ConnectClientTypes.AfterContactWorkConfigPerChannel]? = nil,
             arn: Swift.String? = nil,
+            autoAcceptConfigs: [ConnectClientTypes.AutoAcceptConfig]? = nil,
             directoryUserId: Swift.String? = nil,
             hierarchyGroupId: Swift.String? = nil,
             id: Swift.String? = nil,
             identityInfo: ConnectClientTypes.UserIdentityInfo? = nil,
             lastModifiedRegion: Swift.String? = nil,
             lastModifiedTime: Foundation.Date? = nil,
+            persistentConnectionConfigs: [ConnectClientTypes.PersistentConnectionConfig]? = nil,
             phoneConfig: ConnectClientTypes.UserPhoneConfig? = nil,
+            phoneNumberConfigs: [ConnectClientTypes.PhoneNumberConfig]? = nil,
             routingProfileId: Swift.String? = nil,
             securityProfileIds: [Swift.String]? = nil,
             tags: [Swift.String: Swift.String]? = nil,
-            username: Swift.String? = nil
+            username: Swift.String? = nil,
+            voiceEnhancementConfigs: [ConnectClientTypes.VoiceEnhancementConfig]? = nil
         ) {
+            self.afterContactWorkConfigs = afterContactWorkConfigs
             self.arn = arn
+            self.autoAcceptConfigs = autoAcceptConfigs
             self.directoryUserId = directoryUserId
             self.hierarchyGroupId = hierarchyGroupId
             self.id = id
             self.identityInfo = identityInfo
             self.lastModifiedRegion = lastModifiedRegion
             self.lastModifiedTime = lastModifiedTime
+            self.persistentConnectionConfigs = persistentConnectionConfigs
             self.phoneConfig = phoneConfig
+            self.phoneNumberConfigs = phoneNumberConfigs
             self.routingProfileId = routingProfileId
             self.securityProfileIds = securityProfileIds
             self.tags = tags
             self.username = username
+            self.voiceEnhancementConfigs = voiceEnhancementConfigs
         }
     }
 }
@@ -27673,8 +27890,12 @@ extension ConnectClientTypes {
 
     /// Information about the returned users.
     public struct UserSearchSummary: Swift.Sendable {
+        /// The list of after contact work (ACW) timeout configuration settings for each channel.
+        public var afterContactWorkConfigs: [ConnectClientTypes.AfterContactWorkConfigPerChannel]?
         /// The Amazon Resource Name (ARN) of the user.
         public var arn: Swift.String?
+        /// The list of auto-accept configuration settings for each channel.
+        public var autoAcceptConfigs: [ConnectClientTypes.AutoAcceptConfig]?
         /// The directory identifier of the user.
         public var directoryUserId: Swift.String?
         /// The identifier of the user's hierarchy group.
@@ -27683,8 +27904,12 @@ extension ConnectClientTypes {
         public var id: Swift.String?
         /// The user's first name and last name.
         public var identityInfo: ConnectClientTypes.UserIdentityInfoLite?
+        /// The list of persistent connection configuration settings for each channel.
+        public var persistentConnectionConfigs: [ConnectClientTypes.PersistentConnectionConfig]?
         /// Contains information about the phone configuration settings for a user.
         public var phoneConfig: ConnectClientTypes.UserPhoneConfig?
+        /// The list of phone number configuration settings for each channel.
+        public var phoneNumberConfigs: [ConnectClientTypes.PhoneNumberConfig]?
         /// The identifier of the user's routing profile.
         public var routingProfileId: Swift.String?
         /// The identifiers of the user's security profiles.
@@ -27693,29 +27918,41 @@ extension ConnectClientTypes {
         public var tags: [Swift.String: Swift.String]?
         /// The name of the user.
         public var username: Swift.String?
+        /// The list of voice enhancement configuration settings for each channel.
+        public var voiceEnhancementConfigs: [ConnectClientTypes.VoiceEnhancementConfig]?
 
         public init(
+            afterContactWorkConfigs: [ConnectClientTypes.AfterContactWorkConfigPerChannel]? = nil,
             arn: Swift.String? = nil,
+            autoAcceptConfigs: [ConnectClientTypes.AutoAcceptConfig]? = nil,
             directoryUserId: Swift.String? = nil,
             hierarchyGroupId: Swift.String? = nil,
             id: Swift.String? = nil,
             identityInfo: ConnectClientTypes.UserIdentityInfoLite? = nil,
+            persistentConnectionConfigs: [ConnectClientTypes.PersistentConnectionConfig]? = nil,
             phoneConfig: ConnectClientTypes.UserPhoneConfig? = nil,
+            phoneNumberConfigs: [ConnectClientTypes.PhoneNumberConfig]? = nil,
             routingProfileId: Swift.String? = nil,
             securityProfileIds: [Swift.String]? = nil,
             tags: [Swift.String: Swift.String]? = nil,
-            username: Swift.String? = nil
+            username: Swift.String? = nil,
+            voiceEnhancementConfigs: [ConnectClientTypes.VoiceEnhancementConfig]? = nil
         ) {
+            self.afterContactWorkConfigs = afterContactWorkConfigs
             self.arn = arn
+            self.autoAcceptConfigs = autoAcceptConfigs
             self.directoryUserId = directoryUserId
             self.hierarchyGroupId = hierarchyGroupId
             self.id = id
             self.identityInfo = identityInfo
+            self.persistentConnectionConfigs = persistentConnectionConfigs
             self.phoneConfig = phoneConfig
+            self.phoneNumberConfigs = phoneNumberConfigs
             self.routingProfileId = routingProfileId
             self.securityProfileIds = securityProfileIds
             self.tags = tags
             self.username = username
+            self.voiceEnhancementConfigs = voiceEnhancementConfigs
         }
     }
 }
@@ -31821,6 +32058,43 @@ public struct UpdateTrafficDistributionInput: Swift.Sendable {
 public struct UpdateTrafficDistributionOutput: Swift.Sendable {
 
     public init() { }
+}
+
+public struct UpdateUserConfigInput: Swift.Sendable {
+    /// The list of after contact work (ACW) timeout configuration settings for each channel. ACW timeout specifies how many seconds agents have for after contact work, such as entering notes about the contact. The minimum setting is 1 second, and the maximum is 2,000,000 seconds (24 days). Enter 0 for an indefinite amount of time, meaning agents must manually choose to end ACW.
+    public var afterContactWorkConfigs: [ConnectClientTypes.AfterContactWorkConfigPerChannel]?
+    /// The list of auto-accept configuration settings for each channel. When auto-accept is enabled for a channel, available agents are automatically connected to contacts from that channel without needing to manually accept. Auto-accept connects agents to contacts in less than one second.
+    public var autoAcceptConfigs: [ConnectClientTypes.AutoAcceptConfig]?
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The list of persistent connection configuration settings for each channel.
+    public var persistentConnectionConfigs: [ConnectClientTypes.PersistentConnectionConfig]?
+    /// The list of phone number configuration settings for each channel.
+    public var phoneNumberConfigs: [ConnectClientTypes.PhoneNumberConfig]?
+    /// The identifier of the user account.
+    /// This member is required.
+    public var userId: Swift.String?
+    /// The list of voice enhancement configuration settings for each channel.
+    public var voiceEnhancementConfigs: [ConnectClientTypes.VoiceEnhancementConfig]?
+
+    public init(
+        afterContactWorkConfigs: [ConnectClientTypes.AfterContactWorkConfigPerChannel]? = nil,
+        autoAcceptConfigs: [ConnectClientTypes.AutoAcceptConfig]? = nil,
+        instanceId: Swift.String? = nil,
+        persistentConnectionConfigs: [ConnectClientTypes.PersistentConnectionConfig]? = nil,
+        phoneNumberConfigs: [ConnectClientTypes.PhoneNumberConfig]? = nil,
+        userId: Swift.String? = nil,
+        voiceEnhancementConfigs: [ConnectClientTypes.VoiceEnhancementConfig]? = nil
+    ) {
+        self.afterContactWorkConfigs = afterContactWorkConfigs
+        self.autoAcceptConfigs = autoAcceptConfigs
+        self.instanceId = instanceId
+        self.persistentConnectionConfigs = persistentConnectionConfigs
+        self.phoneNumberConfigs = phoneNumberConfigs
+        self.userId = userId
+        self.voiceEnhancementConfigs = voiceEnhancementConfigs
+    }
 }
 
 public struct UpdateUserHierarchyInput: Swift.Sendable {
@@ -40080,6 +40354,19 @@ extension UpdateTrafficDistributionInput {
     }
 }
 
+extension UpdateUserConfigInput {
+
+    static func urlPathProvider(_ value: UpdateUserConfigInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        guard let userId = value.userId else {
+            return nil
+        }
+        return "/users/\(instanceId.urlPercentEncoding())/\(userId.urlPercentEncoding())/config"
+    }
+}
+
 extension UpdateUserHierarchyInput {
 
     static func urlPathProvider(_ value: UpdateUserHierarchyInput) -> Swift.String? {
@@ -40910,15 +41197,20 @@ extension CreateUserInput {
 
     static func write(value: CreateUserInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["AfterContactWorkConfigs"].writeList(value.afterContactWorkConfigs, memberWritingClosure: ConnectClientTypes.AfterContactWorkConfigPerChannel.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["AutoAcceptConfigs"].writeList(value.autoAcceptConfigs, memberWritingClosure: ConnectClientTypes.AutoAcceptConfig.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["DirectoryUserId"].write(value.directoryUserId)
         try writer["HierarchyGroupId"].write(value.hierarchyGroupId)
         try writer["IdentityInfo"].write(value.identityInfo, with: ConnectClientTypes.UserIdentityInfo.write(value:to:))
         try writer["Password"].write(value.password)
+        try writer["PersistentConnectionConfigs"].writeList(value.persistentConnectionConfigs, memberWritingClosure: ConnectClientTypes.PersistentConnectionConfig.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["PhoneConfig"].write(value.phoneConfig, with: ConnectClientTypes.UserPhoneConfig.write(value:to:))
+        try writer["PhoneNumberConfigs"].writeList(value.phoneNumberConfigs, memberWritingClosure: ConnectClientTypes.PhoneNumberConfig.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["RoutingProfileId"].write(value.routingProfileId)
         try writer["SecurityProfileIds"].writeList(value.securityProfileIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["Username"].write(value.username)
+        try writer["VoiceEnhancementConfigs"].writeList(value.voiceEnhancementConfigs, memberWritingClosure: ConnectClientTypes.VoiceEnhancementConfig.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -42421,6 +42713,18 @@ extension UpdateTrafficDistributionInput {
         try writer["AgentConfig"].write(value.agentConfig, with: ConnectClientTypes.AgentConfig.write(value:to:))
         try writer["SignInConfig"].write(value.signInConfig, with: ConnectClientTypes.SignInConfig.write(value:to:))
         try writer["TelephonyConfig"].write(value.telephonyConfig, with: ConnectClientTypes.TelephonyConfig.write(value:to:))
+    }
+}
+
+extension UpdateUserConfigInput {
+
+    static func write(value: UpdateUserConfigInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AfterContactWorkConfigs"].writeList(value.afterContactWorkConfigs, memberWritingClosure: ConnectClientTypes.AfterContactWorkConfigPerChannel.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["AutoAcceptConfigs"].writeList(value.autoAcceptConfigs, memberWritingClosure: ConnectClientTypes.AutoAcceptConfig.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["PersistentConnectionConfigs"].writeList(value.persistentConnectionConfigs, memberWritingClosure: ConnectClientTypes.PersistentConnectionConfig.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["PhoneNumberConfigs"].writeList(value.phoneNumberConfigs, memberWritingClosure: ConnectClientTypes.PhoneNumberConfig.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["VoiceEnhancementConfigs"].writeList(value.voiceEnhancementConfigs, memberWritingClosure: ConnectClientTypes.VoiceEnhancementConfig.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -46288,6 +46592,13 @@ extension UpdateTrafficDistributionOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateTrafficDistributionOutput {
         return UpdateTrafficDistributionOutput()
+    }
+}
+
+extension UpdateUserConfigOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateUserConfigOutput {
+        return UpdateUserConfigOutput()
     }
 }
 
@@ -52789,6 +53100,25 @@ enum UpdateTrafficDistributionOutputError {
     }
 }
 
+enum UpdateUserConfigOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "ConditionalOperationFailedException": return try ConditionalOperationFailedException.makeError(baseError: baseError)
+            case "InternalServiceException": return try InternalServiceException.makeError(baseError: baseError)
+            case "InvalidParameterException": return try InvalidParameterException.makeError(baseError: baseError)
+            case "InvalidRequestException": return try InvalidRequestException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum UpdateUserHierarchyOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -56853,8 +57183,119 @@ extension ConnectClientTypes.User {
         value.routingProfileId = try reader["RoutingProfileId"].readIfPresent()
         value.hierarchyGroupId = try reader["HierarchyGroupId"].readIfPresent()
         value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.autoAcceptConfigs = try reader["AutoAcceptConfigs"].readListIfPresent(memberReadingClosure: ConnectClientTypes.AutoAcceptConfig.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.afterContactWorkConfigs = try reader["AfterContactWorkConfigs"].readListIfPresent(memberReadingClosure: ConnectClientTypes.AfterContactWorkConfigPerChannel.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.phoneNumberConfigs = try reader["PhoneNumberConfigs"].readListIfPresent(memberReadingClosure: ConnectClientTypes.PhoneNumberConfig.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.persistentConnectionConfigs = try reader["PersistentConnectionConfigs"].readListIfPresent(memberReadingClosure: ConnectClientTypes.PersistentConnectionConfig.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.voiceEnhancementConfigs = try reader["VoiceEnhancementConfigs"].readListIfPresent(memberReadingClosure: ConnectClientTypes.VoiceEnhancementConfig.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.lastModifiedRegion = try reader["LastModifiedRegion"].readIfPresent()
+        return value
+    }
+}
+
+extension ConnectClientTypes.VoiceEnhancementConfig {
+
+    static func write(value: ConnectClientTypes.VoiceEnhancementConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Channel"].write(value.channel)
+        try writer["VoiceEnhancementMode"].write(value.voiceEnhancementMode)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.VoiceEnhancementConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.VoiceEnhancementConfig()
+        value.channel = try reader["Channel"].readIfPresent() ?? .sdkUnknown("")
+        value.voiceEnhancementMode = try reader["VoiceEnhancementMode"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension ConnectClientTypes.PersistentConnectionConfig {
+
+    static func write(value: ConnectClientTypes.PersistentConnectionConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Channel"].write(value.channel)
+        try writer["PersistentConnection"].write(value.persistentConnection)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.PersistentConnectionConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.PersistentConnectionConfig()
+        value.channel = try reader["Channel"].readIfPresent() ?? .sdkUnknown("")
+        value.persistentConnection = try reader["PersistentConnection"].readIfPresent()
+        return value
+    }
+}
+
+extension ConnectClientTypes.PhoneNumberConfig {
+
+    static func write(value: ConnectClientTypes.PhoneNumberConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Channel"].write(value.channel)
+        try writer["PhoneNumber"].write(value.phoneNumber)
+        try writer["PhoneType"].write(value.phoneType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.PhoneNumberConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.PhoneNumberConfig()
+        value.channel = try reader["Channel"].readIfPresent() ?? .sdkUnknown("")
+        value.phoneType = try reader["PhoneType"].readIfPresent() ?? .sdkUnknown("")
+        value.phoneNumber = try reader["PhoneNumber"].readIfPresent()
+        return value
+    }
+}
+
+extension ConnectClientTypes.AfterContactWorkConfigPerChannel {
+
+    static func write(value: ConnectClientTypes.AfterContactWorkConfigPerChannel?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AfterContactWorkConfig"].write(value.afterContactWorkConfig, with: ConnectClientTypes.AfterContactWorkConfig.write(value:to:))
+        try writer["AgentFirstCallbackAfterContactWorkConfig"].write(value.agentFirstCallbackAfterContactWorkConfig, with: ConnectClientTypes.AfterContactWorkConfig.write(value:to:))
+        try writer["Channel"].write(value.channel)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.AfterContactWorkConfigPerChannel {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.AfterContactWorkConfigPerChannel()
+        value.channel = try reader["Channel"].readIfPresent() ?? .sdkUnknown("")
+        value.afterContactWorkConfig = try reader["AfterContactWorkConfig"].readIfPresent(with: ConnectClientTypes.AfterContactWorkConfig.read(from:))
+        value.agentFirstCallbackAfterContactWorkConfig = try reader["AgentFirstCallbackAfterContactWorkConfig"].readIfPresent(with: ConnectClientTypes.AfterContactWorkConfig.read(from:))
+        return value
+    }
+}
+
+extension ConnectClientTypes.AfterContactWorkConfig {
+
+    static func write(value: ConnectClientTypes.AfterContactWorkConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AfterContactWorkTimeLimit"].write(value.afterContactWorkTimeLimit)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.AfterContactWorkConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.AfterContactWorkConfig()
+        value.afterContactWorkTimeLimit = try reader["AfterContactWorkTimeLimit"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension ConnectClientTypes.AutoAcceptConfig {
+
+    static func write(value: ConnectClientTypes.AutoAcceptConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AgentFirstCallbackAutoAccept"].write(value.agentFirstCallbackAutoAccept)
+        try writer["AutoAccept"].write(value.autoAccept)
+        try writer["Channel"].write(value.channel)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.AutoAcceptConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectClientTypes.AutoAcceptConfig()
+        value.channel = try reader["Channel"].readIfPresent() ?? .sdkUnknown("")
+        value.autoAccept = try reader["AutoAccept"].readIfPresent() ?? false
+        value.agentFirstCallbackAutoAccept = try reader["AgentFirstCallbackAutoAccept"].readIfPresent()
         return value
     }
 }
@@ -56873,7 +57314,7 @@ extension ConnectClientTypes.UserPhoneConfig {
     static func read(from reader: SmithyJSON.Reader) throws -> ConnectClientTypes.UserPhoneConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ConnectClientTypes.UserPhoneConfig()
-        value.phoneType = try reader["PhoneType"].readIfPresent() ?? .sdkUnknown("")
+        value.phoneType = try reader["PhoneType"].readIfPresent() ?? ConnectClientTypes.PhoneType.softPhone
         value.autoAccept = try reader["AutoAccept"].readIfPresent() ?? false
         value.afterContactWorkTimeLimit = try reader["AfterContactWorkTimeLimit"].readIfPresent() ?? 0
         value.deskPhoneNumber = try reader["DeskPhoneNumber"].readIfPresent()
@@ -59170,6 +59611,11 @@ extension ConnectClientTypes.UserSearchSummary {
         value.securityProfileIds = try reader["SecurityProfileIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.username = try reader["Username"].readIfPresent()
+        value.autoAcceptConfigs = try reader["AutoAcceptConfigs"].readListIfPresent(memberReadingClosure: ConnectClientTypes.AutoAcceptConfig.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.afterContactWorkConfigs = try reader["AfterContactWorkConfigs"].readListIfPresent(memberReadingClosure: ConnectClientTypes.AfterContactWorkConfigPerChannel.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.phoneNumberConfigs = try reader["PhoneNumberConfigs"].readListIfPresent(memberReadingClosure: ConnectClientTypes.PhoneNumberConfig.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.persistentConnectionConfigs = try reader["PersistentConnectionConfigs"].readListIfPresent(memberReadingClosure: ConnectClientTypes.PersistentConnectionConfig.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.voiceEnhancementConfigs = try reader["VoiceEnhancementConfigs"].readListIfPresent(memberReadingClosure: ConnectClientTypes.VoiceEnhancementConfig.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }

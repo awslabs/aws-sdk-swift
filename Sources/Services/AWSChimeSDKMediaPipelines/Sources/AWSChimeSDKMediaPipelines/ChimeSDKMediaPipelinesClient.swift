@@ -72,11 +72,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class ChimeSDKMediaPipelinesClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "ChimeSDKMediaPipelinesClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: ChimeSDKMediaPipelinesClient.ChimeSDKMediaPipelinesClientConfig
+    public let config: ChimeSDKMediaPipelinesClient.ChimeSDKMediaPipelinesClientConfig
     let serviceName = "Chime SDK Media Pipelines"
 
     @available(*, deprecated, message: "Use ChimeSDKMediaPipelinesClient.ChimeSDKMediaPipelinesClientConfig instead")
     public typealias Config = ChimeSDKMediaPipelinesClient.ChimeSDKMediaPipelinesClientConfiguration
+    public typealias Configuration = ChimeSDKMediaPipelinesClient.ChimeSDKMediaPipelinesClientConfig
 
     public required init(config: ChimeSDKMediaPipelinesClient.ChimeSDKMediaPipelinesClientConfig) {
         ClientRuntime.initialize()

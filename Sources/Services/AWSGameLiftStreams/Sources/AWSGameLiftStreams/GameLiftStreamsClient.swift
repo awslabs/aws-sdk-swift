@@ -73,11 +73,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class GameLiftStreamsClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "GameLiftStreamsClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: GameLiftStreamsClient.GameLiftStreamsClientConfig
+    public let config: GameLiftStreamsClient.GameLiftStreamsClientConfig
     let serviceName = "GameLiftStreams"
 
     @available(*, deprecated, message: "Use GameLiftStreamsClient.GameLiftStreamsClientConfig instead")
     public typealias Config = GameLiftStreamsClient.GameLiftStreamsClientConfiguration
+    public typealias Configuration = GameLiftStreamsClient.GameLiftStreamsClientConfig
 
     public required init(config: GameLiftStreamsClient.GameLiftStreamsClientConfig) {
         ClientRuntime.initialize()

@@ -78,11 +78,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class BedrockAgentCoreClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "BedrockAgentCoreClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: BedrockAgentCoreClient.BedrockAgentCoreClientConfig
+    public let config: BedrockAgentCoreClient.BedrockAgentCoreClientConfig
     let serviceName = "Bedrock AgentCore"
 
     @available(*, deprecated, message: "Use BedrockAgentCoreClient.BedrockAgentCoreClientConfig instead")
     public typealias Config = BedrockAgentCoreClient.BedrockAgentCoreClientConfiguration
+    public typealias Configuration = BedrockAgentCoreClient.BedrockAgentCoreClientConfig
 
     public required init(config: BedrockAgentCoreClient.BedrockAgentCoreClientConfig) {
         ClientRuntime.initialize()

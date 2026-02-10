@@ -71,11 +71,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class CloudTrailDataClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "CloudTrailDataClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: CloudTrailDataClient.CloudTrailDataClientConfig
+    public let config: CloudTrailDataClient.CloudTrailDataClientConfig
     let serviceName = "CloudTrail Data"
 
     @available(*, deprecated, message: "Use CloudTrailDataClient.CloudTrailDataClientConfig instead")
     public typealias Config = CloudTrailDataClient.CloudTrailDataClientConfiguration
+    public typealias Configuration = CloudTrailDataClient.CloudTrailDataClientConfig
 
     public required init(config: CloudTrailDataClient.CloudTrailDataClientConfig) {
         ClientRuntime.initialize()

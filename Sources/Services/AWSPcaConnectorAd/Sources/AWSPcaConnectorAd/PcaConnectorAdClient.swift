@@ -72,11 +72,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class PcaConnectorAdClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "PcaConnectorAdClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: PcaConnectorAdClient.PcaConnectorAdClientConfig
+    public let config: PcaConnectorAdClient.PcaConnectorAdClientConfig
     let serviceName = "Pca Connector Ad"
 
     @available(*, deprecated, message: "Use PcaConnectorAdClient.PcaConnectorAdClientConfig instead")
     public typealias Config = PcaConnectorAdClient.PcaConnectorAdClientConfiguration
+    public typealias Configuration = PcaConnectorAdClient.PcaConnectorAdClientConfig
 
     public required init(config: PcaConnectorAdClient.PcaConnectorAdClientConfig) {
         ClientRuntime.initialize()

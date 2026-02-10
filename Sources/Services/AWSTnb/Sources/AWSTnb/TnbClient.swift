@@ -76,11 +76,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class TnbClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "TnbClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: TnbClient.TnbClientConfig
+    public let config: TnbClient.TnbClientConfig
     let serviceName = "tnb"
 
     @available(*, deprecated, message: "Use TnbClient.TnbClientConfig instead")
     public typealias Config = TnbClient.TnbClientConfiguration
+    public typealias Configuration = TnbClient.TnbClientConfig
 
     public required init(config: TnbClient.TnbClientConfig) {
         ClientRuntime.initialize()

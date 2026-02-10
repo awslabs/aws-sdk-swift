@@ -71,11 +71,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class CostandUsageReportClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "CostandUsageReportClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: CostandUsageReportClient.CostandUsageReportClientConfig
+    public let config: CostandUsageReportClient.CostandUsageReportClientConfig
     let serviceName = "Cost and Usage Report"
 
     @available(*, deprecated, message: "Use CostandUsageReportClient.CostandUsageReportClientConfig instead")
     public typealias Config = CostandUsageReportClient.CostandUsageReportClientConfiguration
+    public typealias Configuration = CostandUsageReportClient.CostandUsageReportClientConfig
 
     public required init(config: CostandUsageReportClient.CostandUsageReportClientConfig) {
         ClientRuntime.initialize()

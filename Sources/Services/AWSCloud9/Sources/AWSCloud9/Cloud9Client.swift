@@ -71,11 +71,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class Cloud9Client: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "Cloud9Client"
     let client: ClientRuntime.SdkHttpClient
-    let config: Cloud9Client.Cloud9ClientConfig
+    public let config: Cloud9Client.Cloud9ClientConfig
     let serviceName = "Cloud9"
 
     @available(*, deprecated, message: "Use Cloud9Client.Cloud9ClientConfig instead")
     public typealias Config = Cloud9Client.Cloud9ClientConfiguration
+    public typealias Configuration = Cloud9Client.Cloud9ClientConfig
 
     public required init(config: Cloud9Client.Cloud9ClientConfig) {
         ClientRuntime.initialize()

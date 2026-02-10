@@ -72,11 +72,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class IVSRealTimeClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "IVSRealTimeClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: IVSRealTimeClient.IVSRealTimeClientConfig
+    public let config: IVSRealTimeClient.IVSRealTimeClientConfig
     let serviceName = "IVS RealTime"
 
     @available(*, deprecated, message: "Use IVSRealTimeClient.IVSRealTimeClientConfig instead")
     public typealias Config = IVSRealTimeClient.IVSRealTimeClientConfiguration
+    public typealias Configuration = IVSRealTimeClient.IVSRealTimeClientConfig
 
     public required init(config: IVSRealTimeClient.IVSRealTimeClientConfig) {
         ClientRuntime.initialize()

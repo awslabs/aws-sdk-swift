@@ -72,11 +72,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class FMSClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "FMSClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: FMSClient.FMSClientConfig
+    public let config: FMSClient.FMSClientConfig
     let serviceName = "FMS"
 
     @available(*, deprecated, message: "Use FMSClient.FMSClientConfig instead")
     public typealias Config = FMSClient.FMSClientConfiguration
+    public typealias Configuration = FMSClient.FMSClientConfig
 
     public required init(config: FMSClient.FMSClientConfig) {
         ClientRuntime.initialize()

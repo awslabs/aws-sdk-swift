@@ -72,11 +72,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class KafkaClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "KafkaClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: KafkaClient.KafkaClientConfig
+    public let config: KafkaClient.KafkaClientConfig
     let serviceName = "Kafka"
 
     @available(*, deprecated, message: "Use KafkaClient.KafkaClientConfig instead")
     public typealias Config = KafkaClient.KafkaClientConfiguration
+    public typealias Configuration = KafkaClient.KafkaClientConfig
 
     public required init(config: KafkaClient.KafkaClientConfig) {
         ClientRuntime.initialize()
@@ -1056,6 +1057,89 @@ extension KafkaClient {
         return try await op.execute(input: input)
     }
 
+    /// Performs the `CreateTopic` operation on the `Kafka` service.
+    ///
+    /// Creates a topic in the specified MSK cluster.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `CreateTopicInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `CreateTopicOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Returns information about an error.
+    /// - `ClusterConnectivityException` : Returns information about an error.
+    /// - `ConflictException` : Returns information about an error.
+    /// - `ControllerMovedException` : Returns information about an error.
+    /// - `ForbiddenException` : Returns information about an error.
+    /// - `GroupSubscribedToTopicException` : Returns information about an error.
+    /// - `InternalServerErrorException` : Returns information about an error.
+    /// - `KafkaRequestException` : Returns information about an error.
+    /// - `KafkaTimeoutException` : Returns information about an error.
+    /// - `NotControllerException` : Returns information about an error.
+    /// - `ReassignmentInProgressException` : Returns information about an error.
+    /// - `ServiceUnavailableException` : Returns information about an error.
+    /// - `TooManyRequestsException` : Returns information about an error.
+    /// - `TopicExistsException` : Returns information about an error.
+    /// - `UnauthorizedException` : Returns information about an error.
+    /// - `UnknownTopicOrPartitionException` : Returns information about an error.
+    public func createTopic(input: CreateTopicInput) async throws -> CreateTopicOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createTopic")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "kafka")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<CreateTopicInput, CreateTopicOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<CreateTopicInput, CreateTopicOutput>(CreateTopicInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<CreateTopicInput, CreateTopicOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<CreateTopicInput, CreateTopicOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<CreateTopicInput, CreateTopicOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: CreateTopicInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<CreateTopicInput, CreateTopicOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<CreateTopicOutput>(CreateTopicOutput.httpOutput(from:), CreateTopicOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<CreateTopicInput, CreateTopicOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<CreateTopicOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Kafka", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<CreateTopicOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<CreateTopicOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<CreateTopicInput, CreateTopicOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<CreateTopicInput, CreateTopicOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<CreateTopicInput, CreateTopicOutput>(serviceID: serviceName, version: KafkaClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kafka")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "CreateTopic")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
     /// Performs the `CreateVpcConnection` operation on the `Kafka` service.
     ///
     /// Creates a new MSK VPC connection.
@@ -1394,6 +1478,82 @@ extension KafkaClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kafka")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteReplicator")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `DeleteTopic` operation on the `Kafka` service.
+    ///
+    /// Deletes a topic in the specified MSK cluster.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `DeleteTopicInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `DeleteTopicOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Returns information about an error.
+    /// - `ClusterConnectivityException` : Returns information about an error.
+    /// - `ControllerMovedException` : Returns information about an error.
+    /// - `ForbiddenException` : Returns information about an error.
+    /// - `GroupSubscribedToTopicException` : Returns information about an error.
+    /// - `InternalServerErrorException` : Returns information about an error.
+    /// - `KafkaRequestException` : Returns information about an error.
+    /// - `KafkaTimeoutException` : Returns information about an error.
+    /// - `NotControllerException` : Returns information about an error.
+    /// - `NotFoundException` : Returns information about an error.
+    /// - `ReassignmentInProgressException` : Returns information about an error.
+    /// - `UnknownTopicOrPartitionException` : Returns information about an error.
+    public func deleteTopic(input: DeleteTopicInput) async throws -> DeleteTopicOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .delete)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteTopic")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "kafka")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<DeleteTopicInput, DeleteTopicOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<DeleteTopicInput, DeleteTopicOutput>(DeleteTopicInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<DeleteTopicInput, DeleteTopicOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<DeleteTopicOutput>(DeleteTopicOutput.httpOutput(from:), DeleteTopicOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<DeleteTopicInput, DeleteTopicOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<DeleteTopicOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Kafka", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<DeleteTopicOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<DeleteTopicOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<DeleteTopicInput, DeleteTopicOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<DeleteTopicInput, DeleteTopicOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<DeleteTopicInput, DeleteTopicOutput>(serviceID: serviceName, version: KafkaClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kafka")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "DeleteTopic")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,
@@ -4581,6 +4741,87 @@ extension KafkaClient {
         var metricsAttributes = Smithy.Attributes()
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kafka")
         metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateStorage")
+        let op = builder.attributes(context)
+            .telemetry(ClientRuntime.OrchestratorTelemetry(
+                telemetryProvider: config.telemetryProvider,
+                metricsAttributes: metricsAttributes,
+                meterScope: serviceName,
+                tracerScope: serviceName
+            ))
+            .executeRequest(client)
+            .build()
+        return try await op.execute(input: input)
+    }
+
+    /// Performs the `UpdateTopic` operation on the `Kafka` service.
+    ///
+    /// Updates the configuration of the specified topic.
+    ///
+    /// - Parameter input: [no documentation found] (Type: `UpdateTopicInput`)
+    ///
+    /// - Returns: [no documentation found] (Type: `UpdateTopicOutput`)
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Returns information about an error.
+    /// - `ClusterConnectivityException` : Returns information about an error.
+    /// - `ControllerMovedException` : Returns information about an error.
+    /// - `ForbiddenException` : Returns information about an error.
+    /// - `GroupSubscribedToTopicException` : Returns information about an error.
+    /// - `InternalServerErrorException` : Returns information about an error.
+    /// - `KafkaRequestException` : Returns information about an error.
+    /// - `KafkaTimeoutException` : Returns information about an error.
+    /// - `NotControllerException` : Returns information about an error.
+    /// - `NotFoundException` : Returns information about an error.
+    /// - `ReassignmentInProgressException` : Returns information about an error.
+    /// - `ServiceUnavailableException` : Returns information about an error.
+    /// - `UnauthorizedException` : Returns information about an error.
+    /// - `UnknownTopicOrPartitionException` : Returns information about an error.
+    public func updateTopic(input: UpdateTopicInput) async throws -> UpdateTopicOutput {
+        let context = Smithy.ContextBuilder()
+                      .withMethod(value: .put)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateTopic")
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSmithyDefaultConfig(config)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
+                      .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withSigningName(value: "kafka")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        let builder = ClientRuntime.OrchestratorBuilder<UpdateTopicInput, UpdateTopicOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        config.interceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        config.httpInterceptorProviders.forEach { provider in
+            builder.interceptors.add(provider.create())
+        }
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<UpdateTopicInput, UpdateTopicOutput>(UpdateTopicInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<UpdateTopicInput, UpdateTopicOutput>())
+        builder.interceptors.add(ClientRuntime.ContentTypeMiddleware<UpdateTopicInput, UpdateTopicOutput>(contentType: "application/json"))
+        builder.serialize(ClientRuntime.BodyMiddleware<UpdateTopicInput, UpdateTopicOutput, SmithyJSON.Writer>(rootNodeInfo: "", inputWritingClosure: UpdateTopicInput.write(value:to:)))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<UpdateTopicInput, UpdateTopicOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<UpdateTopicOutput>(UpdateTopicOutput.httpOutput(from:), UpdateTopicOutputError.httpError(from:)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<UpdateTopicInput, UpdateTopicOutput>(clientLogMode: config.clientLogMode))
+        builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
+        builder.retryStrategy(SmithyRetries.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<UpdateTopicOutput>())
+        let configuredEndpoint = try config.endpoint ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.configuredEndpoint("Kafka", config.ignoreConfiguredEndpointURLs)
+        let endpointParamsBlock = { [config] (context: Smithy.Context) in
+            EndpointParams(endpoint: configuredEndpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        }
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<UpdateTopicOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<UpdateTopicOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkInvocationIdMiddleware<UpdateTopicInput, UpdateTopicOutput>())
+        builder.interceptors.add(AWSClientRuntime.AmzSdkRequestMiddleware<UpdateTopicInput, UpdateTopicOutput>(maxRetries: config.retryStrategyOptions.maxRetriesBase))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<UpdateTopicInput, UpdateTopicOutput>(serviceID: serviceName, version: KafkaClient.version, config: config))
+        var metricsAttributes = Smithy.Attributes()
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.service, value: "Kafka")
+        metricsAttributes.set(key: ClientRuntime.OrchestratorMetricsAttributesKeys.method, value: "UpdateTopic")
         let op = builder.attributes(context)
             .telemetry(ClientRuntime.OrchestratorTelemetry(
                 telemetryProvider: config.telemetryProvider,

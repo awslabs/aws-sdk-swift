@@ -71,11 +71,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class CodeConnectionsClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "CodeConnectionsClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: CodeConnectionsClient.CodeConnectionsClientConfig
+    public let config: CodeConnectionsClient.CodeConnectionsClientConfig
     let serviceName = "CodeConnections"
 
     @available(*, deprecated, message: "Use CodeConnectionsClient.CodeConnectionsClientConfig instead")
     public typealias Config = CodeConnectionsClient.CodeConnectionsClientConfiguration
+    public typealias Configuration = CodeConnectionsClient.CodeConnectionsClientConfig
 
     public required init(config: CodeConnectionsClient.CodeConnectionsClientConfig) {
         ClientRuntime.initialize()

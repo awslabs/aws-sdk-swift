@@ -29,11 +29,11 @@ public class PartnerCentralChannelClientEndpointPlugin: Plugin {
         self.init(endpointResolver: try DefaultEndpointResolver())
     }
 
-    public func configureClient(clientConfiguration: inout ClientRuntime.ClientConfiguration) async throws {
-        if var config = clientConfiguration as? PartnerCentralChannelClient.PartnerCentralChannelClientConfig {
-            config.endpointResolver = self.endpointResolver
-            clientConfiguration = config
-        }
+    public func configureClient<Config: ClientRuntime.ClientConfiguration>(clientConfiguration: inout Config) async throws {
+        guard var config = clientConfiguration as? PartnerCentralChannelClient.PartnerCentralChannelClientConfig else { return }
+        config.endpointResolver = self.endpointResolver
+        guard let modifiedConfig = config as? Config else { return }
+        clientConfiguration = modifiedConfig
     }
 }
 
@@ -41,13 +41,14 @@ public class DefaultAWSAuthSchemePlugin: ClientRuntime.Plugin {
 
     public init() {}
 
-    public func configureClient(clientConfiguration: inout ClientRuntime.ClientConfiguration) async throws {
+    public func configureClient<Config: ClientRuntime.ClientConfiguration>(clientConfiguration: inout Config) async throws {
         if var config = clientConfiguration as? PartnerCentralChannelClient.PartnerCentralChannelClientConfig {
             config.authSchemeResolver = DefaultPartnerCentralChannelAuthSchemeResolver()
             config.authSchemes = [AWSSDKHTTPAuth.SigV4AuthScheme(), AWSSDKHTTPAuth.SigV4AAuthScheme()]
             config.awsCredentialIdentityResolver = AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain()
             config.bearerTokenIdentityResolver = SmithyIdentity.StaticBearerTokenIdentityResolver()
-            clientConfiguration = config
+            guard let modifiedConfig = config as? Config else { return }
+            clientConfiguration = modifiedConfig
         }
     }
 }
@@ -67,7 +68,7 @@ public class PartnerCentralChannelClientAuthSchemePlugin: ClientRuntime.Plugin {
         self.bearerTokenIdentityResolver = bearerTokenIdentityResolver
     }
 
-    public func configureClient(clientConfiguration: inout ClientRuntime.ClientConfiguration) async throws {
+    public func configureClient<Config: ClientRuntime.ClientConfiguration>(clientConfiguration: inout Config) async throws {
         if var config = clientConfiguration as? PartnerCentralChannelClient.PartnerCentralChannelClientConfig {
             if (self.authSchemes != nil) {
                 config.authSchemes = self.authSchemes
@@ -82,7 +83,8 @@ public class PartnerCentralChannelClientAuthSchemePlugin: ClientRuntime.Plugin {
             if (self.bearerTokenIdentityResolver != nil) {
                 config.bearerTokenIdentityResolver = self.bearerTokenIdentityResolver!
             }
-            clientConfiguration = config
+            guard let modifiedConfig = config as? Config else { return }
+            clientConfiguration = modifiedConfig
         }
     }
 }

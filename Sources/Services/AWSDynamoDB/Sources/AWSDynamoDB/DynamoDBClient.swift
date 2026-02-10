@@ -74,11 +74,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class DynamoDBClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "DynamoDBClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: DynamoDBClient.DynamoDBClientConfig
+    public let config: DynamoDBClient.DynamoDBClientConfig
     let serviceName = "DynamoDB"
 
     @available(*, deprecated, message: "Use DynamoDBClient.DynamoDBClientConfig instead")
     public typealias Config = DynamoDBClient.DynamoDBClientConfiguration
+    public typealias Configuration = DynamoDBClient.DynamoDBClientConfig
 
     public required init(config: DynamoDBClient.DynamoDBClientConfig) {
         ClientRuntime.initialize()
