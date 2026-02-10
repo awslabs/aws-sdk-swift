@@ -7,7 +7,6 @@ import software.amazon.smithy.swift.codegen.SwiftSettings
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.SwiftIntegration
 import software.amazon.smithy.swift.codegen.integration.middlewares.MutateHeadersMiddleware
-import software.amazon.smithy.swift.codegen.integration.serde.SerdeUtils
 import software.amazon.smithy.swift.codegen.middleware.OperationMiddleware
 import software.amazon.smithy.swift.codegen.model.hasTrait
 
@@ -34,7 +33,6 @@ class AwsQueryModeCustomization : SwiftIntegration {
         operationShape: OperationShape,
         operationMiddleware: OperationMiddleware,
     ) {
-        if (SerdeUtils.useSchemaBased(ctx)) return
         operationMiddleware.appendMiddleware(operationShape, awsQueryModeHeaderMiddleware)
     }
 }

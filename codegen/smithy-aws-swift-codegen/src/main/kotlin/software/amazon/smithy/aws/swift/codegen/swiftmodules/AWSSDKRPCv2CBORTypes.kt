@@ -6,7 +6,7 @@ import software.amazon.smithy.swift.codegen.SwiftDeclaration
 import software.amazon.smithy.swift.codegen.swiftmodules.SwiftSymbol
 
 object AWSSDKRPCv2CBORTypes {
-    val Configurator = runtimeSymbol("Configurator", SwiftDeclaration.STRUCT)
+    val ClientProtocol = runtimeSymbol("ClientProtocol", SwiftDeclaration.STRUCT)
 }
 
 private fun runtimeSymbol(

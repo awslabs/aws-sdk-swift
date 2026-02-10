@@ -105,7 +105,5 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSSTS](../../../../../swift/api/awssts/latest)
 
-[AWSSageMaker](../../../../../swift/api/awssagemaker/latest)
-
 [AWSSignin](../../../../../swift/api/awssignin/latest)
 
