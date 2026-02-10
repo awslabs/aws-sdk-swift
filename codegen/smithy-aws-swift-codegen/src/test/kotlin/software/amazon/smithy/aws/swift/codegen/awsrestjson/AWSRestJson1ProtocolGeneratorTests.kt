@@ -57,10 +57,6 @@ extension ExplicitBlobInput {
         val context = setupTests("http-binding-protocol-generator-test.smithy", "com.test#Example")
         val contents = getClientFileContents("Sources/Example", "ExampleClient.swift", context.manifest)
         contents.shouldSyntacticSanityCheck()
-
-        // Debug: Save actual generated output to file
-        java.io.File("aws-test-generated-output.txt").writeText(contents)
-
         val expectedContents = """
 public final class ExampleClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "ExampleClient"
