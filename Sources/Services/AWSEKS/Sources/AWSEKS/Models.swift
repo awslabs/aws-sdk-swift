@@ -658,8 +658,10 @@ extension EKSClientTypes {
         case custom
         case windowsCore2019X8664
         case windowsCore2022X8664
+        case windowsCore2025X8664
         case windowsFull2019X8664
         case windowsFull2022X8664
+        case windowsFull2025X8664
         case sdkUnknown(Swift.String)
 
         public static var allCases: [AMITypes] {
@@ -683,8 +685,10 @@ extension EKSClientTypes {
                 .custom,
                 .windowsCore2019X8664,
                 .windowsCore2022X8664,
+                .windowsCore2025X8664,
                 .windowsFull2019X8664,
-                .windowsFull2022X8664
+                .windowsFull2022X8664,
+                .windowsFull2025X8664
             ]
         }
 
@@ -714,8 +718,10 @@ extension EKSClientTypes {
             case .custom: return "CUSTOM"
             case .windowsCore2019X8664: return "WINDOWS_CORE_2019_x86_64"
             case .windowsCore2022X8664: return "WINDOWS_CORE_2022_x86_64"
+            case .windowsCore2025X8664: return "WINDOWS_CORE_2025_x86_64"
             case .windowsFull2019X8664: return "WINDOWS_FULL_2019_x86_64"
             case .windowsFull2022X8664: return "WINDOWS_FULL_2022_x86_64"
+            case .windowsFull2025X8664: return "WINDOWS_FULL_2025_x86_64"
             case let .sdkUnknown(s): return s
             }
         }
