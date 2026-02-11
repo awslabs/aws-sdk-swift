@@ -72,11 +72,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class Route53RecoveryControlConfigClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "Route53RecoveryControlConfigClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: Route53RecoveryControlConfigClient.Route53RecoveryControlConfigClientConfig
+    public let config: Route53RecoveryControlConfigClient.Route53RecoveryControlConfigClientConfig
     let serviceName = "Route53 Recovery Control Config"
 
     @available(*, deprecated, message: "Use Route53RecoveryControlConfigClient.Route53RecoveryControlConfigClientConfig instead")
     public typealias Config = Route53RecoveryControlConfigClient.Route53RecoveryControlConfigClientConfiguration
+    public typealias Configuration = Route53RecoveryControlConfigClient.Route53RecoveryControlConfigClientConfig
 
     public required init(config: Route53RecoveryControlConfigClient.Route53RecoveryControlConfigClientConfig) {
         ClientRuntime.initialize()

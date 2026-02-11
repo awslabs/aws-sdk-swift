@@ -73,11 +73,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class KendraClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "KendraClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: KendraClient.KendraClientConfig
+    public let config: KendraClient.KendraClientConfig
     let serviceName = "kendra"
 
     @available(*, deprecated, message: "Use KendraClient.KendraClientConfig instead")
     public typealias Config = KendraClient.KendraClientConfiguration
+    public typealias Configuration = KendraClient.KendraClientConfig
 
     public required init(config: KendraClient.KendraClientConfig) {
         ClientRuntime.initialize()

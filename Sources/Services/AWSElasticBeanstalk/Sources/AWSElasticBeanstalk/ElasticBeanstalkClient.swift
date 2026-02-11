@@ -71,11 +71,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class ElasticBeanstalkClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "ElasticBeanstalkClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: ElasticBeanstalkClient.ElasticBeanstalkClientConfig
+    public let config: ElasticBeanstalkClient.ElasticBeanstalkClientConfig
     let serviceName = "Elastic Beanstalk"
 
     @available(*, deprecated, message: "Use ElasticBeanstalkClient.ElasticBeanstalkClientConfig instead")
     public typealias Config = ElasticBeanstalkClient.ElasticBeanstalkClientConfiguration
+    public typealias Configuration = ElasticBeanstalkClient.ElasticBeanstalkClientConfig
 
     public required init(config: ElasticBeanstalkClient.ElasticBeanstalkClientConfig) {
         ClientRuntime.initialize()

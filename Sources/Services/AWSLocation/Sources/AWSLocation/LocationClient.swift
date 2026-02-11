@@ -72,11 +72,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class LocationClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "LocationClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: LocationClient.LocationClientConfig
+    public let config: LocationClient.LocationClientConfig
     let serviceName = "Location"
 
     @available(*, deprecated, message: "Use LocationClient.LocationClientConfig instead")
     public typealias Config = LocationClient.LocationClientConfiguration
+    public typealias Configuration = LocationClient.LocationClientConfig
 
     public required init(config: LocationClient.LocationClientConfig) {
         ClientRuntime.initialize()

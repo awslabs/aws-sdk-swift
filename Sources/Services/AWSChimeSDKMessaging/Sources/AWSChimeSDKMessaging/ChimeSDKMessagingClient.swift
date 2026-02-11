@@ -74,11 +74,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class ChimeSDKMessagingClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "ChimeSDKMessagingClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: ChimeSDKMessagingClient.ChimeSDKMessagingClientConfig
+    public let config: ChimeSDKMessagingClient.ChimeSDKMessagingClientConfig
     let serviceName = "Chime SDK Messaging"
 
     @available(*, deprecated, message: "Use ChimeSDKMessagingClient.ChimeSDKMessagingClientConfig instead")
     public typealias Config = ChimeSDKMessagingClient.ChimeSDKMessagingClientConfiguration
+    public typealias Configuration = ChimeSDKMessagingClient.ChimeSDKMessagingClientConfig
 
     public required init(config: ChimeSDKMessagingClient.ChimeSDKMessagingClientConfig) {
         ClientRuntime.initialize()

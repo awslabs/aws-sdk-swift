@@ -75,11 +75,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class DeadlineClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "DeadlineClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: DeadlineClient.DeadlineClientConfig
+    public let config: DeadlineClient.DeadlineClientConfig
     let serviceName = "deadline"
 
     @available(*, deprecated, message: "Use DeadlineClient.DeadlineClientConfig instead")
     public typealias Config = DeadlineClient.DeadlineClientConfiguration
+    public typealias Configuration = DeadlineClient.DeadlineClientConfig
 
     public required init(config: DeadlineClient.DeadlineClientConfig) {
         ClientRuntime.initialize()

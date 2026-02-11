@@ -73,11 +73,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class GlueClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "GlueClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: GlueClient.GlueClientConfig
+    public let config: GlueClient.GlueClientConfig
     let serviceName = "Glue"
 
     @available(*, deprecated, message: "Use GlueClient.GlueClientConfig instead")
     public typealias Config = GlueClient.GlueClientConfiguration
+    public typealias Configuration = GlueClient.GlueClientConfig
 
     public required init(config: GlueClient.GlueClientConfig) {
         ClientRuntime.initialize()

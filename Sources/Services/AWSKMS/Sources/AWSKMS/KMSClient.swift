@@ -72,11 +72,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class KMSClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "KMSClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: KMSClient.KMSClientConfig
+    public let config: KMSClient.KMSClientConfig
     let serviceName = "KMS"
 
     @available(*, deprecated, message: "Use KMSClient.KMSClientConfig instead")
     public typealias Config = KMSClient.KMSClientConfiguration
+    public typealias Configuration = KMSClient.KMSClientConfig
 
     public required init(config: KMSClient.KMSClientConfig) {
         ClientRuntime.initialize()

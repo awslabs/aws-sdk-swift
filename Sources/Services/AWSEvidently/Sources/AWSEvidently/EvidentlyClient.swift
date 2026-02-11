@@ -72,11 +72,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class EvidentlyClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "EvidentlyClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: EvidentlyClient.EvidentlyClientConfig
+    public let config: EvidentlyClient.EvidentlyClientConfig
     let serviceName = "Evidently"
 
     @available(*, deprecated, message: "Use EvidentlyClient.EvidentlyClientConfig instead")
     public typealias Config = EvidentlyClient.EvidentlyClientConfiguration
+    public typealias Configuration = EvidentlyClient.EvidentlyClientConfig
 
     public required init(config: EvidentlyClient.EvidentlyClientConfig) {
         ClientRuntime.initialize()

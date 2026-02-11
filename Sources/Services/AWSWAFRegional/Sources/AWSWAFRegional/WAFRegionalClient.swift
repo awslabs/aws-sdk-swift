@@ -71,11 +71,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class WAFRegionalClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "WAFRegionalClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: WAFRegionalClient.WAFRegionalClientConfig
+    public let config: WAFRegionalClient.WAFRegionalClientConfig
     let serviceName = "WAF Regional"
 
     @available(*, deprecated, message: "Use WAFRegionalClient.WAFRegionalClientConfig instead")
     public typealias Config = WAFRegionalClient.WAFRegionalClientConfiguration
+    public typealias Configuration = WAFRegionalClient.WAFRegionalClientConfig
 
     public required init(config: WAFRegionalClient.WAFRegionalClientConfig) {
         ClientRuntime.initialize()

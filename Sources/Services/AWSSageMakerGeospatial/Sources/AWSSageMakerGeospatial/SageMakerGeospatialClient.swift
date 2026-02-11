@@ -74,11 +74,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class SageMakerGeospatialClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "SageMakerGeospatialClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: SageMakerGeospatialClient.SageMakerGeospatialClientConfig
+    public let config: SageMakerGeospatialClient.SageMakerGeospatialClientConfig
     let serviceName = "SageMaker Geospatial"
 
     @available(*, deprecated, message: "Use SageMakerGeospatialClient.SageMakerGeospatialClientConfig instead")
     public typealias Config = SageMakerGeospatialClient.SageMakerGeospatialClientConfiguration
+    public typealias Configuration = SageMakerGeospatialClient.SageMakerGeospatialClientConfig
 
     public required init(config: SageMakerGeospatialClient.SageMakerGeospatialClientConfig) {
         ClientRuntime.initialize()

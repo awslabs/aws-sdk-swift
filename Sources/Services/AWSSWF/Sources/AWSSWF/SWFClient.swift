@@ -72,11 +72,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class SWFClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "SWFClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: SWFClient.SWFClientConfig
+    public let config: SWFClient.SWFClientConfig
     let serviceName = "SWF"
 
     @available(*, deprecated, message: "Use SWFClient.SWFClientConfig instead")
     public typealias Config = SWFClient.SWFClientConfiguration
+    public typealias Configuration = SWFClient.SWFClientConfig
 
     public required init(config: SWFClient.SWFClientConfig) {
         ClientRuntime.initialize()

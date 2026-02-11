@@ -73,11 +73,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class ConnectCasesClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "ConnectCasesClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: ConnectCasesClient.ConnectCasesClientConfig
+    public let config: ConnectCasesClient.ConnectCasesClientConfig
     let serviceName = "ConnectCases"
 
     @available(*, deprecated, message: "Use ConnectCasesClient.ConnectCasesClientConfig instead")
     public typealias Config = ConnectCasesClient.ConnectCasesClientConfiguration
+    public typealias Configuration = ConnectCasesClient.ConnectCasesClientConfig
 
     public required init(config: ConnectCasesClient.ConnectCasesClientConfig) {
         ClientRuntime.initialize()

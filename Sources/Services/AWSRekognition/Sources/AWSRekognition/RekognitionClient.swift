@@ -73,11 +73,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class RekognitionClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "RekognitionClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: RekognitionClient.RekognitionClientConfig
+    public let config: RekognitionClient.RekognitionClientConfig
     let serviceName = "Rekognition"
 
     @available(*, deprecated, message: "Use RekognitionClient.RekognitionClientConfig instead")
     public typealias Config = RekognitionClient.RekognitionClientConfiguration
+    public typealias Configuration = RekognitionClient.RekognitionClientConfig
 
     public required init(config: RekognitionClient.RekognitionClientConfig) {
         ClientRuntime.initialize()

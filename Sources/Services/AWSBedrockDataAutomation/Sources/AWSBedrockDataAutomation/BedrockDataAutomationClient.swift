@@ -72,11 +72,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class BedrockDataAutomationClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "BedrockDataAutomationClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: BedrockDataAutomationClient.BedrockDataAutomationClientConfig
+    public let config: BedrockDataAutomationClient.BedrockDataAutomationClientConfig
     let serviceName = "Bedrock Data Automation"
 
     @available(*, deprecated, message: "Use BedrockDataAutomationClient.BedrockDataAutomationClientConfig instead")
     public typealias Config = BedrockDataAutomationClient.BedrockDataAutomationClientConfiguration
+    public typealias Configuration = BedrockDataAutomationClient.BedrockDataAutomationClientConfig
 
     public required init(config: BedrockDataAutomationClient.BedrockDataAutomationClientConfig) {
         ClientRuntime.initialize()

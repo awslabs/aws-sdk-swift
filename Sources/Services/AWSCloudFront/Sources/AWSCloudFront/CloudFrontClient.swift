@@ -74,11 +74,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class CloudFrontClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "CloudFrontClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: CloudFrontClient.CloudFrontClientConfig
+    public let config: CloudFrontClient.CloudFrontClientConfig
     let serviceName = "CloudFront"
 
     @available(*, deprecated, message: "Use CloudFrontClient.CloudFrontClientConfig instead")
     public typealias Config = CloudFrontClient.CloudFrontClientConfiguration
+    public typealias Configuration = CloudFrontClient.CloudFrontClientConfig
 
     public required init(config: CloudFrontClient.CloudFrontClientConfig) {
         ClientRuntime.initialize()

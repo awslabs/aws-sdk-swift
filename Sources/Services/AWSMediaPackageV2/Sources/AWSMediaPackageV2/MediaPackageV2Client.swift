@@ -74,11 +74,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class MediaPackageV2Client: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "MediaPackageV2Client"
     let client: ClientRuntime.SdkHttpClient
-    let config: MediaPackageV2Client.MediaPackageV2ClientConfig
+    public let config: MediaPackageV2Client.MediaPackageV2ClientConfig
     let serviceName = "MediaPackageV2"
 
     @available(*, deprecated, message: "Use MediaPackageV2Client.MediaPackageV2ClientConfig instead")
     public typealias Config = MediaPackageV2Client.MediaPackageV2ClientConfiguration
+    public typealias Configuration = MediaPackageV2Client.MediaPackageV2ClientConfig
 
     public required init(config: MediaPackageV2Client.MediaPackageV2ClientConfig) {
         ClientRuntime.initialize()

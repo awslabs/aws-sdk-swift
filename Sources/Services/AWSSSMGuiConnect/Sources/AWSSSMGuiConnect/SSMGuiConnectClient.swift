@@ -71,11 +71,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class SSMGuiConnectClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "SSMGuiConnectClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: SSMGuiConnectClient.SSMGuiConnectClientConfig
+    public let config: SSMGuiConnectClient.SSMGuiConnectClientConfig
     let serviceName = "SSM GuiConnect"
 
     @available(*, deprecated, message: "Use SSMGuiConnectClient.SSMGuiConnectClientConfig instead")
     public typealias Config = SSMGuiConnectClient.SSMGuiConnectClientConfiguration
+    public typealias Configuration = SSMGuiConnectClient.SSMGuiConnectClientConfig
 
     public required init(config: SSMGuiConnectClient.SSMGuiConnectClientConfig) {
         ClientRuntime.initialize()

@@ -72,11 +72,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class TransferClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "TransferClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: TransferClient.TransferClientConfig
+    public let config: TransferClient.TransferClientConfig
     let serviceName = "Transfer"
 
     @available(*, deprecated, message: "Use TransferClient.TransferClientConfig instead")
     public typealias Config = TransferClient.TransferClientConfiguration
+    public typealias Configuration = TransferClient.TransferClientConfig
 
     public required init(config: TransferClient.TransferClientConfig) {
         ClientRuntime.initialize()

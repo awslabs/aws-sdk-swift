@@ -71,11 +71,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class AccountClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "AccountClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: AccountClient.AccountClientConfig
+    public let config: AccountClient.AccountClientConfig
     let serviceName = "Account"
 
     @available(*, deprecated, message: "Use AccountClient.AccountClientConfig instead")
     public typealias Config = AccountClient.AccountClientConfiguration
+    public typealias Configuration = AccountClient.AccountClientConfig
 
     public required init(config: AccountClient.AccountClientConfig) {
         ClientRuntime.initialize()

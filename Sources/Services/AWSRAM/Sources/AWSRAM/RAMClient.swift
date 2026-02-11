@@ -71,11 +71,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class RAMClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "RAMClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: RAMClient.RAMClientConfig
+    public let config: RAMClient.RAMClientConfig
     let serviceName = "RAM"
 
     @available(*, deprecated, message: "Use RAMClient.RAMClientConfig instead")
     public typealias Config = RAMClient.RAMClientConfiguration
+    public typealias Configuration = RAMClient.RAMClientConfig
 
     public required init(config: RAMClient.RAMClientConfig) {
         ClientRuntime.initialize()

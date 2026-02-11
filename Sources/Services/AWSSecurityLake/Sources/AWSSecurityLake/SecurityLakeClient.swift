@@ -71,11 +71,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class SecurityLakeClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "SecurityLakeClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: SecurityLakeClient.SecurityLakeClientConfig
+    public let config: SecurityLakeClient.SecurityLakeClientConfig
     let serviceName = "SecurityLake"
 
     @available(*, deprecated, message: "Use SecurityLakeClient.SecurityLakeClientConfig instead")
     public typealias Config = SecurityLakeClient.SecurityLakeClientConfiguration
+    public typealias Configuration = SecurityLakeClient.SecurityLakeClientConfig
 
     public required init(config: SecurityLakeClient.SecurityLakeClientConfig) {
         ClientRuntime.initialize()

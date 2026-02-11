@@ -72,11 +72,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class StorageGatewayClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "StorageGatewayClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: StorageGatewayClient.StorageGatewayClientConfig
+    public let config: StorageGatewayClient.StorageGatewayClientConfig
     let serviceName = "Storage Gateway"
 
     @available(*, deprecated, message: "Use StorageGatewayClient.StorageGatewayClientConfig instead")
     public typealias Config = StorageGatewayClient.StorageGatewayClientConfiguration
+    public typealias Configuration = StorageGatewayClient.StorageGatewayClientConfig
 
     public required init(config: StorageGatewayClient.StorageGatewayClientConfig) {
         ClientRuntime.initialize()

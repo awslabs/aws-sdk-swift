@@ -73,11 +73,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class MPAClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "MPAClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: MPAClient.MPAClientConfig
+    public let config: MPAClient.MPAClientConfig
     let serviceName = "MPA"
 
     @available(*, deprecated, message: "Use MPAClient.MPAClientConfig instead")
     public typealias Config = MPAClient.MPAClientConfiguration
+    public typealias Configuration = MPAClient.MPAClientConfig
 
     public required init(config: MPAClient.MPAClientConfig) {
         ClientRuntime.initialize()

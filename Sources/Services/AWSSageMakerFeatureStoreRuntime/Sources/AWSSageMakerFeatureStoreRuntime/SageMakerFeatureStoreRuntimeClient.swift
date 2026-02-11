@@ -71,11 +71,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class SageMakerFeatureStoreRuntimeClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "SageMakerFeatureStoreRuntimeClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: SageMakerFeatureStoreRuntimeClient.SageMakerFeatureStoreRuntimeClientConfig
+    public let config: SageMakerFeatureStoreRuntimeClient.SageMakerFeatureStoreRuntimeClientConfig
     let serviceName = "SageMaker FeatureStore Runtime"
 
     @available(*, deprecated, message: "Use SageMakerFeatureStoreRuntimeClient.SageMakerFeatureStoreRuntimeClientConfig instead")
     public typealias Config = SageMakerFeatureStoreRuntimeClient.SageMakerFeatureStoreRuntimeClientConfiguration
+    public typealias Configuration = SageMakerFeatureStoreRuntimeClient.SageMakerFeatureStoreRuntimeClientConfig
 
     public required init(config: SageMakerFeatureStoreRuntimeClient.SageMakerFeatureStoreRuntimeClientConfig) {
         ClientRuntime.initialize()

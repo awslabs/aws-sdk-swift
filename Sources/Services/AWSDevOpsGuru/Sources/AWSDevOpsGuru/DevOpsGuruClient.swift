@@ -73,11 +73,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class DevOpsGuruClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "DevOpsGuruClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: DevOpsGuruClient.DevOpsGuruClientConfig
+    public let config: DevOpsGuruClient.DevOpsGuruClientConfig
     let serviceName = "DevOps Guru"
 
     @available(*, deprecated, message: "Use DevOpsGuruClient.DevOpsGuruClientConfig instead")
     public typealias Config = DevOpsGuruClient.DevOpsGuruClientConfiguration
+    public typealias Configuration = DevOpsGuruClient.DevOpsGuruClientConfig
 
     public required init(config: DevOpsGuruClient.DevOpsGuruClientConfig) {
         ClientRuntime.initialize()

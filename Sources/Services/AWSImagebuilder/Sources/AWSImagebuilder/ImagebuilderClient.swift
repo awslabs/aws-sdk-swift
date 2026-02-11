@@ -73,11 +73,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class ImagebuilderClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "ImagebuilderClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: ImagebuilderClient.ImagebuilderClientConfig
+    public let config: ImagebuilderClient.ImagebuilderClientConfig
     let serviceName = "imagebuilder"
 
     @available(*, deprecated, message: "Use ImagebuilderClient.ImagebuilderClientConfig instead")
     public typealias Config = ImagebuilderClient.ImagebuilderClientConfiguration
+    public typealias Configuration = ImagebuilderClient.ImagebuilderClientConfig
 
     public required init(config: ImagebuilderClient.ImagebuilderClientConfig) {
         ClientRuntime.initialize()

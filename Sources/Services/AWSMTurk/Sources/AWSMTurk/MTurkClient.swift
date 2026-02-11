@@ -72,11 +72,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class MTurkClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "MTurkClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: MTurkClient.MTurkClientConfig
+    public let config: MTurkClient.MTurkClientConfig
     let serviceName = "MTurk"
 
     @available(*, deprecated, message: "Use MTurkClient.MTurkClientConfig instead")
     public typealias Config = MTurkClient.MTurkClientConfiguration
+    public typealias Configuration = MTurkClient.MTurkClientConfig
 
     public required init(config: MTurkClient.MTurkClientConfig) {
         ClientRuntime.initialize()

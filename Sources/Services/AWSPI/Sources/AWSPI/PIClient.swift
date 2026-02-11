@@ -72,11 +72,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class PIClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "PIClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: PIClient.PIClientConfig
+    public let config: PIClient.PIClientConfig
     let serviceName = "PI"
 
     @available(*, deprecated, message: "Use PIClient.PIClientConfig instead")
     public typealias Config = PIClient.PIClientConfiguration
+    public typealias Configuration = PIClient.PIClientConfig
 
     public required init(config: PIClient.PIClientConfig) {
         ClientRuntime.initialize()

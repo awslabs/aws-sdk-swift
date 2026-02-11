@@ -71,11 +71,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class ResourceGroupsTaggingAPIClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "ResourceGroupsTaggingAPIClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: ResourceGroupsTaggingAPIClient.ResourceGroupsTaggingAPIClientConfig
+    public let config: ResourceGroupsTaggingAPIClient.ResourceGroupsTaggingAPIClientConfig
     let serviceName = "Resource Groups Tagging API"
 
     @available(*, deprecated, message: "Use ResourceGroupsTaggingAPIClient.ResourceGroupsTaggingAPIClientConfig instead")
     public typealias Config = ResourceGroupsTaggingAPIClient.ResourceGroupsTaggingAPIClientConfiguration
+    public typealias Configuration = ResourceGroupsTaggingAPIClient.ResourceGroupsTaggingAPIClientConfig
 
     public required init(config: ResourceGroupsTaggingAPIClient.ResourceGroupsTaggingAPIClientConfig) {
         ClientRuntime.initialize()

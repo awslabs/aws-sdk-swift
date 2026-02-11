@@ -70,11 +70,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class ObservabilityAdminClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "ObservabilityAdminClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: ObservabilityAdminClient.ObservabilityAdminClientConfig
+    public let config: ObservabilityAdminClient.ObservabilityAdminClientConfig
     let serviceName = "ObservabilityAdmin"
 
     @available(*, deprecated, message: "Use ObservabilityAdminClient.ObservabilityAdminClientConfig instead")
     public typealias Config = ObservabilityAdminClient.ObservabilityAdminClientConfiguration
+    public typealias Configuration = ObservabilityAdminClient.ObservabilityAdminClientConfig
 
     public required init(config: ObservabilityAdminClient.ObservabilityAdminClientConfig) {
         ClientRuntime.initialize()

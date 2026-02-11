@@ -72,11 +72,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class MachineLearningClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "MachineLearningClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: MachineLearningClient.MachineLearningClientConfig
+    public let config: MachineLearningClient.MachineLearningClientConfig
     let serviceName = "Machine Learning"
 
     @available(*, deprecated, message: "Use MachineLearningClient.MachineLearningClientConfig instead")
     public typealias Config = MachineLearningClient.MachineLearningClientConfiguration
+    public typealias Configuration = MachineLearningClient.MachineLearningClientConfig
 
     public required init(config: MachineLearningClient.MachineLearningClientConfig) {
         ClientRuntime.initialize()

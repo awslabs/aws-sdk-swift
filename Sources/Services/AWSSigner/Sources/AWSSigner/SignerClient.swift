@@ -73,11 +73,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class SignerClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "SignerClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: SignerClient.SignerClientConfig
+    public let config: SignerClient.SignerClientConfig
     let serviceName = "signer"
 
     @available(*, deprecated, message: "Use SignerClient.SignerClientConfig instead")
     public typealias Config = SignerClient.SignerClientConfiguration
+    public typealias Configuration = SignerClient.SignerClientConfig
 
     public required init(config: SignerClient.SignerClientConfig) {
         ClientRuntime.initialize()

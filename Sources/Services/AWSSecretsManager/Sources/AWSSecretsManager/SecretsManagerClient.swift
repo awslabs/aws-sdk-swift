@@ -73,11 +73,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class SecretsManagerClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "SecretsManagerClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: SecretsManagerClient.SecretsManagerClientConfig
+    public let config: SecretsManagerClient.SecretsManagerClientConfig
     let serviceName = "Secrets Manager"
 
     @available(*, deprecated, message: "Use SecretsManagerClient.SecretsManagerClientConfig instead")
     public typealias Config = SecretsManagerClient.SecretsManagerClientConfiguration
+    public typealias Configuration = SecretsManagerClient.SecretsManagerClientConfig
 
     public required init(config: SecretsManagerClient.SecretsManagerClientConfig) {
         ClientRuntime.initialize()

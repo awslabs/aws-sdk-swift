@@ -71,11 +71,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class ShieldClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "ShieldClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: ShieldClient.ShieldClientConfig
+    public let config: ShieldClient.ShieldClientConfig
     let serviceName = "Shield"
 
     @available(*, deprecated, message: "Use ShieldClient.ShieldClientConfig instead")
     public typealias Config = ShieldClient.ShieldClientConfiguration
+    public typealias Configuration = ShieldClient.ShieldClientConfig
 
     public required init(config: ShieldClient.ShieldClientConfig) {
         ClientRuntime.initialize()

@@ -71,11 +71,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class IvsClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "IvsClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: IvsClient.IvsClientConfig
+    public let config: IvsClient.IvsClientConfig
     let serviceName = "ivs"
 
     @available(*, deprecated, message: "Use IvsClient.IvsClientConfig instead")
     public typealias Config = IvsClient.IvsClientConfiguration
+    public typealias Configuration = IvsClient.IvsClientConfig
 
     public required init(config: IvsClient.IvsClientConfig) {
         ClientRuntime.initialize()

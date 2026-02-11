@@ -72,11 +72,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class SnowballClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "SnowballClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: SnowballClient.SnowballClientConfig
+    public let config: SnowballClient.SnowballClientConfig
     let serviceName = "Snowball"
 
     @available(*, deprecated, message: "Use SnowballClient.SnowballClientConfig instead")
     public typealias Config = SnowballClient.SnowballClientConfiguration
+    public typealias Configuration = SnowballClient.SnowballClientConfig
 
     public required init(config: SnowballClient.SnowballClientConfig) {
         ClientRuntime.initialize()

@@ -72,11 +72,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class BatchClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "BatchClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: BatchClient.BatchClientConfig
+    public let config: BatchClient.BatchClientConfig
     let serviceName = "Batch"
 
     @available(*, deprecated, message: "Use BatchClient.BatchClientConfig instead")
     public typealias Config = BatchClient.BatchClientConfiguration
+    public typealias Configuration = BatchClient.BatchClientConfig
 
     public required init(config: BatchClient.BatchClientConfig) {
         ClientRuntime.initialize()

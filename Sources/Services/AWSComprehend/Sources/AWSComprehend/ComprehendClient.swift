@@ -73,11 +73,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class ComprehendClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "ComprehendClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: ComprehendClient.ComprehendClientConfig
+    public let config: ComprehendClient.ComprehendClientConfig
     let serviceName = "Comprehend"
 
     @available(*, deprecated, message: "Use ComprehendClient.ComprehendClientConfig instead")
     public typealias Config = ComprehendClient.ComprehendClientConfiguration
+    public typealias Configuration = ComprehendClient.ComprehendClientConfig
 
     public required init(config: ComprehendClient.ComprehendClientConfig) {
         ClientRuntime.initialize()

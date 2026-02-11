@@ -72,11 +72,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class FisClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "FisClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: FisClient.FisClientConfig
+    public let config: FisClient.FisClientConfig
     let serviceName = "fis"
 
     @available(*, deprecated, message: "Use FisClient.FisClientConfig instead")
     public typealias Config = FisClient.FisClientConfiguration
+    public typealias Configuration = FisClient.FisClientConfig
 
     public required init(config: FisClient.FisClientConfig) {
         ClientRuntime.initialize()

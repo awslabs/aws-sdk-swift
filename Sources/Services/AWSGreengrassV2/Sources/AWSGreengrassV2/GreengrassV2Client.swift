@@ -74,11 +74,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class GreengrassV2Client: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "GreengrassV2Client"
     let client: ClientRuntime.SdkHttpClient
-    let config: GreengrassV2Client.GreengrassV2ClientConfig
+    public let config: GreengrassV2Client.GreengrassV2ClientConfig
     let serviceName = "GreengrassV2"
 
     @available(*, deprecated, message: "Use GreengrassV2Client.GreengrassV2ClientConfig instead")
     public typealias Config = GreengrassV2Client.GreengrassV2ClientConfiguration
+    public typealias Configuration = GreengrassV2Client.GreengrassV2ClientConfig
 
     public required init(config: GreengrassV2Client.GreengrassV2ClientConfig) {
         ClientRuntime.initialize()

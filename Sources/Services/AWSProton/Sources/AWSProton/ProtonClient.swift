@@ -72,11 +72,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class ProtonClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "ProtonClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: ProtonClient.ProtonClientConfig
+    public let config: ProtonClient.ProtonClientConfig
     let serviceName = "Proton"
 
     @available(*, deprecated, message: "Use ProtonClient.ProtonClientConfig instead")
     public typealias Config = ProtonClient.ProtonClientConfiguration
+    public typealias Configuration = ProtonClient.ProtonClientConfig
 
     public required init(config: ProtonClient.ProtonClientConfig) {
         ClientRuntime.initialize()

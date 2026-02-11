@@ -72,11 +72,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class RbinClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "RbinClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: RbinClient.RbinClientConfig
+    public let config: RbinClient.RbinClientConfig
     let serviceName = "rbin"
 
     @available(*, deprecated, message: "Use RbinClient.RbinClientConfig instead")
     public typealias Config = RbinClient.RbinClientConfiguration
+    public typealias Configuration = RbinClient.RbinClientConfig
 
     public required init(config: RbinClient.RbinClientConfig) {
         ClientRuntime.initialize()

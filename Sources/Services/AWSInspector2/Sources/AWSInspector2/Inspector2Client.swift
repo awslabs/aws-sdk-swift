@@ -73,11 +73,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class Inspector2Client: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "Inspector2Client"
     let client: ClientRuntime.SdkHttpClient
-    let config: Inspector2Client.Inspector2ClientConfig
+    public let config: Inspector2Client.Inspector2ClientConfig
     let serviceName = "Inspector2"
 
     @available(*, deprecated, message: "Use Inspector2Client.Inspector2ClientConfig instead")
     public typealias Config = Inspector2Client.Inspector2ClientConfiguration
+    public typealias Configuration = Inspector2Client.Inspector2ClientConfig
 
     public required init(config: Inspector2Client.Inspector2ClientConfig) {
         ClientRuntime.initialize()
