@@ -41,10 +41,8 @@ public struct FlexibleChecksumsRequestMiddleware<OperationStackInput, OperationS
 
         // Get the enableAWSChunked configuration from context
         let enableAWSChunked = attributes.enableAWSChunked
-
         if case(.stream(let stream)) = builder.body {
             attributes.isChunkedEligibleStream = stream.isEligibleForChunkedStreaming
-            
             // Determine if aws-chunked should be applied based on three-way logic
             let shouldApplyAwsChunked: Bool
             if let enableAWSChunked = enableAWSChunked {
@@ -54,7 +52,6 @@ public struct FlexibleChecksumsRequestMiddleware<OperationStackInput, OperationS
                 // Fall back to auto-detection based on stream eligibility
                 shouldApplyAwsChunked = stream.isEligibleForChunkedStreaming
             }
-            
             if shouldApplyAwsChunked {
                 try builder.setAwsChunkedHeaders() // x-amz-decoded-content-length
             }
@@ -142,7 +139,6 @@ public struct FlexibleChecksumsRequestMiddleware<OperationStackInput, OperationS
                 // Fall back to auto-detection
                 shouldUseAwsChunked = stream.isEligibleForChunkedStreaming
             }
-            
             if shouldUseAwsChunked {
                 // Handle calculating and adding checksum header in ChunkedStream
                 builder.updateHeader(name: "x-amz-trailer", value: [checksumHashHeaderName])
