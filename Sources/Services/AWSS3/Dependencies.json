@@ -1,0 +1,23 @@
+{
+  "modelPath": "codegen/sdk-codegen/aws-models/s3.json",
+  "dependencies": [
+    "AWSClientRuntime",
+    "AWSSDKChecksums",
+    "AWSSDKHTTPAuth",
+    "AWSSDKIdentity",
+    "AWSSDKIdentityAPI",
+    "ClientRuntime",
+    "Smithy",
+    "SmithyEventStreams",
+    "SmithyEventStreamsAPI",
+    "SmithyHTTPAPI",
+    "SmithyHTTPAuthAPI",
+    "SmithyIdentity",
+    "SmithyReadWrite",
+    "SmithyRetries",
+    "SmithyRetriesAPI",
+    "SmithyTimestamps",
+    "SmithyWaitersAPI",
+    "SmithyXML"
+  ]
+}

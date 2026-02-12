@@ -1,0 +1,20 @@
+{
+  "modelPath": "codegen/sdk-codegen/aws-models/cloudfront.json",
+  "dependencies": [
+    "AWSClientRuntime",
+    "AWSSDKChecksums",
+    "AWSSDKHTTPAuth",
+    "AWSSDKIdentity",
+    "ClientRuntime",
+    "Smithy",
+    "SmithyHTTPAPI",
+    "SmithyHTTPAuthAPI",
+    "SmithyIdentity",
+    "SmithyReadWrite",
+    "SmithyRetries",
+    "SmithyRetriesAPI",
+    "SmithyTimestamps",
+    "SmithyWaitersAPI",
+    "SmithyXML"
+  ]
+}
