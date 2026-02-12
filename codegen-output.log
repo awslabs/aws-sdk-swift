@@ -1,0 +1,132 @@
+WARNING: A restricted method in java.lang.System has been called
+WARNING: java.lang.System::load has been called by net.rubygrapefruit.platform.internal.NativeLibraryLoader in an unnamed module (file:/Users/antefel/.gradle/wrapper/dists/gradle-7.2-bin/2dnblmf4td7x66yl1d74lt32g/gradle-7.2/lib/native-platform-0.22-milestone-21.jar)
+WARNING: Use --enable-native-access=ALL-UNNAMED to avoid a warning for callers in this module
+WARNING: Restricted methods will be blocked in a future release unless native access is enabled
+
+Including build '/Users/antefel/Work_Code/smithy-swift'
+> Task :smithy-swift:buildSrc:compileKotlin UP-TO-DATE
+> Task :smithy-swift:buildSrc:compileJava NO-SOURCE
+> Task :smithy-swift:buildSrc:compileGroovy NO-SOURCE
+> Task :smithy-swift:buildSrc:pluginDescriptors UP-TO-DATE
+> Task :smithy-swift:buildSrc:processResources NO-SOURCE
+> Task :smithy-swift:buildSrc:classes UP-TO-DATE
+> Task :smithy-swift:buildSrc:inspectClassesForKotlinIC UP-TO-DATE
+> Task :smithy-swift:buildSrc:jar UP-TO-DATE
+> Task :smithy-swift:buildSrc:assemble UP-TO-DATE
+> Task :smithy-swift:buildSrc:compileTestKotlin NO-SOURCE
+> Task :smithy-swift:buildSrc:pluginUnderTestMetadata UP-TO-DATE
+> Task :smithy-swift:buildSrc:compileTestJava NO-SOURCE
+> Task :smithy-swift:buildSrc:compileTestGroovy NO-SOURCE
+> Task :smithy-swift:buildSrc:processTestResources NO-SOURCE
+> Task :smithy-swift:buildSrc:testClasses UP-TO-DATE
+> Task :smithy-swift:buildSrc:test NO-SOURCE
+> Task :smithy-swift:buildSrc:validatePlugins UP-TO-DATE
+> Task :smithy-swift:buildSrc:check UP-TO-DATE
+> Task :smithy-swift:buildSrc:build UP-TO-DATE
+> Task :buildSrc:compileKotlin UP-TO-DATE
+> Task :buildSrc:compileJava NO-SOURCE
+> Task :buildSrc:compileGroovy NO-SOURCE
+> Task :buildSrc:pluginDescriptors UP-TO-DATE
+> Task :buildSrc:processResources NO-SOURCE
+> Task :buildSrc:classes UP-TO-DATE
+> Task :buildSrc:inspectClassesForKotlinIC UP-TO-DATE
+> Task :buildSrc:jar UP-TO-DATE
+> Task :buildSrc:assemble UP-TO-DATE
+> Task :buildSrc:compileTestKotlin NO-SOURCE
+> Task :buildSrc:pluginUnderTestMetadata UP-TO-DATE
+> Task :buildSrc:compileTestJava NO-SOURCE
+> Task :buildSrc:compileTestGroovy NO-SOURCE
+> Task :buildSrc:processTestResources NO-SOURCE
+> Task :buildSrc:testClasses UP-TO-DATE
+> Task :buildSrc:test NO-SOURCE
+> Task :buildSrc:validatePlugins UP-TO-DATE
+> Task :buildSrc:check UP-TO-DATE
+> Task :buildSrc:build UP-TO-DATE
+
+> Configure project :protocol-test-codegen
+(scanned and found a Smithy CLI version 1.63.0. You will need to add an explicit dependency on smithy-model if publishing a JAR)
+
+> Configure project :protocol-test-codegen-local
+(scanned and found a Smithy CLI version 1.63.0. You will need to add an explicit dependency on smithy-model if publishing a JAR)
+
+> Configure project :sdk-codegen
+(scanned and found a Smithy CLI version 1.63.0. You will need to add an explicit dependency on smithy-model if publishing a JAR)
+
+> Task :smithy-aws-swift-codegen:checkKotlinGradlePluginConfigurationErrors
+> Task :smithy-swift:smithy-swift-codegen:checkKotlinGradlePluginConfigurationErrors
+> Task :smithy-aws-swift-codegen:processResources UP-TO-DATE
+> Task :sdk-codegen:processTestResources NO-SOURCE
+> Task :smithy-swift:smithy-swift-codegen:compileKotlin UP-TO-DATE
+> Task :smithy-swift:smithy-swift-codegen:compileJava NO-SOURCE
+> Task :smithy-swift:smithy-swift-codegen:processResources UP-TO-DATE
+> Task :smithy-swift:smithy-swift-codegen:classes UP-TO-DATE
+> Task :smithy-swift:smithy-swift-codegen:jar UP-TO-DATE
+> Task :sdk-codegen:generate-smithy-build
+
+> Task :smithy-aws-swift-codegen:compileKotlin FAILED
+e: file:///Users/antefel/Work_Code/aws-sdk-swift/codegen/smithy-aws-swift-codegen/src/main/kotlin/software/amazon/smithy/aws/swift/codegen/AWSHTTPBindingProtocolGenerator.kt:35:5 'clockSkewProviderSymbol' overrides nothing
+e: file:///Users/antefel/Work_Code/aws-sdk-swift/codegen/smithy-aws-swift-codegen/src/main/kotlin/software/amazon/smithy/aws/swift/codegen/AWSHTTPBindingProtocolGenerator.kt:91:5 'addServiceSpecificMiddleware' overrides nothing
+e: file:///Users/antefel/Work_Code/aws-sdk-swift/codegen/smithy-aws-swift-codegen/src/main/kotlin/software/amazon/smithy/aws/swift/codegen/AWSHttpProtocolServiceClient.kt:35:5 'clientProtocolSymbol' overrides nothing
+e: file:///Users/antefel/Work_Code/aws-sdk-swift/codegen/smithy-aws-swift-codegen/src/main/kotlin/software/amazon/smithy/aws/swift/codegen/AWSHttpProtocolServiceClient.kt:37:5 'renderVersionProperty' overrides nothing
+e: file:///Users/antefel/Work_Code/aws-sdk-swift/codegen/smithy-aws-swift-codegen/src/main/kotlin/software/amazon/smithy/aws/swift/codegen/AWSHttpProtocolServiceClient.kt:43:80 Unresolved reference: sendableTypeName
+e: file:///Users/antefel/Work_Code/aws-sdk-swift/codegen/smithy-aws-swift-codegen/src/main/kotlin/software/amazon/smithy/aws/swift/codegen/AWSHttpProtocolServiceClient.kt:48:72 Unresolved reference: sendableTypeName
+e: file:///Users/antefel/Work_Code/aws-sdk-swift/codegen/smithy-aws-swift-codegen/src/main/kotlin/software/amazon/smithy/aws/swift/codegen/AWSHttpProtocolServiceClient.kt:154:5 'renderCustomConfigInitializerForDeprecatedClass' overrides nothing
+e: file:///Users/antefel/Work_Code/aws-sdk-swift/codegen/smithy-aws-swift-codegen/src/main/kotlin/software/amazon/smithy/aws/swift/codegen/AWSHttpProtocolServiceClient.kt:178:46 Unresolved reference: internalClient
+e: file:///Users/antefel/Work_Code/aws-sdk-swift/codegen/smithy-aws-swift-codegen/src/main/kotlin/software/amazon/smithy/aws/swift/codegen/AWSHttpProtocolServiceClient.kt:179:96 Unresolved reference: StaticAWSCredentialIdentityResolver
+e: file:///Users/antefel/Work_Code/aws-sdk-swift/codegen/smithy-aws-swift-codegen/src/main/kotlin/software/amazon/smithy/aws/swift/codegen/AWSSwiftDependency.kt:17:17 No value passed for parameter 'distributionMethod'
+e: file:///Users/antefel/Work_Code/aws-sdk-swift/codegen/smithy-aws-swift-codegen/src/main/kotlin/software/amazon/smithy/aws/swift/codegen/AWSSwiftDependency.kt:26:17 No value passed for parameter 'distributionMethod'
+e: file:///Users/antefel/Work_Code/aws-sdk-swift/codegen/smithy-aws-swift-codegen/src/main/kotlin/software/amazon/smithy/aws/swift/codegen/AWSSwiftDependency.kt:35:17 No value passed for parameter 'distributionMethod'
+e: file:///Users/antefel/Work_Code/aws-sdk-swift/codegen/smithy-aws-swift-codegen/src/main/kotlin/software/amazon/smithy/aws/swift/codegen/AWSSwiftDependency.kt:44:17 No value passed for parameter 'distributionMethod'
+e: file:///Users/antefel/Work_Code/aws-sdk-swift/codegen/smithy-aws-swift-codegen/src/main/kotlin/software/amazon/smithy/aws/swift/codegen/AWSSwiftDependency.kt:53:17 No value passed for parameter 'distributionMethod'
+e: file:///Users/antefel/Work_Code/aws-sdk-swift/codegen/smithy-aws-swift-codegen/src/main/kotlin/software/amazon/smithy/aws/swift/codegen/AWSSwiftDependency.kt:62:17 No value passed for parameter 'distributionMethod'
+e: file:///Users/antefel/Work_Code/aws-sdk-swift/codegen/smithy-aws-swift-codegen/src/main/kotlin/software/amazon/smithy/aws/swift/codegen/PresignerGenerator.kt:90:33 Unresolved reference: visibility
+e: file:///Users/antefel/Work_Code/aws-sdk-swift/codegen/smithy-aws-swift-codegen/src/main/kotlin/software/amazon/smithy/aws/swift/codegen/PresignerGenerator.kt:92:31 Unresolved reference: sendableTypeName
+e: file:///Users/antefel/Work_Code/aws-sdk-swift/codegen/smithy-aws-swift-codegen/src/main/kotlin/software/amazon/smithy/aws/swift/codegen/PresignerGenerator.kt:129:31 Unresolved reference: sendableTypeName
+e: file:///Users/antefel/Work_Code/aws-sdk-swift/codegen/smithy-aws-swift-codegen/src/main/kotlin/software/amazon/smithy/aws/swift/codegen/PresignerGenerator.kt:132:33 Unresolved reference: visibility
+e: file:///Users/antefel/Work_Code/aws-sdk-swift/codegen/smithy-aws-swift-codegen/src/main/kotlin/software/amazon/smithy/aws/swift/codegen/config/AWSDefaultClientConfiguration.kt:37:38 Unresolved reference: internalClient
+e: file:///Users/antefel/Work_Code/aws-sdk-swift/codegen/smithy-aws-swift-codegen/src/main/kotlin/software/amazon/smithy/aws/swift/codegen/config/AWSDefaultClientConfiguration.kt:38:64 Unresolved reference: StaticAWSCredentialIdentityResolver
+e: file:///Users/antefel/Work_Code/aws-sdk-swift/codegen/smithy-aws-swift-codegen/src/main/kotlin/software/amazon/smithy/aws/swift/codegen/customization/credentialresolverservices/InternalModelIntegration.kt:37:27 Unresolved reference: internalClient
+e: file:///Users/antefel/Work_Code/aws-sdk-swift/codegen/smithy-aws-swift-codegen/src/main/kotlin/software/amazon/smithy/aws/swift/codegen/customization/presignable/PresignableUrlIntegration.kt:132:33 Unresolved reference: visibility
+e: file:///Users/antefel/Work_Code/aws-sdk-swift/codegen/smithy-aws-swift-codegen/src/main/kotlin/software/amazon/smithy/aws/swift/codegen/customization/presignable/PresignableUrlIntegration.kt:134:31 Unresolved reference: sendableTypeName
+e: file:///Users/antefel/Work_Code/aws-sdk-swift/codegen/smithy-aws-swift-codegen/src/main/kotlin/software/amazon/smithy/aws/swift/codegen/customization/presignable/PresignableUrlIntegration.kt:169:31 Unresolved reference: sendableTypeName
+e: file:///Users/antefel/Work_Code/aws-sdk-swift/codegen/smithy-aws-swift-codegen/src/main/kotlin/software/amazon/smithy/aws/swift/codegen/customization/presignable/PresignableUrlIntegration.kt:172:33 Unresolved reference: visibility
+e: file:///Users/antefel/Work_Code/aws-sdk-swift/codegen/smithy-aws-swift-codegen/src/main/kotlin/software/amazon/smithy/aws/swift/codegen/plugins/AuthSchemePlugin.kt:33:42 Unresolved reference: visibility
+e: file:///Users/antefel/Work_Code/aws-sdk-swift/codegen/smithy-aws-swift-codegen/src/main/kotlin/software/amazon/smithy/aws/swift/codegen/plugins/AuthSchemePlugin.kt:35:78 Unresolved reference: StringList
+e: file:///Users/antefel/Work_Code/aws-sdk-swift/codegen/smithy-aws-swift-codegen/src/main/kotlin/software/amazon/smithy/aws/swift/codegen/plugins/AuthSchemePlugin.kt:51:28 Unresolved reference: StringList
+e: file:///Users/antefel/Work_Code/aws-sdk-swift/codegen/smithy-aws-swift-codegen/src/main/kotlin/software/amazon/smithy/aws/swift/codegen/plugins/AuthSchemePlugin.kt:68:91 Unresolved reference: sendableTypeName
+e: file:///Users/antefel/Work_Code/aws-sdk-swift/codegen/smithy-aws-swift-codegen/src/main/kotlin/software/amazon/smithy/aws/swift/codegen/plugins/DefaultAWSAuthSchemePlugin.kt:33:42 Unresolved reference: visibility
+e: file:///Users/antefel/Work_Code/aws-sdk-swift/codegen/smithy-aws-swift-codegen/src/main/kotlin/software/amazon/smithy/aws/swift/codegen/plugins/DefaultAWSAuthSchemePlugin.kt:42:91 Unresolved reference: sendableTypeName
+e: file:///Users/antefel/Work_Code/aws-sdk-swift/codegen/smithy-aws-swift-codegen/src/main/kotlin/software/amazon/smithy/aws/swift/codegen/plugins/DefaultAWSAuthSchemePlugin.kt:48:38 Unresolved reference: internalClient
+e: file:///Users/antefel/Work_Code/aws-sdk-swift/codegen/smithy-aws-swift-codegen/src/main/kotlin/software/amazon/smithy/aws/swift/codegen/plugins/DefaultAWSAuthSchemePlugin.kt:51:49 Unresolved reference: StaticAWSCredentialIdentityResolver
+e: file:///Users/antefel/Work_Code/aws-sdk-swift/codegen/smithy-aws-swift-codegen/src/main/kotlin/software/amazon/smithy/aws/swift/codegen/plugins/EndpointPlugin.kt:28:42 Unresolved reference: visibility
+e: file:///Users/antefel/Work_Code/aws-sdk-swift/codegen/smithy-aws-swift-codegen/src/main/kotlin/software/amazon/smithy/aws/swift/codegen/plugins/EndpointPlugin.kt:46:35 Unresolved reference: sendableTypeName
+e: file:///Users/antefel/Work_Code/aws-sdk-swift/codegen/smithy-aws-swift-codegen/src/main/kotlin/software/amazon/smithy/aws/swift/codegen/swiftintegrations/PackageManifestJSONIntegration.kt:10:45 Cannot access 'targetName': it is private in file
+e: file:///Users/antefel/Work_Code/aws-sdk-swift/codegen/smithy-aws-swift-codegen/src/main/kotlin/software/amazon/smithy/aws/swift/codegen/swiftintegrations/PackageManifestJSONIntegration.kt:52:42 Function invocation 'targetName()' expected
+e: file:///Users/antefel/Work_Code/aws-sdk-swift/codegen/smithy-aws-swift-codegen/src/main/kotlin/software/amazon/smithy/aws/swift/codegen/swiftintegrations/PackageManifestJSONIntegration.kt:52:42 Cannot access 'targetName': it is private in file
+e: file:///Users/antefel/Work_Code/aws-sdk-swift/codegen/smithy-aws-swift-codegen/src/main/kotlin/software/amazon/smithy/aws/swift/codegen/swiftintegrations/PackageManifestJSONIntegration.kt:53:46 Function invocation 'targetName()' expected
+e: file:///Users/antefel/Work_Code/aws-sdk-swift/codegen/smithy-aws-swift-codegen/src/main/kotlin/software/amazon/smithy/aws/swift/codegen/swiftintegrations/PackageManifestJSONIntegration.kt:53:46 Cannot access 'targetName': it is private in file
+e: file:///Users/antefel/Work_Code/aws-sdk-swift/codegen/smithy-aws-swift-codegen/src/main/kotlin/software/amazon/smithy/aws/swift/codegen/swiftintegrations/PackageManifestJSONIntegration.kt:54:44 Function invocation 'targetName()' expected
+e: file:///Users/antefel/Work_Code/aws-sdk-swift/codegen/smithy-aws-swift-codegen/src/main/kotlin/software/amazon/smithy/aws/swift/codegen/swiftintegrations/PackageManifestJSONIntegration.kt:54:44 Cannot access 'targetName': it is private in file
+e: file:///Users/antefel/Work_Code/aws-sdk-swift/codegen/smithy-aws-swift-codegen/src/main/kotlin/software/amazon/smithy/aws/swift/codegen/swiftintegrations/PackageManifestJSONIntegration.kt:56:76 Function invocation 'targetName()' expected
+e: file:///Users/antefel/Work_Code/aws-sdk-swift/codegen/smithy-aws-swift-codegen/src/main/kotlin/software/amazon/smithy/aws/swift/codegen/swiftintegrations/PackageManifestJSONIntegration.kt:56:76 Cannot access 'targetName': it is private in file
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':smithy-aws-swift-codegen:compileKotlin'.
+> A failure occurred while executing org.jetbrains.kotlin.compilerRunner.GradleCompilerRunnerWithWorkers$GradleKotlinCompilerWorkAction
+   > Compilation error. See log for more details
+
+* Try:
+Run with --stacktrace option to get the stack trace. Run with --info or --debug option to get more log output. Run with --scan to get full insights.
+
+* Get more help at https://help.gradle.org
+
+Deprecated Gradle features were used in this build, making it incompatible with Gradle 8.0.
+
+You can use '--warning-mode all' to show the individual deprecation warnings and determine if they come from your own scripts or plugins.
+
+See https://docs.gradle.org/7.2/userguide/command_line_interface.html#sec:command_line_warnings
+
+BUILD FAILED in 4s
+20 actionable tasks: 4 executed, 16 up-to-date
