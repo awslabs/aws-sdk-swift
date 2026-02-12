@@ -70,11 +70,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class ManagedBlockchainQueryClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "ManagedBlockchainQueryClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: ManagedBlockchainQueryClient.ManagedBlockchainQueryClientConfig
+    public let config: ManagedBlockchainQueryClient.ManagedBlockchainQueryClientConfig
     let serviceName = "ManagedBlockchain Query"
 
     @available(*, deprecated, message: "Use ManagedBlockchainQueryClient.ManagedBlockchainQueryClientConfig instead")
     public typealias Config = ManagedBlockchainQueryClient.ManagedBlockchainQueryClientConfiguration
+    public typealias Configuration = ManagedBlockchainQueryClient.ManagedBlockchainQueryClientConfig
 
     public required init(config: ManagedBlockchainQueryClient.ManagedBlockchainQueryClientConfig) {
         ClientRuntime.initialize()

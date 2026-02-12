@@ -72,11 +72,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class CloudSearchDomainClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "CloudSearchDomainClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: CloudSearchDomainClient.CloudSearchDomainClientConfig
+    public let config: CloudSearchDomainClient.CloudSearchDomainClientConfig
     let serviceName = "CloudSearch Domain"
 
     @available(*, deprecated, message: "Use CloudSearchDomainClient.CloudSearchDomainClientConfig instead")
     public typealias Config = CloudSearchDomainClient.CloudSearchDomainClientConfiguration
+    public typealias Configuration = CloudSearchDomainClient.CloudSearchDomainClientConfig
 
     public required init(config: CloudSearchDomainClient.CloudSearchDomainClientConfig) {
         ClientRuntime.initialize()

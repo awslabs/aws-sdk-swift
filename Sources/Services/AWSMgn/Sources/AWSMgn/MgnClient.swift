@@ -72,11 +72,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class MgnClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "MgnClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: MgnClient.MgnClientConfig
+    public let config: MgnClient.MgnClientConfig
     let serviceName = "mgn"
 
     @available(*, deprecated, message: "Use MgnClient.MgnClientConfig instead")
     public typealias Config = MgnClient.MgnClientConfiguration
+    public typealias Configuration = MgnClient.MgnClientConfig
 
     public required init(config: MgnClient.MgnClientConfig) {
         ClientRuntime.initialize()

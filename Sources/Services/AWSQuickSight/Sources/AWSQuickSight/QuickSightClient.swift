@@ -72,11 +72,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class QuickSightClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "QuickSightClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: QuickSightClient.QuickSightClientConfig
+    public let config: QuickSightClient.QuickSightClientConfig
     let serviceName = "QuickSight"
 
     @available(*, deprecated, message: "Use QuickSightClient.QuickSightClientConfig instead")
     public typealias Config = QuickSightClient.QuickSightClientConfiguration
+    public typealias Configuration = QuickSightClient.QuickSightClientConfig
 
     public required init(config: QuickSightClient.QuickSightClientConfig) {
         ClientRuntime.initialize()

@@ -73,11 +73,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class WisdomClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "WisdomClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: WisdomClient.WisdomClientConfig
+    public let config: WisdomClient.WisdomClientConfig
     let serviceName = "Wisdom"
 
     @available(*, deprecated, message: "Use WisdomClient.WisdomClientConfig instead")
     public typealias Config = WisdomClient.WisdomClientConfiguration
+    public typealias Configuration = WisdomClient.WisdomClientConfig
 
     public required init(config: WisdomClient.WisdomClientConfig) {
         ClientRuntime.initialize()

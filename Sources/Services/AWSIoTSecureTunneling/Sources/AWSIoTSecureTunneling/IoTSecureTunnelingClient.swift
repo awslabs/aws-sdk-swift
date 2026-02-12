@@ -72,11 +72,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class IoTSecureTunnelingClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "IoTSecureTunnelingClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: IoTSecureTunnelingClient.IoTSecureTunnelingClientConfig
+    public let config: IoTSecureTunnelingClient.IoTSecureTunnelingClientConfig
     let serviceName = "IoTSecureTunneling"
 
     @available(*, deprecated, message: "Use IoTSecureTunnelingClient.IoTSecureTunnelingClientConfig instead")
     public typealias Config = IoTSecureTunnelingClient.IoTSecureTunnelingClientConfiguration
+    public typealias Configuration = IoTSecureTunnelingClient.IoTSecureTunnelingClientConfig
 
     public required init(config: IoTSecureTunnelingClient.IoTSecureTunnelingClientConfig) {
         ClientRuntime.initialize()

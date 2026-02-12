@@ -71,11 +71,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class PersonalizeClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "PersonalizeClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: PersonalizeClient.PersonalizeClientConfig
+    public let config: PersonalizeClient.PersonalizeClientConfig
     let serviceName = "Personalize"
 
     @available(*, deprecated, message: "Use PersonalizeClient.PersonalizeClientConfig instead")
     public typealias Config = PersonalizeClient.PersonalizeClientConfiguration
+    public typealias Configuration = PersonalizeClient.PersonalizeClientConfig
 
     public required init(config: PersonalizeClient.PersonalizeClientConfig) {
         ClientRuntime.initialize()

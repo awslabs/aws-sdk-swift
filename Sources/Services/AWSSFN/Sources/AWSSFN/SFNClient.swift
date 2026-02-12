@@ -73,11 +73,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class SFNClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "SFNClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: SFNClient.SFNClientConfig
+    public let config: SFNClient.SFNClientConfig
     let serviceName = "SFN"
 
     @available(*, deprecated, message: "Use SFNClient.SFNClientConfig instead")
     public typealias Config = SFNClient.SFNClientConfiguration
+    public typealias Configuration = SFNClient.SFNClientConfig
 
     public required init(config: SFNClient.SFNClientConfig) {
         ClientRuntime.initialize()

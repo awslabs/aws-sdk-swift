@@ -71,11 +71,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class ServerlessApplicationRepositoryClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "ServerlessApplicationRepositoryClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: ServerlessApplicationRepositoryClient.ServerlessApplicationRepositoryClientConfig
+    public let config: ServerlessApplicationRepositoryClient.ServerlessApplicationRepositoryClientConfig
     let serviceName = "ServerlessApplicationRepository"
 
     @available(*, deprecated, message: "Use ServerlessApplicationRepositoryClient.ServerlessApplicationRepositoryClientConfig instead")
     public typealias Config = ServerlessApplicationRepositoryClient.ServerlessApplicationRepositoryClientConfiguration
+    public typealias Configuration = ServerlessApplicationRepositoryClient.ServerlessApplicationRepositoryClientConfig
 
     public required init(config: ServerlessApplicationRepositoryClient.ServerlessApplicationRepositoryClientConfig) {
         ClientRuntime.initialize()

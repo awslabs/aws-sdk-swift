@@ -28,11 +28,11 @@ public class MediaPackageV2ClientEndpointPlugin: Plugin {
         self.init(endpointResolver: try DefaultEndpointResolver())
     }
 
-    public func configureClient(clientConfiguration: inout ClientRuntime.ClientConfiguration) async throws {
-        if var config = clientConfiguration as? MediaPackageV2Client.MediaPackageV2ClientConfig {
-            config.endpointResolver = self.endpointResolver
-            clientConfiguration = config
-        }
+    public func configureClient<Config: ClientRuntime.ClientConfiguration>(clientConfiguration: inout Config) async throws {
+        guard var config = clientConfiguration as? MediaPackageV2Client.MediaPackageV2ClientConfig else { return }
+        config.endpointResolver = self.endpointResolver
+        guard let modifiedConfig = config as? Config else { return }
+        clientConfiguration = modifiedConfig
     }
 }
 
@@ -40,13 +40,14 @@ public class DefaultAWSAuthSchemePlugin: ClientRuntime.Plugin {
 
     public init() {}
 
-    public func configureClient(clientConfiguration: inout ClientRuntime.ClientConfiguration) async throws {
+    public func configureClient<Config: ClientRuntime.ClientConfiguration>(clientConfiguration: inout Config) async throws {
         if var config = clientConfiguration as? MediaPackageV2Client.MediaPackageV2ClientConfig {
             config.authSchemeResolver = DefaultMediaPackageV2AuthSchemeResolver()
             config.authSchemes = [AWSSDKHTTPAuth.SigV4AuthScheme()]
             config.awsCredentialIdentityResolver = AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain()
             config.bearerTokenIdentityResolver = SmithyIdentity.StaticBearerTokenIdentityResolver()
-            clientConfiguration = config
+            guard let modifiedConfig = config as? Config else { return }
+            clientConfiguration = modifiedConfig
         }
     }
 }
@@ -66,7 +67,7 @@ public class MediaPackageV2ClientAuthSchemePlugin: ClientRuntime.Plugin {
         self.bearerTokenIdentityResolver = bearerTokenIdentityResolver
     }
 
-    public func configureClient(clientConfiguration: inout ClientRuntime.ClientConfiguration) async throws {
+    public func configureClient<Config: ClientRuntime.ClientConfiguration>(clientConfiguration: inout Config) async throws {
         if var config = clientConfiguration as? MediaPackageV2Client.MediaPackageV2ClientConfig {
             if (self.authSchemes != nil) {
                 config.authSchemes = self.authSchemes
@@ -81,7 +82,8 @@ public class MediaPackageV2ClientAuthSchemePlugin: ClientRuntime.Plugin {
             if (self.bearerTokenIdentityResolver != nil) {
                 config.bearerTokenIdentityResolver = self.bearerTokenIdentityResolver!
             }
-            clientConfiguration = config
+            guard let modifiedConfig = config as? Config else { return }
+            clientConfiguration = modifiedConfig
         }
     }
 }

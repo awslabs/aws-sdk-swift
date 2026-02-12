@@ -74,11 +74,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class SecurityHubClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "SecurityHubClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: SecurityHubClient.SecurityHubClientConfig
+    public let config: SecurityHubClient.SecurityHubClientConfig
     let serviceName = "SecurityHub"
 
     @available(*, deprecated, message: "Use SecurityHubClient.SecurityHubClientConfig instead")
     public typealias Config = SecurityHubClient.SecurityHubClientConfiguration
+    public typealias Configuration = SecurityHubClient.SecurityHubClientConfig
 
     public required init(config: SecurityHubClient.SecurityHubClientConfig) {
         ClientRuntime.initialize()

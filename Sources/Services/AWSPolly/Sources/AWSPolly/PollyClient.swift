@@ -77,11 +77,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class PollyClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "PollyClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: PollyClient.PollyClientConfig
+    public let config: PollyClient.PollyClientConfig
     let serviceName = "Polly"
 
     @available(*, deprecated, message: "Use PollyClient.PollyClientConfig instead")
     public typealias Config = PollyClient.PollyClientConfiguration
+    public typealias Configuration = PollyClient.PollyClientConfig
 
     public required init(config: PollyClient.PollyClientConfig) {
         ClientRuntime.initialize()

@@ -72,11 +72,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class GlobalAcceleratorClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "GlobalAcceleratorClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: GlobalAcceleratorClient.GlobalAcceleratorClientConfig
+    public let config: GlobalAcceleratorClient.GlobalAcceleratorClientConfig
     let serviceName = "Global Accelerator"
 
     @available(*, deprecated, message: "Use GlobalAcceleratorClient.GlobalAcceleratorClientConfig instead")
     public typealias Config = GlobalAcceleratorClient.GlobalAcceleratorClientConfiguration
+    public typealias Configuration = GlobalAcceleratorClient.GlobalAcceleratorClientConfig
 
     public required init(config: GlobalAcceleratorClient.GlobalAcceleratorClientConfig) {
         ClientRuntime.initialize()

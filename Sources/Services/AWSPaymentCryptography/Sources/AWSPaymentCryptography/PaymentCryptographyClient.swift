@@ -72,11 +72,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class PaymentCryptographyClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "PaymentCryptographyClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: PaymentCryptographyClient.PaymentCryptographyClientConfig
+    public let config: PaymentCryptographyClient.PaymentCryptographyClientConfig
     let serviceName = "Payment Cryptography"
 
     @available(*, deprecated, message: "Use PaymentCryptographyClient.PaymentCryptographyClientConfig instead")
     public typealias Config = PaymentCryptographyClient.PaymentCryptographyClientConfiguration
+    public typealias Configuration = PaymentCryptographyClient.PaymentCryptographyClientConfig
 
     public required init(config: PaymentCryptographyClient.PaymentCryptographyClientConfig) {
         ClientRuntime.initialize()

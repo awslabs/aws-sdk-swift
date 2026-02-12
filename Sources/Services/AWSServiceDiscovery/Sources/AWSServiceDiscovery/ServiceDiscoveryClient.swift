@@ -72,11 +72,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class ServiceDiscoveryClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "ServiceDiscoveryClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: ServiceDiscoveryClient.ServiceDiscoveryClientConfig
+    public let config: ServiceDiscoveryClient.ServiceDiscoveryClientConfig
     let serviceName = "ServiceDiscovery"
 
     @available(*, deprecated, message: "Use ServiceDiscoveryClient.ServiceDiscoveryClientConfig instead")
     public typealias Config = ServiceDiscoveryClient.ServiceDiscoveryClientConfiguration
+    public typealias Configuration = ServiceDiscoveryClient.ServiceDiscoveryClientConfig
 
     public required init(config: ServiceDiscoveryClient.ServiceDiscoveryClientConfig) {
         ClientRuntime.initialize()

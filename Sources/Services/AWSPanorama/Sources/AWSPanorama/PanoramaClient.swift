@@ -72,11 +72,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class PanoramaClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "PanoramaClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: PanoramaClient.PanoramaClientConfig
+    public let config: PanoramaClient.PanoramaClientConfig
     let serviceName = "Panorama"
 
     @available(*, deprecated, message: "Use PanoramaClient.PanoramaClientConfig instead")
     public typealias Config = PanoramaClient.PanoramaClientConfiguration
+    public typealias Configuration = PanoramaClient.PanoramaClientConfig
 
     public required init(config: PanoramaClient.PanoramaClientConfig) {
         ClientRuntime.initialize()

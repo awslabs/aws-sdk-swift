@@ -71,11 +71,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class XRayClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "XRayClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: XRayClient.XRayClientConfig
+    public let config: XRayClient.XRayClientConfig
     let serviceName = "XRay"
 
     @available(*, deprecated, message: "Use XRayClient.XRayClientConfig instead")
     public typealias Config = XRayClient.XRayClientConfiguration
+    public typealias Configuration = XRayClient.XRayClientConfig
 
     public required init(config: XRayClient.XRayClientConfig) {
         ClientRuntime.initialize()

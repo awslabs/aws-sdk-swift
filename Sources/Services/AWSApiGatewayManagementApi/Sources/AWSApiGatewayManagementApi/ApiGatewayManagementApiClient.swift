@@ -70,11 +70,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class ApiGatewayManagementApiClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "ApiGatewayManagementApiClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: ApiGatewayManagementApiClient.ApiGatewayManagementApiClientConfig
+    public let config: ApiGatewayManagementApiClient.ApiGatewayManagementApiClientConfig
     let serviceName = "ApiGatewayManagementApi"
 
     @available(*, deprecated, message: "Use ApiGatewayManagementApiClient.ApiGatewayManagementApiClientConfig instead")
     public typealias Config = ApiGatewayManagementApiClient.ApiGatewayManagementApiClientConfiguration
+    public typealias Configuration = ApiGatewayManagementApiClient.ApiGatewayManagementApiClientConfig
 
     public required init(config: ApiGatewayManagementApiClient.ApiGatewayManagementApiClientConfig) {
         ClientRuntime.initialize()

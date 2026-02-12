@@ -73,11 +73,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class BraketClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "BraketClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: BraketClient.BraketClientConfig
+    public let config: BraketClient.BraketClientConfig
     let serviceName = "Braket"
 
     @available(*, deprecated, message: "Use BraketClient.BraketClientConfig instead")
     public typealias Config = BraketClient.BraketClientConfiguration
+    public typealias Configuration = BraketClient.BraketClientConfig
 
     public required init(config: BraketClient.BraketClientConfig) {
         ClientRuntime.initialize()

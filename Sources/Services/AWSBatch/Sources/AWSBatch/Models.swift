@@ -4478,6 +4478,25 @@ extension BatchClientTypes {
 
 extension BatchClientTypes {
 
+    /// The capacity usage for a service job, including the unit of measure and quantity of resources being consumed.
+    public struct ServiceJobCapacityUsageDetail: Swift.Sendable {
+        /// The unit of measure for the service job capacity usage. For service jobs, this is NUM_INSTANCES.
+        public var capacityUnit: Swift.String?
+        /// The quantity of capacity being used by the service job, measured in the units specified by capacityUnit.
+        public var quantity: Swift.Double?
+
+        public init(
+            capacityUnit: Swift.String? = nil,
+            quantity: Swift.Double? = nil
+        ) {
+            self.capacityUnit = capacityUnit
+            self.quantity = quantity
+        }
+    }
+}
+
+extension BatchClientTypes {
+
     /// Information about the latest attempt of a service job. A Service job can transition from SCHEDULED back to RUNNABLE state when they encounter capacity constraints.
     public struct LatestServiceJobAttempt: Swift.Sendable {
         /// The service resource identifier associated with the service job attempt.
@@ -4650,6 +4669,8 @@ extension BatchClientTypes {
 public struct DescribeServiceJobOutput: Swift.Sendable {
     /// A list of job attempts associated with the service job.
     public var attempts: [BatchClientTypes.ServiceJobAttemptDetail]?
+    /// The configured capacity for the service job, such as the number of instances. The number of instances should be the same value as the serviceRequestPayload.InstanceCount field.
+    public var capacityUsage: [BatchClientTypes.ServiceJobCapacityUsageDetail]?
     /// The Unix timestamp (in milliseconds) for when the service job was created.
     public var createdAt: Swift.Int?
     /// Indicates whether the service job has been terminated.
@@ -4669,6 +4690,8 @@ public struct DescribeServiceJobOutput: Swift.Sendable {
     public var latestAttempt: BatchClientTypes.LatestServiceJobAttempt?
     /// The retry strategy to use for failed service jobs that are submitted with this service job.
     public var retryStrategy: BatchClientTypes.ServiceJobRetryStrategy?
+    /// The Unix timestamp (in milliseconds) for when the service job was scheduled. This represents when the service job was dispatched to SageMaker and the service job transitioned to the SCHEDULED state.
+    public var scheduledAt: Swift.Int?
     /// The scheduling priority of the service job.
     public var schedulingPriority: Swift.Int?
     /// The type of service job. For SageMaker Training jobs, this value is SAGEMAKER_TRAINING.
@@ -4695,6 +4718,7 @@ public struct DescribeServiceJobOutput: Swift.Sendable {
 
     public init(
         attempts: [BatchClientTypes.ServiceJobAttemptDetail]? = nil,
+        capacityUsage: [BatchClientTypes.ServiceJobCapacityUsageDetail]? = nil,
         createdAt: Swift.Int? = nil,
         isTerminated: Swift.Bool? = nil,
         jobArn: Swift.String? = nil,
@@ -4703,6 +4727,7 @@ public struct DescribeServiceJobOutput: Swift.Sendable {
         jobQueue: Swift.String? = nil,
         latestAttempt: BatchClientTypes.LatestServiceJobAttempt? = nil,
         retryStrategy: BatchClientTypes.ServiceJobRetryStrategy? = nil,
+        scheduledAt: Swift.Int? = nil,
         schedulingPriority: Swift.Int? = nil,
         serviceJobType: BatchClientTypes.ServiceJobType? = nil,
         serviceRequestPayload: Swift.String? = nil,
@@ -4715,6 +4740,7 @@ public struct DescribeServiceJobOutput: Swift.Sendable {
         timeoutConfig: BatchClientTypes.ServiceJobTimeout? = nil
     ) {
         self.attempts = attempts
+        self.capacityUsage = capacityUsage
         self.createdAt = createdAt
         self.isTerminated = isTerminated
         self.jobArn = jobArn
@@ -4723,6 +4749,7 @@ public struct DescribeServiceJobOutput: Swift.Sendable {
         self.jobQueue = jobQueue
         self.latestAttempt = latestAttempt
         self.retryStrategy = retryStrategy
+        self.scheduledAt = scheduledAt
         self.schedulingPriority = schedulingPriority
         self.serviceJobType = serviceJobType
         self.serviceRequestPayload = serviceRequestPayload
@@ -4786,14 +4813,117 @@ extension BatchClientTypes {
     }
 }
 
+extension BatchClientTypes {
+
+    /// The capacity usage for a fairshare scheduling job queue.
+    public struct FairshareCapacityUsage: Swift.Sendable {
+        /// The unit of measure for the capacity usage. For compute jobs, this is VCPU for Amazon EC2 and cpu for Amazon EKS. For service jobs, this is NUM_INSTANCES.
+        public var capacityUnit: Swift.String?
+        /// The quantity of capacity being used, measured in the units specified by capacityUnit.
+        public var quantity: Swift.Double?
+
+        public init(
+            capacityUnit: Swift.String? = nil,
+            quantity: Swift.Double? = nil
+        ) {
+            self.capacityUnit = capacityUnit
+            self.quantity = quantity
+        }
+    }
+}
+
+extension BatchClientTypes {
+
+    /// The capacity utilization for a specific share in a fairshare scheduling job queue, including the share identifier and its current usage.
+    public struct FairshareCapacityUtilization: Swift.Sendable {
+        /// The capacity usage information for this share, including the unit of measure and quantity being used. This is VCPU for Amazon EC2 and cpu for Amazon EKS.
+        public var capacityUsage: [BatchClientTypes.FairshareCapacityUsage]?
+        /// The share identifier for the fairshare scheduling job queue.
+        public var shareIdentifier: Swift.String?
+
+        public init(
+            capacityUsage: [BatchClientTypes.FairshareCapacityUsage]? = nil,
+            shareIdentifier: Swift.String? = nil
+        ) {
+            self.capacityUsage = capacityUsage
+            self.shareIdentifier = shareIdentifier
+        }
+    }
+}
+
+extension BatchClientTypes {
+
+    /// The fairshare utilization for a job queue, including the number of active shares and top capacity utilization.
+    public struct FairshareUtilizationDetail: Swift.Sendable {
+        /// The total number of active shares in the fairshare scheduling job queue that are currently utilizing capacity.
+        public var activeShareCount: Swift.Int?
+        /// A list of the top 20 shares with the highest capacity utilization, ordered by usage amount.
+        public var topCapacityUtilization: [BatchClientTypes.FairshareCapacityUtilization]?
+
+        public init(
+            activeShareCount: Swift.Int? = nil,
+            topCapacityUtilization: [BatchClientTypes.FairshareCapacityUtilization]? = nil
+        ) {
+            self.activeShareCount = activeShareCount
+            self.topCapacityUtilization = topCapacityUtilization
+        }
+    }
+}
+
+extension BatchClientTypes {
+
+    /// The configured capacity usage for a job queue snapshot, including the unit of measure and quantity of resources being used.
+    public struct QueueSnapshotCapacityUsage: Swift.Sendable {
+        /// The unit of measure for the capacity usage. For compute jobs, this is VCPU for Amazon EC2 and cpu for Amazon EKS. For service jobs, this is NUM_INSTANCES.
+        public var capacityUnit: Swift.String?
+        /// The quantity of capacity being used in the queue snapshot, measured in the units specified by capacityUnit.
+        public var quantity: Swift.Double?
+
+        public init(
+            capacityUnit: Swift.String? = nil,
+            quantity: Swift.Double? = nil
+        ) {
+            self.capacityUnit = capacityUnit
+            self.quantity = quantity
+        }
+    }
+}
+
+extension BatchClientTypes {
+
+    /// The job queue utilization at a specific point in time, including total capacity usage and fairshare utilization breakdown.
+    public struct QueueSnapshotUtilizationDetail: Swift.Sendable {
+        /// The utilization information for a fairshare scheduling job queues, including active share count and top capacity utilization by share.
+        public var fairshareUtilization: BatchClientTypes.FairshareUtilizationDetail?
+        /// The Unix timestamp (in milliseconds) for when the queue utilization information was last updated.
+        public var lastUpdatedAt: Swift.Int?
+        /// The total capacity usage for the entire job queue, for both first-in, first-out (FIFO) and fairshare scheduling job queue.
+        public var totalCapacityUsage: [BatchClientTypes.QueueSnapshotCapacityUsage]?
+
+        public init(
+            fairshareUtilization: BatchClientTypes.FairshareUtilizationDetail? = nil,
+            lastUpdatedAt: Swift.Int? = nil,
+            totalCapacityUsage: [BatchClientTypes.QueueSnapshotCapacityUsage]? = nil
+        ) {
+            self.fairshareUtilization = fairshareUtilization
+            self.lastUpdatedAt = lastUpdatedAt
+            self.totalCapacityUsage = totalCapacityUsage
+        }
+    }
+}
+
 public struct GetJobQueueSnapshotOutput: Swift.Sendable {
     /// The list of the first 100 RUNNABLE jobs in each job queue. For first-in-first-out (FIFO) job queues, jobs are ordered based on their submission time. For fair-share scheduling (FSS) job queues, jobs are ordered based on their job priority and share usage.
     public var frontOfQueue: BatchClientTypes.FrontOfQueueDetail?
+    /// The job queue's capacity utilization, including total usage and breakdown by fairshare scheduling queue.
+    public var queueUtilization: BatchClientTypes.QueueSnapshotUtilizationDetail?
 
     public init(
-        frontOfQueue: BatchClientTypes.FrontOfQueueDetail? = nil
+        frontOfQueue: BatchClientTypes.FrontOfQueueDetail? = nil,
+        queueUtilization: BatchClientTypes.QueueSnapshotUtilizationDetail? = nil
     ) {
         self.frontOfQueue = frontOfQueue
+        self.queueUtilization = queueUtilization
     }
 }
 
@@ -4894,11 +5024,11 @@ public struct ListConsumableResourcesOutput: Swift.Sendable {
 public struct ListJobsInput: Swift.Sendable {
     /// The job ID for an array job. Specifying an array job ID with this parameter lists all child jobs from within the specified array.
     public var arrayJobId: Swift.String?
-    /// The filter to apply to the query. Only one filter can be used at a time. When the filter is used, jobStatus is ignored. The filter doesn't apply to child jobs in an array or multi-node parallel (MNP) jobs. The results are sorted by the createdAt field, with the most recent jobs being first. JOB_NAME The value of the filter is a case-insensitive match for the job name. If the value ends with an asterisk (*), the filter matches any job name that begins with the string before the '*'. This corresponds to the jobName value. For example, test1 matches both Test1 and test1, and test1* matches both test1 and Test10. When the JOB_NAME filter is used, the results are grouped by the job name and version. JOB_DEFINITION The value for the filter is the name or Amazon Resource Name (ARN) of the job definition. This corresponds to the jobDefinition value. The value is case sensitive. When the value for the filter is the job definition name, the results include all the jobs that used any revision of that job definition name. If the value ends with an asterisk (*), the filter matches any job definition name that begins with the string before the '*'. For example, jd1 matches only jd1, and jd1* matches both jd1 and jd1A. The version of the job definition that's used doesn't affect the sort order. When the JOB_DEFINITION filter is used and the ARN is used (which is in the form arn:${Partition}:batch:${Region}:${Account}:job-definition/${JobDefinitionName}:${Revision}), the results include jobs that used the specified revision of the job definition. Asterisk (*) isn't supported when the ARN is used. BEFORE_CREATED_AT The value for the filter is the time that's before the job was created. This corresponds to the createdAt value. The value is a string representation of the number of milliseconds since 00:00:00 UTC (midnight) on January 1, 1970. AFTER_CREATED_AT The value for the filter is the time that's after the job was created. This corresponds to the createdAt value. The value is a string representation of the number of milliseconds since 00:00:00 UTC (midnight) on January 1, 1970.
+    /// The filter to apply to the query. Only one filter can be used at a time. When the filter is used, jobStatus is ignored with the exception that SHARE_IDENTIFIER and jobStatus can be used together. The filter doesn't apply to child jobs in an array or multi-node parallel (MNP) jobs. The results are sorted by the createdAt field, with the most recent jobs being first. The SHARE_IDENTIFIER filter and the jobStatus field can be used together to filter results. JOB_NAME The value of the filter is a case-insensitive match for the job name. If the value ends with an asterisk (*), the filter matches any job name that begins with the string before the '*'. This corresponds to the jobName value. For example, test1 matches both Test1 and test1, and test1* matches both test1 and Test10. When the JOB_NAME filter is used, the results are grouped by the job name and version. JOB_DEFINITION The value for the filter is the name or Amazon Resource Name (ARN) of the job definition. This corresponds to the jobDefinition value. The value is case sensitive. When the value for the filter is the job definition name, the results include all the jobs that used any revision of that job definition name. If the value ends with an asterisk (*), the filter matches any job definition name that begins with the string before the '*'. For example, jd1 matches only jd1, and jd1* matches both jd1 and jd1A. The version of the job definition that's used doesn't affect the sort order. When the JOB_DEFINITION filter is used and the ARN is used (which is in the form arn:${Partition}:batch:${Region}:${Account}:job-definition/${JobDefinitionName}:${Revision}), the results include jobs that used the specified revision of the job definition. Asterisk (*) isn't supported when the ARN is used. BEFORE_CREATED_AT The value for the filter is the time that's before the job was created. This corresponds to the createdAt value. The value is a string representation of the number of milliseconds since 00:00:00 UTC (midnight) on January 1, 1970. AFTER_CREATED_AT The value for the filter is the time that's after the job was created. This corresponds to the createdAt value. The value is a string representation of the number of milliseconds since 00:00:00 UTC (midnight) on January 1, 1970. SHARE_IDENTIFIER The value for the filter is the fairshare scheduling share identifier.
     public var filters: [BatchClientTypes.KeyValuesPair]?
     /// The name or full Amazon Resource Name (ARN) of the job queue used to list jobs.
     public var jobQueue: Swift.String?
-    /// The job status used to filter jobs in the specified queue. If the filters parameter is specified, the jobStatus parameter is ignored and jobs with any status are returned. If you don't specify a status, only RUNNING jobs are returned. Array job parents are updated to PENDING when any child job is updated to RUNNABLE and remain in PENDING status while child jobs are running. To view these jobs, filter by PENDING status until all child jobs reach a terminal state.
+    /// The job status used to filter jobs in the specified queue. If the filters parameter is specified, the jobStatus parameter is ignored and jobs with any status are returned. The exception is the SHARE_IDENTIFIER filter and jobStatus can be used together. If you don't specify a status, only RUNNING jobs are returned. Array job parents are updated to PENDING when any child job is updated to RUNNABLE and remain in PENDING status while child jobs are running. To view these jobs, filter by PENDING status until all child jobs reach a terminal state.
     public var jobStatus: BatchClientTypes.JobStatus?
     /// The maximum number of results returned by ListJobs in a paginated output. When this parameter is used, ListJobs returns up to maxResults results in a single page and a nextToken response element, if applicable. The remaining results of the initial request can be seen by sending another ListJobs request with the returned nextToken value. The following outlines key parameters and limitations:
     ///
@@ -4931,6 +5061,25 @@ public struct ListJobsInput: Swift.Sendable {
         self.maxResults = maxResults
         self.multiNodeJobId = multiNodeJobId
         self.nextToken = nextToken
+    }
+}
+
+extension BatchClientTypes {
+
+    /// The capacity usage for a job, including the unit of measure and quantity of resources being used.
+    public struct JobCapacityUsageSummary: Swift.Sendable {
+        /// The unit of measure for the capacity usage. This is VCPU for Amazon EC2 and cpu for Amazon EKS.
+        public var capacityUnit: Swift.String?
+        /// The quantity of capacity being used by the job, measured in the units specified by capacityUnit.
+        public var quantity: Swift.Double?
+
+        public init(
+            capacityUnit: Swift.String? = nil,
+            quantity: Swift.Double? = nil
+        ) {
+            self.capacityUnit = capacityUnit
+            self.quantity = quantity
+        }
     }
 }
 
@@ -4982,6 +5131,8 @@ extension BatchClientTypes {
     public struct JobSummary: Swift.Sendable {
         /// The array properties of the job, if it's an array job.
         public var arrayProperties: BatchClientTypes.ArrayPropertiesSummary?
+        /// The configured capacity usage information for this job, including the unit of measure and quantity of resources.
+        public var capacityUsage: [BatchClientTypes.JobCapacityUsageSummary]?
         /// An object that represents the details of the container that's associated with the job.
         public var container: BatchClientTypes.ContainerSummary?
         /// The Unix timestamp (in milliseconds) for when the job was created. For non-array jobs and parent array jobs, this is when the job entered the SUBMITTED state (at the time [SubmitJob](https://docs.aws.amazon.com/batch/latest/APIReference/API_SubmitJob.html) was called). For array child jobs, this is when the child job was spawned by its parent and entered the PENDING state.
@@ -4998,6 +5149,10 @@ extension BatchClientTypes {
         public var jobName: Swift.String?
         /// The node properties for a single node in a job summary list. This isn't applicable to jobs that are running on Fargate resources.
         public var nodeProperties: BatchClientTypes.NodePropertiesSummary?
+        /// The Unix timestamp (in milliseconds) for when the job was scheduled for execution. For more information on job statues, see [Service job status](https://docs.aws.amazon.com/batch/latest/userguide/service-job-status.html) in the Batch User Guide.
+        public var scheduledAt: Swift.Int?
+        /// The share identifier for the fairshare scheduling queue that this job is associated with.
+        public var shareIdentifier: Swift.String?
         /// The Unix timestamp for when the job was started. More specifically, it's when the job transitioned from the STARTING state to the RUNNING state.
         public var startedAt: Swift.Int?
         /// The current status for the job.
@@ -5009,6 +5164,7 @@ extension BatchClientTypes {
 
         public init(
             arrayProperties: BatchClientTypes.ArrayPropertiesSummary? = nil,
+            capacityUsage: [BatchClientTypes.JobCapacityUsageSummary]? = nil,
             container: BatchClientTypes.ContainerSummary? = nil,
             createdAt: Swift.Int? = nil,
             jobArn: Swift.String? = nil,
@@ -5016,12 +5172,15 @@ extension BatchClientTypes {
             jobId: Swift.String? = nil,
             jobName: Swift.String? = nil,
             nodeProperties: BatchClientTypes.NodePropertiesSummary? = nil,
+            scheduledAt: Swift.Int? = nil,
+            shareIdentifier: Swift.String? = nil,
             startedAt: Swift.Int? = nil,
             status: BatchClientTypes.JobStatus? = nil,
             statusReason: Swift.String? = nil,
             stoppedAt: Swift.Int? = nil
         ) {
             self.arrayProperties = arrayProperties
+            self.capacityUsage = capacityUsage
             self.container = container
             self.createdAt = createdAt
             self.jobArn = jobArn
@@ -5029,6 +5188,8 @@ extension BatchClientTypes {
             self.jobId = jobId
             self.jobName = jobName
             self.nodeProperties = nodeProperties
+            self.scheduledAt = scheduledAt
+            self.shareIdentifier = shareIdentifier
             self.startedAt = startedAt
             self.status = status
             self.statusReason = statusReason
@@ -5122,7 +5283,7 @@ extension BatchClientTypes {
         /// The total amount of the consumable resource that is available.
         /// This member is required.
         public var quantity: Swift.Int?
-        /// The fair-share scheduling policy identifier for the job.
+        /// The fair-share scheduling identifier for the job.
         public var shareIdentifier: Swift.String?
         /// The Unix timestamp for when the job was started. More specifically, it's when the job transitioned from the STARTING state to the RUNNING state.
         public var startedAt: Swift.Int?
@@ -5221,11 +5382,11 @@ public struct ListSchedulingPoliciesOutput: Swift.Sendable {
 }
 
 public struct ListServiceJobsInput: Swift.Sendable {
-    /// The filter to apply to the query. Only one filter can be used at a time. When the filter is used, jobStatus is ignored. The results are sorted by the createdAt field, with the most recent jobs being first. JOB_NAME The value of the filter is a case-insensitive match for the job name. If the value ends with an asterisk (*), the filter matches any job name that begins with the string before the '*'. This corresponds to the jobName value. For example, test1 matches both Test1 and test1, and test1* matches both test1 and Test10. When the JOB_NAME filter is used, the results are grouped by the job name and version. BEFORE_CREATED_AT The value for the filter is the time that's before the job was created. This corresponds to the createdAt value. The value is a string representation of the number of milliseconds since 00:00:00 UTC (midnight) on January 1, 1970. AFTER_CREATED_AT The value for the filter is the time that's after the job was created. This corresponds to the createdAt value. The value is a string representation of the number of milliseconds since 00:00:00 UTC (midnight) on January 1, 1970.
+    /// The filter to apply to the query. Only one filter can be used at a time. When the filter is used, jobStatus is ignored with the exception that SHARE_IDENTIFIER and jobStatus can be used together. The results are sorted by the createdAt field, with the most recent jobs being first. The SHARE_IDENTIFIER filter and the jobStatus field can be used together to filter results. JOB_NAME The value of the filter is a case-insensitive match for the job name. If the value ends with an asterisk (*), the filter matches any job name that begins with the string before the '*'. This corresponds to the jobName value. For example, test1 matches both Test1 and test1, and test1* matches both test1 and Test10. When the JOB_NAME filter is used, the results are grouped by the job name and version. BEFORE_CREATED_AT The value for the filter is the time that's before the job was created. This corresponds to the createdAt value. The value is a string representation of the number of milliseconds since 00:00:00 UTC (midnight) on January 1, 1970. AFTER_CREATED_AT The value for the filter is the time that's after the job was created. This corresponds to the createdAt value. The value is a string representation of the number of milliseconds since 00:00:00 UTC (midnight) on January 1, 1970. SHARE_IDENTIFIER The value for the filter is the fairshare scheduling share identifier.
     public var filters: [BatchClientTypes.KeyValuesPair]?
     /// The name or ARN of the job queue with which to list service jobs.
     public var jobQueue: Swift.String?
-    /// The job status with which to filter service jobs.
+    /// The job status used to filter service jobs in the specified queue. If the filters parameter is specified, the jobStatus parameter is ignored and jobs with any status are returned. The exception is the SHARE_IDENTIFIER filter and jobStatus can be used together. If you don't specify a status, only RUNNING jobs are returned. The SHARE_IDENTIFIER filter and the jobStatus field can be used together to filter results.
     public var jobStatus: BatchClientTypes.ServiceJobStatus?
     /// The maximum number of results returned by ListServiceJobs in paginated output. When this parameter is used, ListServiceJobs only returns maxResults results in a single page and a nextToken response element. The remaining results of the initial request can be seen by sending another ListServiceJobs request with the returned nextToken value. This value can be between 1 and 100. If this parameter isn't used, then ListServiceJobs returns up to 100 results and a nextToken value if applicable.
     public var maxResults: Swift.Int?
@@ -5249,8 +5410,29 @@ public struct ListServiceJobsInput: Swift.Sendable {
 
 extension BatchClientTypes {
 
+    /// The capacity usage for a service job, including the unit of measure and quantity of resources being used.
+    public struct ServiceJobCapacityUsageSummary: Swift.Sendable {
+        /// The unit of measure for the service job capacity usage. For service jobs, this is NUM_INSTANCES.
+        public var capacityUnit: Swift.String?
+        /// The quantity of capacity being used by the service job, measured in the units specified by capacityUnit.
+        public var quantity: Swift.Double?
+
+        public init(
+            capacityUnit: Swift.String? = nil,
+            quantity: Swift.Double? = nil
+        ) {
+            self.capacityUnit = capacityUnit
+            self.quantity = quantity
+        }
+    }
+}
+
+extension BatchClientTypes {
+
     /// Summary information about a service job.
     public struct ServiceJobSummary: Swift.Sendable {
+        /// The capacity usage information for this service job, including the unit of measure and quantity of resources being used.
+        public var capacityUsage: [BatchClientTypes.ServiceJobCapacityUsageSummary]?
         /// The Unix timestamp (in milliseconds) for when the service job was created.
         public var createdAt: Swift.Int?
         /// The Amazon Resource Name (ARN) of the service job.
@@ -5263,6 +5445,8 @@ extension BatchClientTypes {
         public var jobName: Swift.String?
         /// Information about the latest attempt for the service job.
         public var latestAttempt: BatchClientTypes.LatestServiceJobAttempt?
+        /// The Unix timestamp (in milliseconds) for when the service job was scheduled for execution.
+        public var scheduledAt: Swift.Int?
         /// The type of service job. For SageMaker Training jobs, this value is SAGEMAKER_TRAINING.
         /// This member is required.
         public var serviceJobType: BatchClientTypes.ServiceJobType?
@@ -5278,11 +5462,13 @@ extension BatchClientTypes {
         public var stoppedAt: Swift.Int?
 
         public init(
+            capacityUsage: [BatchClientTypes.ServiceJobCapacityUsageSummary]? = nil,
             createdAt: Swift.Int? = nil,
             jobArn: Swift.String? = nil,
             jobId: Swift.String? = nil,
             jobName: Swift.String? = nil,
             latestAttempt: BatchClientTypes.LatestServiceJobAttempt? = nil,
+            scheduledAt: Swift.Int? = nil,
             serviceJobType: BatchClientTypes.ServiceJobType? = nil,
             shareIdentifier: Swift.String? = nil,
             startedAt: Swift.Int? = nil,
@@ -5290,11 +5476,13 @@ extension BatchClientTypes {
             statusReason: Swift.String? = nil,
             stoppedAt: Swift.Int? = nil
         ) {
+            self.capacityUsage = capacityUsage
             self.createdAt = createdAt
             self.jobArn = jobArn
             self.jobId = jobId
             self.jobName = jobName
             self.latestAttempt = latestAttempt
+            self.scheduledAt = scheduledAt
             self.serviceJobType = serviceJobType
             self.shareIdentifier = shareIdentifier
             self.startedAt = startedAt
@@ -7215,6 +7403,7 @@ extension DescribeServiceJobOutput {
         let reader = responseReader
         var value = DescribeServiceJobOutput()
         value.attempts = try reader["attempts"].readListIfPresent(memberReadingClosure: BatchClientTypes.ServiceJobAttemptDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.capacityUsage = try reader["capacityUsage"].readListIfPresent(memberReadingClosure: BatchClientTypes.ServiceJobCapacityUsageDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.createdAt = try reader["createdAt"].readIfPresent()
         value.isTerminated = try reader["isTerminated"].readIfPresent()
         value.jobArn = try reader["jobArn"].readIfPresent()
@@ -7223,6 +7412,7 @@ extension DescribeServiceJobOutput {
         value.jobQueue = try reader["jobQueue"].readIfPresent() ?? ""
         value.latestAttempt = try reader["latestAttempt"].readIfPresent(with: BatchClientTypes.LatestServiceJobAttempt.read(from:))
         value.retryStrategy = try reader["retryStrategy"].readIfPresent(with: BatchClientTypes.ServiceJobRetryStrategy.read(from:))
+        value.scheduledAt = try reader["scheduledAt"].readIfPresent()
         value.schedulingPriority = try reader["schedulingPriority"].readIfPresent()
         value.serviceJobType = try reader["serviceJobType"].readIfPresent() ?? .sdkUnknown("")
         value.serviceRequestPayload = try reader["serviceRequestPayload"].readIfPresent()
@@ -7245,6 +7435,7 @@ extension GetJobQueueSnapshotOutput {
         let reader = responseReader
         var value = GetJobQueueSnapshotOutput()
         value.frontOfQueue = try reader["frontOfQueue"].readIfPresent(with: BatchClientTypes.FrontOfQueueDetail.read(from:))
+        value.queueUtilization = try reader["queueUtilization"].readIfPresent(with: BatchClientTypes.QueueSnapshotUtilizationDetail.read(from:))
         return value
     }
 }
@@ -9699,6 +9890,17 @@ extension BatchClientTypes.ServiceResourceId {
     }
 }
 
+extension BatchClientTypes.ServiceJobCapacityUsageDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.ServiceJobCapacityUsageDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.ServiceJobCapacityUsageDetail()
+        value.capacityUnit = try reader["capacityUnit"].readIfPresent()
+        value.quantity = try reader["quantity"].readIfPresent()
+        return value
+    }
+}
+
 extension BatchClientTypes.LatestServiceJobAttempt {
 
     static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.LatestServiceJobAttempt {
@@ -9780,6 +9982,62 @@ extension BatchClientTypes.FrontOfQueueJobSummary {
     }
 }
 
+extension BatchClientTypes.QueueSnapshotUtilizationDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.QueueSnapshotUtilizationDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.QueueSnapshotUtilizationDetail()
+        value.totalCapacityUsage = try reader["totalCapacityUsage"].readListIfPresent(memberReadingClosure: BatchClientTypes.QueueSnapshotCapacityUsage.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.fairshareUtilization = try reader["fairshareUtilization"].readIfPresent(with: BatchClientTypes.FairshareUtilizationDetail.read(from:))
+        value.lastUpdatedAt = try reader["lastUpdatedAt"].readIfPresent()
+        return value
+    }
+}
+
+extension BatchClientTypes.FairshareUtilizationDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.FairshareUtilizationDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.FairshareUtilizationDetail()
+        value.activeShareCount = try reader["activeShareCount"].readIfPresent()
+        value.topCapacityUtilization = try reader["topCapacityUtilization"].readListIfPresent(memberReadingClosure: BatchClientTypes.FairshareCapacityUtilization.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension BatchClientTypes.FairshareCapacityUtilization {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.FairshareCapacityUtilization {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.FairshareCapacityUtilization()
+        value.shareIdentifier = try reader["shareIdentifier"].readIfPresent()
+        value.capacityUsage = try reader["capacityUsage"].readListIfPresent(memberReadingClosure: BatchClientTypes.FairshareCapacityUsage.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension BatchClientTypes.FairshareCapacityUsage {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.FairshareCapacityUsage {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.FairshareCapacityUsage()
+        value.capacityUnit = try reader["capacityUnit"].readIfPresent()
+        value.quantity = try reader["quantity"].readIfPresent()
+        return value
+    }
+}
+
+extension BatchClientTypes.QueueSnapshotCapacityUsage {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.QueueSnapshotCapacityUsage {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.QueueSnapshotCapacityUsage()
+        value.capacityUnit = try reader["capacityUnit"].readIfPresent()
+        value.quantity = try reader["quantity"].readIfPresent()
+        return value
+    }
+}
+
 extension BatchClientTypes.ConsumableResourceSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.ConsumableResourceSummary {
@@ -9802,7 +10060,10 @@ extension BatchClientTypes.JobSummary {
         value.jobArn = try reader["jobArn"].readIfPresent()
         value.jobId = try reader["jobId"].readIfPresent() ?? ""
         value.jobName = try reader["jobName"].readIfPresent() ?? ""
+        value.capacityUsage = try reader["capacityUsage"].readListIfPresent(memberReadingClosure: BatchClientTypes.JobCapacityUsageSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.createdAt = try reader["createdAt"].readIfPresent()
+        value.scheduledAt = try reader["scheduledAt"].readIfPresent()
+        value.shareIdentifier = try reader["shareIdentifier"].readIfPresent()
         value.status = try reader["status"].readIfPresent()
         value.statusReason = try reader["statusReason"].readIfPresent()
         value.startedAt = try reader["startedAt"].readIfPresent()
@@ -9851,6 +10112,17 @@ extension BatchClientTypes.ContainerSummary {
     }
 }
 
+extension BatchClientTypes.JobCapacityUsageSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.JobCapacityUsageSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.JobCapacityUsageSummary()
+        value.capacityUnit = try reader["capacityUnit"].readIfPresent()
+        value.quantity = try reader["quantity"].readIfPresent()
+        return value
+    }
+}
+
 extension BatchClientTypes.ListJobsByConsumableResourceSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.ListJobsByConsumableResourceSummary {
@@ -9887,16 +10159,29 @@ extension BatchClientTypes.ServiceJobSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BatchClientTypes.ServiceJobSummary()
         value.latestAttempt = try reader["latestAttempt"].readIfPresent(with: BatchClientTypes.LatestServiceJobAttempt.read(from:))
+        value.capacityUsage = try reader["capacityUsage"].readListIfPresent(memberReadingClosure: BatchClientTypes.ServiceJobCapacityUsageSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.createdAt = try reader["createdAt"].readIfPresent()
         value.jobArn = try reader["jobArn"].readIfPresent()
         value.jobId = try reader["jobId"].readIfPresent() ?? ""
         value.jobName = try reader["jobName"].readIfPresent() ?? ""
+        value.scheduledAt = try reader["scheduledAt"].readIfPresent()
         value.serviceJobType = try reader["serviceJobType"].readIfPresent() ?? .sdkUnknown("")
         value.shareIdentifier = try reader["shareIdentifier"].readIfPresent()
         value.status = try reader["status"].readIfPresent()
         value.statusReason = try reader["statusReason"].readIfPresent()
         value.startedAt = try reader["startedAt"].readIfPresent()
         value.stoppedAt = try reader["stoppedAt"].readIfPresent()
+        return value
+    }
+}
+
+extension BatchClientTypes.ServiceJobCapacityUsageSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BatchClientTypes.ServiceJobCapacityUsageSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BatchClientTypes.ServiceJobCapacityUsageSummary()
+        value.capacityUnit = try reader["capacityUnit"].readIfPresent()
+        value.quantity = try reader["quantity"].readIfPresent()
         return value
     }
 }

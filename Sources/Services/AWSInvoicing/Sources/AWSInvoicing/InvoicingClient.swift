@@ -73,11 +73,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class InvoicingClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "InvoicingClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: InvoicingClient.InvoicingClientConfig
+    public let config: InvoicingClient.InvoicingClientConfig
     let serviceName = "Invoicing"
 
     @available(*, deprecated, message: "Use InvoicingClient.InvoicingClientConfig instead")
     public typealias Config = InvoicingClient.InvoicingClientConfiguration
+    public typealias Configuration = InvoicingClient.InvoicingClientConfig
 
     public required init(config: InvoicingClient.InvoicingClientConfig) {
         ClientRuntime.initialize()

@@ -76,11 +76,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class CodeGuruProfilerClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "CodeGuruProfilerClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: CodeGuruProfilerClient.CodeGuruProfilerClientConfig
+    public let config: CodeGuruProfilerClient.CodeGuruProfilerClientConfig
     let serviceName = "CodeGuruProfiler"
 
     @available(*, deprecated, message: "Use CodeGuruProfilerClient.CodeGuruProfilerClientConfig instead")
     public typealias Config = CodeGuruProfilerClient.CodeGuruProfilerClientConfiguration
+    public typealias Configuration = CodeGuruProfilerClient.CodeGuruProfilerClientConfig
 
     public required init(config: CodeGuruProfilerClient.CodeGuruProfilerClientConfig) {
         ClientRuntime.initialize()

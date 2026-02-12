@@ -2850,6 +2850,34 @@ public struct BatchDisassociateScramSecretOutput: Swift.Sendable {
     }
 }
 
+/// Returns information about an error.
+public struct ClusterConnectivityException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// The parameter that caused the error.
+        public internal(set) var invalidParameter: Swift.String? = nil
+        /// The description of the error.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ClusterConnectivityException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        invalidParameter: Swift.String? = nil,
+        message: Swift.String? = nil
+    ) {
+        self.properties.invalidParameter = invalidParameter
+        self.properties.message = message
+    }
+}
+
 extension KafkaClientTypes {
 
     /// Returns information about a provisioned cluster operation.
@@ -3026,6 +3054,34 @@ extension KafkaClientTypes {
             self.detectAndCopyNewConsumerGroups = detectAndCopyNewConsumerGroups
             self.synchroniseConsumerGroupOffsets = synchroniseConsumerGroupOffsets
         }
+    }
+}
+
+/// Returns information about an error.
+public struct ControllerMovedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// The parameter that caused the error.
+        public internal(set) var invalidParameter: Swift.String? = nil
+        /// The description of the error.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ControllerMovedException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        invalidParameter: Swift.String? = nil,
+        message: Swift.String? = nil
+    ) {
+        self.properties.invalidParameter = invalidParameter
+        self.properties.message = message
     }
 }
 
@@ -3342,6 +3398,288 @@ public struct CreateReplicatorOutput: Swift.Sendable {
     }
 }
 
+/// Returns information about an error.
+public struct GroupSubscribedToTopicException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// The parameter that caused the error.
+        public internal(set) var invalidParameter: Swift.String? = nil
+        /// The description of the error.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "GroupSubscribedToTopicException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        invalidParameter: Swift.String? = nil,
+        message: Swift.String? = nil
+    ) {
+        self.properties.invalidParameter = invalidParameter
+        self.properties.message = message
+    }
+}
+
+/// Returns information about an error.
+public struct KafkaRequestException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// The parameter that caused the error.
+        public internal(set) var invalidParameter: Swift.String? = nil
+        /// The description of the error.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "KafkaRequestException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        invalidParameter: Swift.String? = nil,
+        message: Swift.String? = nil
+    ) {
+        self.properties.invalidParameter = invalidParameter
+        self.properties.message = message
+    }
+}
+
+/// Returns information about an error.
+public struct KafkaTimeoutException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// The parameter that caused the error.
+        public internal(set) var invalidParameter: Swift.String? = nil
+        /// The description of the error.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "KafkaTimeoutException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        invalidParameter: Swift.String? = nil,
+        message: Swift.String? = nil
+    ) {
+        self.properties.invalidParameter = invalidParameter
+        self.properties.message = message
+    }
+}
+
+/// Returns information about an error.
+public struct NotControllerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// The parameter that caused the error.
+        public internal(set) var invalidParameter: Swift.String? = nil
+        /// The description of the error.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "NotControllerException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        invalidParameter: Swift.String? = nil,
+        message: Swift.String? = nil
+    ) {
+        self.properties.invalidParameter = invalidParameter
+        self.properties.message = message
+    }
+}
+
+/// Returns information about an error.
+public struct ReassignmentInProgressException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// The parameter that caused the error.
+        public internal(set) var invalidParameter: Swift.String? = nil
+        /// The description of the error.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ReassignmentInProgressException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        invalidParameter: Swift.String? = nil,
+        message: Swift.String? = nil
+    ) {
+        self.properties.invalidParameter = invalidParameter
+        self.properties.message = message
+    }
+}
+
+/// Returns information about an error.
+public struct TopicExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// The parameter that caused the error.
+        public internal(set) var invalidParameter: Swift.String? = nil
+        /// The description of the error.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "TopicExistsException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        invalidParameter: Swift.String? = nil,
+        message: Swift.String? = nil
+    ) {
+        self.properties.invalidParameter = invalidParameter
+        self.properties.message = message
+    }
+}
+
+/// Returns information about an error.
+public struct UnknownTopicOrPartitionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
+
+    public struct Properties: Swift.Sendable {
+        /// The parameter that caused the error.
+        public internal(set) var invalidParameter: Swift.String? = nil
+        /// The description of the error.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "UnknownTopicOrPartitionException" }
+    public static var fault: ClientRuntime.ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = SmithyHTTPAPI.HTTPResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        invalidParameter: Swift.String? = nil,
+        message: Swift.String? = nil
+    ) {
+        self.properties.invalidParameter = invalidParameter
+        self.properties.message = message
+    }
+}
+
+public struct CreateTopicInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) that uniquely identifies the cluster.
+    /// This member is required.
+    public var clusterArn: Swift.String?
+    /// Topic configurations encoded as a Base64 string.
+    public var configs: Swift.String?
+    /// The number of partitions for the topic.
+    /// This member is required.
+    public var partitionCount: Swift.Int?
+    /// The replication factor for the topic.
+    /// This member is required.
+    public var replicationFactor: Swift.Int?
+    /// The name of the topic to create.
+    /// This member is required.
+    public var topicName: Swift.String?
+
+    public init(
+        clusterArn: Swift.String? = nil,
+        configs: Swift.String? = nil,
+        partitionCount: Swift.Int? = nil,
+        replicationFactor: Swift.Int? = nil,
+        topicName: Swift.String? = nil
+    ) {
+        self.clusterArn = clusterArn
+        self.configs = configs
+        self.partitionCount = partitionCount
+        self.replicationFactor = replicationFactor
+        self.topicName = topicName
+    }
+}
+
+extension KafkaClientTypes {
+
+    /// The state of a topic request.
+    public enum TopicState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case active
+        case creating
+        case deleting
+        case updating
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TopicState] {
+            return [
+                .active,
+                .creating,
+                .deleting,
+                .updating
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .creating: return "CREATING"
+            case .deleting: return "DELETING"
+            case .updating: return "UPDATING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct CreateTopicOutput: Swift.Sendable {
+    /// The status of the topic creation.
+    public var status: KafkaClientTypes.TopicState?
+    /// The Amazon Resource Name (ARN) of the topic.
+    public var topicArn: Swift.String?
+    /// The name of the topic that was created.
+    public var topicName: Swift.String?
+
+    public init(
+        status: KafkaClientTypes.TopicState? = nil,
+        topicArn: Swift.String? = nil,
+        topicName: Swift.String? = nil
+    ) {
+        self.status = status
+        self.topicArn = topicArn
+        self.topicName = topicName
+    }
+}
+
 public struct CreateVpcConnectionInput: Swift.Sendable {
     /// The authentication type of VPC connection.
     /// This member is required.
@@ -3520,6 +3858,42 @@ public struct DeleteReplicatorOutput: Swift.Sendable {
     ) {
         self.replicatorArn = replicatorArn
         self.replicatorState = replicatorState
+    }
+}
+
+public struct DeleteTopicInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) that uniquely identifies the cluster.
+    /// This member is required.
+    public var clusterArn: Swift.String?
+    /// The name of the topic to delete.
+    /// This member is required.
+    public var topicName: Swift.String?
+
+    public init(
+        clusterArn: Swift.String? = nil,
+        topicName: Swift.String? = nil
+    ) {
+        self.clusterArn = clusterArn
+        self.topicName = topicName
+    }
+}
+
+public struct DeleteTopicOutput: Swift.Sendable {
+    /// The status of the topic deletion.
+    public var status: KafkaClientTypes.TopicState?
+    /// The Amazon Resource Name (ARN) of the topic.
+    public var topicArn: Swift.String?
+    /// The name of the topic that was deleted.
+    public var topicName: Swift.String?
+
+    public init(
+        status: KafkaClientTypes.TopicState? = nil,
+        topicArn: Swift.String? = nil,
+        topicName: Swift.String? = nil
+    ) {
+        self.status = status
+        self.topicArn = topicArn
+        self.topicName = topicName
     }
 }
 
@@ -3837,42 +4211,6 @@ public struct DescribeTopicInput: Swift.Sendable {
     ) {
         self.clusterArn = clusterArn
         self.topicName = topicName
-    }
-}
-
-extension KafkaClientTypes {
-
-    /// The state of a topic request.
-    public enum TopicState: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
-        case active
-        case creating
-        case deleting
-        case updating
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [TopicState] {
-            return [
-                .active,
-                .creating,
-                .deleting,
-                .updating
-            ]
-        }
-
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-
-        public var rawValue: Swift.String {
-            switch self {
-            case .active: return "ACTIVE"
-            case .creating: return "CREATING"
-            case .deleting: return "DELETING"
-            case .updating: return "UPDATING"
-            case let .sdkUnknown(s): return s
-            }
-        }
     }
 }
 
@@ -5221,6 +5559,50 @@ public struct UpdateStorageOutput: Swift.Sendable {
     }
 }
 
+public struct UpdateTopicInput: Swift.Sendable {
+    /// The Amazon Resource Name (ARN) that uniquely identifies the cluster.
+    /// This member is required.
+    public var clusterArn: Swift.String?
+    /// The new topic configurations encoded as a Base64 string.
+    public var configs: Swift.String?
+    /// The new total number of partitions for the topic.
+    public var partitionCount: Swift.Int?
+    /// The name of the topic to update configuration for.
+    /// This member is required.
+    public var topicName: Swift.String?
+
+    public init(
+        clusterArn: Swift.String? = nil,
+        configs: Swift.String? = nil,
+        partitionCount: Swift.Int? = nil,
+        topicName: Swift.String? = nil
+    ) {
+        self.clusterArn = clusterArn
+        self.configs = configs
+        self.partitionCount = partitionCount
+        self.topicName = topicName
+    }
+}
+
+public struct UpdateTopicOutput: Swift.Sendable {
+    /// The status of the topic update.
+    public var status: KafkaClientTypes.TopicState?
+    /// The Amazon Resource Name (ARN) of the topic.
+    public var topicArn: Swift.String?
+    /// The name of the topic whose configuration was updated.
+    public var topicName: Swift.String?
+
+    public init(
+        status: KafkaClientTypes.TopicState? = nil,
+        topicArn: Swift.String? = nil,
+        topicName: Swift.String? = nil
+    ) {
+        self.status = status
+        self.topicArn = topicArn
+        self.topicName = topicName
+    }
+}
+
 extension BatchAssociateScramSecretInput {
 
     static func urlPathProvider(_ value: BatchAssociateScramSecretInput) -> Swift.String? {
@@ -5266,6 +5648,16 @@ extension CreateReplicatorInput {
 
     static func urlPathProvider(_ value: CreateReplicatorInput) -> Swift.String? {
         return "/replication/v1/replicators"
+    }
+}
+
+extension CreateTopicInput {
+
+    static func urlPathProvider(_ value: CreateTopicInput) -> Swift.String? {
+        guard let clusterArn = value.clusterArn else {
+            return nil
+        }
+        return "/v1/clusters/\(clusterArn.urlPercentEncoding())/topics"
     }
 }
 
@@ -5337,6 +5729,19 @@ extension DeleteReplicatorInput {
             items.append(currentVersionQueryItem)
         }
         return items
+    }
+}
+
+extension DeleteTopicInput {
+
+    static func urlPathProvider(_ value: DeleteTopicInput) -> Swift.String? {
+        guard let clusterArn = value.clusterArn else {
+            return nil
+        }
+        guard let topicName = value.topicName else {
+            return nil
+        }
+        return "/v1/clusters/\(clusterArn.urlPercentEncoding())/topics/\(topicName.urlPercentEncoding())"
     }
 }
 
@@ -6050,6 +6455,19 @@ extension UpdateStorageInput {
     }
 }
 
+extension UpdateTopicInput {
+
+    static func urlPathProvider(_ value: UpdateTopicInput) -> Swift.String? {
+        guard let clusterArn = value.clusterArn else {
+            return nil
+        }
+        guard let topicName = value.topicName else {
+            return nil
+        }
+        return "/v1/clusters/\(clusterArn.urlPercentEncoding())/topics/\(topicName.urlPercentEncoding())"
+    }
+}
+
 extension BatchAssociateScramSecretInput {
 
     static func write(value: BatchAssociateScramSecretInput?, to writer: SmithyJSON.Writer) throws {
@@ -6118,6 +6536,17 @@ extension CreateReplicatorInput {
         try writer["replicatorName"].write(value.replicatorName)
         try writer["serviceExecutionRoleArn"].write(value.serviceExecutionRoleArn)
         try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
+extension CreateTopicInput {
+
+    static func write(value: CreateTopicInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["configs"].write(value.configs)
+        try writer["partitionCount"].write(value.partitionCount)
+        try writer["replicationFactor"].write(value.replicationFactor)
+        try writer["topicName"].write(value.topicName)
     }
 }
 
@@ -6284,6 +6713,15 @@ extension UpdateStorageInput {
     }
 }
 
+extension UpdateTopicInput {
+
+    static func write(value: UpdateTopicInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["configs"].write(value.configs)
+        try writer["partitionCount"].write(value.partitionCount)
+    }
+}
+
 extension BatchAssociateScramSecretOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> BatchAssociateScramSecretOutput {
@@ -6369,6 +6807,20 @@ extension CreateReplicatorOutput {
     }
 }
 
+extension CreateTopicOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateTopicOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateTopicOutput()
+        value.status = try reader["status"].readIfPresent()
+        value.topicArn = try reader["topicArn"].readIfPresent()
+        value.topicName = try reader["topicName"].readIfPresent()
+        return value
+    }
+}
+
 extension CreateVpcConnectionOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateVpcConnectionOutput {
@@ -6430,6 +6882,20 @@ extension DeleteReplicatorOutput {
         var value = DeleteReplicatorOutput()
         value.replicatorArn = try reader["replicatorArn"].readIfPresent()
         value.replicatorState = try reader["replicatorState"].readIfPresent()
+        return value
+    }
+}
+
+extension DeleteTopicOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteTopicOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteTopicOutput()
+        value.status = try reader["status"].readIfPresent()
+        value.topicArn = try reader["topicArn"].readIfPresent()
+        value.topicName = try reader["topicName"].readIfPresent()
         return value
     }
 }
@@ -7032,6 +7498,20 @@ extension UpdateStorageOutput {
     }
 }
 
+extension UpdateTopicOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> UpdateTopicOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = UpdateTopicOutput()
+        value.status = try reader["status"].readIfPresent()
+        value.topicArn = try reader["topicArn"].readIfPresent()
+        value.topicName = try reader["topicName"].readIfPresent()
+        return value
+    }
+}
+
 enum BatchAssociateScramSecretOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -7153,6 +7633,35 @@ enum CreateReplicatorOutputError {
     }
 }
 
+enum CreateTopicOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ClusterConnectivityException": return try ClusterConnectivityException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "ControllerMovedException": return try ControllerMovedException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "GroupSubscribedToTopicException": return try GroupSubscribedToTopicException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "KafkaRequestException": return try KafkaRequestException.makeError(baseError: baseError)
+            case "KafkaTimeoutException": return try KafkaTimeoutException.makeError(baseError: baseError)
+            case "NotControllerException": return try NotControllerException.makeError(baseError: baseError)
+            case "ReassignmentInProgressException": return try ReassignmentInProgressException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
+            case "TopicExistsException": return try TopicExistsException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
+            case "UnknownTopicOrPartitionException": return try UnknownTopicOrPartitionException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreateVpcConnectionOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -7238,6 +7747,31 @@ enum DeleteReplicatorOutputError {
             case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
             case "TooManyRequestsException": return try TooManyRequestsException.makeError(baseError: baseError)
             case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteTopicOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ClusterConnectivityException": return try ClusterConnectivityException.makeError(baseError: baseError)
+            case "ControllerMovedException": return try ControllerMovedException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "GroupSubscribedToTopicException": return try GroupSubscribedToTopicException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "KafkaRequestException": return try KafkaRequestException.makeError(baseError: baseError)
+            case "KafkaTimeoutException": return try KafkaTimeoutException.makeError(baseError: baseError)
+            case "NotControllerException": return try NotControllerException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "ReassignmentInProgressException": return try ReassignmentInProgressException.makeError(baseError: baseError)
+            case "UnknownTopicOrPartitionException": return try UnknownTopicOrPartitionException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -8071,6 +8605,33 @@ enum UpdateStorageOutputError {
     }
 }
 
+enum UpdateTopicOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "BadRequestException": return try BadRequestException.makeError(baseError: baseError)
+            case "ClusterConnectivityException": return try ClusterConnectivityException.makeError(baseError: baseError)
+            case "ControllerMovedException": return try ControllerMovedException.makeError(baseError: baseError)
+            case "ForbiddenException": return try ForbiddenException.makeError(baseError: baseError)
+            case "GroupSubscribedToTopicException": return try GroupSubscribedToTopicException.makeError(baseError: baseError)
+            case "InternalServerErrorException": return try InternalServerErrorException.makeError(baseError: baseError)
+            case "KafkaRequestException": return try KafkaRequestException.makeError(baseError: baseError)
+            case "KafkaTimeoutException": return try KafkaTimeoutException.makeError(baseError: baseError)
+            case "NotControllerException": return try NotControllerException.makeError(baseError: baseError)
+            case "NotFoundException": return try NotFoundException.makeError(baseError: baseError)
+            case "ReassignmentInProgressException": return try ReassignmentInProgressException.makeError(baseError: baseError)
+            case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
+            case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
+            case "UnknownTopicOrPartitionException": return try UnknownTopicOrPartitionException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 extension BadRequestException {
 
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> BadRequestException {
@@ -8174,6 +8735,132 @@ extension ConflictException {
     static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ConflictException {
         let reader = baseError.errorBodyReader
         var value = ConflictException()
+        value.properties.invalidParameter = try reader["invalidParameter"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ClusterConnectivityException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ClusterConnectivityException {
+        let reader = baseError.errorBodyReader
+        var value = ClusterConnectivityException()
+        value.properties.invalidParameter = try reader["invalidParameter"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ControllerMovedException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ControllerMovedException {
+        let reader = baseError.errorBodyReader
+        var value = ControllerMovedException()
+        value.properties.invalidParameter = try reader["invalidParameter"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension GroupSubscribedToTopicException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> GroupSubscribedToTopicException {
+        let reader = baseError.errorBodyReader
+        var value = GroupSubscribedToTopicException()
+        value.properties.invalidParameter = try reader["invalidParameter"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension KafkaRequestException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> KafkaRequestException {
+        let reader = baseError.errorBodyReader
+        var value = KafkaRequestException()
+        value.properties.invalidParameter = try reader["invalidParameter"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension KafkaTimeoutException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> KafkaTimeoutException {
+        let reader = baseError.errorBodyReader
+        var value = KafkaTimeoutException()
+        value.properties.invalidParameter = try reader["invalidParameter"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension NotControllerException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> NotControllerException {
+        let reader = baseError.errorBodyReader
+        var value = NotControllerException()
+        value.properties.invalidParameter = try reader["invalidParameter"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension ReassignmentInProgressException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> ReassignmentInProgressException {
+        let reader = baseError.errorBodyReader
+        var value = ReassignmentInProgressException()
+        value.properties.invalidParameter = try reader["invalidParameter"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension TopicExistsException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> TopicExistsException {
+        let reader = baseError.errorBodyReader
+        var value = TopicExistsException()
+        value.properties.invalidParameter = try reader["invalidParameter"].readIfPresent()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
+        return value
+    }
+}
+
+extension UnknownTopicOrPartitionException {
+
+    static func makeError(baseError: AWSClientRuntime.RestJSONError) throws -> UnknownTopicOrPartitionException {
+        let reader = baseError.errorBodyReader
+        var value = UnknownTopicOrPartitionException()
         value.properties.invalidParameter = try reader["invalidParameter"].readIfPresent()
         value.properties.message = try reader["message"].readIfPresent()
         value.httpResponse = baseError.httpResponse

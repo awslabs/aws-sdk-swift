@@ -74,11 +74,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class B2biClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "B2biClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: B2biClient.B2biClientConfig
+    public let config: B2biClient.B2biClientConfig
     let serviceName = "b2bi"
 
     @available(*, deprecated, message: "Use B2biClient.B2biClientConfig instead")
     public typealias Config = B2biClient.B2biClientConfiguration
+    public typealias Configuration = B2biClient.B2biClientConfig
 
     public required init(config: B2biClient.B2biClientConfig) {
         ClientRuntime.initialize()

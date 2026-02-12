@@ -72,11 +72,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class WellArchitectedClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "WellArchitectedClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: WellArchitectedClient.WellArchitectedClientConfig
+    public let config: WellArchitectedClient.WellArchitectedClientConfig
     let serviceName = "WellArchitected"
 
     @available(*, deprecated, message: "Use WellArchitectedClient.WellArchitectedClientConfig instead")
     public typealias Config = WellArchitectedClient.WellArchitectedClientConfiguration
+    public typealias Configuration = WellArchitectedClient.WellArchitectedClientConfig
 
     public required init(config: WellArchitectedClient.WellArchitectedClientConfig) {
         ClientRuntime.initialize()

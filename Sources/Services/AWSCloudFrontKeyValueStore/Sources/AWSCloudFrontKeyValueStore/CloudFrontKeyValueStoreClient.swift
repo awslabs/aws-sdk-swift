@@ -75,11 +75,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class CloudFrontKeyValueStoreClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "CloudFrontKeyValueStoreClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: CloudFrontKeyValueStoreClient.CloudFrontKeyValueStoreClientConfig
+    public let config: CloudFrontKeyValueStoreClient.CloudFrontKeyValueStoreClientConfig
     let serviceName = "CloudFront KeyValueStore"
 
     @available(*, deprecated, message: "Use CloudFrontKeyValueStoreClient.CloudFrontKeyValueStoreClientConfig instead")
     public typealias Config = CloudFrontKeyValueStoreClient.CloudFrontKeyValueStoreClientConfiguration
+    public typealias Configuration = CloudFrontKeyValueStoreClient.CloudFrontKeyValueStoreClientConfig
 
     public required init(config: CloudFrontKeyValueStoreClient.CloudFrontKeyValueStoreClientConfig) {
         ClientRuntime.initialize()

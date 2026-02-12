@@ -72,11 +72,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class CloudControlClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "CloudControlClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: CloudControlClient.CloudControlClientConfig
+    public let config: CloudControlClient.CloudControlClientConfig
     let serviceName = "CloudControl"
 
     @available(*, deprecated, message: "Use CloudControlClient.CloudControlClientConfig instead")
     public typealias Config = CloudControlClient.CloudControlClientConfiguration
+    public typealias Configuration = CloudControlClient.CloudControlClientConfig
 
     public required init(config: CloudControlClient.CloudControlClientConfig) {
         ClientRuntime.initialize()

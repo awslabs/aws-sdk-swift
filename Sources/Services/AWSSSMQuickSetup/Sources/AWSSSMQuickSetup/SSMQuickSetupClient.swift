@@ -72,11 +72,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class SSMQuickSetupClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "SSMQuickSetupClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: SSMQuickSetupClient.SSMQuickSetupClientConfig
+    public let config: SSMQuickSetupClient.SSMQuickSetupClientConfig
     let serviceName = "SSM QuickSetup"
 
     @available(*, deprecated, message: "Use SSMQuickSetupClient.SSMQuickSetupClientConfig instead")
     public typealias Config = SSMQuickSetupClient.SSMQuickSetupClientConfiguration
+    public typealias Configuration = SSMQuickSetupClient.SSMQuickSetupClientConfig
 
     public required init(config: SSMQuickSetupClient.SSMQuickSetupClientConfig) {
         ClientRuntime.initialize()

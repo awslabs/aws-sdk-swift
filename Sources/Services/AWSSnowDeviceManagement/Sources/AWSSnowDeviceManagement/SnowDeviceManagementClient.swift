@@ -73,11 +73,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class SnowDeviceManagementClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "SnowDeviceManagementClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: SnowDeviceManagementClient.SnowDeviceManagementClientConfig
+    public let config: SnowDeviceManagementClient.SnowDeviceManagementClientConfig
     let serviceName = "Snow Device Management"
 
     @available(*, deprecated, message: "Use SnowDeviceManagementClient.SnowDeviceManagementClientConfig instead")
     public typealias Config = SnowDeviceManagementClient.SnowDeviceManagementClientConfiguration
+    public typealias Configuration = SnowDeviceManagementClient.SnowDeviceManagementClientConfig
 
     public required init(config: SnowDeviceManagementClient.SnowDeviceManagementClientConfig) {
         ClientRuntime.initialize()

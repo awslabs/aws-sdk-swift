@@ -72,11 +72,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class KeyspacesStreamsClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "KeyspacesStreamsClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: KeyspacesStreamsClient.KeyspacesStreamsClientConfig
+    public let config: KeyspacesStreamsClient.KeyspacesStreamsClientConfig
     let serviceName = "KeyspacesStreams"
 
     @available(*, deprecated, message: "Use KeyspacesStreamsClient.KeyspacesStreamsClientConfig instead")
     public typealias Config = KeyspacesStreamsClient.KeyspacesStreamsClientConfiguration
+    public typealias Configuration = KeyspacesStreamsClient.KeyspacesStreamsClientConfig
 
     public required init(config: KeyspacesStreamsClient.KeyspacesStreamsClientConfig) {
         ClientRuntime.initialize()

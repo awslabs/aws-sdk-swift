@@ -28,11 +28,11 @@ public class ResourceGroupsTaggingAPIClientEndpointPlugin: Plugin {
         self.init(endpointResolver: try DefaultEndpointResolver())
     }
 
-    public func configureClient(clientConfiguration: inout ClientRuntime.ClientConfiguration) async throws {
-        if var config = clientConfiguration as? ResourceGroupsTaggingAPIClient.ResourceGroupsTaggingAPIClientConfig {
-            config.endpointResolver = self.endpointResolver
-            clientConfiguration = config
-        }
+    public func configureClient<Config: ClientRuntime.ClientConfiguration>(clientConfiguration: inout Config) async throws {
+        guard var config = clientConfiguration as? ResourceGroupsTaggingAPIClient.ResourceGroupsTaggingAPIClientConfig else { return }
+        config.endpointResolver = self.endpointResolver
+        guard let modifiedConfig = config as? Config else { return }
+        clientConfiguration = modifiedConfig
     }
 }
 
@@ -40,13 +40,14 @@ public class DefaultAWSAuthSchemePlugin: ClientRuntime.Plugin {
 
     public init() {}
 
-    public func configureClient(clientConfiguration: inout ClientRuntime.ClientConfiguration) async throws {
+    public func configureClient<Config: ClientRuntime.ClientConfiguration>(clientConfiguration: inout Config) async throws {
         if var config = clientConfiguration as? ResourceGroupsTaggingAPIClient.ResourceGroupsTaggingAPIClientConfig {
             config.authSchemeResolver = DefaultResourceGroupsTaggingAPIAuthSchemeResolver()
             config.authSchemes = [AWSSDKHTTPAuth.SigV4AuthScheme()]
             config.awsCredentialIdentityResolver = AWSSDKIdentity.DefaultAWSCredentialIdentityResolverChain()
             config.bearerTokenIdentityResolver = SmithyIdentity.StaticBearerTokenIdentityResolver()
-            clientConfiguration = config
+            guard let modifiedConfig = config as? Config else { return }
+            clientConfiguration = modifiedConfig
         }
     }
 }
@@ -66,7 +67,7 @@ public class ResourceGroupsTaggingAPIClientAuthSchemePlugin: ClientRuntime.Plugi
         self.bearerTokenIdentityResolver = bearerTokenIdentityResolver
     }
 
-    public func configureClient(clientConfiguration: inout ClientRuntime.ClientConfiguration) async throws {
+    public func configureClient<Config: ClientRuntime.ClientConfiguration>(clientConfiguration: inout Config) async throws {
         if var config = clientConfiguration as? ResourceGroupsTaggingAPIClient.ResourceGroupsTaggingAPIClientConfig {
             if (self.authSchemes != nil) {
                 config.authSchemes = self.authSchemes
@@ -81,7 +82,8 @@ public class ResourceGroupsTaggingAPIClientAuthSchemePlugin: ClientRuntime.Plugi
             if (self.bearerTokenIdentityResolver != nil) {
                 config.bearerTokenIdentityResolver = self.bearerTokenIdentityResolver!
             }
-            clientConfiguration = config
+            guard let modifiedConfig = config as? Config else { return }
+            clientConfiguration = modifiedConfig
         }
     }
 }

@@ -72,11 +72,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class ECRPUBLICClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "ECRPUBLICClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: ECRPUBLICClient.ECRPUBLICClientConfig
+    public let config: ECRPUBLICClient.ECRPUBLICClientConfig
     let serviceName = "ECR PUBLIC"
 
     @available(*, deprecated, message: "Use ECRPUBLICClient.ECRPUBLICClientConfig instead")
     public typealias Config = ECRPUBLICClient.ECRPUBLICClientConfiguration
+    public typealias Configuration = ECRPUBLICClient.ECRPUBLICClientConfig
 
     public required init(config: ECRPUBLICClient.ECRPUBLICClientConfig) {
         ClientRuntime.initialize()

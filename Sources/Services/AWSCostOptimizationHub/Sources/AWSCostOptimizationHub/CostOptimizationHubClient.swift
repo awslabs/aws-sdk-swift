@@ -72,11 +72,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class CostOptimizationHubClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "CostOptimizationHubClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: CostOptimizationHubClient.CostOptimizationHubClientConfig
+    public let config: CostOptimizationHubClient.CostOptimizationHubClientConfig
     let serviceName = "Cost Optimization Hub"
 
     @available(*, deprecated, message: "Use CostOptimizationHubClient.CostOptimizationHubClientConfig instead")
     public typealias Config = CostOptimizationHubClient.CostOptimizationHubClientConfiguration
+    public typealias Configuration = CostOptimizationHubClient.CostOptimizationHubClientConfig
 
     public required init(config: CostOptimizationHubClient.CostOptimizationHubClientConfig) {
         ClientRuntime.initialize()

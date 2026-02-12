@@ -72,11 +72,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class DirectConnectClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "DirectConnectClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: DirectConnectClient.DirectConnectClientConfig
+    public let config: DirectConnectClient.DirectConnectClientConfig
     let serviceName = "Direct Connect"
 
     @available(*, deprecated, message: "Use DirectConnectClient.DirectConnectClientConfig instead")
     public typealias Config = DirectConnectClient.DirectConnectClientConfiguration
+    public typealias Configuration = DirectConnectClient.DirectConnectClientConfig
 
     public required init(config: DirectConnectClient.DirectConnectClientConfig) {
         ClientRuntime.initialize()

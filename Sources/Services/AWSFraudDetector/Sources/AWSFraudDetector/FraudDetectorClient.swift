@@ -71,11 +71,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class FraudDetectorClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "FraudDetectorClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: FraudDetectorClient.FraudDetectorClientConfig
+    public let config: FraudDetectorClient.FraudDetectorClientConfig
     let serviceName = "FraudDetector"
 
     @available(*, deprecated, message: "Use FraudDetectorClient.FraudDetectorClientConfig instead")
     public typealias Config = FraudDetectorClient.FraudDetectorClientConfiguration
+    public typealias Configuration = FraudDetectorClient.FraudDetectorClientConfig
 
     public required init(config: FraudDetectorClient.FraudDetectorClientConfig) {
         ClientRuntime.initialize()

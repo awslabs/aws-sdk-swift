@@ -72,11 +72,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class OdbClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "OdbClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: OdbClient.OdbClientConfig
+    public let config: OdbClient.OdbClientConfig
     let serviceName = "odb"
 
     @available(*, deprecated, message: "Use OdbClient.OdbClientConfig instead")
     public typealias Config = OdbClient.OdbClientConfiguration
+    public typealias Configuration = OdbClient.OdbClientConfig
 
     public required init(config: OdbClient.OdbClientConfig) {
         ClientRuntime.initialize()

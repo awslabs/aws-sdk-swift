@@ -73,11 +73,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class LookoutEquipmentClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "LookoutEquipmentClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: LookoutEquipmentClient.LookoutEquipmentClientConfig
+    public let config: LookoutEquipmentClient.LookoutEquipmentClientConfig
     let serviceName = "LookoutEquipment"
 
     @available(*, deprecated, message: "Use LookoutEquipmentClient.LookoutEquipmentClientConfig instead")
     public typealias Config = LookoutEquipmentClient.LookoutEquipmentClientConfiguration
+    public typealias Configuration = LookoutEquipmentClient.LookoutEquipmentClientConfig
 
     public required init(config: LookoutEquipmentClient.LookoutEquipmentClientConfig) {
         ClientRuntime.initialize()

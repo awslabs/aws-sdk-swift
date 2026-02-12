@@ -73,11 +73,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class GuardDutyClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "GuardDutyClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: GuardDutyClient.GuardDutyClientConfig
+    public let config: GuardDutyClient.GuardDutyClientConfig
     let serviceName = "GuardDuty"
 
     @available(*, deprecated, message: "Use GuardDutyClient.GuardDutyClientConfig instead")
     public typealias Config = GuardDutyClient.GuardDutyClientConfiguration
+    public typealias Configuration = GuardDutyClient.GuardDutyClientConfig
 
     public required init(config: GuardDutyClient.GuardDutyClientConfig) {
         ClientRuntime.initialize()

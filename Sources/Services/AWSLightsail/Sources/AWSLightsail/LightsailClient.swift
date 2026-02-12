@@ -73,11 +73,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class LightsailClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "LightsailClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: LightsailClient.LightsailClientConfig
+    public let config: LightsailClient.LightsailClientConfig
     let serviceName = "Lightsail"
 
     @available(*, deprecated, message: "Use LightsailClient.LightsailClientConfig instead")
     public typealias Config = LightsailClient.LightsailClientConfiguration
+    public typealias Configuration = LightsailClient.LightsailClientConfig
 
     public required init(config: LightsailClient.LightsailClientConfig) {
         ClientRuntime.initialize()

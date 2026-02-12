@@ -72,11 +72,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class RolesAnywhereClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "RolesAnywhereClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: RolesAnywhereClient.RolesAnywhereClientConfig
+    public let config: RolesAnywhereClient.RolesAnywhereClientConfig
     let serviceName = "RolesAnywhere"
 
     @available(*, deprecated, message: "Use RolesAnywhereClient.RolesAnywhereClientConfig instead")
     public typealias Config = RolesAnywhereClient.RolesAnywhereClientConfiguration
+    public typealias Configuration = RolesAnywhereClient.RolesAnywhereClientConfig
 
     public required init(config: RolesAnywhereClient.RolesAnywhereClientConfig) {
         ClientRuntime.initialize()

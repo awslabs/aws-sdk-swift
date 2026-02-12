@@ -75,11 +75,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class NeptuneGraphClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "NeptuneGraphClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: NeptuneGraphClient.NeptuneGraphClientConfig
+    public let config: NeptuneGraphClient.NeptuneGraphClientConfig
     let serviceName = "Neptune Graph"
 
     @available(*, deprecated, message: "Use NeptuneGraphClient.NeptuneGraphClientConfig instead")
     public typealias Config = NeptuneGraphClient.NeptuneGraphClientConfiguration
+    public typealias Configuration = NeptuneGraphClient.NeptuneGraphClientConfig
 
     public required init(config: NeptuneGraphClient.NeptuneGraphClientConfig) {
         ClientRuntime.initialize()

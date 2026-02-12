@@ -78,11 +78,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class OmicsClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "OmicsClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: OmicsClient.OmicsClientConfig
+    public let config: OmicsClient.OmicsClientConfig
     let serviceName = "Omics"
 
     @available(*, deprecated, message: "Use OmicsClient.OmicsClientConfig instead")
     public typealias Config = OmicsClient.OmicsClientConfiguration
+    public typealias Configuration = OmicsClient.OmicsClientConfig
 
     public required init(config: OmicsClient.OmicsClientConfig) {
         ClientRuntime.initialize()

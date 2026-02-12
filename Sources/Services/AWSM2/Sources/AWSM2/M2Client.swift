@@ -73,11 +73,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class M2Client: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "M2Client"
     let client: ClientRuntime.SdkHttpClient
-    let config: M2Client.M2ClientConfig
+    public let config: M2Client.M2ClientConfig
     let serviceName = "m2"
 
     @available(*, deprecated, message: "Use M2Client.M2ClientConfig instead")
     public typealias Config = M2Client.M2ClientConfiguration
+    public typealias Configuration = M2Client.M2ClientConfig
 
     public required init(config: M2Client.M2ClientConfig) {
         ClientRuntime.initialize()

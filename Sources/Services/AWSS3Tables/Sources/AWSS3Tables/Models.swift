@@ -391,8 +391,60 @@ extension S3TablesClientTypes {
 
 extension S3TablesClientTypes {
 
+    /// Defines a single partition field in an Iceberg partition specification.
+    public struct IcebergPartitionField: Swift.Sendable {
+        /// An optional unique identifier for this partition field. If not specified, S3 Tables automatically assigns a field ID.
+        public var fieldId: Swift.Int?
+        /// The name for this partition field. This name is used in the partitioned file paths.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The ID of the source schema field to partition by. This must reference a valid field ID from the table schema.
+        /// This member is required.
+        public var sourceId: Swift.Int?
+        /// The partition transform to apply to the source field. Supported transforms include identity, year, month, day, hour, bucket, and truncate. For more information, see the [Apache Iceberg partition transforms documentation](https://iceberg.apache.org/spec/#partition-transforms).
+        /// This member is required.
+        public var transform: Swift.String?
+
+        public init(
+            fieldId: Swift.Int? = nil,
+            name: Swift.String? = nil,
+            sourceId: Swift.Int? = nil,
+            transform: Swift.String? = nil
+        ) {
+            self.fieldId = fieldId
+            self.name = name
+            self.sourceId = sourceId
+            self.transform = transform
+        }
+    }
+}
+
+extension S3TablesClientTypes {
+
+    /// Defines how data in an Iceberg table is partitioned. Partitioning helps optimize query performance by organizing data into separate files based on field values. Each partition field specifies a transform to apply to a source field.
+    public struct IcebergPartitionSpec: Swift.Sendable {
+        /// The list of partition fields that define how the table data is partitioned. Each field specifies a source field and a transform to apply. This field is required if partitionSpec is provided.
+        /// This member is required.
+        public var fields: [S3TablesClientTypes.IcebergPartitionField]?
+        /// The unique identifier for this partition specification. If not specified, defaults to 0.
+        public var specId: Swift.Int?
+
+        public init(
+            fields: [S3TablesClientTypes.IcebergPartitionField]? = nil,
+            specId: Swift.Int? = nil
+        ) {
+            self.fields = fields
+            self.specId = specId
+        }
+    }
+}
+
+extension S3TablesClientTypes {
+
     /// Contains details about a schema field.
     public struct SchemaField: Swift.Sendable {
+        /// An optional unique identifier for the schema field. Field IDs are used by Apache Iceberg to track schema evolution and maintain compatibility across schema changes. If not specified, S3 Tables automatically assigns field IDs.
+        public var id: Swift.Int?
         /// The name of the field.
         /// This member is required.
         public var name: Swift.String?
@@ -403,10 +455,12 @@ extension S3TablesClientTypes {
         public var type: Swift.String?
 
         public init(
+            id: Swift.Int? = nil,
             name: Swift.String? = nil,
             `required`: Swift.Bool = false,
             type: Swift.String? = nil
         ) {
+            self.id = id
             self.name = name
             self.`required` = `required`
             self.type = type
@@ -432,20 +486,138 @@ extension S3TablesClientTypes {
 
 extension S3TablesClientTypes {
 
+    public enum IcebergSortDirection: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case asc
+        case desc
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [IcebergSortDirection] {
+            return [
+                .asc,
+                .desc
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .asc: return "asc"
+            case .desc: return "desc"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension S3TablesClientTypes {
+
+    public enum IcebergNullOrder: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case nullsFirst
+        case nullsLast
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [IcebergNullOrder] {
+            return [
+                .nullsFirst,
+                .nullsLast
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .nullsFirst: return "nulls-first"
+            case .nullsLast: return "nulls-last"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension S3TablesClientTypes {
+
+    /// Defines a single sort field in an Iceberg sort order specification.
+    public struct IcebergSortField: Swift.Sendable {
+        /// The sort direction. Valid values are asc for ascending order or desc for descending order.
+        /// This member is required.
+        public var direction: S3TablesClientTypes.IcebergSortDirection?
+        /// Specifies how null values are ordered. Valid values are nulls-first to place nulls before non-null values, or nulls-last to place nulls after non-null values.
+        /// This member is required.
+        public var nullOrder: S3TablesClientTypes.IcebergNullOrder?
+        /// The ID of the source schema field to sort by. This must reference a valid field ID from the table schema.
+        /// This member is required.
+        public var sourceId: Swift.Int?
+        /// The transform to apply to the source field before sorting. Use identity to sort by the field value directly, or specify other transforms as needed.
+        /// This member is required.
+        public var transform: Swift.String?
+
+        public init(
+            direction: S3TablesClientTypes.IcebergSortDirection? = nil,
+            nullOrder: S3TablesClientTypes.IcebergNullOrder? = nil,
+            sourceId: Swift.Int? = nil,
+            transform: Swift.String? = nil
+        ) {
+            self.direction = direction
+            self.nullOrder = nullOrder
+            self.sourceId = sourceId
+            self.transform = transform
+        }
+    }
+}
+
+extension S3TablesClientTypes {
+
+    /// Defines the sort order for data within an Iceberg table. Sorting data can improve query performance by enabling more efficient data skipping.
+    public struct IcebergSortOrder: Swift.Sendable {
+        /// The list of sort fields that define how data is sorted within files. Each field specifies a source field, sort direction, and null ordering. This field is required if writeOrder is provided.
+        /// This member is required.
+        public var fields: [S3TablesClientTypes.IcebergSortField]?
+        /// The unique identifier for this sort order. If not specified, defaults to 1. The order ID is used by Apache Iceberg to track sort order evolution.
+        /// This member is required.
+        public var orderId: Swift.Int?
+
+        public init(
+            fields: [S3TablesClientTypes.IcebergSortField]? = nil,
+            orderId: Swift.Int? = nil
+        ) {
+            self.fields = fields
+            self.orderId = orderId
+        }
+    }
+}
+
+extension S3TablesClientTypes {
+
     /// Contains details about the metadata for an Iceberg table.
     public struct IcebergMetadata: Swift.Sendable {
-        /// Contains configuration properties for an Iceberg table.
+        /// The partition specification for the Iceberg table. Partitioning organizes data into separate files based on the values of one or more fields, which can improve query performance by reducing the amount of data scanned. Each partition field applies a transform (such as identity, year, month, or bucket) to a single field.
+        public var partitionSpec: S3TablesClientTypes.IcebergPartitionSpec?
+        /// A map of custom configuration properties for the Iceberg table.
         public var properties: [Swift.String: Swift.String]?
         /// The schema for an Iceberg table.
         /// This member is required.
         public var schema: S3TablesClientTypes.IcebergSchema?
+        /// The sort order for the Iceberg table. Sort order defines how data is sorted within data files, which can improve query performance by enabling more efficient data skipping and filtering.
+        public var writeOrder: S3TablesClientTypes.IcebergSortOrder?
 
         public init(
+            partitionSpec: S3TablesClientTypes.IcebergPartitionSpec? = nil,
             properties: [Swift.String: Swift.String]? = nil,
-            schema: S3TablesClientTypes.IcebergSchema? = nil
+            schema: S3TablesClientTypes.IcebergSchema? = nil,
+            writeOrder: S3TablesClientTypes.IcebergSortOrder? = nil
         ) {
+            self.partitionSpec = partitionSpec
             self.properties = properties
             self.schema = schema
+            self.writeOrder = writeOrder
         }
     }
 }
@@ -5791,8 +5963,50 @@ extension S3TablesClientTypes.IcebergMetadata {
 
     static func write(value: S3TablesClientTypes.IcebergMetadata?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["partitionSpec"].write(value.partitionSpec, with: S3TablesClientTypes.IcebergPartitionSpec.write(value:to:))
         try writer["properties"].writeMap(value.properties, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["schema"].write(value.schema, with: S3TablesClientTypes.IcebergSchema.write(value:to:))
+        try writer["writeOrder"].write(value.writeOrder, with: S3TablesClientTypes.IcebergSortOrder.write(value:to:))
+    }
+}
+
+extension S3TablesClientTypes.IcebergSortOrder {
+
+    static func write(value: S3TablesClientTypes.IcebergSortOrder?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["fields"].writeList(value.fields, memberWritingClosure: S3TablesClientTypes.IcebergSortField.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["order-id"].write(value.orderId)
+    }
+}
+
+extension S3TablesClientTypes.IcebergSortField {
+
+    static func write(value: S3TablesClientTypes.IcebergSortField?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["direction"].write(value.direction)
+        try writer["null-order"].write(value.nullOrder)
+        try writer["source-id"].write(value.sourceId)
+        try writer["transform"].write(value.transform)
+    }
+}
+
+extension S3TablesClientTypes.IcebergPartitionSpec {
+
+    static func write(value: S3TablesClientTypes.IcebergPartitionSpec?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["fields"].writeList(value.fields, memberWritingClosure: S3TablesClientTypes.IcebergPartitionField.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["spec-id"].write(value.specId)
+    }
+}
+
+extension S3TablesClientTypes.IcebergPartitionField {
+
+    static func write(value: S3TablesClientTypes.IcebergPartitionField?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["field-id"].write(value.fieldId)
+        try writer["name"].write(value.name)
+        try writer["source-id"].write(value.sourceId)
+        try writer["transform"].write(value.transform)
     }
 }
 
@@ -5808,6 +6022,7 @@ extension S3TablesClientTypes.SchemaField {
 
     static func write(value: S3TablesClientTypes.SchemaField?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["id"].write(value.id)
         try writer["name"].write(value.name)
         try writer["required"].write(value.`required`)
         try writer["type"].write(value.type)

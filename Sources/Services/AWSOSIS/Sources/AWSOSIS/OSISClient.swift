@@ -71,11 +71,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class OSISClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "OSISClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: OSISClient.OSISClientConfig
+    public let config: OSISClient.OSISClientConfig
     let serviceName = "OSIS"
 
     @available(*, deprecated, message: "Use OSISClient.OSISClientConfig instead")
     public typealias Config = OSISClient.OSISClientConfiguration
+    public typealias Configuration = OSISClient.OSISClientConfig
 
     public required init(config: OSISClient.OSISClientConfig) {
         ClientRuntime.initialize()
