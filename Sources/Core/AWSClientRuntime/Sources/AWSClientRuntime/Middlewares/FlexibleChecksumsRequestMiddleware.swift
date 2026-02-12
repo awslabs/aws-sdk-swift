@@ -35,10 +35,7 @@ public struct FlexibleChecksumsRequestMiddleware<OperationStackInput, OperationS
 
     private func addHeaders(builder: HTTPRequestBuilder, attributes: Context) async throws {
         // Initialize logger
-        guard let logger = attributes.getLogger() else {
-            throw ClientError.unknownError("No logger found!")
-        }
-
+        guard let logger = attributes.getLogger() else { throw ClientError.unknownError("No logger found!") }
         // Get the enableAWSChunked configuration from context
         let enableAWSChunked = attributes.enableAWSChunked
         if case(.stream(let stream)) = builder.body {
@@ -68,7 +65,6 @@ public struct FlexibleChecksumsRequestMiddleware<OperationStackInput, OperationS
                 throw ClientError.dataNotFound("Cannot enable aws-chunked encoding: request body is not a stream")
             }
         }
-
         // E.g., prefix for x-amz-checksum-crc32
         let checksumHeaderPrefix = "x-amz-checksum-"
 
