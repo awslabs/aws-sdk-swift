@@ -1,0 +1,17 @@
+{
+  "modelPath": "codegen/sdk-codegen/aws-models/sso-oidc.json",
+  "dependencies": [
+    "AWSClientRuntime",
+    "AWSSDKChecksums",
+    "AWSSDKHTTPAuth",
+    "ClientRuntime",
+    "Smithy",
+    "SmithyHTTPAPI",
+    "SmithyHTTPAuthAPI",
+    "SmithyIdentity",
+    "SmithyJSON",
+    "SmithyReadWrite",
+    "SmithyRetries",
+    "SmithyRetriesAPI"
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "modelPath": "codegen/sdk-codegen/aws-models/bedrock-runtime.json",
+  "dependencies": [
+    "AWSClientRuntime",
+    "AWSSDKChecksums",
+    "AWSSDKEventStreamsAuth",
+    "AWSSDKHTTPAuth",
+    "AWSSDKIdentity",
+    "ClientRuntime",
+    "Smithy",
+    "SmithyEventStreams",
+    "SmithyEventStreamsAPI",
+    "SmithyHTTPAPI",
+    "SmithyHTTPAuth",
+    "SmithyHTTPAuthAPI",
+    "SmithyIdentity",
+    "SmithyJSON",
+    "SmithyReadWrite",
+    "SmithyRetries",
+    "SmithyRetriesAPI",
+    "SmithyTimestamps"
+  ]
+}
