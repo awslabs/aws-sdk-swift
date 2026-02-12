@@ -132,6 +132,7 @@ extension S3Client {
     /// Conforms to `Sendable` for safe concurrent access across threads.
     public struct S3ClientConfig: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration, Swift.Sendable {
         public var s3ExpressIdentityResolver: any AWSSDKIdentityAPI.S3ExpressIdentityResolver
+        public var enableAWSChunked: Swift.Bool?
         public var useFIPS: Swift.Bool?
         public var useDualStack: Swift.Bool?
         public var appID: Swift.String?
@@ -185,6 +186,7 @@ extension S3Client {
 
         public init(
             s3ExpressIdentityResolver: (any AWSSDKIdentityAPI.S3ExpressIdentityResolver)? = nil,
+            enableAWSChunked: Swift.Bool? = nil,
             useFIPS: Swift.Bool? = nil,
             useDualStack: Swift.Bool? = nil,
             appID: Swift.String? = nil,
@@ -218,6 +220,7 @@ extension S3Client {
             httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]? = nil
         ) throws {
             self.s3ExpressIdentityResolver = s3ExpressIdentityResolver ?? AWSSDKIdentity.DefaultS3ExpressIdentityResolver()
+            self.enableAWSChunked = try enableAWSChunked ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.enableAWSChunked()
             self.useFIPS = useFIPS
             self.useDualStack = useDualStack
             self.appID = try appID ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.appID()
@@ -254,6 +257,7 @@ extension S3Client {
 
         public init(
             s3ExpressIdentityResolver: (any AWSSDKIdentityAPI.S3ExpressIdentityResolver)? = nil,
+            enableAWSChunked: Swift.Bool? = nil,
             useFIPS: Swift.Bool? = nil,
             useDualStack: Swift.Bool? = nil,
             appID: Swift.String? = nil,
@@ -287,6 +291,7 @@ extension S3Client {
             httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]? = nil
         ) async throws {
             self.s3ExpressIdentityResolver = s3ExpressIdentityResolver ?? AWSSDKIdentity.DefaultS3ExpressIdentityResolver()
+            self.enableAWSChunked = try enableAWSChunked ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.enableAWSChunked()
             self.useFIPS = useFIPS
             self.useDualStack = useDualStack
             self.appID = try appID ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.appID()
@@ -324,6 +329,7 @@ extension S3Client {
         public init() async throws {
             try await self.init(
                 s3ExpressIdentityResolver: nil,
+                enableAWSChunked: nil,
                 useFIPS: nil,
                 useDualStack: nil,
                 appID: nil,
@@ -361,6 +367,7 @@ extension S3Client {
         public init(region: Swift.String) throws {
             try self.init(
                 s3ExpressIdentityResolver: AWSSDKIdentity.DefaultS3ExpressIdentityResolver(),
+                enableAWSChunked: try AWSClientRuntime.AWSClientConfigDefaultsProvider.enableAWSChunked(),
                 useFIPS: nil,
                 useDualStack: nil,
                 appID: try AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(),
@@ -412,6 +419,7 @@ extension S3Client {
     @available(*, deprecated, message: "Use S3ClientConfig instead. This class will be removed in a future version.")
     public final class S3ClientConfiguration: AWSClientRuntime.AWSDefaultClientConfiguration & AWSClientRuntime.AWSRegionClientConfiguration & ClientRuntime.DefaultClientConfiguration & ClientRuntime.DefaultHttpClientConfiguration {
         public var s3ExpressIdentityResolver: any AWSSDKIdentityAPI.S3ExpressIdentityResolver
+        public var enableAWSChunked: Swift.Bool?
         public var useFIPS: Swift.Bool?
         public var useDualStack: Swift.Bool?
         public var appID: Swift.String?
@@ -465,6 +473,7 @@ extension S3Client {
 
         public init(
             s3ExpressIdentityResolver: (any AWSSDKIdentityAPI.S3ExpressIdentityResolver)? = nil,
+            enableAWSChunked: Swift.Bool? = nil,
             useFIPS: Swift.Bool? = nil,
             useDualStack: Swift.Bool? = nil,
             appID: Swift.String? = nil,
@@ -498,6 +507,7 @@ extension S3Client {
             httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]? = nil
         ) throws {
             self.s3ExpressIdentityResolver = s3ExpressIdentityResolver ?? AWSSDKIdentity.DefaultS3ExpressIdentityResolver()
+            self.enableAWSChunked = try enableAWSChunked ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.enableAWSChunked()
             self.useFIPS = useFIPS
             self.useDualStack = useDualStack
             self.appID = try appID ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.appID()
@@ -534,6 +544,7 @@ extension S3Client {
 
         public init(
             s3ExpressIdentityResolver: (any AWSSDKIdentityAPI.S3ExpressIdentityResolver)? = nil,
+            enableAWSChunked: Swift.Bool? = nil,
             useFIPS: Swift.Bool? = nil,
             useDualStack: Swift.Bool? = nil,
             appID: Swift.String? = nil,
@@ -567,6 +578,7 @@ extension S3Client {
             httpInterceptorProviders: [ClientRuntime.HttpInterceptorProvider]? = nil
         ) async throws {
             self.s3ExpressIdentityResolver = s3ExpressIdentityResolver ?? AWSSDKIdentity.DefaultS3ExpressIdentityResolver()
+            self.enableAWSChunked = try enableAWSChunked ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.enableAWSChunked()
             self.useFIPS = useFIPS
             self.useDualStack = useDualStack
             self.appID = try appID ?? AWSClientRuntime.AWSClientConfigDefaultsProvider.appID()
@@ -604,6 +616,7 @@ extension S3Client {
         public convenience init() async throws {
             try await self.init(
                 s3ExpressIdentityResolver: nil,
+                enableAWSChunked: nil,
                 useFIPS: nil,
                 useDualStack: nil,
                 appID: nil,
@@ -641,6 +654,7 @@ extension S3Client {
         public convenience init(region: Swift.String) throws {
             try self.init(
                 s3ExpressIdentityResolver: AWSSDKIdentity.DefaultS3ExpressIdentityResolver(),
+                enableAWSChunked: try AWSClientRuntime.AWSClientConfigDefaultsProvider.enableAWSChunked(),
                 useFIPS: nil,
                 useDualStack: nil,
                 appID: try AWSClientRuntime.AWSClientConfigDefaultsProvider.appID(),
@@ -682,6 +696,7 @@ extension S3Client {
         public func toSendable() throws -> S3ClientConfig {
             return try S3ClientConfig(
                 s3ExpressIdentityResolver: self.s3ExpressIdentityResolver,
+                enableAWSChunked: self.enableAWSChunked,
                 useFIPS: self.useFIPS,
                 useDualStack: self.useDualStack,
                 appID: self.appID,

@@ -32,9 +32,5 @@ class S3EnableAWSChunkedClientConfiguration : ClientConfiguration {
                 "enableAWSChunked",
                 SwiftTypes.Bool.toOptional(),
             ),
-            ConfigProperty(
-                "disableS3ExpressSessionAuth",
-                SwiftTypes.Bool.toOptional(),
-            ),
         )
 }
