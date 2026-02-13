@@ -42,10 +42,14 @@ class AWSJSON1_0ProtocolGenerator : AWSHTTPBindingProtocolGenerator(AWSJSONCusto
         super.addProtocolSpecificMiddleware(ctx, operation)
 
         operationMiddleware.appendMiddleware(operation, AWSXAmzTargetMiddleware(ctx.model, ctx.symbolProvider, ctx.service))
-        // Original instance of OperationInputBodyMiddleware checks if there is an HTTP Body, but for AWSJson protocols
-        // we always need to have an InputBodyMiddleware
+
+        // Remove these middlewares, they are handled by applying the ClientProtocol & Operation
+        // to the orchestrator
         operationMiddleware.removeMiddleware(operation, "OperationInputBodyMiddleware")
-        operationMiddleware.appendMiddleware(operation, OperationInputBodyMiddleware(ctx, true))
+        operationMiddleware.removeMiddleware(operation, "DeserializeMiddleware")
+
+        // Remove this middleware as it will be handled by a plugin
+        operationMiddleware.removeMiddleware(operation, "OperationInputUrlPathMiddleware")
 
         val resolver = getProtocolHttpBindingResolver(ctx, defaultContentType)
         operationMiddleware.removeMiddleware(operation, "ContentTypeMiddleware")

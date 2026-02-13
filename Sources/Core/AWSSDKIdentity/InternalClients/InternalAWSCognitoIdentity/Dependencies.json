@@ -5,14 +5,12 @@
     "AWSSDKChecksums",
     "AWSSDKHTTPAuth",
     "ClientRuntime",
+    "RPCv2CBOR",
     "Smithy",
     "SmithyHTTPAPI",
     "SmithyHTTPAuthAPI",
     "SmithyIdentity",
-    "SmithyJSON",
-    "SmithyReadWrite",
     "SmithyRetries",
-    "SmithyRetriesAPI",
-    "SmithyTimestamps"
+    "SmithyRetriesAPI"
   ]
 }

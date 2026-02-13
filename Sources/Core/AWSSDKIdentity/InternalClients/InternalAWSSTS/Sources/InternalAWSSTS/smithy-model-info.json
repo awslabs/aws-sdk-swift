@@ -1,4 +1,7 @@
 {
     "service": "com.amazonaws.sts#AWSSecurityTokenServiceV20110615",
-    "path": "codegen/sdk-codegen/aws-models/sts.json"
+    "path": "codegen/sdk-codegen/aws-models/sts.json",
+    "internal": true,
+    "operations": ["com.amazonaws.sts#AssumeRole", "com.amazonaws.sts#AssumeRoleWithWebIdentity"]
+
 }
