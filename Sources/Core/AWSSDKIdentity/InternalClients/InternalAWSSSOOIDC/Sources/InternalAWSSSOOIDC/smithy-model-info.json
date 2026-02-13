@@ -1,7 +1,0 @@
-{
-    "service": "com.amazonaws.ssooidc#AWSSSOOIDCService",
-    "path": "codegen/sdk-codegen/aws-models/sso-oidc.json",
-    "internal": true,
-    "operations": ["com.amazonaws.ssooidc#CreateToken"]
-
-}

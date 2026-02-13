@@ -1,7 +1,0 @@
-{
-    "service": "com.amazonaws.sso#SWBPortalService",
-    "path": "codegen/sdk-codegen/aws-models/sso.json",
-    "internal": true,
-    "operations": ["com.amazonaws.sso#GetRoleCredentials"]
-
-}

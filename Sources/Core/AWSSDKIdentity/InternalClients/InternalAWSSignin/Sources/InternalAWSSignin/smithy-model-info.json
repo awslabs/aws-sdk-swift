@@ -1,7 +1,0 @@
-{
-    "service": "com.amazonaws.signin#Signin",
-    "path": "codegen/sdk-codegen/aws-models/signin.json",
-    "internal": true,
-    "operations": ["com.amazonaws.signin#CreateOAuth2Token"]
-
-}
