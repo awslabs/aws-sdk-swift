@@ -72,11 +72,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class DirectoryClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "DirectoryClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: DirectoryClient.DirectoryClientConfig
+    public let config: DirectoryClient.DirectoryClientConfig
     let serviceName = "Directory"
 
     @available(*, deprecated, message: "Use DirectoryClient.DirectoryClientConfig instead")
     public typealias Config = DirectoryClient.DirectoryClientConfiguration
+    public typealias Configuration = DirectoryClient.DirectoryClientConfig
 
     public required init(config: DirectoryClient.DirectoryClientConfig) {
         ClientRuntime.initialize()

@@ -73,11 +73,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class MailManagerClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "MailManagerClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: MailManagerClient.MailManagerClientConfig
+    public let config: MailManagerClient.MailManagerClientConfig
     let serviceName = "MailManager"
 
     @available(*, deprecated, message: "Use MailManagerClient.MailManagerClientConfig instead")
     public typealias Config = MailManagerClient.MailManagerClientConfiguration
+    public typealias Configuration = MailManagerClient.MailManagerClientConfig
 
     public required init(config: MailManagerClient.MailManagerClientConfig) {
         ClientRuntime.initialize()

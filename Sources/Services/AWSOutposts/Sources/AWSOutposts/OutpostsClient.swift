@@ -72,11 +72,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class OutpostsClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "OutpostsClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: OutpostsClient.OutpostsClientConfig
+    public let config: OutpostsClient.OutpostsClientConfig
     let serviceName = "Outposts"
 
     @available(*, deprecated, message: "Use OutpostsClient.OutpostsClientConfig instead")
     public typealias Config = OutpostsClient.OutpostsClientConfiguration
+    public typealias Configuration = OutpostsClient.OutpostsClientConfig
 
     public required init(config: OutpostsClient.OutpostsClientConfig) {
         ClientRuntime.initialize()

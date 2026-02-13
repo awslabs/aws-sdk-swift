@@ -288,12 +288,14 @@ extension RAMClientTypes {
     public enum ResourceShareAssociationType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case principal
         case resource
+        case source
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ResourceShareAssociationType] {
             return [
                 .principal,
-                .resource
+                .resource,
+                .source
             ]
         }
 
@@ -306,6 +308,7 @@ extension RAMClientTypes {
             switch self {
             case .principal: return "PRINCIPAL"
             case .resource: return "RESOURCE"
+            case .source: return "SOURCE"
             case let .sdkUnknown(s): return s
             }
         }
@@ -320,6 +323,9 @@ extension RAMClientTypes {
         case disassociated
         case disassociating
         case failed
+        case restoring
+        case suspended
+        case suspending
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ResourceShareAssociationStatus] {
@@ -328,7 +334,10 @@ extension RAMClientTypes {
                 .associating,
                 .disassociated,
                 .disassociating,
-                .failed
+                .failed,
+                .restoring,
+                .suspended,
+                .suspending
             ]
         }
 
@@ -344,6 +353,9 @@ extension RAMClientTypes {
             case .disassociated: return "DISASSOCIATED"
             case .disassociating: return "DISASSOCIATING"
             case .failed: return "FAILED"
+            case .restoring: return "RESTORING"
+            case .suspended: return "SUSPENDED"
+            case .suspending: return "SUSPENDING"
             case let .sdkUnknown(s): return s
             }
         }
@@ -557,7 +569,7 @@ public struct InvalidStateTransitionException: ClientRuntime.ModeledError, AWSCl
     }
 }
 
-/// The operation failed because it would exceed the limit for resource shares for your account. To view the limits for your Amazon Web Services account, see the [RAM page in the Service Quotas console](https://console.aws.amazon.com/servicequotas/home/services/ram/quotas).
+/// The operation failed because it would exceed the limit for resource shares for your account. You can associate up to 100 resources per call. To view the limits for your Amazon Web Services account, see the [RAM page in the Service Quotas console](https://console.aws.amazon.com/servicequotas/home/services/ram/quotas).
 public struct ResourceShareLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error, Swift.Sendable {
 
     public struct Properties: Swift.Sendable {
@@ -644,6 +656,8 @@ public struct AssociateResourceShareInput: Swift.Sendable {
     ///
     /// * An ARN of an IAM user, for example: iam::123456789012user/username
     ///
+    /// * A service principal name, for example: service-id.amazonaws.com
+    ///
     ///
     /// Not all resource types can be shared with IAM roles and users. For more information, see [Sharing with IAM roles and users](https://docs.aws.amazon.com/ram/latest/userguide/permissions.html#permissions-rbp-supported-resource-types) in the Resource Access Manager User Guide.
     public var principals: [Swift.String]?
@@ -652,7 +666,7 @@ public struct AssociateResourceShareInput: Swift.Sendable {
     /// Specifies the [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the resource share that you want to add principals or resources to.
     /// This member is required.
     public var resourceShareArn: Swift.String?
-    /// Specifies from which source accounts the service principal has access to the resources in this resource share.
+    /// Specifies source constraints (accounts, ARNs, organization IDs, or organization paths) that limit when service principals can access resources in this resource share. When a service principal attempts to access a shared resource, validation is performed to ensure the request originates from one of the specified sources. This helps prevent confused deputy attacks by applying constraints on where service principals can access resources from.
     public var sources: [Swift.String]?
 
     public init(
@@ -862,7 +876,7 @@ public struct CreatePermissionInput: Swift.Sendable {
     /// This template can't include either the Resource or Principal elements. Those are both filled in by RAM when it instantiates the resource-based policy on each resource shared using this managed permission. The Resource comes from the ARN of the specific resource that you are sharing. The Principal comes from the list of identities added to the resource share.
     /// This member is required.
     public var policyTemplate: Swift.String?
-    /// Specifies the name of the resource type that this customer managed permission applies to. The format is  :  and is not case sensitive. For example, to specify an Amazon EC2 Subnet, you can use the string ec2:subnet. To see the list of valid values for this parameter, query the [ListResourceTypes] operation.
+    /// Specifies the name of the resource type that this customer managed permission applies to. The format is  :  and is case sensitive. For example, to specify an Amazon EC2 Subnet, you can use the string ec2:Subnet. To see the list of valid values for this parameter, query the [ListResourceTypes] operation. This value must match the display name of the resource (available in ListResourceTypes).
     /// This member is required.
     public var resourceType: Swift.String?
     /// Specifies a list of one or more tag key and value pairs to attach to the permission.
@@ -1283,12 +1297,14 @@ public struct CreateResourceShareInput: Swift.Sendable {
     ///
     /// * An ARN of an IAM user, for example: iam::123456789012user/username
     ///
+    /// * A service principal name, for example: service-id.amazonaws.com
+    ///
     ///
     /// Not all resource types can be shared with IAM roles and users. For more information, see [Sharing with IAM roles and users](https://docs.aws.amazon.com/ram/latest/userguide/permissions.html#permissions-rbp-supported-resource-types) in the Resource Access Manager User Guide.
     public var principals: [Swift.String]?
     /// Specifies a list of one or more ARNs of the resources to associate with the resource share.
     public var resourceArns: [Swift.String]?
-    /// Specifies from which source accounts the service principal has access to the resources in this resource share.
+    /// Specifies source constraints (accounts, ARNs, organization IDs, or organization paths) that limit when service principals can access resources in this resource share. When a service principal attempts to access a shared resource, validation is performed to ensure the request originates from one of the specified sources. This helps prevent confused deputy attacks by applying constraints on where service principals can access resources from.
     public var sources: [Swift.String]?
     /// Specifies one or more tags to attach to the resource share itself. It doesn't attach the tags to the resources associated with the resource share.
     public var tags: [RAMClientTypes.Tag]?
@@ -1581,6 +1597,8 @@ public struct DisassociateResourceShareInput: Swift.Sendable {
     ///
     /// * An ARN of an IAM user, for example: iam::123456789012user/username
     ///
+    /// * A service principal name, for example: service-id.amazonaws.com
+    ///
     ///
     /// Not all resource types can be shared with IAM roles and users. For more information, see [Sharing with IAM roles and users](https://docs.aws.amazon.com/ram/latest/userguide/permissions.html#permissions-rbp-supported-resource-types) in the Resource Access Manager User Guide.
     public var principals: [Swift.String]?
@@ -1589,7 +1607,7 @@ public struct DisassociateResourceShareInput: Swift.Sendable {
     /// Specifies [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the resource share that you want to remove resources or principals from.
     /// This member is required.
     public var resourceShareArn: Swift.String?
-    /// Specifies from which source accounts the service principal no longer has access to the resources in this resource share.
+    /// Specifies source constraints (accounts, ARNs, organization IDs, or organization paths) to remove from the resource share. This enables granular management of source constraints while maintaining service principal associations. At least one source must remain when service principals are present.
     public var sources: [Swift.String]?
 
     public init(
@@ -1936,7 +1954,7 @@ extension RAMClientTypes {
 
 extension RAMClientTypes {
 
-    /// A tag key and optional list of possible values that you can use to filter results for tagged resources.
+    /// A tag key and optional list of possible values that you can use to filter results for tagged resources. Multiple tag filters are evaluated as an OR condition.
     public struct TagFilter: Swift.Sendable {
         /// The tag key. This must have a valid string value and can't be empty.
         public var tagKey: Swift.String?
@@ -2480,6 +2498,8 @@ public struct ListPrincipalsInput: Swift.Sendable {
     ///
     /// * An ARN of an IAM user, for example: iam::123456789012user/username
     ///
+    /// * A service principal name, for example: service-id.amazonaws.com
+    ///
     ///
     /// Not all resource types can be shared with IAM roles and users. For more information, see [Sharing with IAM roles and users](https://docs.aws.amazon.com/ram/latest/userguide/permissions.html#permissions-rbp-supported-resource-types) in the Resource Access Manager User Guide.
     public var principals: [Swift.String]?
@@ -2883,6 +2903,91 @@ public struct ListResourceTypesOutput: Swift.Sendable {
     ) {
         self.nextToken = nextToken
         self.resourceTypes = resourceTypes
+    }
+}
+
+public struct ListSourceAssociationsInput: Swift.Sendable {
+    /// The status of the source associations that you want to retrieve.
+    public var associationStatus: RAMClientTypes.ResourceShareAssociationStatus?
+    /// The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned nextToken value.
+    public var maxResults: Swift.Int?
+    /// The pagination token that indicates the next set of results to retrieve.
+    public var nextToken: Swift.String?
+    /// The Amazon Resource Names (ARNs) of the resource shares for which you want to retrieve source associations.
+    public var resourceShareArns: [Swift.String]?
+    /// The identifier of the source for which you want to retrieve associations. This can be an account ID, Amazon Resource Name (ARN), organization ID, or organization path.
+    public var sourceId: Swift.String?
+    /// The type of source for which you want to retrieve associations.
+    public var sourceType: Swift.String?
+
+    public init(
+        associationStatus: RAMClientTypes.ResourceShareAssociationStatus? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        resourceShareArns: [Swift.String]? = nil,
+        sourceId: Swift.String? = nil,
+        sourceType: Swift.String? = nil
+    ) {
+        self.associationStatus = associationStatus
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.resourceShareArns = resourceShareArns
+        self.sourceId = sourceId
+        self.sourceType = sourceType
+    }
+}
+
+extension RAMClientTypes {
+
+    /// Information about a source association in a resource share. Source associations control which sources can be used with service principals.
+    public struct AssociatedSource: Swift.Sendable {
+        /// The date and time when the source association was created.
+        public var creationTime: Foundation.Date?
+        /// The date and time when the source association was last updated.
+        public var lastUpdatedTime: Foundation.Date?
+        /// The Amazon Resource Name (ARN) of the resource share that contains the source association.
+        public var resourceShareArn: Swift.String?
+        /// The identifier of the source. This can be an account ID, Amazon Resource Name (ARN), organization ID, or organization path.
+        public var sourceId: Swift.String?
+        /// The type of source.
+        public var sourceType: Swift.String?
+        /// The current status of the source association.
+        public var status: Swift.String?
+        /// A message about the status of the source association.
+        public var statusMessage: Swift.String?
+
+        public init(
+            creationTime: Foundation.Date? = nil,
+            lastUpdatedTime: Foundation.Date? = nil,
+            resourceShareArn: Swift.String? = nil,
+            sourceId: Swift.String? = nil,
+            sourceType: Swift.String? = nil,
+            status: Swift.String? = nil,
+            statusMessage: Swift.String? = nil
+        ) {
+            self.creationTime = creationTime
+            self.lastUpdatedTime = lastUpdatedTime
+            self.resourceShareArn = resourceShareArn
+            self.sourceId = sourceId
+            self.sourceType = sourceType
+            self.status = status
+            self.statusMessage = statusMessage
+        }
+    }
+}
+
+public struct ListSourceAssociationsOutput: Swift.Sendable {
+    /// The pagination token to use to retrieve the next page of results. This value is null when there are no more results to return.
+    public var nextToken: Swift.String?
+    /// Information about the source associations.
+    public var sourceAssociations: [RAMClientTypes.AssociatedSource]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        sourceAssociations: [RAMClientTypes.AssociatedSource]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.sourceAssociations = sourceAssociations
     }
 }
 
@@ -3407,6 +3512,13 @@ extension ListResourceTypesInput {
     }
 }
 
+extension ListSourceAssociationsInput {
+
+    static func urlPathProvider(_ value: ListSourceAssociationsInput) -> Swift.String? {
+        return "/listsourceassociations"
+    }
+}
+
 extension PromotePermissionCreatedFromPolicyInput {
 
     static func urlPathProvider(_ value: PromotePermissionCreatedFromPolicyInput) -> Swift.String? {
@@ -3734,6 +3846,19 @@ extension ListResourceTypesInput {
         try writer["maxResults"].write(value.maxResults)
         try writer["nextToken"].write(value.nextToken)
         try writer["resourceRegionScope"].write(value.resourceRegionScope)
+    }
+}
+
+extension ListSourceAssociationsInput {
+
+    static func write(value: ListSourceAssociationsInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["associationStatus"].write(value.associationStatus)
+        try writer["maxResults"].write(value.maxResults)
+        try writer["nextToken"].write(value.nextToken)
+        try writer["resourceShareArns"].writeList(value.resourceShareArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["sourceId"].write(value.sourceId)
+        try writer["sourceType"].write(value.sourceType)
     }
 }
 
@@ -4146,6 +4271,19 @@ extension ListResourceTypesOutput {
     }
 }
 
+extension ListSourceAssociationsOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListSourceAssociationsOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListSourceAssociationsOutput()
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        value.sourceAssociations = try reader["sourceAssociations"].readListIfPresent(memberReadingClosure: RAMClientTypes.AssociatedSource.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension PromotePermissionCreatedFromPolicyOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> PromotePermissionCreatedFromPolicyOutput {
@@ -4369,6 +4507,7 @@ enum CreateResourceShareOutputError {
             case "Unavailable": return try ServiceUnavailableException.makeError(baseError: baseError)
             case "TagLimitExceeded": return try TagLimitExceededException.makeError(baseError: baseError)
             case "TagPolicyViolation": return try TagPolicyViolationException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "InvalidResourceShareArn.NotFound": return try UnknownResourceException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -4432,6 +4571,7 @@ enum DeleteResourceShareOutputError {
             case "OperationNotPermitted": return try OperationNotPermittedException.makeError(baseError: baseError)
             case "InternalError": return try ServerInternalException.makeError(baseError: baseError)
             case "Unavailable": return try ServiceUnavailableException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "InvalidResourceShareArn.NotFound": return try UnknownResourceException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -4455,6 +4595,7 @@ enum DisassociateResourceShareOutputError {
             case "ResourceShareLimitExceeded": return try ResourceShareLimitExceededException.makeError(baseError: baseError)
             case "InternalError": return try ServerInternalException.makeError(baseError: baseError)
             case "Unavailable": return try ServiceUnavailableException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "InvalidResourceShareArn.NotFound": return try UnknownResourceException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -4767,6 +4908,25 @@ enum ListResourceTypesOutputError {
     }
 }
 
+enum ListSourceAssociationsOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "InvalidNextToken": return try InvalidNextTokenException.makeError(baseError: baseError)
+            case "InvalidParameter": return try InvalidParameterException.makeError(baseError: baseError)
+            case "InvalidArn.Malformed": return try MalformedArnException.makeError(baseError: baseError)
+            case "InternalError": return try ServerInternalException.makeError(baseError: baseError)
+            case "Unavailable": return try ServiceUnavailableException.makeError(baseError: baseError)
+            case "InvalidResourceShareArn.NotFound": return try UnknownResourceException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum PromotePermissionCreatedFromPolicyOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -4776,6 +4936,7 @@ enum PromotePermissionCreatedFromPolicyOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "InvalidParameter": return try InvalidParameterException.makeError(baseError: baseError)
+            case "InvalidPolicy": return try InvalidPolicyException.makeError(baseError: baseError)
             case "InvalidArn.Malformed": return try MalformedArnException.makeError(baseError: baseError)
             case "MissingRequiredParameter": return try MissingRequiredParameterException.makeError(baseError: baseError)
             case "OperationNotPermitted": return try OperationNotPermittedException.makeError(baseError: baseError)
@@ -5489,6 +5650,22 @@ extension RAMClientTypes.ServiceNameAndResourceType {
         value.resourceType = try reader["resourceType"].readIfPresent()
         value.serviceName = try reader["serviceName"].readIfPresent()
         value.resourceRegionScope = try reader["resourceRegionScope"].readIfPresent()
+        return value
+    }
+}
+
+extension RAMClientTypes.AssociatedSource {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RAMClientTypes.AssociatedSource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RAMClientTypes.AssociatedSource()
+        value.resourceShareArn = try reader["resourceShareArn"].readIfPresent()
+        value.sourceId = try reader["sourceId"].readIfPresent()
+        value.sourceType = try reader["sourceType"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.lastUpdatedTime = try reader["lastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.statusMessage = try reader["statusMessage"].readIfPresent()
         return value
     }
 }

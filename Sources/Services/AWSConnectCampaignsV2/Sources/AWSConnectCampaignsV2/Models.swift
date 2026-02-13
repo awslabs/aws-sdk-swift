@@ -2292,6 +2292,7 @@ extension ConnectCampaignsV2ClientTypes {
         case campaignOrchestration
         case campaignSms
         case campaignTelephony
+        case campaignWhatsApp
         case sdkUnknown(Swift.String)
 
         public static var allCases: [EventType] {
@@ -2299,7 +2300,8 @@ extension ConnectCampaignsV2ClientTypes {
                 .campaignEmail,
                 .campaignOrchestration,
                 .campaignSms,
-                .campaignTelephony
+                .campaignTelephony,
+                .campaignWhatsApp
             ]
         }
 
@@ -2314,6 +2316,7 @@ extension ConnectCampaignsV2ClientTypes {
             case .campaignOrchestration: return "Campaign-Orchestration"
             case .campaignSms: return "Campaign-SMS"
             case .campaignTelephony: return "Campaign-Telephony"
+            case .campaignWhatsApp: return "Campaign-WhatsApp"
             case let .sdkUnknown(s): return s
             }
         }

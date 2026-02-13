@@ -72,11 +72,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class NotificationsClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "NotificationsClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: NotificationsClient.NotificationsClientConfig
+    public let config: NotificationsClient.NotificationsClientConfig
     let serviceName = "Notifications"
 
     @available(*, deprecated, message: "Use NotificationsClient.NotificationsClientConfig instead")
     public typealias Config = NotificationsClient.NotificationsClientConfiguration
+    public typealias Configuration = NotificationsClient.NotificationsClientConfig
 
     public required init(config: NotificationsClient.NotificationsClientConfig) {
         ClientRuntime.initialize()

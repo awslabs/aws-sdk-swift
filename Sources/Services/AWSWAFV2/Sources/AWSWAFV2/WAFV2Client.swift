@@ -72,11 +72,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class WAFV2Client: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "WAFV2Client"
     let client: ClientRuntime.SdkHttpClient
-    let config: WAFV2Client.WAFV2ClientConfig
+    public let config: WAFV2Client.WAFV2ClientConfig
     let serviceName = "WAFV2"
 
     @available(*, deprecated, message: "Use WAFV2Client.WAFV2ClientConfig instead")
     public typealias Config = WAFV2Client.WAFV2ClientConfiguration
+    public typealias Configuration = WAFV2Client.WAFV2ClientConfig
 
     public required init(config: WAFV2Client.WAFV2ClientConfig) {
         ClientRuntime.initialize()

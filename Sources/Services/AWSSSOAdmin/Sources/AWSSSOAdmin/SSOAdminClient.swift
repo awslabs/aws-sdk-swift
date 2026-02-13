@@ -73,11 +73,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class SSOAdminClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "SSOAdminClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: SSOAdminClient.SSOAdminClientConfig
+    public let config: SSOAdminClient.SSOAdminClientConfig
     let serviceName = "SSO Admin"
 
     @available(*, deprecated, message: "Use SSOAdminClient.SSOAdminClientConfig instead")
     public typealias Config = SSOAdminClient.SSOAdminClientConfiguration
+    public typealias Configuration = SSOAdminClient.SSOAdminClientConfig
 
     public required init(config: SSOAdminClient.SSOAdminClientConfig) {
         ClientRuntime.initialize()

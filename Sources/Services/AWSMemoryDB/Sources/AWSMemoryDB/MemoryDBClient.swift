@@ -72,11 +72,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class MemoryDBClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "MemoryDBClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: MemoryDBClient.MemoryDBClientConfig
+    public let config: MemoryDBClient.MemoryDBClientConfig
     let serviceName = "MemoryDB"
 
     @available(*, deprecated, message: "Use MemoryDBClient.MemoryDBClientConfig instead")
     public typealias Config = MemoryDBClient.MemoryDBClientConfiguration
+    public typealias Configuration = MemoryDBClient.MemoryDBClientConfig
 
     public required init(config: MemoryDBClient.MemoryDBClientConfig) {
         ClientRuntime.initialize()

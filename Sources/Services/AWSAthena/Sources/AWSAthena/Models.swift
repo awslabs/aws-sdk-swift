@@ -1506,7 +1506,7 @@ extension AthenaClientTypes {
 
 extension AthenaClientTypes {
 
-    /// Contains data processing unit (DPU) configuration settings and parameter mappings for a notebook engine.
+    /// The engine configuration for the workgroup, which includes the minimum/maximum number of Data Processing Units (DPU) that queries should use when running in provisioned capacity. If not specified, Athena uses default values (Default value for min is 4 and for max is Minimum of 124 and allocated DPUs). To specify DPU values for PC queries the WG containing EngineConfiguration should have the following values: The name of the Classifications should be athena-query-engine-properties, with the only allowed properties as max-dpu-count and min-dpu-count.
     public struct EngineConfiguration: Swift.Sendable {
         /// Contains additional notebook engine MAP parameter mappings in the form of key-value pairs. To specify an Athena notebook that the Jupyter server will download and serve, specify a value for the [StartSessionRequest$NotebookVersion] field, and then add a key named NotebookId to AdditionalConfigs that has the value of the Athena notebook ID.
         public var additionalConfigs: [Swift.String: Swift.String]?
@@ -1667,7 +1667,7 @@ extension AthenaClientTypes {
         public var enableMinimumEncryptionConfiguration: Swift.Bool?
         /// If set to "true", the settings for the workgroup override client-side settings. If set to "false", client-side settings are used. This property is not required for Apache Spark enabled workgroups. For more information, see [Workgroup Settings Override Client-Side Settings](https://docs.aws.amazon.com/athena/latest/ug/workgroups-settings-override.html).
         public var enforceWorkGroupConfiguration: Swift.Bool?
-        /// Contains data processing unit (DPU) configuration settings and parameter mappings for a notebook engine.
+        /// The engine configuration for the workgroup, which includes the minimum/maximum number of Data Processing Units (DPU) that queries should use when running in provisioned capacity. If not specified, Athena uses default values (Default value for min is 4 and for max is Minimum of 124 and allocated DPUs). To specify DPU values for PC queries the WG containing EngineConfiguration should have the following values: The name of the Classifications should be athena-query-engine-properties, with the only allowed properties as max-dpu-count and min-dpu-count.
         public var engineConfiguration: AthenaClientTypes.EngineConfiguration?
         /// The engine version that all queries running on the workgroup use. Queries on the AmazonAthenaPreviewFunctionality workgroup run on the preview engine regardless of this setting.
         public var engineVersion: AthenaClientTypes.EngineVersion?
@@ -4401,7 +4401,7 @@ public struct StartCalculationExecutionOutput: Swift.Sendable {
 public struct StartQueryExecutionInput: Swift.Sendable {
     /// A unique case-sensitive string used to ensure the request to create the query is idempotent (executes only once). If another StartQueryExecution request is received, the same response is returned and another query is not created. An error is returned if a parameter, such as QueryString, has changed. A call to StartQueryExecution that uses a previous client request token returns the same QueryExecutionId even if the requester doesn't have permission on the tables specified in QueryString. This token is listed as not required because Amazon Web Services SDKs (for example the Amazon Web Services SDK for Java) auto-generate the token for users. If you are not using the Amazon Web Services SDK or the Amazon Web Services CLI, you must provide this token or the action will fail.
     public var clientRequestToken: Swift.String?
-    /// Contains data processing unit (DPU) configuration settings and parameter mappings for a notebook engine.
+    /// The engine configuration for the workgroup, which includes the minimum/maximum number of Data Processing Units (DPU) that queries should use when running in provisioned capacity. If not specified, Athena uses default values (Default value for min is 4 and for max is Minimum of 124 and allocated DPUs). To specify minimum and maximum DPU values for Capacity Reservations queries, the workgroup containing EngineConfiguration should have the following values: The name of the Classifications should be athena-query-engine-properties, with the only allowed properties as max-dpu-count and min-dpu-count.
     public var engineConfiguration: AthenaClientTypes.EngineConfiguration?
     /// A list of values for the parameters in a query. The values are applied sequentially to the parameters in the query in the order in which the parameters occur.
     public var executionParameters: [Swift.String]?
@@ -4906,7 +4906,7 @@ extension AthenaClientTypes {
         public var enableMinimumEncryptionConfiguration: Swift.Bool?
         /// If set to "true", the settings for the workgroup override client-side settings. If set to "false" client-side settings are used. For more information, see [Workgroup Settings Override Client-Side Settings](https://docs.aws.amazon.com/athena/latest/ug/workgroups-settings-override.html).
         public var enforceWorkGroupConfiguration: Swift.Bool?
-        /// Contains data processing unit (DPU) configuration settings and parameter mappings for a notebook engine.
+        /// The engine configuration for the workgroup, which includes the minimum/maximum number of Data Processing Units (DPU) that queries should use when running in provisioned capacity. If not specified, Athena uses default values (Default value for min is 4 and for max is Minimum of 124 and allocated DPUs). To specify DPU values for PC queries the WG containing EngineConfiguration should have the following values: The name of the Classifications should be athena-query-engine-properties, with the only allowed properties as max-dpu-count and min-dpu-count.
         public var engineConfiguration: AthenaClientTypes.EngineConfiguration?
         /// The engine version requested when a workgroup is updated. After the update, all queries on the workgroup run on the requested engine version. If no value was previously set, the default is Auto. Queries on the AmazonAthenaPreviewFunctionality workgroup run on the preview engine regardless of this setting.
         public var engineVersion: AthenaClientTypes.EngineVersion?

@@ -70,11 +70,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class TaxSettingsClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "TaxSettingsClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: TaxSettingsClient.TaxSettingsClientConfig
+    public let config: TaxSettingsClient.TaxSettingsClientConfig
     let serviceName = "TaxSettings"
 
     @available(*, deprecated, message: "Use TaxSettingsClient.TaxSettingsClientConfig instead")
     public typealias Config = TaxSettingsClient.TaxSettingsClientConfiguration
+    public typealias Configuration = TaxSettingsClient.TaxSettingsClientConfig
 
     public required init(config: TaxSettingsClient.TaxSettingsClientConfig) {
         ClientRuntime.initialize()

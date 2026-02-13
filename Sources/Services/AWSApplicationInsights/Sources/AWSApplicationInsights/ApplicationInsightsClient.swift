@@ -72,11 +72,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class ApplicationInsightsClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "ApplicationInsightsClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: ApplicationInsightsClient.ApplicationInsightsClientConfig
+    public let config: ApplicationInsightsClient.ApplicationInsightsClientConfig
     let serviceName = "Application Insights"
 
     @available(*, deprecated, message: "Use ApplicationInsightsClient.ApplicationInsightsClientConfig instead")
     public typealias Config = ApplicationInsightsClient.ApplicationInsightsClientConfiguration
+    public typealias Configuration = ApplicationInsightsClient.ApplicationInsightsClientConfig
 
     public required init(config: ApplicationInsightsClient.ApplicationInsightsClientConfig) {
         ClientRuntime.initialize()

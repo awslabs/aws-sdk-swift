@@ -73,11 +73,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class MqClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "MqClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: MqClient.MqClientConfig
+    public let config: MqClient.MqClientConfig
     let serviceName = "mq"
 
     @available(*, deprecated, message: "Use MqClient.MqClientConfig instead")
     public typealias Config = MqClient.MqClientConfiguration
+    public typealias Configuration = MqClient.MqClientConfig
 
     public required init(config: MqClient.MqClientConfig) {
         ClientRuntime.initialize()

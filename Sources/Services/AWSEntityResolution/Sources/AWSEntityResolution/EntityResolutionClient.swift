@@ -74,11 +74,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class EntityResolutionClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "EntityResolutionClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: EntityResolutionClient.EntityResolutionClientConfig
+    public let config: EntityResolutionClient.EntityResolutionClientConfig
     let serviceName = "EntityResolution"
 
     @available(*, deprecated, message: "Use EntityResolutionClient.EntityResolutionClientConfig instead")
     public typealias Config = EntityResolutionClient.EntityResolutionClientConfiguration
+    public typealias Configuration = EntityResolutionClient.EntityResolutionClientConfig
 
     public required init(config: EntityResolutionClient.EntityResolutionClientConfig) {
         ClientRuntime.initialize()

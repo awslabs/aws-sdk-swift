@@ -73,11 +73,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class SSMContactsClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "SSMContactsClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: SSMContactsClient.SSMContactsClientConfig
+    public let config: SSMContactsClient.SSMContactsClientConfig
     let serviceName = "SSM Contacts"
 
     @available(*, deprecated, message: "Use SSMContactsClient.SSMContactsClientConfig instead")
     public typealias Config = SSMContactsClient.SSMContactsClientConfiguration
+    public typealias Configuration = SSMContactsClient.SSMContactsClientConfig
 
     public required init(config: SSMContactsClient.SSMContactsClientConfig) {
         ClientRuntime.initialize()

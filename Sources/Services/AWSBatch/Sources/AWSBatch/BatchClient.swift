@@ -72,11 +72,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class BatchClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "BatchClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: BatchClient.BatchClientConfig
+    public let config: BatchClient.BatchClientConfig
     let serviceName = "Batch"
 
     @available(*, deprecated, message: "Use BatchClient.BatchClientConfig instead")
     public typealias Config = BatchClient.BatchClientConfiguration
+    public typealias Configuration = BatchClient.BatchClientConfig
 
     public required init(config: BatchClient.BatchClientConfig) {
         ClientRuntime.initialize()
@@ -1993,7 +1994,7 @@ extension BatchClient {
 
     /// Performs the `GetJobQueueSnapshot` operation on the `Batch` service.
     ///
-    /// Provides a list of the first 100 RUNNABLE jobs associated to a single job queue.
+    /// Provides a list of the first 100 RUNNABLE jobs associated to a single job queue and includes capacity utilization, including total usage and breakdown by share for fairshare scheduling job queues.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetJobQueueSnapshotInput`)
     ///
@@ -2138,9 +2139,6 @@ extension BatchClient {
     /// * A multi-node parallel job ID to return a list of nodes for that job
     ///
     /// * An array job ID to return a list of the children for that job
-    ///
-    ///
-    /// You can filter the results by job status with the jobStatus parameter. If you don't specify a status, only RUNNING jobs are returned.
     ///
     /// - Parameter input: Contains the parameters for ListJobs. (Type: `ListJobsInput`)
     ///

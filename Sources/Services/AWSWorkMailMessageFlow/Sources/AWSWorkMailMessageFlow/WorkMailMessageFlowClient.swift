@@ -71,11 +71,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class WorkMailMessageFlowClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "WorkMailMessageFlowClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: WorkMailMessageFlowClient.WorkMailMessageFlowClientConfig
+    public let config: WorkMailMessageFlowClient.WorkMailMessageFlowClientConfig
     let serviceName = "WorkMailMessageFlow"
 
     @available(*, deprecated, message: "Use WorkMailMessageFlowClient.WorkMailMessageFlowClientConfig instead")
     public typealias Config = WorkMailMessageFlowClient.WorkMailMessageFlowClientConfiguration
+    public typealias Configuration = WorkMailMessageFlowClient.WorkMailMessageFlowClientConfig
 
     public required init(config: WorkMailMessageFlowClient.WorkMailMessageFlowClientConfig) {
         ClientRuntime.initialize()

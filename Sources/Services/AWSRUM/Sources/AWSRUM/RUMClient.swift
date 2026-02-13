@@ -71,11 +71,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class RUMClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "RUMClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: RUMClient.RUMClientConfig
+    public let config: RUMClient.RUMClientConfig
     let serviceName = "RUM"
 
     @available(*, deprecated, message: "Use RUMClient.RUMClientConfig instead")
     public typealias Config = RUMClient.RUMClientConfiguration
+    public typealias Configuration = RUMClient.RUMClientConfig
 
     public required init(config: RUMClient.RUMClientConfig) {
         ClientRuntime.initialize()

@@ -73,11 +73,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class NovaActClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "NovaActClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: NovaActClient.NovaActClientConfig
+    public let config: NovaActClient.NovaActClientConfig
     let serviceName = "Nova Act"
 
     @available(*, deprecated, message: "Use NovaActClient.NovaActClientConfig instead")
     public typealias Config = NovaActClient.NovaActClientConfiguration
+    public typealias Configuration = NovaActClient.NovaActClientConfig
 
     public required init(config: NovaActClient.NovaActClientConfig) {
         ClientRuntime.initialize()

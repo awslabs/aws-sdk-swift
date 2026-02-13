@@ -73,11 +73,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class InternetMonitorClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "InternetMonitorClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: InternetMonitorClient.InternetMonitorClientConfig
+    public let config: InternetMonitorClient.InternetMonitorClientConfig
     let serviceName = "InternetMonitor"
 
     @available(*, deprecated, message: "Use InternetMonitorClient.InternetMonitorClientConfig instead")
     public typealias Config = InternetMonitorClient.InternetMonitorClientConfiguration
+    public typealias Configuration = InternetMonitorClient.InternetMonitorClientConfig
 
     public required init(config: InternetMonitorClient.InternetMonitorClientConfig) {
         ClientRuntime.initialize()

@@ -73,11 +73,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class AccessAnalyzerClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "AccessAnalyzerClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: AccessAnalyzerClient.AccessAnalyzerClientConfig
+    public let config: AccessAnalyzerClient.AccessAnalyzerClientConfig
     let serviceName = "AccessAnalyzer"
 
     @available(*, deprecated, message: "Use AccessAnalyzerClient.AccessAnalyzerClientConfig instead")
     public typealias Config = AccessAnalyzerClient.AccessAnalyzerClientConfiguration
+    public typealias Configuration = AccessAnalyzerClient.AccessAnalyzerClientConfig
 
     public required init(config: AccessAnalyzerClient.AccessAnalyzerClientConfig) {
         ClientRuntime.initialize()

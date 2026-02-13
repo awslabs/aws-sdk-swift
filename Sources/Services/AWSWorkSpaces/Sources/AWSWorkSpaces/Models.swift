@@ -1418,6 +1418,18 @@ extension WorkSpacesClientTypes {
         case graphicspro
         case graphicsproG4dn
         case graphicsG4dn
+        case graphicsG6f2xlarge
+        case graphicsG6f4xlarge
+        case graphicsG6fLarge
+        case graphicsG6fXlarge
+        case graphicsG616xlarge
+        case graphicsG62xlarge
+        case graphicsG64xlarge
+        case graphicsG68xlarge
+        case graphicsG6Xlarge
+        case graphicsGr6f4xlarge
+        case graphicsGr64xlarge
+        case graphicsGr68xlarge
         case performance
         case power
         case powerpro
@@ -1433,6 +1445,18 @@ extension WorkSpacesClientTypes {
                 .graphicspro,
                 .graphicsproG4dn,
                 .graphicsG4dn,
+                .graphicsG6f2xlarge,
+                .graphicsG6f4xlarge,
+                .graphicsG6fLarge,
+                .graphicsG6fXlarge,
+                .graphicsG616xlarge,
+                .graphicsG62xlarge,
+                .graphicsG64xlarge,
+                .graphicsG68xlarge,
+                .graphicsG6Xlarge,
+                .graphicsGr6f4xlarge,
+                .graphicsGr64xlarge,
+                .graphicsGr68xlarge,
                 .performance,
                 .power,
                 .powerpro,
@@ -1454,6 +1478,18 @@ extension WorkSpacesClientTypes {
             case .graphicspro: return "GRAPHICSPRO"
             case .graphicsproG4dn: return "GRAPHICSPRO_G4DN"
             case .graphicsG4dn: return "GRAPHICS_G4DN"
+            case .graphicsG6f2xlarge: return "GRAPHICS_G6F_2XLARGE"
+            case .graphicsG6f4xlarge: return "GRAPHICS_G6F_4XLARGE"
+            case .graphicsG6fLarge: return "GRAPHICS_G6F_LARGE"
+            case .graphicsG6fXlarge: return "GRAPHICS_G6F_XLARGE"
+            case .graphicsG616xlarge: return "GRAPHICS_G6_16XLARGE"
+            case .graphicsG62xlarge: return "GRAPHICS_G6_2XLARGE"
+            case .graphicsG64xlarge: return "GRAPHICS_G6_4XLARGE"
+            case .graphicsG68xlarge: return "GRAPHICS_G6_8XLARGE"
+            case .graphicsG6Xlarge: return "GRAPHICS_G6_XLARGE"
+            case .graphicsGr6f4xlarge: return "GRAPHICS_GR6F_4XLARGE"
+            case .graphicsGr64xlarge: return "GRAPHICS_GR6_4XLARGE"
+            case .graphicsGr68xlarge: return "GRAPHICS_GR6_8XLARGE"
             case .performance: return "PERFORMANCE"
             case .power: return "POWER"
             case .powerpro: return "POWERPRO"
@@ -6895,12 +6931,14 @@ extension WorkSpacesClientTypes {
     public enum ImageComputeType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case base
         case graphicsG4dn
+        case graphicsG6
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ImageComputeType] {
             return [
                 .base,
-                .graphicsG4dn
+                .graphicsG4dn,
+                .graphicsG6
             ]
         }
 
@@ -6913,6 +6951,7 @@ extension WorkSpacesClientTypes {
             switch self {
             case .base: return "BASE"
             case .graphicsG4dn: return "GRAPHICS_G4DN"
+            case .graphicsG6: return "GRAPHICS_G6"
             case let .sdkUnknown(s): return s
             }
         }

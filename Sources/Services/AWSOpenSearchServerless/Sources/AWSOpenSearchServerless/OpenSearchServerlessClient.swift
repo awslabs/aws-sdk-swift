@@ -73,11 +73,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class OpenSearchServerlessClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "OpenSearchServerlessClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: OpenSearchServerlessClient.OpenSearchServerlessClientConfig
+    public let config: OpenSearchServerlessClient.OpenSearchServerlessClientConfig
     let serviceName = "OpenSearchServerless"
 
     @available(*, deprecated, message: "Use OpenSearchServerlessClient.OpenSearchServerlessClientConfig instead")
     public typealias Config = OpenSearchServerlessClient.OpenSearchServerlessClientConfiguration
+    public typealias Configuration = OpenSearchServerlessClient.OpenSearchServerlessClientConfig
 
     public required init(config: OpenSearchServerlessClient.OpenSearchServerlessClientConfig) {
         ClientRuntime.initialize()

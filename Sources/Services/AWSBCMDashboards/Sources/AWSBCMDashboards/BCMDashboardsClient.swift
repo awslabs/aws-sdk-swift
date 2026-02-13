@@ -72,11 +72,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class BCMDashboardsClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "BCMDashboardsClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: BCMDashboardsClient.BCMDashboardsClientConfig
+    public let config: BCMDashboardsClient.BCMDashboardsClientConfig
     let serviceName = "BCM Dashboards"
 
     @available(*, deprecated, message: "Use BCMDashboardsClient.BCMDashboardsClientConfig instead")
     public typealias Config = BCMDashboardsClient.BCMDashboardsClientConfiguration
+    public typealias Configuration = BCMDashboardsClient.BCMDashboardsClientConfig
 
     public required init(config: BCMDashboardsClient.BCMDashboardsClientConfig) {
         ClientRuntime.initialize()

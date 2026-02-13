@@ -67,11 +67,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class GeoMapsClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "GeoMapsClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: GeoMapsClient.GeoMapsClientConfig
+    public let config: GeoMapsClient.GeoMapsClientConfig
     let serviceName = "Geo Maps"
 
     @available(*, deprecated, message: "Use GeoMapsClient.GeoMapsClientConfig instead")
     public typealias Config = GeoMapsClient.GeoMapsClientConfiguration
+    public typealias Configuration = GeoMapsClient.GeoMapsClientConfig
 
     public required init(config: GeoMapsClient.GeoMapsClientConfig) {
         ClientRuntime.initialize()

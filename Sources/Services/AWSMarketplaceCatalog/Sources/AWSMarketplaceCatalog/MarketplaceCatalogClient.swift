@@ -73,11 +73,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class MarketplaceCatalogClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "MarketplaceCatalogClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: MarketplaceCatalogClient.MarketplaceCatalogClientConfig
+    public let config: MarketplaceCatalogClient.MarketplaceCatalogClientConfig
     let serviceName = "Marketplace Catalog"
 
     @available(*, deprecated, message: "Use MarketplaceCatalogClient.MarketplaceCatalogClientConfig instead")
     public typealias Config = MarketplaceCatalogClient.MarketplaceCatalogClientConfiguration
+    public typealias Configuration = MarketplaceCatalogClient.MarketplaceCatalogClientConfig
 
     public required init(config: MarketplaceCatalogClient.MarketplaceCatalogClientConfig) {
         ClientRuntime.initialize()

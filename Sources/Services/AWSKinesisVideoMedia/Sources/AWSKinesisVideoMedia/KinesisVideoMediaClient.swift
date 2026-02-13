@@ -71,11 +71,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class KinesisVideoMediaClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "KinesisVideoMediaClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: KinesisVideoMediaClient.KinesisVideoMediaClientConfig
+    public let config: KinesisVideoMediaClient.KinesisVideoMediaClientConfig
     let serviceName = "Kinesis Video Media"
 
     @available(*, deprecated, message: "Use KinesisVideoMediaClient.KinesisVideoMediaClientConfig instead")
     public typealias Config = KinesisVideoMediaClient.KinesisVideoMediaClientConfiguration
+    public typealias Configuration = KinesisVideoMediaClient.KinesisVideoMediaClientConfig
 
     public required init(config: KinesisVideoMediaClient.KinesisVideoMediaClientConfig) {
         ClientRuntime.initialize()

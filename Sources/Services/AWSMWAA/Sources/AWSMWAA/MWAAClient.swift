@@ -72,11 +72,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class MWAAClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "MWAAClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: MWAAClient.MWAAClientConfig
+    public let config: MWAAClient.MWAAClientConfig
     let serviceName = "MWAA"
 
     @available(*, deprecated, message: "Use MWAAClient.MWAAClientConfig instead")
     public typealias Config = MWAAClient.MWAAClientConfiguration
+    public typealias Configuration = MWAAClient.MWAAClientConfig
 
     public required init(config: MWAAClient.MWAAClientConfig) {
         ClientRuntime.initialize()

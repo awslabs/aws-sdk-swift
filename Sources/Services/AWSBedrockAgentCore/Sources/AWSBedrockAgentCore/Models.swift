@@ -326,7 +326,7 @@ public struct InvokeAgentRuntimeInput: Swift.Sendable {
     public var accept: Swift.String?
     /// The identifier of the Amazon Web Services account for the agent runtime resource.
     public var accountId: Swift.String?
-    /// The Amazon Web Services Resource Name (ARN) of the agent runtime to invoke. The ARN uniquely identifies the agent runtime resource in Amazon Bedrock.
+    /// The Amazon Web Services Resource Name (ARN) of the agent runtime to invoke. The ARN uniquely identifies the agent runtime resource in Amazon Bedrock AgentCore.
     /// This member is required.
     public var agentRuntimeArn: Swift.String?
     /// Additional context information for distributed tracing.
@@ -340,7 +340,7 @@ public struct InvokeAgentRuntimeInput: Swift.Sendable {
     /// The input data to send to the agent runtime. The format of this data depends on the specific agent configuration and must match the specified content type. For most agents, this is a JSON object containing the user's request.
     /// This member is required.
     public var payload: Foundation.Data?
-    /// The qualifier to use for the agent runtime. This can be a version number or an endpoint name that points to a specific version. If not specified, Amazon Bedrock uses the default version of the agent runtime.
+    /// The qualifier to use for the agent runtime. This can be a version number or an endpoint name that points to a specific version. If not specified, Amazon Bedrock AgentCore uses the default version of the agent runtime.
     public var qualifier: Swift.String?
     /// The identifier of the runtime session.
     public var runtimeSessionId: Swift.String?
@@ -530,6 +530,67 @@ public struct StopRuntimeSessionOutput: Swift.Sendable {
     }
 }
 
+public struct SaveBrowserSessionProfileInput: Swift.Sendable {
+    /// The unique identifier of the browser associated with the session from which to save the profile.
+    /// This member is required.
+    public var browserIdentifier: Swift.String?
+    /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock AgentCore ignores the request, but does not return an error.
+    public var clientToken: Swift.String?
+    /// The unique identifier for the browser profile. This identifier is used to reference the profile when starting new browser sessions. The identifier must follow the pattern of an alphanumeric name (up to 48 characters) followed by a hyphen and a 10-character alphanumeric suffix.
+    /// This member is required.
+    public var profileIdentifier: Swift.String?
+    /// The unique identifier of the browser session from which to save the profile. The session must be active when saving the profile.
+    /// This member is required.
+    public var sessionId: Swift.String?
+    /// The trace identifier for request tracking.
+    public var traceId: Swift.String?
+    /// The parent trace information for distributed tracing.
+    public var traceParent: Swift.String?
+
+    public init(
+        browserIdentifier: Swift.String? = nil,
+        clientToken: Swift.String? = nil,
+        profileIdentifier: Swift.String? = nil,
+        sessionId: Swift.String? = nil,
+        traceId: Swift.String? = nil,
+        traceParent: Swift.String? = nil
+    ) {
+        self.browserIdentifier = browserIdentifier
+        self.clientToken = clientToken
+        self.profileIdentifier = profileIdentifier
+        self.sessionId = sessionId
+        self.traceId = traceId
+        self.traceParent = traceParent
+    }
+}
+
+public struct SaveBrowserSessionProfileOutput: Swift.Sendable {
+    /// The unique identifier of the browser associated with the session from which the profile was saved.
+    /// This member is required.
+    public var browserIdentifier: Swift.String?
+    /// The timestamp when the browser profile was last updated. This value is in ISO 8601 format.
+    /// This member is required.
+    public var lastUpdatedAt: Foundation.Date?
+    /// The unique identifier of the saved browser profile.
+    /// This member is required.
+    public var profileIdentifier: Swift.String?
+    /// The unique identifier of the browser session from which the profile was saved.
+    /// This member is required.
+    public var sessionId: Swift.String?
+
+    public init(
+        browserIdentifier: Swift.String? = nil,
+        lastUpdatedAt: Foundation.Date? = nil,
+        profileIdentifier: Swift.String? = nil,
+        sessionId: Swift.String? = nil
+    ) {
+        self.browserIdentifier = browserIdentifier
+        self.lastUpdatedAt = lastUpdatedAt
+        self.profileIdentifier = profileIdentifier
+        self.sessionId = sessionId
+    }
+}
+
 public struct GetBrowserSessionInput: Swift.Sendable {
     /// The unique identifier of the browser associated with the session.
     /// This member is required.
@@ -600,6 +661,122 @@ extension BedrockAgentCoreClientTypes {
 
 extension BedrockAgentCoreClientTypes {
 
+    /// The configuration for a browser profile in Amazon Bedrock AgentCore. A browser profile contains persistent browser data such as cookies and local storage that can be saved from one browser session and reused in subsequent sessions. Browser profiles enable continuity for tasks that require authentication, maintain user preferences, or depend on previously stored browser state.
+    public struct BrowserProfileConfiguration: Swift.Sendable {
+        /// The unique identifier of the browser profile. This identifier is used to reference the profile when starting new browser sessions or saving session data to the profile.
+        /// This member is required.
+        public var profileIdentifier: Swift.String?
+
+        public init(
+            profileIdentifier: Swift.String? = nil
+        ) {
+            self.profileIdentifier = profileIdentifier
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// Configuration for domains that should bypass all proxies and connect directly to the internet. These bypass rules take precedence over all proxy routing rules.
+    public struct ProxyBypass: Swift.Sendable {
+        /// Array of domain patterns that should bypass the proxy. Supports .amazonaws.com for subdomain matching or amazonaws.com for exact domain matching. Requests to these domains connect directly without using any proxy. Maximum 253 characters per pattern.
+        public var domainPatterns: [Swift.String]?
+
+        public init(
+            domainPatterns: [Swift.String]? = nil
+        ) {
+            self.domainPatterns = domainPatterns
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// Configuration for HTTP Basic Authentication using credentials stored in Amazon Web Services Secrets Manager. The secret must contain a JSON object with username and password string fields. Username allows alphanumeric characters and @._+=- symbols (pattern: ^[a-zA-Z0-9@._+=\-]+$). Password allows alphanumeric characters and @._+=-!#$%&* symbols (pattern: ^[a-zA-Z0-9@._+=\-!#$%&*]+$). Both fields have a maximum length of 256 characters.
+    public struct BasicAuth: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the Amazon Web Services Secrets Manager secret containing proxy credentials. The secret must be a JSON object with username and password string fields that meet validation requirements. The caller must have secretsmanager:GetSecretValue permission for this ARN. Example secret format: {"username": "proxy_user", "password": "secure_password"}
+        /// This member is required.
+        public var secretArn: Swift.String?
+
+        public init(
+            secretArn: Swift.String? = nil
+        ) {
+            self.secretArn = secretArn
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// Union type representing different proxy authentication methods. Currently supports HTTP Basic Authentication (username and password).
+    public enum ProxyCredentials: Swift.Sendable {
+        /// HTTP Basic Authentication credentials (username and password) stored in Amazon Web Services Secrets Manager.
+        case basicauth(BedrockAgentCoreClientTypes.BasicAuth)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// Configuration for a customer-managed external proxy server. Includes server location, optional domain-based routing patterns, and authentication credentials.
+    public struct ExternalProxy: Swift.Sendable {
+        /// Optional authentication credentials for the proxy server. If omitted, the proxy is accessed without authentication (useful for IP-allowlisted proxies).
+        public var credentials: BedrockAgentCoreClientTypes.ProxyCredentials?
+        /// Optional array of domain patterns that should route through this specific proxy. Supports .example.com for subdomain matching (matches any subdomain of example.com) or example.com for exact domain matching. If omitted, this proxy acts as a catch-all for domains not matched by other proxies. Maximum 100 patterns per proxy, each up to 253 characters.
+        public var domainPatterns: [Swift.String]?
+        /// The port number of the proxy server. Valid range: 1-65535.
+        /// This member is required.
+        public var port: Swift.Int?
+        /// The hostname of the proxy server. Must be a valid DNS hostname (maximum 253 characters).
+        /// This member is required.
+        public var server: Swift.String?
+
+        public init(
+            credentials: BedrockAgentCoreClientTypes.ProxyCredentials? = nil,
+            domainPatterns: [Swift.String]? = nil,
+            port: Swift.Int? = nil,
+            server: Swift.String? = nil
+        ) {
+            self.credentials = credentials
+            self.domainPatterns = domainPatterns
+            self.port = port
+            self.server = server
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// Union type representing different proxy configurations. Currently supports external customer-managed proxies.
+    public enum Proxy: Swift.Sendable {
+        /// Configuration for an external customer-managed proxy server.
+        case externalproxy(BedrockAgentCoreClientTypes.ExternalProxy)
+        case sdkUnknown(Swift.String)
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
+    /// Configuration for routing browser traffic through customer-managed proxy servers. Supports 1-5 proxy servers for domain-based routing and proxy bypass rules.
+    public struct ProxyConfiguration: Swift.Sendable {
+        /// Optional configuration for domains that should bypass all proxies and connect directly to their destination, like the internet. Takes precedence over all proxy routing rules.
+        public var bypass: BedrockAgentCoreClientTypes.ProxyBypass?
+        /// An array of 1-5 proxy server configurations for domain-based routing. Each proxy can specify which domains it handles via domainPatterns, enabling flexible routing of different traffic through different proxies based on destination domain.
+        /// This member is required.
+        public var proxies: [BedrockAgentCoreClientTypes.Proxy]?
+
+        public init(
+            bypass: BedrockAgentCoreClientTypes.ProxyBypass? = nil,
+            proxies: [BedrockAgentCoreClientTypes.Proxy]? = nil
+        ) {
+            self.bypass = bypass
+            self.proxies = proxies
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes {
+
     public enum BrowserSessionStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case ready
         case terminated
@@ -658,7 +835,7 @@ extension BedrockAgentCoreClientTypes {
 
 extension BedrockAgentCoreClientTypes {
 
-    /// The configuration for a stream that enables programmatic control of a browser session in Amazon Bedrock. This stream provides a bidirectional communication channel for sending commands to the browser and receiving responses, allowing agents to automate web interactions such as navigation, form filling, and element clicking.
+    /// The configuration for a stream that enables programmatic control of a browser session in Amazon Bedrock AgentCore. This stream provides a bidirectional communication channel for sending commands to the browser and receiving responses, allowing agents to automate web interactions such as navigation, form filling, and element clicking.
     public struct AutomationStream: Swift.Sendable {
         /// The endpoint URL for the automation stream. This URL is used to establish a WebSocket connection to the stream for sending commands and receiving responses.
         /// This member is required.
@@ -679,7 +856,7 @@ extension BedrockAgentCoreClientTypes {
 
 extension BedrockAgentCoreClientTypes {
 
-    /// The configuration for a stream that provides a visual representation of a browser session in Amazon Bedrock. This stream enables agents to observe the current state of the browser, including rendered web pages, visual elements, and the results of interactions.
+    /// The configuration for a stream that provides a visual representation of a browser session in Amazon Bedrock AgentCore. This stream enables agents to observe the current state of the browser, including rendered web pages, visual elements, and the results of interactions.
     public struct LiveViewStream: Swift.Sendable {
         /// The endpoint URL for the live view stream. This URL is used to establish a connection to receive visual updates from the browser session.
         public var streamEndpoint: Swift.String?
@@ -694,7 +871,7 @@ extension BedrockAgentCoreClientTypes {
 
 extension BedrockAgentCoreClientTypes {
 
-    /// The collection of streams associated with a browser session in Amazon Bedrock. These streams provide different ways to interact with and observe the browser session, including programmatic control and visual representation of the browser content.
+    /// The collection of streams associated with a browser session in Amazon Bedrock AgentCore. These streams provide different ways to interact with and observe the browser session, including programmatic control and visual representation of the browser content.
     public struct BrowserSessionStream: Swift.Sendable {
         /// The stream that enables programmatic control of the browser. This stream allows agents to perform actions such as navigating to URLs, clicking elements, and filling forms.
         /// This member is required.
@@ -746,6 +923,10 @@ public struct GetBrowserSessionOutput: Swift.Sendable {
     public var lastUpdatedAt: Foundation.Date?
     /// The name of the browser session.
     public var name: Swift.String?
+    /// The browser profile configuration associated with this session. Contains the profile identifier that links to persistent browser data such as cookies and local storage.
+    public var profileConfiguration: BedrockAgentCoreClientTypes.BrowserProfileConfiguration?
+    /// The active proxy configuration for this browser session. This field is only present if proxy configuration was provided when the session was started using StartBrowserSession. The configuration includes proxy servers, domain bypass rules and the proxy authentication credentials.
+    public var proxyConfiguration: BedrockAgentCoreClientTypes.ProxyConfiguration?
     /// The identifier of the browser session.
     /// This member is required.
     public var sessionId: Swift.String?
@@ -766,6 +947,8 @@ public struct GetBrowserSessionOutput: Swift.Sendable {
         extensions: [BedrockAgentCoreClientTypes.BrowserExtension]? = nil,
         lastUpdatedAt: Foundation.Date? = nil,
         name: Swift.String? = nil,
+        profileConfiguration: BedrockAgentCoreClientTypes.BrowserProfileConfiguration? = nil,
+        proxyConfiguration: BedrockAgentCoreClientTypes.ProxyConfiguration? = nil,
         sessionId: Swift.String? = nil,
         sessionReplayArtifact: Swift.String? = nil,
         sessionTimeoutSeconds: Swift.Int? = nil,
@@ -778,6 +961,8 @@ public struct GetBrowserSessionOutput: Swift.Sendable {
         self.extensions = extensions
         self.lastUpdatedAt = lastUpdatedAt
         self.name = name
+        self.profileConfiguration = profileConfiguration
+        self.proxyConfiguration = proxyConfiguration
         self.sessionId = sessionId
         self.sessionReplayArtifact = sessionReplayArtifact
         self.sessionTimeoutSeconds = sessionTimeoutSeconds
@@ -793,7 +978,7 @@ public struct ListBrowserSessionsInput: Swift.Sendable {
     public var browserIdentifier: Swift.String?
     /// The maximum number of results to return in a single call. The default value is 10. Valid values range from 1 to 100. To retrieve the remaining results, make another call with the returned nextToken value.
     public var maxResults: Swift.Int?
-    /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results. If not specified, Amazon Bedrock returns the first page of results.
+    /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results. If not specified, Amazon Bedrock AgentCore returns the first page of results.
     public var nextToken: Swift.String?
     /// The status of the browser sessions to list. Valid values include ACTIVE, STOPPING, and STOPPED. If not specified, sessions with any status are returned.
     public var status: BedrockAgentCoreClientTypes.BrowserSessionStatus?
@@ -813,7 +998,7 @@ public struct ListBrowserSessionsInput: Swift.Sendable {
 
 extension BedrockAgentCoreClientTypes {
 
-    /// A condensed representation of a browser session in Amazon Bedrock. This structure contains key information about a browser session, including identifiers, status, and timestamps, without the full details of the session configuration and streams.
+    /// A condensed representation of a browser session in Amazon Bedrock AgentCore. This structure contains key information about a browser session, including identifiers, status, and timestamps, without the full details of the session configuration and streams.
     public struct BrowserSessionSummary: Swift.Sendable {
         /// The unique identifier of the browser associated with the session. This identifier specifies which browser environment is used for the session.
         /// This member is required.
@@ -870,19 +1055,23 @@ public struct StartBrowserSessionInput: Swift.Sendable {
     /// The unique identifier of the browser to use for this session. This identifier specifies which browser environment to initialize for the session.
     /// This member is required.
     public var browserIdentifier: Swift.String?
-    /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. This parameter helps prevent the creation of duplicate sessions if there are temporary network issues.
+    /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock AgentCore ignores the request, but does not return an error. This parameter helps prevent the creation of duplicate sessions if there are temporary network issues.
     public var clientToken: Swift.String?
     /// A list of browser extensions to load into the browser session.
     public var extensions: [BedrockAgentCoreClientTypes.BrowserExtension]?
     /// The name of the browser session. This name helps you identify and manage the session. The name does not need to be unique.
     public var name: Swift.String?
+    /// The browser profile configuration to use for this session. A browser profile contains persistent data such as cookies and local storage that can be reused across multiple browser sessions. If specified, the session initializes with the profile's stored data, enabling continuity for tasks that require authentication or personalized settings.
+    public var profileConfiguration: BedrockAgentCoreClientTypes.BrowserProfileConfiguration?
+    /// Optional proxy configuration for routing browser traffic through customer-specified proxy servers. When provided, enables HTTP Basic authentication via Amazon Web Services Secrets Manager and domain-based routing rules. Requires secretsmanager:GetSecretValue IAM permission for the specified secret ARNs.
+    public var proxyConfiguration: BedrockAgentCoreClientTypes.ProxyConfiguration?
     /// The time in seconds after which the session automatically terminates if there is no activity. The default value is 3600 seconds (1 hour). The minimum allowed value is 60 seconds, and the maximum allowed value is 28800 seconds (8 hours).
     public var sessionTimeoutSeconds: Swift.Int?
     /// The trace identifier for request tracking.
     public var traceId: Swift.String?
     /// The parent trace information for distributed tracing.
     public var traceParent: Swift.String?
-    /// The dimensions of the browser viewport for this session. This determines the visible area of the web content and affects how web pages are rendered. If not specified, Amazon Bedrock uses a default viewport size.
+    /// The dimensions of the browser viewport for this session. This determines the visible area of the web content and affects how web pages are rendered. If not specified, Amazon Bedrock AgentCore uses a default viewport size.
     public var viewPort: BedrockAgentCoreClientTypes.ViewPort?
 
     public init(
@@ -890,6 +1079,8 @@ public struct StartBrowserSessionInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         extensions: [BedrockAgentCoreClientTypes.BrowserExtension]? = nil,
         name: Swift.String? = nil,
+        profileConfiguration: BedrockAgentCoreClientTypes.BrowserProfileConfiguration? = nil,
+        proxyConfiguration: BedrockAgentCoreClientTypes.ProxyConfiguration? = nil,
         sessionTimeoutSeconds: Swift.Int? = nil,
         traceId: Swift.String? = nil,
         traceParent: Swift.String? = nil,
@@ -899,6 +1090,8 @@ public struct StartBrowserSessionInput: Swift.Sendable {
         self.clientToken = clientToken
         self.extensions = extensions
         self.name = name
+        self.profileConfiguration = profileConfiguration
+        self.proxyConfiguration = proxyConfiguration
         self.sessionTimeoutSeconds = sessionTimeoutSeconds
         self.traceId = traceId
         self.traceParent = traceParent
@@ -936,7 +1129,7 @@ public struct StopBrowserSessionInput: Swift.Sendable {
     /// The unique identifier of the browser associated with the session.
     /// This member is required.
     public var browserIdentifier: Swift.String?
-    /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error.
+    /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock AgentCore ignores the request, but does not return an error.
     public var clientToken: Swift.String?
     /// The unique identifier of the browser session to stop.
     /// This member is required.
@@ -1041,7 +1234,7 @@ public struct UpdateBrowserStreamOutput: Swift.Sendable {
     /// The identifier of the browser session.
     /// This member is required.
     public var sessionId: Swift.String?
-    /// The collection of streams associated with a browser session in Amazon Bedrock. These streams provide different ways to interact with and observe the browser session, including programmatic control and visual representation of the browser content.
+    /// The collection of streams associated with a browser session in Amazon Bedrock AgentCore. These streams provide different ways to interact with and observe the browser session, including programmatic control and visual representation of the browser content.
     /// This member is required.
     public var streams: BedrockAgentCoreClientTypes.BrowserSessionStream?
     /// The time at which the browser stream was updated.
@@ -1147,7 +1340,7 @@ public struct ListCodeInterpreterSessionsInput: Swift.Sendable {
     public var codeInterpreterIdentifier: Swift.String?
     /// The maximum number of results to return in a single call. The default value is 10. Valid values range from 1 to 100. To retrieve the remaining results, make another call with the returned nextToken value.
     public var maxResults: Swift.Int?
-    /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results. If not specified, Amazon Bedrock returns the first page of results.
+    /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results. If not specified, Amazon Bedrock AgentCore returns the first page of results.
     public var nextToken: Swift.String?
     /// The status of the code interpreter sessions to list. Valid values include ACTIVE, STOPPING, and STOPPED. If not specified, sessions with any status are returned.
     public var status: BedrockAgentCoreClientTypes.CodeInterpreterSessionStatus?
@@ -1167,7 +1360,7 @@ public struct ListCodeInterpreterSessionsInput: Swift.Sendable {
 
 extension BedrockAgentCoreClientTypes {
 
-    /// A condensed representation of a code interpreter session in Amazon Bedrock. This structure contains key information about a code interpreter session, including identifiers, status, and timestamps, without the full details of the session configuration.
+    /// A condensed representation of a code interpreter session in Amazon Bedrock AgentCore. This structure contains key information about a code interpreter session, including identifiers, status, and timestamps, without the full details of the session configuration.
     public struct CodeInterpreterSessionSummary: Swift.Sendable {
         /// The unique identifier of the code interpreter associated with the session. This identifier specifies which code interpreter environment is used for the session.
         /// This member is required.
@@ -1221,7 +1414,7 @@ public struct ListCodeInterpreterSessionsOutput: Swift.Sendable {
 }
 
 public struct StartCodeInterpreterSessionInput: Swift.Sendable {
-    /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. This parameter helps prevent the creation of duplicate sessions if there are temporary network issues.
+    /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock AgentCore ignores the request, but does not return an error. This parameter helps prevent the creation of duplicate sessions if there are temporary network issues.
     public var clientToken: Swift.String?
     /// The unique identifier of the code interpreter to use for this session. This identifier specifies which code interpreter environment to initialize for the session.
     /// This member is required.
@@ -1275,7 +1468,7 @@ public struct StartCodeInterpreterSessionOutput: Swift.Sendable {
 }
 
 public struct StopCodeInterpreterSessionInput: Swift.Sendable {
-    /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error.
+    /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock AgentCore ignores the request, but does not return an error.
     public var clientToken: Swift.String?
     /// The unique identifier of the code interpreter associated with the session.
     /// This member is required.
@@ -1896,7 +2089,7 @@ extension BedrockAgentCoreClientTypes {
 
 extension BedrockAgentCoreClientTypes {
 
-    /// The collection of arguments that specify the operation to perform and its parameters when invoking a tool in Amazon Bedrock. Different tools require different arguments, and this structure provides a flexible way to pass the appropriate arguments to each tool type.
+    /// The collection of arguments that specify the operation to perform and its parameters when invoking a tool in Amazon Bedrock AgentCore. Different tools require different arguments, and this structure provides a flexible way to pass the appropriate arguments to each tool type.
     public struct ToolArguments: Swift.Sendable {
         /// Whether to clear the context for the tool.
         public var clearContext: Swift.Bool?
@@ -2243,7 +2436,7 @@ extension BedrockAgentCoreClientTypes {
 
 extension BedrockAgentCoreClientTypes {
 
-    /// The output produced by executing code in a code interpreter session in Amazon Bedrock. This structure contains the results of code execution, including textual output, structured data, and error information. Agents use these results to generate responses that incorporate computation, data analysis, and visualization.
+    /// The output produced by executing code in a code interpreter session in Amazon Bedrock AgentCore. This structure contains the results of code execution, including textual output, structured data, and error information. Agents use these results to generate responses that incorporate computation, data analysis, and visualization.
     public struct CodeInterpreterResult: Swift.Sendable {
         /// The textual content of the execution result. This includes standard output from the code execution, such as print statements, console output, and text representations of results.
         /// This member is required.
@@ -2269,7 +2462,7 @@ extension BedrockAgentCoreClientTypes {
 
     /// Contains output from a code interpreter stream.
     public enum CodeInterpreterStreamOutput: Swift.Sendable {
-        /// The output produced by executing code in a code interpreter session in Amazon Bedrock. This structure contains the results of code execution, including textual output, structured data, and error information. Agents use these results to generate responses that incorporate computation, data analysis, and visualization.
+        /// The output produced by executing code in a code interpreter session in Amazon Bedrock AgentCore. This structure contains the results of code execution, including textual output, structured data, and error information. Agents use these results to generate responses that incorporate computation, data analysis, and visualization.
         case result(BedrockAgentCoreClientTypes.CodeInterpreterResult)
         case sdkUnknown(Swift.String)
     }
@@ -3416,7 +3609,7 @@ public struct ListMemoryRecordsInput: Swift.Sendable {
     public var memoryId: Swift.String?
     /// The memory strategy identifier to filter memory records by. If specified, only memory records with this strategy ID are returned.
     public var memoryStrategyId: Swift.String?
-    /// The namespace to filter memory records by. If specified, only memory records in this namespace are returned.
+    /// The namespace prefix to filter memory records by. Returns all memory records in namespaces that start with the provided prefix.
     /// This member is required.
     public var namespace: Swift.String?
     /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
@@ -3628,7 +3821,7 @@ public struct RetrieveMemoryRecordsInput: Swift.Sendable {
     /// The identifier of the AgentCore Memory resource from which to retrieve memory records.
     /// This member is required.
     public var memoryId: Swift.String?
-    /// The namespace to filter memory records by.
+    /// The namespace prefix to filter memory records by. Searches for memory records in namespaces that start with the provided prefix.
     /// This member is required.
     public var namespace: Swift.String?
     /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
@@ -4134,6 +4327,30 @@ extension RetrieveMemoryRecordsInput {
     }
 }
 
+extension SaveBrowserSessionProfileInput {
+
+    static func urlPathProvider(_ value: SaveBrowserSessionProfileInput) -> Swift.String? {
+        guard let profileIdentifier = value.profileIdentifier else {
+            return nil
+        }
+        return "/browser-profiles/\(profileIdentifier.urlPercentEncoding())/save"
+    }
+}
+
+extension SaveBrowserSessionProfileInput {
+
+    static func headerProvider(_ value: SaveBrowserSessionProfileInput) -> SmithyHTTPAPI.Headers {
+        var items = SmithyHTTPAPI.Headers()
+        if let traceId = value.traceId {
+            items.add(SmithyHTTPAPI.Header(name: "X-Amzn-Trace-Id", value: Swift.String(traceId)))
+        }
+        if let traceParent = value.traceParent {
+            items.add(SmithyHTTPAPI.Header(name: "traceparent", value: Swift.String(traceParent)))
+        }
+        return items
+    }
+}
+
 extension StartBrowserSessionInput {
 
     static func urlPathProvider(_ value: StartBrowserSessionInput) -> Swift.String? {
@@ -4531,6 +4748,16 @@ extension RetrieveMemoryRecordsInput {
     }
 }
 
+extension SaveBrowserSessionProfileInput {
+
+    static func write(value: SaveBrowserSessionProfileInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["browserIdentifier"].write(value.browserIdentifier)
+        try writer["clientToken"].write(value.clientToken)
+        try writer["sessionId"].write(value.sessionId)
+    }
+}
+
 extension StartBrowserSessionInput {
 
     static func write(value: StartBrowserSessionInput?, to writer: SmithyJSON.Writer) throws {
@@ -4538,6 +4765,8 @@ extension StartBrowserSessionInput {
         try writer["clientToken"].write(value.clientToken)
         try writer["extensions"].writeList(value.extensions, memberWritingClosure: BedrockAgentCoreClientTypes.BrowserExtension.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["name"].write(value.name)
+        try writer["profileConfiguration"].write(value.profileConfiguration, with: BedrockAgentCoreClientTypes.BrowserProfileConfiguration.write(value:to:))
+        try writer["proxyConfiguration"].write(value.proxyConfiguration, with: BedrockAgentCoreClientTypes.ProxyConfiguration.write(value:to:))
         try writer["sessionTimeoutSeconds"].write(value.sessionTimeoutSeconds)
         try writer["viewPort"].write(value.viewPort, with: BedrockAgentCoreClientTypes.ViewPort.write(value:to:))
     }
@@ -4716,6 +4945,8 @@ extension GetBrowserSessionOutput {
         value.extensions = try reader["extensions"].readListIfPresent(memberReadingClosure: BedrockAgentCoreClientTypes.BrowserExtension.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.name = try reader["name"].readIfPresent()
+        value.profileConfiguration = try reader["profileConfiguration"].readIfPresent(with: BedrockAgentCoreClientTypes.BrowserProfileConfiguration.read(from:))
+        value.proxyConfiguration = try reader["proxyConfiguration"].readIfPresent(with: BedrockAgentCoreClientTypes.ProxyConfiguration.read(from:))
         value.sessionId = try reader["sessionId"].readIfPresent() ?? ""
         value.sessionReplayArtifact = try reader["sessionReplayArtifact"].readIfPresent()
         value.sessionTimeoutSeconds = try reader["sessionTimeoutSeconds"].readIfPresent()
@@ -4987,6 +5218,21 @@ extension RetrieveMemoryRecordsOutput {
         var value = RetrieveMemoryRecordsOutput()
         value.memoryRecordSummaries = try reader["memoryRecordSummaries"].readListIfPresent(memberReadingClosure: BedrockAgentCoreClientTypes.MemoryRecordSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension SaveBrowserSessionProfileOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> SaveBrowserSessionProfileOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = SaveBrowserSessionProfileOutput()
+        value.browserIdentifier = try reader["browserIdentifier"].readIfPresent() ?? ""
+        value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.profileIdentifier = try reader["profileIdentifier"].readIfPresent() ?? ""
+        value.sessionId = try reader["sessionId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -5626,6 +5872,25 @@ enum RetrieveMemoryRecordsOutputError {
             case "ServiceException": return try ServiceException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottledException": return try ThrottledException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum SaveBrowserSessionProfileOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -6283,6 +6548,21 @@ extension BedrockAgentCoreClientTypes.S3Location {
     }
 }
 
+extension BedrockAgentCoreClientTypes.BrowserProfileConfiguration {
+
+    static func write(value: BedrockAgentCoreClientTypes.BrowserProfileConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["profileIdentifier"].write(value.profileIdentifier)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.BrowserProfileConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreClientTypes.BrowserProfileConfiguration()
+        value.profileIdentifier = try reader["profileIdentifier"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension BedrockAgentCoreClientTypes.BrowserSessionStream {
 
     static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.BrowserSessionStream {
@@ -6311,6 +6591,122 @@ extension BedrockAgentCoreClientTypes.AutomationStream {
         var value = BedrockAgentCoreClientTypes.AutomationStream()
         value.streamEndpoint = try reader["streamEndpoint"].readIfPresent() ?? ""
         value.streamStatus = try reader["streamStatus"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension BedrockAgentCoreClientTypes.ProxyConfiguration {
+
+    static func write(value: BedrockAgentCoreClientTypes.ProxyConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["bypass"].write(value.bypass, with: BedrockAgentCoreClientTypes.ProxyBypass.write(value:to:))
+        try writer["proxies"].writeList(value.proxies, memberWritingClosure: BedrockAgentCoreClientTypes.Proxy.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.ProxyConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreClientTypes.ProxyConfiguration()
+        value.proxies = try reader["proxies"].readListIfPresent(memberReadingClosure: BedrockAgentCoreClientTypes.Proxy.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.bypass = try reader["bypass"].readIfPresent(with: BedrockAgentCoreClientTypes.ProxyBypass.read(from:))
+        return value
+    }
+}
+
+extension BedrockAgentCoreClientTypes.ProxyBypass {
+
+    static func write(value: BedrockAgentCoreClientTypes.ProxyBypass?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["domainPatterns"].writeList(value.domainPatterns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.ProxyBypass {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreClientTypes.ProxyBypass()
+        value.domainPatterns = try reader["domainPatterns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension BedrockAgentCoreClientTypes.Proxy {
+
+    static func write(value: BedrockAgentCoreClientTypes.Proxy?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .externalproxy(externalproxy):
+                try writer["externalProxy"].write(externalproxy, with: BedrockAgentCoreClientTypes.ExternalProxy.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.Proxy {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "externalProxy":
+                return .externalproxy(try reader["externalProxy"].read(with: BedrockAgentCoreClientTypes.ExternalProxy.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes.ExternalProxy {
+
+    static func write(value: BedrockAgentCoreClientTypes.ExternalProxy?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["credentials"].write(value.credentials, with: BedrockAgentCoreClientTypes.ProxyCredentials.write(value:to:))
+        try writer["domainPatterns"].writeList(value.domainPatterns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["port"].write(value.port)
+        try writer["server"].write(value.server)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.ExternalProxy {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreClientTypes.ExternalProxy()
+        value.server = try reader["server"].readIfPresent() ?? ""
+        value.port = try reader["port"].readIfPresent() ?? 0
+        value.domainPatterns = try reader["domainPatterns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.credentials = try reader["credentials"].readIfPresent(with: BedrockAgentCoreClientTypes.ProxyCredentials.read(from:))
+        return value
+    }
+}
+
+extension BedrockAgentCoreClientTypes.ProxyCredentials {
+
+    static func write(value: BedrockAgentCoreClientTypes.ProxyCredentials?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .basicauth(basicauth):
+                try writer["basicAuth"].write(basicauth, with: BedrockAgentCoreClientTypes.BasicAuth.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.ProxyCredentials {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "basicAuth":
+                return .basicauth(try reader["basicAuth"].read(with: BedrockAgentCoreClientTypes.BasicAuth.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension BedrockAgentCoreClientTypes.BasicAuth {
+
+    static func write(value: BedrockAgentCoreClientTypes.BasicAuth?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["secretArn"].write(value.secretArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreClientTypes.BasicAuth {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreClientTypes.BasicAuth()
+        value.secretArn = try reader["secretArn"].readIfPresent() ?? ""
         return value
     }
 }

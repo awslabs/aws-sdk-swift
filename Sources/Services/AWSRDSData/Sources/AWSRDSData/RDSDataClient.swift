@@ -70,11 +70,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class RDSDataClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "RDSDataClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: RDSDataClient.RDSDataClientConfig
+    public let config: RDSDataClient.RDSDataClientConfig
     let serviceName = "RDS Data"
 
     @available(*, deprecated, message: "Use RDSDataClient.RDSDataClientConfig instead")
     public typealias Config = RDSDataClient.RDSDataClientConfiguration
+    public typealias Configuration = RDSDataClient.RDSDataClientConfig
 
     public required init(config: RDSDataClient.RDSDataClientConfig) {
         ClientRuntime.initialize()

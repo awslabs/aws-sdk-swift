@@ -1988,7 +1988,7 @@ extension LakeFormationClientTypes {
         public var dataLakeAdmins: [LakeFormationClientTypes.DataLakePrincipal]?
         /// A list of the account IDs of Amazon Web Services accounts with Amazon EMR clusters that are to perform data filtering.>
         public var externalDataFilteringAllowList: [LakeFormationClientTypes.DataLakePrincipal]?
-        /// A key-value map that provides an additional configuration on your data lake. CROSS_ACCOUNT_VERSION is the key you can configure in the Parameters field. Accepted values for the CrossAccountVersion key are 1, 2, 3, and 4.
+        /// A key-value map that provides an additional configuration on your data lake. CROSS_ACCOUNT_VERSION is the key you can configure in the Parameters field. Accepted values for the CrossAccountVersion key are 1, 2, 3, 4 and 5.
         public var parameters: [Swift.String: Swift.String]?
         /// A list of Lake Formation principals with only view access to the resources, without the ability to make changes. Supported principals are IAM users or IAM roles.
         public var readOnlyAdmins: [LakeFormationClientTypes.DataLakePrincipal]?
@@ -2880,7 +2880,7 @@ public struct GetTemporaryGluePartitionCredentialsOutput: Swift.Sendable {
 
 extension LakeFormationClientTypes {
 
-    /// A structure used as a protocol between query engines and Lake Formation or Glue. Contains both a Lake Formation generated authorization identifier and information from the request's authorization context.
+    /// A structure used as a protocol between query engines and Lake Formation or Glue. Contains both a Lake Formation generated authorization identifier and information from the request's authorization context. For more information about how to utilize QuerySessionContext, see [Lake Formation workflow for application integration API operations](https://docs.aws.amazon.com/lake-formation/latest/dg/api-overview.html) in the developer guide.
     public struct QuerySessionContext: Swift.Sendable {
         /// An opaque string-string map passed by the query engine.
         public var additionalContext: [Swift.String: Swift.String]?

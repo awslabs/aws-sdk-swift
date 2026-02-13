@@ -499,6 +499,21 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
+extension IoTManagedIntegrationsClientTypes {
+
+    /// The General Authorization reference by authorization material name.
+    public struct GeneralAuthorizationName: Swift.Sendable {
+        /// The name of the authorization material.
+        public var authMaterialName: Swift.String?
+
+        public init(
+            authMaterialName: Swift.String? = nil
+        ) {
+            self.authMaterialName = authMaterialName
+        }
+    }
+}
+
 public struct CreateAccountAssociationInput: Swift.Sendable {
     /// An idempotency token. If you retry a request that completed successfully initially using the same client token and parameters, then the retry attempt will succeed without performing any further actions.
     public var clientToken: Swift.String?
@@ -507,6 +522,8 @@ public struct CreateAccountAssociationInput: Swift.Sendable {
     public var connectorDestinationId: Swift.String?
     /// A description of the account association request.
     public var description: Swift.String?
+    /// The General Authorization reference by authorization material name.
+    public var generalAuthorization: IoTManagedIntegrationsClientTypes.GeneralAuthorizationName?
     /// The name of the destination for the new account association.
     public var name: Swift.String?
     /// A set of key/value pairs that are used to manage the account association.
@@ -516,12 +533,14 @@ public struct CreateAccountAssociationInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         connectorDestinationId: Swift.String? = nil,
         description: Swift.String? = nil,
+        generalAuthorization: IoTManagedIntegrationsClientTypes.GeneralAuthorizationName? = nil,
         name: Swift.String? = nil,
         tags: [Swift.String: Swift.String]? = nil
     ) {
         self.clientToken = clientToken
         self.connectorDestinationId = connectorDestinationId
         self.description = description
+        self.generalAuthorization = generalAuthorization
         self.name = name
         self.tags = tags
     }
@@ -529,7 +548,7 @@ public struct CreateAccountAssociationInput: Swift.Sendable {
 
 extension CreateAccountAssociationInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateAccountAssociationInput(clientToken: \(Swift.String(describing: clientToken)), connectorDestinationId: \(Swift.String(describing: connectorDestinationId)), description: \(Swift.String(describing: description)), name: \(Swift.String(describing: name)), tags: \"CONTENT_REDACTED\")"}
+        "CreateAccountAssociationInput(clientToken: \(Swift.String(describing: clientToken)), connectorDestinationId: \(Swift.String(describing: connectorDestinationId)), description: \(Swift.String(describing: description)), generalAuthorization: \(Swift.String(describing: generalAuthorization)), name: \(Swift.String(describing: name)), tags: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateAccountAssociationOutput: Swift.Sendable {
@@ -541,7 +560,7 @@ public struct CreateAccountAssociationOutput: Swift.Sendable {
     /// The current state of the account association request.
     /// This member is required.
     public var associationState: IoTManagedIntegrationsClientTypes.AssociationState?
-    /// Third-party IoT platform OAuth authorization server URL backed with all the required parameters to perform end-user authentication.
+    /// Third-party IoT platform OAuth authorization server URL backed with all the required parameters to perform end-user authentication. This field will be empty when using General Authorization flows that do not require OAuth.
     /// This member is required.
     public var oAuthAuthorizationUrl: Swift.String?
 
@@ -549,7 +568,7 @@ public struct CreateAccountAssociationOutput: Swift.Sendable {
         accountAssociationId: Swift.String? = nil,
         arn: Swift.String? = nil,
         associationState: IoTManagedIntegrationsClientTypes.AssociationState? = nil,
-        oAuthAuthorizationUrl: Swift.String? = nil
+        oAuthAuthorizationUrl: Swift.String? = ""
     ) {
         self.accountAssociationId = accountAssociationId
         self.arn = arn
@@ -602,9 +621,11 @@ public struct GetAccountAssociationOutput: Swift.Sendable {
     public var description: Swift.String?
     /// The error message explaining the current account association error.
     public var errorMessage: Swift.String?
+    /// The General Authorization reference by authorization material name.
+    public var generalAuthorization: IoTManagedIntegrationsClientTypes.GeneralAuthorizationName?
     /// The name of the account association.
     public var name: Swift.String?
-    /// Third party IoT platform OAuth authorization server URL backed with all the required parameters to perform end-user authentication.
+    /// Third party IoT platform OAuth authorization server URL backed with all the required parameters to perform end-user authentication. This field will be empty when using General Authorization flows that do not require OAuth.
     /// This member is required.
     public var oAuthAuthorizationUrl: Swift.String?
     /// A set of key/value pairs that are used to manage the account association.
@@ -617,8 +638,9 @@ public struct GetAccountAssociationOutput: Swift.Sendable {
         connectorDestinationId: Swift.String? = nil,
         description: Swift.String? = nil,
         errorMessage: Swift.String? = nil,
+        generalAuthorization: IoTManagedIntegrationsClientTypes.GeneralAuthorizationName? = nil,
         name: Swift.String? = nil,
-        oAuthAuthorizationUrl: Swift.String? = nil,
+        oAuthAuthorizationUrl: Swift.String? = "",
         tags: [Swift.String: Swift.String]? = nil
     ) {
         self.accountAssociationId = accountAssociationId
@@ -627,6 +649,7 @@ public struct GetAccountAssociationOutput: Swift.Sendable {
         self.connectorDestinationId = connectorDestinationId
         self.description = description
         self.errorMessage = errorMessage
+        self.generalAuthorization = generalAuthorization
         self.name = name
         self.oAuthAuthorizationUrl = oAuthAuthorizationUrl
         self.tags = tags
@@ -635,7 +658,7 @@ public struct GetAccountAssociationOutput: Swift.Sendable {
 
 extension GetAccountAssociationOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetAccountAssociationOutput(accountAssociationId: \(Swift.String(describing: accountAssociationId)), arn: \(Swift.String(describing: arn)), associationState: \(Swift.String(describing: associationState)), connectorDestinationId: \(Swift.String(describing: connectorDestinationId)), description: \(Swift.String(describing: description)), errorMessage: \(Swift.String(describing: errorMessage)), name: \(Swift.String(describing: name)), oAuthAuthorizationUrl: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
+        "GetAccountAssociationOutput(accountAssociationId: \(Swift.String(describing: accountAssociationId)), arn: \(Swift.String(describing: arn)), associationState: \(Swift.String(describing: associationState)), connectorDestinationId: \(Swift.String(describing: connectorDestinationId)), description: \(Swift.String(describing: description)), errorMessage: \(Swift.String(describing: errorMessage)), generalAuthorization: \(Swift.String(describing: generalAuthorization)), name: \(Swift.String(describing: name)), oAuthAuthorizationUrl: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
 }
 
 public struct ListAccountAssociationsInput: Swift.Sendable {
@@ -685,12 +708,12 @@ public struct StartAccountAssociationRefreshInput: Swift.Sendable {
 }
 
 public struct StartAccountAssociationRefreshOutput: Swift.Sendable {
-    /// Third-party IoT platform OAuth authorization server URL with all required parameters to perform end-user authentication during the refresh process.
+    /// Third-party IoT platform OAuth authorization server URL with all required parameters to perform end-user authentication during the refresh process. This field will be empty when using General Authorization flows that do not require OAuth.
     /// This member is required.
     public var oAuthAuthorizationUrl: Swift.String?
 
     public init(
-        oAuthAuthorizationUrl: Swift.String? = nil
+        oAuthAuthorizationUrl: Swift.String? = ""
     ) {
         self.oAuthAuthorizationUrl = oAuthAuthorizationUrl
     }
@@ -718,6 +741,48 @@ public struct UpdateAccountAssociationInput: Swift.Sendable {
         self.accountAssociationId = accountAssociationId
         self.description = description
         self.name = name
+    }
+}
+
+extension IoTManagedIntegrationsClientTypes {
+
+    /// Configuration for AWS Secrets Manager, used to securely store and manage sensitive information for connector destinations.
+    public struct SecretsManager: Swift.Sendable {
+        /// The Amazon Resource Name (ARN) of the AWS Secrets Manager secret.
+        /// This member is required.
+        public var arn: Swift.String?
+        /// The version ID of the AWS Secrets Manager secret.
+        /// This member is required.
+        public var versionId: Swift.String?
+
+        public init(
+            arn: Swift.String? = nil,
+            versionId: Swift.String? = nil
+        ) {
+            self.arn = arn
+            self.versionId = versionId
+        }
+    }
+}
+
+extension IoTManagedIntegrationsClientTypes {
+
+    /// The authorization material containing the Secrets Manager arn and version.
+    public struct AuthMaterial: Swift.Sendable {
+        /// The name of the authorization material.
+        /// This member is required.
+        public var authMaterialName: Swift.String?
+        /// Configuration for AWS Secrets Manager, used to securely store and manage sensitive information for connector destinations.
+        /// This member is required.
+        public var secretsManager: IoTManagedIntegrationsClientTypes.SecretsManager?
+
+        public init(
+            authMaterialName: Swift.String? = nil,
+            secretsManager: IoTManagedIntegrationsClientTypes.SecretsManager? = nil
+        ) {
+            self.authMaterialName = authMaterialName
+            self.secretsManager = secretsManager
+        }
     }
 }
 
@@ -811,13 +876,36 @@ extension IoTManagedIntegrationsClientTypes {
 
     /// The authentication configuration details for a connector destination, including OAuth settings and other authentication parameters.
     public struct AuthConfig: Swift.Sendable {
+        /// The authorization materials for General Authorization.
+        public var generalAuthorization: [IoTManagedIntegrationsClientTypes.AuthMaterial]?
         /// The OAuth configuration settings used for authentication with the third-party service.
         public var oAuth: IoTManagedIntegrationsClientTypes.OAuthConfig?
 
         public init(
+            generalAuthorization: [IoTManagedIntegrationsClientTypes.AuthMaterial]? = nil,
             oAuth: IoTManagedIntegrationsClientTypes.OAuthConfig? = nil
         ) {
+            self.generalAuthorization = generalAuthorization
             self.oAuth = oAuth
+        }
+    }
+}
+
+extension IoTManagedIntegrationsClientTypes {
+
+    /// The General Authorization update information containing authorization materials to add or update.
+    public struct GeneralAuthorizationUpdate: Swift.Sendable {
+        /// The authorization materials to add.
+        public var authMaterialsToAdd: [IoTManagedIntegrationsClientTypes.AuthMaterial]?
+        /// The authorization materials to update.
+        public var authMaterialsToUpdate: [IoTManagedIntegrationsClientTypes.AuthMaterial]?
+
+        public init(
+            authMaterialsToAdd: [IoTManagedIntegrationsClientTypes.AuthMaterial]? = nil,
+            authMaterialsToUpdate: [IoTManagedIntegrationsClientTypes.AuthMaterial]? = nil
+        ) {
+            self.authMaterialsToAdd = authMaterialsToAdd
+            self.authMaterialsToUpdate = authMaterialsToUpdate
         }
     }
 }
@@ -845,12 +933,16 @@ extension IoTManagedIntegrationsClientTypes {
 
     /// The updated authentication configuration details for a connector destination.
     public struct AuthConfigUpdate: Swift.Sendable {
+        /// The General Authorization update information containing authorization materials to add or update in Kinesis Data Streams.
+        public var generalAuthorizationUpdate: IoTManagedIntegrationsClientTypes.GeneralAuthorizationUpdate?
         /// The updated OAuth configuration settings for the authentication configuration.
         public var oAuthUpdate: IoTManagedIntegrationsClientTypes.OAuthUpdate?
 
         public init(
+            generalAuthorizationUpdate: IoTManagedIntegrationsClientTypes.GeneralAuthorizationUpdate? = nil,
             oAuthUpdate: IoTManagedIntegrationsClientTypes.OAuthUpdate? = nil
         ) {
+            self.generalAuthorizationUpdate = generalAuthorizationUpdate
             self.oAuthUpdate = oAuthUpdate
         }
     }
@@ -861,6 +953,7 @@ extension IoTManagedIntegrationsClientTypes {
     public enum AuthMaterialType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case customProtocolQrBarCode
         case discoveredDevice
+        case preOnboardedCloud
         case wifiSetupQrBarCode
         case zigbeeQrBarCode
         case zwaveQrBarCode
@@ -870,6 +963,7 @@ extension IoTManagedIntegrationsClientTypes {
             return [
                 .customProtocolQrBarCode,
                 .discoveredDevice,
+                .preOnboardedCloud,
                 .wifiSetupQrBarCode,
                 .zigbeeQrBarCode,
                 .zwaveQrBarCode
@@ -885,6 +979,7 @@ extension IoTManagedIntegrationsClientTypes {
             switch self {
             case .customProtocolQrBarCode: return "CUSTOM_PROTOCOL_QR_BAR_CODE"
             case .discoveredDevice: return "DISCOVERED_DEVICE"
+            case .preOnboardedCloud: return "PRE_ONBOARDED_CLOUD"
             case .wifiSetupQrBarCode: return "WIFI_SETUP_QR_BAR_CODE"
             case .zigbeeQrBarCode: return "ZIGBEE_QR_BAR_CODE"
             case .zwaveQrBarCode: return "ZWAVE_QR_BAR_CODE"
@@ -1541,33 +1636,11 @@ extension IoTManagedIntegrationsClientTypes {
     }
 }
 
-extension IoTManagedIntegrationsClientTypes {
-
-    /// Configuration for AWS Secrets Manager, used to securely store and manage sensitive information for connector destinations.
-    public struct SecretsManager: Swift.Sendable {
-        /// The Amazon Resource Name (ARN) of the AWS Secrets Manager secret.
-        /// This member is required.
-        public var arn: Swift.String?
-        /// The version ID of the AWS Secrets Manager secret.
-        /// This member is required.
-        public var versionId: Swift.String?
-
-        public init(
-            arn: Swift.String? = nil,
-            versionId: Swift.String? = nil
-        ) {
-            self.arn = arn
-            self.versionId = versionId
-        }
-    }
-}
-
 public struct CreateConnectorDestinationInput: Swift.Sendable {
     /// The authentication configuration details for the connector destination, including OAuth settings and other authentication parameters.
     /// This member is required.
     public var authConfig: IoTManagedIntegrationsClientTypes.AuthConfig?
     /// The authentication type used for the connector destination, which determines how credentials and access are managed.
-    /// This member is required.
     public var authType: IoTManagedIntegrationsClientTypes.AuthType?
     /// An idempotency token. If you retry a request that completed successfully initially using the same client token and parameters, then the retry attempt will succeed without performing any further actions.
     public var clientToken: Swift.String?
@@ -1579,7 +1652,6 @@ public struct CreateConnectorDestinationInput: Swift.Sendable {
     /// The display name of the connector destination.
     public var name: Swift.String?
     /// The AWS Secrets Manager configuration used to securely store and manage sensitive information for the connector destination.
-    /// This member is required.
     public var secretsManager: IoTManagedIntegrationsClientTypes.SecretsManager?
 
     public init(
@@ -2048,7 +2120,7 @@ extension IoTManagedIntegrationsClientTypes {
 }
 
 public struct CreateManagedThingInput: Swift.Sendable {
-    /// The authentication material defining the device connectivity setup requests. The authentication materials used are the device bar code.
+    /// The authentication material defining the device connectivity setup requests. The authorization materials used are the device bar code.
     /// This member is required.
     public var authenticationMaterial: Swift.String?
     /// The type of authentication material used for device connectivity setup requests.
@@ -2738,6 +2810,8 @@ extension IoTManagedIntegrationsClientTypes {
 public struct CreateProvisioningProfileInput: Swift.Sendable {
     /// The id of the certificate authority (CA) certificate.
     public var caCertificate: Swift.String?
+    /// The claim certificate.
+    public var claimCertificate: Swift.String?
     /// An idempotency token. If you retry a request that completed successfully initially using the same client token and parameters, then the retry attempt will succeed without performing any further actions.
     public var clientToken: Swift.String?
     /// The name of the provisioning template.
@@ -2750,12 +2824,14 @@ public struct CreateProvisioningProfileInput: Swift.Sendable {
 
     public init(
         caCertificate: Swift.String? = nil,
+        claimCertificate: Swift.String? = nil,
         clientToken: Swift.String? = nil,
         name: Swift.String? = nil,
         provisioningType: IoTManagedIntegrationsClientTypes.ProvisioningType? = nil,
         tags: [Swift.String: Swift.String]? = nil
     ) {
         self.caCertificate = caCertificate
+        self.claimCertificate = claimCertificate
         self.clientToken = clientToken
         self.name = name
         self.provisioningType = provisioningType
@@ -2765,7 +2841,7 @@ public struct CreateProvisioningProfileInput: Swift.Sendable {
 
 extension CreateProvisioningProfileInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateProvisioningProfileInput(clientToken: \(Swift.String(describing: clientToken)), name: \(Swift.String(describing: name)), provisioningType: \(Swift.String(describing: provisioningType)), caCertificate: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
+        "CreateProvisioningProfileInput(clientToken: \(Swift.String(describing: clientToken)), name: \(Swift.String(describing: name)), provisioningType: \(Swift.String(describing: provisioningType)), caCertificate: \"CONTENT_REDACTED\", claimCertificate: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateProvisioningProfileOutput: Swift.Sendable {
@@ -3375,7 +3451,7 @@ extension IoTManagedIntegrationsClientTypes {
 
 extension IoTManagedIntegrationsClientTypes.Device: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "Device(capabilityReport: \(Swift.String(describing: capabilityReport)), capabilitySchemas: \(Swift.String(describing: capabilitySchemas)), deviceMetadata: \(Swift.String(describing: deviceMetadata)), connectorDeviceId: \"CONTENT_REDACTED\", connectorDeviceName: \"CONTENT_REDACTED\")"}
+        "Device(capabilityReport: \(Swift.String(describing: capabilityReport)), capabilitySchemas: \(Swift.String(describing: capabilitySchemas)), connectorDeviceName: \(Swift.String(describing: connectorDeviceName)), deviceMetadata: \(Swift.String(describing: deviceMetadata)), connectorDeviceId: \"CONTENT_REDACTED\")"}
 }
 
 extension IoTManagedIntegrationsClientTypes {
@@ -3684,7 +3760,7 @@ extension IoTManagedIntegrationsClientTypes {
 
 extension IoTManagedIntegrationsClientTypes.DiscoveredDeviceSummary: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "DiscoveredDeviceSummary(deviceTypes: \(Swift.String(describing: deviceTypes)), discoveredAt: \(Swift.String(describing: discoveredAt)), managedThingId: \(Swift.String(describing: managedThingId)), modification: \(Swift.String(describing: modification)), authenticationMaterial: \"CONTENT_REDACTED\", brand: \"CONTENT_REDACTED\", connectorDeviceId: \"CONTENT_REDACTED\", connectorDeviceName: \"CONTENT_REDACTED\", model: \"CONTENT_REDACTED\")"}
+        "DiscoveredDeviceSummary(connectorDeviceName: \(Swift.String(describing: connectorDeviceName)), deviceTypes: \(Swift.String(describing: deviceTypes)), discoveredAt: \(Swift.String(describing: discoveredAt)), managedThingId: \(Swift.String(describing: managedThingId)), modification: \(Swift.String(describing: modification)), authenticationMaterial: \"CONTENT_REDACTED\", brand: \"CONTENT_REDACTED\", connectorDeviceId: \"CONTENT_REDACTED\", model: \"CONTENT_REDACTED\")"}
 }
 
 public struct ListDiscoveredDevicesOutput: Swift.Sendable {
@@ -3772,6 +3848,8 @@ public struct StartDeviceDiscoveryInput: Swift.Sendable {
     /// The id of the connector association.
     @available(*, deprecated, message: "ConnectorAssociationIdentifier is deprecated API deprecated since 06-25-2025")
     public var connectorAssociationIdentifier: Swift.String?
+    /// Used as a filter for PLA discoveries.
+    public var connectorDeviceIdList: [Swift.String]?
     /// The id of the end-user's IoT hub.
     public var controllerIdentifier: Swift.String?
     /// Additional protocol-specific details required for device discovery, which vary based on the discovery type. For a DiscoveryType of CUSTOM, the string-to-string map must have a key value of Name set to a non-empty-string.
@@ -3793,6 +3871,7 @@ public struct StartDeviceDiscoveryInput: Swift.Sendable {
         authenticationMaterialType: IoTManagedIntegrationsClientTypes.DiscoveryAuthMaterialType? = nil,
         clientToken: Swift.String? = nil,
         connectorAssociationIdentifier: Swift.String? = nil,
+        connectorDeviceIdList: [Swift.String]? = nil,
         controllerIdentifier: Swift.String? = nil,
         customProtocolDetail: [Swift.String: Swift.String]? = nil,
         discoveryType: IoTManagedIntegrationsClientTypes.DiscoveryType? = nil,
@@ -3805,6 +3884,7 @@ public struct StartDeviceDiscoveryInput: Swift.Sendable {
         self.authenticationMaterialType = authenticationMaterialType
         self.clientToken = clientToken
         self.connectorAssociationIdentifier = connectorAssociationIdentifier
+        self.connectorDeviceIdList = connectorDeviceIdList
         self.controllerIdentifier = controllerIdentifier
         self.customProtocolDetail = customProtocolDetail
         self.discoveryType = discoveryType
@@ -3816,7 +3896,7 @@ public struct StartDeviceDiscoveryInput: Swift.Sendable {
 
 extension StartDeviceDiscoveryInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "StartDeviceDiscoveryInput(protocol: \(Swift.String(describing: `protocol`)), accountAssociationId: \(Swift.String(describing: accountAssociationId)), authenticationMaterialType: \(Swift.String(describing: authenticationMaterialType)), clientToken: \(Swift.String(describing: clientToken)), connectorAssociationIdentifier: \(Swift.String(describing: connectorAssociationIdentifier)), controllerIdentifier: \(Swift.String(describing: controllerIdentifier)), customProtocolDetail: \(Swift.String(describing: customProtocolDetail)), discoveryType: \(Swift.String(describing: discoveryType)), endDeviceIdentifier: \(Swift.String(describing: endDeviceIdentifier)), authenticationMaterial: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
+        "StartDeviceDiscoveryInput(protocol: \(Swift.String(describing: `protocol`)), accountAssociationId: \(Swift.String(describing: accountAssociationId)), authenticationMaterialType: \(Swift.String(describing: authenticationMaterialType)), clientToken: \(Swift.String(describing: clientToken)), connectorAssociationIdentifier: \(Swift.String(describing: connectorAssociationIdentifier)), controllerIdentifier: \(Swift.String(describing: controllerIdentifier)), customProtocolDetail: \(Swift.String(describing: customProtocolDetail)), discoveryType: \(Swift.String(describing: discoveryType)), endDeviceIdentifier: \(Swift.String(describing: endDeviceIdentifier)), authenticationMaterial: \"CONTENT_REDACTED\", connectorDeviceIdList: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
 }
 
 public struct StartDeviceDiscoveryOutput: Swift.Sendable {
@@ -5114,7 +5194,7 @@ public struct PutDefaultEncryptionConfigurationOutput: Swift.Sendable {
 }
 
 public struct ListTagsForResourceInput: Swift.Sendable {
-    /// The ARN of the resource for which to list tags.
+    /// The Amazon Resource Name (ARN) of the resource for which to list tags.
     /// This member is required.
     public var resourceArn: Swift.String?
 
@@ -5166,18 +5246,51 @@ public struct ListManagedThingAccountAssociationsInput: Swift.Sendable {
 
 extension IoTManagedIntegrationsClientTypes {
 
+    public enum ManagedThingAssociationStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case associated
+        case preAssociated
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ManagedThingAssociationStatus] {
+            return [
+                .associated,
+                .preAssociated
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .associated: return "ASSOCIATED"
+            case .preAssociated: return "PRE_ASSOCIATED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension IoTManagedIntegrationsClientTypes {
+
     /// Structure representing an association between a managed thing and an account association, which connects a device to a third-party account.
     public struct ManagedThingAssociation: Swift.Sendable {
         /// The identifier of the account association in the association.
         public var accountAssociationId: Swift.String?
+        /// The status of the registration between the managed thing and the account association. Indicates whether the device is pre-associated or fully associated with the account association.
+        public var managedThingAssociationStatus: IoTManagedIntegrationsClientTypes.ManagedThingAssociationStatus?
         /// The identifier of the managed thing in the association.
         public var managedThingId: Swift.String?
 
         public init(
             accountAssociationId: Swift.String? = nil,
+            managedThingAssociationStatus: IoTManagedIntegrationsClientTypes.ManagedThingAssociationStatus? = nil,
             managedThingId: Swift.String? = nil
         ) {
             self.accountAssociationId = accountAssociationId
+            self.managedThingAssociationStatus = managedThingAssociationStatus
             self.managedThingId = managedThingId
         }
     }
@@ -6222,7 +6335,7 @@ public struct SendConnectorEventInput: Swift.Sendable {
 
 extension SendConnectorEventInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "SendConnectorEventInput(connectorId: \(Swift.String(describing: connectorId)), deviceDiscoveryId: \(Swift.String(describing: deviceDiscoveryId)), devices: \(Swift.String(describing: devices)), matterEndpoint: \(Swift.String(describing: matterEndpoint)), operation: \(Swift.String(describing: operation)), traceId: \(Swift.String(describing: traceId)), connectorDeviceId: \"CONTENT_REDACTED\", message: \"CONTENT_REDACTED\", operationVersion: \"CONTENT_REDACTED\", statusCode: \"CONTENT_REDACTED\", userId: \"CONTENT_REDACTED\")"}
+        "SendConnectorEventInput(connectorId: \(Swift.String(describing: connectorId)), deviceDiscoveryId: \(Swift.String(describing: deviceDiscoveryId)), devices: \(Swift.String(describing: devices)), matterEndpoint: \(Swift.String(describing: matterEndpoint)), operation: \(Swift.String(describing: operation)), operationVersion: \(Swift.String(describing: operationVersion)), statusCode: \(Swift.String(describing: statusCode)), traceId: \(Swift.String(describing: traceId)), connectorDeviceId: \"CONTENT_REDACTED\", message: \"CONTENT_REDACTED\", userId: \"CONTENT_REDACTED\")"}
 }
 
 public struct SendConnectorEventOutput: Swift.Sendable {
@@ -6238,10 +6351,10 @@ public struct SendConnectorEventOutput: Swift.Sendable {
 }
 
 public struct TagResourceInput: Swift.Sendable {
-    /// The ARN of the resource to which to add tags.
+    /// The Amazon Resource Name (ARN) of the resource to which to add tags.
     /// This member is required.
     public var resourceArn: Swift.String?
-    /// A set of key/value pairs that are used to manage the resource
+    /// A set of key/value pairs that are used to manage the resource.
     /// This member is required.
     public var tags: [Swift.String: Swift.String]?
 
@@ -6265,7 +6378,7 @@ public struct TagResourceOutput: Swift.Sendable {
 }
 
 public struct UntagResourceInput: Swift.Sendable {
-    /// The ARN of the resource to which to add tags.
+    /// The Amazon Resource Name (ARN) of the resource from which to remove tags.
     /// This member is required.
     public var resourceArn: Swift.String?
     /// A list of tag keys to remove from the resource.
@@ -7431,6 +7544,7 @@ extension CreateAccountAssociationInput {
         try writer["ClientToken"].write(value.clientToken)
         try writer["ConnectorDestinationId"].write(value.connectorDestinationId)
         try writer["Description"].write(value.description)
+        try writer["GeneralAuthorization"].write(value.generalAuthorization, with: IoTManagedIntegrationsClientTypes.GeneralAuthorizationName.write(value:to:))
         try writer["Name"].write(value.name)
         try writer["Tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
@@ -7567,6 +7681,7 @@ extension CreateProvisioningProfileInput {
     static func write(value: CreateProvisioningProfileInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["CaCertificate"].write(value.caCertificate)
+        try writer["ClaimCertificate"].write(value.claimCertificate)
         try writer["ClientToken"].write(value.clientToken)
         try writer["Name"].write(value.name)
         try writer["ProvisioningType"].write(value.provisioningType)
@@ -7654,6 +7769,7 @@ extension StartDeviceDiscoveryInput {
         try writer["AuthenticationMaterialType"].write(value.authenticationMaterialType)
         try writer["ClientToken"].write(value.clientToken)
         try writer["ConnectorAssociationIdentifier"].write(value.connectorAssociationIdentifier)
+        try writer["ConnectorDeviceIdList"].writeList(value.connectorDeviceIdList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["ControllerIdentifier"].write(value.controllerIdentifier)
         try writer["CustomProtocolDetail"].writeMap(value.customProtocolDetail, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["DiscoveryType"].write(value.discoveryType)
@@ -8000,6 +8116,7 @@ extension GetAccountAssociationOutput {
         value.connectorDestinationId = try reader["ConnectorDestinationId"].readIfPresent()
         value.description = try reader["Description"].readIfPresent()
         value.errorMessage = try reader["ErrorMessage"].readIfPresent()
+        value.generalAuthorization = try reader["GeneralAuthorization"].readIfPresent(with: IoTManagedIntegrationsClientTypes.GeneralAuthorizationName.read(from:))
         value.name = try reader["Name"].readIfPresent()
         value.oAuthAuthorizationUrl = try reader["OAuthAuthorizationUrl"].readIfPresent() ?? ""
         value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
@@ -10131,6 +10248,7 @@ enum StartAccountAssociationRefreshOutputError {
         if let error = baseError.customError() { return error }
         switch baseError.code {
             case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceUnavailableException": return try ServiceUnavailableException.makeError(baseError: baseError)
@@ -10506,6 +10624,21 @@ extension InvalidRequestException {
     }
 }
 
+extension IoTManagedIntegrationsClientTypes.GeneralAuthorizationName {
+
+    static func write(value: IoTManagedIntegrationsClientTypes.GeneralAuthorizationName?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AuthMaterialName"].write(value.authMaterialName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTManagedIntegrationsClientTypes.GeneralAuthorizationName {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTManagedIntegrationsClientTypes.GeneralAuthorizationName()
+        value.authMaterialName = try reader["AuthMaterialName"].readIfPresent()
+        return value
+    }
+}
+
 extension IoTManagedIntegrationsClientTypes.EndpointConfig {
 
     static func write(value: IoTManagedIntegrationsClientTypes.EndpointConfig?, to writer: SmithyJSON.Writer) throws {
@@ -10540,6 +10673,7 @@ extension IoTManagedIntegrationsClientTypes.AuthConfig {
 
     static func write(value: IoTManagedIntegrationsClientTypes.AuthConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["GeneralAuthorization"].writeList(value.generalAuthorization, memberWritingClosure: IoTManagedIntegrationsClientTypes.AuthMaterial.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["oAuth"].write(value.oAuth, with: IoTManagedIntegrationsClientTypes.OAuthConfig.write(value:to:))
     }
 
@@ -10547,6 +10681,41 @@ extension IoTManagedIntegrationsClientTypes.AuthConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = IoTManagedIntegrationsClientTypes.AuthConfig()
         value.oAuth = try reader["oAuth"].readIfPresent(with: IoTManagedIntegrationsClientTypes.OAuthConfig.read(from:))
+        value.generalAuthorization = try reader["GeneralAuthorization"].readListIfPresent(memberReadingClosure: IoTManagedIntegrationsClientTypes.AuthMaterial.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension IoTManagedIntegrationsClientTypes.AuthMaterial {
+
+    static func write(value: IoTManagedIntegrationsClientTypes.AuthMaterial?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AuthMaterialName"].write(value.authMaterialName)
+        try writer["SecretsManager"].write(value.secretsManager, with: IoTManagedIntegrationsClientTypes.SecretsManager.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTManagedIntegrationsClientTypes.AuthMaterial {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTManagedIntegrationsClientTypes.AuthMaterial()
+        value.secretsManager = try reader["SecretsManager"].readIfPresent(with: IoTManagedIntegrationsClientTypes.SecretsManager.read(from:))
+        value.authMaterialName = try reader["AuthMaterialName"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension IoTManagedIntegrationsClientTypes.SecretsManager {
+
+    static func write(value: IoTManagedIntegrationsClientTypes.SecretsManager?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["arn"].write(value.arn)
+        try writer["versionId"].write(value.versionId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTManagedIntegrationsClientTypes.SecretsManager {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTManagedIntegrationsClientTypes.SecretsManager()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.versionId = try reader["versionId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -10589,23 +10758,6 @@ extension IoTManagedIntegrationsClientTypes.ProactiveRefreshTokenRenewal {
         var value = IoTManagedIntegrationsClientTypes.ProactiveRefreshTokenRenewal()
         value.enabled = try reader["enabled"].readIfPresent()
         value.daysBeforeRenewal = try reader["DaysBeforeRenewal"].readIfPresent()
-        return value
-    }
-}
-
-extension IoTManagedIntegrationsClientTypes.SecretsManager {
-
-    static func write(value: IoTManagedIntegrationsClientTypes.SecretsManager?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["versionId"].write(value.versionId)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTManagedIntegrationsClientTypes.SecretsManager {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTManagedIntegrationsClientTypes.SecretsManager()
-        value.arn = try reader["arn"].readIfPresent() ?? ""
-        value.versionId = try reader["versionId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -11099,6 +11251,7 @@ extension IoTManagedIntegrationsClientTypes.ManagedThingAssociation {
         var value = IoTManagedIntegrationsClientTypes.ManagedThingAssociation()
         value.managedThingId = try reader["ManagedThingId"].readIfPresent()
         value.accountAssociationId = try reader["AccountAssociationId"].readIfPresent()
+        value.managedThingAssociationStatus = try reader["ManagedThingAssociationStatus"].readIfPresent()
         return value
     }
 }
@@ -11365,7 +11518,17 @@ extension IoTManagedIntegrationsClientTypes.AuthConfigUpdate {
 
     static func write(value: IoTManagedIntegrationsClientTypes.AuthConfigUpdate?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["GeneralAuthorizationUpdate"].write(value.generalAuthorizationUpdate, with: IoTManagedIntegrationsClientTypes.GeneralAuthorizationUpdate.write(value:to:))
         try writer["oAuthUpdate"].write(value.oAuthUpdate, with: IoTManagedIntegrationsClientTypes.OAuthUpdate.write(value:to:))
+    }
+}
+
+extension IoTManagedIntegrationsClientTypes.GeneralAuthorizationUpdate {
+
+    static func write(value: IoTManagedIntegrationsClientTypes.GeneralAuthorizationUpdate?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AuthMaterialsToAdd"].writeList(value.authMaterialsToAdd, memberWritingClosure: IoTManagedIntegrationsClientTypes.AuthMaterial.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["AuthMaterialsToUpdate"].writeList(value.authMaterialsToUpdate, memberWritingClosure: IoTManagedIntegrationsClientTypes.AuthMaterial.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 

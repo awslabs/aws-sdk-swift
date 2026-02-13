@@ -76,11 +76,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class DataExchangeClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "DataExchangeClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: DataExchangeClient.DataExchangeClientConfig
+    public let config: DataExchangeClient.DataExchangeClientConfig
     let serviceName = "DataExchange"
 
     @available(*, deprecated, message: "Use DataExchangeClient.DataExchangeClientConfig instead")
     public typealias Config = DataExchangeClient.DataExchangeClientConfiguration
+    public typealias Configuration = DataExchangeClient.DataExchangeClientConfig
 
     public required init(config: DataExchangeClient.DataExchangeClientConfig) {
         ClientRuntime.initialize()

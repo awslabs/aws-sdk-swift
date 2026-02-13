@@ -70,11 +70,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class TranscribeStreamingClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "TranscribeStreamingClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: TranscribeStreamingClient.TranscribeStreamingClientConfig
+    public let config: TranscribeStreamingClient.TranscribeStreamingClientConfig
     let serviceName = "Transcribe Streaming"
 
     @available(*, deprecated, message: "Use TranscribeStreamingClient.TranscribeStreamingClientConfig instead")
     public typealias Config = TranscribeStreamingClient.TranscribeStreamingClientConfiguration
+    public typealias Configuration = TranscribeStreamingClient.TranscribeStreamingClientConfig
 
     public required init(config: TranscribeStreamingClient.TranscribeStreamingClientConfig) {
         ClientRuntime.initialize()

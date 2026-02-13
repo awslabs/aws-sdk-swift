@@ -73,11 +73,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class IotDeviceAdvisorClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "IotDeviceAdvisorClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: IotDeviceAdvisorClient.IotDeviceAdvisorClientConfig
+    public let config: IotDeviceAdvisorClient.IotDeviceAdvisorClientConfig
     let serviceName = "IotDeviceAdvisor"
 
     @available(*, deprecated, message: "Use IotDeviceAdvisorClient.IotDeviceAdvisorClientConfig instead")
     public typealias Config = IotDeviceAdvisorClient.IotDeviceAdvisorClientConfiguration
+    public typealias Configuration = IotDeviceAdvisorClient.IotDeviceAdvisorClientConfig
 
     public required init(config: IotDeviceAdvisorClient.IotDeviceAdvisorClientConfig) {
         ClientRuntime.initialize()

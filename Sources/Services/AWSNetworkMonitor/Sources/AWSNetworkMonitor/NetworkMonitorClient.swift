@@ -73,11 +73,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class NetworkMonitorClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "NetworkMonitorClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: NetworkMonitorClient.NetworkMonitorClientConfig
+    public let config: NetworkMonitorClient.NetworkMonitorClientConfig
     let serviceName = "NetworkMonitor"
 
     @available(*, deprecated, message: "Use NetworkMonitorClient.NetworkMonitorClientConfig instead")
     public typealias Config = NetworkMonitorClient.NetworkMonitorClientConfiguration
+    public typealias Configuration = NetworkMonitorClient.NetworkMonitorClientConfig
 
     public required init(config: NetworkMonitorClient.NetworkMonitorClientConfig) {
         ClientRuntime.initialize()

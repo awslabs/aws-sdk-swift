@@ -266,24 +266,28 @@ extension KafkaConnectClientTypes {
 
     /// Information about the auto scaling parameters for the connector.
     public struct AutoScalingDescription: Swift.Sendable {
+        /// The maximum number of tasks allocated to the connector during autoscaling operations. Must be at least equal to maxWorkerCount.
+        public var maxAutoscalingTaskCount: Swift.Int
         /// The maximum number of workers allocated to the connector.
         public var maxWorkerCount: Swift.Int
         /// The number of microcontroller units (MCUs) allocated to each connector worker. The valid values are 1,2,4,8.
         public var mcuCount: Swift.Int
         /// The minimum number of workers allocated to the connector.
         public var minWorkerCount: Swift.Int
-        /// The sacle-in policy for the connector.
+        /// The scale-in policy for the connector.
         public var scaleInPolicy: KafkaConnectClientTypes.ScaleInPolicyDescription?
-        /// The sacle-out policy for the connector.>
+        /// The scale-out policy for the connector.
         public var scaleOutPolicy: KafkaConnectClientTypes.ScaleOutPolicyDescription?
 
         public init(
+            maxAutoscalingTaskCount: Swift.Int = 0,
             maxWorkerCount: Swift.Int = 0,
             mcuCount: Swift.Int = 0,
             minWorkerCount: Swift.Int = 0,
             scaleInPolicy: KafkaConnectClientTypes.ScaleInPolicyDescription? = nil,
             scaleOutPolicy: KafkaConnectClientTypes.ScaleOutPolicyDescription? = nil
         ) {
+            self.maxAutoscalingTaskCount = maxAutoscalingTaskCount
             self.maxWorkerCount = maxWorkerCount
             self.mcuCount = mcuCount
             self.minWorkerCount = minWorkerCount
@@ -1165,6 +1169,8 @@ extension KafkaConnectClientTypes {
 
     /// Specifies how the connector scales.
     public struct AutoScaling: Swift.Sendable {
+        /// The maximum number of tasks allocated to the connector during autoscaling operations. Must be at least equal to maxWorkerCount.
+        public var maxAutoscalingTaskCount: Swift.Int
         /// The maximum number of workers allocated to the connector.
         /// This member is required.
         public var maxWorkerCount: Swift.Int
@@ -1174,18 +1180,20 @@ extension KafkaConnectClientTypes {
         /// The minimum number of workers allocated to the connector.
         /// This member is required.
         public var minWorkerCount: Swift.Int
-        /// The sacle-in policy for the connector.
+        /// The scale-in policy for the connector.
         public var scaleInPolicy: KafkaConnectClientTypes.ScaleInPolicy?
-        /// The sacle-out policy for the connector.
+        /// The scale-out policy for the connector.
         public var scaleOutPolicy: KafkaConnectClientTypes.ScaleOutPolicy?
 
         public init(
+            maxAutoscalingTaskCount: Swift.Int = 0,
             maxWorkerCount: Swift.Int = 0,
             mcuCount: Swift.Int = 0,
             minWorkerCount: Swift.Int = 0,
             scaleInPolicy: KafkaConnectClientTypes.ScaleInPolicy? = nil,
             scaleOutPolicy: KafkaConnectClientTypes.ScaleOutPolicy? = nil
         ) {
+            self.maxAutoscalingTaskCount = maxAutoscalingTaskCount
             self.maxWorkerCount = maxWorkerCount
             self.mcuCount = mcuCount
             self.minWorkerCount = minWorkerCount
@@ -1231,6 +1239,8 @@ extension KafkaConnectClientTypes {
 
     /// The updates to the auto scaling parameters for the connector.
     public struct AutoScalingUpdate: Swift.Sendable {
+        /// The maximum number of tasks allocated to the connector during autoscaling operations. Must be at least equal to maxWorkerCount.
+        public var maxAutoscalingTaskCount: Swift.Int
         /// The target maximum number of workers allocated to the connector.
         /// This member is required.
         public var maxWorkerCount: Swift.Int
@@ -1240,20 +1250,22 @@ extension KafkaConnectClientTypes {
         /// The target minimum number of workers allocated to the connector.
         /// This member is required.
         public var minWorkerCount: Swift.Int
-        /// The target sacle-in policy for the connector.
+        /// The target scale-in policy for the connector.
         /// This member is required.
         public var scaleInPolicy: KafkaConnectClientTypes.ScaleInPolicyUpdate?
-        /// The target sacle-out policy for the connector.
+        /// The target scale-out policy for the connector.
         /// This member is required.
         public var scaleOutPolicy: KafkaConnectClientTypes.ScaleOutPolicyUpdate?
 
         public init(
+            maxAutoscalingTaskCount: Swift.Int = 0,
             maxWorkerCount: Swift.Int = 0,
             mcuCount: Swift.Int = 0,
             minWorkerCount: Swift.Int = 0,
             scaleInPolicy: KafkaConnectClientTypes.ScaleInPolicyUpdate? = nil,
             scaleOutPolicy: KafkaConnectClientTypes.ScaleOutPolicyUpdate? = nil
         ) {
+            self.maxAutoscalingTaskCount = maxAutoscalingTaskCount
             self.maxWorkerCount = maxWorkerCount
             self.mcuCount = mcuCount
             self.minWorkerCount = minWorkerCount
@@ -3724,6 +3736,7 @@ extension KafkaConnectClientTypes.AutoScalingDescription {
         value.minWorkerCount = try reader["minWorkerCount"].readIfPresent() ?? 0
         value.scaleInPolicy = try reader["scaleInPolicy"].readIfPresent(with: KafkaConnectClientTypes.ScaleInPolicyDescription.read(from:))
         value.scaleOutPolicy = try reader["scaleOutPolicy"].readIfPresent(with: KafkaConnectClientTypes.ScaleOutPolicyDescription.read(from:))
+        value.maxAutoscalingTaskCount = try reader["maxAutoscalingTaskCount"].readIfPresent() ?? 0
         return value
     }
 }
@@ -4072,6 +4085,7 @@ extension KafkaConnectClientTypes.AutoScaling {
 
     static func write(value: KafkaConnectClientTypes.AutoScaling?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["maxAutoscalingTaskCount"].write(value.maxAutoscalingTaskCount)
         try writer["maxWorkerCount"].write(value.maxWorkerCount)
         try writer["mcuCount"].write(value.mcuCount)
         try writer["minWorkerCount"].write(value.minWorkerCount)
@@ -4250,6 +4264,7 @@ extension KafkaConnectClientTypes.AutoScalingUpdate {
 
     static func write(value: KafkaConnectClientTypes.AutoScalingUpdate?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["maxAutoscalingTaskCount"].write(value.maxAutoscalingTaskCount)
         try writer["maxWorkerCount"].write(value.maxWorkerCount)
         try writer["mcuCount"].write(value.mcuCount)
         try writer["minWorkerCount"].write(value.minWorkerCount)

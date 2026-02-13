@@ -73,11 +73,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class ARCRegionswitchClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "ARCRegionswitchClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: ARCRegionswitchClient.ARCRegionswitchClientConfig
+    public let config: ARCRegionswitchClient.ARCRegionswitchClientConfig
     let serviceName = "ARC Region switch"
 
     @available(*, deprecated, message: "Use ARCRegionswitchClient.ARCRegionswitchClientConfig instead")
     public typealias Config = ARCRegionswitchClient.ARCRegionswitchClientConfiguration
+    public typealias Configuration = ARCRegionswitchClient.ARCRegionswitchClientConfig
 
     public required init(config: ARCRegionswitchClient.ARCRegionswitchClientConfig) {
         ClientRuntime.initialize()

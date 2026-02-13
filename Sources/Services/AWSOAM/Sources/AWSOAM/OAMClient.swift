@@ -71,11 +71,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class OAMClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "OAMClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: OAMClient.OAMClientConfig
+    public let config: OAMClient.OAMClientConfig
     let serviceName = "OAM"
 
     @available(*, deprecated, message: "Use OAMClient.OAMClientConfig instead")
     public typealias Config = OAMClient.OAMClientConfiguration
+    public typealias Configuration = OAMClient.OAMClientConfig
 
     public required init(config: OAMClient.OAMClientConfig) {
         ClientRuntime.initialize()
