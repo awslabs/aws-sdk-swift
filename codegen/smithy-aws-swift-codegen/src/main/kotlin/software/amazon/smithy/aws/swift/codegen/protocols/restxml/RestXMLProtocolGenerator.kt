@@ -5,47 +5,16 @@
 
 package software.amazon.smithy.aws.swift.codegen.protocols.restxml
 
-import software.amazon.smithy.aws.swift.codegen.AWSHTTPBindingProtocolGenerator
-import software.amazon.smithy.aws.traits.protocols.RestXmlTrait
-import software.amazon.smithy.model.shapes.MemberShape
-import software.amazon.smithy.model.shapes.Shape
-import software.amazon.smithy.model.shapes.ShapeId
-import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
-import software.amazon.smithy.swift.codegen.integration.isInHttpBody
+import software.amazon.smithy.aws.swift.codegen.middleware.AWSOperationEndpointResolverMiddleware
+import software.amazon.smithy.aws.swift.codegen.middleware.UserAgentMiddleware
+import software.amazon.smithy.aws.swift.codegen.swiftmodules.AWSClientRuntimeTypes
+import software.amazon.smithy.swift.codegen.aws.protocols.restxml.RestXmlProtocolGenerator
 
-class RestXMLProtocolGenerator : AWSHTTPBindingProtocolGenerator(RestXMLCustomizations()) {
-    override val defaultContentType: String = "application/xml"
-    override val protocol: ShapeId = RestXmlTrait.ID
-    override val protocolTestsToIgnore: Set<String> =
-        setOf(
-            "S3DefaultAddressing", // can leave disabled, pre-endpoints 2.0
-            "S3VirtualHostAddressing", // can leave disabled, pre-endpoints 2.0
-            "S3VirtualHostDualstackAddressing", // can leave disabled, pre-endpoints 2.0
-            "S3VirtualHostAccelerateAddressing", // can leave disabled, pre-endpoints 2.0
-            "S3VirtualHostDualstackAccelerateAddressing", // can leave disabled, pre-endpoints 2.0
-            "S3OperationAddressingPreferred", // can leave disabled, pre-endpoints 2.0
-            "S3EscapeObjectKeyInUriLabel", // moved to s3-tests.smithy
-            "S3EscapePathObjectKeyInUriLabel", // moved to s3-tests.smithy
-            "SDKAppliedContentEncoding_restXml", // not implemented yet (request compression)
-            "SDKAppendedGzipAfterProvidedEncoding_restXml", // not implemented yet (request compression)
-            "S3PreservesEmbeddedDotSegmentInUriLabel", // moved to s3-tests.smithy
-            "S3PreservesLeadingDotSegmentInUriLabel", // moved to s3-tests.smithy
-        )
-
-    override fun generateDeserializers(ctx: ProtocolGenerator.GenerationContext) {
-        super.generateDeserializers(ctx)
-        val errorShapes = resolveErrorShapes(ctx)
-        for (shape in errorShapes) {
-            renderCodableExtension(ctx, shape)
-        }
-    }
-
-    override fun httpBodyMembers(
-        ctx: ProtocolGenerator.GenerationContext,
-        shape: Shape,
-    ): List<MemberShape> =
-        shape
-            .members()
-            .filter { it.isInHttpBody() }
-            .toList()
-}
+class RestXMLProtocolGenerator : RestXmlProtocolGenerator(
+    customizations = RestXMLCustomizations(),
+    operationEndpointResolverMiddlewareFactory = { ctx, sym -> AWSOperationEndpointResolverMiddleware(ctx, sym) },
+    userAgentMiddlewareFactory = { ctx -> UserAgentMiddleware(ctx.settings) },
+    serviceErrorProtocolSymbolOverride = AWSClientRuntimeTypes.Core.AWSServiceError,
+    clockSkewProviderSymbolOverride = AWSClientRuntimeTypes.Core.AWSClockSkewProvider,
+    retryErrorInfoProviderSymbolOverride = AWSClientRuntimeTypes.Core.AWSRetryErrorInfoProvider,
+)
