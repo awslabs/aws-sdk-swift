@@ -4,29 +4,16 @@
  */
 package software.amazon.smithy.aws.swift.codegen.protocols.restjson
 
-import software.amazon.smithy.aws.swift.codegen.AWSHTTPBindingProtocolGenerator
-import software.amazon.smithy.aws.traits.protocols.RestJson1Trait
-import software.amazon.smithy.model.shapes.MemberShape
-import software.amazon.smithy.model.shapes.Shape
-import software.amazon.smithy.model.shapes.ShapeId
-import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
-import software.amazon.smithy.swift.codegen.integration.isInHttpBody
+import software.amazon.smithy.aws.swift.codegen.middleware.AWSOperationEndpointResolverMiddleware
+import software.amazon.smithy.aws.swift.codegen.middleware.UserAgentMiddleware
+import software.amazon.smithy.aws.swift.codegen.swiftmodules.AWSClientRuntimeTypes
+import software.amazon.smithy.swift.codegen.aws.protocols.restjson.RestJson1ProtocolGenerator
 
-class AWSRestJson1ProtocolGenerator : AWSHTTPBindingProtocolGenerator(RestJSONCustomizations()) {
-    override val defaultContentType = "application/json"
-    override val protocol: ShapeId = RestJson1Trait.ID
-    override val protocolTestsToIgnore =
-        setOf(
-            "SDKAppliedContentEncoding_restJson1",
-            "SDKAppendedGzipAfterProvidedEncoding_restJson1",
-        )
-
-    override fun httpBodyMembers(
-        ctx: ProtocolGenerator.GenerationContext,
-        shape: Shape,
-    ): List<MemberShape> =
-        shape
-            .members()
-            .filter { it.isInHttpBody() }
-            .toList()
-}
+class AWSRestJson1ProtocolGenerator : RestJson1ProtocolGenerator(
+    customizations = RestJSONCustomizations(),
+    operationEndpointResolverMiddlewareFactory = { ctx, sym -> AWSOperationEndpointResolverMiddleware(ctx, sym) },
+    userAgentMiddlewareFactory = { ctx -> UserAgentMiddleware(ctx.settings) },
+    serviceErrorProtocolSymbolOverride = AWSClientRuntimeTypes.Core.AWSServiceError,
+    clockSkewProviderSymbolOverride = AWSClientRuntimeTypes.Core.AWSClockSkewProvider,
+    retryErrorInfoProviderSymbolOverride = AWSClientRuntimeTypes.Core.AWSRetryErrorInfoProvider,
+)
