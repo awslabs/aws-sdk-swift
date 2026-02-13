@@ -258,6 +258,7 @@ extension PutObjectInput {
                       .withRegion(value: config.region)
                       .withRequestChecksumCalculation(value: config.requestChecksumCalculation)
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
+                      .withEnableAWSChunked(value: config.enableAWSChunked)
                       .withSigningName(value: "s3")
                       .withSigningRegion(value: config.signingRegion)
                       .withClientConfig(value: config as ClientRuntime.DefaultClientConfiguration)

@@ -16,7 +16,7 @@ public extension Context {
     /// - `true`: Force enable aws-chunked encoding (requires streaming body)
     /// - `false`: Force disable aws-chunked encoding
     var enableAWSChunked: Bool? {
-        get { get(key: enableAWSChunkedKey) }
+        get { get(key: enableAWSChunkedKey)! }
         set { set(key: enableAWSChunkedKey, value: newValue) }
     }
 }
@@ -33,4 +33,4 @@ public extension ContextBuilder {
     }
 }
 
-private let enableAWSChunkedKey = AttributeKey<Bool>(name: "EnableAWSChunked")
+private let enableAWSChunkedKey = AttributeKey<Bool?>(name: "EnableAWSChunked")
