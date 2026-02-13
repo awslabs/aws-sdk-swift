@@ -2359,23 +2359,29 @@ extension TooManyTagsException {
     }
 }
 
-extension EvsClientTypes.Vlan {
+extension EvsClientTypes.Check {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> EvsClientTypes.Vlan {
+    static func read(from reader: SmithyJSON.Reader) throws -> EvsClientTypes.Check {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EvsClientTypes.Vlan()
-        value.vlanId = try reader["vlanId"].readIfPresent()
-        value.cidr = try reader["cidr"].readIfPresent()
-        value.availabilityZone = try reader["availabilityZone"].readIfPresent()
-        value.functionName = try reader["functionName"].readIfPresent()
-        value.subnetId = try reader["subnetId"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.modifiedAt = try reader["modifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.vlanState = try reader["vlanState"].readIfPresent()
-        value.stateDetails = try reader["stateDetails"].readIfPresent()
-        value.eipAssociations = try reader["eipAssociations"].readListIfPresent(memberReadingClosure: EvsClientTypes.EipAssociation.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.isPublic = try reader["isPublic"].readIfPresent()
-        value.networkAclId = try reader["networkAclId"].readIfPresent()
+        var value = EvsClientTypes.Check()
+        value.type = try reader["type"].readIfPresent()
+        value.result = try reader["result"].readIfPresent()
+        value.impairedSince = try reader["impairedSince"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension EvsClientTypes.ConnectivityInfo {
+
+    static func write(value: EvsClientTypes.ConnectivityInfo?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["privateRouteServerPeerings"].writeList(value.privateRouteServerPeerings, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EvsClientTypes.ConnectivityInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EvsClientTypes.ConnectivityInfo()
+        value.privateRouteServerPeerings = try reader["privateRouteServerPeerings"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -2421,106 +2427,6 @@ extension EvsClientTypes.Environment {
     }
 }
 
-extension EvsClientTypes.Secret {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EvsClientTypes.Secret {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EvsClientTypes.Secret()
-        value.secretArn = try reader["secretArn"].readIfPresent()
-        return value
-    }
-}
-
-extension EvsClientTypes.ServiceAccessSecurityGroups {
-
-    static func write(value: EvsClientTypes.ServiceAccessSecurityGroups?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["securityGroups"].writeList(value.securityGroups, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EvsClientTypes.ServiceAccessSecurityGroups {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EvsClientTypes.ServiceAccessSecurityGroups()
-        value.securityGroups = try reader["securityGroups"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension EvsClientTypes.VcfHostnames {
-
-    static func write(value: EvsClientTypes.VcfHostnames?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["cloudBuilder"].write(value.cloudBuilder)
-        try writer["nsx"].write(value.nsx)
-        try writer["nsxEdge1"].write(value.nsxEdge1)
-        try writer["nsxEdge2"].write(value.nsxEdge2)
-        try writer["nsxManager1"].write(value.nsxManager1)
-        try writer["nsxManager2"].write(value.nsxManager2)
-        try writer["nsxManager3"].write(value.nsxManager3)
-        try writer["sddcManager"].write(value.sddcManager)
-        try writer["vCenter"].write(value.vCenter)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EvsClientTypes.VcfHostnames {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EvsClientTypes.VcfHostnames()
-        value.vCenter = try reader["vCenter"].readIfPresent() ?? ""
-        value.nsx = try reader["nsx"].readIfPresent() ?? ""
-        value.nsxManager1 = try reader["nsxManager1"].readIfPresent() ?? ""
-        value.nsxManager2 = try reader["nsxManager2"].readIfPresent() ?? ""
-        value.nsxManager3 = try reader["nsxManager3"].readIfPresent() ?? ""
-        value.nsxEdge1 = try reader["nsxEdge1"].readIfPresent() ?? ""
-        value.nsxEdge2 = try reader["nsxEdge2"].readIfPresent() ?? ""
-        value.sddcManager = try reader["sddcManager"].readIfPresent() ?? ""
-        value.cloudBuilder = try reader["cloudBuilder"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension EvsClientTypes.ConnectivityInfo {
-
-    static func write(value: EvsClientTypes.ConnectivityInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["privateRouteServerPeerings"].writeList(value.privateRouteServerPeerings, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EvsClientTypes.ConnectivityInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EvsClientTypes.ConnectivityInfo()
-        value.privateRouteServerPeerings = try reader["privateRouteServerPeerings"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension EvsClientTypes.Check {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EvsClientTypes.Check {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EvsClientTypes.Check()
-        value.type = try reader["type"].readIfPresent()
-        value.result = try reader["result"].readIfPresent()
-        value.impairedSince = try reader["impairedSince"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension EvsClientTypes.LicenseInfo {
-
-    static func write(value: EvsClientTypes.LicenseInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["solutionKey"].write(value.solutionKey)
-        try writer["vsanKey"].write(value.vsanKey)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EvsClientTypes.LicenseInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EvsClientTypes.LicenseInfo()
-        value.solutionKey = try reader["solutionKey"].readIfPresent() ?? ""
-        value.vsanKey = try reader["vsanKey"].readIfPresent() ?? ""
-        return value
-    }
-}
-
 extension EvsClientTypes.EnvironmentSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> EvsClientTypes.EnvironmentSummary {
@@ -2559,48 +2465,23 @@ extension EvsClientTypes.Host {
     }
 }
 
-extension EvsClientTypes.NetworkInterface {
+extension EvsClientTypes.HostInfoForCreate {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> EvsClientTypes.NetworkInterface {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EvsClientTypes.NetworkInterface()
-        value.networkInterfaceId = try reader["networkInterfaceId"].readIfPresent()
-        return value
+    static func write(value: EvsClientTypes.HostInfoForCreate?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["dedicatedHostId"].write(value.dedicatedHostId)
+        try writer["hostName"].write(value.hostName)
+        try writer["instanceType"].write(value.instanceType)
+        try writer["keyName"].write(value.keyName)
+        try writer["placementGroupId"].write(value.placementGroupId)
     }
 }
 
-extension EvsClientTypes.VcfVersionInfo {
+extension EvsClientTypes.InitialVlanInfo {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> EvsClientTypes.VcfVersionInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EvsClientTypes.VcfVersionInfo()
-        value.vcfVersion = try reader["vcfVersion"].readIfPresent() ?? .sdkUnknown("")
-        value.status = try reader["status"].readIfPresent() ?? ""
-        value.defaultEsxVersion = try reader["defaultEsxVersion"].readIfPresent() ?? ""
-        value.instanceTypes = try reader["instanceTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<EvsClientTypes.InstanceType>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension EvsClientTypes.InstanceTypeEsxVersionsInfo {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EvsClientTypes.InstanceTypeEsxVersionsInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EvsClientTypes.InstanceTypeEsxVersionsInfo()
-        value.instanceType = try reader["instanceType"].readIfPresent() ?? .sdkUnknown("")
-        value.esxVersions = try reader["esxVersions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension EvsClientTypes.ValidationExceptionField {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EvsClientTypes.ValidationExceptionField {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EvsClientTypes.ValidationExceptionField()
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.message = try reader["message"].readIfPresent() ?? ""
-        return value
+    static func write(value: EvsClientTypes.InitialVlanInfo?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["cidr"].write(value.cidr)
     }
 }
 
@@ -2623,23 +2504,142 @@ extension EvsClientTypes.InitialVlans {
     }
 }
 
-extension EvsClientTypes.InitialVlanInfo {
+extension EvsClientTypes.InstanceTypeEsxVersionsInfo {
 
-    static func write(value: EvsClientTypes.InitialVlanInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["cidr"].write(value.cidr)
+    static func read(from reader: SmithyJSON.Reader) throws -> EvsClientTypes.InstanceTypeEsxVersionsInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EvsClientTypes.InstanceTypeEsxVersionsInfo()
+        value.instanceType = try reader["instanceType"].readIfPresent() ?? .sdkUnknown("")
+        value.esxVersions = try reader["esxVersions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
     }
 }
 
-extension EvsClientTypes.HostInfoForCreate {
+extension EvsClientTypes.LicenseInfo {
 
-    static func write(value: EvsClientTypes.HostInfoForCreate?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: EvsClientTypes.LicenseInfo?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["dedicatedHostId"].write(value.dedicatedHostId)
-        try writer["hostName"].write(value.hostName)
-        try writer["instanceType"].write(value.instanceType)
-        try writer["keyName"].write(value.keyName)
-        try writer["placementGroupId"].write(value.placementGroupId)
+        try writer["solutionKey"].write(value.solutionKey)
+        try writer["vsanKey"].write(value.vsanKey)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EvsClientTypes.LicenseInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EvsClientTypes.LicenseInfo()
+        value.solutionKey = try reader["solutionKey"].readIfPresent() ?? ""
+        value.vsanKey = try reader["vsanKey"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension EvsClientTypes.NetworkInterface {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EvsClientTypes.NetworkInterface {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EvsClientTypes.NetworkInterface()
+        value.networkInterfaceId = try reader["networkInterfaceId"].readIfPresent()
+        return value
+    }
+}
+
+extension EvsClientTypes.Secret {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EvsClientTypes.Secret {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EvsClientTypes.Secret()
+        value.secretArn = try reader["secretArn"].readIfPresent()
+        return value
+    }
+}
+
+extension EvsClientTypes.ServiceAccessSecurityGroups {
+
+    static func write(value: EvsClientTypes.ServiceAccessSecurityGroups?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["securityGroups"].writeList(value.securityGroups, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EvsClientTypes.ServiceAccessSecurityGroups {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EvsClientTypes.ServiceAccessSecurityGroups()
+        value.securityGroups = try reader["securityGroups"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension EvsClientTypes.ValidationExceptionField {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EvsClientTypes.ValidationExceptionField {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EvsClientTypes.ValidationExceptionField()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.message = try reader["message"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension EvsClientTypes.VcfHostnames {
+
+    static func write(value: EvsClientTypes.VcfHostnames?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["cloudBuilder"].write(value.cloudBuilder)
+        try writer["nsx"].write(value.nsx)
+        try writer["nsxEdge1"].write(value.nsxEdge1)
+        try writer["nsxEdge2"].write(value.nsxEdge2)
+        try writer["nsxManager1"].write(value.nsxManager1)
+        try writer["nsxManager2"].write(value.nsxManager2)
+        try writer["nsxManager3"].write(value.nsxManager3)
+        try writer["sddcManager"].write(value.sddcManager)
+        try writer["vCenter"].write(value.vCenter)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EvsClientTypes.VcfHostnames {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EvsClientTypes.VcfHostnames()
+        value.vCenter = try reader["vCenter"].readIfPresent() ?? ""
+        value.nsx = try reader["nsx"].readIfPresent() ?? ""
+        value.nsxManager1 = try reader["nsxManager1"].readIfPresent() ?? ""
+        value.nsxManager2 = try reader["nsxManager2"].readIfPresent() ?? ""
+        value.nsxManager3 = try reader["nsxManager3"].readIfPresent() ?? ""
+        value.nsxEdge1 = try reader["nsxEdge1"].readIfPresent() ?? ""
+        value.nsxEdge2 = try reader["nsxEdge2"].readIfPresent() ?? ""
+        value.sddcManager = try reader["sddcManager"].readIfPresent() ?? ""
+        value.cloudBuilder = try reader["cloudBuilder"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension EvsClientTypes.VcfVersionInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EvsClientTypes.VcfVersionInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EvsClientTypes.VcfVersionInfo()
+        value.vcfVersion = try reader["vcfVersion"].readIfPresent() ?? .sdkUnknown("")
+        value.status = try reader["status"].readIfPresent() ?? ""
+        value.defaultEsxVersion = try reader["defaultEsxVersion"].readIfPresent() ?? ""
+        value.instanceTypes = try reader["instanceTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<EvsClientTypes.InstanceType>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension EvsClientTypes.Vlan {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EvsClientTypes.Vlan {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EvsClientTypes.Vlan()
+        value.vlanId = try reader["vlanId"].readIfPresent()
+        value.cidr = try reader["cidr"].readIfPresent()
+        value.availabilityZone = try reader["availabilityZone"].readIfPresent()
+        value.functionName = try reader["functionName"].readIfPresent()
+        value.subnetId = try reader["subnetId"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.modifiedAt = try reader["modifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.vlanState = try reader["vlanState"].readIfPresent()
+        value.stateDetails = try reader["stateDetails"].readIfPresent()
+        value.eipAssociations = try reader["eipAssociations"].readListIfPresent(memberReadingClosure: EvsClientTypes.EipAssociation.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.isPublic = try reader["isPublic"].readIfPresent()
+        value.networkAclId = try reader["networkAclId"].readIfPresent()
+        return value
     }
 }
 

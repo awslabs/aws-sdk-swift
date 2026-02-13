@@ -3661,89 +3661,13 @@ extension DisabledOperationException {
     }
 }
 
-extension CloudSearchClientTypes.DomainStatus {
+extension CloudSearchClientTypes.AccessPoliciesStatus {
 
-    static func read(from reader: SmithyXML.Reader) throws -> CloudSearchClientTypes.DomainStatus {
+    static func read(from reader: SmithyXML.Reader) throws -> CloudSearchClientTypes.AccessPoliciesStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudSearchClientTypes.DomainStatus()
-        value.domainId = try reader["DomainId"].readIfPresent() ?? ""
-        value.domainName = try reader["DomainName"].readIfPresent() ?? ""
-        value.arn = try reader["ARN"].readIfPresent()
-        value.created = try reader["Created"].readIfPresent()
-        value.deleted = try reader["Deleted"].readIfPresent()
-        value.docService = try reader["DocService"].readIfPresent(with: CloudSearchClientTypes.ServiceEndpoint.read(from:))
-        value.searchService = try reader["SearchService"].readIfPresent(with: CloudSearchClientTypes.ServiceEndpoint.read(from:))
-        value.requiresIndexDocuments = try reader["RequiresIndexDocuments"].readIfPresent() ?? false
-        value.processing = try reader["Processing"].readIfPresent()
-        value.searchInstanceType = try reader["SearchInstanceType"].readIfPresent()
-        value.searchPartitionCount = try reader["SearchPartitionCount"].readIfPresent()
-        value.searchInstanceCount = try reader["SearchInstanceCount"].readIfPresent()
-        value.limits = try reader["Limits"].readIfPresent(with: CloudSearchClientTypes.Limits.read(from:))
-        return value
-    }
-}
-
-extension CloudSearchClientTypes.Limits {
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudSearchClientTypes.Limits {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudSearchClientTypes.Limits()
-        value.maximumReplicationCount = try reader["MaximumReplicationCount"].readIfPresent() ?? 0
-        value.maximumPartitionCount = try reader["MaximumPartitionCount"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension CloudSearchClientTypes.ServiceEndpoint {
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudSearchClientTypes.ServiceEndpoint {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudSearchClientTypes.ServiceEndpoint()
-        value.endpoint = try reader["Endpoint"].readIfPresent()
-        return value
-    }
-}
-
-extension CloudSearchClientTypes.AnalysisSchemeStatus {
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudSearchClientTypes.AnalysisSchemeStatus {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudSearchClientTypes.AnalysisSchemeStatus()
-        value.options = try reader["Options"].readIfPresent(with: CloudSearchClientTypes.AnalysisScheme.read(from:))
+        var value = CloudSearchClientTypes.AccessPoliciesStatus()
+        value.options = try reader["Options"].readIfPresent() ?? ""
         value.status = try reader["Status"].readIfPresent(with: CloudSearchClientTypes.OptionStatus.read(from:))
-        return value
-    }
-}
-
-extension CloudSearchClientTypes.OptionStatus {
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudSearchClientTypes.OptionStatus {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudSearchClientTypes.OptionStatus()
-        value.creationDate = try reader["CreationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.updateDate = try reader["UpdateDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.updateVersion = try reader["UpdateVersion"].readIfPresent() ?? 0
-        value.state = try reader["State"].readIfPresent() ?? .sdkUnknown("")
-        value.pendingDeletion = try reader["PendingDeletion"].readIfPresent()
-        return value
-    }
-}
-
-extension CloudSearchClientTypes.AnalysisScheme {
-
-    static func write(value: CloudSearchClientTypes.AnalysisScheme?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["AnalysisOptions"].write(value.analysisOptions, with: CloudSearchClientTypes.AnalysisOptions.write(value:to:))
-        try writer["AnalysisSchemeLanguage"].write(value.analysisSchemeLanguage)
-        try writer["AnalysisSchemeName"].write(value.analysisSchemeName)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudSearchClientTypes.AnalysisScheme {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudSearchClientTypes.AnalysisScheme()
-        value.analysisSchemeName = try reader["AnalysisSchemeName"].readIfPresent() ?? ""
-        value.analysisSchemeLanguage = try reader["AnalysisSchemeLanguage"].readIfPresent() ?? .sdkUnknown("")
-        value.analysisOptions = try reader["AnalysisOptions"].readIfPresent(with: CloudSearchClientTypes.AnalysisOptions.read(from:))
         return value
     }
 }
@@ -3771,13 +3695,208 @@ extension CloudSearchClientTypes.AnalysisOptions {
     }
 }
 
-extension CloudSearchClientTypes.ExpressionStatus {
+extension CloudSearchClientTypes.AnalysisScheme {
 
-    static func read(from reader: SmithyXML.Reader) throws -> CloudSearchClientTypes.ExpressionStatus {
+    static func write(value: CloudSearchClientTypes.AnalysisScheme?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["AnalysisOptions"].write(value.analysisOptions, with: CloudSearchClientTypes.AnalysisOptions.write(value:to:))
+        try writer["AnalysisSchemeLanguage"].write(value.analysisSchemeLanguage)
+        try writer["AnalysisSchemeName"].write(value.analysisSchemeName)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudSearchClientTypes.AnalysisScheme {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudSearchClientTypes.ExpressionStatus()
-        value.options = try reader["Options"].readIfPresent(with: CloudSearchClientTypes.Expression.read(from:))
+        var value = CloudSearchClientTypes.AnalysisScheme()
+        value.analysisSchemeName = try reader["AnalysisSchemeName"].readIfPresent() ?? ""
+        value.analysisSchemeLanguage = try reader["AnalysisSchemeLanguage"].readIfPresent() ?? .sdkUnknown("")
+        value.analysisOptions = try reader["AnalysisOptions"].readIfPresent(with: CloudSearchClientTypes.AnalysisOptions.read(from:))
+        return value
+    }
+}
+
+extension CloudSearchClientTypes.AnalysisSchemeStatus {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudSearchClientTypes.AnalysisSchemeStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudSearchClientTypes.AnalysisSchemeStatus()
+        value.options = try reader["Options"].readIfPresent(with: CloudSearchClientTypes.AnalysisScheme.read(from:))
         value.status = try reader["Status"].readIfPresent(with: CloudSearchClientTypes.OptionStatus.read(from:))
+        return value
+    }
+}
+
+extension CloudSearchClientTypes.AvailabilityOptionsStatus {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudSearchClientTypes.AvailabilityOptionsStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudSearchClientTypes.AvailabilityOptionsStatus()
+        value.options = try reader["Options"].readIfPresent() ?? false
+        value.status = try reader["Status"].readIfPresent(with: CloudSearchClientTypes.OptionStatus.read(from:))
+        return value
+    }
+}
+
+extension CloudSearchClientTypes.DateArrayOptions {
+
+    static func write(value: CloudSearchClientTypes.DateArrayOptions?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["DefaultValue"].write(value.defaultValue)
+        try writer["FacetEnabled"].write(value.facetEnabled)
+        try writer["ReturnEnabled"].write(value.returnEnabled)
+        try writer["SearchEnabled"].write(value.searchEnabled)
+        try writer["SourceFields"].write(value.sourceFields)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudSearchClientTypes.DateArrayOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudSearchClientTypes.DateArrayOptions()
+        value.defaultValue = try reader["DefaultValue"].readIfPresent()
+        value.sourceFields = try reader["SourceFields"].readIfPresent()
+        value.facetEnabled = try reader["FacetEnabled"].readIfPresent()
+        value.searchEnabled = try reader["SearchEnabled"].readIfPresent()
+        value.returnEnabled = try reader["ReturnEnabled"].readIfPresent()
+        return value
+    }
+}
+
+extension CloudSearchClientTypes.DateOptions {
+
+    static func write(value: CloudSearchClientTypes.DateOptions?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["DefaultValue"].write(value.defaultValue)
+        try writer["FacetEnabled"].write(value.facetEnabled)
+        try writer["ReturnEnabled"].write(value.returnEnabled)
+        try writer["SearchEnabled"].write(value.searchEnabled)
+        try writer["SortEnabled"].write(value.sortEnabled)
+        try writer["SourceField"].write(value.sourceField)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudSearchClientTypes.DateOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudSearchClientTypes.DateOptions()
+        value.defaultValue = try reader["DefaultValue"].readIfPresent()
+        value.sourceField = try reader["SourceField"].readIfPresent()
+        value.facetEnabled = try reader["FacetEnabled"].readIfPresent()
+        value.searchEnabled = try reader["SearchEnabled"].readIfPresent()
+        value.returnEnabled = try reader["ReturnEnabled"].readIfPresent()
+        value.sortEnabled = try reader["SortEnabled"].readIfPresent()
+        return value
+    }
+}
+
+extension CloudSearchClientTypes.DocumentSuggesterOptions {
+
+    static func write(value: CloudSearchClientTypes.DocumentSuggesterOptions?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["FuzzyMatching"].write(value.fuzzyMatching)
+        try writer["SortExpression"].write(value.sortExpression)
+        try writer["SourceField"].write(value.sourceField)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudSearchClientTypes.DocumentSuggesterOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudSearchClientTypes.DocumentSuggesterOptions()
+        value.sourceField = try reader["SourceField"].readIfPresent() ?? ""
+        value.fuzzyMatching = try reader["FuzzyMatching"].readIfPresent()
+        value.sortExpression = try reader["SortExpression"].readIfPresent()
+        return value
+    }
+}
+
+extension CloudSearchClientTypes.DomainEndpointOptions {
+
+    static func write(value: CloudSearchClientTypes.DomainEndpointOptions?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["EnforceHTTPS"].write(value.enforceHTTPS)
+        try writer["TLSSecurityPolicy"].write(value.tlsSecurityPolicy)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudSearchClientTypes.DomainEndpointOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudSearchClientTypes.DomainEndpointOptions()
+        value.enforceHTTPS = try reader["EnforceHTTPS"].readIfPresent()
+        value.tlsSecurityPolicy = try reader["TLSSecurityPolicy"].readIfPresent()
+        return value
+    }
+}
+
+extension CloudSearchClientTypes.DomainEndpointOptionsStatus {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudSearchClientTypes.DomainEndpointOptionsStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudSearchClientTypes.DomainEndpointOptionsStatus()
+        value.options = try reader["Options"].readIfPresent(with: CloudSearchClientTypes.DomainEndpointOptions.read(from:))
+        value.status = try reader["Status"].readIfPresent(with: CloudSearchClientTypes.OptionStatus.read(from:))
+        return value
+    }
+}
+
+extension CloudSearchClientTypes.DomainStatus {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudSearchClientTypes.DomainStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudSearchClientTypes.DomainStatus()
+        value.domainId = try reader["DomainId"].readIfPresent() ?? ""
+        value.domainName = try reader["DomainName"].readIfPresent() ?? ""
+        value.arn = try reader["ARN"].readIfPresent()
+        value.created = try reader["Created"].readIfPresent()
+        value.deleted = try reader["Deleted"].readIfPresent()
+        value.docService = try reader["DocService"].readIfPresent(with: CloudSearchClientTypes.ServiceEndpoint.read(from:))
+        value.searchService = try reader["SearchService"].readIfPresent(with: CloudSearchClientTypes.ServiceEndpoint.read(from:))
+        value.requiresIndexDocuments = try reader["RequiresIndexDocuments"].readIfPresent() ?? false
+        value.processing = try reader["Processing"].readIfPresent()
+        value.searchInstanceType = try reader["SearchInstanceType"].readIfPresent()
+        value.searchPartitionCount = try reader["SearchPartitionCount"].readIfPresent()
+        value.searchInstanceCount = try reader["SearchInstanceCount"].readIfPresent()
+        value.limits = try reader["Limits"].readIfPresent(with: CloudSearchClientTypes.Limits.read(from:))
+        return value
+    }
+}
+
+extension CloudSearchClientTypes.DoubleArrayOptions {
+
+    static func write(value: CloudSearchClientTypes.DoubleArrayOptions?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["DefaultValue"].write(value.defaultValue)
+        try writer["FacetEnabled"].write(value.facetEnabled)
+        try writer["ReturnEnabled"].write(value.returnEnabled)
+        try writer["SearchEnabled"].write(value.searchEnabled)
+        try writer["SourceFields"].write(value.sourceFields)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudSearchClientTypes.DoubleArrayOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudSearchClientTypes.DoubleArrayOptions()
+        value.defaultValue = try reader["DefaultValue"].readIfPresent()
+        value.sourceFields = try reader["SourceFields"].readIfPresent()
+        value.facetEnabled = try reader["FacetEnabled"].readIfPresent()
+        value.searchEnabled = try reader["SearchEnabled"].readIfPresent()
+        value.returnEnabled = try reader["ReturnEnabled"].readIfPresent()
+        return value
+    }
+}
+
+extension CloudSearchClientTypes.DoubleOptions {
+
+    static func write(value: CloudSearchClientTypes.DoubleOptions?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["DefaultValue"].write(value.defaultValue)
+        try writer["FacetEnabled"].write(value.facetEnabled)
+        try writer["ReturnEnabled"].write(value.returnEnabled)
+        try writer["SearchEnabled"].write(value.searchEnabled)
+        try writer["SortEnabled"].write(value.sortEnabled)
+        try writer["SourceField"].write(value.sourceField)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudSearchClientTypes.DoubleOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudSearchClientTypes.DoubleOptions()
+        value.defaultValue = try reader["DefaultValue"].readIfPresent()
+        value.sourceField = try reader["SourceField"].readIfPresent()
+        value.facetEnabled = try reader["FacetEnabled"].readIfPresent()
+        value.searchEnabled = try reader["SearchEnabled"].readIfPresent()
+        value.returnEnabled = try reader["ReturnEnabled"].readIfPresent()
+        value.sortEnabled = try reader["SortEnabled"].readIfPresent()
         return value
     }
 }
@@ -3799,12 +3918,12 @@ extension CloudSearchClientTypes.Expression {
     }
 }
 
-extension CloudSearchClientTypes.IndexFieldStatus {
+extension CloudSearchClientTypes.ExpressionStatus {
 
-    static func read(from reader: SmithyXML.Reader) throws -> CloudSearchClientTypes.IndexFieldStatus {
+    static func read(from reader: SmithyXML.Reader) throws -> CloudSearchClientTypes.ExpressionStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudSearchClientTypes.IndexFieldStatus()
-        value.options = try reader["Options"].readIfPresent(with: CloudSearchClientTypes.IndexField.read(from:))
+        var value = CloudSearchClientTypes.ExpressionStatus()
+        value.options = try reader["Options"].readIfPresent(with: CloudSearchClientTypes.Expression.read(from:))
         value.status = try reader["Status"].readIfPresent(with: CloudSearchClientTypes.OptionStatus.read(from:))
         return value
     }
@@ -3849,94 +3968,13 @@ extension CloudSearchClientTypes.IndexField {
     }
 }
 
-extension CloudSearchClientTypes.DateArrayOptions {
+extension CloudSearchClientTypes.IndexFieldStatus {
 
-    static func write(value: CloudSearchClientTypes.DateArrayOptions?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["DefaultValue"].write(value.defaultValue)
-        try writer["FacetEnabled"].write(value.facetEnabled)
-        try writer["ReturnEnabled"].write(value.returnEnabled)
-        try writer["SearchEnabled"].write(value.searchEnabled)
-        try writer["SourceFields"].write(value.sourceFields)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudSearchClientTypes.DateArrayOptions {
+    static func read(from reader: SmithyXML.Reader) throws -> CloudSearchClientTypes.IndexFieldStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudSearchClientTypes.DateArrayOptions()
-        value.defaultValue = try reader["DefaultValue"].readIfPresent()
-        value.sourceFields = try reader["SourceFields"].readIfPresent()
-        value.facetEnabled = try reader["FacetEnabled"].readIfPresent()
-        value.searchEnabled = try reader["SearchEnabled"].readIfPresent()
-        value.returnEnabled = try reader["ReturnEnabled"].readIfPresent()
-        return value
-    }
-}
-
-extension CloudSearchClientTypes.TextArrayOptions {
-
-    static func write(value: CloudSearchClientTypes.TextArrayOptions?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["AnalysisScheme"].write(value.analysisScheme)
-        try writer["DefaultValue"].write(value.defaultValue)
-        try writer["HighlightEnabled"].write(value.highlightEnabled)
-        try writer["ReturnEnabled"].write(value.returnEnabled)
-        try writer["SourceFields"].write(value.sourceFields)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudSearchClientTypes.TextArrayOptions {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudSearchClientTypes.TextArrayOptions()
-        value.defaultValue = try reader["DefaultValue"].readIfPresent()
-        value.sourceFields = try reader["SourceFields"].readIfPresent()
-        value.returnEnabled = try reader["ReturnEnabled"].readIfPresent()
-        value.highlightEnabled = try reader["HighlightEnabled"].readIfPresent()
-        value.analysisScheme = try reader["AnalysisScheme"].readIfPresent()
-        return value
-    }
-}
-
-extension CloudSearchClientTypes.LiteralArrayOptions {
-
-    static func write(value: CloudSearchClientTypes.LiteralArrayOptions?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["DefaultValue"].write(value.defaultValue)
-        try writer["FacetEnabled"].write(value.facetEnabled)
-        try writer["ReturnEnabled"].write(value.returnEnabled)
-        try writer["SearchEnabled"].write(value.searchEnabled)
-        try writer["SourceFields"].write(value.sourceFields)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudSearchClientTypes.LiteralArrayOptions {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudSearchClientTypes.LiteralArrayOptions()
-        value.defaultValue = try reader["DefaultValue"].readIfPresent()
-        value.sourceFields = try reader["SourceFields"].readIfPresent()
-        value.facetEnabled = try reader["FacetEnabled"].readIfPresent()
-        value.searchEnabled = try reader["SearchEnabled"].readIfPresent()
-        value.returnEnabled = try reader["ReturnEnabled"].readIfPresent()
-        return value
-    }
-}
-
-extension CloudSearchClientTypes.DoubleArrayOptions {
-
-    static func write(value: CloudSearchClientTypes.DoubleArrayOptions?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["DefaultValue"].write(value.defaultValue)
-        try writer["FacetEnabled"].write(value.facetEnabled)
-        try writer["ReturnEnabled"].write(value.returnEnabled)
-        try writer["SearchEnabled"].write(value.searchEnabled)
-        try writer["SourceFields"].write(value.sourceFields)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudSearchClientTypes.DoubleArrayOptions {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudSearchClientTypes.DoubleArrayOptions()
-        value.defaultValue = try reader["DefaultValue"].readIfPresent()
-        value.sourceFields = try reader["SourceFields"].readIfPresent()
-        value.facetEnabled = try reader["FacetEnabled"].readIfPresent()
-        value.searchEnabled = try reader["SearchEnabled"].readIfPresent()
-        value.returnEnabled = try reader["ReturnEnabled"].readIfPresent()
+        var value = CloudSearchClientTypes.IndexFieldStatus()
+        value.options = try reader["Options"].readIfPresent(with: CloudSearchClientTypes.IndexField.read(from:))
+        value.status = try reader["Status"].readIfPresent(with: CloudSearchClientTypes.OptionStatus.read(from:))
         return value
     }
 }
@@ -3960,131 +3998,6 @@ extension CloudSearchClientTypes.IntArrayOptions {
         value.facetEnabled = try reader["FacetEnabled"].readIfPresent()
         value.searchEnabled = try reader["SearchEnabled"].readIfPresent()
         value.returnEnabled = try reader["ReturnEnabled"].readIfPresent()
-        return value
-    }
-}
-
-extension CloudSearchClientTypes.LatLonOptions {
-
-    static func write(value: CloudSearchClientTypes.LatLonOptions?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["DefaultValue"].write(value.defaultValue)
-        try writer["FacetEnabled"].write(value.facetEnabled)
-        try writer["ReturnEnabled"].write(value.returnEnabled)
-        try writer["SearchEnabled"].write(value.searchEnabled)
-        try writer["SortEnabled"].write(value.sortEnabled)
-        try writer["SourceField"].write(value.sourceField)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudSearchClientTypes.LatLonOptions {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudSearchClientTypes.LatLonOptions()
-        value.defaultValue = try reader["DefaultValue"].readIfPresent()
-        value.sourceField = try reader["SourceField"].readIfPresent()
-        value.facetEnabled = try reader["FacetEnabled"].readIfPresent()
-        value.searchEnabled = try reader["SearchEnabled"].readIfPresent()
-        value.returnEnabled = try reader["ReturnEnabled"].readIfPresent()
-        value.sortEnabled = try reader["SortEnabled"].readIfPresent()
-        return value
-    }
-}
-
-extension CloudSearchClientTypes.DateOptions {
-
-    static func write(value: CloudSearchClientTypes.DateOptions?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["DefaultValue"].write(value.defaultValue)
-        try writer["FacetEnabled"].write(value.facetEnabled)
-        try writer["ReturnEnabled"].write(value.returnEnabled)
-        try writer["SearchEnabled"].write(value.searchEnabled)
-        try writer["SortEnabled"].write(value.sortEnabled)
-        try writer["SourceField"].write(value.sourceField)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudSearchClientTypes.DateOptions {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudSearchClientTypes.DateOptions()
-        value.defaultValue = try reader["DefaultValue"].readIfPresent()
-        value.sourceField = try reader["SourceField"].readIfPresent()
-        value.facetEnabled = try reader["FacetEnabled"].readIfPresent()
-        value.searchEnabled = try reader["SearchEnabled"].readIfPresent()
-        value.returnEnabled = try reader["ReturnEnabled"].readIfPresent()
-        value.sortEnabled = try reader["SortEnabled"].readIfPresent()
-        return value
-    }
-}
-
-extension CloudSearchClientTypes.TextOptions {
-
-    static func write(value: CloudSearchClientTypes.TextOptions?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["AnalysisScheme"].write(value.analysisScheme)
-        try writer["DefaultValue"].write(value.defaultValue)
-        try writer["HighlightEnabled"].write(value.highlightEnabled)
-        try writer["ReturnEnabled"].write(value.returnEnabled)
-        try writer["SortEnabled"].write(value.sortEnabled)
-        try writer["SourceField"].write(value.sourceField)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudSearchClientTypes.TextOptions {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudSearchClientTypes.TextOptions()
-        value.defaultValue = try reader["DefaultValue"].readIfPresent()
-        value.sourceField = try reader["SourceField"].readIfPresent()
-        value.returnEnabled = try reader["ReturnEnabled"].readIfPresent()
-        value.sortEnabled = try reader["SortEnabled"].readIfPresent()
-        value.highlightEnabled = try reader["HighlightEnabled"].readIfPresent()
-        value.analysisScheme = try reader["AnalysisScheme"].readIfPresent()
-        return value
-    }
-}
-
-extension CloudSearchClientTypes.LiteralOptions {
-
-    static func write(value: CloudSearchClientTypes.LiteralOptions?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["DefaultValue"].write(value.defaultValue)
-        try writer["FacetEnabled"].write(value.facetEnabled)
-        try writer["ReturnEnabled"].write(value.returnEnabled)
-        try writer["SearchEnabled"].write(value.searchEnabled)
-        try writer["SortEnabled"].write(value.sortEnabled)
-        try writer["SourceField"].write(value.sourceField)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudSearchClientTypes.LiteralOptions {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudSearchClientTypes.LiteralOptions()
-        value.defaultValue = try reader["DefaultValue"].readIfPresent()
-        value.sourceField = try reader["SourceField"].readIfPresent()
-        value.facetEnabled = try reader["FacetEnabled"].readIfPresent()
-        value.searchEnabled = try reader["SearchEnabled"].readIfPresent()
-        value.returnEnabled = try reader["ReturnEnabled"].readIfPresent()
-        value.sortEnabled = try reader["SortEnabled"].readIfPresent()
-        return value
-    }
-}
-
-extension CloudSearchClientTypes.DoubleOptions {
-
-    static func write(value: CloudSearchClientTypes.DoubleOptions?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["DefaultValue"].write(value.defaultValue)
-        try writer["FacetEnabled"].write(value.facetEnabled)
-        try writer["ReturnEnabled"].write(value.returnEnabled)
-        try writer["SearchEnabled"].write(value.searchEnabled)
-        try writer["SortEnabled"].write(value.sortEnabled)
-        try writer["SourceField"].write(value.sourceField)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudSearchClientTypes.DoubleOptions {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudSearchClientTypes.DoubleOptions()
-        value.defaultValue = try reader["DefaultValue"].readIfPresent()
-        value.sourceField = try reader["SourceField"].readIfPresent()
-        value.facetEnabled = try reader["FacetEnabled"].readIfPresent()
-        value.searchEnabled = try reader["SearchEnabled"].readIfPresent()
-        value.returnEnabled = try reader["ReturnEnabled"].readIfPresent()
-        value.sortEnabled = try reader["SortEnabled"].readIfPresent()
         return value
     }
 }
@@ -4114,99 +4027,100 @@ extension CloudSearchClientTypes.IntOptions {
     }
 }
 
-extension CloudSearchClientTypes.SuggesterStatus {
+extension CloudSearchClientTypes.LatLonOptions {
 
-    static func read(from reader: SmithyXML.Reader) throws -> CloudSearchClientTypes.SuggesterStatus {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudSearchClientTypes.SuggesterStatus()
-        value.options = try reader["Options"].readIfPresent(with: CloudSearchClientTypes.Suggester.read(from:))
-        value.status = try reader["Status"].readIfPresent(with: CloudSearchClientTypes.OptionStatus.read(from:))
-        return value
-    }
-}
-
-extension CloudSearchClientTypes.Suggester {
-
-    static func write(value: CloudSearchClientTypes.Suggester?, to writer: SmithyFormURL.Writer) throws {
+    static func write(value: CloudSearchClientTypes.LatLonOptions?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
-        try writer["DocumentSuggesterOptions"].write(value.documentSuggesterOptions, with: CloudSearchClientTypes.DocumentSuggesterOptions.write(value:to:))
-        try writer["SuggesterName"].write(value.suggesterName)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudSearchClientTypes.Suggester {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudSearchClientTypes.Suggester()
-        value.suggesterName = try reader["SuggesterName"].readIfPresent() ?? ""
-        value.documentSuggesterOptions = try reader["DocumentSuggesterOptions"].readIfPresent(with: CloudSearchClientTypes.DocumentSuggesterOptions.read(from:))
-        return value
-    }
-}
-
-extension CloudSearchClientTypes.DocumentSuggesterOptions {
-
-    static func write(value: CloudSearchClientTypes.DocumentSuggesterOptions?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["FuzzyMatching"].write(value.fuzzyMatching)
-        try writer["SortExpression"].write(value.sortExpression)
+        try writer["DefaultValue"].write(value.defaultValue)
+        try writer["FacetEnabled"].write(value.facetEnabled)
+        try writer["ReturnEnabled"].write(value.returnEnabled)
+        try writer["SearchEnabled"].write(value.searchEnabled)
+        try writer["SortEnabled"].write(value.sortEnabled)
         try writer["SourceField"].write(value.sourceField)
     }
 
-    static func read(from reader: SmithyXML.Reader) throws -> CloudSearchClientTypes.DocumentSuggesterOptions {
+    static func read(from reader: SmithyXML.Reader) throws -> CloudSearchClientTypes.LatLonOptions {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudSearchClientTypes.DocumentSuggesterOptions()
-        value.sourceField = try reader["SourceField"].readIfPresent() ?? ""
-        value.fuzzyMatching = try reader["FuzzyMatching"].readIfPresent()
-        value.sortExpression = try reader["SortExpression"].readIfPresent()
+        var value = CloudSearchClientTypes.LatLonOptions()
+        value.defaultValue = try reader["DefaultValue"].readIfPresent()
+        value.sourceField = try reader["SourceField"].readIfPresent()
+        value.facetEnabled = try reader["FacetEnabled"].readIfPresent()
+        value.searchEnabled = try reader["SearchEnabled"].readIfPresent()
+        value.returnEnabled = try reader["ReturnEnabled"].readIfPresent()
+        value.sortEnabled = try reader["SortEnabled"].readIfPresent()
         return value
     }
 }
 
-extension CloudSearchClientTypes.AvailabilityOptionsStatus {
+extension CloudSearchClientTypes.Limits {
 
-    static func read(from reader: SmithyXML.Reader) throws -> CloudSearchClientTypes.AvailabilityOptionsStatus {
+    static func read(from reader: SmithyXML.Reader) throws -> CloudSearchClientTypes.Limits {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudSearchClientTypes.AvailabilityOptionsStatus()
-        value.options = try reader["Options"].readIfPresent() ?? false
-        value.status = try reader["Status"].readIfPresent(with: CloudSearchClientTypes.OptionStatus.read(from:))
+        var value = CloudSearchClientTypes.Limits()
+        value.maximumReplicationCount = try reader["MaximumReplicationCount"].readIfPresent() ?? 0
+        value.maximumPartitionCount = try reader["MaximumPartitionCount"].readIfPresent() ?? 0
         return value
     }
 }
 
-extension CloudSearchClientTypes.DomainEndpointOptionsStatus {
+extension CloudSearchClientTypes.LiteralArrayOptions {
 
-    static func read(from reader: SmithyXML.Reader) throws -> CloudSearchClientTypes.DomainEndpointOptionsStatus {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudSearchClientTypes.DomainEndpointOptionsStatus()
-        value.options = try reader["Options"].readIfPresent(with: CloudSearchClientTypes.DomainEndpointOptions.read(from:))
-        value.status = try reader["Status"].readIfPresent(with: CloudSearchClientTypes.OptionStatus.read(from:))
-        return value
-    }
-}
-
-extension CloudSearchClientTypes.DomainEndpointOptions {
-
-    static func write(value: CloudSearchClientTypes.DomainEndpointOptions?, to writer: SmithyFormURL.Writer) throws {
+    static func write(value: CloudSearchClientTypes.LiteralArrayOptions?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
-        try writer["EnforceHTTPS"].write(value.enforceHTTPS)
-        try writer["TLSSecurityPolicy"].write(value.tlsSecurityPolicy)
+        try writer["DefaultValue"].write(value.defaultValue)
+        try writer["FacetEnabled"].write(value.facetEnabled)
+        try writer["ReturnEnabled"].write(value.returnEnabled)
+        try writer["SearchEnabled"].write(value.searchEnabled)
+        try writer["SourceFields"].write(value.sourceFields)
     }
 
-    static func read(from reader: SmithyXML.Reader) throws -> CloudSearchClientTypes.DomainEndpointOptions {
+    static func read(from reader: SmithyXML.Reader) throws -> CloudSearchClientTypes.LiteralArrayOptions {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudSearchClientTypes.DomainEndpointOptions()
-        value.enforceHTTPS = try reader["EnforceHTTPS"].readIfPresent()
-        value.tlsSecurityPolicy = try reader["TLSSecurityPolicy"].readIfPresent()
+        var value = CloudSearchClientTypes.LiteralArrayOptions()
+        value.defaultValue = try reader["DefaultValue"].readIfPresent()
+        value.sourceFields = try reader["SourceFields"].readIfPresent()
+        value.facetEnabled = try reader["FacetEnabled"].readIfPresent()
+        value.searchEnabled = try reader["SearchEnabled"].readIfPresent()
+        value.returnEnabled = try reader["ReturnEnabled"].readIfPresent()
         return value
     }
 }
 
-extension CloudSearchClientTypes.ScalingParametersStatus {
+extension CloudSearchClientTypes.LiteralOptions {
 
-    static func read(from reader: SmithyXML.Reader) throws -> CloudSearchClientTypes.ScalingParametersStatus {
+    static func write(value: CloudSearchClientTypes.LiteralOptions?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["DefaultValue"].write(value.defaultValue)
+        try writer["FacetEnabled"].write(value.facetEnabled)
+        try writer["ReturnEnabled"].write(value.returnEnabled)
+        try writer["SearchEnabled"].write(value.searchEnabled)
+        try writer["SortEnabled"].write(value.sortEnabled)
+        try writer["SourceField"].write(value.sourceField)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudSearchClientTypes.LiteralOptions {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudSearchClientTypes.ScalingParametersStatus()
-        value.options = try reader["Options"].readIfPresent(with: CloudSearchClientTypes.ScalingParameters.read(from:))
-        value.status = try reader["Status"].readIfPresent(with: CloudSearchClientTypes.OptionStatus.read(from:))
+        var value = CloudSearchClientTypes.LiteralOptions()
+        value.defaultValue = try reader["DefaultValue"].readIfPresent()
+        value.sourceField = try reader["SourceField"].readIfPresent()
+        value.facetEnabled = try reader["FacetEnabled"].readIfPresent()
+        value.searchEnabled = try reader["SearchEnabled"].readIfPresent()
+        value.returnEnabled = try reader["ReturnEnabled"].readIfPresent()
+        value.sortEnabled = try reader["SortEnabled"].readIfPresent()
+        return value
+    }
+}
+
+extension CloudSearchClientTypes.OptionStatus {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudSearchClientTypes.OptionStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudSearchClientTypes.OptionStatus()
+        value.creationDate = try reader["CreationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updateDate = try reader["UpdateDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updateVersion = try reader["UpdateVersion"].readIfPresent() ?? 0
+        value.state = try reader["State"].readIfPresent() ?? .sdkUnknown("")
+        value.pendingDeletion = try reader["PendingDeletion"].readIfPresent()
         return value
     }
 }
@@ -4230,13 +4144,99 @@ extension CloudSearchClientTypes.ScalingParameters {
     }
 }
 
-extension CloudSearchClientTypes.AccessPoliciesStatus {
+extension CloudSearchClientTypes.ScalingParametersStatus {
 
-    static func read(from reader: SmithyXML.Reader) throws -> CloudSearchClientTypes.AccessPoliciesStatus {
+    static func read(from reader: SmithyXML.Reader) throws -> CloudSearchClientTypes.ScalingParametersStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudSearchClientTypes.AccessPoliciesStatus()
-        value.options = try reader["Options"].readIfPresent() ?? ""
+        var value = CloudSearchClientTypes.ScalingParametersStatus()
+        value.options = try reader["Options"].readIfPresent(with: CloudSearchClientTypes.ScalingParameters.read(from:))
         value.status = try reader["Status"].readIfPresent(with: CloudSearchClientTypes.OptionStatus.read(from:))
+        return value
+    }
+}
+
+extension CloudSearchClientTypes.ServiceEndpoint {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudSearchClientTypes.ServiceEndpoint {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudSearchClientTypes.ServiceEndpoint()
+        value.endpoint = try reader["Endpoint"].readIfPresent()
+        return value
+    }
+}
+
+extension CloudSearchClientTypes.Suggester {
+
+    static func write(value: CloudSearchClientTypes.Suggester?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["DocumentSuggesterOptions"].write(value.documentSuggesterOptions, with: CloudSearchClientTypes.DocumentSuggesterOptions.write(value:to:))
+        try writer["SuggesterName"].write(value.suggesterName)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudSearchClientTypes.Suggester {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudSearchClientTypes.Suggester()
+        value.suggesterName = try reader["SuggesterName"].readIfPresent() ?? ""
+        value.documentSuggesterOptions = try reader["DocumentSuggesterOptions"].readIfPresent(with: CloudSearchClientTypes.DocumentSuggesterOptions.read(from:))
+        return value
+    }
+}
+
+extension CloudSearchClientTypes.SuggesterStatus {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudSearchClientTypes.SuggesterStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudSearchClientTypes.SuggesterStatus()
+        value.options = try reader["Options"].readIfPresent(with: CloudSearchClientTypes.Suggester.read(from:))
+        value.status = try reader["Status"].readIfPresent(with: CloudSearchClientTypes.OptionStatus.read(from:))
+        return value
+    }
+}
+
+extension CloudSearchClientTypes.TextArrayOptions {
+
+    static func write(value: CloudSearchClientTypes.TextArrayOptions?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["AnalysisScheme"].write(value.analysisScheme)
+        try writer["DefaultValue"].write(value.defaultValue)
+        try writer["HighlightEnabled"].write(value.highlightEnabled)
+        try writer["ReturnEnabled"].write(value.returnEnabled)
+        try writer["SourceFields"].write(value.sourceFields)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudSearchClientTypes.TextArrayOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudSearchClientTypes.TextArrayOptions()
+        value.defaultValue = try reader["DefaultValue"].readIfPresent()
+        value.sourceFields = try reader["SourceFields"].readIfPresent()
+        value.returnEnabled = try reader["ReturnEnabled"].readIfPresent()
+        value.highlightEnabled = try reader["HighlightEnabled"].readIfPresent()
+        value.analysisScheme = try reader["AnalysisScheme"].readIfPresent()
+        return value
+    }
+}
+
+extension CloudSearchClientTypes.TextOptions {
+
+    static func write(value: CloudSearchClientTypes.TextOptions?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["AnalysisScheme"].write(value.analysisScheme)
+        try writer["DefaultValue"].write(value.defaultValue)
+        try writer["HighlightEnabled"].write(value.highlightEnabled)
+        try writer["ReturnEnabled"].write(value.returnEnabled)
+        try writer["SortEnabled"].write(value.sortEnabled)
+        try writer["SourceField"].write(value.sourceField)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudSearchClientTypes.TextOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudSearchClientTypes.TextOptions()
+        value.defaultValue = try reader["DefaultValue"].readIfPresent()
+        value.sourceField = try reader["SourceField"].readIfPresent()
+        value.returnEnabled = try reader["ReturnEnabled"].readIfPresent()
+        value.sortEnabled = try reader["SortEnabled"].readIfPresent()
+        value.highlightEnabled = try reader["HighlightEnabled"].readIfPresent()
+        value.analysisScheme = try reader["AnalysisScheme"].readIfPresent()
         return value
     }
 }

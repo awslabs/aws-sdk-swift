@@ -8019,6 +8019,239 @@ extension TooManyTagsException {
     }
 }
 
+extension AppMeshClientTypes.AccessLog {
+
+    static func write(value: AppMeshClientTypes.AccessLog?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .file(file):
+                try writer["file"].write(file, with: AppMeshClientTypes.FileAccessLog.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.AccessLog {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "file":
+                return .file(try reader["file"].read(with: AppMeshClientTypes.FileAccessLog.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension AppMeshClientTypes.AwsCloudMapInstanceAttribute {
+
+    static func write(value: AppMeshClientTypes.AwsCloudMapInstanceAttribute?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["key"].write(value.key)
+        try writer["value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.AwsCloudMapInstanceAttribute {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppMeshClientTypes.AwsCloudMapInstanceAttribute()
+        value.key = try reader["key"].readIfPresent() ?? ""
+        value.value = try reader["value"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension AppMeshClientTypes.AwsCloudMapServiceDiscovery {
+
+    static func write(value: AppMeshClientTypes.AwsCloudMapServiceDiscovery?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["attributes"].writeList(value.attributes, memberWritingClosure: AppMeshClientTypes.AwsCloudMapInstanceAttribute.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ipPreference"].write(value.ipPreference)
+        try writer["namespaceName"].write(value.namespaceName)
+        try writer["serviceName"].write(value.serviceName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.AwsCloudMapServiceDiscovery {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppMeshClientTypes.AwsCloudMapServiceDiscovery()
+        value.namespaceName = try reader["namespaceName"].readIfPresent() ?? ""
+        value.serviceName = try reader["serviceName"].readIfPresent() ?? ""
+        value.attributes = try reader["attributes"].readListIfPresent(memberReadingClosure: AppMeshClientTypes.AwsCloudMapInstanceAttribute.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.ipPreference = try reader["ipPreference"].readIfPresent()
+        return value
+    }
+}
+
+extension AppMeshClientTypes.Backend {
+
+    static func write(value: AppMeshClientTypes.Backend?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .virtualservice(virtualservice):
+                try writer["virtualService"].write(virtualservice, with: AppMeshClientTypes.VirtualServiceBackend.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.Backend {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "virtualService":
+                return .virtualservice(try reader["virtualService"].read(with: AppMeshClientTypes.VirtualServiceBackend.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension AppMeshClientTypes.BackendDefaults {
+
+    static func write(value: AppMeshClientTypes.BackendDefaults?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientPolicy"].write(value.clientPolicy, with: AppMeshClientTypes.ClientPolicy.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.BackendDefaults {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppMeshClientTypes.BackendDefaults()
+        value.clientPolicy = try reader["clientPolicy"].readIfPresent(with: AppMeshClientTypes.ClientPolicy.read(from:))
+        return value
+    }
+}
+
+extension AppMeshClientTypes.ClientPolicy {
+
+    static func write(value: AppMeshClientTypes.ClientPolicy?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["tls"].write(value.tls, with: AppMeshClientTypes.ClientPolicyTls.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.ClientPolicy {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppMeshClientTypes.ClientPolicy()
+        value.tls = try reader["tls"].readIfPresent(with: AppMeshClientTypes.ClientPolicyTls.read(from:))
+        return value
+    }
+}
+
+extension AppMeshClientTypes.ClientPolicyTls {
+
+    static func write(value: AppMeshClientTypes.ClientPolicyTls?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["certificate"].write(value.certificate, with: AppMeshClientTypes.ClientTlsCertificate.write(value:to:))
+        try writer["enforce"].write(value.enforce)
+        try writer["ports"].writeList(value.ports, memberWritingClosure: SmithyReadWrite.WritingClosures.writeInt(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["validation"].write(value.validation, with: AppMeshClientTypes.TlsValidationContext.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.ClientPolicyTls {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppMeshClientTypes.ClientPolicyTls()
+        value.enforce = try reader["enforce"].readIfPresent()
+        value.ports = try reader["ports"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false)
+        value.certificate = try reader["certificate"].readIfPresent(with: AppMeshClientTypes.ClientTlsCertificate.read(from:))
+        value.validation = try reader["validation"].readIfPresent(with: AppMeshClientTypes.TlsValidationContext.read(from:))
+        return value
+    }
+}
+
+extension AppMeshClientTypes.ClientTlsCertificate {
+
+    static func write(value: AppMeshClientTypes.ClientTlsCertificate?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .file(file):
+                try writer["file"].write(file, with: AppMeshClientTypes.ListenerTlsFileCertificate.write(value:to:))
+            case let .sds(sds):
+                try writer["sds"].write(sds, with: AppMeshClientTypes.ListenerTlsSdsCertificate.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.ClientTlsCertificate {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "file":
+                return .file(try reader["file"].read(with: AppMeshClientTypes.ListenerTlsFileCertificate.read(from:)))
+            case "sds":
+                return .sds(try reader["sds"].read(with: AppMeshClientTypes.ListenerTlsSdsCertificate.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension AppMeshClientTypes.DnsServiceDiscovery {
+
+    static func write(value: AppMeshClientTypes.DnsServiceDiscovery?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["hostname"].write(value.hostname)
+        try writer["ipPreference"].write(value.ipPreference)
+        try writer["responseType"].write(value.responseType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.DnsServiceDiscovery {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppMeshClientTypes.DnsServiceDiscovery()
+        value.hostname = try reader["hostname"].readIfPresent() ?? ""
+        value.responseType = try reader["responseType"].readIfPresent()
+        value.ipPreference = try reader["ipPreference"].readIfPresent()
+        return value
+    }
+}
+
+extension AppMeshClientTypes.Duration {
+
+    static func write(value: AppMeshClientTypes.Duration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["unit"].write(value.unit)
+        try writer["value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.Duration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppMeshClientTypes.Duration()
+        value.value = try reader["value"].readIfPresent()
+        value.unit = try reader["unit"].readIfPresent()
+        return value
+    }
+}
+
+extension AppMeshClientTypes.EgressFilter {
+
+    static func write(value: AppMeshClientTypes.EgressFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.EgressFilter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppMeshClientTypes.EgressFilter()
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension AppMeshClientTypes.FileAccessLog {
+
+    static func write(value: AppMeshClientTypes.FileAccessLog?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["format"].write(value.format, with: AppMeshClientTypes.LoggingFormat.write(value:to:))
+        try writer["path"].write(value.path)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.FileAccessLog {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppMeshClientTypes.FileAccessLog()
+        value.path = try reader["path"].readIfPresent() ?? ""
+        value.format = try reader["format"].readIfPresent(with: AppMeshClientTypes.LoggingFormat.read(from:))
+        return value
+    }
+}
+
 extension AppMeshClientTypes.GatewayRouteData {
 
     static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.GatewayRouteData {
@@ -8034,28 +8267,52 @@ extension AppMeshClientTypes.GatewayRouteData {
     }
 }
 
-extension AppMeshClientTypes.GatewayRouteStatus {
+extension AppMeshClientTypes.GatewayRouteHostnameMatch {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.GatewayRouteStatus {
+    static func write(value: AppMeshClientTypes.GatewayRouteHostnameMatch?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["exact"].write(value.exact)
+        try writer["suffix"].write(value.suffix)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.GatewayRouteHostnameMatch {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppMeshClientTypes.GatewayRouteStatus()
-        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        var value = AppMeshClientTypes.GatewayRouteHostnameMatch()
+        value.exact = try reader["exact"].readIfPresent()
+        value.suffix = try reader["suffix"].readIfPresent()
         return value
     }
 }
 
-extension AppMeshClientTypes.ResourceMetadata {
+extension AppMeshClientTypes.GatewayRouteHostnameRewrite {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.ResourceMetadata {
+    static func write(value: AppMeshClientTypes.GatewayRouteHostnameRewrite?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["defaultTargetHostname"].write(value.defaultTargetHostname)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.GatewayRouteHostnameRewrite {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppMeshClientTypes.ResourceMetadata()
-        value.arn = try reader["arn"].readIfPresent() ?? ""
-        value.version = try reader["version"].readIfPresent() ?? 0
-        value.uid = try reader["uid"].readIfPresent() ?? ""
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        var value = AppMeshClientTypes.GatewayRouteHostnameRewrite()
+        value.defaultTargetHostname = try reader["defaultTargetHostname"].readIfPresent()
+        return value
+    }
+}
+
+extension AppMeshClientTypes.GatewayRouteRef {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.GatewayRouteRef {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppMeshClientTypes.GatewayRouteRef()
+        value.meshName = try reader["meshName"].readIfPresent() ?? ""
+        value.gatewayRouteName = try reader["gatewayRouteName"].readIfPresent() ?? ""
+        value.virtualGatewayName = try reader["virtualGatewayName"].readIfPresent() ?? ""
         value.meshOwner = try reader["meshOwner"].readIfPresent() ?? ""
         value.resourceOwner = try reader["resourceOwner"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.version = try reader["version"].readIfPresent() ?? 0
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -8077,6 +8334,48 @@ extension AppMeshClientTypes.GatewayRouteSpec {
         value.httpRoute = try reader["httpRoute"].readIfPresent(with: AppMeshClientTypes.HttpGatewayRoute.read(from:))
         value.http2Route = try reader["http2Route"].readIfPresent(with: AppMeshClientTypes.HttpGatewayRoute.read(from:))
         value.grpcRoute = try reader["grpcRoute"].readIfPresent(with: AppMeshClientTypes.GrpcGatewayRoute.read(from:))
+        return value
+    }
+}
+
+extension AppMeshClientTypes.GatewayRouteStatus {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.GatewayRouteStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppMeshClientTypes.GatewayRouteStatus()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension AppMeshClientTypes.GatewayRouteTarget {
+
+    static func write(value: AppMeshClientTypes.GatewayRouteTarget?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["port"].write(value.port)
+        try writer["virtualService"].write(value.virtualService, with: AppMeshClientTypes.GatewayRouteVirtualService.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.GatewayRouteTarget {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppMeshClientTypes.GatewayRouteTarget()
+        value.virtualService = try reader["virtualService"].readIfPresent(with: AppMeshClientTypes.GatewayRouteVirtualService.read(from:))
+        value.port = try reader["port"].readIfPresent()
+        return value
+    }
+}
+
+extension AppMeshClientTypes.GatewayRouteVirtualService {
+
+    static func write(value: AppMeshClientTypes.GatewayRouteVirtualService?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["virtualServiceName"].write(value.virtualServiceName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.GatewayRouteVirtualService {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppMeshClientTypes.GatewayRouteVirtualService()
+        value.virtualServiceName = try reader["virtualServiceName"].readIfPresent() ?? ""
         return value
     }
 }
@@ -8111,68 +8410,6 @@ extension AppMeshClientTypes.GrpcGatewayRouteAction {
         var value = AppMeshClientTypes.GrpcGatewayRouteAction()
         value.target = try reader["target"].readIfPresent(with: AppMeshClientTypes.GatewayRouteTarget.read(from:))
         value.rewrite = try reader["rewrite"].readIfPresent(with: AppMeshClientTypes.GrpcGatewayRouteRewrite.read(from:))
-        return value
-    }
-}
-
-extension AppMeshClientTypes.GrpcGatewayRouteRewrite {
-
-    static func write(value: AppMeshClientTypes.GrpcGatewayRouteRewrite?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["hostname"].write(value.hostname, with: AppMeshClientTypes.GatewayRouteHostnameRewrite.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.GrpcGatewayRouteRewrite {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppMeshClientTypes.GrpcGatewayRouteRewrite()
-        value.hostname = try reader["hostname"].readIfPresent(with: AppMeshClientTypes.GatewayRouteHostnameRewrite.read(from:))
-        return value
-    }
-}
-
-extension AppMeshClientTypes.GatewayRouteHostnameRewrite {
-
-    static func write(value: AppMeshClientTypes.GatewayRouteHostnameRewrite?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["defaultTargetHostname"].write(value.defaultTargetHostname)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.GatewayRouteHostnameRewrite {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppMeshClientTypes.GatewayRouteHostnameRewrite()
-        value.defaultTargetHostname = try reader["defaultTargetHostname"].readIfPresent()
-        return value
-    }
-}
-
-extension AppMeshClientTypes.GatewayRouteTarget {
-
-    static func write(value: AppMeshClientTypes.GatewayRouteTarget?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["port"].write(value.port)
-        try writer["virtualService"].write(value.virtualService, with: AppMeshClientTypes.GatewayRouteVirtualService.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.GatewayRouteTarget {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppMeshClientTypes.GatewayRouteTarget()
-        value.virtualService = try reader["virtualService"].readIfPresent(with: AppMeshClientTypes.GatewayRouteVirtualService.read(from:))
-        value.port = try reader["port"].readIfPresent()
-        return value
-    }
-}
-
-extension AppMeshClientTypes.GatewayRouteVirtualService {
-
-    static func write(value: AppMeshClientTypes.GatewayRouteVirtualService?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["virtualServiceName"].write(value.virtualServiceName)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.GatewayRouteVirtualService {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppMeshClientTypes.GatewayRouteVirtualService()
-        value.virtualServiceName = try reader["virtualServiceName"].readIfPresent() ?? ""
         return value
     }
 }
@@ -8217,6 +8454,21 @@ extension AppMeshClientTypes.GrpcGatewayRouteMetadata {
     }
 }
 
+extension AppMeshClientTypes.GrpcGatewayRouteRewrite {
+
+    static func write(value: AppMeshClientTypes.GrpcGatewayRouteRewrite?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["hostname"].write(value.hostname, with: AppMeshClientTypes.GatewayRouteHostnameRewrite.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.GrpcGatewayRouteRewrite {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppMeshClientTypes.GrpcGatewayRouteRewrite()
+        value.hostname = try reader["hostname"].readIfPresent(with: AppMeshClientTypes.GatewayRouteHostnameRewrite.read(from:))
+        return value
+    }
+}
+
 extension AppMeshClientTypes.GrpcMetadataMatchMethod {
 
     static func write(value: AppMeshClientTypes.GrpcMetadataMatchMethod?, to writer: SmithyJSON.Writer) throws {
@@ -8257,374 +8509,25 @@ extension AppMeshClientTypes.GrpcMetadataMatchMethod {
     }
 }
 
-extension AppMeshClientTypes.MatchRange {
+extension AppMeshClientTypes.GrpcRetryPolicy {
 
-    static func write(value: AppMeshClientTypes.MatchRange?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: AppMeshClientTypes.GrpcRetryPolicy?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["end"].write(value.end)
-        try writer["start"].write(value.start)
+        try writer["grpcRetryEvents"].writeList(value.grpcRetryEvents, memberWritingClosure: SmithyReadWrite.WritingClosureBox<AppMeshClientTypes.GrpcRetryPolicyEvent>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["httpRetryEvents"].writeList(value.httpRetryEvents, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["maxRetries"].write(value.maxRetries)
+        try writer["perRetryTimeout"].write(value.perRetryTimeout, with: AppMeshClientTypes.Duration.write(value:to:))
+        try writer["tcpRetryEvents"].writeList(value.tcpRetryEvents, memberWritingClosure: SmithyReadWrite.WritingClosureBox<AppMeshClientTypes.TcpRetryPolicyEvent>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.MatchRange {
+    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.GrpcRetryPolicy {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppMeshClientTypes.MatchRange()
-        value.start = try reader["start"].readIfPresent() ?? 0
-        value.end = try reader["end"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension AppMeshClientTypes.GatewayRouteHostnameMatch {
-
-    static func write(value: AppMeshClientTypes.GatewayRouteHostnameMatch?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["exact"].write(value.exact)
-        try writer["suffix"].write(value.suffix)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.GatewayRouteHostnameMatch {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppMeshClientTypes.GatewayRouteHostnameMatch()
-        value.exact = try reader["exact"].readIfPresent()
-        value.suffix = try reader["suffix"].readIfPresent()
-        return value
-    }
-}
-
-extension AppMeshClientTypes.HttpGatewayRoute {
-
-    static func write(value: AppMeshClientTypes.HttpGatewayRoute?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["action"].write(value.action, with: AppMeshClientTypes.HttpGatewayRouteAction.write(value:to:))
-        try writer["match"].write(value.match, with: AppMeshClientTypes.HttpGatewayRouteMatch.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.HttpGatewayRoute {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppMeshClientTypes.HttpGatewayRoute()
-        value.match = try reader["match"].readIfPresent(with: AppMeshClientTypes.HttpGatewayRouteMatch.read(from:))
-        value.action = try reader["action"].readIfPresent(with: AppMeshClientTypes.HttpGatewayRouteAction.read(from:))
-        return value
-    }
-}
-
-extension AppMeshClientTypes.HttpGatewayRouteAction {
-
-    static func write(value: AppMeshClientTypes.HttpGatewayRouteAction?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["rewrite"].write(value.rewrite, with: AppMeshClientTypes.HttpGatewayRouteRewrite.write(value:to:))
-        try writer["target"].write(value.target, with: AppMeshClientTypes.GatewayRouteTarget.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.HttpGatewayRouteAction {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppMeshClientTypes.HttpGatewayRouteAction()
-        value.target = try reader["target"].readIfPresent(with: AppMeshClientTypes.GatewayRouteTarget.read(from:))
-        value.rewrite = try reader["rewrite"].readIfPresent(with: AppMeshClientTypes.HttpGatewayRouteRewrite.read(from:))
-        return value
-    }
-}
-
-extension AppMeshClientTypes.HttpGatewayRouteRewrite {
-
-    static func write(value: AppMeshClientTypes.HttpGatewayRouteRewrite?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["hostname"].write(value.hostname, with: AppMeshClientTypes.GatewayRouteHostnameRewrite.write(value:to:))
-        try writer["path"].write(value.path, with: AppMeshClientTypes.HttpGatewayRoutePathRewrite.write(value:to:))
-        try writer["prefix"].write(value.`prefix`, with: AppMeshClientTypes.HttpGatewayRoutePrefixRewrite.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.HttpGatewayRouteRewrite {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppMeshClientTypes.HttpGatewayRouteRewrite()
-        value.`prefix` = try reader["prefix"].readIfPresent(with: AppMeshClientTypes.HttpGatewayRoutePrefixRewrite.read(from:))
-        value.path = try reader["path"].readIfPresent(with: AppMeshClientTypes.HttpGatewayRoutePathRewrite.read(from:))
-        value.hostname = try reader["hostname"].readIfPresent(with: AppMeshClientTypes.GatewayRouteHostnameRewrite.read(from:))
-        return value
-    }
-}
-
-extension AppMeshClientTypes.HttpGatewayRoutePathRewrite {
-
-    static func write(value: AppMeshClientTypes.HttpGatewayRoutePathRewrite?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["exact"].write(value.exact)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.HttpGatewayRoutePathRewrite {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppMeshClientTypes.HttpGatewayRoutePathRewrite()
-        value.exact = try reader["exact"].readIfPresent()
-        return value
-    }
-}
-
-extension AppMeshClientTypes.HttpGatewayRoutePrefixRewrite {
-
-    static func write(value: AppMeshClientTypes.HttpGatewayRoutePrefixRewrite?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["defaultPrefix"].write(value.defaultPrefix)
-        try writer["value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.HttpGatewayRoutePrefixRewrite {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppMeshClientTypes.HttpGatewayRoutePrefixRewrite()
-        value.defaultPrefix = try reader["defaultPrefix"].readIfPresent()
-        value.value = try reader["value"].readIfPresent()
-        return value
-    }
-}
-
-extension AppMeshClientTypes.HttpGatewayRouteMatch {
-
-    static func write(value: AppMeshClientTypes.HttpGatewayRouteMatch?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["headers"].writeList(value.headers, memberWritingClosure: AppMeshClientTypes.HttpGatewayRouteHeader.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["hostname"].write(value.hostname, with: AppMeshClientTypes.GatewayRouteHostnameMatch.write(value:to:))
-        try writer["method"].write(value.method)
-        try writer["path"].write(value.path, with: AppMeshClientTypes.HttpPathMatch.write(value:to:))
-        try writer["port"].write(value.port)
-        try writer["prefix"].write(value.`prefix`)
-        try writer["queryParameters"].writeList(value.queryParameters, memberWritingClosure: AppMeshClientTypes.HttpQueryParameter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.HttpGatewayRouteMatch {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppMeshClientTypes.HttpGatewayRouteMatch()
-        value.`prefix` = try reader["prefix"].readIfPresent()
-        value.path = try reader["path"].readIfPresent(with: AppMeshClientTypes.HttpPathMatch.read(from:))
-        value.queryParameters = try reader["queryParameters"].readListIfPresent(memberReadingClosure: AppMeshClientTypes.HttpQueryParameter.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.method = try reader["method"].readIfPresent()
-        value.hostname = try reader["hostname"].readIfPresent(with: AppMeshClientTypes.GatewayRouteHostnameMatch.read(from:))
-        value.headers = try reader["headers"].readListIfPresent(memberReadingClosure: AppMeshClientTypes.HttpGatewayRouteHeader.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.port = try reader["port"].readIfPresent()
-        return value
-    }
-}
-
-extension AppMeshClientTypes.HttpGatewayRouteHeader {
-
-    static func write(value: AppMeshClientTypes.HttpGatewayRouteHeader?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["invert"].write(value.invert)
-        try writer["match"].write(value.match, with: AppMeshClientTypes.HeaderMatchMethod.write(value:to:))
-        try writer["name"].write(value.name)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.HttpGatewayRouteHeader {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppMeshClientTypes.HttpGatewayRouteHeader()
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.invert = try reader["invert"].readIfPresent()
-        value.match = try reader["match"].readIfPresent(with: AppMeshClientTypes.HeaderMatchMethod.read(from:))
-        return value
-    }
-}
-
-extension AppMeshClientTypes.HeaderMatchMethod {
-
-    static func write(value: AppMeshClientTypes.HeaderMatchMethod?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .exact(exact):
-                try writer["exact"].write(exact)
-            case let .`prefix`(`prefix`):
-                try writer["prefix"].write(`prefix`)
-            case let .range(range):
-                try writer["range"].write(range, with: AppMeshClientTypes.MatchRange.write(value:to:))
-            case let .regex(regex):
-                try writer["regex"].write(regex)
-            case let .suffix(suffix):
-                try writer["suffix"].write(suffix)
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.HeaderMatchMethod {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "exact":
-                return .exact(try reader["exact"].read())
-            case "regex":
-                return .regex(try reader["regex"].read())
-            case "range":
-                return .range(try reader["range"].read(with: AppMeshClientTypes.MatchRange.read(from:)))
-            case "prefix":
-                return .`prefix`(try reader["prefix"].read())
-            case "suffix":
-                return .suffix(try reader["suffix"].read())
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension AppMeshClientTypes.HttpQueryParameter {
-
-    static func write(value: AppMeshClientTypes.HttpQueryParameter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["match"].write(value.match, with: AppMeshClientTypes.QueryParameterMatch.write(value:to:))
-        try writer["name"].write(value.name)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.HttpQueryParameter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppMeshClientTypes.HttpQueryParameter()
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.match = try reader["match"].readIfPresent(with: AppMeshClientTypes.QueryParameterMatch.read(from:))
-        return value
-    }
-}
-
-extension AppMeshClientTypes.QueryParameterMatch {
-
-    static func write(value: AppMeshClientTypes.QueryParameterMatch?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["exact"].write(value.exact)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.QueryParameterMatch {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppMeshClientTypes.QueryParameterMatch()
-        value.exact = try reader["exact"].readIfPresent()
-        return value
-    }
-}
-
-extension AppMeshClientTypes.HttpPathMatch {
-
-    static func write(value: AppMeshClientTypes.HttpPathMatch?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["exact"].write(value.exact)
-        try writer["regex"].write(value.regex)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.HttpPathMatch {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppMeshClientTypes.HttpPathMatch()
-        value.exact = try reader["exact"].readIfPresent()
-        value.regex = try reader["regex"].readIfPresent()
-        return value
-    }
-}
-
-extension AppMeshClientTypes.MeshData {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.MeshData {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppMeshClientTypes.MeshData()
-        value.meshName = try reader["meshName"].readIfPresent() ?? ""
-        value.spec = try reader["spec"].readIfPresent(with: AppMeshClientTypes.MeshSpec.read(from:))
-        value.metadata = try reader["metadata"].readIfPresent(with: AppMeshClientTypes.ResourceMetadata.read(from:))
-        value.status = try reader["status"].readIfPresent(with: AppMeshClientTypes.MeshStatus.read(from:))
-        return value
-    }
-}
-
-extension AppMeshClientTypes.MeshStatus {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.MeshStatus {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppMeshClientTypes.MeshStatus()
-        value.status = try reader["status"].readIfPresent()
-        return value
-    }
-}
-
-extension AppMeshClientTypes.MeshSpec {
-
-    static func write(value: AppMeshClientTypes.MeshSpec?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["egressFilter"].write(value.egressFilter, with: AppMeshClientTypes.EgressFilter.write(value:to:))
-        try writer["serviceDiscovery"].write(value.serviceDiscovery, with: AppMeshClientTypes.MeshServiceDiscovery.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.MeshSpec {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppMeshClientTypes.MeshSpec()
-        value.egressFilter = try reader["egressFilter"].readIfPresent(with: AppMeshClientTypes.EgressFilter.read(from:))
-        value.serviceDiscovery = try reader["serviceDiscovery"].readIfPresent(with: AppMeshClientTypes.MeshServiceDiscovery.read(from:))
-        return value
-    }
-}
-
-extension AppMeshClientTypes.MeshServiceDiscovery {
-
-    static func write(value: AppMeshClientTypes.MeshServiceDiscovery?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ipPreference"].write(value.ipPreference)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.MeshServiceDiscovery {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppMeshClientTypes.MeshServiceDiscovery()
-        value.ipPreference = try reader["ipPreference"].readIfPresent()
-        return value
-    }
-}
-
-extension AppMeshClientTypes.EgressFilter {
-
-    static func write(value: AppMeshClientTypes.EgressFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["type"].write(value.type)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.EgressFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppMeshClientTypes.EgressFilter()
-        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension AppMeshClientTypes.RouteData {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.RouteData {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppMeshClientTypes.RouteData()
-        value.meshName = try reader["meshName"].readIfPresent() ?? ""
-        value.virtualRouterName = try reader["virtualRouterName"].readIfPresent() ?? ""
-        value.routeName = try reader["routeName"].readIfPresent() ?? ""
-        value.spec = try reader["spec"].readIfPresent(with: AppMeshClientTypes.RouteSpec.read(from:))
-        value.metadata = try reader["metadata"].readIfPresent(with: AppMeshClientTypes.ResourceMetadata.read(from:))
-        value.status = try reader["status"].readIfPresent(with: AppMeshClientTypes.RouteStatus.read(from:))
-        return value
-    }
-}
-
-extension AppMeshClientTypes.RouteStatus {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.RouteStatus {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppMeshClientTypes.RouteStatus()
-        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension AppMeshClientTypes.RouteSpec {
-
-    static func write(value: AppMeshClientTypes.RouteSpec?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["grpcRoute"].write(value.grpcRoute, with: AppMeshClientTypes.GrpcRoute.write(value:to:))
-        try writer["http2Route"].write(value.http2Route, with: AppMeshClientTypes.HttpRoute.write(value:to:))
-        try writer["httpRoute"].write(value.httpRoute, with: AppMeshClientTypes.HttpRoute.write(value:to:))
-        try writer["priority"].write(value.priority)
-        try writer["tcpRoute"].write(value.tcpRoute, with: AppMeshClientTypes.TcpRoute.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.RouteSpec {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppMeshClientTypes.RouteSpec()
-        value.priority = try reader["priority"].readIfPresent()
-        value.httpRoute = try reader["httpRoute"].readIfPresent(with: AppMeshClientTypes.HttpRoute.read(from:))
-        value.tcpRoute = try reader["tcpRoute"].readIfPresent(with: AppMeshClientTypes.TcpRoute.read(from:))
-        value.http2Route = try reader["http2Route"].readIfPresent(with: AppMeshClientTypes.HttpRoute.read(from:))
-        value.grpcRoute = try reader["grpcRoute"].readIfPresent(with: AppMeshClientTypes.GrpcRoute.read(from:))
+        var value = AppMeshClientTypes.GrpcRetryPolicy()
+        value.perRetryTimeout = try reader["perRetryTimeout"].readIfPresent(with: AppMeshClientTypes.Duration.read(from:))
+        value.maxRetries = try reader["maxRetries"].readIfPresent() ?? 0
+        value.httpRetryEvents = try reader["httpRetryEvents"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.tcpRetryEvents = try reader["tcpRetryEvents"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<AppMeshClientTypes.TcpRetryPolicyEvent>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.grpcRetryEvents = try reader["grpcRetryEvents"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<AppMeshClientTypes.GrpcRetryPolicyEvent>().read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -8650,59 +8553,17 @@ extension AppMeshClientTypes.GrpcRoute {
     }
 }
 
-extension AppMeshClientTypes.GrpcTimeout {
+extension AppMeshClientTypes.GrpcRouteAction {
 
-    static func write(value: AppMeshClientTypes.GrpcTimeout?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: AppMeshClientTypes.GrpcRouteAction?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["idle"].write(value.idle, with: AppMeshClientTypes.Duration.write(value:to:))
-        try writer["perRequest"].write(value.perRequest, with: AppMeshClientTypes.Duration.write(value:to:))
+        try writer["weightedTargets"].writeList(value.weightedTargets, memberWritingClosure: AppMeshClientTypes.WeightedTarget.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.GrpcTimeout {
+    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.GrpcRouteAction {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppMeshClientTypes.GrpcTimeout()
-        value.perRequest = try reader["perRequest"].readIfPresent(with: AppMeshClientTypes.Duration.read(from:))
-        value.idle = try reader["idle"].readIfPresent(with: AppMeshClientTypes.Duration.read(from:))
-        return value
-    }
-}
-
-extension AppMeshClientTypes.Duration {
-
-    static func write(value: AppMeshClientTypes.Duration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["unit"].write(value.unit)
-        try writer["value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.Duration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppMeshClientTypes.Duration()
-        value.value = try reader["value"].readIfPresent()
-        value.unit = try reader["unit"].readIfPresent()
-        return value
-    }
-}
-
-extension AppMeshClientTypes.GrpcRetryPolicy {
-
-    static func write(value: AppMeshClientTypes.GrpcRetryPolicy?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["grpcRetryEvents"].writeList(value.grpcRetryEvents, memberWritingClosure: SmithyReadWrite.WritingClosureBox<AppMeshClientTypes.GrpcRetryPolicyEvent>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["httpRetryEvents"].writeList(value.httpRetryEvents, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["maxRetries"].write(value.maxRetries)
-        try writer["perRetryTimeout"].write(value.perRetryTimeout, with: AppMeshClientTypes.Duration.write(value:to:))
-        try writer["tcpRetryEvents"].writeList(value.tcpRetryEvents, memberWritingClosure: SmithyReadWrite.WritingClosureBox<AppMeshClientTypes.TcpRetryPolicyEvent>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.GrpcRetryPolicy {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppMeshClientTypes.GrpcRetryPolicy()
-        value.perRetryTimeout = try reader["perRetryTimeout"].readIfPresent(with: AppMeshClientTypes.Duration.read(from:))
-        value.maxRetries = try reader["maxRetries"].readIfPresent() ?? 0
-        value.httpRetryEvents = try reader["httpRetryEvents"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.tcpRetryEvents = try reader["tcpRetryEvents"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<AppMeshClientTypes.TcpRetryPolicyEvent>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.grpcRetryEvents = try reader["grpcRetryEvents"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<AppMeshClientTypes.GrpcRetryPolicyEvent>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = AppMeshClientTypes.GrpcRouteAction()
+        value.weightedTargets = try reader["weightedTargets"].readListIfPresent(memberReadingClosure: AppMeshClientTypes.WeightedTarget.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -8787,74 +8648,251 @@ extension AppMeshClientTypes.GrpcRouteMetadataMatchMethod {
     }
 }
 
-extension AppMeshClientTypes.GrpcRouteAction {
+extension AppMeshClientTypes.GrpcTimeout {
 
-    static func write(value: AppMeshClientTypes.GrpcRouteAction?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["weightedTargets"].writeList(value.weightedTargets, memberWritingClosure: AppMeshClientTypes.WeightedTarget.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.GrpcRouteAction {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppMeshClientTypes.GrpcRouteAction()
-        value.weightedTargets = try reader["weightedTargets"].readListIfPresent(memberReadingClosure: AppMeshClientTypes.WeightedTarget.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension AppMeshClientTypes.WeightedTarget {
-
-    static func write(value: AppMeshClientTypes.WeightedTarget?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["port"].write(value.port)
-        try writer["virtualNode"].write(value.virtualNode)
-        try writer["weight"].write(value.weight)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.WeightedTarget {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppMeshClientTypes.WeightedTarget()
-        value.virtualNode = try reader["virtualNode"].readIfPresent() ?? ""
-        value.weight = try reader["weight"].readIfPresent() ?? 0
-        value.port = try reader["port"].readIfPresent()
-        return value
-    }
-}
-
-extension AppMeshClientTypes.HttpRoute {
-
-    static func write(value: AppMeshClientTypes.HttpRoute?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["action"].write(value.action, with: AppMeshClientTypes.HttpRouteAction.write(value:to:))
-        try writer["match"].write(value.match, with: AppMeshClientTypes.HttpRouteMatch.write(value:to:))
-        try writer["retryPolicy"].write(value.retryPolicy, with: AppMeshClientTypes.HttpRetryPolicy.write(value:to:))
-        try writer["timeout"].write(value.timeout, with: AppMeshClientTypes.HttpTimeout.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.HttpRoute {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppMeshClientTypes.HttpRoute()
-        value.match = try reader["match"].readIfPresent(with: AppMeshClientTypes.HttpRouteMatch.read(from:))
-        value.action = try reader["action"].readIfPresent(with: AppMeshClientTypes.HttpRouteAction.read(from:))
-        value.retryPolicy = try reader["retryPolicy"].readIfPresent(with: AppMeshClientTypes.HttpRetryPolicy.read(from:))
-        value.timeout = try reader["timeout"].readIfPresent(with: AppMeshClientTypes.HttpTimeout.read(from:))
-        return value
-    }
-}
-
-extension AppMeshClientTypes.HttpTimeout {
-
-    static func write(value: AppMeshClientTypes.HttpTimeout?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: AppMeshClientTypes.GrpcTimeout?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["idle"].write(value.idle, with: AppMeshClientTypes.Duration.write(value:to:))
         try writer["perRequest"].write(value.perRequest, with: AppMeshClientTypes.Duration.write(value:to:))
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.HttpTimeout {
+    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.GrpcTimeout {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppMeshClientTypes.HttpTimeout()
+        var value = AppMeshClientTypes.GrpcTimeout()
         value.perRequest = try reader["perRequest"].readIfPresent(with: AppMeshClientTypes.Duration.read(from:))
         value.idle = try reader["idle"].readIfPresent(with: AppMeshClientTypes.Duration.read(from:))
+        return value
+    }
+}
+
+extension AppMeshClientTypes.HeaderMatchMethod {
+
+    static func write(value: AppMeshClientTypes.HeaderMatchMethod?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .exact(exact):
+                try writer["exact"].write(exact)
+            case let .`prefix`(`prefix`):
+                try writer["prefix"].write(`prefix`)
+            case let .range(range):
+                try writer["range"].write(range, with: AppMeshClientTypes.MatchRange.write(value:to:))
+            case let .regex(regex):
+                try writer["regex"].write(regex)
+            case let .suffix(suffix):
+                try writer["suffix"].write(suffix)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.HeaderMatchMethod {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "exact":
+                return .exact(try reader["exact"].read())
+            case "regex":
+                return .regex(try reader["regex"].read())
+            case "range":
+                return .range(try reader["range"].read(with: AppMeshClientTypes.MatchRange.read(from:)))
+            case "prefix":
+                return .`prefix`(try reader["prefix"].read())
+            case "suffix":
+                return .suffix(try reader["suffix"].read())
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension AppMeshClientTypes.HealthCheckPolicy {
+
+    static func write(value: AppMeshClientTypes.HealthCheckPolicy?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["healthyThreshold"].write(value.healthyThreshold)
+        try writer["intervalMillis"].write(value.intervalMillis)
+        try writer["path"].write(value.path)
+        try writer["port"].write(value.port)
+        try writer["protocol"].write(value.`protocol`)
+        try writer["timeoutMillis"].write(value.timeoutMillis)
+        try writer["unhealthyThreshold"].write(value.unhealthyThreshold)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.HealthCheckPolicy {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppMeshClientTypes.HealthCheckPolicy()
+        value.timeoutMillis = try reader["timeoutMillis"].readIfPresent() ?? 0
+        value.intervalMillis = try reader["intervalMillis"].readIfPresent() ?? 0
+        value.`protocol` = try reader["protocol"].readIfPresent() ?? .sdkUnknown("")
+        value.port = try reader["port"].readIfPresent()
+        value.path = try reader["path"].readIfPresent()
+        value.healthyThreshold = try reader["healthyThreshold"].readIfPresent() ?? 0
+        value.unhealthyThreshold = try reader["unhealthyThreshold"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension AppMeshClientTypes.HttpGatewayRoute {
+
+    static func write(value: AppMeshClientTypes.HttpGatewayRoute?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["action"].write(value.action, with: AppMeshClientTypes.HttpGatewayRouteAction.write(value:to:))
+        try writer["match"].write(value.match, with: AppMeshClientTypes.HttpGatewayRouteMatch.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.HttpGatewayRoute {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppMeshClientTypes.HttpGatewayRoute()
+        value.match = try reader["match"].readIfPresent(with: AppMeshClientTypes.HttpGatewayRouteMatch.read(from:))
+        value.action = try reader["action"].readIfPresent(with: AppMeshClientTypes.HttpGatewayRouteAction.read(from:))
+        return value
+    }
+}
+
+extension AppMeshClientTypes.HttpGatewayRouteAction {
+
+    static func write(value: AppMeshClientTypes.HttpGatewayRouteAction?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["rewrite"].write(value.rewrite, with: AppMeshClientTypes.HttpGatewayRouteRewrite.write(value:to:))
+        try writer["target"].write(value.target, with: AppMeshClientTypes.GatewayRouteTarget.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.HttpGatewayRouteAction {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppMeshClientTypes.HttpGatewayRouteAction()
+        value.target = try reader["target"].readIfPresent(with: AppMeshClientTypes.GatewayRouteTarget.read(from:))
+        value.rewrite = try reader["rewrite"].readIfPresent(with: AppMeshClientTypes.HttpGatewayRouteRewrite.read(from:))
+        return value
+    }
+}
+
+extension AppMeshClientTypes.HttpGatewayRouteHeader {
+
+    static func write(value: AppMeshClientTypes.HttpGatewayRouteHeader?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["invert"].write(value.invert)
+        try writer["match"].write(value.match, with: AppMeshClientTypes.HeaderMatchMethod.write(value:to:))
+        try writer["name"].write(value.name)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.HttpGatewayRouteHeader {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppMeshClientTypes.HttpGatewayRouteHeader()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.invert = try reader["invert"].readIfPresent()
+        value.match = try reader["match"].readIfPresent(with: AppMeshClientTypes.HeaderMatchMethod.read(from:))
+        return value
+    }
+}
+
+extension AppMeshClientTypes.HttpGatewayRouteMatch {
+
+    static func write(value: AppMeshClientTypes.HttpGatewayRouteMatch?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["headers"].writeList(value.headers, memberWritingClosure: AppMeshClientTypes.HttpGatewayRouteHeader.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["hostname"].write(value.hostname, with: AppMeshClientTypes.GatewayRouteHostnameMatch.write(value:to:))
+        try writer["method"].write(value.method)
+        try writer["path"].write(value.path, with: AppMeshClientTypes.HttpPathMatch.write(value:to:))
+        try writer["port"].write(value.port)
+        try writer["prefix"].write(value.`prefix`)
+        try writer["queryParameters"].writeList(value.queryParameters, memberWritingClosure: AppMeshClientTypes.HttpQueryParameter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.HttpGatewayRouteMatch {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppMeshClientTypes.HttpGatewayRouteMatch()
+        value.`prefix` = try reader["prefix"].readIfPresent()
+        value.path = try reader["path"].readIfPresent(with: AppMeshClientTypes.HttpPathMatch.read(from:))
+        value.queryParameters = try reader["queryParameters"].readListIfPresent(memberReadingClosure: AppMeshClientTypes.HttpQueryParameter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.method = try reader["method"].readIfPresent()
+        value.hostname = try reader["hostname"].readIfPresent(with: AppMeshClientTypes.GatewayRouteHostnameMatch.read(from:))
+        value.headers = try reader["headers"].readListIfPresent(memberReadingClosure: AppMeshClientTypes.HttpGatewayRouteHeader.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.port = try reader["port"].readIfPresent()
+        return value
+    }
+}
+
+extension AppMeshClientTypes.HttpGatewayRoutePathRewrite {
+
+    static func write(value: AppMeshClientTypes.HttpGatewayRoutePathRewrite?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["exact"].write(value.exact)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.HttpGatewayRoutePathRewrite {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppMeshClientTypes.HttpGatewayRoutePathRewrite()
+        value.exact = try reader["exact"].readIfPresent()
+        return value
+    }
+}
+
+extension AppMeshClientTypes.HttpGatewayRoutePrefixRewrite {
+
+    static func write(value: AppMeshClientTypes.HttpGatewayRoutePrefixRewrite?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["defaultPrefix"].write(value.defaultPrefix)
+        try writer["value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.HttpGatewayRoutePrefixRewrite {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppMeshClientTypes.HttpGatewayRoutePrefixRewrite()
+        value.defaultPrefix = try reader["defaultPrefix"].readIfPresent()
+        value.value = try reader["value"].readIfPresent()
+        return value
+    }
+}
+
+extension AppMeshClientTypes.HttpGatewayRouteRewrite {
+
+    static func write(value: AppMeshClientTypes.HttpGatewayRouteRewrite?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["hostname"].write(value.hostname, with: AppMeshClientTypes.GatewayRouteHostnameRewrite.write(value:to:))
+        try writer["path"].write(value.path, with: AppMeshClientTypes.HttpGatewayRoutePathRewrite.write(value:to:))
+        try writer["prefix"].write(value.`prefix`, with: AppMeshClientTypes.HttpGatewayRoutePrefixRewrite.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.HttpGatewayRouteRewrite {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppMeshClientTypes.HttpGatewayRouteRewrite()
+        value.`prefix` = try reader["prefix"].readIfPresent(with: AppMeshClientTypes.HttpGatewayRoutePrefixRewrite.read(from:))
+        value.path = try reader["path"].readIfPresent(with: AppMeshClientTypes.HttpGatewayRoutePathRewrite.read(from:))
+        value.hostname = try reader["hostname"].readIfPresent(with: AppMeshClientTypes.GatewayRouteHostnameRewrite.read(from:))
+        return value
+    }
+}
+
+extension AppMeshClientTypes.HttpPathMatch {
+
+    static func write(value: AppMeshClientTypes.HttpPathMatch?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["exact"].write(value.exact)
+        try writer["regex"].write(value.regex)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.HttpPathMatch {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppMeshClientTypes.HttpPathMatch()
+        value.exact = try reader["exact"].readIfPresent()
+        value.regex = try reader["regex"].readIfPresent()
+        return value
+    }
+}
+
+extension AppMeshClientTypes.HttpQueryParameter {
+
+    static func write(value: AppMeshClientTypes.HttpQueryParameter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["match"].write(value.match, with: AppMeshClientTypes.QueryParameterMatch.write(value:to:))
+        try writer["name"].write(value.name)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.HttpQueryParameter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppMeshClientTypes.HttpQueryParameter()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.match = try reader["match"].readIfPresent(with: AppMeshClientTypes.QueryParameterMatch.read(from:))
         return value
     }
 }
@@ -8880,6 +8918,27 @@ extension AppMeshClientTypes.HttpRetryPolicy {
     }
 }
 
+extension AppMeshClientTypes.HttpRoute {
+
+    static func write(value: AppMeshClientTypes.HttpRoute?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["action"].write(value.action, with: AppMeshClientTypes.HttpRouteAction.write(value:to:))
+        try writer["match"].write(value.match, with: AppMeshClientTypes.HttpRouteMatch.write(value:to:))
+        try writer["retryPolicy"].write(value.retryPolicy, with: AppMeshClientTypes.HttpRetryPolicy.write(value:to:))
+        try writer["timeout"].write(value.timeout, with: AppMeshClientTypes.HttpTimeout.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.HttpRoute {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppMeshClientTypes.HttpRoute()
+        value.match = try reader["match"].readIfPresent(with: AppMeshClientTypes.HttpRouteMatch.read(from:))
+        value.action = try reader["action"].readIfPresent(with: AppMeshClientTypes.HttpRouteAction.read(from:))
+        value.retryPolicy = try reader["retryPolicy"].readIfPresent(with: AppMeshClientTypes.HttpRetryPolicy.read(from:))
+        value.timeout = try reader["timeout"].readIfPresent(with: AppMeshClientTypes.HttpTimeout.read(from:))
+        return value
+    }
+}
+
 extension AppMeshClientTypes.HttpRouteAction {
 
     static func write(value: AppMeshClientTypes.HttpRouteAction?, to writer: SmithyJSON.Writer) throws {
@@ -8891,6 +8950,25 @@ extension AppMeshClientTypes.HttpRouteAction {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = AppMeshClientTypes.HttpRouteAction()
         value.weightedTargets = try reader["weightedTargets"].readListIfPresent(memberReadingClosure: AppMeshClientTypes.WeightedTarget.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension AppMeshClientTypes.HttpRouteHeader {
+
+    static func write(value: AppMeshClientTypes.HttpRouteHeader?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["invert"].write(value.invert)
+        try writer["match"].write(value.match, with: AppMeshClientTypes.HeaderMatchMethod.write(value:to:))
+        try writer["name"].write(value.name)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.HttpRouteHeader {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppMeshClientTypes.HttpRouteHeader()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.invert = try reader["invert"].readIfPresent()
+        value.match = try reader["match"].readIfPresent(with: AppMeshClientTypes.HeaderMatchMethod.read(from:))
         return value
     }
 }
@@ -8922,21 +9000,581 @@ extension AppMeshClientTypes.HttpRouteMatch {
     }
 }
 
-extension AppMeshClientTypes.HttpRouteHeader {
+extension AppMeshClientTypes.HttpTimeout {
 
-    static func write(value: AppMeshClientTypes.HttpRouteHeader?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: AppMeshClientTypes.HttpTimeout?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["invert"].write(value.invert)
-        try writer["match"].write(value.match, with: AppMeshClientTypes.HeaderMatchMethod.write(value:to:))
-        try writer["name"].write(value.name)
+        try writer["idle"].write(value.idle, with: AppMeshClientTypes.Duration.write(value:to:))
+        try writer["perRequest"].write(value.perRequest, with: AppMeshClientTypes.Duration.write(value:to:))
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.HttpRouteHeader {
+    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.HttpTimeout {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppMeshClientTypes.HttpRouteHeader()
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.invert = try reader["invert"].readIfPresent()
-        value.match = try reader["match"].readIfPresent(with: AppMeshClientTypes.HeaderMatchMethod.read(from:))
+        var value = AppMeshClientTypes.HttpTimeout()
+        value.perRequest = try reader["perRequest"].readIfPresent(with: AppMeshClientTypes.Duration.read(from:))
+        value.idle = try reader["idle"].readIfPresent(with: AppMeshClientTypes.Duration.read(from:))
+        return value
+    }
+}
+
+extension AppMeshClientTypes.JsonFormatRef {
+
+    static func write(value: AppMeshClientTypes.JsonFormatRef?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["key"].write(value.key)
+        try writer["value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.JsonFormatRef {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppMeshClientTypes.JsonFormatRef()
+        value.key = try reader["key"].readIfPresent() ?? ""
+        value.value = try reader["value"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension AppMeshClientTypes.Listener {
+
+    static func write(value: AppMeshClientTypes.Listener?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["connectionPool"].write(value.connectionPool, with: AppMeshClientTypes.VirtualNodeConnectionPool.write(value:to:))
+        try writer["healthCheck"].write(value.healthCheck, with: AppMeshClientTypes.HealthCheckPolicy.write(value:to:))
+        try writer["outlierDetection"].write(value.outlierDetection, with: AppMeshClientTypes.OutlierDetection.write(value:to:))
+        try writer["portMapping"].write(value.portMapping, with: AppMeshClientTypes.PortMapping.write(value:to:))
+        try writer["timeout"].write(value.timeout, with: AppMeshClientTypes.ListenerTimeout.write(value:to:))
+        try writer["tls"].write(value.tls, with: AppMeshClientTypes.ListenerTls.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.Listener {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppMeshClientTypes.Listener()
+        value.portMapping = try reader["portMapping"].readIfPresent(with: AppMeshClientTypes.PortMapping.read(from:))
+        value.tls = try reader["tls"].readIfPresent(with: AppMeshClientTypes.ListenerTls.read(from:))
+        value.healthCheck = try reader["healthCheck"].readIfPresent(with: AppMeshClientTypes.HealthCheckPolicy.read(from:))
+        value.timeout = try reader["timeout"].readIfPresent(with: AppMeshClientTypes.ListenerTimeout.read(from:))
+        value.outlierDetection = try reader["outlierDetection"].readIfPresent(with: AppMeshClientTypes.OutlierDetection.read(from:))
+        value.connectionPool = try reader["connectionPool"].readIfPresent(with: AppMeshClientTypes.VirtualNodeConnectionPool.read(from:))
+        return value
+    }
+}
+
+extension AppMeshClientTypes.ListenerTimeout {
+
+    static func write(value: AppMeshClientTypes.ListenerTimeout?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .grpc(grpc):
+                try writer["grpc"].write(grpc, with: AppMeshClientTypes.GrpcTimeout.write(value:to:))
+            case let .http(http):
+                try writer["http"].write(http, with: AppMeshClientTypes.HttpTimeout.write(value:to:))
+            case let .http2(http2):
+                try writer["http2"].write(http2, with: AppMeshClientTypes.HttpTimeout.write(value:to:))
+            case let .tcp(tcp):
+                try writer["tcp"].write(tcp, with: AppMeshClientTypes.TcpTimeout.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.ListenerTimeout {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "tcp":
+                return .tcp(try reader["tcp"].read(with: AppMeshClientTypes.TcpTimeout.read(from:)))
+            case "http":
+                return .http(try reader["http"].read(with: AppMeshClientTypes.HttpTimeout.read(from:)))
+            case "http2":
+                return .http2(try reader["http2"].read(with: AppMeshClientTypes.HttpTimeout.read(from:)))
+            case "grpc":
+                return .grpc(try reader["grpc"].read(with: AppMeshClientTypes.GrpcTimeout.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension AppMeshClientTypes.ListenerTls {
+
+    static func write(value: AppMeshClientTypes.ListenerTls?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["certificate"].write(value.certificate, with: AppMeshClientTypes.ListenerTlsCertificate.write(value:to:))
+        try writer["mode"].write(value.mode)
+        try writer["validation"].write(value.validation, with: AppMeshClientTypes.ListenerTlsValidationContext.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.ListenerTls {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppMeshClientTypes.ListenerTls()
+        value.mode = try reader["mode"].readIfPresent() ?? .sdkUnknown("")
+        value.certificate = try reader["certificate"].readIfPresent(with: AppMeshClientTypes.ListenerTlsCertificate.read(from:))
+        value.validation = try reader["validation"].readIfPresent(with: AppMeshClientTypes.ListenerTlsValidationContext.read(from:))
+        return value
+    }
+}
+
+extension AppMeshClientTypes.ListenerTlsAcmCertificate {
+
+    static func write(value: AppMeshClientTypes.ListenerTlsAcmCertificate?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["certificateArn"].write(value.certificateArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.ListenerTlsAcmCertificate {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppMeshClientTypes.ListenerTlsAcmCertificate()
+        value.certificateArn = try reader["certificateArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension AppMeshClientTypes.ListenerTlsCertificate {
+
+    static func write(value: AppMeshClientTypes.ListenerTlsCertificate?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .acm(acm):
+                try writer["acm"].write(acm, with: AppMeshClientTypes.ListenerTlsAcmCertificate.write(value:to:))
+            case let .file(file):
+                try writer["file"].write(file, with: AppMeshClientTypes.ListenerTlsFileCertificate.write(value:to:))
+            case let .sds(sds):
+                try writer["sds"].write(sds, with: AppMeshClientTypes.ListenerTlsSdsCertificate.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.ListenerTlsCertificate {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "acm":
+                return .acm(try reader["acm"].read(with: AppMeshClientTypes.ListenerTlsAcmCertificate.read(from:)))
+            case "file":
+                return .file(try reader["file"].read(with: AppMeshClientTypes.ListenerTlsFileCertificate.read(from:)))
+            case "sds":
+                return .sds(try reader["sds"].read(with: AppMeshClientTypes.ListenerTlsSdsCertificate.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension AppMeshClientTypes.ListenerTlsFileCertificate {
+
+    static func write(value: AppMeshClientTypes.ListenerTlsFileCertificate?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["certificateChain"].write(value.certificateChain)
+        try writer["privateKey"].write(value.privateKey)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.ListenerTlsFileCertificate {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppMeshClientTypes.ListenerTlsFileCertificate()
+        value.certificateChain = try reader["certificateChain"].readIfPresent() ?? ""
+        value.privateKey = try reader["privateKey"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension AppMeshClientTypes.ListenerTlsSdsCertificate {
+
+    static func write(value: AppMeshClientTypes.ListenerTlsSdsCertificate?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["secretName"].write(value.secretName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.ListenerTlsSdsCertificate {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppMeshClientTypes.ListenerTlsSdsCertificate()
+        value.secretName = try reader["secretName"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension AppMeshClientTypes.ListenerTlsValidationContext {
+
+    static func write(value: AppMeshClientTypes.ListenerTlsValidationContext?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["subjectAlternativeNames"].write(value.subjectAlternativeNames, with: AppMeshClientTypes.SubjectAlternativeNames.write(value:to:))
+        try writer["trust"].write(value.trust, with: AppMeshClientTypes.ListenerTlsValidationContextTrust.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.ListenerTlsValidationContext {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppMeshClientTypes.ListenerTlsValidationContext()
+        value.trust = try reader["trust"].readIfPresent(with: AppMeshClientTypes.ListenerTlsValidationContextTrust.read(from:))
+        value.subjectAlternativeNames = try reader["subjectAlternativeNames"].readIfPresent(with: AppMeshClientTypes.SubjectAlternativeNames.read(from:))
+        return value
+    }
+}
+
+extension AppMeshClientTypes.ListenerTlsValidationContextTrust {
+
+    static func write(value: AppMeshClientTypes.ListenerTlsValidationContextTrust?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .file(file):
+                try writer["file"].write(file, with: AppMeshClientTypes.TlsValidationContextFileTrust.write(value:to:))
+            case let .sds(sds):
+                try writer["sds"].write(sds, with: AppMeshClientTypes.TlsValidationContextSdsTrust.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.ListenerTlsValidationContextTrust {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "file":
+                return .file(try reader["file"].read(with: AppMeshClientTypes.TlsValidationContextFileTrust.read(from:)))
+            case "sds":
+                return .sds(try reader["sds"].read(with: AppMeshClientTypes.TlsValidationContextSdsTrust.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension AppMeshClientTypes.Logging {
+
+    static func write(value: AppMeshClientTypes.Logging?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["accessLog"].write(value.accessLog, with: AppMeshClientTypes.AccessLog.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.Logging {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppMeshClientTypes.Logging()
+        value.accessLog = try reader["accessLog"].readIfPresent(with: AppMeshClientTypes.AccessLog.read(from:))
+        return value
+    }
+}
+
+extension AppMeshClientTypes.LoggingFormat {
+
+    static func write(value: AppMeshClientTypes.LoggingFormat?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .json(json):
+                try writer["json"].writeList(json, memberWritingClosure: AppMeshClientTypes.JsonFormatRef.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+            case let .text(text):
+                try writer["text"].write(text)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.LoggingFormat {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "text":
+                return .text(try reader["text"].read())
+            case "json":
+                return .json(try reader["json"].readList(memberReadingClosure: AppMeshClientTypes.JsonFormatRef.read(from:), memberNodeInfo: "member", isFlattened: false))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension AppMeshClientTypes.MatchRange {
+
+    static func write(value: AppMeshClientTypes.MatchRange?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["end"].write(value.end)
+        try writer["start"].write(value.start)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.MatchRange {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppMeshClientTypes.MatchRange()
+        value.start = try reader["start"].readIfPresent() ?? 0
+        value.end = try reader["end"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension AppMeshClientTypes.MeshData {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.MeshData {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppMeshClientTypes.MeshData()
+        value.meshName = try reader["meshName"].readIfPresent() ?? ""
+        value.spec = try reader["spec"].readIfPresent(with: AppMeshClientTypes.MeshSpec.read(from:))
+        value.metadata = try reader["metadata"].readIfPresent(with: AppMeshClientTypes.ResourceMetadata.read(from:))
+        value.status = try reader["status"].readIfPresent(with: AppMeshClientTypes.MeshStatus.read(from:))
+        return value
+    }
+}
+
+extension AppMeshClientTypes.MeshRef {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.MeshRef {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppMeshClientTypes.MeshRef()
+        value.meshName = try reader["meshName"].readIfPresent() ?? ""
+        value.meshOwner = try reader["meshOwner"].readIfPresent() ?? ""
+        value.resourceOwner = try reader["resourceOwner"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.version = try reader["version"].readIfPresent() ?? 0
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension AppMeshClientTypes.MeshServiceDiscovery {
+
+    static func write(value: AppMeshClientTypes.MeshServiceDiscovery?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ipPreference"].write(value.ipPreference)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.MeshServiceDiscovery {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppMeshClientTypes.MeshServiceDiscovery()
+        value.ipPreference = try reader["ipPreference"].readIfPresent()
+        return value
+    }
+}
+
+extension AppMeshClientTypes.MeshSpec {
+
+    static func write(value: AppMeshClientTypes.MeshSpec?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["egressFilter"].write(value.egressFilter, with: AppMeshClientTypes.EgressFilter.write(value:to:))
+        try writer["serviceDiscovery"].write(value.serviceDiscovery, with: AppMeshClientTypes.MeshServiceDiscovery.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.MeshSpec {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppMeshClientTypes.MeshSpec()
+        value.egressFilter = try reader["egressFilter"].readIfPresent(with: AppMeshClientTypes.EgressFilter.read(from:))
+        value.serviceDiscovery = try reader["serviceDiscovery"].readIfPresent(with: AppMeshClientTypes.MeshServiceDiscovery.read(from:))
+        return value
+    }
+}
+
+extension AppMeshClientTypes.MeshStatus {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.MeshStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppMeshClientTypes.MeshStatus()
+        value.status = try reader["status"].readIfPresent()
+        return value
+    }
+}
+
+extension AppMeshClientTypes.OutlierDetection {
+
+    static func write(value: AppMeshClientTypes.OutlierDetection?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["baseEjectionDuration"].write(value.baseEjectionDuration, with: AppMeshClientTypes.Duration.write(value:to:))
+        try writer["interval"].write(value.interval, with: AppMeshClientTypes.Duration.write(value:to:))
+        try writer["maxEjectionPercent"].write(value.maxEjectionPercent)
+        try writer["maxServerErrors"].write(value.maxServerErrors)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.OutlierDetection {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppMeshClientTypes.OutlierDetection()
+        value.maxServerErrors = try reader["maxServerErrors"].readIfPresent() ?? 0
+        value.interval = try reader["interval"].readIfPresent(with: AppMeshClientTypes.Duration.read(from:))
+        value.baseEjectionDuration = try reader["baseEjectionDuration"].readIfPresent(with: AppMeshClientTypes.Duration.read(from:))
+        value.maxEjectionPercent = try reader["maxEjectionPercent"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension AppMeshClientTypes.PortMapping {
+
+    static func write(value: AppMeshClientTypes.PortMapping?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["port"].write(value.port)
+        try writer["protocol"].write(value.`protocol`)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.PortMapping {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppMeshClientTypes.PortMapping()
+        value.port = try reader["port"].readIfPresent() ?? 0
+        value.`protocol` = try reader["protocol"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension AppMeshClientTypes.QueryParameterMatch {
+
+    static func write(value: AppMeshClientTypes.QueryParameterMatch?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["exact"].write(value.exact)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.QueryParameterMatch {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppMeshClientTypes.QueryParameterMatch()
+        value.exact = try reader["exact"].readIfPresent()
+        return value
+    }
+}
+
+extension AppMeshClientTypes.ResourceMetadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.ResourceMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppMeshClientTypes.ResourceMetadata()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.version = try reader["version"].readIfPresent() ?? 0
+        value.uid = try reader["uid"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.meshOwner = try reader["meshOwner"].readIfPresent() ?? ""
+        value.resourceOwner = try reader["resourceOwner"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension AppMeshClientTypes.RouteData {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.RouteData {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppMeshClientTypes.RouteData()
+        value.meshName = try reader["meshName"].readIfPresent() ?? ""
+        value.virtualRouterName = try reader["virtualRouterName"].readIfPresent() ?? ""
+        value.routeName = try reader["routeName"].readIfPresent() ?? ""
+        value.spec = try reader["spec"].readIfPresent(with: AppMeshClientTypes.RouteSpec.read(from:))
+        value.metadata = try reader["metadata"].readIfPresent(with: AppMeshClientTypes.ResourceMetadata.read(from:))
+        value.status = try reader["status"].readIfPresent(with: AppMeshClientTypes.RouteStatus.read(from:))
+        return value
+    }
+}
+
+extension AppMeshClientTypes.RouteRef {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.RouteRef {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppMeshClientTypes.RouteRef()
+        value.meshName = try reader["meshName"].readIfPresent() ?? ""
+        value.virtualRouterName = try reader["virtualRouterName"].readIfPresent() ?? ""
+        value.routeName = try reader["routeName"].readIfPresent() ?? ""
+        value.meshOwner = try reader["meshOwner"].readIfPresent() ?? ""
+        value.resourceOwner = try reader["resourceOwner"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.version = try reader["version"].readIfPresent() ?? 0
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension AppMeshClientTypes.RouteSpec {
+
+    static func write(value: AppMeshClientTypes.RouteSpec?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["grpcRoute"].write(value.grpcRoute, with: AppMeshClientTypes.GrpcRoute.write(value:to:))
+        try writer["http2Route"].write(value.http2Route, with: AppMeshClientTypes.HttpRoute.write(value:to:))
+        try writer["httpRoute"].write(value.httpRoute, with: AppMeshClientTypes.HttpRoute.write(value:to:))
+        try writer["priority"].write(value.priority)
+        try writer["tcpRoute"].write(value.tcpRoute, with: AppMeshClientTypes.TcpRoute.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.RouteSpec {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppMeshClientTypes.RouteSpec()
+        value.priority = try reader["priority"].readIfPresent()
+        value.httpRoute = try reader["httpRoute"].readIfPresent(with: AppMeshClientTypes.HttpRoute.read(from:))
+        value.tcpRoute = try reader["tcpRoute"].readIfPresent(with: AppMeshClientTypes.TcpRoute.read(from:))
+        value.http2Route = try reader["http2Route"].readIfPresent(with: AppMeshClientTypes.HttpRoute.read(from:))
+        value.grpcRoute = try reader["grpcRoute"].readIfPresent(with: AppMeshClientTypes.GrpcRoute.read(from:))
+        return value
+    }
+}
+
+extension AppMeshClientTypes.RouteStatus {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.RouteStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppMeshClientTypes.RouteStatus()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension AppMeshClientTypes.ServiceDiscovery {
+
+    static func write(value: AppMeshClientTypes.ServiceDiscovery?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .awscloudmap(awscloudmap):
+                try writer["awsCloudMap"].write(awscloudmap, with: AppMeshClientTypes.AwsCloudMapServiceDiscovery.write(value:to:))
+            case let .dns(dns):
+                try writer["dns"].write(dns, with: AppMeshClientTypes.DnsServiceDiscovery.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.ServiceDiscovery {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "dns":
+                return .dns(try reader["dns"].read(with: AppMeshClientTypes.DnsServiceDiscovery.read(from:)))
+            case "awsCloudMap":
+                return .awscloudmap(try reader["awsCloudMap"].read(with: AppMeshClientTypes.AwsCloudMapServiceDiscovery.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension AppMeshClientTypes.SubjectAlternativeNameMatchers {
+
+    static func write(value: AppMeshClientTypes.SubjectAlternativeNameMatchers?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["exact"].writeList(value.exact, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.SubjectAlternativeNameMatchers {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppMeshClientTypes.SubjectAlternativeNameMatchers()
+        value.exact = try reader["exact"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension AppMeshClientTypes.SubjectAlternativeNames {
+
+    static func write(value: AppMeshClientTypes.SubjectAlternativeNames?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["match"].write(value.match, with: AppMeshClientTypes.SubjectAlternativeNameMatchers.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.SubjectAlternativeNames {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppMeshClientTypes.SubjectAlternativeNames()
+        value.match = try reader["match"].readIfPresent(with: AppMeshClientTypes.SubjectAlternativeNameMatchers.read(from:))
+        return value
+    }
+}
+
+extension AppMeshClientTypes.TagRef {
+
+    static func write(value: AppMeshClientTypes.TagRef?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["key"].write(value.key)
+        try writer["value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.TagRef {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppMeshClientTypes.TagRef()
+        value.key = try reader["key"].readIfPresent() ?? ""
+        value.value = try reader["value"].readIfPresent() ?? ""
         return value
     }
 }
@@ -8956,6 +9594,21 @@ extension AppMeshClientTypes.TcpRoute {
         value.action = try reader["action"].readIfPresent(with: AppMeshClientTypes.TcpRouteAction.read(from:))
         value.timeout = try reader["timeout"].readIfPresent(with: AppMeshClientTypes.TcpTimeout.read(from:))
         value.match = try reader["match"].readIfPresent(with: AppMeshClientTypes.TcpRouteMatch.read(from:))
+        return value
+    }
+}
+
+extension AppMeshClientTypes.TcpRouteAction {
+
+    static func write(value: AppMeshClientTypes.TcpRouteAction?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["weightedTargets"].writeList(value.weightedTargets, memberWritingClosure: AppMeshClientTypes.WeightedTarget.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.TcpRouteAction {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppMeshClientTypes.TcpRouteAction()
+        value.weightedTargets = try reader["weightedTargets"].readListIfPresent(memberReadingClosure: AppMeshClientTypes.WeightedTarget.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -8990,76 +9643,97 @@ extension AppMeshClientTypes.TcpTimeout {
     }
 }
 
-extension AppMeshClientTypes.TcpRouteAction {
+extension AppMeshClientTypes.TlsValidationContext {
 
-    static func write(value: AppMeshClientTypes.TcpRouteAction?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: AppMeshClientTypes.TlsValidationContext?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["weightedTargets"].writeList(value.weightedTargets, memberWritingClosure: AppMeshClientTypes.WeightedTarget.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["subjectAlternativeNames"].write(value.subjectAlternativeNames, with: AppMeshClientTypes.SubjectAlternativeNames.write(value:to:))
+        try writer["trust"].write(value.trust, with: AppMeshClientTypes.TlsValidationContextTrust.write(value:to:))
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.TcpRouteAction {
+    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.TlsValidationContext {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppMeshClientTypes.TcpRouteAction()
-        value.weightedTargets = try reader["weightedTargets"].readListIfPresent(memberReadingClosure: AppMeshClientTypes.WeightedTarget.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        var value = AppMeshClientTypes.TlsValidationContext()
+        value.trust = try reader["trust"].readIfPresent(with: AppMeshClientTypes.TlsValidationContextTrust.read(from:))
+        value.subjectAlternativeNames = try reader["subjectAlternativeNames"].readIfPresent(with: AppMeshClientTypes.SubjectAlternativeNames.read(from:))
         return value
     }
 }
 
-extension AppMeshClientTypes.VirtualGatewayData {
+extension AppMeshClientTypes.TlsValidationContextAcmTrust {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.VirtualGatewayData {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppMeshClientTypes.VirtualGatewayData()
-        value.meshName = try reader["meshName"].readIfPresent() ?? ""
-        value.virtualGatewayName = try reader["virtualGatewayName"].readIfPresent() ?? ""
-        value.spec = try reader["spec"].readIfPresent(with: AppMeshClientTypes.VirtualGatewaySpec.read(from:))
-        value.metadata = try reader["metadata"].readIfPresent(with: AppMeshClientTypes.ResourceMetadata.read(from:))
-        value.status = try reader["status"].readIfPresent(with: AppMeshClientTypes.VirtualGatewayStatus.read(from:))
-        return value
-    }
-}
-
-extension AppMeshClientTypes.VirtualGatewayStatus {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.VirtualGatewayStatus {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppMeshClientTypes.VirtualGatewayStatus()
-        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension AppMeshClientTypes.VirtualGatewaySpec {
-
-    static func write(value: AppMeshClientTypes.VirtualGatewaySpec?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: AppMeshClientTypes.TlsValidationContextAcmTrust?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["backendDefaults"].write(value.backendDefaults, with: AppMeshClientTypes.VirtualGatewayBackendDefaults.write(value:to:))
-        try writer["listeners"].writeList(value.listeners, memberWritingClosure: AppMeshClientTypes.VirtualGatewayListener.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["logging"].write(value.logging, with: AppMeshClientTypes.VirtualGatewayLogging.write(value:to:))
+        try writer["certificateAuthorityArns"].writeList(value.certificateAuthorityArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.VirtualGatewaySpec {
+    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.TlsValidationContextAcmTrust {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppMeshClientTypes.VirtualGatewaySpec()
-        value.backendDefaults = try reader["backendDefaults"].readIfPresent(with: AppMeshClientTypes.VirtualGatewayBackendDefaults.read(from:))
-        value.listeners = try reader["listeners"].readListIfPresent(memberReadingClosure: AppMeshClientTypes.VirtualGatewayListener.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.logging = try reader["logging"].readIfPresent(with: AppMeshClientTypes.VirtualGatewayLogging.read(from:))
+        var value = AppMeshClientTypes.TlsValidationContextAcmTrust()
+        value.certificateAuthorityArns = try reader["certificateAuthorityArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
 
-extension AppMeshClientTypes.VirtualGatewayLogging {
+extension AppMeshClientTypes.TlsValidationContextFileTrust {
 
-    static func write(value: AppMeshClientTypes.VirtualGatewayLogging?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: AppMeshClientTypes.TlsValidationContextFileTrust?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["accessLog"].write(value.accessLog, with: AppMeshClientTypes.VirtualGatewayAccessLog.write(value:to:))
+        try writer["certificateChain"].write(value.certificateChain)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.VirtualGatewayLogging {
+    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.TlsValidationContextFileTrust {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppMeshClientTypes.VirtualGatewayLogging()
-        value.accessLog = try reader["accessLog"].readIfPresent(with: AppMeshClientTypes.VirtualGatewayAccessLog.read(from:))
+        var value = AppMeshClientTypes.TlsValidationContextFileTrust()
+        value.certificateChain = try reader["certificateChain"].readIfPresent() ?? ""
         return value
+    }
+}
+
+extension AppMeshClientTypes.TlsValidationContextSdsTrust {
+
+    static func write(value: AppMeshClientTypes.TlsValidationContextSdsTrust?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["secretName"].write(value.secretName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.TlsValidationContextSdsTrust {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppMeshClientTypes.TlsValidationContextSdsTrust()
+        value.secretName = try reader["secretName"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension AppMeshClientTypes.TlsValidationContextTrust {
+
+    static func write(value: AppMeshClientTypes.TlsValidationContextTrust?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .acm(acm):
+                try writer["acm"].write(acm, with: AppMeshClientTypes.TlsValidationContextAcmTrust.write(value:to:))
+            case let .file(file):
+                try writer["file"].write(file, with: AppMeshClientTypes.TlsValidationContextFileTrust.write(value:to:))
+            case let .sds(sds):
+                try writer["sds"].write(sds, with: AppMeshClientTypes.TlsValidationContextSdsTrust.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.TlsValidationContextTrust {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "acm":
+                return .acm(try reader["acm"].read(with: AppMeshClientTypes.TlsValidationContextAcmTrust.read(from:)))
+            case "file":
+                return .file(try reader["file"].read(with: AppMeshClientTypes.TlsValidationContextFileTrust.read(from:)))
+            case "sds":
+                return .sds(try reader["sds"].read(with: AppMeshClientTypes.TlsValidationContextSdsTrust.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
     }
 }
 
@@ -9084,415 +9758,6 @@ extension AppMeshClientTypes.VirtualGatewayAccessLog {
             default:
                 return .sdkUnknown(name ?? "")
         }
-    }
-}
-
-extension AppMeshClientTypes.VirtualGatewayFileAccessLog {
-
-    static func write(value: AppMeshClientTypes.VirtualGatewayFileAccessLog?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["format"].write(value.format, with: AppMeshClientTypes.LoggingFormat.write(value:to:))
-        try writer["path"].write(value.path)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.VirtualGatewayFileAccessLog {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppMeshClientTypes.VirtualGatewayFileAccessLog()
-        value.path = try reader["path"].readIfPresent() ?? ""
-        value.format = try reader["format"].readIfPresent(with: AppMeshClientTypes.LoggingFormat.read(from:))
-        return value
-    }
-}
-
-extension AppMeshClientTypes.LoggingFormat {
-
-    static func write(value: AppMeshClientTypes.LoggingFormat?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .json(json):
-                try writer["json"].writeList(json, memberWritingClosure: AppMeshClientTypes.JsonFormatRef.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-            case let .text(text):
-                try writer["text"].write(text)
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.LoggingFormat {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "text":
-                return .text(try reader["text"].read())
-            case "json":
-                return .json(try reader["json"].readList(memberReadingClosure: AppMeshClientTypes.JsonFormatRef.read(from:), memberNodeInfo: "member", isFlattened: false))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension AppMeshClientTypes.JsonFormatRef {
-
-    static func write(value: AppMeshClientTypes.JsonFormatRef?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["key"].write(value.key)
-        try writer["value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.JsonFormatRef {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppMeshClientTypes.JsonFormatRef()
-        value.key = try reader["key"].readIfPresent() ?? ""
-        value.value = try reader["value"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension AppMeshClientTypes.VirtualGatewayListener {
-
-    static func write(value: AppMeshClientTypes.VirtualGatewayListener?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["connectionPool"].write(value.connectionPool, with: AppMeshClientTypes.VirtualGatewayConnectionPool.write(value:to:))
-        try writer["healthCheck"].write(value.healthCheck, with: AppMeshClientTypes.VirtualGatewayHealthCheckPolicy.write(value:to:))
-        try writer["portMapping"].write(value.portMapping, with: AppMeshClientTypes.VirtualGatewayPortMapping.write(value:to:))
-        try writer["tls"].write(value.tls, with: AppMeshClientTypes.VirtualGatewayListenerTls.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.VirtualGatewayListener {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppMeshClientTypes.VirtualGatewayListener()
-        value.healthCheck = try reader["healthCheck"].readIfPresent(with: AppMeshClientTypes.VirtualGatewayHealthCheckPolicy.read(from:))
-        value.portMapping = try reader["portMapping"].readIfPresent(with: AppMeshClientTypes.VirtualGatewayPortMapping.read(from:))
-        value.tls = try reader["tls"].readIfPresent(with: AppMeshClientTypes.VirtualGatewayListenerTls.read(from:))
-        value.connectionPool = try reader["connectionPool"].readIfPresent(with: AppMeshClientTypes.VirtualGatewayConnectionPool.read(from:))
-        return value
-    }
-}
-
-extension AppMeshClientTypes.VirtualGatewayConnectionPool {
-
-    static func write(value: AppMeshClientTypes.VirtualGatewayConnectionPool?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .grpc(grpc):
-                try writer["grpc"].write(grpc, with: AppMeshClientTypes.VirtualGatewayGrpcConnectionPool.write(value:to:))
-            case let .http(http):
-                try writer["http"].write(http, with: AppMeshClientTypes.VirtualGatewayHttpConnectionPool.write(value:to:))
-            case let .http2(http2):
-                try writer["http2"].write(http2, with: AppMeshClientTypes.VirtualGatewayHttp2ConnectionPool.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.VirtualGatewayConnectionPool {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "http":
-                return .http(try reader["http"].read(with: AppMeshClientTypes.VirtualGatewayHttpConnectionPool.read(from:)))
-            case "http2":
-                return .http2(try reader["http2"].read(with: AppMeshClientTypes.VirtualGatewayHttp2ConnectionPool.read(from:)))
-            case "grpc":
-                return .grpc(try reader["grpc"].read(with: AppMeshClientTypes.VirtualGatewayGrpcConnectionPool.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension AppMeshClientTypes.VirtualGatewayGrpcConnectionPool {
-
-    static func write(value: AppMeshClientTypes.VirtualGatewayGrpcConnectionPool?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["maxRequests"].write(value.maxRequests)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.VirtualGatewayGrpcConnectionPool {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppMeshClientTypes.VirtualGatewayGrpcConnectionPool()
-        value.maxRequests = try reader["maxRequests"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension AppMeshClientTypes.VirtualGatewayHttp2ConnectionPool {
-
-    static func write(value: AppMeshClientTypes.VirtualGatewayHttp2ConnectionPool?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["maxRequests"].write(value.maxRequests)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.VirtualGatewayHttp2ConnectionPool {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppMeshClientTypes.VirtualGatewayHttp2ConnectionPool()
-        value.maxRequests = try reader["maxRequests"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension AppMeshClientTypes.VirtualGatewayHttpConnectionPool {
-
-    static func write(value: AppMeshClientTypes.VirtualGatewayHttpConnectionPool?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["maxConnections"].write(value.maxConnections)
-        try writer["maxPendingRequests"].write(value.maxPendingRequests)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.VirtualGatewayHttpConnectionPool {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppMeshClientTypes.VirtualGatewayHttpConnectionPool()
-        value.maxConnections = try reader["maxConnections"].readIfPresent() ?? 0
-        value.maxPendingRequests = try reader["maxPendingRequests"].readIfPresent()
-        return value
-    }
-}
-
-extension AppMeshClientTypes.VirtualGatewayListenerTls {
-
-    static func write(value: AppMeshClientTypes.VirtualGatewayListenerTls?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["certificate"].write(value.certificate, with: AppMeshClientTypes.VirtualGatewayListenerTlsCertificate.write(value:to:))
-        try writer["mode"].write(value.mode)
-        try writer["validation"].write(value.validation, with: AppMeshClientTypes.VirtualGatewayListenerTlsValidationContext.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.VirtualGatewayListenerTls {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppMeshClientTypes.VirtualGatewayListenerTls()
-        value.mode = try reader["mode"].readIfPresent() ?? .sdkUnknown("")
-        value.validation = try reader["validation"].readIfPresent(with: AppMeshClientTypes.VirtualGatewayListenerTlsValidationContext.read(from:))
-        value.certificate = try reader["certificate"].readIfPresent(with: AppMeshClientTypes.VirtualGatewayListenerTlsCertificate.read(from:))
-        return value
-    }
-}
-
-extension AppMeshClientTypes.VirtualGatewayListenerTlsCertificate {
-
-    static func write(value: AppMeshClientTypes.VirtualGatewayListenerTlsCertificate?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .acm(acm):
-                try writer["acm"].write(acm, with: AppMeshClientTypes.VirtualGatewayListenerTlsAcmCertificate.write(value:to:))
-            case let .file(file):
-                try writer["file"].write(file, with: AppMeshClientTypes.VirtualGatewayListenerTlsFileCertificate.write(value:to:))
-            case let .sds(sds):
-                try writer["sds"].write(sds, with: AppMeshClientTypes.VirtualGatewayListenerTlsSdsCertificate.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.VirtualGatewayListenerTlsCertificate {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "acm":
-                return .acm(try reader["acm"].read(with: AppMeshClientTypes.VirtualGatewayListenerTlsAcmCertificate.read(from:)))
-            case "file":
-                return .file(try reader["file"].read(with: AppMeshClientTypes.VirtualGatewayListenerTlsFileCertificate.read(from:)))
-            case "sds":
-                return .sds(try reader["sds"].read(with: AppMeshClientTypes.VirtualGatewayListenerTlsSdsCertificate.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension AppMeshClientTypes.VirtualGatewayListenerTlsSdsCertificate {
-
-    static func write(value: AppMeshClientTypes.VirtualGatewayListenerTlsSdsCertificate?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["secretName"].write(value.secretName)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.VirtualGatewayListenerTlsSdsCertificate {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppMeshClientTypes.VirtualGatewayListenerTlsSdsCertificate()
-        value.secretName = try reader["secretName"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension AppMeshClientTypes.VirtualGatewayListenerTlsFileCertificate {
-
-    static func write(value: AppMeshClientTypes.VirtualGatewayListenerTlsFileCertificate?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["certificateChain"].write(value.certificateChain)
-        try writer["privateKey"].write(value.privateKey)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.VirtualGatewayListenerTlsFileCertificate {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppMeshClientTypes.VirtualGatewayListenerTlsFileCertificate()
-        value.certificateChain = try reader["certificateChain"].readIfPresent() ?? ""
-        value.privateKey = try reader["privateKey"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension AppMeshClientTypes.VirtualGatewayListenerTlsAcmCertificate {
-
-    static func write(value: AppMeshClientTypes.VirtualGatewayListenerTlsAcmCertificate?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["certificateArn"].write(value.certificateArn)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.VirtualGatewayListenerTlsAcmCertificate {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppMeshClientTypes.VirtualGatewayListenerTlsAcmCertificate()
-        value.certificateArn = try reader["certificateArn"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension AppMeshClientTypes.VirtualGatewayListenerTlsValidationContext {
-
-    static func write(value: AppMeshClientTypes.VirtualGatewayListenerTlsValidationContext?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["subjectAlternativeNames"].write(value.subjectAlternativeNames, with: AppMeshClientTypes.SubjectAlternativeNames.write(value:to:))
-        try writer["trust"].write(value.trust, with: AppMeshClientTypes.VirtualGatewayListenerTlsValidationContextTrust.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.VirtualGatewayListenerTlsValidationContext {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppMeshClientTypes.VirtualGatewayListenerTlsValidationContext()
-        value.trust = try reader["trust"].readIfPresent(with: AppMeshClientTypes.VirtualGatewayListenerTlsValidationContextTrust.read(from:))
-        value.subjectAlternativeNames = try reader["subjectAlternativeNames"].readIfPresent(with: AppMeshClientTypes.SubjectAlternativeNames.read(from:))
-        return value
-    }
-}
-
-extension AppMeshClientTypes.SubjectAlternativeNames {
-
-    static func write(value: AppMeshClientTypes.SubjectAlternativeNames?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["match"].write(value.match, with: AppMeshClientTypes.SubjectAlternativeNameMatchers.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.SubjectAlternativeNames {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppMeshClientTypes.SubjectAlternativeNames()
-        value.match = try reader["match"].readIfPresent(with: AppMeshClientTypes.SubjectAlternativeNameMatchers.read(from:))
-        return value
-    }
-}
-
-extension AppMeshClientTypes.SubjectAlternativeNameMatchers {
-
-    static func write(value: AppMeshClientTypes.SubjectAlternativeNameMatchers?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["exact"].writeList(value.exact, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.SubjectAlternativeNameMatchers {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppMeshClientTypes.SubjectAlternativeNameMatchers()
-        value.exact = try reader["exact"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension AppMeshClientTypes.VirtualGatewayListenerTlsValidationContextTrust {
-
-    static func write(value: AppMeshClientTypes.VirtualGatewayListenerTlsValidationContextTrust?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .file(file):
-                try writer["file"].write(file, with: AppMeshClientTypes.VirtualGatewayTlsValidationContextFileTrust.write(value:to:))
-            case let .sds(sds):
-                try writer["sds"].write(sds, with: AppMeshClientTypes.VirtualGatewayTlsValidationContextSdsTrust.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.VirtualGatewayListenerTlsValidationContextTrust {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "file":
-                return .file(try reader["file"].read(with: AppMeshClientTypes.VirtualGatewayTlsValidationContextFileTrust.read(from:)))
-            case "sds":
-                return .sds(try reader["sds"].read(with: AppMeshClientTypes.VirtualGatewayTlsValidationContextSdsTrust.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension AppMeshClientTypes.VirtualGatewayTlsValidationContextSdsTrust {
-
-    static func write(value: AppMeshClientTypes.VirtualGatewayTlsValidationContextSdsTrust?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["secretName"].write(value.secretName)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.VirtualGatewayTlsValidationContextSdsTrust {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppMeshClientTypes.VirtualGatewayTlsValidationContextSdsTrust()
-        value.secretName = try reader["secretName"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension AppMeshClientTypes.VirtualGatewayTlsValidationContextFileTrust {
-
-    static func write(value: AppMeshClientTypes.VirtualGatewayTlsValidationContextFileTrust?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["certificateChain"].write(value.certificateChain)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.VirtualGatewayTlsValidationContextFileTrust {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppMeshClientTypes.VirtualGatewayTlsValidationContextFileTrust()
-        value.certificateChain = try reader["certificateChain"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension AppMeshClientTypes.VirtualGatewayPortMapping {
-
-    static func write(value: AppMeshClientTypes.VirtualGatewayPortMapping?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["port"].write(value.port)
-        try writer["protocol"].write(value.`protocol`)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.VirtualGatewayPortMapping {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppMeshClientTypes.VirtualGatewayPortMapping()
-        value.port = try reader["port"].readIfPresent() ?? 0
-        value.`protocol` = try reader["protocol"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension AppMeshClientTypes.VirtualGatewayHealthCheckPolicy {
-
-    static func write(value: AppMeshClientTypes.VirtualGatewayHealthCheckPolicy?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["healthyThreshold"].write(value.healthyThreshold)
-        try writer["intervalMillis"].write(value.intervalMillis)
-        try writer["path"].write(value.path)
-        try writer["port"].write(value.port)
-        try writer["protocol"].write(value.`protocol`)
-        try writer["timeoutMillis"].write(value.timeoutMillis)
-        try writer["unhealthyThreshold"].write(value.unhealthyThreshold)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.VirtualGatewayHealthCheckPolicy {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppMeshClientTypes.VirtualGatewayHealthCheckPolicy()
-        value.timeoutMillis = try reader["timeoutMillis"].readIfPresent() ?? 0
-        value.intervalMillis = try reader["intervalMillis"].readIfPresent() ?? 0
-        value.`protocol` = try reader["protocol"].readIfPresent() ?? .sdkUnknown("")
-        value.port = try reader["port"].readIfPresent()
-        value.path = try reader["path"].readIfPresent()
-        value.healthyThreshold = try reader["healthyThreshold"].readIfPresent() ?? 0
-        value.unhealthyThreshold = try reader["unhealthyThreshold"].readIfPresent() ?? 0
-        return value
     }
 }
 
@@ -9547,6 +9812,413 @@ extension AppMeshClientTypes.VirtualGatewayClientPolicyTls {
     }
 }
 
+extension AppMeshClientTypes.VirtualGatewayClientTlsCertificate {
+
+    static func write(value: AppMeshClientTypes.VirtualGatewayClientTlsCertificate?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .file(file):
+                try writer["file"].write(file, with: AppMeshClientTypes.VirtualGatewayListenerTlsFileCertificate.write(value:to:))
+            case let .sds(sds):
+                try writer["sds"].write(sds, with: AppMeshClientTypes.VirtualGatewayListenerTlsSdsCertificate.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.VirtualGatewayClientTlsCertificate {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "file":
+                return .file(try reader["file"].read(with: AppMeshClientTypes.VirtualGatewayListenerTlsFileCertificate.read(from:)))
+            case "sds":
+                return .sds(try reader["sds"].read(with: AppMeshClientTypes.VirtualGatewayListenerTlsSdsCertificate.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension AppMeshClientTypes.VirtualGatewayConnectionPool {
+
+    static func write(value: AppMeshClientTypes.VirtualGatewayConnectionPool?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .grpc(grpc):
+                try writer["grpc"].write(grpc, with: AppMeshClientTypes.VirtualGatewayGrpcConnectionPool.write(value:to:))
+            case let .http(http):
+                try writer["http"].write(http, with: AppMeshClientTypes.VirtualGatewayHttpConnectionPool.write(value:to:))
+            case let .http2(http2):
+                try writer["http2"].write(http2, with: AppMeshClientTypes.VirtualGatewayHttp2ConnectionPool.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.VirtualGatewayConnectionPool {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "http":
+                return .http(try reader["http"].read(with: AppMeshClientTypes.VirtualGatewayHttpConnectionPool.read(from:)))
+            case "http2":
+                return .http2(try reader["http2"].read(with: AppMeshClientTypes.VirtualGatewayHttp2ConnectionPool.read(from:)))
+            case "grpc":
+                return .grpc(try reader["grpc"].read(with: AppMeshClientTypes.VirtualGatewayGrpcConnectionPool.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension AppMeshClientTypes.VirtualGatewayData {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.VirtualGatewayData {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppMeshClientTypes.VirtualGatewayData()
+        value.meshName = try reader["meshName"].readIfPresent() ?? ""
+        value.virtualGatewayName = try reader["virtualGatewayName"].readIfPresent() ?? ""
+        value.spec = try reader["spec"].readIfPresent(with: AppMeshClientTypes.VirtualGatewaySpec.read(from:))
+        value.metadata = try reader["metadata"].readIfPresent(with: AppMeshClientTypes.ResourceMetadata.read(from:))
+        value.status = try reader["status"].readIfPresent(with: AppMeshClientTypes.VirtualGatewayStatus.read(from:))
+        return value
+    }
+}
+
+extension AppMeshClientTypes.VirtualGatewayFileAccessLog {
+
+    static func write(value: AppMeshClientTypes.VirtualGatewayFileAccessLog?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["format"].write(value.format, with: AppMeshClientTypes.LoggingFormat.write(value:to:))
+        try writer["path"].write(value.path)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.VirtualGatewayFileAccessLog {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppMeshClientTypes.VirtualGatewayFileAccessLog()
+        value.path = try reader["path"].readIfPresent() ?? ""
+        value.format = try reader["format"].readIfPresent(with: AppMeshClientTypes.LoggingFormat.read(from:))
+        return value
+    }
+}
+
+extension AppMeshClientTypes.VirtualGatewayGrpcConnectionPool {
+
+    static func write(value: AppMeshClientTypes.VirtualGatewayGrpcConnectionPool?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["maxRequests"].write(value.maxRequests)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.VirtualGatewayGrpcConnectionPool {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppMeshClientTypes.VirtualGatewayGrpcConnectionPool()
+        value.maxRequests = try reader["maxRequests"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension AppMeshClientTypes.VirtualGatewayHealthCheckPolicy {
+
+    static func write(value: AppMeshClientTypes.VirtualGatewayHealthCheckPolicy?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["healthyThreshold"].write(value.healthyThreshold)
+        try writer["intervalMillis"].write(value.intervalMillis)
+        try writer["path"].write(value.path)
+        try writer["port"].write(value.port)
+        try writer["protocol"].write(value.`protocol`)
+        try writer["timeoutMillis"].write(value.timeoutMillis)
+        try writer["unhealthyThreshold"].write(value.unhealthyThreshold)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.VirtualGatewayHealthCheckPolicy {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppMeshClientTypes.VirtualGatewayHealthCheckPolicy()
+        value.timeoutMillis = try reader["timeoutMillis"].readIfPresent() ?? 0
+        value.intervalMillis = try reader["intervalMillis"].readIfPresent() ?? 0
+        value.`protocol` = try reader["protocol"].readIfPresent() ?? .sdkUnknown("")
+        value.port = try reader["port"].readIfPresent()
+        value.path = try reader["path"].readIfPresent()
+        value.healthyThreshold = try reader["healthyThreshold"].readIfPresent() ?? 0
+        value.unhealthyThreshold = try reader["unhealthyThreshold"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension AppMeshClientTypes.VirtualGatewayHttp2ConnectionPool {
+
+    static func write(value: AppMeshClientTypes.VirtualGatewayHttp2ConnectionPool?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["maxRequests"].write(value.maxRequests)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.VirtualGatewayHttp2ConnectionPool {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppMeshClientTypes.VirtualGatewayHttp2ConnectionPool()
+        value.maxRequests = try reader["maxRequests"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension AppMeshClientTypes.VirtualGatewayHttpConnectionPool {
+
+    static func write(value: AppMeshClientTypes.VirtualGatewayHttpConnectionPool?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["maxConnections"].write(value.maxConnections)
+        try writer["maxPendingRequests"].write(value.maxPendingRequests)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.VirtualGatewayHttpConnectionPool {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppMeshClientTypes.VirtualGatewayHttpConnectionPool()
+        value.maxConnections = try reader["maxConnections"].readIfPresent() ?? 0
+        value.maxPendingRequests = try reader["maxPendingRequests"].readIfPresent()
+        return value
+    }
+}
+
+extension AppMeshClientTypes.VirtualGatewayListener {
+
+    static func write(value: AppMeshClientTypes.VirtualGatewayListener?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["connectionPool"].write(value.connectionPool, with: AppMeshClientTypes.VirtualGatewayConnectionPool.write(value:to:))
+        try writer["healthCheck"].write(value.healthCheck, with: AppMeshClientTypes.VirtualGatewayHealthCheckPolicy.write(value:to:))
+        try writer["portMapping"].write(value.portMapping, with: AppMeshClientTypes.VirtualGatewayPortMapping.write(value:to:))
+        try writer["tls"].write(value.tls, with: AppMeshClientTypes.VirtualGatewayListenerTls.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.VirtualGatewayListener {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppMeshClientTypes.VirtualGatewayListener()
+        value.healthCheck = try reader["healthCheck"].readIfPresent(with: AppMeshClientTypes.VirtualGatewayHealthCheckPolicy.read(from:))
+        value.portMapping = try reader["portMapping"].readIfPresent(with: AppMeshClientTypes.VirtualGatewayPortMapping.read(from:))
+        value.tls = try reader["tls"].readIfPresent(with: AppMeshClientTypes.VirtualGatewayListenerTls.read(from:))
+        value.connectionPool = try reader["connectionPool"].readIfPresent(with: AppMeshClientTypes.VirtualGatewayConnectionPool.read(from:))
+        return value
+    }
+}
+
+extension AppMeshClientTypes.VirtualGatewayListenerTls {
+
+    static func write(value: AppMeshClientTypes.VirtualGatewayListenerTls?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["certificate"].write(value.certificate, with: AppMeshClientTypes.VirtualGatewayListenerTlsCertificate.write(value:to:))
+        try writer["mode"].write(value.mode)
+        try writer["validation"].write(value.validation, with: AppMeshClientTypes.VirtualGatewayListenerTlsValidationContext.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.VirtualGatewayListenerTls {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppMeshClientTypes.VirtualGatewayListenerTls()
+        value.mode = try reader["mode"].readIfPresent() ?? .sdkUnknown("")
+        value.validation = try reader["validation"].readIfPresent(with: AppMeshClientTypes.VirtualGatewayListenerTlsValidationContext.read(from:))
+        value.certificate = try reader["certificate"].readIfPresent(with: AppMeshClientTypes.VirtualGatewayListenerTlsCertificate.read(from:))
+        return value
+    }
+}
+
+extension AppMeshClientTypes.VirtualGatewayListenerTlsAcmCertificate {
+
+    static func write(value: AppMeshClientTypes.VirtualGatewayListenerTlsAcmCertificate?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["certificateArn"].write(value.certificateArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.VirtualGatewayListenerTlsAcmCertificate {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppMeshClientTypes.VirtualGatewayListenerTlsAcmCertificate()
+        value.certificateArn = try reader["certificateArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension AppMeshClientTypes.VirtualGatewayListenerTlsCertificate {
+
+    static func write(value: AppMeshClientTypes.VirtualGatewayListenerTlsCertificate?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .acm(acm):
+                try writer["acm"].write(acm, with: AppMeshClientTypes.VirtualGatewayListenerTlsAcmCertificate.write(value:to:))
+            case let .file(file):
+                try writer["file"].write(file, with: AppMeshClientTypes.VirtualGatewayListenerTlsFileCertificate.write(value:to:))
+            case let .sds(sds):
+                try writer["sds"].write(sds, with: AppMeshClientTypes.VirtualGatewayListenerTlsSdsCertificate.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.VirtualGatewayListenerTlsCertificate {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "acm":
+                return .acm(try reader["acm"].read(with: AppMeshClientTypes.VirtualGatewayListenerTlsAcmCertificate.read(from:)))
+            case "file":
+                return .file(try reader["file"].read(with: AppMeshClientTypes.VirtualGatewayListenerTlsFileCertificate.read(from:)))
+            case "sds":
+                return .sds(try reader["sds"].read(with: AppMeshClientTypes.VirtualGatewayListenerTlsSdsCertificate.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension AppMeshClientTypes.VirtualGatewayListenerTlsFileCertificate {
+
+    static func write(value: AppMeshClientTypes.VirtualGatewayListenerTlsFileCertificate?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["certificateChain"].write(value.certificateChain)
+        try writer["privateKey"].write(value.privateKey)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.VirtualGatewayListenerTlsFileCertificate {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppMeshClientTypes.VirtualGatewayListenerTlsFileCertificate()
+        value.certificateChain = try reader["certificateChain"].readIfPresent() ?? ""
+        value.privateKey = try reader["privateKey"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension AppMeshClientTypes.VirtualGatewayListenerTlsSdsCertificate {
+
+    static func write(value: AppMeshClientTypes.VirtualGatewayListenerTlsSdsCertificate?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["secretName"].write(value.secretName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.VirtualGatewayListenerTlsSdsCertificate {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppMeshClientTypes.VirtualGatewayListenerTlsSdsCertificate()
+        value.secretName = try reader["secretName"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension AppMeshClientTypes.VirtualGatewayListenerTlsValidationContext {
+
+    static func write(value: AppMeshClientTypes.VirtualGatewayListenerTlsValidationContext?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["subjectAlternativeNames"].write(value.subjectAlternativeNames, with: AppMeshClientTypes.SubjectAlternativeNames.write(value:to:))
+        try writer["trust"].write(value.trust, with: AppMeshClientTypes.VirtualGatewayListenerTlsValidationContextTrust.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.VirtualGatewayListenerTlsValidationContext {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppMeshClientTypes.VirtualGatewayListenerTlsValidationContext()
+        value.trust = try reader["trust"].readIfPresent(with: AppMeshClientTypes.VirtualGatewayListenerTlsValidationContextTrust.read(from:))
+        value.subjectAlternativeNames = try reader["subjectAlternativeNames"].readIfPresent(with: AppMeshClientTypes.SubjectAlternativeNames.read(from:))
+        return value
+    }
+}
+
+extension AppMeshClientTypes.VirtualGatewayListenerTlsValidationContextTrust {
+
+    static func write(value: AppMeshClientTypes.VirtualGatewayListenerTlsValidationContextTrust?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .file(file):
+                try writer["file"].write(file, with: AppMeshClientTypes.VirtualGatewayTlsValidationContextFileTrust.write(value:to:))
+            case let .sds(sds):
+                try writer["sds"].write(sds, with: AppMeshClientTypes.VirtualGatewayTlsValidationContextSdsTrust.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.VirtualGatewayListenerTlsValidationContextTrust {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "file":
+                return .file(try reader["file"].read(with: AppMeshClientTypes.VirtualGatewayTlsValidationContextFileTrust.read(from:)))
+            case "sds":
+                return .sds(try reader["sds"].read(with: AppMeshClientTypes.VirtualGatewayTlsValidationContextSdsTrust.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension AppMeshClientTypes.VirtualGatewayLogging {
+
+    static func write(value: AppMeshClientTypes.VirtualGatewayLogging?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["accessLog"].write(value.accessLog, with: AppMeshClientTypes.VirtualGatewayAccessLog.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.VirtualGatewayLogging {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppMeshClientTypes.VirtualGatewayLogging()
+        value.accessLog = try reader["accessLog"].readIfPresent(with: AppMeshClientTypes.VirtualGatewayAccessLog.read(from:))
+        return value
+    }
+}
+
+extension AppMeshClientTypes.VirtualGatewayPortMapping {
+
+    static func write(value: AppMeshClientTypes.VirtualGatewayPortMapping?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["port"].write(value.port)
+        try writer["protocol"].write(value.`protocol`)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.VirtualGatewayPortMapping {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppMeshClientTypes.VirtualGatewayPortMapping()
+        value.port = try reader["port"].readIfPresent() ?? 0
+        value.`protocol` = try reader["protocol"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension AppMeshClientTypes.VirtualGatewayRef {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.VirtualGatewayRef {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppMeshClientTypes.VirtualGatewayRef()
+        value.meshName = try reader["meshName"].readIfPresent() ?? ""
+        value.virtualGatewayName = try reader["virtualGatewayName"].readIfPresent() ?? ""
+        value.meshOwner = try reader["meshOwner"].readIfPresent() ?? ""
+        value.resourceOwner = try reader["resourceOwner"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.version = try reader["version"].readIfPresent() ?? 0
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension AppMeshClientTypes.VirtualGatewaySpec {
+
+    static func write(value: AppMeshClientTypes.VirtualGatewaySpec?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["backendDefaults"].write(value.backendDefaults, with: AppMeshClientTypes.VirtualGatewayBackendDefaults.write(value:to:))
+        try writer["listeners"].writeList(value.listeners, memberWritingClosure: AppMeshClientTypes.VirtualGatewayListener.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["logging"].write(value.logging, with: AppMeshClientTypes.VirtualGatewayLogging.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.VirtualGatewaySpec {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppMeshClientTypes.VirtualGatewaySpec()
+        value.backendDefaults = try reader["backendDefaults"].readIfPresent(with: AppMeshClientTypes.VirtualGatewayBackendDefaults.read(from:))
+        value.listeners = try reader["listeners"].readListIfPresent(memberReadingClosure: AppMeshClientTypes.VirtualGatewayListener.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.logging = try reader["logging"].readIfPresent(with: AppMeshClientTypes.VirtualGatewayLogging.read(from:))
+        return value
+    }
+}
+
+extension AppMeshClientTypes.VirtualGatewayStatus {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.VirtualGatewayStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppMeshClientTypes.VirtualGatewayStatus()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
 extension AppMeshClientTypes.VirtualGatewayTlsValidationContext {
 
     static func write(value: AppMeshClientTypes.VirtualGatewayTlsValidationContext?, to writer: SmithyJSON.Writer) throws {
@@ -9560,6 +10232,51 @@ extension AppMeshClientTypes.VirtualGatewayTlsValidationContext {
         var value = AppMeshClientTypes.VirtualGatewayTlsValidationContext()
         value.trust = try reader["trust"].readIfPresent(with: AppMeshClientTypes.VirtualGatewayTlsValidationContextTrust.read(from:))
         value.subjectAlternativeNames = try reader["subjectAlternativeNames"].readIfPresent(with: AppMeshClientTypes.SubjectAlternativeNames.read(from:))
+        return value
+    }
+}
+
+extension AppMeshClientTypes.VirtualGatewayTlsValidationContextAcmTrust {
+
+    static func write(value: AppMeshClientTypes.VirtualGatewayTlsValidationContextAcmTrust?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["certificateAuthorityArns"].writeList(value.certificateAuthorityArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.VirtualGatewayTlsValidationContextAcmTrust {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppMeshClientTypes.VirtualGatewayTlsValidationContextAcmTrust()
+        value.certificateAuthorityArns = try reader["certificateAuthorityArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension AppMeshClientTypes.VirtualGatewayTlsValidationContextFileTrust {
+
+    static func write(value: AppMeshClientTypes.VirtualGatewayTlsValidationContextFileTrust?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["certificateChain"].write(value.certificateChain)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.VirtualGatewayTlsValidationContextFileTrust {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppMeshClientTypes.VirtualGatewayTlsValidationContextFileTrust()
+        value.certificateChain = try reader["certificateChain"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension AppMeshClientTypes.VirtualGatewayTlsValidationContextSdsTrust {
+
+    static func write(value: AppMeshClientTypes.VirtualGatewayTlsValidationContextSdsTrust?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["secretName"].write(value.secretName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.VirtualGatewayTlsValidationContextSdsTrust {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppMeshClientTypes.VirtualGatewayTlsValidationContextSdsTrust()
+        value.secretName = try reader["secretName"].readIfPresent() ?? ""
         return value
     }
 }
@@ -9596,423 +10313,6 @@ extension AppMeshClientTypes.VirtualGatewayTlsValidationContextTrust {
     }
 }
 
-extension AppMeshClientTypes.VirtualGatewayTlsValidationContextAcmTrust {
-
-    static func write(value: AppMeshClientTypes.VirtualGatewayTlsValidationContextAcmTrust?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["certificateAuthorityArns"].writeList(value.certificateAuthorityArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.VirtualGatewayTlsValidationContextAcmTrust {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppMeshClientTypes.VirtualGatewayTlsValidationContextAcmTrust()
-        value.certificateAuthorityArns = try reader["certificateAuthorityArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension AppMeshClientTypes.VirtualGatewayClientTlsCertificate {
-
-    static func write(value: AppMeshClientTypes.VirtualGatewayClientTlsCertificate?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .file(file):
-                try writer["file"].write(file, with: AppMeshClientTypes.VirtualGatewayListenerTlsFileCertificate.write(value:to:))
-            case let .sds(sds):
-                try writer["sds"].write(sds, with: AppMeshClientTypes.VirtualGatewayListenerTlsSdsCertificate.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.VirtualGatewayClientTlsCertificate {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "file":
-                return .file(try reader["file"].read(with: AppMeshClientTypes.VirtualGatewayListenerTlsFileCertificate.read(from:)))
-            case "sds":
-                return .sds(try reader["sds"].read(with: AppMeshClientTypes.VirtualGatewayListenerTlsSdsCertificate.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension AppMeshClientTypes.VirtualNodeData {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.VirtualNodeData {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppMeshClientTypes.VirtualNodeData()
-        value.meshName = try reader["meshName"].readIfPresent() ?? ""
-        value.virtualNodeName = try reader["virtualNodeName"].readIfPresent() ?? ""
-        value.spec = try reader["spec"].readIfPresent(with: AppMeshClientTypes.VirtualNodeSpec.read(from:))
-        value.metadata = try reader["metadata"].readIfPresent(with: AppMeshClientTypes.ResourceMetadata.read(from:))
-        value.status = try reader["status"].readIfPresent(with: AppMeshClientTypes.VirtualNodeStatus.read(from:))
-        return value
-    }
-}
-
-extension AppMeshClientTypes.VirtualNodeStatus {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.VirtualNodeStatus {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppMeshClientTypes.VirtualNodeStatus()
-        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension AppMeshClientTypes.VirtualNodeSpec {
-
-    static func write(value: AppMeshClientTypes.VirtualNodeSpec?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["backendDefaults"].write(value.backendDefaults, with: AppMeshClientTypes.BackendDefaults.write(value:to:))
-        try writer["backends"].writeList(value.backends, memberWritingClosure: AppMeshClientTypes.Backend.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["listeners"].writeList(value.listeners, memberWritingClosure: AppMeshClientTypes.Listener.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["logging"].write(value.logging, with: AppMeshClientTypes.Logging.write(value:to:))
-        try writer["serviceDiscovery"].write(value.serviceDiscovery, with: AppMeshClientTypes.ServiceDiscovery.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.VirtualNodeSpec {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppMeshClientTypes.VirtualNodeSpec()
-        value.serviceDiscovery = try reader["serviceDiscovery"].readIfPresent(with: AppMeshClientTypes.ServiceDiscovery.read(from:))
-        value.listeners = try reader["listeners"].readListIfPresent(memberReadingClosure: AppMeshClientTypes.Listener.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.backends = try reader["backends"].readListIfPresent(memberReadingClosure: AppMeshClientTypes.Backend.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.backendDefaults = try reader["backendDefaults"].readIfPresent(with: AppMeshClientTypes.BackendDefaults.read(from:))
-        value.logging = try reader["logging"].readIfPresent(with: AppMeshClientTypes.Logging.read(from:))
-        return value
-    }
-}
-
-extension AppMeshClientTypes.Logging {
-
-    static func write(value: AppMeshClientTypes.Logging?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["accessLog"].write(value.accessLog, with: AppMeshClientTypes.AccessLog.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.Logging {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppMeshClientTypes.Logging()
-        value.accessLog = try reader["accessLog"].readIfPresent(with: AppMeshClientTypes.AccessLog.read(from:))
-        return value
-    }
-}
-
-extension AppMeshClientTypes.AccessLog {
-
-    static func write(value: AppMeshClientTypes.AccessLog?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .file(file):
-                try writer["file"].write(file, with: AppMeshClientTypes.FileAccessLog.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.AccessLog {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "file":
-                return .file(try reader["file"].read(with: AppMeshClientTypes.FileAccessLog.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension AppMeshClientTypes.FileAccessLog {
-
-    static func write(value: AppMeshClientTypes.FileAccessLog?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["format"].write(value.format, with: AppMeshClientTypes.LoggingFormat.write(value:to:))
-        try writer["path"].write(value.path)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.FileAccessLog {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppMeshClientTypes.FileAccessLog()
-        value.path = try reader["path"].readIfPresent() ?? ""
-        value.format = try reader["format"].readIfPresent(with: AppMeshClientTypes.LoggingFormat.read(from:))
-        return value
-    }
-}
-
-extension AppMeshClientTypes.BackendDefaults {
-
-    static func write(value: AppMeshClientTypes.BackendDefaults?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["clientPolicy"].write(value.clientPolicy, with: AppMeshClientTypes.ClientPolicy.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.BackendDefaults {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppMeshClientTypes.BackendDefaults()
-        value.clientPolicy = try reader["clientPolicy"].readIfPresent(with: AppMeshClientTypes.ClientPolicy.read(from:))
-        return value
-    }
-}
-
-extension AppMeshClientTypes.ClientPolicy {
-
-    static func write(value: AppMeshClientTypes.ClientPolicy?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["tls"].write(value.tls, with: AppMeshClientTypes.ClientPolicyTls.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.ClientPolicy {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppMeshClientTypes.ClientPolicy()
-        value.tls = try reader["tls"].readIfPresent(with: AppMeshClientTypes.ClientPolicyTls.read(from:))
-        return value
-    }
-}
-
-extension AppMeshClientTypes.ClientPolicyTls {
-
-    static func write(value: AppMeshClientTypes.ClientPolicyTls?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["certificate"].write(value.certificate, with: AppMeshClientTypes.ClientTlsCertificate.write(value:to:))
-        try writer["enforce"].write(value.enforce)
-        try writer["ports"].writeList(value.ports, memberWritingClosure: SmithyReadWrite.WritingClosures.writeInt(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["validation"].write(value.validation, with: AppMeshClientTypes.TlsValidationContext.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.ClientPolicyTls {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppMeshClientTypes.ClientPolicyTls()
-        value.enforce = try reader["enforce"].readIfPresent()
-        value.ports = try reader["ports"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false)
-        value.certificate = try reader["certificate"].readIfPresent(with: AppMeshClientTypes.ClientTlsCertificate.read(from:))
-        value.validation = try reader["validation"].readIfPresent(with: AppMeshClientTypes.TlsValidationContext.read(from:))
-        return value
-    }
-}
-
-extension AppMeshClientTypes.TlsValidationContext {
-
-    static func write(value: AppMeshClientTypes.TlsValidationContext?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["subjectAlternativeNames"].write(value.subjectAlternativeNames, with: AppMeshClientTypes.SubjectAlternativeNames.write(value:to:))
-        try writer["trust"].write(value.trust, with: AppMeshClientTypes.TlsValidationContextTrust.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.TlsValidationContext {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppMeshClientTypes.TlsValidationContext()
-        value.trust = try reader["trust"].readIfPresent(with: AppMeshClientTypes.TlsValidationContextTrust.read(from:))
-        value.subjectAlternativeNames = try reader["subjectAlternativeNames"].readIfPresent(with: AppMeshClientTypes.SubjectAlternativeNames.read(from:))
-        return value
-    }
-}
-
-extension AppMeshClientTypes.TlsValidationContextTrust {
-
-    static func write(value: AppMeshClientTypes.TlsValidationContextTrust?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .acm(acm):
-                try writer["acm"].write(acm, with: AppMeshClientTypes.TlsValidationContextAcmTrust.write(value:to:))
-            case let .file(file):
-                try writer["file"].write(file, with: AppMeshClientTypes.TlsValidationContextFileTrust.write(value:to:))
-            case let .sds(sds):
-                try writer["sds"].write(sds, with: AppMeshClientTypes.TlsValidationContextSdsTrust.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.TlsValidationContextTrust {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "acm":
-                return .acm(try reader["acm"].read(with: AppMeshClientTypes.TlsValidationContextAcmTrust.read(from:)))
-            case "file":
-                return .file(try reader["file"].read(with: AppMeshClientTypes.TlsValidationContextFileTrust.read(from:)))
-            case "sds":
-                return .sds(try reader["sds"].read(with: AppMeshClientTypes.TlsValidationContextSdsTrust.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension AppMeshClientTypes.TlsValidationContextSdsTrust {
-
-    static func write(value: AppMeshClientTypes.TlsValidationContextSdsTrust?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["secretName"].write(value.secretName)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.TlsValidationContextSdsTrust {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppMeshClientTypes.TlsValidationContextSdsTrust()
-        value.secretName = try reader["secretName"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension AppMeshClientTypes.TlsValidationContextFileTrust {
-
-    static func write(value: AppMeshClientTypes.TlsValidationContextFileTrust?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["certificateChain"].write(value.certificateChain)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.TlsValidationContextFileTrust {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppMeshClientTypes.TlsValidationContextFileTrust()
-        value.certificateChain = try reader["certificateChain"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension AppMeshClientTypes.TlsValidationContextAcmTrust {
-
-    static func write(value: AppMeshClientTypes.TlsValidationContextAcmTrust?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["certificateAuthorityArns"].writeList(value.certificateAuthorityArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.TlsValidationContextAcmTrust {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppMeshClientTypes.TlsValidationContextAcmTrust()
-        value.certificateAuthorityArns = try reader["certificateAuthorityArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension AppMeshClientTypes.ClientTlsCertificate {
-
-    static func write(value: AppMeshClientTypes.ClientTlsCertificate?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .file(file):
-                try writer["file"].write(file, with: AppMeshClientTypes.ListenerTlsFileCertificate.write(value:to:))
-            case let .sds(sds):
-                try writer["sds"].write(sds, with: AppMeshClientTypes.ListenerTlsSdsCertificate.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.ClientTlsCertificate {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "file":
-                return .file(try reader["file"].read(with: AppMeshClientTypes.ListenerTlsFileCertificate.read(from:)))
-            case "sds":
-                return .sds(try reader["sds"].read(with: AppMeshClientTypes.ListenerTlsSdsCertificate.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension AppMeshClientTypes.ListenerTlsSdsCertificate {
-
-    static func write(value: AppMeshClientTypes.ListenerTlsSdsCertificate?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["secretName"].write(value.secretName)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.ListenerTlsSdsCertificate {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppMeshClientTypes.ListenerTlsSdsCertificate()
-        value.secretName = try reader["secretName"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension AppMeshClientTypes.ListenerTlsFileCertificate {
-
-    static func write(value: AppMeshClientTypes.ListenerTlsFileCertificate?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["certificateChain"].write(value.certificateChain)
-        try writer["privateKey"].write(value.privateKey)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.ListenerTlsFileCertificate {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppMeshClientTypes.ListenerTlsFileCertificate()
-        value.certificateChain = try reader["certificateChain"].readIfPresent() ?? ""
-        value.privateKey = try reader["privateKey"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension AppMeshClientTypes.Backend {
-
-    static func write(value: AppMeshClientTypes.Backend?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .virtualservice(virtualservice):
-                try writer["virtualService"].write(virtualservice, with: AppMeshClientTypes.VirtualServiceBackend.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.Backend {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "virtualService":
-                return .virtualservice(try reader["virtualService"].read(with: AppMeshClientTypes.VirtualServiceBackend.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension AppMeshClientTypes.VirtualServiceBackend {
-
-    static func write(value: AppMeshClientTypes.VirtualServiceBackend?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["clientPolicy"].write(value.clientPolicy, with: AppMeshClientTypes.ClientPolicy.write(value:to:))
-        try writer["virtualServiceName"].write(value.virtualServiceName)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.VirtualServiceBackend {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppMeshClientTypes.VirtualServiceBackend()
-        value.virtualServiceName = try reader["virtualServiceName"].readIfPresent() ?? ""
-        value.clientPolicy = try reader["clientPolicy"].readIfPresent(with: AppMeshClientTypes.ClientPolicy.read(from:))
-        return value
-    }
-}
-
-extension AppMeshClientTypes.Listener {
-
-    static func write(value: AppMeshClientTypes.Listener?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["connectionPool"].write(value.connectionPool, with: AppMeshClientTypes.VirtualNodeConnectionPool.write(value:to:))
-        try writer["healthCheck"].write(value.healthCheck, with: AppMeshClientTypes.HealthCheckPolicy.write(value:to:))
-        try writer["outlierDetection"].write(value.outlierDetection, with: AppMeshClientTypes.OutlierDetection.write(value:to:))
-        try writer["portMapping"].write(value.portMapping, with: AppMeshClientTypes.PortMapping.write(value:to:))
-        try writer["timeout"].write(value.timeout, with: AppMeshClientTypes.ListenerTimeout.write(value:to:))
-        try writer["tls"].write(value.tls, with: AppMeshClientTypes.ListenerTls.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.Listener {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppMeshClientTypes.Listener()
-        value.portMapping = try reader["portMapping"].readIfPresent(with: AppMeshClientTypes.PortMapping.read(from:))
-        value.tls = try reader["tls"].readIfPresent(with: AppMeshClientTypes.ListenerTls.read(from:))
-        value.healthCheck = try reader["healthCheck"].readIfPresent(with: AppMeshClientTypes.HealthCheckPolicy.read(from:))
-        value.timeout = try reader["timeout"].readIfPresent(with: AppMeshClientTypes.ListenerTimeout.read(from:))
-        value.outlierDetection = try reader["outlierDetection"].readIfPresent(with: AppMeshClientTypes.OutlierDetection.read(from:))
-        value.connectionPool = try reader["connectionPool"].readIfPresent(with: AppMeshClientTypes.VirtualNodeConnectionPool.read(from:))
-        return value
-    }
-}
-
 extension AppMeshClientTypes.VirtualNodeConnectionPool {
 
     static func write(value: AppMeshClientTypes.VirtualNodeConnectionPool?, to writer: SmithyJSON.Writer) throws {
@@ -10046,6 +10346,20 @@ extension AppMeshClientTypes.VirtualNodeConnectionPool {
             default:
                 return .sdkUnknown(name ?? "")
         }
+    }
+}
+
+extension AppMeshClientTypes.VirtualNodeData {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.VirtualNodeData {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppMeshClientTypes.VirtualNodeData()
+        value.meshName = try reader["meshName"].readIfPresent() ?? ""
+        value.virtualNodeName = try reader["virtualNodeName"].readIfPresent() ?? ""
+        value.spec = try reader["spec"].readIfPresent(with: AppMeshClientTypes.VirtualNodeSpec.read(from:))
+        value.metadata = try reader["metadata"].readIfPresent(with: AppMeshClientTypes.ResourceMetadata.read(from:))
+        value.status = try reader["status"].readIfPresent(with: AppMeshClientTypes.VirtualNodeStatus.read(from:))
+        return value
     }
 }
 
@@ -10096,6 +10410,71 @@ extension AppMeshClientTypes.VirtualNodeHttpConnectionPool {
     }
 }
 
+extension AppMeshClientTypes.VirtualNodeRef {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.VirtualNodeRef {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppMeshClientTypes.VirtualNodeRef()
+        value.meshName = try reader["meshName"].readIfPresent() ?? ""
+        value.virtualNodeName = try reader["virtualNodeName"].readIfPresent() ?? ""
+        value.meshOwner = try reader["meshOwner"].readIfPresent() ?? ""
+        value.resourceOwner = try reader["resourceOwner"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.version = try reader["version"].readIfPresent() ?? 0
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension AppMeshClientTypes.VirtualNodeServiceProvider {
+
+    static func write(value: AppMeshClientTypes.VirtualNodeServiceProvider?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["virtualNodeName"].write(value.virtualNodeName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.VirtualNodeServiceProvider {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppMeshClientTypes.VirtualNodeServiceProvider()
+        value.virtualNodeName = try reader["virtualNodeName"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension AppMeshClientTypes.VirtualNodeSpec {
+
+    static func write(value: AppMeshClientTypes.VirtualNodeSpec?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["backendDefaults"].write(value.backendDefaults, with: AppMeshClientTypes.BackendDefaults.write(value:to:))
+        try writer["backends"].writeList(value.backends, memberWritingClosure: AppMeshClientTypes.Backend.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["listeners"].writeList(value.listeners, memberWritingClosure: AppMeshClientTypes.Listener.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["logging"].write(value.logging, with: AppMeshClientTypes.Logging.write(value:to:))
+        try writer["serviceDiscovery"].write(value.serviceDiscovery, with: AppMeshClientTypes.ServiceDiscovery.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.VirtualNodeSpec {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppMeshClientTypes.VirtualNodeSpec()
+        value.serviceDiscovery = try reader["serviceDiscovery"].readIfPresent(with: AppMeshClientTypes.ServiceDiscovery.read(from:))
+        value.listeners = try reader["listeners"].readListIfPresent(memberReadingClosure: AppMeshClientTypes.Listener.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.backends = try reader["backends"].readListIfPresent(memberReadingClosure: AppMeshClientTypes.Backend.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.backendDefaults = try reader["backendDefaults"].readIfPresent(with: AppMeshClientTypes.BackendDefaults.read(from:))
+        value.logging = try reader["logging"].readIfPresent(with: AppMeshClientTypes.Logging.read(from:))
+        return value
+    }
+}
+
+extension AppMeshClientTypes.VirtualNodeStatus {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.VirtualNodeStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppMeshClientTypes.VirtualNodeStatus()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
 extension AppMeshClientTypes.VirtualNodeTcpConnectionPool {
 
     static func write(value: AppMeshClientTypes.VirtualNodeTcpConnectionPool?, to writer: SmithyJSON.Writer) throws {
@@ -10111,303 +10490,6 @@ extension AppMeshClientTypes.VirtualNodeTcpConnectionPool {
     }
 }
 
-extension AppMeshClientTypes.OutlierDetection {
-
-    static func write(value: AppMeshClientTypes.OutlierDetection?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["baseEjectionDuration"].write(value.baseEjectionDuration, with: AppMeshClientTypes.Duration.write(value:to:))
-        try writer["interval"].write(value.interval, with: AppMeshClientTypes.Duration.write(value:to:))
-        try writer["maxEjectionPercent"].write(value.maxEjectionPercent)
-        try writer["maxServerErrors"].write(value.maxServerErrors)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.OutlierDetection {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppMeshClientTypes.OutlierDetection()
-        value.maxServerErrors = try reader["maxServerErrors"].readIfPresent() ?? 0
-        value.interval = try reader["interval"].readIfPresent(with: AppMeshClientTypes.Duration.read(from:))
-        value.baseEjectionDuration = try reader["baseEjectionDuration"].readIfPresent(with: AppMeshClientTypes.Duration.read(from:))
-        value.maxEjectionPercent = try reader["maxEjectionPercent"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension AppMeshClientTypes.ListenerTimeout {
-
-    static func write(value: AppMeshClientTypes.ListenerTimeout?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .grpc(grpc):
-                try writer["grpc"].write(grpc, with: AppMeshClientTypes.GrpcTimeout.write(value:to:))
-            case let .http(http):
-                try writer["http"].write(http, with: AppMeshClientTypes.HttpTimeout.write(value:to:))
-            case let .http2(http2):
-                try writer["http2"].write(http2, with: AppMeshClientTypes.HttpTimeout.write(value:to:))
-            case let .tcp(tcp):
-                try writer["tcp"].write(tcp, with: AppMeshClientTypes.TcpTimeout.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.ListenerTimeout {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "tcp":
-                return .tcp(try reader["tcp"].read(with: AppMeshClientTypes.TcpTimeout.read(from:)))
-            case "http":
-                return .http(try reader["http"].read(with: AppMeshClientTypes.HttpTimeout.read(from:)))
-            case "http2":
-                return .http2(try reader["http2"].read(with: AppMeshClientTypes.HttpTimeout.read(from:)))
-            case "grpc":
-                return .grpc(try reader["grpc"].read(with: AppMeshClientTypes.GrpcTimeout.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension AppMeshClientTypes.HealthCheckPolicy {
-
-    static func write(value: AppMeshClientTypes.HealthCheckPolicy?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["healthyThreshold"].write(value.healthyThreshold)
-        try writer["intervalMillis"].write(value.intervalMillis)
-        try writer["path"].write(value.path)
-        try writer["port"].write(value.port)
-        try writer["protocol"].write(value.`protocol`)
-        try writer["timeoutMillis"].write(value.timeoutMillis)
-        try writer["unhealthyThreshold"].write(value.unhealthyThreshold)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.HealthCheckPolicy {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppMeshClientTypes.HealthCheckPolicy()
-        value.timeoutMillis = try reader["timeoutMillis"].readIfPresent() ?? 0
-        value.intervalMillis = try reader["intervalMillis"].readIfPresent() ?? 0
-        value.`protocol` = try reader["protocol"].readIfPresent() ?? .sdkUnknown("")
-        value.port = try reader["port"].readIfPresent()
-        value.path = try reader["path"].readIfPresent()
-        value.healthyThreshold = try reader["healthyThreshold"].readIfPresent() ?? 0
-        value.unhealthyThreshold = try reader["unhealthyThreshold"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension AppMeshClientTypes.ListenerTls {
-
-    static func write(value: AppMeshClientTypes.ListenerTls?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["certificate"].write(value.certificate, with: AppMeshClientTypes.ListenerTlsCertificate.write(value:to:))
-        try writer["mode"].write(value.mode)
-        try writer["validation"].write(value.validation, with: AppMeshClientTypes.ListenerTlsValidationContext.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.ListenerTls {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppMeshClientTypes.ListenerTls()
-        value.mode = try reader["mode"].readIfPresent() ?? .sdkUnknown("")
-        value.certificate = try reader["certificate"].readIfPresent(with: AppMeshClientTypes.ListenerTlsCertificate.read(from:))
-        value.validation = try reader["validation"].readIfPresent(with: AppMeshClientTypes.ListenerTlsValidationContext.read(from:))
-        return value
-    }
-}
-
-extension AppMeshClientTypes.ListenerTlsValidationContext {
-
-    static func write(value: AppMeshClientTypes.ListenerTlsValidationContext?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["subjectAlternativeNames"].write(value.subjectAlternativeNames, with: AppMeshClientTypes.SubjectAlternativeNames.write(value:to:))
-        try writer["trust"].write(value.trust, with: AppMeshClientTypes.ListenerTlsValidationContextTrust.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.ListenerTlsValidationContext {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppMeshClientTypes.ListenerTlsValidationContext()
-        value.trust = try reader["trust"].readIfPresent(with: AppMeshClientTypes.ListenerTlsValidationContextTrust.read(from:))
-        value.subjectAlternativeNames = try reader["subjectAlternativeNames"].readIfPresent(with: AppMeshClientTypes.SubjectAlternativeNames.read(from:))
-        return value
-    }
-}
-
-extension AppMeshClientTypes.ListenerTlsValidationContextTrust {
-
-    static func write(value: AppMeshClientTypes.ListenerTlsValidationContextTrust?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .file(file):
-                try writer["file"].write(file, with: AppMeshClientTypes.TlsValidationContextFileTrust.write(value:to:))
-            case let .sds(sds):
-                try writer["sds"].write(sds, with: AppMeshClientTypes.TlsValidationContextSdsTrust.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.ListenerTlsValidationContextTrust {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "file":
-                return .file(try reader["file"].read(with: AppMeshClientTypes.TlsValidationContextFileTrust.read(from:)))
-            case "sds":
-                return .sds(try reader["sds"].read(with: AppMeshClientTypes.TlsValidationContextSdsTrust.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension AppMeshClientTypes.ListenerTlsCertificate {
-
-    static func write(value: AppMeshClientTypes.ListenerTlsCertificate?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .acm(acm):
-                try writer["acm"].write(acm, with: AppMeshClientTypes.ListenerTlsAcmCertificate.write(value:to:))
-            case let .file(file):
-                try writer["file"].write(file, with: AppMeshClientTypes.ListenerTlsFileCertificate.write(value:to:))
-            case let .sds(sds):
-                try writer["sds"].write(sds, with: AppMeshClientTypes.ListenerTlsSdsCertificate.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.ListenerTlsCertificate {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "acm":
-                return .acm(try reader["acm"].read(with: AppMeshClientTypes.ListenerTlsAcmCertificate.read(from:)))
-            case "file":
-                return .file(try reader["file"].read(with: AppMeshClientTypes.ListenerTlsFileCertificate.read(from:)))
-            case "sds":
-                return .sds(try reader["sds"].read(with: AppMeshClientTypes.ListenerTlsSdsCertificate.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension AppMeshClientTypes.ListenerTlsAcmCertificate {
-
-    static func write(value: AppMeshClientTypes.ListenerTlsAcmCertificate?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["certificateArn"].write(value.certificateArn)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.ListenerTlsAcmCertificate {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppMeshClientTypes.ListenerTlsAcmCertificate()
-        value.certificateArn = try reader["certificateArn"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension AppMeshClientTypes.PortMapping {
-
-    static func write(value: AppMeshClientTypes.PortMapping?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["port"].write(value.port)
-        try writer["protocol"].write(value.`protocol`)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.PortMapping {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppMeshClientTypes.PortMapping()
-        value.port = try reader["port"].readIfPresent() ?? 0
-        value.`protocol` = try reader["protocol"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension AppMeshClientTypes.ServiceDiscovery {
-
-    static func write(value: AppMeshClientTypes.ServiceDiscovery?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .awscloudmap(awscloudmap):
-                try writer["awsCloudMap"].write(awscloudmap, with: AppMeshClientTypes.AwsCloudMapServiceDiscovery.write(value:to:))
-            case let .dns(dns):
-                try writer["dns"].write(dns, with: AppMeshClientTypes.DnsServiceDiscovery.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.ServiceDiscovery {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "dns":
-                return .dns(try reader["dns"].read(with: AppMeshClientTypes.DnsServiceDiscovery.read(from:)))
-            case "awsCloudMap":
-                return .awscloudmap(try reader["awsCloudMap"].read(with: AppMeshClientTypes.AwsCloudMapServiceDiscovery.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension AppMeshClientTypes.AwsCloudMapServiceDiscovery {
-
-    static func write(value: AppMeshClientTypes.AwsCloudMapServiceDiscovery?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["attributes"].writeList(value.attributes, memberWritingClosure: AppMeshClientTypes.AwsCloudMapInstanceAttribute.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ipPreference"].write(value.ipPreference)
-        try writer["namespaceName"].write(value.namespaceName)
-        try writer["serviceName"].write(value.serviceName)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.AwsCloudMapServiceDiscovery {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppMeshClientTypes.AwsCloudMapServiceDiscovery()
-        value.namespaceName = try reader["namespaceName"].readIfPresent() ?? ""
-        value.serviceName = try reader["serviceName"].readIfPresent() ?? ""
-        value.attributes = try reader["attributes"].readListIfPresent(memberReadingClosure: AppMeshClientTypes.AwsCloudMapInstanceAttribute.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.ipPreference = try reader["ipPreference"].readIfPresent()
-        return value
-    }
-}
-
-extension AppMeshClientTypes.AwsCloudMapInstanceAttribute {
-
-    static func write(value: AppMeshClientTypes.AwsCloudMapInstanceAttribute?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["key"].write(value.key)
-        try writer["value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.AwsCloudMapInstanceAttribute {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppMeshClientTypes.AwsCloudMapInstanceAttribute()
-        value.key = try reader["key"].readIfPresent() ?? ""
-        value.value = try reader["value"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension AppMeshClientTypes.DnsServiceDiscovery {
-
-    static func write(value: AppMeshClientTypes.DnsServiceDiscovery?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["hostname"].write(value.hostname)
-        try writer["ipPreference"].write(value.ipPreference)
-        try writer["responseType"].write(value.responseType)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.DnsServiceDiscovery {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppMeshClientTypes.DnsServiceDiscovery()
-        value.hostname = try reader["hostname"].readIfPresent() ?? ""
-        value.responseType = try reader["responseType"].readIfPresent()
-        value.ipPreference = try reader["ipPreference"].readIfPresent()
-        return value
-    }
-}
-
 extension AppMeshClientTypes.VirtualRouterData {
 
     static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.VirtualRouterData {
@@ -10418,31 +10500,6 @@ extension AppMeshClientTypes.VirtualRouterData {
         value.spec = try reader["spec"].readIfPresent(with: AppMeshClientTypes.VirtualRouterSpec.read(from:))
         value.metadata = try reader["metadata"].readIfPresent(with: AppMeshClientTypes.ResourceMetadata.read(from:))
         value.status = try reader["status"].readIfPresent(with: AppMeshClientTypes.VirtualRouterStatus.read(from:))
-        return value
-    }
-}
-
-extension AppMeshClientTypes.VirtualRouterStatus {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.VirtualRouterStatus {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppMeshClientTypes.VirtualRouterStatus()
-        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension AppMeshClientTypes.VirtualRouterSpec {
-
-    static func write(value: AppMeshClientTypes.VirtualRouterSpec?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["listeners"].writeList(value.listeners, memberWritingClosure: AppMeshClientTypes.VirtualRouterListener.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.VirtualRouterSpec {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppMeshClientTypes.VirtualRouterSpec()
-        value.listeners = try reader["listeners"].readListIfPresent(memberReadingClosure: AppMeshClientTypes.VirtualRouterListener.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -10462,6 +10519,80 @@ extension AppMeshClientTypes.VirtualRouterListener {
     }
 }
 
+extension AppMeshClientTypes.VirtualRouterRef {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.VirtualRouterRef {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppMeshClientTypes.VirtualRouterRef()
+        value.meshName = try reader["meshName"].readIfPresent() ?? ""
+        value.virtualRouterName = try reader["virtualRouterName"].readIfPresent() ?? ""
+        value.meshOwner = try reader["meshOwner"].readIfPresent() ?? ""
+        value.resourceOwner = try reader["resourceOwner"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.version = try reader["version"].readIfPresent() ?? 0
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension AppMeshClientTypes.VirtualRouterServiceProvider {
+
+    static func write(value: AppMeshClientTypes.VirtualRouterServiceProvider?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["virtualRouterName"].write(value.virtualRouterName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.VirtualRouterServiceProvider {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppMeshClientTypes.VirtualRouterServiceProvider()
+        value.virtualRouterName = try reader["virtualRouterName"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension AppMeshClientTypes.VirtualRouterSpec {
+
+    static func write(value: AppMeshClientTypes.VirtualRouterSpec?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["listeners"].writeList(value.listeners, memberWritingClosure: AppMeshClientTypes.VirtualRouterListener.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.VirtualRouterSpec {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppMeshClientTypes.VirtualRouterSpec()
+        value.listeners = try reader["listeners"].readListIfPresent(memberReadingClosure: AppMeshClientTypes.VirtualRouterListener.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension AppMeshClientTypes.VirtualRouterStatus {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.VirtualRouterStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppMeshClientTypes.VirtualRouterStatus()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension AppMeshClientTypes.VirtualServiceBackend {
+
+    static func write(value: AppMeshClientTypes.VirtualServiceBackend?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientPolicy"].write(value.clientPolicy, with: AppMeshClientTypes.ClientPolicy.write(value:to:))
+        try writer["virtualServiceName"].write(value.virtualServiceName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.VirtualServiceBackend {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppMeshClientTypes.VirtualServiceBackend()
+        value.virtualServiceName = try reader["virtualServiceName"].readIfPresent() ?? ""
+        value.clientPolicy = try reader["clientPolicy"].readIfPresent(with: AppMeshClientTypes.ClientPolicy.read(from:))
+        return value
+    }
+}
+
 extension AppMeshClientTypes.VirtualServiceData {
 
     static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.VirtualServiceData {
@@ -10472,31 +10603,6 @@ extension AppMeshClientTypes.VirtualServiceData {
         value.spec = try reader["spec"].readIfPresent(with: AppMeshClientTypes.VirtualServiceSpec.read(from:))
         value.metadata = try reader["metadata"].readIfPresent(with: AppMeshClientTypes.ResourceMetadata.read(from:))
         value.status = try reader["status"].readIfPresent(with: AppMeshClientTypes.VirtualServiceStatus.read(from:))
-        return value
-    }
-}
-
-extension AppMeshClientTypes.VirtualServiceStatus {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.VirtualServiceStatus {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppMeshClientTypes.VirtualServiceStatus()
-        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension AppMeshClientTypes.VirtualServiceSpec {
-
-    static func write(value: AppMeshClientTypes.VirtualServiceSpec?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["provider"].write(value.provider, with: AppMeshClientTypes.VirtualServiceProvider.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.VirtualServiceSpec {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppMeshClientTypes.VirtualServiceSpec()
-        value.provider = try reader["provider"].readIfPresent(with: AppMeshClientTypes.VirtualServiceProvider.read(from:))
         return value
     }
 }
@@ -10529,156 +10635,6 @@ extension AppMeshClientTypes.VirtualServiceProvider {
     }
 }
 
-extension AppMeshClientTypes.VirtualRouterServiceProvider {
-
-    static func write(value: AppMeshClientTypes.VirtualRouterServiceProvider?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["virtualRouterName"].write(value.virtualRouterName)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.VirtualRouterServiceProvider {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppMeshClientTypes.VirtualRouterServiceProvider()
-        value.virtualRouterName = try reader["virtualRouterName"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension AppMeshClientTypes.VirtualNodeServiceProvider {
-
-    static func write(value: AppMeshClientTypes.VirtualNodeServiceProvider?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["virtualNodeName"].write(value.virtualNodeName)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.VirtualNodeServiceProvider {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppMeshClientTypes.VirtualNodeServiceProvider()
-        value.virtualNodeName = try reader["virtualNodeName"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension AppMeshClientTypes.GatewayRouteRef {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.GatewayRouteRef {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppMeshClientTypes.GatewayRouteRef()
-        value.meshName = try reader["meshName"].readIfPresent() ?? ""
-        value.gatewayRouteName = try reader["gatewayRouteName"].readIfPresent() ?? ""
-        value.virtualGatewayName = try reader["virtualGatewayName"].readIfPresent() ?? ""
-        value.meshOwner = try reader["meshOwner"].readIfPresent() ?? ""
-        value.resourceOwner = try reader["resourceOwner"].readIfPresent() ?? ""
-        value.arn = try reader["arn"].readIfPresent() ?? ""
-        value.version = try reader["version"].readIfPresent() ?? 0
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        return value
-    }
-}
-
-extension AppMeshClientTypes.MeshRef {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.MeshRef {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppMeshClientTypes.MeshRef()
-        value.meshName = try reader["meshName"].readIfPresent() ?? ""
-        value.meshOwner = try reader["meshOwner"].readIfPresent() ?? ""
-        value.resourceOwner = try reader["resourceOwner"].readIfPresent() ?? ""
-        value.arn = try reader["arn"].readIfPresent() ?? ""
-        value.version = try reader["version"].readIfPresent() ?? 0
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        return value
-    }
-}
-
-extension AppMeshClientTypes.RouteRef {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.RouteRef {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppMeshClientTypes.RouteRef()
-        value.meshName = try reader["meshName"].readIfPresent() ?? ""
-        value.virtualRouterName = try reader["virtualRouterName"].readIfPresent() ?? ""
-        value.routeName = try reader["routeName"].readIfPresent() ?? ""
-        value.meshOwner = try reader["meshOwner"].readIfPresent() ?? ""
-        value.resourceOwner = try reader["resourceOwner"].readIfPresent() ?? ""
-        value.arn = try reader["arn"].readIfPresent() ?? ""
-        value.version = try reader["version"].readIfPresent() ?? 0
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        return value
-    }
-}
-
-extension AppMeshClientTypes.TagRef {
-
-    static func write(value: AppMeshClientTypes.TagRef?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["key"].write(value.key)
-        try writer["value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.TagRef {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppMeshClientTypes.TagRef()
-        value.key = try reader["key"].readIfPresent() ?? ""
-        value.value = try reader["value"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension AppMeshClientTypes.VirtualGatewayRef {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.VirtualGatewayRef {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppMeshClientTypes.VirtualGatewayRef()
-        value.meshName = try reader["meshName"].readIfPresent() ?? ""
-        value.virtualGatewayName = try reader["virtualGatewayName"].readIfPresent() ?? ""
-        value.meshOwner = try reader["meshOwner"].readIfPresent() ?? ""
-        value.resourceOwner = try reader["resourceOwner"].readIfPresent() ?? ""
-        value.arn = try reader["arn"].readIfPresent() ?? ""
-        value.version = try reader["version"].readIfPresent() ?? 0
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        return value
-    }
-}
-
-extension AppMeshClientTypes.VirtualNodeRef {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.VirtualNodeRef {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppMeshClientTypes.VirtualNodeRef()
-        value.meshName = try reader["meshName"].readIfPresent() ?? ""
-        value.virtualNodeName = try reader["virtualNodeName"].readIfPresent() ?? ""
-        value.meshOwner = try reader["meshOwner"].readIfPresent() ?? ""
-        value.resourceOwner = try reader["resourceOwner"].readIfPresent() ?? ""
-        value.arn = try reader["arn"].readIfPresent() ?? ""
-        value.version = try reader["version"].readIfPresent() ?? 0
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        return value
-    }
-}
-
-extension AppMeshClientTypes.VirtualRouterRef {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.VirtualRouterRef {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AppMeshClientTypes.VirtualRouterRef()
-        value.meshName = try reader["meshName"].readIfPresent() ?? ""
-        value.virtualRouterName = try reader["virtualRouterName"].readIfPresent() ?? ""
-        value.meshOwner = try reader["meshOwner"].readIfPresent() ?? ""
-        value.resourceOwner = try reader["resourceOwner"].readIfPresent() ?? ""
-        value.arn = try reader["arn"].readIfPresent() ?? ""
-        value.version = try reader["version"].readIfPresent() ?? 0
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        return value
-    }
-}
-
 extension AppMeshClientTypes.VirtualServiceRef {
 
     static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.VirtualServiceRef {
@@ -10692,6 +10648,50 @@ extension AppMeshClientTypes.VirtualServiceRef {
         value.version = try reader["version"].readIfPresent() ?? 0
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension AppMeshClientTypes.VirtualServiceSpec {
+
+    static func write(value: AppMeshClientTypes.VirtualServiceSpec?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["provider"].write(value.provider, with: AppMeshClientTypes.VirtualServiceProvider.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.VirtualServiceSpec {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppMeshClientTypes.VirtualServiceSpec()
+        value.provider = try reader["provider"].readIfPresent(with: AppMeshClientTypes.VirtualServiceProvider.read(from:))
+        return value
+    }
+}
+
+extension AppMeshClientTypes.VirtualServiceStatus {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.VirtualServiceStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppMeshClientTypes.VirtualServiceStatus()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension AppMeshClientTypes.WeightedTarget {
+
+    static func write(value: AppMeshClientTypes.WeightedTarget?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["port"].write(value.port)
+        try writer["virtualNode"].write(value.virtualNode)
+        try writer["weight"].write(value.weight)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AppMeshClientTypes.WeightedTarget {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AppMeshClientTypes.WeightedTarget()
+        value.virtualNode = try reader["virtualNode"].readIfPresent() ?? ""
+        value.weight = try reader["weight"].readIfPresent() ?? 0
+        value.port = try reader["port"].readIfPresent()
         return value
     }
 }

@@ -5035,6 +5035,77 @@ extension ServiceQuotaExceededException {
     }
 }
 
+extension MigrationHubStrategyClientTypes.AnalysisStatusUnion {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubStrategyClientTypes.AnalysisStatusUnion {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "runtimeAnalysisStatus":
+                return .runtimeanalysisstatus(try reader["runtimeAnalysisStatus"].read())
+            case "srcCodeOrDbAnalysisStatus":
+                return .srccodeordbanalysisstatus(try reader["srcCodeOrDbAnalysisStatus"].read())
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension MigrationHubStrategyClientTypes.AnalyzableServerSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubStrategyClientTypes.AnalyzableServerSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MigrationHubStrategyClientTypes.AnalyzableServerSummary()
+        value.hostname = try reader["hostname"].readIfPresent()
+        value.ipAddress = try reader["ipAddress"].readIfPresent()
+        value.source = try reader["source"].readIfPresent()
+        value.vmId = try reader["vmId"].readIfPresent()
+        return value
+    }
+}
+
+extension MigrationHubStrategyClientTypes.AnalyzerNameUnion {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubStrategyClientTypes.AnalyzerNameUnion {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "binaryAnalyzerName":
+                return .binaryanalyzername(try reader["binaryAnalyzerName"].read())
+            case "runTimeAnalyzerName":
+                return .runtimeanalyzername(try reader["runTimeAnalyzerName"].read())
+            case "sourceCodeAnalyzerName":
+                return .sourcecodeanalyzername(try reader["sourceCodeAnalyzerName"].read())
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension MigrationHubStrategyClientTypes.AntipatternReportResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubStrategyClientTypes.AntipatternReportResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MigrationHubStrategyClientTypes.AntipatternReportResult()
+        value.analyzerName = try reader["analyzerName"].readIfPresent(with: MigrationHubStrategyClientTypes.AnalyzerNameUnion.read(from:))
+        value.antiPatternReportS3Object = try reader["antiPatternReportS3Object"].readIfPresent(with: MigrationHubStrategyClientTypes.S3Object.read(from:))
+        value.antipatternReportStatus = try reader["antipatternReportStatus"].readIfPresent()
+        value.antipatternReportStatusMessage = try reader["antipatternReportStatusMessage"].readIfPresent()
+        return value
+    }
+}
+
+extension MigrationHubStrategyClientTypes.AntipatternSeveritySummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubStrategyClientTypes.AntipatternSeveritySummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MigrationHubStrategyClientTypes.AntipatternSeveritySummary()
+        value.severity = try reader["severity"].readIfPresent()
+        value.count = try reader["count"].readIfPresent()
+        return value
+    }
+}
+
 extension MigrationHubStrategyClientTypes.ApplicationComponentDetail {
 
     static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubStrategyClientTypes.ApplicationComponentDetail {
@@ -5067,152 +5138,13 @@ extension MigrationHubStrategyClientTypes.ApplicationComponentDetail {
     }
 }
 
-extension MigrationHubStrategyClientTypes.Result {
+extension MigrationHubStrategyClientTypes.ApplicationComponentStatusSummary {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubStrategyClientTypes.Result {
+    static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubStrategyClientTypes.ApplicationComponentStatusSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MigrationHubStrategyClientTypes.Result()
-        value.analysisType = try reader["analysisType"].readIfPresent()
-        value.analysisStatus = try reader["analysisStatus"].readIfPresent(with: MigrationHubStrategyClientTypes.AnalysisStatusUnion.read(from:))
-        value.statusMessage = try reader["statusMessage"].readIfPresent()
-        value.antipatternReportResultList = try reader["antipatternReportResultList"].readListIfPresent(memberReadingClosure: MigrationHubStrategyClientTypes.AntipatternReportResult.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension MigrationHubStrategyClientTypes.AntipatternReportResult {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubStrategyClientTypes.AntipatternReportResult {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MigrationHubStrategyClientTypes.AntipatternReportResult()
-        value.analyzerName = try reader["analyzerName"].readIfPresent(with: MigrationHubStrategyClientTypes.AnalyzerNameUnion.read(from:))
-        value.antiPatternReportS3Object = try reader["antiPatternReportS3Object"].readIfPresent(with: MigrationHubStrategyClientTypes.S3Object.read(from:))
-        value.antipatternReportStatus = try reader["antipatternReportStatus"].readIfPresent()
-        value.antipatternReportStatusMessage = try reader["antipatternReportStatusMessage"].readIfPresent()
-        return value
-    }
-}
-
-extension MigrationHubStrategyClientTypes.S3Object {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubStrategyClientTypes.S3Object {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MigrationHubStrategyClientTypes.S3Object()
-        value.s3Bucket = try reader["s3Bucket"].readIfPresent()
-        value.s3key = try reader["s3key"].readIfPresent()
-        return value
-    }
-}
-
-extension MigrationHubStrategyClientTypes.AnalyzerNameUnion {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubStrategyClientTypes.AnalyzerNameUnion {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "binaryAnalyzerName":
-                return .binaryanalyzername(try reader["binaryAnalyzerName"].read())
-            case "runTimeAnalyzerName":
-                return .runtimeanalyzername(try reader["runTimeAnalyzerName"].read())
-            case "sourceCodeAnalyzerName":
-                return .sourcecodeanalyzername(try reader["sourceCodeAnalyzerName"].read())
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension MigrationHubStrategyClientTypes.AnalysisStatusUnion {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubStrategyClientTypes.AnalysisStatusUnion {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "runtimeAnalysisStatus":
-                return .runtimeanalysisstatus(try reader["runtimeAnalysisStatus"].read())
-            case "srcCodeOrDbAnalysisStatus":
-                return .srccodeordbanalysisstatus(try reader["srcCodeOrDbAnalysisStatus"].read())
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension MigrationHubStrategyClientTypes.AppUnitError {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubStrategyClientTypes.AppUnitError {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MigrationHubStrategyClientTypes.AppUnitError()
-        value.appUnitErrorCategory = try reader["appUnitErrorCategory"].readIfPresent()
-        return value
-    }
-}
-
-extension MigrationHubStrategyClientTypes.SourceCodeRepository {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubStrategyClientTypes.SourceCodeRepository {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MigrationHubStrategyClientTypes.SourceCodeRepository()
-        value.repository = try reader["repository"].readIfPresent()
-        value.branch = try reader["branch"].readIfPresent()
-        value.versionControlType = try reader["versionControlType"].readIfPresent()
-        value.projectName = try reader["projectName"].readIfPresent()
-        return value
-    }
-}
-
-extension MigrationHubStrategyClientTypes.DatabaseConfigDetail {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubStrategyClientTypes.DatabaseConfigDetail {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MigrationHubStrategyClientTypes.DatabaseConfigDetail()
-        value.secretName = try reader["secretName"].readIfPresent()
-        return value
-    }
-}
-
-extension MigrationHubStrategyClientTypes.AntipatternSeveritySummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubStrategyClientTypes.AntipatternSeveritySummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MigrationHubStrategyClientTypes.AntipatternSeveritySummary()
-        value.severity = try reader["severity"].readIfPresent()
+        var value = MigrationHubStrategyClientTypes.ApplicationComponentStatusSummary()
+        value.srcCodeOrDbAnalysisStatus = try reader["srcCodeOrDbAnalysisStatus"].readIfPresent()
         value.count = try reader["count"].readIfPresent()
-        return value
-    }
-}
-
-extension MigrationHubStrategyClientTypes.RecommendationSet {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubStrategyClientTypes.RecommendationSet {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MigrationHubStrategyClientTypes.RecommendationSet()
-        value.transformationTool = try reader["transformationTool"].readIfPresent(with: MigrationHubStrategyClientTypes.TransformationTool.read(from:))
-        value.targetDestination = try reader["targetDestination"].readIfPresent()
-        value.strategy = try reader["strategy"].readIfPresent()
-        return value
-    }
-}
-
-extension MigrationHubStrategyClientTypes.TransformationTool {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubStrategyClientTypes.TransformationTool {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MigrationHubStrategyClientTypes.TransformationTool()
-        value.name = try reader["name"].readIfPresent()
-        value.description = try reader["description"].readIfPresent()
-        value.tranformationToolInstallationLink = try reader["tranformationToolInstallationLink"].readIfPresent()
-        return value
-    }
-}
-
-extension MigrationHubStrategyClientTypes.AssociatedApplication {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubStrategyClientTypes.AssociatedApplication {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MigrationHubStrategyClientTypes.AssociatedApplication()
-        value.name = try reader["name"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
         return value
     }
 }
@@ -5229,19 +5161,58 @@ extension MigrationHubStrategyClientTypes.ApplicationComponentStrategy {
     }
 }
 
-extension MigrationHubStrategyClientTypes.DataCollectionDetails {
+extension MigrationHubStrategyClientTypes.ApplicationComponentSummary {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubStrategyClientTypes.DataCollectionDetails {
+    static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubStrategyClientTypes.ApplicationComponentSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MigrationHubStrategyClientTypes.DataCollectionDetails()
-        value.status = try reader["status"].readIfPresent()
-        value.servers = try reader["servers"].readIfPresent()
-        value.failed = try reader["failed"].readIfPresent()
-        value.success = try reader["success"].readIfPresent()
-        value.inProgress = try reader["inProgress"].readIfPresent()
-        value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.completionTime = try reader["completionTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.statusMessage = try reader["statusMessage"].readIfPresent()
+        var value = MigrationHubStrategyClientTypes.ApplicationComponentSummary()
+        value.appType = try reader["appType"].readIfPresent()
+        value.count = try reader["count"].readIfPresent()
+        return value
+    }
+}
+
+extension MigrationHubStrategyClientTypes.ApplicationPreferences {
+
+    static func write(value: MigrationHubStrategyClientTypes.ApplicationPreferences?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["managementPreference"].write(value.managementPreference, with: MigrationHubStrategyClientTypes.ManagementPreference.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubStrategyClientTypes.ApplicationPreferences {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MigrationHubStrategyClientTypes.ApplicationPreferences()
+        value.managementPreference = try reader["managementPreference"].readIfPresent(with: MigrationHubStrategyClientTypes.ManagementPreference.read(from:))
+        return value
+    }
+}
+
+extension MigrationHubStrategyClientTypes.AppUnitError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubStrategyClientTypes.AppUnitError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MigrationHubStrategyClientTypes.AppUnitError()
+        value.appUnitErrorCategory = try reader["appUnitErrorCategory"].readIfPresent()
+        return value
+    }
+}
+
+extension MigrationHubStrategyClientTypes.AssessmentSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubStrategyClientTypes.AssessmentSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MigrationHubStrategyClientTypes.AssessmentSummary()
+        value.listServerStrategySummary = try reader["listServerStrategySummary"].readListIfPresent(memberReadingClosure: MigrationHubStrategyClientTypes.StrategySummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.listApplicationComponentStrategySummary = try reader["listApplicationComponentStrategySummary"].readListIfPresent(memberReadingClosure: MigrationHubStrategyClientTypes.StrategySummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.listAntipatternSeveritySummary = try reader["listAntipatternSeveritySummary"].readListIfPresent(memberReadingClosure: MigrationHubStrategyClientTypes.AntipatternSeveritySummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.listApplicationComponentSummary = try reader["listApplicationComponentSummary"].readListIfPresent(memberReadingClosure: MigrationHubStrategyClientTypes.ApplicationComponentSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.listServerSummary = try reader["listServerSummary"].readListIfPresent(memberReadingClosure: MigrationHubStrategyClientTypes.ServerSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.antipatternReportS3Object = try reader["antipatternReportS3Object"].readIfPresent(with: MigrationHubStrategyClientTypes.S3Object.read(from:))
+        value.antipatternReportStatus = try reader["antipatternReportStatus"].readIfPresent()
+        value.antipatternReportStatusMessage = try reader["antipatternReportStatusMessage"].readIfPresent()
+        value.lastAnalyzedTimestamp = try reader["lastAnalyzedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.listApplicationComponentStatusSummary = try reader["listApplicationComponentStatusSummary"].readListIfPresent(memberReadingClosure: MigrationHubStrategyClientTypes.ApplicationComponentStatusSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.listServerStatusSummary = try reader["listServerStatusSummary"].readListIfPresent(memberReadingClosure: MigrationHubStrategyClientTypes.ServerStatusSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -5265,17 +5236,28 @@ extension MigrationHubStrategyClientTypes.AssessmentTarget {
     }
 }
 
-extension MigrationHubStrategyClientTypes.PrioritizeBusinessGoals {
+extension MigrationHubStrategyClientTypes.AssociatedApplication {
 
-    static func write(value: MigrationHubStrategyClientTypes.PrioritizeBusinessGoals?, to writer: SmithyJSON.Writer) throws {
+    static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubStrategyClientTypes.AssociatedApplication {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MigrationHubStrategyClientTypes.AssociatedApplication()
+        value.name = try reader["name"].readIfPresent()
+        value.id = try reader["id"].readIfPresent()
+        return value
+    }
+}
+
+extension MigrationHubStrategyClientTypes.AwsManagedResources {
+
+    static func write(value: MigrationHubStrategyClientTypes.AwsManagedResources?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["businessGoals"].write(value.businessGoals, with: MigrationHubStrategyClientTypes.BusinessGoals.write(value:to:))
+        try writer["targetDestination"].writeList(value.targetDestination, memberWritingClosure: SmithyReadWrite.WritingClosureBox<MigrationHubStrategyClientTypes.AwsManagedTargetDestination>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubStrategyClientTypes.PrioritizeBusinessGoals {
+    static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubStrategyClientTypes.AwsManagedResources {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MigrationHubStrategyClientTypes.PrioritizeBusinessGoals()
-        value.businessGoals = try reader["businessGoals"].readIfPresent(with: MigrationHubStrategyClientTypes.BusinessGoals.read(from:))
+        var value = MigrationHubStrategyClientTypes.AwsManagedResources()
+        value.targetDestination = try reader["targetDestination"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<MigrationHubStrategyClientTypes.AwsManagedTargetDestination>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -5301,111 +5283,43 @@ extension MigrationHubStrategyClientTypes.BusinessGoals {
     }
 }
 
-extension MigrationHubStrategyClientTypes.ApplicationPreferences {
+extension MigrationHubStrategyClientTypes.Collector {
 
-    static func write(value: MigrationHubStrategyClientTypes.ApplicationPreferences?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["managementPreference"].write(value.managementPreference, with: MigrationHubStrategyClientTypes.ManagementPreference.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubStrategyClientTypes.ApplicationPreferences {
+    static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubStrategyClientTypes.Collector {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MigrationHubStrategyClientTypes.ApplicationPreferences()
-        value.managementPreference = try reader["managementPreference"].readIfPresent(with: MigrationHubStrategyClientTypes.ManagementPreference.read(from:))
+        var value = MigrationHubStrategyClientTypes.Collector()
+        value.collectorId = try reader["collectorId"].readIfPresent()
+        value.ipAddress = try reader["ipAddress"].readIfPresent()
+        value.hostName = try reader["hostName"].readIfPresent()
+        value.collectorHealth = try reader["collectorHealth"].readIfPresent()
+        value.collectorVersion = try reader["collectorVersion"].readIfPresent()
+        value.registeredTimeStamp = try reader["registeredTimeStamp"].readIfPresent()
+        value.lastActivityTimeStamp = try reader["lastActivityTimeStamp"].readIfPresent()
+        value.configurationSummary = try reader["configurationSummary"].readIfPresent(with: MigrationHubStrategyClientTypes.ConfigurationSummary.read(from:))
         return value
     }
 }
 
-extension MigrationHubStrategyClientTypes.ManagementPreference {
+extension MigrationHubStrategyClientTypes.ConfigurationSummary {
 
-    static func write(value: MigrationHubStrategyClientTypes.ManagementPreference?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .awsmanagedresources(awsmanagedresources):
-                try writer["awsManagedResources"].write(awsmanagedresources, with: MigrationHubStrategyClientTypes.AwsManagedResources.write(value:to:))
-            case let .nopreference(nopreference):
-                try writer["noPreference"].write(nopreference, with: MigrationHubStrategyClientTypes.NoManagementPreference.write(value:to:))
-            case let .selfmanageresources(selfmanageresources):
-                try writer["selfManageResources"].write(selfmanageresources, with: MigrationHubStrategyClientTypes.SelfManageResources.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubStrategyClientTypes.ManagementPreference {
+    static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubStrategyClientTypes.ConfigurationSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "awsManagedResources":
-                return .awsmanagedresources(try reader["awsManagedResources"].read(with: MigrationHubStrategyClientTypes.AwsManagedResources.read(from:)))
-            case "selfManageResources":
-                return .selfmanageresources(try reader["selfManageResources"].read(with: MigrationHubStrategyClientTypes.SelfManageResources.read(from:)))
-            case "noPreference":
-                return .nopreference(try reader["noPreference"].read(with: MigrationHubStrategyClientTypes.NoManagementPreference.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension MigrationHubStrategyClientTypes.NoManagementPreference {
-
-    static func write(value: MigrationHubStrategyClientTypes.NoManagementPreference?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["targetDestination"].writeList(value.targetDestination, memberWritingClosure: SmithyReadWrite.WritingClosureBox<MigrationHubStrategyClientTypes.NoPreferenceTargetDestination>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubStrategyClientTypes.NoManagementPreference {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MigrationHubStrategyClientTypes.NoManagementPreference()
-        value.targetDestination = try reader["targetDestination"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<MigrationHubStrategyClientTypes.NoPreferenceTargetDestination>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        var value = MigrationHubStrategyClientTypes.ConfigurationSummary()
+        value.vcenterBasedRemoteInfoList = try reader["vcenterBasedRemoteInfoList"].readListIfPresent(memberReadingClosure: MigrationHubStrategyClientTypes.VcenterBasedRemoteInfo.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.ipAddressBasedRemoteInfoList = try reader["ipAddressBasedRemoteInfoList"].readListIfPresent(memberReadingClosure: MigrationHubStrategyClientTypes.IPAddressBasedRemoteInfo.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.versionControlInfoList = try reader["versionControlInfoList"].readListIfPresent(memberReadingClosure: MigrationHubStrategyClientTypes.VersionControlInfo.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.pipelineInfoList = try reader["pipelineInfoList"].readListIfPresent(memberReadingClosure: MigrationHubStrategyClientTypes.PipelineInfo.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.remoteSourceCodeAnalysisServerInfo = try reader["remoteSourceCodeAnalysisServerInfo"].readIfPresent(with: MigrationHubStrategyClientTypes.RemoteSourceCodeAnalysisServerInfo.read(from:))
         return value
     }
 }
 
-extension MigrationHubStrategyClientTypes.SelfManageResources {
+extension MigrationHubStrategyClientTypes.DatabaseConfigDetail {
 
-    static func write(value: MigrationHubStrategyClientTypes.SelfManageResources?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["targetDestination"].writeList(value.targetDestination, memberWritingClosure: SmithyReadWrite.WritingClosureBox<MigrationHubStrategyClientTypes.SelfManageTargetDestination>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubStrategyClientTypes.SelfManageResources {
+    static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubStrategyClientTypes.DatabaseConfigDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MigrationHubStrategyClientTypes.SelfManageResources()
-        value.targetDestination = try reader["targetDestination"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<MigrationHubStrategyClientTypes.SelfManageTargetDestination>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension MigrationHubStrategyClientTypes.AwsManagedResources {
-
-    static func write(value: MigrationHubStrategyClientTypes.AwsManagedResources?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["targetDestination"].writeList(value.targetDestination, memberWritingClosure: SmithyReadWrite.WritingClosureBox<MigrationHubStrategyClientTypes.AwsManagedTargetDestination>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubStrategyClientTypes.AwsManagedResources {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MigrationHubStrategyClientTypes.AwsManagedResources()
-        value.targetDestination = try reader["targetDestination"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<MigrationHubStrategyClientTypes.AwsManagedTargetDestination>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension MigrationHubStrategyClientTypes.DatabasePreferences {
-
-    static func write(value: MigrationHubStrategyClientTypes.DatabasePreferences?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["databaseManagementPreference"].write(value.databaseManagementPreference)
-        try writer["databaseMigrationPreference"].write(value.databaseMigrationPreference, with: MigrationHubStrategyClientTypes.DatabaseMigrationPreference.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubStrategyClientTypes.DatabasePreferences {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MigrationHubStrategyClientTypes.DatabasePreferences()
-        value.databaseManagementPreference = try reader["databaseManagementPreference"].readIfPresent()
-        value.databaseMigrationPreference = try reader["databaseMigrationPreference"].readIfPresent(with: MigrationHubStrategyClientTypes.DatabaseMigrationPreference.read(from:))
+        var value = MigrationHubStrategyClientTypes.DatabaseConfigDetail()
+        value.secretName = try reader["secretName"].readIfPresent()
         return value
     }
 }
@@ -5442,17 +5356,60 @@ extension MigrationHubStrategyClientTypes.DatabaseMigrationPreference {
     }
 }
 
-extension MigrationHubStrategyClientTypes.NoDatabaseMigrationPreference {
+extension MigrationHubStrategyClientTypes.DatabasePreferences {
 
-    static func write(value: MigrationHubStrategyClientTypes.NoDatabaseMigrationPreference?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: MigrationHubStrategyClientTypes.DatabasePreferences?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["targetDatabaseEngine"].writeList(value.targetDatabaseEngine, memberWritingClosure: SmithyReadWrite.WritingClosureBox<MigrationHubStrategyClientTypes.TargetDatabaseEngine>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["databaseManagementPreference"].write(value.databaseManagementPreference)
+        try writer["databaseMigrationPreference"].write(value.databaseMigrationPreference, with: MigrationHubStrategyClientTypes.DatabaseMigrationPreference.write(value:to:))
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubStrategyClientTypes.NoDatabaseMigrationPreference {
+    static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubStrategyClientTypes.DatabasePreferences {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MigrationHubStrategyClientTypes.NoDatabaseMigrationPreference()
-        value.targetDatabaseEngine = try reader["targetDatabaseEngine"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<MigrationHubStrategyClientTypes.TargetDatabaseEngine>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        var value = MigrationHubStrategyClientTypes.DatabasePreferences()
+        value.databaseManagementPreference = try reader["databaseManagementPreference"].readIfPresent()
+        value.databaseMigrationPreference = try reader["databaseMigrationPreference"].readIfPresent(with: MigrationHubStrategyClientTypes.DatabaseMigrationPreference.read(from:))
+        return value
+    }
+}
+
+extension MigrationHubStrategyClientTypes.DataCollectionDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubStrategyClientTypes.DataCollectionDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MigrationHubStrategyClientTypes.DataCollectionDetails()
+        value.status = try reader["status"].readIfPresent()
+        value.servers = try reader["servers"].readIfPresent()
+        value.failed = try reader["failed"].readIfPresent()
+        value.success = try reader["success"].readIfPresent()
+        value.inProgress = try reader["inProgress"].readIfPresent()
+        value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.completionTime = try reader["completionTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.statusMessage = try reader["statusMessage"].readIfPresent()
+        return value
+    }
+}
+
+extension MigrationHubStrategyClientTypes.Group {
+
+    static func write(value: MigrationHubStrategyClientTypes.Group?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["name"].write(value.name)
+        try writer["value"].write(value.value)
+    }
+}
+
+extension MigrationHubStrategyClientTypes.Heterogeneous {
+
+    static func write(value: MigrationHubStrategyClientTypes.Heterogeneous?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["targetDatabaseEngine"].writeList(value.targetDatabaseEngine, memberWritingClosure: SmithyReadWrite.WritingClosureBox<MigrationHubStrategyClientTypes.HeterogeneousTargetDatabaseEngine>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubStrategyClientTypes.Heterogeneous {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MigrationHubStrategyClientTypes.Heterogeneous()
+        value.targetDatabaseEngine = try reader["targetDatabaseEngine"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<MigrationHubStrategyClientTypes.HeterogeneousTargetDatabaseEngine>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -5472,92 +5429,146 @@ extension MigrationHubStrategyClientTypes.Homogeneous {
     }
 }
 
-extension MigrationHubStrategyClientTypes.Heterogeneous {
+extension MigrationHubStrategyClientTypes.ImportFileTaskInformation {
 
-    static func write(value: MigrationHubStrategyClientTypes.Heterogeneous?, to writer: SmithyJSON.Writer) throws {
+    static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubStrategyClientTypes.ImportFileTaskInformation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MigrationHubStrategyClientTypes.ImportFileTaskInformation()
+        value.id = try reader["id"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.inputS3Bucket = try reader["inputS3Bucket"].readIfPresent()
+        value.inputS3Key = try reader["inputS3Key"].readIfPresent()
+        value.statusReportS3Bucket = try reader["statusReportS3Bucket"].readIfPresent()
+        value.statusReportS3Key = try reader["statusReportS3Key"].readIfPresent()
+        value.completionTime = try reader["completionTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.numberOfRecordsSuccess = try reader["numberOfRecordsSuccess"].readIfPresent()
+        value.numberOfRecordsFailed = try reader["numberOfRecordsFailed"].readIfPresent()
+        value.importName = try reader["importName"].readIfPresent()
+        return value
+    }
+}
+
+extension MigrationHubStrategyClientTypes.IPAddressBasedRemoteInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubStrategyClientTypes.IPAddressBasedRemoteInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MigrationHubStrategyClientTypes.IPAddressBasedRemoteInfo()
+        value.ipAddressConfigurationTimeStamp = try reader["ipAddressConfigurationTimeStamp"].readIfPresent()
+        value.authType = try reader["authType"].readIfPresent()
+        value.osType = try reader["osType"].readIfPresent()
+        return value
+    }
+}
+
+extension MigrationHubStrategyClientTypes.ManagementPreference {
+
+    static func write(value: MigrationHubStrategyClientTypes.ManagementPreference?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["targetDatabaseEngine"].writeList(value.targetDatabaseEngine, memberWritingClosure: SmithyReadWrite.WritingClosureBox<MigrationHubStrategyClientTypes.HeterogeneousTargetDatabaseEngine>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        switch value {
+            case let .awsmanagedresources(awsmanagedresources):
+                try writer["awsManagedResources"].write(awsmanagedresources, with: MigrationHubStrategyClientTypes.AwsManagedResources.write(value:to:))
+            case let .nopreference(nopreference):
+                try writer["noPreference"].write(nopreference, with: MigrationHubStrategyClientTypes.NoManagementPreference.write(value:to:))
+            case let .selfmanageresources(selfmanageresources):
+                try writer["selfManageResources"].write(selfmanageresources, with: MigrationHubStrategyClientTypes.SelfManageResources.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubStrategyClientTypes.Heterogeneous {
+    static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubStrategyClientTypes.ManagementPreference {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MigrationHubStrategyClientTypes.Heterogeneous()
-        value.targetDatabaseEngine = try reader["targetDatabaseEngine"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<MigrationHubStrategyClientTypes.HeterogeneousTargetDatabaseEngine>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "awsManagedResources":
+                return .awsmanagedresources(try reader["awsManagedResources"].read(with: MigrationHubStrategyClientTypes.AwsManagedResources.read(from:)))
+            case "selfManageResources":
+                return .selfmanageresources(try reader["selfManageResources"].read(with: MigrationHubStrategyClientTypes.SelfManageResources.read(from:)))
+            case "noPreference":
+                return .nopreference(try reader["noPreference"].read(with: MigrationHubStrategyClientTypes.NoManagementPreference.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension MigrationHubStrategyClientTypes.NetworkInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubStrategyClientTypes.NetworkInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MigrationHubStrategyClientTypes.NetworkInfo()
+        value.interfaceName = try reader["interfaceName"].readIfPresent() ?? ""
+        value.ipAddress = try reader["ipAddress"].readIfPresent() ?? ""
+        value.macAddress = try reader["macAddress"].readIfPresent() ?? ""
+        value.netMask = try reader["netMask"].readIfPresent() ?? ""
         return value
     }
 }
 
-extension MigrationHubStrategyClientTypes.AssessmentSummary {
+extension MigrationHubStrategyClientTypes.NoDatabaseMigrationPreference {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubStrategyClientTypes.AssessmentSummary {
+    static func write(value: MigrationHubStrategyClientTypes.NoDatabaseMigrationPreference?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["targetDatabaseEngine"].writeList(value.targetDatabaseEngine, memberWritingClosure: SmithyReadWrite.WritingClosureBox<MigrationHubStrategyClientTypes.TargetDatabaseEngine>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubStrategyClientTypes.NoDatabaseMigrationPreference {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MigrationHubStrategyClientTypes.AssessmentSummary()
-        value.listServerStrategySummary = try reader["listServerStrategySummary"].readListIfPresent(memberReadingClosure: MigrationHubStrategyClientTypes.StrategySummary.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.listApplicationComponentStrategySummary = try reader["listApplicationComponentStrategySummary"].readListIfPresent(memberReadingClosure: MigrationHubStrategyClientTypes.StrategySummary.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.listAntipatternSeveritySummary = try reader["listAntipatternSeveritySummary"].readListIfPresent(memberReadingClosure: MigrationHubStrategyClientTypes.AntipatternSeveritySummary.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.listApplicationComponentSummary = try reader["listApplicationComponentSummary"].readListIfPresent(memberReadingClosure: MigrationHubStrategyClientTypes.ApplicationComponentSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.listServerSummary = try reader["listServerSummary"].readListIfPresent(memberReadingClosure: MigrationHubStrategyClientTypes.ServerSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.antipatternReportS3Object = try reader["antipatternReportS3Object"].readIfPresent(with: MigrationHubStrategyClientTypes.S3Object.read(from:))
-        value.antipatternReportStatus = try reader["antipatternReportStatus"].readIfPresent()
-        value.antipatternReportStatusMessage = try reader["antipatternReportStatusMessage"].readIfPresent()
-        value.lastAnalyzedTimestamp = try reader["lastAnalyzedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.listApplicationComponentStatusSummary = try reader["listApplicationComponentStatusSummary"].readListIfPresent(memberReadingClosure: MigrationHubStrategyClientTypes.ApplicationComponentStatusSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.listServerStatusSummary = try reader["listServerStatusSummary"].readListIfPresent(memberReadingClosure: MigrationHubStrategyClientTypes.ServerStatusSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = MigrationHubStrategyClientTypes.NoDatabaseMigrationPreference()
+        value.targetDatabaseEngine = try reader["targetDatabaseEngine"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<MigrationHubStrategyClientTypes.TargetDatabaseEngine>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
 
-extension MigrationHubStrategyClientTypes.ServerStatusSummary {
+extension MigrationHubStrategyClientTypes.NoManagementPreference {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubStrategyClientTypes.ServerStatusSummary {
+    static func write(value: MigrationHubStrategyClientTypes.NoManagementPreference?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["targetDestination"].writeList(value.targetDestination, memberWritingClosure: SmithyReadWrite.WritingClosureBox<MigrationHubStrategyClientTypes.NoPreferenceTargetDestination>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubStrategyClientTypes.NoManagementPreference {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MigrationHubStrategyClientTypes.ServerStatusSummary()
-        value.runTimeAssessmentStatus = try reader["runTimeAssessmentStatus"].readIfPresent()
-        value.count = try reader["count"].readIfPresent()
+        var value = MigrationHubStrategyClientTypes.NoManagementPreference()
+        value.targetDestination = try reader["targetDestination"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<MigrationHubStrategyClientTypes.NoPreferenceTargetDestination>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
 
-extension MigrationHubStrategyClientTypes.ApplicationComponentStatusSummary {
+extension MigrationHubStrategyClientTypes.OSInfo {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubStrategyClientTypes.ApplicationComponentStatusSummary {
+    static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubStrategyClientTypes.OSInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MigrationHubStrategyClientTypes.ApplicationComponentStatusSummary()
-        value.srcCodeOrDbAnalysisStatus = try reader["srcCodeOrDbAnalysisStatus"].readIfPresent()
-        value.count = try reader["count"].readIfPresent()
+        var value = MigrationHubStrategyClientTypes.OSInfo()
+        value.type = try reader["type"].readIfPresent()
+        value.version = try reader["version"].readIfPresent()
         return value
     }
 }
 
-extension MigrationHubStrategyClientTypes.ServerSummary {
+extension MigrationHubStrategyClientTypes.PipelineInfo {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubStrategyClientTypes.ServerSummary {
+    static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubStrategyClientTypes.PipelineInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MigrationHubStrategyClientTypes.ServerSummary()
-        value.serverOsType = try reader["ServerOsType"].readIfPresent()
-        value.count = try reader["count"].readIfPresent()
+        var value = MigrationHubStrategyClientTypes.PipelineInfo()
+        value.pipelineType = try reader["pipelineType"].readIfPresent()
+        value.pipelineConfigurationTimeStamp = try reader["pipelineConfigurationTimeStamp"].readIfPresent()
         return value
     }
 }
 
-extension MigrationHubStrategyClientTypes.ApplicationComponentSummary {
+extension MigrationHubStrategyClientTypes.PrioritizeBusinessGoals {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubStrategyClientTypes.ApplicationComponentSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MigrationHubStrategyClientTypes.ApplicationComponentSummary()
-        value.appType = try reader["appType"].readIfPresent()
-        value.count = try reader["count"].readIfPresent()
-        return value
+    static func write(value: MigrationHubStrategyClientTypes.PrioritizeBusinessGoals?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["businessGoals"].write(value.businessGoals, with: MigrationHubStrategyClientTypes.BusinessGoals.write(value:to:))
     }
-}
 
-extension MigrationHubStrategyClientTypes.StrategySummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubStrategyClientTypes.StrategySummary {
+    static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubStrategyClientTypes.PrioritizeBusinessGoals {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MigrationHubStrategyClientTypes.StrategySummary()
-        value.strategy = try reader["strategy"].readIfPresent()
-        value.count = try reader["count"].readIfPresent()
+        var value = MigrationHubStrategyClientTypes.PrioritizeBusinessGoals()
+        value.businessGoals = try reader["businessGoals"].readIfPresent(with: MigrationHubStrategyClientTypes.BusinessGoals.read(from:))
         return value
     }
 }
@@ -5573,6 +5584,67 @@ extension MigrationHubStrategyClientTypes.RecommendationReportDetails {
         value.completionTime = try reader["completionTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.s3Bucket = try reader["s3Bucket"].readIfPresent()
         value.s3Keys = try reader["s3Keys"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension MigrationHubStrategyClientTypes.RecommendationSet {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubStrategyClientTypes.RecommendationSet {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MigrationHubStrategyClientTypes.RecommendationSet()
+        value.transformationTool = try reader["transformationTool"].readIfPresent(with: MigrationHubStrategyClientTypes.TransformationTool.read(from:))
+        value.targetDestination = try reader["targetDestination"].readIfPresent()
+        value.strategy = try reader["strategy"].readIfPresent()
+        return value
+    }
+}
+
+extension MigrationHubStrategyClientTypes.RemoteSourceCodeAnalysisServerInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubStrategyClientTypes.RemoteSourceCodeAnalysisServerInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MigrationHubStrategyClientTypes.RemoteSourceCodeAnalysisServerInfo()
+        value.remoteSourceCodeAnalysisServerConfigurationTimestamp = try reader["remoteSourceCodeAnalysisServerConfigurationTimestamp"].readIfPresent()
+        return value
+    }
+}
+
+extension MigrationHubStrategyClientTypes.Result {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubStrategyClientTypes.Result {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MigrationHubStrategyClientTypes.Result()
+        value.analysisType = try reader["analysisType"].readIfPresent()
+        value.analysisStatus = try reader["analysisStatus"].readIfPresent(with: MigrationHubStrategyClientTypes.AnalysisStatusUnion.read(from:))
+        value.statusMessage = try reader["statusMessage"].readIfPresent()
+        value.antipatternReportResultList = try reader["antipatternReportResultList"].readListIfPresent(memberReadingClosure: MigrationHubStrategyClientTypes.AntipatternReportResult.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension MigrationHubStrategyClientTypes.S3Object {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubStrategyClientTypes.S3Object {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MigrationHubStrategyClientTypes.S3Object()
+        value.s3Bucket = try reader["s3Bucket"].readIfPresent()
+        value.s3key = try reader["s3key"].readIfPresent()
+        return value
+    }
+}
+
+extension MigrationHubStrategyClientTypes.SelfManageResources {
+
+    static func write(value: MigrationHubStrategyClientTypes.SelfManageResources?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["targetDestination"].writeList(value.targetDestination, memberWritingClosure: SmithyReadWrite.WritingClosureBox<MigrationHubStrategyClientTypes.SelfManageTargetDestination>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubStrategyClientTypes.SelfManageResources {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MigrationHubStrategyClientTypes.SelfManageResources()
+        value.targetDestination = try reader["targetDestination"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<MigrationHubStrategyClientTypes.SelfManageTargetDestination>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -5610,39 +5682,13 @@ extension MigrationHubStrategyClientTypes.ServerError {
     }
 }
 
-extension MigrationHubStrategyClientTypes.SystemInfo {
+extension MigrationHubStrategyClientTypes.ServerStatusSummary {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubStrategyClientTypes.SystemInfo {
+    static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubStrategyClientTypes.ServerStatusSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MigrationHubStrategyClientTypes.SystemInfo()
-        value.osInfo = try reader["osInfo"].readIfPresent(with: MigrationHubStrategyClientTypes.OSInfo.read(from:))
-        value.fileSystemType = try reader["fileSystemType"].readIfPresent()
-        value.networkInfoList = try reader["networkInfoList"].readListIfPresent(memberReadingClosure: MigrationHubStrategyClientTypes.NetworkInfo.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.cpuArchitecture = try reader["cpuArchitecture"].readIfPresent()
-        return value
-    }
-}
-
-extension MigrationHubStrategyClientTypes.NetworkInfo {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubStrategyClientTypes.NetworkInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MigrationHubStrategyClientTypes.NetworkInfo()
-        value.interfaceName = try reader["interfaceName"].readIfPresent() ?? ""
-        value.ipAddress = try reader["ipAddress"].readIfPresent() ?? ""
-        value.macAddress = try reader["macAddress"].readIfPresent() ?? ""
-        value.netMask = try reader["netMask"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension MigrationHubStrategyClientTypes.OSInfo {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubStrategyClientTypes.OSInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MigrationHubStrategyClientTypes.OSInfo()
-        value.type = try reader["type"].readIfPresent()
-        value.version = try reader["version"].readIfPresent()
+        var value = MigrationHubStrategyClientTypes.ServerStatusSummary()
+        value.runTimeAssessmentStatus = try reader["runTimeAssessmentStatus"].readIfPresent()
+        value.count = try reader["count"].readIfPresent()
         return value
     }
 }
@@ -5660,90 +5706,84 @@ extension MigrationHubStrategyClientTypes.ServerStrategy {
     }
 }
 
-extension MigrationHubStrategyClientTypes.AnalyzableServerSummary {
+extension MigrationHubStrategyClientTypes.ServerSummary {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubStrategyClientTypes.AnalyzableServerSummary {
+    static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubStrategyClientTypes.ServerSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MigrationHubStrategyClientTypes.AnalyzableServerSummary()
-        value.hostname = try reader["hostname"].readIfPresent()
-        value.ipAddress = try reader["ipAddress"].readIfPresent()
-        value.source = try reader["source"].readIfPresent()
-        value.vmId = try reader["vmId"].readIfPresent()
+        var value = MigrationHubStrategyClientTypes.ServerSummary()
+        value.serverOsType = try reader["ServerOsType"].readIfPresent()
+        value.count = try reader["count"].readIfPresent()
         return value
     }
 }
 
-extension MigrationHubStrategyClientTypes.Collector {
+extension MigrationHubStrategyClientTypes.SourceCode {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubStrategyClientTypes.Collector {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MigrationHubStrategyClientTypes.Collector()
-        value.collectorId = try reader["collectorId"].readIfPresent()
-        value.ipAddress = try reader["ipAddress"].readIfPresent()
-        value.hostName = try reader["hostName"].readIfPresent()
-        value.collectorHealth = try reader["collectorHealth"].readIfPresent()
-        value.collectorVersion = try reader["collectorVersion"].readIfPresent()
-        value.registeredTimeStamp = try reader["registeredTimeStamp"].readIfPresent()
-        value.lastActivityTimeStamp = try reader["lastActivityTimeStamp"].readIfPresent()
-        value.configurationSummary = try reader["configurationSummary"].readIfPresent(with: MigrationHubStrategyClientTypes.ConfigurationSummary.read(from:))
-        return value
+    static func write(value: MigrationHubStrategyClientTypes.SourceCode?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["location"].write(value.location)
+        try writer["projectName"].write(value.projectName)
+        try writer["sourceVersion"].write(value.sourceVersion)
+        try writer["versionControl"].write(value.versionControl)
     }
 }
 
-extension MigrationHubStrategyClientTypes.ConfigurationSummary {
+extension MigrationHubStrategyClientTypes.SourceCodeRepository {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubStrategyClientTypes.ConfigurationSummary {
+    static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubStrategyClientTypes.SourceCodeRepository {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MigrationHubStrategyClientTypes.ConfigurationSummary()
-        value.vcenterBasedRemoteInfoList = try reader["vcenterBasedRemoteInfoList"].readListIfPresent(memberReadingClosure: MigrationHubStrategyClientTypes.VcenterBasedRemoteInfo.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.ipAddressBasedRemoteInfoList = try reader["ipAddressBasedRemoteInfoList"].readListIfPresent(memberReadingClosure: MigrationHubStrategyClientTypes.IPAddressBasedRemoteInfo.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.versionControlInfoList = try reader["versionControlInfoList"].readListIfPresent(memberReadingClosure: MigrationHubStrategyClientTypes.VersionControlInfo.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.pipelineInfoList = try reader["pipelineInfoList"].readListIfPresent(memberReadingClosure: MigrationHubStrategyClientTypes.PipelineInfo.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.remoteSourceCodeAnalysisServerInfo = try reader["remoteSourceCodeAnalysisServerInfo"].readIfPresent(with: MigrationHubStrategyClientTypes.RemoteSourceCodeAnalysisServerInfo.read(from:))
-        return value
-    }
-}
-
-extension MigrationHubStrategyClientTypes.RemoteSourceCodeAnalysisServerInfo {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubStrategyClientTypes.RemoteSourceCodeAnalysisServerInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MigrationHubStrategyClientTypes.RemoteSourceCodeAnalysisServerInfo()
-        value.remoteSourceCodeAnalysisServerConfigurationTimestamp = try reader["remoteSourceCodeAnalysisServerConfigurationTimestamp"].readIfPresent()
-        return value
-    }
-}
-
-extension MigrationHubStrategyClientTypes.PipelineInfo {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubStrategyClientTypes.PipelineInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MigrationHubStrategyClientTypes.PipelineInfo()
-        value.pipelineType = try reader["pipelineType"].readIfPresent()
-        value.pipelineConfigurationTimeStamp = try reader["pipelineConfigurationTimeStamp"].readIfPresent()
-        return value
-    }
-}
-
-extension MigrationHubStrategyClientTypes.VersionControlInfo {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubStrategyClientTypes.VersionControlInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MigrationHubStrategyClientTypes.VersionControlInfo()
+        var value = MigrationHubStrategyClientTypes.SourceCodeRepository()
+        value.repository = try reader["repository"].readIfPresent()
+        value.branch = try reader["branch"].readIfPresent()
         value.versionControlType = try reader["versionControlType"].readIfPresent()
-        value.versionControlConfigurationTimeStamp = try reader["versionControlConfigurationTimeStamp"].readIfPresent()
+        value.projectName = try reader["projectName"].readIfPresent()
         return value
     }
 }
 
-extension MigrationHubStrategyClientTypes.IPAddressBasedRemoteInfo {
+extension MigrationHubStrategyClientTypes.StrategyOption {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubStrategyClientTypes.IPAddressBasedRemoteInfo {
+    static func write(value: MigrationHubStrategyClientTypes.StrategyOption?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["isPreferred"].write(value.isPreferred)
+        try writer["strategy"].write(value.strategy)
+        try writer["targetDestination"].write(value.targetDestination)
+        try writer["toolName"].write(value.toolName)
+    }
+}
+
+extension MigrationHubStrategyClientTypes.StrategySummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubStrategyClientTypes.StrategySummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MigrationHubStrategyClientTypes.IPAddressBasedRemoteInfo()
-        value.ipAddressConfigurationTimeStamp = try reader["ipAddressConfigurationTimeStamp"].readIfPresent()
-        value.authType = try reader["authType"].readIfPresent()
-        value.osType = try reader["osType"].readIfPresent()
+        var value = MigrationHubStrategyClientTypes.StrategySummary()
+        value.strategy = try reader["strategy"].readIfPresent()
+        value.count = try reader["count"].readIfPresent()
+        return value
+    }
+}
+
+extension MigrationHubStrategyClientTypes.SystemInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubStrategyClientTypes.SystemInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MigrationHubStrategyClientTypes.SystemInfo()
+        value.osInfo = try reader["osInfo"].readIfPresent(with: MigrationHubStrategyClientTypes.OSInfo.read(from:))
+        value.fileSystemType = try reader["fileSystemType"].readIfPresent()
+        value.networkInfoList = try reader["networkInfoList"].readListIfPresent(memberReadingClosure: MigrationHubStrategyClientTypes.NetworkInfo.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.cpuArchitecture = try reader["cpuArchitecture"].readIfPresent()
+        return value
+    }
+}
+
+extension MigrationHubStrategyClientTypes.TransformationTool {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubStrategyClientTypes.TransformationTool {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MigrationHubStrategyClientTypes.TransformationTool()
+        value.name = try reader["name"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.tranformationToolInstallationLink = try reader["tranformationToolInstallationLink"].readIfPresent()
         return value
     }
 }
@@ -5759,54 +5799,14 @@ extension MigrationHubStrategyClientTypes.VcenterBasedRemoteInfo {
     }
 }
 
-extension MigrationHubStrategyClientTypes.ImportFileTaskInformation {
+extension MigrationHubStrategyClientTypes.VersionControlInfo {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubStrategyClientTypes.ImportFileTaskInformation {
+    static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubStrategyClientTypes.VersionControlInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MigrationHubStrategyClientTypes.ImportFileTaskInformation()
-        value.id = try reader["id"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.inputS3Bucket = try reader["inputS3Bucket"].readIfPresent()
-        value.inputS3Key = try reader["inputS3Key"].readIfPresent()
-        value.statusReportS3Bucket = try reader["statusReportS3Bucket"].readIfPresent()
-        value.statusReportS3Key = try reader["statusReportS3Key"].readIfPresent()
-        value.completionTime = try reader["completionTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.numberOfRecordsSuccess = try reader["numberOfRecordsSuccess"].readIfPresent()
-        value.numberOfRecordsFailed = try reader["numberOfRecordsFailed"].readIfPresent()
-        value.importName = try reader["importName"].readIfPresent()
+        var value = MigrationHubStrategyClientTypes.VersionControlInfo()
+        value.versionControlType = try reader["versionControlType"].readIfPresent()
+        value.versionControlConfigurationTimeStamp = try reader["versionControlConfigurationTimeStamp"].readIfPresent()
         return value
-    }
-}
-
-extension MigrationHubStrategyClientTypes.Group {
-
-    static func write(value: MigrationHubStrategyClientTypes.Group?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["name"].write(value.name)
-        try writer["value"].write(value.value)
-    }
-}
-
-extension MigrationHubStrategyClientTypes.StrategyOption {
-
-    static func write(value: MigrationHubStrategyClientTypes.StrategyOption?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["isPreferred"].write(value.isPreferred)
-        try writer["strategy"].write(value.strategy)
-        try writer["targetDestination"].write(value.targetDestination)
-        try writer["toolName"].write(value.toolName)
-    }
-}
-
-extension MigrationHubStrategyClientTypes.SourceCode {
-
-    static func write(value: MigrationHubStrategyClientTypes.SourceCode?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["location"].write(value.location)
-        try writer["projectName"].write(value.projectName)
-        try writer["sourceVersion"].write(value.sourceVersion)
-        try writer["versionControl"].write(value.versionControl)
     }
 }
 

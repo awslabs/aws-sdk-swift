@@ -563,28 +563,6 @@ extension ThrottlingException {
     }
 }
 
-extension EKSAuthClientTypes.Subject {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EKSAuthClientTypes.Subject {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EKSAuthClientTypes.Subject()
-        value.namespace = try reader["namespace"].readIfPresent() ?? ""
-        value.serviceAccount = try reader["serviceAccount"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension EKSAuthClientTypes.PodIdentityAssociation {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> EKSAuthClientTypes.PodIdentityAssociation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = EKSAuthClientTypes.PodIdentityAssociation()
-        value.associationArn = try reader["associationArn"].readIfPresent() ?? ""
-        value.associationId = try reader["associationId"].readIfPresent() ?? ""
-        return value
-    }
-}
-
 extension EKSAuthClientTypes.AssumedRoleUser {
 
     static func read(from reader: SmithyJSON.Reader) throws -> EKSAuthClientTypes.AssumedRoleUser {
@@ -605,6 +583,28 @@ extension EKSAuthClientTypes.Credentials {
         value.secretAccessKey = try reader["secretAccessKey"].readIfPresent() ?? ""
         value.accessKeyId = try reader["accessKeyId"].readIfPresent() ?? ""
         value.expiration = try reader["expiration"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension EKSAuthClientTypes.PodIdentityAssociation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSAuthClientTypes.PodIdentityAssociation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EKSAuthClientTypes.PodIdentityAssociation()
+        value.associationArn = try reader["associationArn"].readIfPresent() ?? ""
+        value.associationId = try reader["associationId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension EKSAuthClientTypes.Subject {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> EKSAuthClientTypes.Subject {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EKSAuthClientTypes.Subject()
+        value.namespace = try reader["namespace"].readIfPresent() ?? ""
+        value.serviceAccount = try reader["serviceAccount"].readIfPresent() ?? ""
         return value
     }
 }

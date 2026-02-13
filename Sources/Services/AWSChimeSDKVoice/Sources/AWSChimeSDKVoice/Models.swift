@@ -10247,64 +10247,103 @@ extension UnprocessableEntityException {
     }
 }
 
-extension ChimeSDKVoiceClientTypes.PhoneNumberError {
+extension ChimeSDKVoiceClientTypes.Address {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKVoiceClientTypes.PhoneNumberError {
+    static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKVoiceClientTypes.Address {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ChimeSDKVoiceClientTypes.PhoneNumberError()
-        value.phoneNumberId = try reader["PhoneNumberId"].readIfPresent()
-        value.errorCode = try reader["ErrorCode"].readIfPresent()
-        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
+        var value = ChimeSDKVoiceClientTypes.Address()
+        value.streetName = try reader["streetName"].readIfPresent()
+        value.streetSuffix = try reader["streetSuffix"].readIfPresent()
+        value.postDirectional = try reader["postDirectional"].readIfPresent()
+        value.preDirectional = try reader["preDirectional"].readIfPresent()
+        value.streetNumber = try reader["streetNumber"].readIfPresent()
+        value.city = try reader["city"].readIfPresent()
+        value.state = try reader["state"].readIfPresent()
+        value.postalCode = try reader["postalCode"].readIfPresent()
+        value.postalCodePlus4 = try reader["postalCodePlus4"].readIfPresent()
+        value.country = try reader["country"].readIfPresent()
         return value
     }
 }
 
-extension ChimeSDKVoiceClientTypes.PhoneNumberOrder {
+extension ChimeSDKVoiceClientTypes.CallDetails {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKVoiceClientTypes.PhoneNumberOrder {
+    static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKVoiceClientTypes.CallDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ChimeSDKVoiceClientTypes.PhoneNumberOrder()
-        value.phoneNumberOrderId = try reader["PhoneNumberOrderId"].readIfPresent()
-        value.productType = try reader["ProductType"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.orderType = try reader["OrderType"].readIfPresent()
-        value.orderedPhoneNumbers = try reader["OrderedPhoneNumbers"].readListIfPresent(memberReadingClosure: ChimeSDKVoiceClientTypes.OrderedPhoneNumber.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.updatedTimestamp = try reader["UpdatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.focDate = try reader["FocDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        return value
-    }
-}
-
-extension ChimeSDKVoiceClientTypes.OrderedPhoneNumber {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKVoiceClientTypes.OrderedPhoneNumber {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ChimeSDKVoiceClientTypes.OrderedPhoneNumber()
-        value.e164PhoneNumber = try reader["E164PhoneNumber"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        return value
-    }
-}
-
-extension ChimeSDKVoiceClientTypes.ProxySession {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKVoiceClientTypes.ProxySession {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ChimeSDKVoiceClientTypes.ProxySession()
+        var value = ChimeSDKVoiceClientTypes.CallDetails()
         value.voiceConnectorId = try reader["VoiceConnectorId"].readIfPresent()
-        value.proxySessionId = try reader["ProxySessionId"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.expiryMinutes = try reader["ExpiryMinutes"].readIfPresent()
-        value.capabilities = try reader["Capabilities"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<ChimeSDKVoiceClientTypes.Capability>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.updatedTimestamp = try reader["UpdatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.endedTimestamp = try reader["EndedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.participants = try reader["Participants"].readListIfPresent(memberReadingClosure: ChimeSDKVoiceClientTypes.Participant.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.numberSelectionBehavior = try reader["NumberSelectionBehavior"].readIfPresent()
-        value.geoMatchLevel = try reader["GeoMatchLevel"].readIfPresent()
-        value.geoMatchParams = try reader["GeoMatchParams"].readIfPresent(with: ChimeSDKVoiceClientTypes.GeoMatchParams.read(from:))
+        value.transactionId = try reader["TransactionId"].readIfPresent()
+        value.isCaller = try reader["IsCaller"].readIfPresent()
+        return value
+    }
+}
+
+extension ChimeSDKVoiceClientTypes.CandidateAddress {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKVoiceClientTypes.CandidateAddress {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ChimeSDKVoiceClientTypes.CandidateAddress()
+        value.streetInfo = try reader["streetInfo"].readIfPresent()
+        value.streetNumber = try reader["streetNumber"].readIfPresent()
+        value.city = try reader["city"].readIfPresent()
+        value.state = try reader["state"].readIfPresent()
+        value.postalCode = try reader["postalCode"].readIfPresent()
+        value.postalCodePlus4 = try reader["postalCodePlus4"].readIfPresent()
+        value.country = try reader["country"].readIfPresent()
+        return value
+    }
+}
+
+extension ChimeSDKVoiceClientTypes.Credential {
+
+    static func write(value: ChimeSDKVoiceClientTypes.Credential?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Password"].write(value.password)
+        try writer["Username"].write(value.username)
+    }
+}
+
+extension ChimeSDKVoiceClientTypes.DNISEmergencyCallingConfiguration {
+
+    static func write(value: ChimeSDKVoiceClientTypes.DNISEmergencyCallingConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CallingCountry"].write(value.callingCountry)
+        try writer["EmergencyPhoneNumber"].write(value.emergencyPhoneNumber)
+        try writer["TestPhoneNumber"].write(value.testPhoneNumber)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKVoiceClientTypes.DNISEmergencyCallingConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ChimeSDKVoiceClientTypes.DNISEmergencyCallingConfiguration()
+        value.emergencyPhoneNumber = try reader["EmergencyPhoneNumber"].readIfPresent() ?? ""
+        value.testPhoneNumber = try reader["TestPhoneNumber"].readIfPresent()
+        value.callingCountry = try reader["CallingCountry"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension ChimeSDKVoiceClientTypes.EmergencyCallingConfiguration {
+
+    static func write(value: ChimeSDKVoiceClientTypes.EmergencyCallingConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DNIS"].writeList(value.dnis, memberWritingClosure: ChimeSDKVoiceClientTypes.DNISEmergencyCallingConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKVoiceClientTypes.EmergencyCallingConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ChimeSDKVoiceClientTypes.EmergencyCallingConfiguration()
+        value.dnis = try reader["DNIS"].readListIfPresent(memberReadingClosure: ChimeSDKVoiceClientTypes.DNISEmergencyCallingConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ChimeSDKVoiceClientTypes.ExternalSystemsConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKVoiceClientTypes.ExternalSystemsConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ChimeSDKVoiceClientTypes.ExternalSystemsConfiguration()
+        value.sessionBorderControllerTypes = try reader["SessionBorderControllerTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<ChimeSDKVoiceClientTypes.SessionBorderControllerType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.contactCenterSystemTypes = try reader["ContactCenterSystemTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<ChimeSDKVoiceClientTypes.ContactCenterSystemType>().read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -10326,6 +10365,91 @@ extension ChimeSDKVoiceClientTypes.GeoMatchParams {
     }
 }
 
+extension ChimeSDKVoiceClientTypes.LoggingConfiguration {
+
+    static func write(value: ChimeSDKVoiceClientTypes.LoggingConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["EnableMediaMetricLogs"].write(value.enableMediaMetricLogs)
+        try writer["EnableSIPLogs"].write(value.enableSIPLogs)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKVoiceClientTypes.LoggingConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ChimeSDKVoiceClientTypes.LoggingConfiguration()
+        value.enableSIPLogs = try reader["EnableSIPLogs"].readIfPresent()
+        value.enableMediaMetricLogs = try reader["EnableMediaMetricLogs"].readIfPresent()
+        return value
+    }
+}
+
+extension ChimeSDKVoiceClientTypes.MediaInsightsConfiguration {
+
+    static func write(value: ChimeSDKVoiceClientTypes.MediaInsightsConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ConfigurationArn"].write(value.configurationArn)
+        try writer["Disabled"].write(value.disabled)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKVoiceClientTypes.MediaInsightsConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ChimeSDKVoiceClientTypes.MediaInsightsConfiguration()
+        value.disabled = try reader["Disabled"].readIfPresent()
+        value.configurationArn = try reader["ConfigurationArn"].readIfPresent()
+        return value
+    }
+}
+
+extension ChimeSDKVoiceClientTypes.OrderedPhoneNumber {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKVoiceClientTypes.OrderedPhoneNumber {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ChimeSDKVoiceClientTypes.OrderedPhoneNumber()
+        value.e164PhoneNumber = try reader["E164PhoneNumber"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        return value
+    }
+}
+
+extension ChimeSDKVoiceClientTypes.Origination {
+
+    static func write(value: ChimeSDKVoiceClientTypes.Origination?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Disabled"].write(value.disabled)
+        try writer["Routes"].writeList(value.routes, memberWritingClosure: ChimeSDKVoiceClientTypes.OriginationRoute.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKVoiceClientTypes.Origination {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ChimeSDKVoiceClientTypes.Origination()
+        value.routes = try reader["Routes"].readListIfPresent(memberReadingClosure: ChimeSDKVoiceClientTypes.OriginationRoute.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.disabled = try reader["Disabled"].readIfPresent()
+        return value
+    }
+}
+
+extension ChimeSDKVoiceClientTypes.OriginationRoute {
+
+    static func write(value: ChimeSDKVoiceClientTypes.OriginationRoute?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Host"].write(value.host)
+        try writer["Port"].write(value.port)
+        try writer["Priority"].write(value.priority)
+        try writer["Protocol"].write(value.`protocol`)
+        try writer["Weight"].write(value.weight)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKVoiceClientTypes.OriginationRoute {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ChimeSDKVoiceClientTypes.OriginationRoute()
+        value.host = try reader["Host"].readIfPresent()
+        value.port = try reader["Port"].readIfPresent()
+        value.`protocol` = try reader["Protocol"].readIfPresent()
+        value.priority = try reader["Priority"].readIfPresent()
+        value.weight = try reader["Weight"].readIfPresent()
+        return value
+    }
+}
+
 extension ChimeSDKVoiceClientTypes.Participant {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKVoiceClientTypes.Participant {
@@ -10333,195 +10457,6 @@ extension ChimeSDKVoiceClientTypes.Participant {
         var value = ChimeSDKVoiceClientTypes.Participant()
         value.phoneNumber = try reader["PhoneNumber"].readIfPresent()
         value.proxyPhoneNumber = try reader["ProxyPhoneNumber"].readIfPresent()
-        return value
-    }
-}
-
-extension ChimeSDKVoiceClientTypes.SipMediaApplication {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKVoiceClientTypes.SipMediaApplication {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ChimeSDKVoiceClientTypes.SipMediaApplication()
-        value.sipMediaApplicationId = try reader["SipMediaApplicationId"].readIfPresent()
-        value.awsRegion = try reader["AwsRegion"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
-        value.endpoints = try reader["Endpoints"].readListIfPresent(memberReadingClosure: ChimeSDKVoiceClientTypes.SipMediaApplicationEndpoint.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.updatedTimestamp = try reader["UpdatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.sipMediaApplicationArn = try reader["SipMediaApplicationArn"].readIfPresent()
-        return value
-    }
-}
-
-extension ChimeSDKVoiceClientTypes.SipMediaApplicationEndpoint {
-
-    static func write(value: ChimeSDKVoiceClientTypes.SipMediaApplicationEndpoint?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["LambdaArn"].write(value.lambdaArn)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKVoiceClientTypes.SipMediaApplicationEndpoint {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ChimeSDKVoiceClientTypes.SipMediaApplicationEndpoint()
-        value.lambdaArn = try reader["LambdaArn"].readIfPresent()
-        return value
-    }
-}
-
-extension ChimeSDKVoiceClientTypes.SipMediaApplicationCall {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKVoiceClientTypes.SipMediaApplicationCall {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ChimeSDKVoiceClientTypes.SipMediaApplicationCall()
-        value.transactionId = try reader["TransactionId"].readIfPresent()
-        return value
-    }
-}
-
-extension ChimeSDKVoiceClientTypes.SipRule {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKVoiceClientTypes.SipRule {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ChimeSDKVoiceClientTypes.SipRule()
-        value.sipRuleId = try reader["SipRuleId"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
-        value.disabled = try reader["Disabled"].readIfPresent()
-        value.triggerType = try reader["TriggerType"].readIfPresent()
-        value.triggerValue = try reader["TriggerValue"].readIfPresent()
-        value.targetApplications = try reader["TargetApplications"].readListIfPresent(memberReadingClosure: ChimeSDKVoiceClientTypes.SipRuleTargetApplication.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.updatedTimestamp = try reader["UpdatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        return value
-    }
-}
-
-extension ChimeSDKVoiceClientTypes.SipRuleTargetApplication {
-
-    static func write(value: ChimeSDKVoiceClientTypes.SipRuleTargetApplication?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AwsRegion"].write(value.awsRegion)
-        try writer["Priority"].write(value.priority)
-        try writer["SipMediaApplicationId"].write(value.sipMediaApplicationId)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKVoiceClientTypes.SipRuleTargetApplication {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ChimeSDKVoiceClientTypes.SipRuleTargetApplication()
-        value.sipMediaApplicationId = try reader["SipMediaApplicationId"].readIfPresent()
-        value.priority = try reader["Priority"].readIfPresent()
-        value.awsRegion = try reader["AwsRegion"].readIfPresent()
-        return value
-    }
-}
-
-extension ChimeSDKVoiceClientTypes.VoiceConnector {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKVoiceClientTypes.VoiceConnector {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ChimeSDKVoiceClientTypes.VoiceConnector()
-        value.voiceConnectorId = try reader["VoiceConnectorId"].readIfPresent()
-        value.awsRegion = try reader["AwsRegion"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
-        value.outboundHostName = try reader["OutboundHostName"].readIfPresent()
-        value.requireEncryption = try reader["RequireEncryption"].readIfPresent()
-        value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.updatedTimestamp = try reader["UpdatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.voiceConnectorArn = try reader["VoiceConnectorArn"].readIfPresent()
-        value.integrationType = try reader["IntegrationType"].readIfPresent()
-        value.networkType = try reader["NetworkType"].readIfPresent()
-        return value
-    }
-}
-
-extension ChimeSDKVoiceClientTypes.VoiceConnectorGroup {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKVoiceClientTypes.VoiceConnectorGroup {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ChimeSDKVoiceClientTypes.VoiceConnectorGroup()
-        value.voiceConnectorGroupId = try reader["VoiceConnectorGroupId"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
-        value.voiceConnectorItems = try reader["VoiceConnectorItems"].readListIfPresent(memberReadingClosure: ChimeSDKVoiceClientTypes.VoiceConnectorItem.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.updatedTimestamp = try reader["UpdatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.voiceConnectorGroupArn = try reader["VoiceConnectorGroupArn"].readIfPresent()
-        return value
-    }
-}
-
-extension ChimeSDKVoiceClientTypes.VoiceConnectorItem {
-
-    static func write(value: ChimeSDKVoiceClientTypes.VoiceConnectorItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Priority"].write(value.priority)
-        try writer["VoiceConnectorId"].write(value.voiceConnectorId)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKVoiceClientTypes.VoiceConnectorItem {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ChimeSDKVoiceClientTypes.VoiceConnectorItem()
-        value.voiceConnectorId = try reader["VoiceConnectorId"].readIfPresent() ?? ""
-        value.priority = try reader["Priority"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension ChimeSDKVoiceClientTypes.VoiceProfile {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKVoiceClientTypes.VoiceProfile {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ChimeSDKVoiceClientTypes.VoiceProfile()
-        value.voiceProfileId = try reader["VoiceProfileId"].readIfPresent()
-        value.voiceProfileArn = try reader["VoiceProfileArn"].readIfPresent()
-        value.voiceProfileDomainId = try reader["VoiceProfileDomainId"].readIfPresent()
-        value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.updatedTimestamp = try reader["UpdatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.expirationTimestamp = try reader["ExpirationTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        return value
-    }
-}
-
-extension ChimeSDKVoiceClientTypes.VoiceProfileDomain {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKVoiceClientTypes.VoiceProfileDomain {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ChimeSDKVoiceClientTypes.VoiceProfileDomain()
-        value.voiceProfileDomainId = try reader["VoiceProfileDomainId"].readIfPresent()
-        value.voiceProfileDomainArn = try reader["VoiceProfileDomainArn"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        value.serverSideEncryptionConfiguration = try reader["ServerSideEncryptionConfiguration"].readIfPresent(with: ChimeSDKVoiceClientTypes.ServerSideEncryptionConfiguration.read(from:))
-        value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.updatedTimestamp = try reader["UpdatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        return value
-    }
-}
-
-extension ChimeSDKVoiceClientTypes.ServerSideEncryptionConfiguration {
-
-    static func write(value: ChimeSDKVoiceClientTypes.ServerSideEncryptionConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["KmsKeyArn"].write(value.kmsKeyArn)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKVoiceClientTypes.ServerSideEncryptionConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ChimeSDKVoiceClientTypes.ServerSideEncryptionConfiguration()
-        value.kmsKeyArn = try reader["KmsKeyArn"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension ChimeSDKVoiceClientTypes.VoiceConnectorSettings {
-
-    static func write(value: ChimeSDKVoiceClientTypes.VoiceConnectorSettings?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CdrBucket"].write(value.cdrBucket)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKVoiceClientTypes.VoiceConnectorSettings {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ChimeSDKVoiceClientTypes.VoiceConnectorSettings()
-        value.cdrBucket = try reader["CdrBucket"].readIfPresent()
         return value
     }
 }
@@ -10577,6 +10512,112 @@ extension ChimeSDKVoiceClientTypes.PhoneNumberCapabilities {
     }
 }
 
+extension ChimeSDKVoiceClientTypes.PhoneNumberCountry {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKVoiceClientTypes.PhoneNumberCountry {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ChimeSDKVoiceClientTypes.PhoneNumberCountry()
+        value.countryCode = try reader["CountryCode"].readIfPresent()
+        value.supportedPhoneNumberTypes = try reader["SupportedPhoneNumberTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<ChimeSDKVoiceClientTypes.PhoneNumberType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ChimeSDKVoiceClientTypes.PhoneNumberError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKVoiceClientTypes.PhoneNumberError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ChimeSDKVoiceClientTypes.PhoneNumberError()
+        value.phoneNumberId = try reader["PhoneNumberId"].readIfPresent()
+        value.errorCode = try reader["ErrorCode"].readIfPresent()
+        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
+        return value
+    }
+}
+
+extension ChimeSDKVoiceClientTypes.PhoneNumberOrder {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKVoiceClientTypes.PhoneNumberOrder {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ChimeSDKVoiceClientTypes.PhoneNumberOrder()
+        value.phoneNumberOrderId = try reader["PhoneNumberOrderId"].readIfPresent()
+        value.productType = try reader["ProductType"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.orderType = try reader["OrderType"].readIfPresent()
+        value.orderedPhoneNumbers = try reader["OrderedPhoneNumbers"].readListIfPresent(memberReadingClosure: ChimeSDKVoiceClientTypes.OrderedPhoneNumber.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.updatedTimestamp = try reader["UpdatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.focDate = try reader["FocDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
+extension ChimeSDKVoiceClientTypes.Proxy {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKVoiceClientTypes.Proxy {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ChimeSDKVoiceClientTypes.Proxy()
+        value.defaultSessionExpiryMinutes = try reader["DefaultSessionExpiryMinutes"].readIfPresent()
+        value.disabled = try reader["Disabled"].readIfPresent()
+        value.fallBackPhoneNumber = try reader["FallBackPhoneNumber"].readIfPresent()
+        value.phoneNumberCountries = try reader["PhoneNumberCountries"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ChimeSDKVoiceClientTypes.ProxySession {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKVoiceClientTypes.ProxySession {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ChimeSDKVoiceClientTypes.ProxySession()
+        value.voiceConnectorId = try reader["VoiceConnectorId"].readIfPresent()
+        value.proxySessionId = try reader["ProxySessionId"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.expiryMinutes = try reader["ExpiryMinutes"].readIfPresent()
+        value.capabilities = try reader["Capabilities"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<ChimeSDKVoiceClientTypes.Capability>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.updatedTimestamp = try reader["UpdatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.endedTimestamp = try reader["EndedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.participants = try reader["Participants"].readListIfPresent(memberReadingClosure: ChimeSDKVoiceClientTypes.Participant.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.numberSelectionBehavior = try reader["NumberSelectionBehavior"].readIfPresent()
+        value.geoMatchLevel = try reader["GeoMatchLevel"].readIfPresent()
+        value.geoMatchParams = try reader["GeoMatchParams"].readIfPresent(with: ChimeSDKVoiceClientTypes.GeoMatchParams.read(from:))
+        return value
+    }
+}
+
+extension ChimeSDKVoiceClientTypes.ServerSideEncryptionConfiguration {
+
+    static func write(value: ChimeSDKVoiceClientTypes.ServerSideEncryptionConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["KmsKeyArn"].write(value.kmsKeyArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKVoiceClientTypes.ServerSideEncryptionConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ChimeSDKVoiceClientTypes.ServerSideEncryptionConfiguration()
+        value.kmsKeyArn = try reader["KmsKeyArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension ChimeSDKVoiceClientTypes.SipMediaApplication {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKVoiceClientTypes.SipMediaApplication {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ChimeSDKVoiceClientTypes.SipMediaApplication()
+        value.sipMediaApplicationId = try reader["SipMediaApplicationId"].readIfPresent()
+        value.awsRegion = try reader["AwsRegion"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        value.endpoints = try reader["Endpoints"].readListIfPresent(memberReadingClosure: ChimeSDKVoiceClientTypes.SipMediaApplicationEndpoint.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.updatedTimestamp = try reader["UpdatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.sipMediaApplicationArn = try reader["SipMediaApplicationArn"].readIfPresent()
+        return value
+    }
+}
+
 extension ChimeSDKVoiceClientTypes.SipMediaApplicationAlexaSkillConfiguration {
 
     static func write(value: ChimeSDKVoiceClientTypes.SipMediaApplicationAlexaSkillConfiguration?, to writer: SmithyJSON.Writer) throws {
@@ -10590,6 +10631,31 @@ extension ChimeSDKVoiceClientTypes.SipMediaApplicationAlexaSkillConfiguration {
         var value = ChimeSDKVoiceClientTypes.SipMediaApplicationAlexaSkillConfiguration()
         value.alexaSkillStatus = try reader["AlexaSkillStatus"].readIfPresent() ?? .sdkUnknown("")
         value.alexaSkillIds = try reader["AlexaSkillIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension ChimeSDKVoiceClientTypes.SipMediaApplicationCall {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKVoiceClientTypes.SipMediaApplicationCall {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ChimeSDKVoiceClientTypes.SipMediaApplicationCall()
+        value.transactionId = try reader["TransactionId"].readIfPresent()
+        return value
+    }
+}
+
+extension ChimeSDKVoiceClientTypes.SipMediaApplicationEndpoint {
+
+    static func write(value: ChimeSDKVoiceClientTypes.SipMediaApplicationEndpoint?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["LambdaArn"].write(value.lambdaArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKVoiceClientTypes.SipMediaApplicationEndpoint {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ChimeSDKVoiceClientTypes.SipMediaApplicationEndpoint()
+        value.lambdaArn = try reader["LambdaArn"].readIfPresent()
         return value
     }
 }
@@ -10609,19 +10675,38 @@ extension ChimeSDKVoiceClientTypes.SipMediaApplicationLoggingConfiguration {
     }
 }
 
-extension ChimeSDKVoiceClientTypes.SpeakerSearchTask {
+extension ChimeSDKVoiceClientTypes.SipRule {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKVoiceClientTypes.SpeakerSearchTask {
+    static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKVoiceClientTypes.SipRule {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ChimeSDKVoiceClientTypes.SpeakerSearchTask()
-        value.speakerSearchTaskId = try reader["SpeakerSearchTaskId"].readIfPresent()
-        value.speakerSearchTaskStatus = try reader["SpeakerSearchTaskStatus"].readIfPresent()
-        value.callDetails = try reader["CallDetails"].readIfPresent(with: ChimeSDKVoiceClientTypes.CallDetails.read(from:))
-        value.speakerSearchDetails = try reader["SpeakerSearchDetails"].readIfPresent(with: ChimeSDKVoiceClientTypes.SpeakerSearchDetails.read(from:))
+        var value = ChimeSDKVoiceClientTypes.SipRule()
+        value.sipRuleId = try reader["SipRuleId"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        value.disabled = try reader["Disabled"].readIfPresent()
+        value.triggerType = try reader["TriggerType"].readIfPresent()
+        value.triggerValue = try reader["TriggerValue"].readIfPresent()
+        value.targetApplications = try reader["TargetApplications"].readListIfPresent(memberReadingClosure: ChimeSDKVoiceClientTypes.SipRuleTargetApplication.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.updatedTimestamp = try reader["UpdatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.startedTimestamp = try reader["StartedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.statusMessage = try reader["StatusMessage"].readIfPresent()
+        return value
+    }
+}
+
+extension ChimeSDKVoiceClientTypes.SipRuleTargetApplication {
+
+    static func write(value: ChimeSDKVoiceClientTypes.SipRuleTargetApplication?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AwsRegion"].write(value.awsRegion)
+        try writer["Priority"].write(value.priority)
+        try writer["SipMediaApplicationId"].write(value.sipMediaApplicationId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKVoiceClientTypes.SipRuleTargetApplication {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ChimeSDKVoiceClientTypes.SipRuleTargetApplication()
+        value.sipMediaApplicationId = try reader["SipMediaApplicationId"].readIfPresent()
+        value.priority = try reader["Priority"].readIfPresent()
+        value.awsRegion = try reader["AwsRegion"].readIfPresent()
         return value
     }
 }
@@ -10648,129 +10733,19 @@ extension ChimeSDKVoiceClientTypes.SpeakerSearchResult {
     }
 }
 
-extension ChimeSDKVoiceClientTypes.CallDetails {
+extension ChimeSDKVoiceClientTypes.SpeakerSearchTask {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKVoiceClientTypes.CallDetails {
+    static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKVoiceClientTypes.SpeakerSearchTask {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ChimeSDKVoiceClientTypes.CallDetails()
-        value.voiceConnectorId = try reader["VoiceConnectorId"].readIfPresent()
-        value.transactionId = try reader["TransactionId"].readIfPresent()
-        value.isCaller = try reader["IsCaller"].readIfPresent()
-        return value
-    }
-}
-
-extension ChimeSDKVoiceClientTypes.EmergencyCallingConfiguration {
-
-    static func write(value: ChimeSDKVoiceClientTypes.EmergencyCallingConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DNIS"].writeList(value.dnis, memberWritingClosure: ChimeSDKVoiceClientTypes.DNISEmergencyCallingConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKVoiceClientTypes.EmergencyCallingConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ChimeSDKVoiceClientTypes.EmergencyCallingConfiguration()
-        value.dnis = try reader["DNIS"].readListIfPresent(memberReadingClosure: ChimeSDKVoiceClientTypes.DNISEmergencyCallingConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension ChimeSDKVoiceClientTypes.DNISEmergencyCallingConfiguration {
-
-    static func write(value: ChimeSDKVoiceClientTypes.DNISEmergencyCallingConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CallingCountry"].write(value.callingCountry)
-        try writer["EmergencyPhoneNumber"].write(value.emergencyPhoneNumber)
-        try writer["TestPhoneNumber"].write(value.testPhoneNumber)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKVoiceClientTypes.DNISEmergencyCallingConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ChimeSDKVoiceClientTypes.DNISEmergencyCallingConfiguration()
-        value.emergencyPhoneNumber = try reader["EmergencyPhoneNumber"].readIfPresent() ?? ""
-        value.testPhoneNumber = try reader["TestPhoneNumber"].readIfPresent()
-        value.callingCountry = try reader["CallingCountry"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension ChimeSDKVoiceClientTypes.ExternalSystemsConfiguration {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKVoiceClientTypes.ExternalSystemsConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ChimeSDKVoiceClientTypes.ExternalSystemsConfiguration()
-        value.sessionBorderControllerTypes = try reader["SessionBorderControllerTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<ChimeSDKVoiceClientTypes.SessionBorderControllerType>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.contactCenterSystemTypes = try reader["ContactCenterSystemTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<ChimeSDKVoiceClientTypes.ContactCenterSystemType>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension ChimeSDKVoiceClientTypes.LoggingConfiguration {
-
-    static func write(value: ChimeSDKVoiceClientTypes.LoggingConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["EnableMediaMetricLogs"].write(value.enableMediaMetricLogs)
-        try writer["EnableSIPLogs"].write(value.enableSIPLogs)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKVoiceClientTypes.LoggingConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ChimeSDKVoiceClientTypes.LoggingConfiguration()
-        value.enableSIPLogs = try reader["EnableSIPLogs"].readIfPresent()
-        value.enableMediaMetricLogs = try reader["EnableMediaMetricLogs"].readIfPresent()
-        return value
-    }
-}
-
-extension ChimeSDKVoiceClientTypes.Origination {
-
-    static func write(value: ChimeSDKVoiceClientTypes.Origination?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Disabled"].write(value.disabled)
-        try writer["Routes"].writeList(value.routes, memberWritingClosure: ChimeSDKVoiceClientTypes.OriginationRoute.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKVoiceClientTypes.Origination {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ChimeSDKVoiceClientTypes.Origination()
-        value.routes = try reader["Routes"].readListIfPresent(memberReadingClosure: ChimeSDKVoiceClientTypes.OriginationRoute.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.disabled = try reader["Disabled"].readIfPresent()
-        return value
-    }
-}
-
-extension ChimeSDKVoiceClientTypes.OriginationRoute {
-
-    static func write(value: ChimeSDKVoiceClientTypes.OriginationRoute?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Host"].write(value.host)
-        try writer["Port"].write(value.port)
-        try writer["Priority"].write(value.priority)
-        try writer["Protocol"].write(value.`protocol`)
-        try writer["Weight"].write(value.weight)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKVoiceClientTypes.OriginationRoute {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ChimeSDKVoiceClientTypes.OriginationRoute()
-        value.host = try reader["Host"].readIfPresent()
-        value.port = try reader["Port"].readIfPresent()
-        value.`protocol` = try reader["Protocol"].readIfPresent()
-        value.priority = try reader["Priority"].readIfPresent()
-        value.weight = try reader["Weight"].readIfPresent()
-        return value
-    }
-}
-
-extension ChimeSDKVoiceClientTypes.Proxy {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKVoiceClientTypes.Proxy {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ChimeSDKVoiceClientTypes.Proxy()
-        value.defaultSessionExpiryMinutes = try reader["DefaultSessionExpiryMinutes"].readIfPresent()
-        value.disabled = try reader["Disabled"].readIfPresent()
-        value.fallBackPhoneNumber = try reader["FallBackPhoneNumber"].readIfPresent()
-        value.phoneNumberCountries = try reader["PhoneNumberCountries"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = ChimeSDKVoiceClientTypes.SpeakerSearchTask()
+        value.speakerSearchTaskId = try reader["SpeakerSearchTaskId"].readIfPresent()
+        value.speakerSearchTaskStatus = try reader["SpeakerSearchTaskStatus"].readIfPresent()
+        value.callDetails = try reader["CallDetails"].readIfPresent(with: ChimeSDKVoiceClientTypes.CallDetails.read(from:))
+        value.speakerSearchDetails = try reader["SpeakerSearchDetails"].readIfPresent(with: ChimeSDKVoiceClientTypes.SpeakerSearchDetails.read(from:))
+        value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.updatedTimestamp = try reader["UpdatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.startedTimestamp = try reader["StartedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.statusMessage = try reader["StatusMessage"].readIfPresent()
         return value
     }
 }
@@ -10796,23 +10771,6 @@ extension ChimeSDKVoiceClientTypes.StreamingConfiguration {
     }
 }
 
-extension ChimeSDKVoiceClientTypes.MediaInsightsConfiguration {
-
-    static func write(value: ChimeSDKVoiceClientTypes.MediaInsightsConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ConfigurationArn"].write(value.configurationArn)
-        try writer["Disabled"].write(value.disabled)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKVoiceClientTypes.MediaInsightsConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ChimeSDKVoiceClientTypes.MediaInsightsConfiguration()
-        value.disabled = try reader["Disabled"].readIfPresent()
-        value.configurationArn = try reader["ConfigurationArn"].readIfPresent()
-        return value
-    }
-}
-
 extension ChimeSDKVoiceClientTypes.StreamingNotificationTarget {
 
     static func write(value: ChimeSDKVoiceClientTypes.StreamingNotificationTarget?, to writer: SmithyJSON.Writer) throws {
@@ -10824,6 +10782,23 @@ extension ChimeSDKVoiceClientTypes.StreamingNotificationTarget {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ChimeSDKVoiceClientTypes.StreamingNotificationTarget()
         value.notificationTarget = try reader["NotificationTarget"].readIfPresent()
+        return value
+    }
+}
+
+extension ChimeSDKVoiceClientTypes.Tag {
+
+    static func write(value: ChimeSDKVoiceClientTypes.Tag?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Key"].write(value.key)
+        try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKVoiceClientTypes.Tag {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ChimeSDKVoiceClientTypes.Tag()
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
         return value
     }
 }
@@ -10862,46 +10837,110 @@ extension ChimeSDKVoiceClientTypes.TerminationHealth {
     }
 }
 
-extension ChimeSDKVoiceClientTypes.VoiceToneAnalysisTask {
+extension ChimeSDKVoiceClientTypes.UpdatePhoneNumberRequestItem {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKVoiceClientTypes.VoiceToneAnalysisTask {
+    static func write(value: ChimeSDKVoiceClientTypes.UpdatePhoneNumberRequestItem?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CallingName"].write(value.callingName)
+        try writer["Name"].write(value.name)
+        try writer["PhoneNumberId"].write(value.phoneNumberId)
+        try writer["ProductType"].write(value.productType)
+    }
+}
+
+extension ChimeSDKVoiceClientTypes.VoiceConnector {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKVoiceClientTypes.VoiceConnector {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ChimeSDKVoiceClientTypes.VoiceToneAnalysisTask()
-        value.voiceToneAnalysisTaskId = try reader["VoiceToneAnalysisTaskId"].readIfPresent()
-        value.voiceToneAnalysisTaskStatus = try reader["VoiceToneAnalysisTaskStatus"].readIfPresent()
-        value.callDetails = try reader["CallDetails"].readIfPresent(with: ChimeSDKVoiceClientTypes.CallDetails.read(from:))
+        var value = ChimeSDKVoiceClientTypes.VoiceConnector()
+        value.voiceConnectorId = try reader["VoiceConnectorId"].readIfPresent()
+        value.awsRegion = try reader["AwsRegion"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        value.outboundHostName = try reader["OutboundHostName"].readIfPresent()
+        value.requireEncryption = try reader["RequireEncryption"].readIfPresent()
         value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.updatedTimestamp = try reader["UpdatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.startedTimestamp = try reader["StartedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.statusMessage = try reader["StatusMessage"].readIfPresent()
+        value.voiceConnectorArn = try reader["VoiceConnectorArn"].readIfPresent()
+        value.integrationType = try reader["IntegrationType"].readIfPresent()
+        value.networkType = try reader["NetworkType"].readIfPresent()
         return value
     }
 }
 
-extension ChimeSDKVoiceClientTypes.PhoneNumberCountry {
+extension ChimeSDKVoiceClientTypes.VoiceConnectorGroup {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKVoiceClientTypes.PhoneNumberCountry {
+    static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKVoiceClientTypes.VoiceConnectorGroup {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ChimeSDKVoiceClientTypes.PhoneNumberCountry()
-        value.countryCode = try reader["CountryCode"].readIfPresent()
-        value.supportedPhoneNumberTypes = try reader["SupportedPhoneNumberTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<ChimeSDKVoiceClientTypes.PhoneNumberType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = ChimeSDKVoiceClientTypes.VoiceConnectorGroup()
+        value.voiceConnectorGroupId = try reader["VoiceConnectorGroupId"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        value.voiceConnectorItems = try reader["VoiceConnectorItems"].readListIfPresent(memberReadingClosure: ChimeSDKVoiceClientTypes.VoiceConnectorItem.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.updatedTimestamp = try reader["UpdatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.voiceConnectorGroupArn = try reader["VoiceConnectorGroupArn"].readIfPresent()
         return value
     }
 }
 
-extension ChimeSDKVoiceClientTypes.Tag {
+extension ChimeSDKVoiceClientTypes.VoiceConnectorItem {
 
-    static func write(value: ChimeSDKVoiceClientTypes.Tag?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: ChimeSDKVoiceClientTypes.VoiceConnectorItem?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["Key"].write(value.key)
-        try writer["Value"].write(value.value)
+        try writer["Priority"].write(value.priority)
+        try writer["VoiceConnectorId"].write(value.voiceConnectorId)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKVoiceClientTypes.Tag {
+    static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKVoiceClientTypes.VoiceConnectorItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ChimeSDKVoiceClientTypes.Tag()
-        value.key = try reader["Key"].readIfPresent() ?? ""
-        value.value = try reader["Value"].readIfPresent() ?? ""
+        var value = ChimeSDKVoiceClientTypes.VoiceConnectorItem()
+        value.voiceConnectorId = try reader["VoiceConnectorId"].readIfPresent() ?? ""
+        value.priority = try reader["Priority"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension ChimeSDKVoiceClientTypes.VoiceConnectorSettings {
+
+    static func write(value: ChimeSDKVoiceClientTypes.VoiceConnectorSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CdrBucket"].write(value.cdrBucket)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKVoiceClientTypes.VoiceConnectorSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ChimeSDKVoiceClientTypes.VoiceConnectorSettings()
+        value.cdrBucket = try reader["CdrBucket"].readIfPresent()
+        return value
+    }
+}
+
+extension ChimeSDKVoiceClientTypes.VoiceProfile {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKVoiceClientTypes.VoiceProfile {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ChimeSDKVoiceClientTypes.VoiceProfile()
+        value.voiceProfileId = try reader["VoiceProfileId"].readIfPresent()
+        value.voiceProfileArn = try reader["VoiceProfileArn"].readIfPresent()
+        value.voiceProfileDomainId = try reader["VoiceProfileDomainId"].readIfPresent()
+        value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.updatedTimestamp = try reader["UpdatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.expirationTimestamp = try reader["ExpirationTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
+extension ChimeSDKVoiceClientTypes.VoiceProfileDomain {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKVoiceClientTypes.VoiceProfileDomain {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ChimeSDKVoiceClientTypes.VoiceProfileDomain()
+        value.voiceProfileDomainId = try reader["VoiceProfileDomainId"].readIfPresent()
+        value.voiceProfileDomainArn = try reader["VoiceProfileDomainArn"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.serverSideEncryptionConfiguration = try reader["ServerSideEncryptionConfiguration"].readIfPresent(with: ChimeSDKVoiceClientTypes.ServerSideEncryptionConfiguration.read(from:))
+        value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.updatedTimestamp = try reader["UpdatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
     }
 }
@@ -10936,58 +10975,19 @@ extension ChimeSDKVoiceClientTypes.VoiceProfileSummary {
     }
 }
 
-extension ChimeSDKVoiceClientTypes.Address {
+extension ChimeSDKVoiceClientTypes.VoiceToneAnalysisTask {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKVoiceClientTypes.Address {
+    static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKVoiceClientTypes.VoiceToneAnalysisTask {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ChimeSDKVoiceClientTypes.Address()
-        value.streetName = try reader["streetName"].readIfPresent()
-        value.streetSuffix = try reader["streetSuffix"].readIfPresent()
-        value.postDirectional = try reader["postDirectional"].readIfPresent()
-        value.preDirectional = try reader["preDirectional"].readIfPresent()
-        value.streetNumber = try reader["streetNumber"].readIfPresent()
-        value.city = try reader["city"].readIfPresent()
-        value.state = try reader["state"].readIfPresent()
-        value.postalCode = try reader["postalCode"].readIfPresent()
-        value.postalCodePlus4 = try reader["postalCodePlus4"].readIfPresent()
-        value.country = try reader["country"].readIfPresent()
+        var value = ChimeSDKVoiceClientTypes.VoiceToneAnalysisTask()
+        value.voiceToneAnalysisTaskId = try reader["VoiceToneAnalysisTaskId"].readIfPresent()
+        value.voiceToneAnalysisTaskStatus = try reader["VoiceToneAnalysisTaskStatus"].readIfPresent()
+        value.callDetails = try reader["CallDetails"].readIfPresent(with: ChimeSDKVoiceClientTypes.CallDetails.read(from:))
+        value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.updatedTimestamp = try reader["UpdatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.startedTimestamp = try reader["StartedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.statusMessage = try reader["StatusMessage"].readIfPresent()
         return value
-    }
-}
-
-extension ChimeSDKVoiceClientTypes.CandidateAddress {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ChimeSDKVoiceClientTypes.CandidateAddress {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ChimeSDKVoiceClientTypes.CandidateAddress()
-        value.streetInfo = try reader["streetInfo"].readIfPresent()
-        value.streetNumber = try reader["streetNumber"].readIfPresent()
-        value.city = try reader["city"].readIfPresent()
-        value.state = try reader["state"].readIfPresent()
-        value.postalCode = try reader["postalCode"].readIfPresent()
-        value.postalCodePlus4 = try reader["postalCodePlus4"].readIfPresent()
-        value.country = try reader["country"].readIfPresent()
-        return value
-    }
-}
-
-extension ChimeSDKVoiceClientTypes.UpdatePhoneNumberRequestItem {
-
-    static func write(value: ChimeSDKVoiceClientTypes.UpdatePhoneNumberRequestItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CallingName"].write(value.callingName)
-        try writer["Name"].write(value.name)
-        try writer["PhoneNumberId"].write(value.phoneNumberId)
-        try writer["ProductType"].write(value.productType)
-    }
-}
-
-extension ChimeSDKVoiceClientTypes.Credential {
-
-    static func write(value: ChimeSDKVoiceClientTypes.Credential?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Password"].write(value.password)
-        try writer["Username"].write(value.username)
     }
 }
 

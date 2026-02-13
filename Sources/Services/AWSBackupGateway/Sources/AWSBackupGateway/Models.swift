@@ -2613,6 +2613,20 @@ extension BackupGatewayClientTypes.BandwidthRateLimitInterval {
     }
 }
 
+extension BackupGatewayClientTypes.Gateway {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BackupGatewayClientTypes.Gateway {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BackupGatewayClientTypes.Gateway()
+        value.gatewayArn = try reader["GatewayArn"].readIfPresent()
+        value.gatewayDisplayName = try reader["GatewayDisplayName"].readIfPresent()
+        value.gatewayType = try reader["GatewayType"].readIfPresent()
+        value.hypervisorId = try reader["HypervisorId"].readIfPresent()
+        value.lastSeenTime = try reader["LastSeenTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
 extension BackupGatewayClientTypes.GatewayDetails {
 
     static func read(from reader: SmithyJSON.Reader) throws -> BackupGatewayClientTypes.GatewayDetails {
@@ -2630,15 +2644,16 @@ extension BackupGatewayClientTypes.GatewayDetails {
     }
 }
 
-extension BackupGatewayClientTypes.MaintenanceStartTime {
+extension BackupGatewayClientTypes.Hypervisor {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> BackupGatewayClientTypes.MaintenanceStartTime {
+    static func read(from reader: SmithyJSON.Reader) throws -> BackupGatewayClientTypes.Hypervisor {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BackupGatewayClientTypes.MaintenanceStartTime()
-        value.dayOfMonth = try reader["DayOfMonth"].readIfPresent()
-        value.dayOfWeek = try reader["DayOfWeek"].readIfPresent()
-        value.hourOfDay = try reader["HourOfDay"].readIfPresent() ?? 0
-        value.minuteOfHour = try reader["MinuteOfHour"].readIfPresent() ?? 0
+        var value = BackupGatewayClientTypes.Hypervisor()
+        value.host = try reader["Host"].readIfPresent()
+        value.hypervisorArn = try reader["HypervisorArn"].readIfPresent()
+        value.kmsKeyArn = try reader["KmsKeyArn"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        value.state = try reader["State"].readIfPresent()
         return value
     }
 }
@@ -2661,79 +2676,15 @@ extension BackupGatewayClientTypes.HypervisorDetails {
     }
 }
 
-extension BackupGatewayClientTypes.VmwareToAwsTagMapping {
+extension BackupGatewayClientTypes.MaintenanceStartTime {
 
-    static func write(value: BackupGatewayClientTypes.VmwareToAwsTagMapping?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AwsTagKey"].write(value.awsTagKey)
-        try writer["AwsTagValue"].write(value.awsTagValue)
-        try writer["VmwareCategory"].write(value.vmwareCategory)
-        try writer["VmwareTagName"].write(value.vmwareTagName)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BackupGatewayClientTypes.VmwareToAwsTagMapping {
+    static func read(from reader: SmithyJSON.Reader) throws -> BackupGatewayClientTypes.MaintenanceStartTime {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BackupGatewayClientTypes.VmwareToAwsTagMapping()
-        value.vmwareCategory = try reader["VmwareCategory"].readIfPresent() ?? ""
-        value.vmwareTagName = try reader["VmwareTagName"].readIfPresent() ?? ""
-        value.awsTagKey = try reader["AwsTagKey"].readIfPresent() ?? ""
-        value.awsTagValue = try reader["AwsTagValue"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension BackupGatewayClientTypes.VirtualMachineDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BackupGatewayClientTypes.VirtualMachineDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BackupGatewayClientTypes.VirtualMachineDetails()
-        value.hostName = try reader["HostName"].readIfPresent()
-        value.hypervisorId = try reader["HypervisorId"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
-        value.path = try reader["Path"].readIfPresent()
-        value.resourceArn = try reader["ResourceArn"].readIfPresent()
-        value.lastBackupDate = try reader["LastBackupDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.vmwareTags = try reader["VmwareTags"].readListIfPresent(memberReadingClosure: BackupGatewayClientTypes.VmwareTag.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension BackupGatewayClientTypes.VmwareTag {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BackupGatewayClientTypes.VmwareTag {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BackupGatewayClientTypes.VmwareTag()
-        value.vmwareCategory = try reader["VmwareCategory"].readIfPresent()
-        value.vmwareTagName = try reader["VmwareTagName"].readIfPresent()
-        value.vmwareTagDescription = try reader["VmwareTagDescription"].readIfPresent()
-        return value
-    }
-}
-
-extension BackupGatewayClientTypes.Gateway {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BackupGatewayClientTypes.Gateway {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BackupGatewayClientTypes.Gateway()
-        value.gatewayArn = try reader["GatewayArn"].readIfPresent()
-        value.gatewayDisplayName = try reader["GatewayDisplayName"].readIfPresent()
-        value.gatewayType = try reader["GatewayType"].readIfPresent()
-        value.hypervisorId = try reader["HypervisorId"].readIfPresent()
-        value.lastSeenTime = try reader["LastSeenTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension BackupGatewayClientTypes.Hypervisor {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BackupGatewayClientTypes.Hypervisor {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BackupGatewayClientTypes.Hypervisor()
-        value.host = try reader["Host"].readIfPresent()
-        value.hypervisorArn = try reader["HypervisorArn"].readIfPresent()
-        value.kmsKeyArn = try reader["KmsKeyArn"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
-        value.state = try reader["State"].readIfPresent()
+        var value = BackupGatewayClientTypes.MaintenanceStartTime()
+        value.dayOfMonth = try reader["DayOfMonth"].readIfPresent()
+        value.dayOfWeek = try reader["DayOfWeek"].readIfPresent()
+        value.hourOfDay = try reader["HourOfDay"].readIfPresent() ?? 0
+        value.minuteOfHour = try reader["MinuteOfHour"].readIfPresent() ?? 0
         return value
     }
 }
@@ -2766,6 +2717,55 @@ extension BackupGatewayClientTypes.VirtualMachine {
         value.path = try reader["Path"].readIfPresent()
         value.resourceArn = try reader["ResourceArn"].readIfPresent()
         value.lastBackupDate = try reader["LastBackupDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension BackupGatewayClientTypes.VirtualMachineDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BackupGatewayClientTypes.VirtualMachineDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BackupGatewayClientTypes.VirtualMachineDetails()
+        value.hostName = try reader["HostName"].readIfPresent()
+        value.hypervisorId = try reader["HypervisorId"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        value.path = try reader["Path"].readIfPresent()
+        value.resourceArn = try reader["ResourceArn"].readIfPresent()
+        value.lastBackupDate = try reader["LastBackupDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.vmwareTags = try reader["VmwareTags"].readListIfPresent(memberReadingClosure: BackupGatewayClientTypes.VmwareTag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension BackupGatewayClientTypes.VmwareTag {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BackupGatewayClientTypes.VmwareTag {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BackupGatewayClientTypes.VmwareTag()
+        value.vmwareCategory = try reader["VmwareCategory"].readIfPresent()
+        value.vmwareTagName = try reader["VmwareTagName"].readIfPresent()
+        value.vmwareTagDescription = try reader["VmwareTagDescription"].readIfPresent()
+        return value
+    }
+}
+
+extension BackupGatewayClientTypes.VmwareToAwsTagMapping {
+
+    static func write(value: BackupGatewayClientTypes.VmwareToAwsTagMapping?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AwsTagKey"].write(value.awsTagKey)
+        try writer["AwsTagValue"].write(value.awsTagValue)
+        try writer["VmwareCategory"].write(value.vmwareCategory)
+        try writer["VmwareTagName"].write(value.vmwareTagName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BackupGatewayClientTypes.VmwareToAwsTagMapping {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BackupGatewayClientTypes.VmwareToAwsTagMapping()
+        value.vmwareCategory = try reader["VmwareCategory"].readIfPresent() ?? ""
+        value.vmwareTagName = try reader["VmwareTagName"].readIfPresent() ?? ""
+        value.awsTagKey = try reader["AwsTagKey"].readIfPresent() ?? ""
+        value.awsTagValue = try reader["AwsTagValue"].readIfPresent() ?? ""
         return value
     }
 }

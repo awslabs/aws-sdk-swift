@@ -24,7 +24,7 @@ extension CloudWatchClient {
                 guard case .success(let output) = result else { return false }
                 let metricAlarms = output.metricAlarms
                 let count = Double(metricAlarms?.count ?? 0)
-                let number = Double(0.0)
+                let number = Double(0)
                 let comparison = SmithyWaitersAPI.JMESUtils.compare(count, >, number)
                 return SmithyWaitersAPI.JMESUtils.compare(comparison, ==, true)
             }),
@@ -57,7 +57,7 @@ extension CloudWatchClient {
                 guard case .success(let output) = result else { return false }
                 let compositeAlarms = output.compositeAlarms
                 let count = Double(compositeAlarms?.count ?? 0)
-                let number = Double(0.0)
+                let number = Double(0)
                 let comparison = SmithyWaitersAPI.JMESUtils.compare(count, >, number)
                 return SmithyWaitersAPI.JMESUtils.compare(comparison, ==, true)
             }),

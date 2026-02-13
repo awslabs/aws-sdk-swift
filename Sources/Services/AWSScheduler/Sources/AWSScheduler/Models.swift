@@ -2136,114 +2136,55 @@ extension ValidationException {
     }
 }
 
-extension SchedulerClientTypes.Target {
+extension SchedulerClientTypes.AwsVpcConfiguration {
 
-    static func write(value: SchedulerClientTypes.Target?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: SchedulerClientTypes.AwsVpcConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AssignPublicIp"].write(value.assignPublicIp)
+        try writer["SecurityGroups"].writeList(value.securityGroups, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Subnets"].writeList(value.subnets, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SchedulerClientTypes.AwsVpcConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SchedulerClientTypes.AwsVpcConfiguration()
+        value.subnets = try reader["Subnets"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.securityGroups = try reader["SecurityGroups"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.assignPublicIp = try reader["AssignPublicIp"].readIfPresent()
+        return value
+    }
+}
+
+extension SchedulerClientTypes.CapacityProviderStrategyItem {
+
+    static func write(value: SchedulerClientTypes.CapacityProviderStrategyItem?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["base"].write(value.base)
+        try writer["capacityProvider"].write(value.capacityProvider)
+        try writer["weight"].write(value.weight)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SchedulerClientTypes.CapacityProviderStrategyItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SchedulerClientTypes.CapacityProviderStrategyItem()
+        value.capacityProvider = try reader["capacityProvider"].readIfPresent() ?? ""
+        value.weight = try reader["weight"].readIfPresent() ?? 0
+        value.base = try reader["base"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension SchedulerClientTypes.DeadLetterConfig {
+
+    static func write(value: SchedulerClientTypes.DeadLetterConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Arn"].write(value.arn)
-        try writer["DeadLetterConfig"].write(value.deadLetterConfig, with: SchedulerClientTypes.DeadLetterConfig.write(value:to:))
-        try writer["EcsParameters"].write(value.ecsParameters, with: SchedulerClientTypes.EcsParameters.write(value:to:))
-        try writer["EventBridgeParameters"].write(value.eventBridgeParameters, with: SchedulerClientTypes.EventBridgeParameters.write(value:to:))
-        try writer["Input"].write(value.input)
-        try writer["KinesisParameters"].write(value.kinesisParameters, with: SchedulerClientTypes.KinesisParameters.write(value:to:))
-        try writer["RetryPolicy"].write(value.retryPolicy, with: SchedulerClientTypes.RetryPolicy.write(value:to:))
-        try writer["RoleArn"].write(value.roleArn)
-        try writer["SageMakerPipelineParameters"].write(value.sageMakerPipelineParameters, with: SchedulerClientTypes.SageMakerPipelineParameters.write(value:to:))
-        try writer["SqsParameters"].write(value.sqsParameters, with: SchedulerClientTypes.SqsParameters.write(value:to:))
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SchedulerClientTypes.Target {
+    static func read(from reader: SmithyJSON.Reader) throws -> SchedulerClientTypes.DeadLetterConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SchedulerClientTypes.Target()
-        value.arn = try reader["Arn"].readIfPresent() ?? ""
-        value.roleArn = try reader["RoleArn"].readIfPresent() ?? ""
-        value.deadLetterConfig = try reader["DeadLetterConfig"].readIfPresent(with: SchedulerClientTypes.DeadLetterConfig.read(from:))
-        value.retryPolicy = try reader["RetryPolicy"].readIfPresent(with: SchedulerClientTypes.RetryPolicy.read(from:))
-        value.input = try reader["Input"].readIfPresent()
-        value.ecsParameters = try reader["EcsParameters"].readIfPresent(with: SchedulerClientTypes.EcsParameters.read(from:))
-        value.eventBridgeParameters = try reader["EventBridgeParameters"].readIfPresent(with: SchedulerClientTypes.EventBridgeParameters.read(from:))
-        value.kinesisParameters = try reader["KinesisParameters"].readIfPresent(with: SchedulerClientTypes.KinesisParameters.read(from:))
-        value.sageMakerPipelineParameters = try reader["SageMakerPipelineParameters"].readIfPresent(with: SchedulerClientTypes.SageMakerPipelineParameters.read(from:))
-        value.sqsParameters = try reader["SqsParameters"].readIfPresent(with: SchedulerClientTypes.SqsParameters.read(from:))
-        return value
-    }
-}
-
-extension SchedulerClientTypes.SqsParameters {
-
-    static func write(value: SchedulerClientTypes.SqsParameters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["MessageGroupId"].write(value.messageGroupId)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SchedulerClientTypes.SqsParameters {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SchedulerClientTypes.SqsParameters()
-        value.messageGroupId = try reader["MessageGroupId"].readIfPresent()
-        return value
-    }
-}
-
-extension SchedulerClientTypes.SageMakerPipelineParameters {
-
-    static func write(value: SchedulerClientTypes.SageMakerPipelineParameters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["PipelineParameterList"].writeList(value.pipelineParameterList, memberWritingClosure: SchedulerClientTypes.SageMakerPipelineParameter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SchedulerClientTypes.SageMakerPipelineParameters {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SchedulerClientTypes.SageMakerPipelineParameters()
-        value.pipelineParameterList = try reader["PipelineParameterList"].readListIfPresent(memberReadingClosure: SchedulerClientTypes.SageMakerPipelineParameter.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension SchedulerClientTypes.SageMakerPipelineParameter {
-
-    static func write(value: SchedulerClientTypes.SageMakerPipelineParameter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-        try writer["Value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SchedulerClientTypes.SageMakerPipelineParameter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SchedulerClientTypes.SageMakerPipelineParameter()
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.value = try reader["Value"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension SchedulerClientTypes.KinesisParameters {
-
-    static func write(value: SchedulerClientTypes.KinesisParameters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["PartitionKey"].write(value.partitionKey)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SchedulerClientTypes.KinesisParameters {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SchedulerClientTypes.KinesisParameters()
-        value.partitionKey = try reader["PartitionKey"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension SchedulerClientTypes.EventBridgeParameters {
-
-    static func write(value: SchedulerClientTypes.EventBridgeParameters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DetailType"].write(value.detailType)
-        try writer["Source"].write(value.source)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SchedulerClientTypes.EventBridgeParameters {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SchedulerClientTypes.EventBridgeParameters()
-        value.detailType = try reader["DetailType"].readIfPresent() ?? ""
-        value.source = try reader["Source"].readIfPresent() ?? ""
+        var value = SchedulerClientTypes.DeadLetterConfig()
+        value.arn = try reader["Arn"].readIfPresent()
         return value
     }
 }
@@ -2289,19 +2230,66 @@ extension SchedulerClientTypes.EcsParameters {
     }
 }
 
-extension SchedulerClientTypes.PlacementStrategy {
+extension SchedulerClientTypes.EventBridgeParameters {
 
-    static func write(value: SchedulerClientTypes.PlacementStrategy?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: SchedulerClientTypes.EventBridgeParameters?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["field"].write(value.field)
-        try writer["type"].write(value.type)
+        try writer["DetailType"].write(value.detailType)
+        try writer["Source"].write(value.source)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SchedulerClientTypes.PlacementStrategy {
+    static func read(from reader: SmithyJSON.Reader) throws -> SchedulerClientTypes.EventBridgeParameters {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SchedulerClientTypes.PlacementStrategy()
-        value.type = try reader["type"].readIfPresent()
-        value.field = try reader["field"].readIfPresent()
+        var value = SchedulerClientTypes.EventBridgeParameters()
+        value.detailType = try reader["DetailType"].readIfPresent() ?? ""
+        value.source = try reader["Source"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension SchedulerClientTypes.FlexibleTimeWindow {
+
+    static func write(value: SchedulerClientTypes.FlexibleTimeWindow?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MaximumWindowInMinutes"].write(value.maximumWindowInMinutes)
+        try writer["Mode"].write(value.mode)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SchedulerClientTypes.FlexibleTimeWindow {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SchedulerClientTypes.FlexibleTimeWindow()
+        value.mode = try reader["Mode"].readIfPresent() ?? .sdkUnknown("")
+        value.maximumWindowInMinutes = try reader["MaximumWindowInMinutes"].readIfPresent()
+        return value
+    }
+}
+
+extension SchedulerClientTypes.KinesisParameters {
+
+    static func write(value: SchedulerClientTypes.KinesisParameters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["PartitionKey"].write(value.partitionKey)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SchedulerClientTypes.KinesisParameters {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SchedulerClientTypes.KinesisParameters()
+        value.partitionKey = try reader["PartitionKey"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension SchedulerClientTypes.NetworkConfiguration {
+
+    static func write(value: SchedulerClientTypes.NetworkConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["awsvpcConfiguration"].write(value.awsvpcConfiguration, with: SchedulerClientTypes.AwsVpcConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SchedulerClientTypes.NetworkConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SchedulerClientTypes.NetworkConfiguration()
+        value.awsvpcConfiguration = try reader["awsvpcConfiguration"].readIfPresent(with: SchedulerClientTypes.AwsVpcConfiguration.read(from:))
         return value
     }
 }
@@ -2323,55 +2311,19 @@ extension SchedulerClientTypes.PlacementConstraint {
     }
 }
 
-extension SchedulerClientTypes.CapacityProviderStrategyItem {
+extension SchedulerClientTypes.PlacementStrategy {
 
-    static func write(value: SchedulerClientTypes.CapacityProviderStrategyItem?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: SchedulerClientTypes.PlacementStrategy?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["base"].write(value.base)
-        try writer["capacityProvider"].write(value.capacityProvider)
-        try writer["weight"].write(value.weight)
+        try writer["field"].write(value.field)
+        try writer["type"].write(value.type)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SchedulerClientTypes.CapacityProviderStrategyItem {
+    static func read(from reader: SmithyJSON.Reader) throws -> SchedulerClientTypes.PlacementStrategy {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SchedulerClientTypes.CapacityProviderStrategyItem()
-        value.capacityProvider = try reader["capacityProvider"].readIfPresent() ?? ""
-        value.weight = try reader["weight"].readIfPresent() ?? 0
-        value.base = try reader["base"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension SchedulerClientTypes.NetworkConfiguration {
-
-    static func write(value: SchedulerClientTypes.NetworkConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["awsvpcConfiguration"].write(value.awsvpcConfiguration, with: SchedulerClientTypes.AwsVpcConfiguration.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SchedulerClientTypes.NetworkConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SchedulerClientTypes.NetworkConfiguration()
-        value.awsvpcConfiguration = try reader["awsvpcConfiguration"].readIfPresent(with: SchedulerClientTypes.AwsVpcConfiguration.read(from:))
-        return value
-    }
-}
-
-extension SchedulerClientTypes.AwsVpcConfiguration {
-
-    static func write(value: SchedulerClientTypes.AwsVpcConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AssignPublicIp"].write(value.assignPublicIp)
-        try writer["SecurityGroups"].writeList(value.securityGroups, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Subnets"].writeList(value.subnets, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SchedulerClientTypes.AwsVpcConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SchedulerClientTypes.AwsVpcConfiguration()
-        value.subnets = try reader["Subnets"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.securityGroups = try reader["SecurityGroups"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.assignPublicIp = try reader["AssignPublicIp"].readIfPresent()
+        var value = SchedulerClientTypes.PlacementStrategy()
+        value.type = try reader["type"].readIfPresent()
+        value.field = try reader["field"].readIfPresent()
         return value
     }
 }
@@ -2393,34 +2345,34 @@ extension SchedulerClientTypes.RetryPolicy {
     }
 }
 
-extension SchedulerClientTypes.DeadLetterConfig {
+extension SchedulerClientTypes.SageMakerPipelineParameter {
 
-    static func write(value: SchedulerClientTypes.DeadLetterConfig?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: SchedulerClientTypes.SageMakerPipelineParameter?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["Arn"].write(value.arn)
+        try writer["Name"].write(value.name)
+        try writer["Value"].write(value.value)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SchedulerClientTypes.DeadLetterConfig {
+    static func read(from reader: SmithyJSON.Reader) throws -> SchedulerClientTypes.SageMakerPipelineParameter {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SchedulerClientTypes.DeadLetterConfig()
-        value.arn = try reader["Arn"].readIfPresent()
+        var value = SchedulerClientTypes.SageMakerPipelineParameter()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
         return value
     }
 }
 
-extension SchedulerClientTypes.FlexibleTimeWindow {
+extension SchedulerClientTypes.SageMakerPipelineParameters {
 
-    static func write(value: SchedulerClientTypes.FlexibleTimeWindow?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: SchedulerClientTypes.SageMakerPipelineParameters?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["MaximumWindowInMinutes"].write(value.maximumWindowInMinutes)
-        try writer["Mode"].write(value.mode)
+        try writer["PipelineParameterList"].writeList(value.pipelineParameterList, memberWritingClosure: SchedulerClientTypes.SageMakerPipelineParameter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SchedulerClientTypes.FlexibleTimeWindow {
+    static func read(from reader: SmithyJSON.Reader) throws -> SchedulerClientTypes.SageMakerPipelineParameters {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SchedulerClientTypes.FlexibleTimeWindow()
-        value.mode = try reader["Mode"].readIfPresent() ?? .sdkUnknown("")
-        value.maximumWindowInMinutes = try reader["MaximumWindowInMinutes"].readIfPresent()
+        var value = SchedulerClientTypes.SageMakerPipelineParameters()
+        value.pipelineParameterList = try reader["PipelineParameterList"].readListIfPresent(memberReadingClosure: SchedulerClientTypes.SageMakerPipelineParameter.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -2455,12 +2407,17 @@ extension SchedulerClientTypes.ScheduleSummary {
     }
 }
 
-extension SchedulerClientTypes.TargetSummary {
+extension SchedulerClientTypes.SqsParameters {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SchedulerClientTypes.TargetSummary {
+    static func write(value: SchedulerClientTypes.SqsParameters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MessageGroupId"].write(value.messageGroupId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SchedulerClientTypes.SqsParameters {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SchedulerClientTypes.TargetSummary()
-        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        var value = SchedulerClientTypes.SqsParameters()
+        value.messageGroupId = try reader["MessageGroupId"].readIfPresent()
         return value
     }
 }
@@ -2478,6 +2435,49 @@ extension SchedulerClientTypes.Tag {
         var value = SchedulerClientTypes.Tag()
         value.key = try reader["Key"].readIfPresent() ?? ""
         value.value = try reader["Value"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension SchedulerClientTypes.Target {
+
+    static func write(value: SchedulerClientTypes.Target?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Arn"].write(value.arn)
+        try writer["DeadLetterConfig"].write(value.deadLetterConfig, with: SchedulerClientTypes.DeadLetterConfig.write(value:to:))
+        try writer["EcsParameters"].write(value.ecsParameters, with: SchedulerClientTypes.EcsParameters.write(value:to:))
+        try writer["EventBridgeParameters"].write(value.eventBridgeParameters, with: SchedulerClientTypes.EventBridgeParameters.write(value:to:))
+        try writer["Input"].write(value.input)
+        try writer["KinesisParameters"].write(value.kinesisParameters, with: SchedulerClientTypes.KinesisParameters.write(value:to:))
+        try writer["RetryPolicy"].write(value.retryPolicy, with: SchedulerClientTypes.RetryPolicy.write(value:to:))
+        try writer["RoleArn"].write(value.roleArn)
+        try writer["SageMakerPipelineParameters"].write(value.sageMakerPipelineParameters, with: SchedulerClientTypes.SageMakerPipelineParameters.write(value:to:))
+        try writer["SqsParameters"].write(value.sqsParameters, with: SchedulerClientTypes.SqsParameters.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SchedulerClientTypes.Target {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SchedulerClientTypes.Target()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.roleArn = try reader["RoleArn"].readIfPresent() ?? ""
+        value.deadLetterConfig = try reader["DeadLetterConfig"].readIfPresent(with: SchedulerClientTypes.DeadLetterConfig.read(from:))
+        value.retryPolicy = try reader["RetryPolicy"].readIfPresent(with: SchedulerClientTypes.RetryPolicy.read(from:))
+        value.input = try reader["Input"].readIfPresent()
+        value.ecsParameters = try reader["EcsParameters"].readIfPresent(with: SchedulerClientTypes.EcsParameters.read(from:))
+        value.eventBridgeParameters = try reader["EventBridgeParameters"].readIfPresent(with: SchedulerClientTypes.EventBridgeParameters.read(from:))
+        value.kinesisParameters = try reader["KinesisParameters"].readIfPresent(with: SchedulerClientTypes.KinesisParameters.read(from:))
+        value.sageMakerPipelineParameters = try reader["SageMakerPipelineParameters"].readIfPresent(with: SchedulerClientTypes.SageMakerPipelineParameters.read(from:))
+        value.sqsParameters = try reader["SqsParameters"].readIfPresent(with: SchedulerClientTypes.SqsParameters.read(from:))
+        return value
+    }
+}
+
+extension SchedulerClientTypes.TargetSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SchedulerClientTypes.TargetSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SchedulerClientTypes.TargetSummary()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
         return value
     }
 }

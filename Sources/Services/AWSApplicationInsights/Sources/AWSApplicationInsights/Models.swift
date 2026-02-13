@@ -4116,21 +4116,18 @@ extension TooManyTagsException {
     }
 }
 
-extension ApplicationInsightsClientTypes.WorkloadConfiguration {
+extension ApplicationInsightsClientTypes.ApplicationComponent {
 
-    static func write(value: ApplicationInsightsClientTypes.WorkloadConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Configuration"].write(value.configuration)
-        try writer["Tier"].write(value.tier)
-        try writer["WorkloadName"].write(value.workloadName)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ApplicationInsightsClientTypes.WorkloadConfiguration {
+    static func read(from reader: SmithyJSON.Reader) throws -> ApplicationInsightsClientTypes.ApplicationComponent {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ApplicationInsightsClientTypes.WorkloadConfiguration()
-        value.workloadName = try reader["WorkloadName"].readIfPresent()
+        var value = ApplicationInsightsClientTypes.ApplicationComponent()
+        value.componentName = try reader["ComponentName"].readIfPresent()
+        value.componentRemarks = try reader["ComponentRemarks"].readIfPresent()
+        value.resourceType = try reader["ResourceType"].readIfPresent()
+        value.osType = try reader["OsType"].readIfPresent()
         value.tier = try reader["Tier"].readIfPresent()
-        value.configuration = try reader["Configuration"].readIfPresent()
+        value.monitor = try reader["Monitor"].readIfPresent()
+        value.detectedWorkload = try reader["DetectedWorkload"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.mapReadingClosure(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }
@@ -4155,6 +4152,23 @@ extension ApplicationInsightsClientTypes.ApplicationInfo {
     }
 }
 
+extension ApplicationInsightsClientTypes.ConfigurationEvent {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ApplicationInsightsClientTypes.ConfigurationEvent {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ApplicationInsightsClientTypes.ConfigurationEvent()
+        value.resourceGroupName = try reader["ResourceGroupName"].readIfPresent()
+        value.accountId = try reader["AccountId"].readIfPresent()
+        value.monitoredResourceARN = try reader["MonitoredResourceARN"].readIfPresent()
+        value.eventStatus = try reader["EventStatus"].readIfPresent()
+        value.eventResourceType = try reader["EventResourceType"].readIfPresent()
+        value.eventTime = try reader["EventTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.eventDetail = try reader["EventDetail"].readIfPresent()
+        value.eventResourceName = try reader["EventResourceName"].readIfPresent()
+        return value
+    }
+}
+
 extension ApplicationInsightsClientTypes.LogPattern {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ApplicationInsightsClientTypes.LogPattern {
@@ -4164,22 +4178,6 @@ extension ApplicationInsightsClientTypes.LogPattern {
         value.patternName = try reader["PatternName"].readIfPresent()
         value.pattern = try reader["Pattern"].readIfPresent()
         value.rank = try reader["Rank"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension ApplicationInsightsClientTypes.ApplicationComponent {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ApplicationInsightsClientTypes.ApplicationComponent {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ApplicationInsightsClientTypes.ApplicationComponent()
-        value.componentName = try reader["ComponentName"].readIfPresent()
-        value.componentRemarks = try reader["ComponentRemarks"].readIfPresent()
-        value.resourceType = try reader["ResourceType"].readIfPresent()
-        value.osType = try reader["OsType"].readIfPresent()
-        value.tier = try reader["Tier"].readIfPresent()
-        value.monitor = try reader["Monitor"].readIfPresent()
-        value.detectedWorkload = try reader["DetectedWorkload"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.mapReadingClosure(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }
@@ -4273,23 +4271,6 @@ extension ApplicationInsightsClientTypes.RelatedObservations {
     }
 }
 
-extension ApplicationInsightsClientTypes.ConfigurationEvent {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ApplicationInsightsClientTypes.ConfigurationEvent {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ApplicationInsightsClientTypes.ConfigurationEvent()
-        value.resourceGroupName = try reader["ResourceGroupName"].readIfPresent()
-        value.accountId = try reader["AccountId"].readIfPresent()
-        value.monitoredResourceARN = try reader["MonitoredResourceARN"].readIfPresent()
-        value.eventStatus = try reader["EventStatus"].readIfPresent()
-        value.eventResourceType = try reader["EventResourceType"].readIfPresent()
-        value.eventTime = try reader["EventTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.eventDetail = try reader["EventDetail"].readIfPresent()
-        value.eventResourceName = try reader["EventResourceName"].readIfPresent()
-        return value
-    }
-}
-
 extension ApplicationInsightsClientTypes.Tag {
 
     static func write(value: ApplicationInsightsClientTypes.Tag?, to writer: SmithyJSON.Writer) throws {
@@ -4318,6 +4299,25 @@ extension ApplicationInsightsClientTypes.Workload {
         value.tier = try reader["Tier"].readIfPresent()
         value.workloadRemarks = try reader["WorkloadRemarks"].readIfPresent()
         value.missingWorkloadConfig = try reader["MissingWorkloadConfig"].readIfPresent()
+        return value
+    }
+}
+
+extension ApplicationInsightsClientTypes.WorkloadConfiguration {
+
+    static func write(value: ApplicationInsightsClientTypes.WorkloadConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Configuration"].write(value.configuration)
+        try writer["Tier"].write(value.tier)
+        try writer["WorkloadName"].write(value.workloadName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ApplicationInsightsClientTypes.WorkloadConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ApplicationInsightsClientTypes.WorkloadConfiguration()
+        value.workloadName = try reader["WorkloadName"].readIfPresent()
+        value.tier = try reader["Tier"].readIfPresent()
+        value.configuration = try reader["Configuration"].readIfPresent()
         return value
     }
 }

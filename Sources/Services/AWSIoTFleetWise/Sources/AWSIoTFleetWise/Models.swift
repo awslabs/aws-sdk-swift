@@ -9014,70 +9014,187 @@ extension InvalidNodeException {
     }
 }
 
-extension IoTFleetWiseClientTypes.CreateVehicleResponseItem {
+extension IoTFleetWiseClientTypes.Actuator {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.CreateVehicleResponseItem {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTFleetWiseClientTypes.CreateVehicleResponseItem()
-        value.vehicleName = try reader["vehicleName"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
-        value.thingArn = try reader["thingArn"].readIfPresent()
-        return value
-    }
-}
-
-extension IoTFleetWiseClientTypes.CreateVehicleError {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.CreateVehicleError {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTFleetWiseClientTypes.CreateVehicleError()
-        value.vehicleName = try reader["vehicleName"].readIfPresent()
-        value.code = try reader["code"].readIfPresent()
-        value.message = try reader["message"].readIfPresent()
-        return value
-    }
-}
-
-extension IoTFleetWiseClientTypes.UpdateVehicleResponseItem {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.UpdateVehicleResponseItem {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTFleetWiseClientTypes.UpdateVehicleResponseItem()
-        value.vehicleName = try reader["vehicleName"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
-        return value
-    }
-}
-
-extension IoTFleetWiseClientTypes.UpdateVehicleError {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.UpdateVehicleError {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTFleetWiseClientTypes.UpdateVehicleError()
-        value.vehicleName = try reader["vehicleName"].readIfPresent()
-        value.code = try reader["code"].readIfPresent() ?? 0
-        value.message = try reader["message"].readIfPresent()
-        return value
-    }
-}
-
-extension IoTFleetWiseClientTypes.SignalInformation {
-
-    static func write(value: IoTFleetWiseClientTypes.SignalInformation?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: IoTFleetWiseClientTypes.Actuator?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["dataPartitionId"].write(value.dataPartitionId)
-        try writer["maxSampleCount"].write(value.maxSampleCount)
-        try writer["minimumSamplingIntervalMs"].write(value.minimumSamplingIntervalMs)
-        try writer["name"].write(value.name)
+        try writer["allowedValues"].writeList(value.allowedValues, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["assignedValue"].write(value.assignedValue)
+        try writer["comment"].write(value.comment)
+        try writer["dataType"].write(value.dataType)
+        try writer["deprecationMessage"].write(value.deprecationMessage)
+        try writer["description"].write(value.description)
+        try writer["fullyQualifiedName"].write(value.fullyQualifiedName)
+        try writer["max"].write(value.max)
+        try writer["min"].write(value.min)
+        try writer["structFullyQualifiedName"].write(value.structFullyQualifiedName)
+        try writer["unit"].write(value.unit)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.SignalInformation {
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.Actuator {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTFleetWiseClientTypes.SignalInformation()
+        var value = IoTFleetWiseClientTypes.Actuator()
+        value.fullyQualifiedName = try reader["fullyQualifiedName"].readIfPresent() ?? ""
+        value.dataType = try reader["dataType"].readIfPresent() ?? .sdkUnknown("")
+        value.description = try reader["description"].readIfPresent()
+        value.unit = try reader["unit"].readIfPresent()
+        value.allowedValues = try reader["allowedValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.min = try reader["min"].readIfPresent()
+        value.max = try reader["max"].readIfPresent()
+        value.assignedValue = try reader["assignedValue"].readIfPresent()
+        value.deprecationMessage = try reader["deprecationMessage"].readIfPresent()
+        value.comment = try reader["comment"].readIfPresent()
+        value.structFullyQualifiedName = try reader["structFullyQualifiedName"].readIfPresent()
+        return value
+    }
+}
+
+extension IoTFleetWiseClientTypes.Attribute {
+
+    static func write(value: IoTFleetWiseClientTypes.Attribute?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["allowedValues"].writeList(value.allowedValues, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["assignedValue"].write(value.assignedValue)
+        try writer["comment"].write(value.comment)
+        try writer["dataType"].write(value.dataType)
+        try writer["defaultValue"].write(value.defaultValue)
+        try writer["deprecationMessage"].write(value.deprecationMessage)
+        try writer["description"].write(value.description)
+        try writer["fullyQualifiedName"].write(value.fullyQualifiedName)
+        try writer["max"].write(value.max)
+        try writer["min"].write(value.min)
+        try writer["unit"].write(value.unit)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.Attribute {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTFleetWiseClientTypes.Attribute()
+        value.fullyQualifiedName = try reader["fullyQualifiedName"].readIfPresent() ?? ""
+        value.dataType = try reader["dataType"].readIfPresent() ?? .sdkUnknown("")
+        value.description = try reader["description"].readIfPresent()
+        value.unit = try reader["unit"].readIfPresent()
+        value.allowedValues = try reader["allowedValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.min = try reader["min"].readIfPresent()
+        value.max = try reader["max"].readIfPresent()
+        value.assignedValue = try reader["assignedValue"].readIfPresent()
+        value.defaultValue = try reader["defaultValue"].readIfPresent()
+        value.deprecationMessage = try reader["deprecationMessage"].readIfPresent()
+        value.comment = try reader["comment"].readIfPresent()
+        return value
+    }
+}
+
+extension IoTFleetWiseClientTypes.Branch {
+
+    static func write(value: IoTFleetWiseClientTypes.Branch?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["comment"].write(value.comment)
+        try writer["deprecationMessage"].write(value.deprecationMessage)
+        try writer["description"].write(value.description)
+        try writer["fullyQualifiedName"].write(value.fullyQualifiedName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.Branch {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTFleetWiseClientTypes.Branch()
+        value.fullyQualifiedName = try reader["fullyQualifiedName"].readIfPresent() ?? ""
+        value.description = try reader["description"].readIfPresent()
+        value.deprecationMessage = try reader["deprecationMessage"].readIfPresent()
+        value.comment = try reader["comment"].readIfPresent()
+        return value
+    }
+}
+
+extension IoTFleetWiseClientTypes.CampaignSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.CampaignSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTFleetWiseClientTypes.CampaignSummary()
+        value.arn = try reader["arn"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.signalCatalogArn = try reader["signalCatalogArn"].readIfPresent()
+        value.targetArn = try reader["targetArn"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastModificationTime = try reader["lastModificationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension IoTFleetWiseClientTypes.CanDbcDefinition {
+
+    static func write(value: IoTFleetWiseClientTypes.CanDbcDefinition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["canDbcFiles"].writeList(value.canDbcFiles, memberWritingClosure: SmithyReadWrite.WritingClosures.writeData(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["networkInterface"].write(value.networkInterface)
+        try writer["signalsMap"].writeMap(value.signalsMap, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
+extension IoTFleetWiseClientTypes.CanInterface {
+
+    static func write(value: IoTFleetWiseClientTypes.CanInterface?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["name"].write(value.name)
+        try writer["protocolName"].write(value.protocolName)
+        try writer["protocolVersion"].write(value.protocolVersion)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.CanInterface {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTFleetWiseClientTypes.CanInterface()
         value.name = try reader["name"].readIfPresent() ?? ""
-        value.maxSampleCount = try reader["maxSampleCount"].readIfPresent()
-        value.minimumSamplingIntervalMs = try reader["minimumSamplingIntervalMs"].readIfPresent()
-        value.dataPartitionId = try reader["dataPartitionId"].readIfPresent()
+        value.protocolName = try reader["protocolName"].readIfPresent()
+        value.protocolVersion = try reader["protocolVersion"].readIfPresent()
+        return value
+    }
+}
+
+extension IoTFleetWiseClientTypes.CanSignal {
+
+    static func write(value: IoTFleetWiseClientTypes.CanSignal?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["factor"].write(value.factor)
+        try writer["isBigEndian"].write(value.isBigEndian)
+        try writer["isSigned"].write(value.isSigned)
+        try writer["length"].write(value.length)
+        try writer["messageId"].write(value.messageId)
+        try writer["name"].write(value.name)
+        try writer["offset"].write(value.offset)
+        try writer["signalValueType"].write(value.signalValueType)
+        try writer["startBit"].write(value.startBit)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.CanSignal {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTFleetWiseClientTypes.CanSignal()
+        value.messageId = try reader["messageId"].readIfPresent() ?? 0
+        value.isBigEndian = try reader["isBigEndian"].readIfPresent() ?? false
+        value.isSigned = try reader["isSigned"].readIfPresent() ?? false
+        value.startBit = try reader["startBit"].readIfPresent() ?? 0
+        value.offset = try reader["offset"].readIfPresent() ?? 0.0
+        value.factor = try reader["factor"].readIfPresent() ?? 0.0
+        value.length = try reader["length"].readIfPresent() ?? 0
+        value.name = try reader["name"].readIfPresent()
+        value.signalValueType = try reader["signalValueType"].readIfPresent()
+        return value
+    }
+}
+
+extension IoTFleetWiseClientTypes.CloudWatchLogDeliveryOptions {
+
+    static func write(value: IoTFleetWiseClientTypes.CloudWatchLogDeliveryOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["logGroupName"].write(value.logGroupName)
+        try writer["logType"].write(value.logType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.CloudWatchLogDeliveryOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTFleetWiseClientTypes.CloudWatchLogDeliveryOptions()
+        value.logType = try reader["logType"].readIfPresent() ?? .sdkUnknown("")
+        value.logGroupName = try reader["logGroupName"].readIfPresent()
         return value
     }
 }
@@ -9131,17 +9248,135 @@ extension IoTFleetWiseClientTypes.ConditionBasedCollectionScheme {
     }
 }
 
-extension IoTFleetWiseClientTypes.TimeBasedCollectionScheme {
+extension IoTFleetWiseClientTypes.ConditionBasedSignalFetchConfig {
 
-    static func write(value: IoTFleetWiseClientTypes.TimeBasedCollectionScheme?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: IoTFleetWiseClientTypes.ConditionBasedSignalFetchConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["periodMs"].write(value.periodMs)
+        try writer["conditionExpression"].write(value.conditionExpression)
+        try writer["triggerMode"].write(value.triggerMode)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.TimeBasedCollectionScheme {
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.ConditionBasedSignalFetchConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTFleetWiseClientTypes.TimeBasedCollectionScheme()
-        value.periodMs = try reader["periodMs"].readIfPresent() ?? 0
+        var value = IoTFleetWiseClientTypes.ConditionBasedSignalFetchConfig()
+        value.conditionExpression = try reader["conditionExpression"].readIfPresent() ?? ""
+        value.triggerMode = try reader["triggerMode"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension IoTFleetWiseClientTypes.CreateVehicleError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.CreateVehicleError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTFleetWiseClientTypes.CreateVehicleError()
+        value.vehicleName = try reader["vehicleName"].readIfPresent()
+        value.code = try reader["code"].readIfPresent()
+        value.message = try reader["message"].readIfPresent()
+        return value
+    }
+}
+
+extension IoTFleetWiseClientTypes.CreateVehicleRequestItem {
+
+    static func write(value: IoTFleetWiseClientTypes.CreateVehicleRequestItem?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["associationBehavior"].write(value.associationBehavior)
+        try writer["attributes"].writeMap(value.attributes, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["decoderManifestArn"].write(value.decoderManifestArn)
+        try writer["modelManifestArn"].write(value.modelManifestArn)
+        try writer["stateTemplates"].writeList(value.stateTemplates, memberWritingClosure: IoTFleetWiseClientTypes.StateTemplateAssociation.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["tags"].writeList(value.tags, memberWritingClosure: IoTFleetWiseClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["vehicleName"].write(value.vehicleName)
+    }
+}
+
+extension IoTFleetWiseClientTypes.CreateVehicleResponseItem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.CreateVehicleResponseItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTFleetWiseClientTypes.CreateVehicleResponseItem()
+        value.vehicleName = try reader["vehicleName"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent()
+        value.thingArn = try reader["thingArn"].readIfPresent()
+        return value
+    }
+}
+
+extension IoTFleetWiseClientTypes.CustomDecodingInterface {
+
+    static func write(value: IoTFleetWiseClientTypes.CustomDecodingInterface?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["name"].write(value.name)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.CustomDecodingInterface {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTFleetWiseClientTypes.CustomDecodingInterface()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension IoTFleetWiseClientTypes.CustomDecodingSignal {
+
+    static func write(value: IoTFleetWiseClientTypes.CustomDecodingSignal?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["id"].write(value.id)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.CustomDecodingSignal {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTFleetWiseClientTypes.CustomDecodingSignal()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension IoTFleetWiseClientTypes.CustomProperty {
+
+    static func write(value: IoTFleetWiseClientTypes.CustomProperty?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["comment"].write(value.comment)
+        try writer["dataEncoding"].write(value.dataEncoding)
+        try writer["dataType"].write(value.dataType)
+        try writer["deprecationMessage"].write(value.deprecationMessage)
+        try writer["description"].write(value.description)
+        try writer["fullyQualifiedName"].write(value.fullyQualifiedName)
+        try writer["structFullyQualifiedName"].write(value.structFullyQualifiedName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.CustomProperty {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTFleetWiseClientTypes.CustomProperty()
+        value.fullyQualifiedName = try reader["fullyQualifiedName"].readIfPresent() ?? ""
+        value.dataType = try reader["dataType"].readIfPresent() ?? .sdkUnknown("")
+        value.dataEncoding = try reader["dataEncoding"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.deprecationMessage = try reader["deprecationMessage"].readIfPresent()
+        value.comment = try reader["comment"].readIfPresent()
+        value.structFullyQualifiedName = try reader["structFullyQualifiedName"].readIfPresent()
+        return value
+    }
+}
+
+extension IoTFleetWiseClientTypes.CustomStruct {
+
+    static func write(value: IoTFleetWiseClientTypes.CustomStruct?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["comment"].write(value.comment)
+        try writer["deprecationMessage"].write(value.deprecationMessage)
+        try writer["description"].write(value.description)
+        try writer["fullyQualifiedName"].write(value.fullyQualifiedName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.CustomStruct {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTFleetWiseClientTypes.CustomStruct()
+        value.fullyQualifiedName = try reader["fullyQualifiedName"].readIfPresent() ?? ""
+        value.description = try reader["description"].readIfPresent()
+        value.deprecationMessage = try reader["deprecationMessage"].readIfPresent()
+        value.comment = try reader["comment"].readIfPresent()
         return value
     }
 }
@@ -9178,6 +9413,200 @@ extension IoTFleetWiseClientTypes.DataDestinationConfig {
     }
 }
 
+extension IoTFleetWiseClientTypes.DataPartition {
+
+    static func write(value: IoTFleetWiseClientTypes.DataPartition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["id"].write(value.id)
+        try writer["storageOptions"].write(value.storageOptions, with: IoTFleetWiseClientTypes.DataPartitionStorageOptions.write(value:to:))
+        try writer["uploadOptions"].write(value.uploadOptions, with: IoTFleetWiseClientTypes.DataPartitionUploadOptions.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.DataPartition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTFleetWiseClientTypes.DataPartition()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.storageOptions = try reader["storageOptions"].readIfPresent(with: IoTFleetWiseClientTypes.DataPartitionStorageOptions.read(from:))
+        value.uploadOptions = try reader["uploadOptions"].readIfPresent(with: IoTFleetWiseClientTypes.DataPartitionUploadOptions.read(from:))
+        return value
+    }
+}
+
+extension IoTFleetWiseClientTypes.DataPartitionStorageOptions {
+
+    static func write(value: IoTFleetWiseClientTypes.DataPartitionStorageOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["maximumSize"].write(value.maximumSize, with: IoTFleetWiseClientTypes.StorageMaximumSize.write(value:to:))
+        try writer["minimumTimeToLive"].write(value.minimumTimeToLive, with: IoTFleetWiseClientTypes.StorageMinimumTimeToLive.write(value:to:))
+        try writer["storageLocation"].write(value.storageLocation)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.DataPartitionStorageOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTFleetWiseClientTypes.DataPartitionStorageOptions()
+        value.maximumSize = try reader["maximumSize"].readIfPresent(with: IoTFleetWiseClientTypes.StorageMaximumSize.read(from:))
+        value.storageLocation = try reader["storageLocation"].readIfPresent() ?? ""
+        value.minimumTimeToLive = try reader["minimumTimeToLive"].readIfPresent(with: IoTFleetWiseClientTypes.StorageMinimumTimeToLive.read(from:))
+        return value
+    }
+}
+
+extension IoTFleetWiseClientTypes.DataPartitionUploadOptions {
+
+    static func write(value: IoTFleetWiseClientTypes.DataPartitionUploadOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["conditionLanguageVersion"].write(value.conditionLanguageVersion)
+        try writer["expression"].write(value.expression)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.DataPartitionUploadOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTFleetWiseClientTypes.DataPartitionUploadOptions()
+        value.expression = try reader["expression"].readIfPresent() ?? ""
+        value.conditionLanguageVersion = try reader["conditionLanguageVersion"].readIfPresent()
+        return value
+    }
+}
+
+extension IoTFleetWiseClientTypes.DecoderManifestSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.DecoderManifestSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTFleetWiseClientTypes.DecoderManifestSummary()
+        value.name = try reader["name"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent()
+        value.modelManifestArn = try reader["modelManifestArn"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastModificationTime = try reader["lastModificationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.message = try reader["message"].readIfPresent()
+        return value
+    }
+}
+
+extension IoTFleetWiseClientTypes.FleetSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.FleetSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTFleetWiseClientTypes.FleetSummary()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.description = try reader["description"].readIfPresent()
+        value.signalCatalogArn = try reader["signalCatalogArn"].readIfPresent() ?? ""
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastModificationTime = try reader["lastModificationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension IoTFleetWiseClientTypes.FormattedVss {
+
+    static func write(value: IoTFleetWiseClientTypes.FormattedVss?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .vssjson(vssjson):
+                try writer["vssJson"].write(vssjson)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension IoTFleetWiseClientTypes.IamRegistrationResponse {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.IamRegistrationResponse {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTFleetWiseClientTypes.IamRegistrationResponse()
+        value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
+        value.registrationStatus = try reader["registrationStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.errorMessage = try reader["errorMessage"].readIfPresent()
+        return value
+    }
+}
+
+extension IoTFleetWiseClientTypes.IamResources {
+
+    static func write(value: IoTFleetWiseClientTypes.IamResources?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["roleArn"].write(value.roleArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.IamResources {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTFleetWiseClientTypes.IamResources()
+        value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension IoTFleetWiseClientTypes.InvalidNetworkInterface {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.InvalidNetworkInterface {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTFleetWiseClientTypes.InvalidNetworkInterface()
+        value.interfaceId = try reader["interfaceId"].readIfPresent()
+        value.reason = try reader["reason"].readIfPresent()
+        return value
+    }
+}
+
+extension IoTFleetWiseClientTypes.InvalidSignal {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.InvalidSignal {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTFleetWiseClientTypes.InvalidSignal()
+        value.name = try reader["name"].readIfPresent()
+        value.reason = try reader["reason"].readIfPresent()
+        return value
+    }
+}
+
+extension IoTFleetWiseClientTypes.InvalidSignalDecoder {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.InvalidSignalDecoder {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTFleetWiseClientTypes.InvalidSignalDecoder()
+        value.name = try reader["name"].readIfPresent()
+        value.reason = try reader["reason"].readIfPresent()
+        value.hint = try reader["hint"].readIfPresent()
+        return value
+    }
+}
+
+extension IoTFleetWiseClientTypes.MessageSignal {
+
+    static func write(value: IoTFleetWiseClientTypes.MessageSignal?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["structuredMessage"].write(value.structuredMessage, with: IoTFleetWiseClientTypes.StructuredMessage.write(value:to:))
+        try writer["topicName"].write(value.topicName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.MessageSignal {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTFleetWiseClientTypes.MessageSignal()
+        value.topicName = try reader["topicName"].readIfPresent() ?? ""
+        value.structuredMessage = try reader["structuredMessage"].readIfPresent(with: IoTFleetWiseClientTypes.StructuredMessage.read(from:))
+        return value
+    }
+}
+
+extension IoTFleetWiseClientTypes.ModelManifestSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.ModelManifestSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTFleetWiseClientTypes.ModelManifestSummary()
+        value.name = try reader["name"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent()
+        value.signalCatalogArn = try reader["signalCatalogArn"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastModificationTime = try reader["lastModificationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
 extension IoTFleetWiseClientTypes.MqttTopicConfig {
 
     static func write(value: IoTFleetWiseClientTypes.MqttTopicConfig?, to writer: SmithyJSON.Writer) throws {
@@ -9195,19 +9624,235 @@ extension IoTFleetWiseClientTypes.MqttTopicConfig {
     }
 }
 
-extension IoTFleetWiseClientTypes.TimestreamConfig {
+extension IoTFleetWiseClientTypes.NetworkFileDefinition {
 
-    static func write(value: IoTFleetWiseClientTypes.TimestreamConfig?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: IoTFleetWiseClientTypes.NetworkFileDefinition?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["executionRoleArn"].write(value.executionRoleArn)
-        try writer["timestreamTableArn"].write(value.timestreamTableArn)
+        switch value {
+            case let .candbc(candbc):
+                try writer["canDbc"].write(candbc, with: IoTFleetWiseClientTypes.CanDbcDefinition.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension IoTFleetWiseClientTypes.NetworkInterface {
+
+    static func write(value: IoTFleetWiseClientTypes.NetworkInterface?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["canInterface"].write(value.canInterface, with: IoTFleetWiseClientTypes.CanInterface.write(value:to:))
+        try writer["customDecodingInterface"].write(value.customDecodingInterface, with: IoTFleetWiseClientTypes.CustomDecodingInterface.write(value:to:))
+        try writer["interfaceId"].write(value.interfaceId)
+        try writer["obdInterface"].write(value.obdInterface, with: IoTFleetWiseClientTypes.ObdInterface.write(value:to:))
+        try writer["type"].write(value.type)
+        try writer["vehicleMiddleware"].write(value.vehicleMiddleware, with: IoTFleetWiseClientTypes.VehicleMiddleware.write(value:to:))
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.TimestreamConfig {
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.NetworkInterface {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTFleetWiseClientTypes.TimestreamConfig()
-        value.timestreamTableArn = try reader["timestreamTableArn"].readIfPresent() ?? ""
-        value.executionRoleArn = try reader["executionRoleArn"].readIfPresent() ?? ""
+        var value = IoTFleetWiseClientTypes.NetworkInterface()
+        value.interfaceId = try reader["interfaceId"].readIfPresent() ?? ""
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.canInterface = try reader["canInterface"].readIfPresent(with: IoTFleetWiseClientTypes.CanInterface.read(from:))
+        value.obdInterface = try reader["obdInterface"].readIfPresent(with: IoTFleetWiseClientTypes.ObdInterface.read(from:))
+        value.vehicleMiddleware = try reader["vehicleMiddleware"].readIfPresent(with: IoTFleetWiseClientTypes.VehicleMiddleware.read(from:))
+        value.customDecodingInterface = try reader["customDecodingInterface"].readIfPresent(with: IoTFleetWiseClientTypes.CustomDecodingInterface.read(from:))
+        return value
+    }
+}
+
+extension IoTFleetWiseClientTypes.Node {
+
+    static func write(value: IoTFleetWiseClientTypes.Node?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .actuator(actuator):
+                try writer["actuator"].write(actuator, with: IoTFleetWiseClientTypes.Actuator.write(value:to:))
+            case let .attribute(attribute):
+                try writer["attribute"].write(attribute, with: IoTFleetWiseClientTypes.Attribute.write(value:to:))
+            case let .branch(branch):
+                try writer["branch"].write(branch, with: IoTFleetWiseClientTypes.Branch.write(value:to:))
+            case let .property(property):
+                try writer["property"].write(property, with: IoTFleetWiseClientTypes.CustomProperty.write(value:to:))
+            case let .sensor(sensor):
+                try writer["sensor"].write(sensor, with: IoTFleetWiseClientTypes.Sensor.write(value:to:))
+            case let .`struct`(`struct`):
+                try writer["struct"].write(`struct`, with: IoTFleetWiseClientTypes.CustomStruct.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.Node {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "branch":
+                return .branch(try reader["branch"].read(with: IoTFleetWiseClientTypes.Branch.read(from:)))
+            case "sensor":
+                return .sensor(try reader["sensor"].read(with: IoTFleetWiseClientTypes.Sensor.read(from:)))
+            case "actuator":
+                return .actuator(try reader["actuator"].read(with: IoTFleetWiseClientTypes.Actuator.read(from:)))
+            case "attribute":
+                return .attribute(try reader["attribute"].read(with: IoTFleetWiseClientTypes.Attribute.read(from:)))
+            case "struct":
+                return .`struct`(try reader["struct"].read(with: IoTFleetWiseClientTypes.CustomStruct.read(from:)))
+            case "property":
+                return .property(try reader["property"].read(with: IoTFleetWiseClientTypes.CustomProperty.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension IoTFleetWiseClientTypes.NodeCounts {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.NodeCounts {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTFleetWiseClientTypes.NodeCounts()
+        value.totalNodes = try reader["totalNodes"].readIfPresent() ?? 0
+        value.totalBranches = try reader["totalBranches"].readIfPresent() ?? 0
+        value.totalSensors = try reader["totalSensors"].readIfPresent() ?? 0
+        value.totalAttributes = try reader["totalAttributes"].readIfPresent() ?? 0
+        value.totalActuators = try reader["totalActuators"].readIfPresent() ?? 0
+        value.totalStructs = try reader["totalStructs"].readIfPresent() ?? 0
+        value.totalProperties = try reader["totalProperties"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension IoTFleetWiseClientTypes.ObdInterface {
+
+    static func write(value: IoTFleetWiseClientTypes.ObdInterface?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["dtcRequestIntervalSeconds"].write(value.dtcRequestIntervalSeconds)
+        try writer["hasTransmissionEcu"].write(value.hasTransmissionEcu)
+        try writer["name"].write(value.name)
+        try writer["obdStandard"].write(value.obdStandard)
+        try writer["pidRequestIntervalSeconds"].write(value.pidRequestIntervalSeconds)
+        try writer["requestMessageId"].write(value.requestMessageId)
+        try writer["useExtendedIds"].write(value.useExtendedIds)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.ObdInterface {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTFleetWiseClientTypes.ObdInterface()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.requestMessageId = try reader["requestMessageId"].readIfPresent() ?? 0
+        value.obdStandard = try reader["obdStandard"].readIfPresent()
+        value.pidRequestIntervalSeconds = try reader["pidRequestIntervalSeconds"].readIfPresent() ?? 0
+        value.dtcRequestIntervalSeconds = try reader["dtcRequestIntervalSeconds"].readIfPresent() ?? 0
+        value.useExtendedIds = try reader["useExtendedIds"].readIfPresent() ?? false
+        value.hasTransmissionEcu = try reader["hasTransmissionEcu"].readIfPresent() ?? false
+        return value
+    }
+}
+
+extension IoTFleetWiseClientTypes.ObdSignal {
+
+    static func write(value: IoTFleetWiseClientTypes.ObdSignal?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["bitMaskLength"].write(value.bitMaskLength)
+        try writer["bitRightShift"].write(value.bitRightShift)
+        try writer["byteLength"].write(value.byteLength)
+        try writer["isSigned"].write(value.isSigned)
+        try writer["offset"].write(value.offset)
+        try writer["pid"].write(value.pid)
+        try writer["pidResponseLength"].write(value.pidResponseLength)
+        try writer["scaling"].write(value.scaling)
+        try writer["serviceMode"].write(value.serviceMode)
+        try writer["signalValueType"].write(value.signalValueType)
+        try writer["startByte"].write(value.startByte)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.ObdSignal {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTFleetWiseClientTypes.ObdSignal()
+        value.pidResponseLength = try reader["pidResponseLength"].readIfPresent() ?? 0
+        value.serviceMode = try reader["serviceMode"].readIfPresent() ?? 0
+        value.pid = try reader["pid"].readIfPresent() ?? 0
+        value.scaling = try reader["scaling"].readIfPresent() ?? 0.0
+        value.offset = try reader["offset"].readIfPresent() ?? 0.0
+        value.startByte = try reader["startByte"].readIfPresent() ?? 0
+        value.byteLength = try reader["byteLength"].readIfPresent() ?? 0
+        value.bitRightShift = try reader["bitRightShift"].readIfPresent() ?? 0
+        value.bitMaskLength = try reader["bitMaskLength"].readIfPresent()
+        value.isSigned = try reader["isSigned"].readIfPresent()
+        value.signalValueType = try reader["signalValueType"].readIfPresent()
+        return value
+    }
+}
+
+extension IoTFleetWiseClientTypes.OnChangeStateTemplateUpdateStrategy {
+
+    static func write(value: IoTFleetWiseClientTypes.OnChangeStateTemplateUpdateStrategy?, to writer: SmithyJSON.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.OnChangeStateTemplateUpdateStrategy {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        return IoTFleetWiseClientTypes.OnChangeStateTemplateUpdateStrategy()
+    }
+}
+
+extension IoTFleetWiseClientTypes.PeriodicStateTemplateUpdateStrategy {
+
+    static func write(value: IoTFleetWiseClientTypes.PeriodicStateTemplateUpdateStrategy?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["stateTemplateUpdateRate"].write(value.stateTemplateUpdateRate, with: IoTFleetWiseClientTypes.TimePeriod.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.PeriodicStateTemplateUpdateStrategy {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTFleetWiseClientTypes.PeriodicStateTemplateUpdateStrategy()
+        value.stateTemplateUpdateRate = try reader["stateTemplateUpdateRate"].readIfPresent(with: IoTFleetWiseClientTypes.TimePeriod.read(from:))
+        return value
+    }
+}
+
+extension IoTFleetWiseClientTypes.PrimitiveMessageDefinition {
+
+    static func write(value: IoTFleetWiseClientTypes.PrimitiveMessageDefinition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .ros2primitivemessagedefinition(ros2primitivemessagedefinition):
+                try writer["ros2PrimitiveMessageDefinition"].write(ros2primitivemessagedefinition, with: IoTFleetWiseClientTypes.ROS2PrimitiveMessageDefinition.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.PrimitiveMessageDefinition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "ros2PrimitiveMessageDefinition":
+                return .ros2primitivemessagedefinition(try reader["ros2PrimitiveMessageDefinition"].read(with: IoTFleetWiseClientTypes.ROS2PrimitiveMessageDefinition.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension IoTFleetWiseClientTypes.ROS2PrimitiveMessageDefinition {
+
+    static func write(value: IoTFleetWiseClientTypes.ROS2PrimitiveMessageDefinition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["offset"].write(value.offset)
+        try writer["primitiveType"].write(value.primitiveType)
+        try writer["scaling"].write(value.scaling)
+        try writer["upperBound"].write(value.upperBound)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.ROS2PrimitiveMessageDefinition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTFleetWiseClientTypes.ROS2PrimitiveMessageDefinition()
+        value.primitiveType = try reader["primitiveType"].readIfPresent() ?? .sdkUnknown("")
+        value.offset = try reader["offset"].readIfPresent()
+        value.scaling = try reader["scaling"].readIfPresent()
+        value.upperBound = try reader["upperBound"].readIfPresent()
         return value
     }
 }
@@ -9233,112 +9878,75 @@ extension IoTFleetWiseClientTypes.S3Config {
     }
 }
 
-extension IoTFleetWiseClientTypes.DataPartition {
+extension IoTFleetWiseClientTypes.Sensor {
 
-    static func write(value: IoTFleetWiseClientTypes.DataPartition?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: IoTFleetWiseClientTypes.Sensor?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["id"].write(value.id)
-        try writer["storageOptions"].write(value.storageOptions, with: IoTFleetWiseClientTypes.DataPartitionStorageOptions.write(value:to:))
-        try writer["uploadOptions"].write(value.uploadOptions, with: IoTFleetWiseClientTypes.DataPartitionUploadOptions.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.DataPartition {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTFleetWiseClientTypes.DataPartition()
-        value.id = try reader["id"].readIfPresent() ?? ""
-        value.storageOptions = try reader["storageOptions"].readIfPresent(with: IoTFleetWiseClientTypes.DataPartitionStorageOptions.read(from:))
-        value.uploadOptions = try reader["uploadOptions"].readIfPresent(with: IoTFleetWiseClientTypes.DataPartitionUploadOptions.read(from:))
-        return value
-    }
-}
-
-extension IoTFleetWiseClientTypes.DataPartitionUploadOptions {
-
-    static func write(value: IoTFleetWiseClientTypes.DataPartitionUploadOptions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["conditionLanguageVersion"].write(value.conditionLanguageVersion)
-        try writer["expression"].write(value.expression)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.DataPartitionUploadOptions {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTFleetWiseClientTypes.DataPartitionUploadOptions()
-        value.expression = try reader["expression"].readIfPresent() ?? ""
-        value.conditionLanguageVersion = try reader["conditionLanguageVersion"].readIfPresent()
-        return value
-    }
-}
-
-extension IoTFleetWiseClientTypes.DataPartitionStorageOptions {
-
-    static func write(value: IoTFleetWiseClientTypes.DataPartitionStorageOptions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["maximumSize"].write(value.maximumSize, with: IoTFleetWiseClientTypes.StorageMaximumSize.write(value:to:))
-        try writer["minimumTimeToLive"].write(value.minimumTimeToLive, with: IoTFleetWiseClientTypes.StorageMinimumTimeToLive.write(value:to:))
-        try writer["storageLocation"].write(value.storageLocation)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.DataPartitionStorageOptions {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTFleetWiseClientTypes.DataPartitionStorageOptions()
-        value.maximumSize = try reader["maximumSize"].readIfPresent(with: IoTFleetWiseClientTypes.StorageMaximumSize.read(from:))
-        value.storageLocation = try reader["storageLocation"].readIfPresent() ?? ""
-        value.minimumTimeToLive = try reader["minimumTimeToLive"].readIfPresent(with: IoTFleetWiseClientTypes.StorageMinimumTimeToLive.read(from:))
-        return value
-    }
-}
-
-extension IoTFleetWiseClientTypes.StorageMinimumTimeToLive {
-
-    static func write(value: IoTFleetWiseClientTypes.StorageMinimumTimeToLive?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["unit"].write(value.unit)
-        try writer["value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.StorageMinimumTimeToLive {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTFleetWiseClientTypes.StorageMinimumTimeToLive()
-        value.unit = try reader["unit"].readIfPresent() ?? .sdkUnknown("")
-        value.value = try reader["value"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension IoTFleetWiseClientTypes.StorageMaximumSize {
-
-    static func write(value: IoTFleetWiseClientTypes.StorageMaximumSize?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["unit"].write(value.unit)
-        try writer["value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.StorageMaximumSize {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTFleetWiseClientTypes.StorageMaximumSize()
-        value.unit = try reader["unit"].readIfPresent() ?? .sdkUnknown("")
-        value.value = try reader["value"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension IoTFleetWiseClientTypes.SignalFetchInformation {
-
-    static func write(value: IoTFleetWiseClientTypes.SignalFetchInformation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["actions"].writeList(value.actions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["conditionLanguageVersion"].write(value.conditionLanguageVersion)
+        try writer["allowedValues"].writeList(value.allowedValues, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["comment"].write(value.comment)
+        try writer["dataType"].write(value.dataType)
+        try writer["deprecationMessage"].write(value.deprecationMessage)
+        try writer["description"].write(value.description)
         try writer["fullyQualifiedName"].write(value.fullyQualifiedName)
-        try writer["signalFetchConfig"].write(value.signalFetchConfig, with: IoTFleetWiseClientTypes.SignalFetchConfig.write(value:to:))
+        try writer["max"].write(value.max)
+        try writer["min"].write(value.min)
+        try writer["structFullyQualifiedName"].write(value.structFullyQualifiedName)
+        try writer["unit"].write(value.unit)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.SignalFetchInformation {
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.Sensor {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTFleetWiseClientTypes.SignalFetchInformation()
+        var value = IoTFleetWiseClientTypes.Sensor()
         value.fullyQualifiedName = try reader["fullyQualifiedName"].readIfPresent() ?? ""
-        value.signalFetchConfig = try reader["signalFetchConfig"].readIfPresent(with: IoTFleetWiseClientTypes.SignalFetchConfig.read(from:))
-        value.conditionLanguageVersion = try reader["conditionLanguageVersion"].readIfPresent()
-        value.actions = try reader["actions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.dataType = try reader["dataType"].readIfPresent() ?? .sdkUnknown("")
+        value.description = try reader["description"].readIfPresent()
+        value.unit = try reader["unit"].readIfPresent()
+        value.allowedValues = try reader["allowedValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.min = try reader["min"].readIfPresent()
+        value.max = try reader["max"].readIfPresent()
+        value.deprecationMessage = try reader["deprecationMessage"].readIfPresent()
+        value.comment = try reader["comment"].readIfPresent()
+        value.structFullyQualifiedName = try reader["structFullyQualifiedName"].readIfPresent()
+        return value
+    }
+}
+
+extension IoTFleetWiseClientTypes.SignalCatalogSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.SignalCatalogSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTFleetWiseClientTypes.SignalCatalogSummary()
+        value.name = try reader["name"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent()
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastModificationTime = try reader["lastModificationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension IoTFleetWiseClientTypes.SignalDecoder {
+
+    static func write(value: IoTFleetWiseClientTypes.SignalDecoder?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["canSignal"].write(value.canSignal, with: IoTFleetWiseClientTypes.CanSignal.write(value:to:))
+        try writer["customDecodingSignal"].write(value.customDecodingSignal, with: IoTFleetWiseClientTypes.CustomDecodingSignal.write(value:to:))
+        try writer["fullyQualifiedName"].write(value.fullyQualifiedName)
+        try writer["interfaceId"].write(value.interfaceId)
+        try writer["messageSignal"].write(value.messageSignal, with: IoTFleetWiseClientTypes.MessageSignal.write(value:to:))
+        try writer["obdSignal"].write(value.obdSignal, with: IoTFleetWiseClientTypes.ObdSignal.write(value:to:))
+        try writer["type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.SignalDecoder {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTFleetWiseClientTypes.SignalDecoder()
+        value.fullyQualifiedName = try reader["fullyQualifiedName"].readIfPresent() ?? ""
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.interfaceId = try reader["interfaceId"].readIfPresent() ?? ""
+        value.canSignal = try reader["canSignal"].readIfPresent(with: IoTFleetWiseClientTypes.CanSignal.read(from:))
+        value.obdSignal = try reader["obdSignal"].readIfPresent(with: IoTFleetWiseClientTypes.ObdSignal.read(from:))
+        value.messageSignal = try reader["messageSignal"].readIfPresent(with: IoTFleetWiseClientTypes.MessageSignal.read(from:))
+        value.customDecodingSignal = try reader["customDecodingSignal"].readIfPresent(with: IoTFleetWiseClientTypes.CustomDecodingSignal.read(from:))
         return value
     }
 }
@@ -9371,94 +9979,44 @@ extension IoTFleetWiseClientTypes.SignalFetchConfig {
     }
 }
 
-extension IoTFleetWiseClientTypes.ConditionBasedSignalFetchConfig {
+extension IoTFleetWiseClientTypes.SignalFetchInformation {
 
-    static func write(value: IoTFleetWiseClientTypes.ConditionBasedSignalFetchConfig?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: IoTFleetWiseClientTypes.SignalFetchInformation?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["conditionExpression"].write(value.conditionExpression)
-        try writer["triggerMode"].write(value.triggerMode)
+        try writer["actions"].writeList(value.actions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["conditionLanguageVersion"].write(value.conditionLanguageVersion)
+        try writer["fullyQualifiedName"].write(value.fullyQualifiedName)
+        try writer["signalFetchConfig"].write(value.signalFetchConfig, with: IoTFleetWiseClientTypes.SignalFetchConfig.write(value:to:))
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.ConditionBasedSignalFetchConfig {
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.SignalFetchInformation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTFleetWiseClientTypes.ConditionBasedSignalFetchConfig()
-        value.conditionExpression = try reader["conditionExpression"].readIfPresent() ?? ""
-        value.triggerMode = try reader["triggerMode"].readIfPresent() ?? .sdkUnknown("")
+        var value = IoTFleetWiseClientTypes.SignalFetchInformation()
+        value.fullyQualifiedName = try reader["fullyQualifiedName"].readIfPresent() ?? ""
+        value.signalFetchConfig = try reader["signalFetchConfig"].readIfPresent(with: IoTFleetWiseClientTypes.SignalFetchConfig.read(from:))
+        value.conditionLanguageVersion = try reader["conditionLanguageVersion"].readIfPresent()
+        value.actions = try reader["actions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
 
-extension IoTFleetWiseClientTypes.TimeBasedSignalFetchConfig {
+extension IoTFleetWiseClientTypes.SignalInformation {
 
-    static func write(value: IoTFleetWiseClientTypes.TimeBasedSignalFetchConfig?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: IoTFleetWiseClientTypes.SignalInformation?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["executionFrequencyMs"].write(value.executionFrequencyMs)
+        try writer["dataPartitionId"].write(value.dataPartitionId)
+        try writer["maxSampleCount"].write(value.maxSampleCount)
+        try writer["minimumSamplingIntervalMs"].write(value.minimumSamplingIntervalMs)
+        try writer["name"].write(value.name)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.TimeBasedSignalFetchConfig {
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.SignalInformation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTFleetWiseClientTypes.TimeBasedSignalFetchConfig()
-        value.executionFrequencyMs = try reader["executionFrequencyMs"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension IoTFleetWiseClientTypes.CloudWatchLogDeliveryOptions {
-
-    static func write(value: IoTFleetWiseClientTypes.CloudWatchLogDeliveryOptions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["logGroupName"].write(value.logGroupName)
-        try writer["logType"].write(value.logType)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.CloudWatchLogDeliveryOptions {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTFleetWiseClientTypes.CloudWatchLogDeliveryOptions()
-        value.logType = try reader["logType"].readIfPresent() ?? .sdkUnknown("")
-        value.logGroupName = try reader["logGroupName"].readIfPresent()
-        return value
-    }
-}
-
-extension IoTFleetWiseClientTypes.TimestreamRegistrationResponse {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.TimestreamRegistrationResponse {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTFleetWiseClientTypes.TimestreamRegistrationResponse()
-        value.timestreamDatabaseName = try reader["timestreamDatabaseName"].readIfPresent() ?? ""
-        value.timestreamTableName = try reader["timestreamTableName"].readIfPresent() ?? ""
-        value.timestreamDatabaseArn = try reader["timestreamDatabaseArn"].readIfPresent()
-        value.timestreamTableArn = try reader["timestreamTableArn"].readIfPresent()
-        value.registrationStatus = try reader["registrationStatus"].readIfPresent() ?? .sdkUnknown("")
-        value.errorMessage = try reader["errorMessage"].readIfPresent()
-        return value
-    }
-}
-
-extension IoTFleetWiseClientTypes.IamRegistrationResponse {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.IamRegistrationResponse {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTFleetWiseClientTypes.IamRegistrationResponse()
-        value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
-        value.registrationStatus = try reader["registrationStatus"].readIfPresent() ?? .sdkUnknown("")
-        value.errorMessage = try reader["errorMessage"].readIfPresent()
-        return value
-    }
-}
-
-extension IoTFleetWiseClientTypes.NodeCounts {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.NodeCounts {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTFleetWiseClientTypes.NodeCounts()
-        value.totalNodes = try reader["totalNodes"].readIfPresent() ?? 0
-        value.totalBranches = try reader["totalBranches"].readIfPresent() ?? 0
-        value.totalSensors = try reader["totalSensors"].readIfPresent() ?? 0
-        value.totalAttributes = try reader["totalAttributes"].readIfPresent() ?? 0
-        value.totalActuators = try reader["totalActuators"].readIfPresent() ?? 0
-        value.totalStructs = try reader["totalStructs"].readIfPresent() ?? 0
-        value.totalProperties = try reader["totalProperties"].readIfPresent() ?? 0
+        var value = IoTFleetWiseClientTypes.SignalInformation()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.maxSampleCount = try reader["maxSampleCount"].readIfPresent()
+        value.minimumSamplingIntervalMs = try reader["minimumSamplingIntervalMs"].readIfPresent()
+        value.dataPartitionId = try reader["dataPartitionId"].readIfPresent()
         return value
     }
 }
@@ -9476,6 +10034,22 @@ extension IoTFleetWiseClientTypes.StateTemplateAssociation {
         var value = IoTFleetWiseClientTypes.StateTemplateAssociation()
         value.identifier = try reader["identifier"].readIfPresent() ?? ""
         value.stateTemplateUpdateStrategy = try reader["stateTemplateUpdateStrategy"].readIfPresent(with: IoTFleetWiseClientTypes.StateTemplateUpdateStrategy.read(from:))
+        return value
+    }
+}
+
+extension IoTFleetWiseClientTypes.StateTemplateSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.StateTemplateSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTFleetWiseClientTypes.StateTemplateSummary()
+        value.name = try reader["name"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent()
+        value.signalCatalogArn = try reader["signalCatalogArn"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastModificationTime = try reader["lastModificationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.id = try reader["id"].readIfPresent()
         return value
     }
 }
@@ -9508,255 +10082,36 @@ extension IoTFleetWiseClientTypes.StateTemplateUpdateStrategy {
     }
 }
 
-extension IoTFleetWiseClientTypes.OnChangeStateTemplateUpdateStrategy {
+extension IoTFleetWiseClientTypes.StorageMaximumSize {
 
-    static func write(value: IoTFleetWiseClientTypes.OnChangeStateTemplateUpdateStrategy?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.OnChangeStateTemplateUpdateStrategy {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        return IoTFleetWiseClientTypes.OnChangeStateTemplateUpdateStrategy()
-    }
-}
-
-extension IoTFleetWiseClientTypes.PeriodicStateTemplateUpdateStrategy {
-
-    static func write(value: IoTFleetWiseClientTypes.PeriodicStateTemplateUpdateStrategy?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["stateTemplateUpdateRate"].write(value.stateTemplateUpdateRate, with: IoTFleetWiseClientTypes.TimePeriod.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.PeriodicStateTemplateUpdateStrategy {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTFleetWiseClientTypes.PeriodicStateTemplateUpdateStrategy()
-        value.stateTemplateUpdateRate = try reader["stateTemplateUpdateRate"].readIfPresent(with: IoTFleetWiseClientTypes.TimePeriod.read(from:))
-        return value
-    }
-}
-
-extension IoTFleetWiseClientTypes.TimePeriod {
-
-    static func write(value: IoTFleetWiseClientTypes.TimePeriod?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: IoTFleetWiseClientTypes.StorageMaximumSize?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["unit"].write(value.unit)
         try writer["value"].write(value.value)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.TimePeriod {
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.StorageMaximumSize {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTFleetWiseClientTypes.TimePeriod()
+        var value = IoTFleetWiseClientTypes.StorageMaximumSize()
         value.unit = try reader["unit"].readIfPresent() ?? .sdkUnknown("")
         value.value = try reader["value"].readIfPresent() ?? 0
         return value
     }
 }
 
-extension IoTFleetWiseClientTypes.VehicleStatus {
+extension IoTFleetWiseClientTypes.StorageMinimumTimeToLive {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.VehicleStatus {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTFleetWiseClientTypes.VehicleStatus()
-        value.campaignName = try reader["campaignName"].readIfPresent()
-        value.vehicleName = try reader["vehicleName"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        return value
-    }
-}
-
-extension IoTFleetWiseClientTypes.CampaignSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.CampaignSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTFleetWiseClientTypes.CampaignSummary()
-        value.arn = try reader["arn"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.description = try reader["description"].readIfPresent()
-        value.signalCatalogArn = try reader["signalCatalogArn"].readIfPresent()
-        value.targetArn = try reader["targetArn"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.lastModificationTime = try reader["lastModificationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        return value
-    }
-}
-
-extension IoTFleetWiseClientTypes.NetworkInterface {
-
-    static func write(value: IoTFleetWiseClientTypes.NetworkInterface?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: IoTFleetWiseClientTypes.StorageMinimumTimeToLive?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["canInterface"].write(value.canInterface, with: IoTFleetWiseClientTypes.CanInterface.write(value:to:))
-        try writer["customDecodingInterface"].write(value.customDecodingInterface, with: IoTFleetWiseClientTypes.CustomDecodingInterface.write(value:to:))
-        try writer["interfaceId"].write(value.interfaceId)
-        try writer["obdInterface"].write(value.obdInterface, with: IoTFleetWiseClientTypes.ObdInterface.write(value:to:))
-        try writer["type"].write(value.type)
-        try writer["vehicleMiddleware"].write(value.vehicleMiddleware, with: IoTFleetWiseClientTypes.VehicleMiddleware.write(value:to:))
+        try writer["unit"].write(value.unit)
+        try writer["value"].write(value.value)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.NetworkInterface {
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.StorageMinimumTimeToLive {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTFleetWiseClientTypes.NetworkInterface()
-        value.interfaceId = try reader["interfaceId"].readIfPresent() ?? ""
-        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
-        value.canInterface = try reader["canInterface"].readIfPresent(with: IoTFleetWiseClientTypes.CanInterface.read(from:))
-        value.obdInterface = try reader["obdInterface"].readIfPresent(with: IoTFleetWiseClientTypes.ObdInterface.read(from:))
-        value.vehicleMiddleware = try reader["vehicleMiddleware"].readIfPresent(with: IoTFleetWiseClientTypes.VehicleMiddleware.read(from:))
-        value.customDecodingInterface = try reader["customDecodingInterface"].readIfPresent(with: IoTFleetWiseClientTypes.CustomDecodingInterface.read(from:))
-        return value
-    }
-}
-
-extension IoTFleetWiseClientTypes.CustomDecodingInterface {
-
-    static func write(value: IoTFleetWiseClientTypes.CustomDecodingInterface?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["name"].write(value.name)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.CustomDecodingInterface {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTFleetWiseClientTypes.CustomDecodingInterface()
-        value.name = try reader["name"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension IoTFleetWiseClientTypes.VehicleMiddleware {
-
-    static func write(value: IoTFleetWiseClientTypes.VehicleMiddleware?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["name"].write(value.name)
-        try writer["protocolName"].write(value.protocolName)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.VehicleMiddleware {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTFleetWiseClientTypes.VehicleMiddleware()
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.protocolName = try reader["protocolName"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension IoTFleetWiseClientTypes.ObdInterface {
-
-    static func write(value: IoTFleetWiseClientTypes.ObdInterface?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["dtcRequestIntervalSeconds"].write(value.dtcRequestIntervalSeconds)
-        try writer["hasTransmissionEcu"].write(value.hasTransmissionEcu)
-        try writer["name"].write(value.name)
-        try writer["obdStandard"].write(value.obdStandard)
-        try writer["pidRequestIntervalSeconds"].write(value.pidRequestIntervalSeconds)
-        try writer["requestMessageId"].write(value.requestMessageId)
-        try writer["useExtendedIds"].write(value.useExtendedIds)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.ObdInterface {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTFleetWiseClientTypes.ObdInterface()
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.requestMessageId = try reader["requestMessageId"].readIfPresent() ?? 0
-        value.obdStandard = try reader["obdStandard"].readIfPresent()
-        value.pidRequestIntervalSeconds = try reader["pidRequestIntervalSeconds"].readIfPresent() ?? 0
-        value.dtcRequestIntervalSeconds = try reader["dtcRequestIntervalSeconds"].readIfPresent() ?? 0
-        value.useExtendedIds = try reader["useExtendedIds"].readIfPresent() ?? false
-        value.hasTransmissionEcu = try reader["hasTransmissionEcu"].readIfPresent() ?? false
-        return value
-    }
-}
-
-extension IoTFleetWiseClientTypes.CanInterface {
-
-    static func write(value: IoTFleetWiseClientTypes.CanInterface?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["name"].write(value.name)
-        try writer["protocolName"].write(value.protocolName)
-        try writer["protocolVersion"].write(value.protocolVersion)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.CanInterface {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTFleetWiseClientTypes.CanInterface()
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.protocolName = try reader["protocolName"].readIfPresent()
-        value.protocolVersion = try reader["protocolVersion"].readIfPresent()
-        return value
-    }
-}
-
-extension IoTFleetWiseClientTypes.DecoderManifestSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.DecoderManifestSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTFleetWiseClientTypes.DecoderManifestSummary()
-        value.name = try reader["name"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
-        value.modelManifestArn = try reader["modelManifestArn"].readIfPresent()
-        value.description = try reader["description"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.lastModificationTime = try reader["lastModificationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.message = try reader["message"].readIfPresent()
-        return value
-    }
-}
-
-extension IoTFleetWiseClientTypes.SignalDecoder {
-
-    static func write(value: IoTFleetWiseClientTypes.SignalDecoder?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["canSignal"].write(value.canSignal, with: IoTFleetWiseClientTypes.CanSignal.write(value:to:))
-        try writer["customDecodingSignal"].write(value.customDecodingSignal, with: IoTFleetWiseClientTypes.CustomDecodingSignal.write(value:to:))
-        try writer["fullyQualifiedName"].write(value.fullyQualifiedName)
-        try writer["interfaceId"].write(value.interfaceId)
-        try writer["messageSignal"].write(value.messageSignal, with: IoTFleetWiseClientTypes.MessageSignal.write(value:to:))
-        try writer["obdSignal"].write(value.obdSignal, with: IoTFleetWiseClientTypes.ObdSignal.write(value:to:))
-        try writer["type"].write(value.type)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.SignalDecoder {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTFleetWiseClientTypes.SignalDecoder()
-        value.fullyQualifiedName = try reader["fullyQualifiedName"].readIfPresent() ?? ""
-        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
-        value.interfaceId = try reader["interfaceId"].readIfPresent() ?? ""
-        value.canSignal = try reader["canSignal"].readIfPresent(with: IoTFleetWiseClientTypes.CanSignal.read(from:))
-        value.obdSignal = try reader["obdSignal"].readIfPresent(with: IoTFleetWiseClientTypes.ObdSignal.read(from:))
-        value.messageSignal = try reader["messageSignal"].readIfPresent(with: IoTFleetWiseClientTypes.MessageSignal.read(from:))
-        value.customDecodingSignal = try reader["customDecodingSignal"].readIfPresent(with: IoTFleetWiseClientTypes.CustomDecodingSignal.read(from:))
-        return value
-    }
-}
-
-extension IoTFleetWiseClientTypes.CustomDecodingSignal {
-
-    static func write(value: IoTFleetWiseClientTypes.CustomDecodingSignal?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["id"].write(value.id)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.CustomDecodingSignal {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTFleetWiseClientTypes.CustomDecodingSignal()
-        value.id = try reader["id"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension IoTFleetWiseClientTypes.MessageSignal {
-
-    static func write(value: IoTFleetWiseClientTypes.MessageSignal?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["structuredMessage"].write(value.structuredMessage, with: IoTFleetWiseClientTypes.StructuredMessage.write(value:to:))
-        try writer["topicName"].write(value.topicName)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.MessageSignal {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTFleetWiseClientTypes.MessageSignal()
-        value.topicName = try reader["topicName"].readIfPresent() ?? ""
-        value.structuredMessage = try reader["structuredMessage"].readIfPresent(with: IoTFleetWiseClientTypes.StructuredMessage.read(from:))
+        var value = IoTFleetWiseClientTypes.StorageMinimumTimeToLive()
+        value.unit = try reader["unit"].readIfPresent() ?? .sdkUnknown("")
+        value.value = try reader["value"].readIfPresent() ?? 0
         return value
     }
 }
@@ -9831,393 +10186,6 @@ extension IoTFleetWiseClientTypes.StructuredMessageListDefinition {
     }
 }
 
-extension IoTFleetWiseClientTypes.PrimitiveMessageDefinition {
-
-    static func write(value: IoTFleetWiseClientTypes.PrimitiveMessageDefinition?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .ros2primitivemessagedefinition(ros2primitivemessagedefinition):
-                try writer["ros2PrimitiveMessageDefinition"].write(ros2primitivemessagedefinition, with: IoTFleetWiseClientTypes.ROS2PrimitiveMessageDefinition.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.PrimitiveMessageDefinition {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "ros2PrimitiveMessageDefinition":
-                return .ros2primitivemessagedefinition(try reader["ros2PrimitiveMessageDefinition"].read(with: IoTFleetWiseClientTypes.ROS2PrimitiveMessageDefinition.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension IoTFleetWiseClientTypes.ROS2PrimitiveMessageDefinition {
-
-    static func write(value: IoTFleetWiseClientTypes.ROS2PrimitiveMessageDefinition?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["offset"].write(value.offset)
-        try writer["primitiveType"].write(value.primitiveType)
-        try writer["scaling"].write(value.scaling)
-        try writer["upperBound"].write(value.upperBound)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.ROS2PrimitiveMessageDefinition {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTFleetWiseClientTypes.ROS2PrimitiveMessageDefinition()
-        value.primitiveType = try reader["primitiveType"].readIfPresent() ?? .sdkUnknown("")
-        value.offset = try reader["offset"].readIfPresent()
-        value.scaling = try reader["scaling"].readIfPresent()
-        value.upperBound = try reader["upperBound"].readIfPresent()
-        return value
-    }
-}
-
-extension IoTFleetWiseClientTypes.ObdSignal {
-
-    static func write(value: IoTFleetWiseClientTypes.ObdSignal?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["bitMaskLength"].write(value.bitMaskLength)
-        try writer["bitRightShift"].write(value.bitRightShift)
-        try writer["byteLength"].write(value.byteLength)
-        try writer["isSigned"].write(value.isSigned)
-        try writer["offset"].write(value.offset)
-        try writer["pid"].write(value.pid)
-        try writer["pidResponseLength"].write(value.pidResponseLength)
-        try writer["scaling"].write(value.scaling)
-        try writer["serviceMode"].write(value.serviceMode)
-        try writer["signalValueType"].write(value.signalValueType)
-        try writer["startByte"].write(value.startByte)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.ObdSignal {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTFleetWiseClientTypes.ObdSignal()
-        value.pidResponseLength = try reader["pidResponseLength"].readIfPresent() ?? 0
-        value.serviceMode = try reader["serviceMode"].readIfPresent() ?? 0
-        value.pid = try reader["pid"].readIfPresent() ?? 0
-        value.scaling = try reader["scaling"].readIfPresent() ?? 0.0
-        value.offset = try reader["offset"].readIfPresent() ?? 0.0
-        value.startByte = try reader["startByte"].readIfPresent() ?? 0
-        value.byteLength = try reader["byteLength"].readIfPresent() ?? 0
-        value.bitRightShift = try reader["bitRightShift"].readIfPresent() ?? 0
-        value.bitMaskLength = try reader["bitMaskLength"].readIfPresent()
-        value.isSigned = try reader["isSigned"].readIfPresent()
-        value.signalValueType = try reader["signalValueType"].readIfPresent()
-        return value
-    }
-}
-
-extension IoTFleetWiseClientTypes.CanSignal {
-
-    static func write(value: IoTFleetWiseClientTypes.CanSignal?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["factor"].write(value.factor)
-        try writer["isBigEndian"].write(value.isBigEndian)
-        try writer["isSigned"].write(value.isSigned)
-        try writer["length"].write(value.length)
-        try writer["messageId"].write(value.messageId)
-        try writer["name"].write(value.name)
-        try writer["offset"].write(value.offset)
-        try writer["signalValueType"].write(value.signalValueType)
-        try writer["startBit"].write(value.startBit)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.CanSignal {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTFleetWiseClientTypes.CanSignal()
-        value.messageId = try reader["messageId"].readIfPresent() ?? 0
-        value.isBigEndian = try reader["isBigEndian"].readIfPresent() ?? false
-        value.isSigned = try reader["isSigned"].readIfPresent() ?? false
-        value.startBit = try reader["startBit"].readIfPresent() ?? 0
-        value.offset = try reader["offset"].readIfPresent() ?? 0.0
-        value.factor = try reader["factor"].readIfPresent() ?? 0.0
-        value.length = try reader["length"].readIfPresent() ?? 0
-        value.name = try reader["name"].readIfPresent()
-        value.signalValueType = try reader["signalValueType"].readIfPresent()
-        return value
-    }
-}
-
-extension IoTFleetWiseClientTypes.FleetSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.FleetSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTFleetWiseClientTypes.FleetSummary()
-        value.id = try reader["id"].readIfPresent() ?? ""
-        value.arn = try reader["arn"].readIfPresent() ?? ""
-        value.description = try reader["description"].readIfPresent()
-        value.signalCatalogArn = try reader["signalCatalogArn"].readIfPresent() ?? ""
-        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.lastModificationTime = try reader["lastModificationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension IoTFleetWiseClientTypes.Node {
-
-    static func write(value: IoTFleetWiseClientTypes.Node?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .actuator(actuator):
-                try writer["actuator"].write(actuator, with: IoTFleetWiseClientTypes.Actuator.write(value:to:))
-            case let .attribute(attribute):
-                try writer["attribute"].write(attribute, with: IoTFleetWiseClientTypes.Attribute.write(value:to:))
-            case let .branch(branch):
-                try writer["branch"].write(branch, with: IoTFleetWiseClientTypes.Branch.write(value:to:))
-            case let .property(property):
-                try writer["property"].write(property, with: IoTFleetWiseClientTypes.CustomProperty.write(value:to:))
-            case let .sensor(sensor):
-                try writer["sensor"].write(sensor, with: IoTFleetWiseClientTypes.Sensor.write(value:to:))
-            case let .`struct`(`struct`):
-                try writer["struct"].write(`struct`, with: IoTFleetWiseClientTypes.CustomStruct.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.Node {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "branch":
-                return .branch(try reader["branch"].read(with: IoTFleetWiseClientTypes.Branch.read(from:)))
-            case "sensor":
-                return .sensor(try reader["sensor"].read(with: IoTFleetWiseClientTypes.Sensor.read(from:)))
-            case "actuator":
-                return .actuator(try reader["actuator"].read(with: IoTFleetWiseClientTypes.Actuator.read(from:)))
-            case "attribute":
-                return .attribute(try reader["attribute"].read(with: IoTFleetWiseClientTypes.Attribute.read(from:)))
-            case "struct":
-                return .`struct`(try reader["struct"].read(with: IoTFleetWiseClientTypes.CustomStruct.read(from:)))
-            case "property":
-                return .property(try reader["property"].read(with: IoTFleetWiseClientTypes.CustomProperty.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension IoTFleetWiseClientTypes.CustomProperty {
-
-    static func write(value: IoTFleetWiseClientTypes.CustomProperty?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["comment"].write(value.comment)
-        try writer["dataEncoding"].write(value.dataEncoding)
-        try writer["dataType"].write(value.dataType)
-        try writer["deprecationMessage"].write(value.deprecationMessage)
-        try writer["description"].write(value.description)
-        try writer["fullyQualifiedName"].write(value.fullyQualifiedName)
-        try writer["structFullyQualifiedName"].write(value.structFullyQualifiedName)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.CustomProperty {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTFleetWiseClientTypes.CustomProperty()
-        value.fullyQualifiedName = try reader["fullyQualifiedName"].readIfPresent() ?? ""
-        value.dataType = try reader["dataType"].readIfPresent() ?? .sdkUnknown("")
-        value.dataEncoding = try reader["dataEncoding"].readIfPresent()
-        value.description = try reader["description"].readIfPresent()
-        value.deprecationMessage = try reader["deprecationMessage"].readIfPresent()
-        value.comment = try reader["comment"].readIfPresent()
-        value.structFullyQualifiedName = try reader["structFullyQualifiedName"].readIfPresent()
-        return value
-    }
-}
-
-extension IoTFleetWiseClientTypes.CustomStruct {
-
-    static func write(value: IoTFleetWiseClientTypes.CustomStruct?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["comment"].write(value.comment)
-        try writer["deprecationMessage"].write(value.deprecationMessage)
-        try writer["description"].write(value.description)
-        try writer["fullyQualifiedName"].write(value.fullyQualifiedName)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.CustomStruct {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTFleetWiseClientTypes.CustomStruct()
-        value.fullyQualifiedName = try reader["fullyQualifiedName"].readIfPresent() ?? ""
-        value.description = try reader["description"].readIfPresent()
-        value.deprecationMessage = try reader["deprecationMessage"].readIfPresent()
-        value.comment = try reader["comment"].readIfPresent()
-        return value
-    }
-}
-
-extension IoTFleetWiseClientTypes.Attribute {
-
-    static func write(value: IoTFleetWiseClientTypes.Attribute?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["allowedValues"].writeList(value.allowedValues, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["assignedValue"].write(value.assignedValue)
-        try writer["comment"].write(value.comment)
-        try writer["dataType"].write(value.dataType)
-        try writer["defaultValue"].write(value.defaultValue)
-        try writer["deprecationMessage"].write(value.deprecationMessage)
-        try writer["description"].write(value.description)
-        try writer["fullyQualifiedName"].write(value.fullyQualifiedName)
-        try writer["max"].write(value.max)
-        try writer["min"].write(value.min)
-        try writer["unit"].write(value.unit)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.Attribute {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTFleetWiseClientTypes.Attribute()
-        value.fullyQualifiedName = try reader["fullyQualifiedName"].readIfPresent() ?? ""
-        value.dataType = try reader["dataType"].readIfPresent() ?? .sdkUnknown("")
-        value.description = try reader["description"].readIfPresent()
-        value.unit = try reader["unit"].readIfPresent()
-        value.allowedValues = try reader["allowedValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.min = try reader["min"].readIfPresent()
-        value.max = try reader["max"].readIfPresent()
-        value.assignedValue = try reader["assignedValue"].readIfPresent()
-        value.defaultValue = try reader["defaultValue"].readIfPresent()
-        value.deprecationMessage = try reader["deprecationMessage"].readIfPresent()
-        value.comment = try reader["comment"].readIfPresent()
-        return value
-    }
-}
-
-extension IoTFleetWiseClientTypes.Actuator {
-
-    static func write(value: IoTFleetWiseClientTypes.Actuator?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["allowedValues"].writeList(value.allowedValues, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["assignedValue"].write(value.assignedValue)
-        try writer["comment"].write(value.comment)
-        try writer["dataType"].write(value.dataType)
-        try writer["deprecationMessage"].write(value.deprecationMessage)
-        try writer["description"].write(value.description)
-        try writer["fullyQualifiedName"].write(value.fullyQualifiedName)
-        try writer["max"].write(value.max)
-        try writer["min"].write(value.min)
-        try writer["structFullyQualifiedName"].write(value.structFullyQualifiedName)
-        try writer["unit"].write(value.unit)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.Actuator {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTFleetWiseClientTypes.Actuator()
-        value.fullyQualifiedName = try reader["fullyQualifiedName"].readIfPresent() ?? ""
-        value.dataType = try reader["dataType"].readIfPresent() ?? .sdkUnknown("")
-        value.description = try reader["description"].readIfPresent()
-        value.unit = try reader["unit"].readIfPresent()
-        value.allowedValues = try reader["allowedValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.min = try reader["min"].readIfPresent()
-        value.max = try reader["max"].readIfPresent()
-        value.assignedValue = try reader["assignedValue"].readIfPresent()
-        value.deprecationMessage = try reader["deprecationMessage"].readIfPresent()
-        value.comment = try reader["comment"].readIfPresent()
-        value.structFullyQualifiedName = try reader["structFullyQualifiedName"].readIfPresent()
-        return value
-    }
-}
-
-extension IoTFleetWiseClientTypes.Sensor {
-
-    static func write(value: IoTFleetWiseClientTypes.Sensor?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["allowedValues"].writeList(value.allowedValues, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["comment"].write(value.comment)
-        try writer["dataType"].write(value.dataType)
-        try writer["deprecationMessage"].write(value.deprecationMessage)
-        try writer["description"].write(value.description)
-        try writer["fullyQualifiedName"].write(value.fullyQualifiedName)
-        try writer["max"].write(value.max)
-        try writer["min"].write(value.min)
-        try writer["structFullyQualifiedName"].write(value.structFullyQualifiedName)
-        try writer["unit"].write(value.unit)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.Sensor {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTFleetWiseClientTypes.Sensor()
-        value.fullyQualifiedName = try reader["fullyQualifiedName"].readIfPresent() ?? ""
-        value.dataType = try reader["dataType"].readIfPresent() ?? .sdkUnknown("")
-        value.description = try reader["description"].readIfPresent()
-        value.unit = try reader["unit"].readIfPresent()
-        value.allowedValues = try reader["allowedValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.min = try reader["min"].readIfPresent()
-        value.max = try reader["max"].readIfPresent()
-        value.deprecationMessage = try reader["deprecationMessage"].readIfPresent()
-        value.comment = try reader["comment"].readIfPresent()
-        value.structFullyQualifiedName = try reader["structFullyQualifiedName"].readIfPresent()
-        return value
-    }
-}
-
-extension IoTFleetWiseClientTypes.Branch {
-
-    static func write(value: IoTFleetWiseClientTypes.Branch?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["comment"].write(value.comment)
-        try writer["deprecationMessage"].write(value.deprecationMessage)
-        try writer["description"].write(value.description)
-        try writer["fullyQualifiedName"].write(value.fullyQualifiedName)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.Branch {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTFleetWiseClientTypes.Branch()
-        value.fullyQualifiedName = try reader["fullyQualifiedName"].readIfPresent() ?? ""
-        value.description = try reader["description"].readIfPresent()
-        value.deprecationMessage = try reader["deprecationMessage"].readIfPresent()
-        value.comment = try reader["comment"].readIfPresent()
-        return value
-    }
-}
-
-extension IoTFleetWiseClientTypes.ModelManifestSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.ModelManifestSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTFleetWiseClientTypes.ModelManifestSummary()
-        value.name = try reader["name"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
-        value.signalCatalogArn = try reader["signalCatalogArn"].readIfPresent()
-        value.description = try reader["description"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.lastModificationTime = try reader["lastModificationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        return value
-    }
-}
-
-extension IoTFleetWiseClientTypes.SignalCatalogSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.SignalCatalogSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTFleetWiseClientTypes.SignalCatalogSummary()
-        value.name = try reader["name"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
-        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastModificationTime = try reader["lastModificationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension IoTFleetWiseClientTypes.StateTemplateSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.StateTemplateSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTFleetWiseClientTypes.StateTemplateSummary()
-        value.name = try reader["name"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
-        value.signalCatalogArn = try reader["signalCatalogArn"].readIfPresent()
-        value.description = try reader["description"].readIfPresent()
-        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastModificationTime = try reader["lastModificationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.id = try reader["id"].readIfPresent()
-        return value
-    }
-}
-
 extension IoTFleetWiseClientTypes.Tag {
 
     static func write(value: IoTFleetWiseClientTypes.Tag?, to writer: SmithyJSON.Writer) throws {
@@ -10235,18 +10203,81 @@ extension IoTFleetWiseClientTypes.Tag {
     }
 }
 
-extension IoTFleetWiseClientTypes.VehicleSummary {
+extension IoTFleetWiseClientTypes.TimeBasedCollectionScheme {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.VehicleSummary {
+    static func write(value: IoTFleetWiseClientTypes.TimeBasedCollectionScheme?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["periodMs"].write(value.periodMs)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.TimeBasedCollectionScheme {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTFleetWiseClientTypes.VehicleSummary()
-        value.vehicleName = try reader["vehicleName"].readIfPresent() ?? ""
-        value.arn = try reader["arn"].readIfPresent() ?? ""
-        value.modelManifestArn = try reader["modelManifestArn"].readIfPresent() ?? ""
-        value.decoderManifestArn = try reader["decoderManifestArn"].readIfPresent() ?? ""
-        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.lastModificationTime = try reader["lastModificationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.attributes = try reader["attributes"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        var value = IoTFleetWiseClientTypes.TimeBasedCollectionScheme()
+        value.periodMs = try reader["periodMs"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension IoTFleetWiseClientTypes.TimeBasedSignalFetchConfig {
+
+    static func write(value: IoTFleetWiseClientTypes.TimeBasedSignalFetchConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["executionFrequencyMs"].write(value.executionFrequencyMs)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.TimeBasedSignalFetchConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTFleetWiseClientTypes.TimeBasedSignalFetchConfig()
+        value.executionFrequencyMs = try reader["executionFrequencyMs"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension IoTFleetWiseClientTypes.TimePeriod {
+
+    static func write(value: IoTFleetWiseClientTypes.TimePeriod?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["unit"].write(value.unit)
+        try writer["value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.TimePeriod {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTFleetWiseClientTypes.TimePeriod()
+        value.unit = try reader["unit"].readIfPresent() ?? .sdkUnknown("")
+        value.value = try reader["value"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension IoTFleetWiseClientTypes.TimestreamConfig {
+
+    static func write(value: IoTFleetWiseClientTypes.TimestreamConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["executionRoleArn"].write(value.executionRoleArn)
+        try writer["timestreamTableArn"].write(value.timestreamTableArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.TimestreamConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTFleetWiseClientTypes.TimestreamConfig()
+        value.timestreamTableArn = try reader["timestreamTableArn"].readIfPresent() ?? ""
+        value.executionRoleArn = try reader["executionRoleArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension IoTFleetWiseClientTypes.TimestreamRegistrationResponse {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.TimestreamRegistrationResponse {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTFleetWiseClientTypes.TimestreamRegistrationResponse()
+        value.timestreamDatabaseName = try reader["timestreamDatabaseName"].readIfPresent() ?? ""
+        value.timestreamTableName = try reader["timestreamTableName"].readIfPresent() ?? ""
+        value.timestreamDatabaseArn = try reader["timestreamDatabaseArn"].readIfPresent()
+        value.timestreamTableArn = try reader["timestreamTableArn"].readIfPresent()
+        value.registrationStatus = try reader["registrationStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.errorMessage = try reader["errorMessage"].readIfPresent()
         return value
     }
 }
@@ -10268,77 +10299,15 @@ extension IoTFleetWiseClientTypes.TimestreamResources {
     }
 }
 
-extension IoTFleetWiseClientTypes.IamResources {
+extension IoTFleetWiseClientTypes.UpdateVehicleError {
 
-    static func write(value: IoTFleetWiseClientTypes.IamResources?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["roleArn"].write(value.roleArn)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.IamResources {
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.UpdateVehicleError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTFleetWiseClientTypes.IamResources()
-        value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
+        var value = IoTFleetWiseClientTypes.UpdateVehicleError()
+        value.vehicleName = try reader["vehicleName"].readIfPresent()
+        value.code = try reader["code"].readIfPresent() ?? 0
+        value.message = try reader["message"].readIfPresent()
         return value
-    }
-}
-
-extension IoTFleetWiseClientTypes.ValidationExceptionField {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.ValidationExceptionField {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTFleetWiseClientTypes.ValidationExceptionField()
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.message = try reader["message"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension IoTFleetWiseClientTypes.InvalidSignalDecoder {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.InvalidSignalDecoder {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTFleetWiseClientTypes.InvalidSignalDecoder()
-        value.name = try reader["name"].readIfPresent()
-        value.reason = try reader["reason"].readIfPresent()
-        value.hint = try reader["hint"].readIfPresent()
-        return value
-    }
-}
-
-extension IoTFleetWiseClientTypes.InvalidNetworkInterface {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.InvalidNetworkInterface {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTFleetWiseClientTypes.InvalidNetworkInterface()
-        value.interfaceId = try reader["interfaceId"].readIfPresent()
-        value.reason = try reader["reason"].readIfPresent()
-        return value
-    }
-}
-
-extension IoTFleetWiseClientTypes.InvalidSignal {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.InvalidSignal {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTFleetWiseClientTypes.InvalidSignal()
-        value.name = try reader["name"].readIfPresent()
-        value.reason = try reader["reason"].readIfPresent()
-        return value
-    }
-}
-
-extension IoTFleetWiseClientTypes.CreateVehicleRequestItem {
-
-    static func write(value: IoTFleetWiseClientTypes.CreateVehicleRequestItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["associationBehavior"].write(value.associationBehavior)
-        try writer["attributes"].writeMap(value.attributes, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["decoderManifestArn"].write(value.decoderManifestArn)
-        try writer["modelManifestArn"].write(value.modelManifestArn)
-        try writer["stateTemplates"].writeList(value.stateTemplates, memberWritingClosure: IoTFleetWiseClientTypes.StateTemplateAssociation.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["tags"].writeList(value.tags, memberWritingClosure: IoTFleetWiseClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["vehicleName"].write(value.vehicleName)
     }
 }
 
@@ -10357,39 +10326,70 @@ extension IoTFleetWiseClientTypes.UpdateVehicleRequestItem {
     }
 }
 
-extension IoTFleetWiseClientTypes.NetworkFileDefinition {
+extension IoTFleetWiseClientTypes.UpdateVehicleResponseItem {
 
-    static func write(value: IoTFleetWiseClientTypes.NetworkFileDefinition?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .candbc(candbc):
-                try writer["canDbc"].write(candbc, with: IoTFleetWiseClientTypes.CanDbcDefinition.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.UpdateVehicleResponseItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTFleetWiseClientTypes.UpdateVehicleResponseItem()
+        value.vehicleName = try reader["vehicleName"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent()
+        return value
     }
 }
 
-extension IoTFleetWiseClientTypes.CanDbcDefinition {
+extension IoTFleetWiseClientTypes.ValidationExceptionField {
 
-    static func write(value: IoTFleetWiseClientTypes.CanDbcDefinition?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["canDbcFiles"].writeList(value.canDbcFiles, memberWritingClosure: SmithyReadWrite.WritingClosures.writeData(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["networkInterface"].write(value.networkInterface)
-        try writer["signalsMap"].writeMap(value.signalsMap, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.ValidationExceptionField {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTFleetWiseClientTypes.ValidationExceptionField()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.message = try reader["message"].readIfPresent() ?? ""
+        return value
     }
 }
 
-extension IoTFleetWiseClientTypes.FormattedVss {
+extension IoTFleetWiseClientTypes.VehicleMiddleware {
 
-    static func write(value: IoTFleetWiseClientTypes.FormattedVss?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: IoTFleetWiseClientTypes.VehicleMiddleware?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        switch value {
-            case let .vssjson(vssjson):
-                try writer["vssJson"].write(vssjson)
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
+        try writer["name"].write(value.name)
+        try writer["protocolName"].write(value.protocolName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.VehicleMiddleware {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTFleetWiseClientTypes.VehicleMiddleware()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.protocolName = try reader["protocolName"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension IoTFleetWiseClientTypes.VehicleStatus {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.VehicleStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTFleetWiseClientTypes.VehicleStatus()
+        value.campaignName = try reader["campaignName"].readIfPresent()
+        value.vehicleName = try reader["vehicleName"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        return value
+    }
+}
+
+extension IoTFleetWiseClientTypes.VehicleSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTFleetWiseClientTypes.VehicleSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTFleetWiseClientTypes.VehicleSummary()
+        value.vehicleName = try reader["vehicleName"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.modelManifestArn = try reader["modelManifestArn"].readIfPresent() ?? ""
+        value.decoderManifestArn = try reader["decoderManifestArn"].readIfPresent() ?? ""
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastModificationTime = try reader["lastModificationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.attributes = try reader["attributes"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
     }
 }
 

@@ -3648,6 +3648,19 @@ extension TooManyTagsException {
     }
 }
 
+extension MPAClientTypes.ApprovalStrategy {
+
+    static func write(value: MPAClientTypes.ApprovalStrategy?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .mofn(mofn):
+                try writer["MofN"].write(mofn, with: MPAClientTypes.MofNApprovalStrategy.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
 extension MPAClientTypes.ApprovalStrategyResponse {
 
     static func read(from reader: SmithyJSON.Reader) throws -> MPAClientTypes.ApprovalStrategyResponse {
@@ -3662,18 +3675,22 @@ extension MPAClientTypes.ApprovalStrategyResponse {
     }
 }
 
-extension MPAClientTypes.MofNApprovalStrategy {
+extension MPAClientTypes.ApprovalTeamRequestApprover {
 
-    static func write(value: MPAClientTypes.MofNApprovalStrategy?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: MPAClientTypes.ApprovalTeamRequestApprover?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["MinApprovalsRequired"].write(value.minApprovalsRequired)
+        try writer["PrimaryIdentityId"].write(value.primaryIdentityId)
+        try writer["PrimaryIdentitySourceArn"].write(value.primaryIdentitySourceArn)
     }
+}
 
-    static func read(from reader: SmithyJSON.Reader) throws -> MPAClientTypes.MofNApprovalStrategy {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MPAClientTypes.MofNApprovalStrategy()
-        value.minApprovalsRequired = try reader["MinApprovalsRequired"].readIfPresent() ?? 0
-        return value
+extension MPAClientTypes.Filter {
+
+    static func write(value: MPAClientTypes.Filter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FieldName"].write(value.fieldName)
+        try writer["Operator"].write(value.`operator`)
+        try writer["Value"].write(value.value)
     }
 }
 
@@ -3692,61 +3709,26 @@ extension MPAClientTypes.GetApprovalTeamResponseApprover {
     }
 }
 
-extension MPAClientTypes.MfaMethod {
+extension MPAClientTypes.GetSessionResponseApproverResponse {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> MPAClientTypes.MfaMethod {
+    static func read(from reader: SmithyJSON.Reader) throws -> MPAClientTypes.GetSessionResponseApproverResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MPAClientTypes.MfaMethod()
-        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
-        value.syncStatus = try reader["SyncStatus"].readIfPresent() ?? .sdkUnknown("")
+        var value = MPAClientTypes.GetSessionResponseApproverResponse()
+        value.approverId = try reader["ApproverId"].readIfPresent()
+        value.identitySourceArn = try reader["IdentitySourceArn"].readIfPresent()
+        value.identityId = try reader["IdentityId"].readIfPresent()
+        value.response = try reader["Response"].readIfPresent()
+        value.responseTime = try reader["ResponseTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
     }
 }
 
-extension MPAClientTypes.PolicyReference {
+extension MPAClientTypes.IamIdentityCenter {
 
-    static func write(value: MPAClientTypes.PolicyReference?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: MPAClientTypes.IamIdentityCenter?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["PolicyArn"].write(value.policyArn)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MPAClientTypes.PolicyReference {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MPAClientTypes.PolicyReference()
-        value.policyArn = try reader["PolicyArn"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension MPAClientTypes.PendingUpdate {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MPAClientTypes.PendingUpdate {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MPAClientTypes.PendingUpdate()
-        value.versionId = try reader["VersionId"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        value.approvalStrategy = try reader["ApprovalStrategy"].readIfPresent(with: MPAClientTypes.ApprovalStrategyResponse.read(from:))
-        value.numberOfApprovers = try reader["NumberOfApprovers"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.statusCode = try reader["StatusCode"].readIfPresent()
-        value.statusMessage = try reader["StatusMessage"].readIfPresent()
-        value.approvers = try reader["Approvers"].readListIfPresent(memberReadingClosure: MPAClientTypes.GetApprovalTeamResponseApprover.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.updateInitiationTime = try reader["UpdateInitiationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        return value
-    }
-}
-
-extension MPAClientTypes.IdentitySourceParametersForGet {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MPAClientTypes.IdentitySourceParametersForGet {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "IamIdentityCenter":
-                return .iamidentitycenter(try reader["IamIdentityCenter"].read(with: MPAClientTypes.IamIdentityCenterForGet.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
+        try writer["InstanceArn"].write(value.instanceArn)
+        try writer["Region"].write(value.region)
     }
 }
 
@@ -3762,53 +3744,14 @@ extension MPAClientTypes.IamIdentityCenterForGet {
     }
 }
 
-extension MPAClientTypes.PolicyVersion {
+extension MPAClientTypes.IamIdentityCenterForList {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> MPAClientTypes.PolicyVersion {
+    static func read(from reader: SmithyJSON.Reader) throws -> MPAClientTypes.IamIdentityCenterForList {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MPAClientTypes.PolicyVersion()
-        value.arn = try reader["Arn"].readIfPresent() ?? ""
-        value.policyArn = try reader["PolicyArn"].readIfPresent() ?? ""
-        value.versionId = try reader["VersionId"].readIfPresent() ?? 0
-        value.policyType = try reader["PolicyType"].readIfPresent() ?? .sdkUnknown("")
-        value.isDefault = try reader["IsDefault"].readIfPresent() ?? false
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.lastUpdatedTime = try reader["LastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.document = try reader["Document"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension MPAClientTypes.GetSessionResponseApproverResponse {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MPAClientTypes.GetSessionResponseApproverResponse {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MPAClientTypes.GetSessionResponseApproverResponse()
-        value.approverId = try reader["ApproverId"].readIfPresent()
-        value.identitySourceArn = try reader["IdentitySourceArn"].readIfPresent()
-        value.identityId = try reader["IdentityId"].readIfPresent()
-        value.response = try reader["Response"].readIfPresent()
-        value.responseTime = try reader["ResponseTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        return value
-    }
-}
-
-extension MPAClientTypes.ListApprovalTeamsResponseApprovalTeam {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MPAClientTypes.ListApprovalTeamsResponseApprovalTeam {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MPAClientTypes.ListApprovalTeamsResponseApprovalTeam()
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.approvalStrategy = try reader["ApprovalStrategy"].readIfPresent(with: MPAClientTypes.ApprovalStrategyResponse.read(from:))
-        value.numberOfApprovers = try reader["NumberOfApprovers"].readIfPresent()
-        value.arn = try reader["Arn"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.statusCode = try reader["StatusCode"].readIfPresent()
-        value.statusMessage = try reader["StatusMessage"].readIfPresent()
+        var value = MPAClientTypes.IamIdentityCenterForList()
+        value.instanceArn = try reader["InstanceArn"].readIfPresent()
+        value.approvalPortalUrl = try reader["ApprovalPortalUrl"].readIfPresent()
+        value.region = try reader["Region"].readIfPresent()
         return value
     }
 }
@@ -3829,6 +3772,28 @@ extension MPAClientTypes.IdentitySourceForList {
     }
 }
 
+extension MPAClientTypes.IdentitySourceParameters {
+
+    static func write(value: MPAClientTypes.IdentitySourceParameters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["IamIdentityCenter"].write(value.iamIdentityCenter, with: MPAClientTypes.IamIdentityCenter.write(value:to:))
+    }
+}
+
+extension MPAClientTypes.IdentitySourceParametersForGet {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MPAClientTypes.IdentitySourceParametersForGet {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "IamIdentityCenter":
+                return .iamidentitycenter(try reader["IamIdentityCenter"].read(with: MPAClientTypes.IamIdentityCenterForGet.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
 extension MPAClientTypes.IdentitySourceParametersForList {
 
     static func read(from reader: SmithyJSON.Reader) throws -> MPAClientTypes.IdentitySourceParametersForList {
@@ -3843,45 +3808,20 @@ extension MPAClientTypes.IdentitySourceParametersForList {
     }
 }
 
-extension MPAClientTypes.IamIdentityCenterForList {
+extension MPAClientTypes.ListApprovalTeamsResponseApprovalTeam {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> MPAClientTypes.IamIdentityCenterForList {
+    static func read(from reader: SmithyJSON.Reader) throws -> MPAClientTypes.ListApprovalTeamsResponseApprovalTeam {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MPAClientTypes.IamIdentityCenterForList()
-        value.instanceArn = try reader["InstanceArn"].readIfPresent()
-        value.approvalPortalUrl = try reader["ApprovalPortalUrl"].readIfPresent()
-        value.region = try reader["Region"].readIfPresent()
-        return value
-    }
-}
-
-extension MPAClientTypes.Policy {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MPAClientTypes.Policy {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MPAClientTypes.Policy()
-        value.arn = try reader["Arn"].readIfPresent() ?? ""
-        value.defaultVersion = try reader["DefaultVersion"].readIfPresent() ?? 0
-        value.policyType = try reader["PolicyType"].readIfPresent() ?? .sdkUnknown("")
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension MPAClientTypes.PolicyVersionSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MPAClientTypes.PolicyVersionSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MPAClientTypes.PolicyVersionSummary()
-        value.arn = try reader["Arn"].readIfPresent() ?? ""
-        value.policyArn = try reader["PolicyArn"].readIfPresent() ?? ""
-        value.versionId = try reader["VersionId"].readIfPresent() ?? 0
-        value.policyType = try reader["PolicyType"].readIfPresent() ?? .sdkUnknown("")
-        value.isDefault = try reader["IsDefault"].readIfPresent() ?? false
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.lastUpdatedTime = try reader["LastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        var value = MPAClientTypes.ListApprovalTeamsResponseApprovalTeam()
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.approvalStrategy = try reader["ApprovalStrategy"].readIfPresent(with: MPAClientTypes.ApprovalStrategyResponse.read(from:))
+        value.numberOfApprovers = try reader["NumberOfApprovers"].readIfPresent()
+        value.arn = try reader["Arn"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.statusCode = try reader["StatusCode"].readIfPresent()
+        value.statusMessage = try reader["StatusMessage"].readIfPresent()
         return value
     }
 }
@@ -3925,52 +3865,112 @@ extension MPAClientTypes.ListSessionsResponseSession {
     }
 }
 
-extension MPAClientTypes.ApprovalStrategy {
+extension MPAClientTypes.MfaMethod {
 
-    static func write(value: MPAClientTypes.ApprovalStrategy?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .mofn(mofn):
-                try writer["MofN"].write(mofn, with: MPAClientTypes.MofNApprovalStrategy.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
+    static func read(from reader: SmithyJSON.Reader) throws -> MPAClientTypes.MfaMethod {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MPAClientTypes.MfaMethod()
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
+        value.syncStatus = try reader["SyncStatus"].readIfPresent() ?? .sdkUnknown("")
+        return value
     }
 }
 
-extension MPAClientTypes.ApprovalTeamRequestApprover {
+extension MPAClientTypes.MofNApprovalStrategy {
 
-    static func write(value: MPAClientTypes.ApprovalTeamRequestApprover?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: MPAClientTypes.MofNApprovalStrategy?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["PrimaryIdentityId"].write(value.primaryIdentityId)
-        try writer["PrimaryIdentitySourceArn"].write(value.primaryIdentitySourceArn)
+        try writer["MinApprovalsRequired"].write(value.minApprovalsRequired)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MPAClientTypes.MofNApprovalStrategy {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MPAClientTypes.MofNApprovalStrategy()
+        value.minApprovalsRequired = try reader["MinApprovalsRequired"].readIfPresent() ?? 0
+        return value
     }
 }
 
-extension MPAClientTypes.IdentitySourceParameters {
+extension MPAClientTypes.PendingUpdate {
 
-    static func write(value: MPAClientTypes.IdentitySourceParameters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["IamIdentityCenter"].write(value.iamIdentityCenter, with: MPAClientTypes.IamIdentityCenter.write(value:to:))
+    static func read(from reader: SmithyJSON.Reader) throws -> MPAClientTypes.PendingUpdate {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MPAClientTypes.PendingUpdate()
+        value.versionId = try reader["VersionId"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.approvalStrategy = try reader["ApprovalStrategy"].readIfPresent(with: MPAClientTypes.ApprovalStrategyResponse.read(from:))
+        value.numberOfApprovers = try reader["NumberOfApprovers"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.statusCode = try reader["StatusCode"].readIfPresent()
+        value.statusMessage = try reader["StatusMessage"].readIfPresent()
+        value.approvers = try reader["Approvers"].readListIfPresent(memberReadingClosure: MPAClientTypes.GetApprovalTeamResponseApprover.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.updateInitiationTime = try reader["UpdateInitiationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
     }
 }
 
-extension MPAClientTypes.IamIdentityCenter {
+extension MPAClientTypes.Policy {
 
-    static func write(value: MPAClientTypes.IamIdentityCenter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["InstanceArn"].write(value.instanceArn)
-        try writer["Region"].write(value.region)
+    static func read(from reader: SmithyJSON.Reader) throws -> MPAClientTypes.Policy {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MPAClientTypes.Policy()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.defaultVersion = try reader["DefaultVersion"].readIfPresent() ?? 0
+        value.policyType = try reader["PolicyType"].readIfPresent() ?? .sdkUnknown("")
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        return value
     }
 }
 
-extension MPAClientTypes.Filter {
+extension MPAClientTypes.PolicyReference {
 
-    static func write(value: MPAClientTypes.Filter?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: MPAClientTypes.PolicyReference?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["FieldName"].write(value.fieldName)
-        try writer["Operator"].write(value.`operator`)
-        try writer["Value"].write(value.value)
+        try writer["PolicyArn"].write(value.policyArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MPAClientTypes.PolicyReference {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MPAClientTypes.PolicyReference()
+        value.policyArn = try reader["PolicyArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension MPAClientTypes.PolicyVersion {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MPAClientTypes.PolicyVersion {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MPAClientTypes.PolicyVersion()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.policyArn = try reader["PolicyArn"].readIfPresent() ?? ""
+        value.versionId = try reader["VersionId"].readIfPresent() ?? 0
+        value.policyType = try reader["PolicyType"].readIfPresent() ?? .sdkUnknown("")
+        value.isDefault = try reader["IsDefault"].readIfPresent() ?? false
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastUpdatedTime = try reader["LastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.document = try reader["Document"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension MPAClientTypes.PolicyVersionSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MPAClientTypes.PolicyVersionSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MPAClientTypes.PolicyVersionSummary()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.policyArn = try reader["PolicyArn"].readIfPresent() ?? ""
+        value.versionId = try reader["VersionId"].readIfPresent() ?? 0
+        value.policyType = try reader["PolicyType"].readIfPresent() ?? .sdkUnknown("")
+        value.isDefault = try reader["IsDefault"].readIfPresent() ?? false
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastUpdatedTime = try reader["LastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
     }
 }
 

@@ -1071,101 +1071,6 @@ extension TrimmedDataAccessException {
     }
 }
 
-extension DynamoDBStreamsClientTypes.StreamDescription {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBStreamsClientTypes.StreamDescription {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DynamoDBStreamsClientTypes.StreamDescription()
-        value.streamArn = try reader["StreamArn"].readIfPresent()
-        value.streamLabel = try reader["StreamLabel"].readIfPresent()
-        value.streamStatus = try reader["StreamStatus"].readIfPresent()
-        value.streamViewType = try reader["StreamViewType"].readIfPresent()
-        value.creationRequestDateTime = try reader["CreationRequestDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.tableName = try reader["TableName"].readIfPresent()
-        value.keySchema = try reader["KeySchema"].readListIfPresent(memberReadingClosure: DynamoDBStreamsClientTypes.KeySchemaElement.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.shards = try reader["Shards"].readListIfPresent(memberReadingClosure: DynamoDBStreamsClientTypes.Shard.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.lastEvaluatedShardId = try reader["LastEvaluatedShardId"].readIfPresent()
-        return value
-    }
-}
-
-extension DynamoDBStreamsClientTypes.Shard {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBStreamsClientTypes.Shard {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DynamoDBStreamsClientTypes.Shard()
-        value.shardId = try reader["ShardId"].readIfPresent()
-        value.sequenceNumberRange = try reader["SequenceNumberRange"].readIfPresent(with: DynamoDBStreamsClientTypes.SequenceNumberRange.read(from:))
-        value.parentShardId = try reader["ParentShardId"].readIfPresent()
-        return value
-    }
-}
-
-extension DynamoDBStreamsClientTypes.SequenceNumberRange {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBStreamsClientTypes.SequenceNumberRange {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DynamoDBStreamsClientTypes.SequenceNumberRange()
-        value.startingSequenceNumber = try reader["StartingSequenceNumber"].readIfPresent()
-        value.endingSequenceNumber = try reader["EndingSequenceNumber"].readIfPresent()
-        return value
-    }
-}
-
-extension DynamoDBStreamsClientTypes.KeySchemaElement {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBStreamsClientTypes.KeySchemaElement {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DynamoDBStreamsClientTypes.KeySchemaElement()
-        value.attributeName = try reader["AttributeName"].readIfPresent() ?? ""
-        value.keyType = try reader["KeyType"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension DynamoDBStreamsClientTypes.Record {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBStreamsClientTypes.Record {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DynamoDBStreamsClientTypes.Record()
-        value.eventID = try reader["eventID"].readIfPresent()
-        value.eventName = try reader["eventName"].readIfPresent()
-        value.eventVersion = try reader["eventVersion"].readIfPresent()
-        value.eventSource = try reader["eventSource"].readIfPresent()
-        value.awsRegion = try reader["awsRegion"].readIfPresent()
-        value.dynamodb = try reader["dynamodb"].readIfPresent(with: DynamoDBStreamsClientTypes.StreamRecord.read(from:))
-        value.userIdentity = try reader["userIdentity"].readIfPresent(with: DynamoDBStreamsClientTypes.Identity.read(from:))
-        return value
-    }
-}
-
-extension DynamoDBStreamsClientTypes.Identity {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBStreamsClientTypes.Identity {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DynamoDBStreamsClientTypes.Identity()
-        value.principalId = try reader["PrincipalId"].readIfPresent()
-        value.type = try reader["Type"].readIfPresent()
-        return value
-    }
-}
-
-extension DynamoDBStreamsClientTypes.StreamRecord {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBStreamsClientTypes.StreamRecord {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DynamoDBStreamsClientTypes.StreamRecord()
-        value.approximateCreationDateTime = try reader["ApproximateCreationDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.keys = try reader["Keys"].readMapIfPresent(valueReadingClosure: DynamoDBStreamsClientTypes.AttributeValue.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.newImage = try reader["NewImage"].readMapIfPresent(valueReadingClosure: DynamoDBStreamsClientTypes.AttributeValue.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.oldImage = try reader["OldImage"].readMapIfPresent(valueReadingClosure: DynamoDBStreamsClientTypes.AttributeValue.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.sequenceNumber = try reader["SequenceNumber"].readIfPresent()
-        value.sizeBytes = try reader["SizeBytes"].readIfPresent()
-        value.streamViewType = try reader["StreamViewType"].readIfPresent()
-        return value
-    }
-}
-
 extension DynamoDBStreamsClientTypes.AttributeValue {
 
     static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBStreamsClientTypes.AttributeValue {
@@ -1198,6 +1103,76 @@ extension DynamoDBStreamsClientTypes.AttributeValue {
     }
 }
 
+extension DynamoDBStreamsClientTypes.Identity {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBStreamsClientTypes.Identity {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DynamoDBStreamsClientTypes.Identity()
+        value.principalId = try reader["PrincipalId"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent()
+        return value
+    }
+}
+
+extension DynamoDBStreamsClientTypes.KeySchemaElement {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBStreamsClientTypes.KeySchemaElement {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DynamoDBStreamsClientTypes.KeySchemaElement()
+        value.attributeName = try reader["AttributeName"].readIfPresent() ?? ""
+        value.keyType = try reader["KeyType"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension DynamoDBStreamsClientTypes.Record {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBStreamsClientTypes.Record {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DynamoDBStreamsClientTypes.Record()
+        value.eventID = try reader["eventID"].readIfPresent()
+        value.eventName = try reader["eventName"].readIfPresent()
+        value.eventVersion = try reader["eventVersion"].readIfPresent()
+        value.eventSource = try reader["eventSource"].readIfPresent()
+        value.awsRegion = try reader["awsRegion"].readIfPresent()
+        value.dynamodb = try reader["dynamodb"].readIfPresent(with: DynamoDBStreamsClientTypes.StreamRecord.read(from:))
+        value.userIdentity = try reader["userIdentity"].readIfPresent(with: DynamoDBStreamsClientTypes.Identity.read(from:))
+        return value
+    }
+}
+
+extension DynamoDBStreamsClientTypes.SequenceNumberRange {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBStreamsClientTypes.SequenceNumberRange {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DynamoDBStreamsClientTypes.SequenceNumberRange()
+        value.startingSequenceNumber = try reader["StartingSequenceNumber"].readIfPresent()
+        value.endingSequenceNumber = try reader["EndingSequenceNumber"].readIfPresent()
+        return value
+    }
+}
+
+extension DynamoDBStreamsClientTypes.Shard {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBStreamsClientTypes.Shard {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DynamoDBStreamsClientTypes.Shard()
+        value.shardId = try reader["ShardId"].readIfPresent()
+        value.sequenceNumberRange = try reader["SequenceNumberRange"].readIfPresent(with: DynamoDBStreamsClientTypes.SequenceNumberRange.read(from:))
+        value.parentShardId = try reader["ParentShardId"].readIfPresent()
+        return value
+    }
+}
+
+extension DynamoDBStreamsClientTypes.ShardFilter {
+
+    static func write(value: DynamoDBStreamsClientTypes.ShardFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ShardId"].write(value.shardId)
+        try writer["Type"].write(value.type)
+    }
+}
+
 extension DynamoDBStreamsClientTypes.Stream {
 
     static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBStreamsClientTypes.Stream {
@@ -1210,12 +1185,37 @@ extension DynamoDBStreamsClientTypes.Stream {
     }
 }
 
-extension DynamoDBStreamsClientTypes.ShardFilter {
+extension DynamoDBStreamsClientTypes.StreamDescription {
 
-    static func write(value: DynamoDBStreamsClientTypes.ShardFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ShardId"].write(value.shardId)
-        try writer["Type"].write(value.type)
+    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBStreamsClientTypes.StreamDescription {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DynamoDBStreamsClientTypes.StreamDescription()
+        value.streamArn = try reader["StreamArn"].readIfPresent()
+        value.streamLabel = try reader["StreamLabel"].readIfPresent()
+        value.streamStatus = try reader["StreamStatus"].readIfPresent()
+        value.streamViewType = try reader["StreamViewType"].readIfPresent()
+        value.creationRequestDateTime = try reader["CreationRequestDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.tableName = try reader["TableName"].readIfPresent()
+        value.keySchema = try reader["KeySchema"].readListIfPresent(memberReadingClosure: DynamoDBStreamsClientTypes.KeySchemaElement.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.shards = try reader["Shards"].readListIfPresent(memberReadingClosure: DynamoDBStreamsClientTypes.Shard.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.lastEvaluatedShardId = try reader["LastEvaluatedShardId"].readIfPresent()
+        return value
+    }
+}
+
+extension DynamoDBStreamsClientTypes.StreamRecord {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DynamoDBStreamsClientTypes.StreamRecord {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DynamoDBStreamsClientTypes.StreamRecord()
+        value.approximateCreationDateTime = try reader["ApproximateCreationDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.keys = try reader["Keys"].readMapIfPresent(valueReadingClosure: DynamoDBStreamsClientTypes.AttributeValue.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.newImage = try reader["NewImage"].readMapIfPresent(valueReadingClosure: DynamoDBStreamsClientTypes.AttributeValue.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.oldImage = try reader["OldImage"].readMapIfPresent(valueReadingClosure: DynamoDBStreamsClientTypes.AttributeValue.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.sequenceNumber = try reader["SequenceNumber"].readIfPresent()
+        value.sizeBytes = try reader["SizeBytes"].readIfPresent()
+        value.streamViewType = try reader["StreamViewType"].readIfPresent()
+        return value
     }
 }
 

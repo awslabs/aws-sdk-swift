@@ -16137,53 +16137,13 @@ extension ResourceScanLimitExceededException {
     }
 }
 
-extension CloudFormationClientTypes.BatchDescribeTypeConfigurationsError {
+extension CloudFormationClientTypes.AccountGateResult {
 
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.BatchDescribeTypeConfigurationsError {
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.AccountGateResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFormationClientTypes.BatchDescribeTypeConfigurationsError()
-        value.errorCode = try reader["ErrorCode"].readIfPresent()
-        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
-        value.typeConfigurationIdentifier = try reader["TypeConfigurationIdentifier"].readIfPresent(with: CloudFormationClientTypes.TypeConfigurationIdentifier.read(from:))
-        return value
-    }
-}
-
-extension CloudFormationClientTypes.TypeConfigurationIdentifier {
-
-    static func write(value: CloudFormationClientTypes.TypeConfigurationIdentifier?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Type"].write(value.type)
-        try writer["TypeArn"].write(value.typeArn)
-        try writer["TypeConfigurationAlias"].write(value.typeConfigurationAlias)
-        try writer["TypeConfigurationArn"].write(value.typeConfigurationArn)
-        try writer["TypeName"].write(value.typeName)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.TypeConfigurationIdentifier {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFormationClientTypes.TypeConfigurationIdentifier()
-        value.typeArn = try reader["TypeArn"].readIfPresent()
-        value.typeConfigurationAlias = try reader["TypeConfigurationAlias"].readIfPresent()
-        value.typeConfigurationArn = try reader["TypeConfigurationArn"].readIfPresent()
-        value.type = try reader["Type"].readIfPresent()
-        value.typeName = try reader["TypeName"].readIfPresent()
-        return value
-    }
-}
-
-extension CloudFormationClientTypes.TypeConfigurationDetails {
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.TypeConfigurationDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFormationClientTypes.TypeConfigurationDetails()
-        value.arn = try reader["Arn"].readIfPresent()
-        value.alias = try reader["Alias"].readIfPresent()
-        value.configuration = try reader["Configuration"].readIfPresent()
-        value.lastUpdated = try reader["LastUpdated"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.typeArn = try reader["TypeArn"].readIfPresent()
-        value.typeName = try reader["TypeName"].readIfPresent()
-        value.isDefaultConfiguration = try reader["IsDefaultConfiguration"].readIfPresent()
+        var value = CloudFormationClientTypes.AccountGateResult()
+        value.status = try reader["Status"].readIfPresent()
+        value.statusReason = try reader["StatusReason"].readIfPresent()
         return value
     }
 }
@@ -16199,74 +16159,48 @@ extension CloudFormationClientTypes.AccountLimit {
     }
 }
 
-extension CloudFormationClientTypes.Parameter {
+extension CloudFormationClientTypes.Annotation {
 
-    static func write(value: CloudFormationClientTypes.Parameter?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["ParameterKey"].write(value.parameterKey)
-        try writer["ParameterValue"].write(value.parameterValue)
-        try writer["ResolvedValue"].write(value.resolvedValue)
-        try writer["UsePreviousValue"].write(value.usePreviousValue)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.Parameter {
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.Annotation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFormationClientTypes.Parameter()
-        value.parameterKey = try reader["ParameterKey"].readIfPresent()
-        value.parameterValue = try reader["ParameterValue"].readIfPresent()
-        value.usePreviousValue = try reader["UsePreviousValue"].readIfPresent()
-        value.resolvedValue = try reader["ResolvedValue"].readIfPresent()
+        var value = CloudFormationClientTypes.Annotation()
+        value.annotationName = try reader["AnnotationName"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.statusMessage = try reader["StatusMessage"].readIfPresent()
+        value.remediationMessage = try reader["RemediationMessage"].readIfPresent()
+        value.remediationLink = try reader["RemediationLink"].readIfPresent()
+        value.severityLevel = try reader["SeverityLevel"].readIfPresent()
         return value
     }
 }
 
-extension CloudFormationClientTypes.RollbackConfiguration {
+extension CloudFormationClientTypes.AutoDeployment {
 
-    static func write(value: CloudFormationClientTypes.RollbackConfiguration?, to writer: SmithyFormURL.Writer) throws {
+    static func write(value: CloudFormationClientTypes.AutoDeployment?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
-        try writer["MonitoringTimeInMinutes"].write(value.monitoringTimeInMinutes)
-        try writer["RollbackTriggers"].writeList(value.rollbackTriggers, memberWritingClosure: CloudFormationClientTypes.RollbackTrigger.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["DependsOn"].writeList(value.dependsOn, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Enabled"].write(value.enabled)
+        try writer["RetainStacksOnAccountRemoval"].write(value.retainStacksOnAccountRemoval)
     }
 
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.RollbackConfiguration {
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.AutoDeployment {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFormationClientTypes.RollbackConfiguration()
-        value.rollbackTriggers = try reader["RollbackTriggers"].readListIfPresent(memberReadingClosure: CloudFormationClientTypes.RollbackTrigger.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.monitoringTimeInMinutes = try reader["MonitoringTimeInMinutes"].readIfPresent()
+        var value = CloudFormationClientTypes.AutoDeployment()
+        value.enabled = try reader["Enabled"].readIfPresent()
+        value.retainStacksOnAccountRemoval = try reader["RetainStacksOnAccountRemoval"].readIfPresent()
+        value.dependsOn = try reader["DependsOn"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
 
-extension CloudFormationClientTypes.RollbackTrigger {
+extension CloudFormationClientTypes.BatchDescribeTypeConfigurationsError {
 
-    static func write(value: CloudFormationClientTypes.RollbackTrigger?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["Type"].write(value.type)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.RollbackTrigger {
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.BatchDescribeTypeConfigurationsError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFormationClientTypes.RollbackTrigger()
-        value.arn = try reader["Arn"].readIfPresent() ?? ""
-        value.type = try reader["Type"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension CloudFormationClientTypes.Tag {
-
-    static func write(value: CloudFormationClientTypes.Tag?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Key"].write(value.key)
-        try writer["Value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.Tag {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFormationClientTypes.Tag()
-        value.key = try reader["Key"].readIfPresent() ?? ""
-        value.value = try reader["Value"].readIfPresent() ?? ""
+        var value = CloudFormationClientTypes.BatchDescribeTypeConfigurationsError()
+        value.errorCode = try reader["ErrorCode"].readIfPresent()
+        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
+        value.typeConfigurationIdentifier = try reader["TypeConfigurationIdentifier"].readIfPresent(with: CloudFormationClientTypes.TypeConfigurationIdentifier.read(from:))
         return value
     }
 }
@@ -16279,96 +16213,6 @@ extension CloudFormationClientTypes.Change {
         value.type = try reader["Type"].readIfPresent()
         value.hookInvocationCount = try reader["HookInvocationCount"].readIfPresent()
         value.resourceChange = try reader["ResourceChange"].readIfPresent(with: CloudFormationClientTypes.ResourceChange.read(from:))
-        return value
-    }
-}
-
-extension CloudFormationClientTypes.ResourceChange {
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.ResourceChange {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFormationClientTypes.ResourceChange()
-        value.policyAction = try reader["PolicyAction"].readIfPresent()
-        value.action = try reader["Action"].readIfPresent()
-        value.logicalResourceId = try reader["LogicalResourceId"].readIfPresent()
-        value.physicalResourceId = try reader["PhysicalResourceId"].readIfPresent()
-        value.resourceType = try reader["ResourceType"].readIfPresent()
-        value.replacement = try reader["Replacement"].readIfPresent()
-        value.scope = try reader["Scope"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<CloudFormationClientTypes.ResourceAttribute>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.resourceDriftStatus = try reader["ResourceDriftStatus"].readIfPresent()
-        value.resourceDriftIgnoredAttributes = try reader["ResourceDriftIgnoredAttributes"].readListIfPresent(memberReadingClosure: CloudFormationClientTypes.ResourceDriftIgnoredAttribute.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.details = try reader["Details"].readListIfPresent(memberReadingClosure: CloudFormationClientTypes.ResourceChangeDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.changeSetId = try reader["ChangeSetId"].readIfPresent()
-        value.moduleInfo = try reader["ModuleInfo"].readIfPresent(with: CloudFormationClientTypes.ModuleInfo.read(from:))
-        value.beforeContext = try reader["BeforeContext"].readIfPresent()
-        value.afterContext = try reader["AfterContext"].readIfPresent()
-        value.previousDeploymentContext = try reader["PreviousDeploymentContext"].readIfPresent()
-        return value
-    }
-}
-
-extension CloudFormationClientTypes.ModuleInfo {
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.ModuleInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFormationClientTypes.ModuleInfo()
-        value.typeHierarchy = try reader["TypeHierarchy"].readIfPresent()
-        value.logicalIdHierarchy = try reader["LogicalIdHierarchy"].readIfPresent()
-        return value
-    }
-}
-
-extension CloudFormationClientTypes.ResourceChangeDetail {
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.ResourceChangeDetail {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFormationClientTypes.ResourceChangeDetail()
-        value.target = try reader["Target"].readIfPresent(with: CloudFormationClientTypes.ResourceTargetDefinition.read(from:))
-        value.evaluation = try reader["Evaluation"].readIfPresent()
-        value.changeSource = try reader["ChangeSource"].readIfPresent()
-        value.causingEntity = try reader["CausingEntity"].readIfPresent()
-        return value
-    }
-}
-
-extension CloudFormationClientTypes.ResourceTargetDefinition {
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.ResourceTargetDefinition {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFormationClientTypes.ResourceTargetDefinition()
-        value.attribute = try reader["Attribute"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
-        value.requiresRecreation = try reader["RequiresRecreation"].readIfPresent()
-        value.path = try reader["Path"].readIfPresent()
-        value.beforeValue = try reader["BeforeValue"].readIfPresent()
-        value.afterValue = try reader["AfterValue"].readIfPresent()
-        value.beforeValueFrom = try reader["BeforeValueFrom"].readIfPresent()
-        value.afterValueFrom = try reader["AfterValueFrom"].readIfPresent()
-        value.drift = try reader["Drift"].readIfPresent(with: CloudFormationClientTypes.LiveResourceDrift.read(from:))
-        value.attributeChangeType = try reader["AttributeChangeType"].readIfPresent()
-        return value
-    }
-}
-
-extension CloudFormationClientTypes.LiveResourceDrift {
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.LiveResourceDrift {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFormationClientTypes.LiveResourceDrift()
-        value.previousValue = try reader["PreviousValue"].readIfPresent()
-        value.actualValue = try reader["ActualValue"].readIfPresent()
-        value.driftDetectionTimestamp = try reader["DriftDetectionTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        return value
-    }
-}
-
-extension CloudFormationClientTypes.ResourceDriftIgnoredAttribute {
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.ResourceDriftIgnoredAttribute {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFormationClientTypes.ResourceDriftIgnoredAttribute()
-        value.path = try reader["Path"].readIfPresent()
-        value.reason = try reader["Reason"].readIfPresent()
         return value
     }
 }
@@ -16388,6 +16232,18 @@ extension CloudFormationClientTypes.ChangeSetHook {
     }
 }
 
+extension CloudFormationClientTypes.ChangeSetHookResourceTargetDetails {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.ChangeSetHookResourceTargetDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFormationClientTypes.ChangeSetHookResourceTargetDetails()
+        value.logicalResourceId = try reader["LogicalResourceId"].readIfPresent()
+        value.resourceType = try reader["ResourceType"].readIfPresent()
+        value.resourceAction = try reader["ResourceAction"].readIfPresent()
+        return value
+    }
+}
+
 extension CloudFormationClientTypes.ChangeSetHookTargetDetails {
 
     static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.ChangeSetHookTargetDetails {
@@ -16399,14 +16255,166 @@ extension CloudFormationClientTypes.ChangeSetHookTargetDetails {
     }
 }
 
-extension CloudFormationClientTypes.ChangeSetHookResourceTargetDetails {
+extension CloudFormationClientTypes.ChangeSetSummary {
 
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.ChangeSetHookResourceTargetDetails {
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.ChangeSetSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFormationClientTypes.ChangeSetHookResourceTargetDetails()
-        value.logicalResourceId = try reader["LogicalResourceId"].readIfPresent()
-        value.resourceType = try reader["ResourceType"].readIfPresent()
-        value.resourceAction = try reader["ResourceAction"].readIfPresent()
+        var value = CloudFormationClientTypes.ChangeSetSummary()
+        value.stackId = try reader["StackId"].readIfPresent()
+        value.stackName = try reader["StackName"].readIfPresent()
+        value.changeSetId = try reader["ChangeSetId"].readIfPresent()
+        value.changeSetName = try reader["ChangeSetName"].readIfPresent()
+        value.executionStatus = try reader["ExecutionStatus"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.statusReason = try reader["StatusReason"].readIfPresent()
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.description = try reader["Description"].readIfPresent()
+        value.includeNestedStacks = try reader["IncludeNestedStacks"].readIfPresent()
+        value.parentChangeSetId = try reader["ParentChangeSetId"].readIfPresent()
+        value.rootChangeSetId = try reader["RootChangeSetId"].readIfPresent()
+        value.importExistingResources = try reader["ImportExistingResources"].readIfPresent()
+        return value
+    }
+}
+
+extension CloudFormationClientTypes.DeploymentTargets {
+
+    static func write(value: CloudFormationClientTypes.DeploymentTargets?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["AccountFilterType"].write(value.accountFilterType)
+        try writer["Accounts"].writeList(value.accounts, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["AccountsUrl"].write(value.accountsUrl)
+        try writer["OrganizationalUnitIds"].writeList(value.organizationalUnitIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.DeploymentTargets {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFormationClientTypes.DeploymentTargets()
+        value.accounts = try reader["Accounts"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.accountsUrl = try reader["AccountsUrl"].readIfPresent()
+        value.organizationalUnitIds = try reader["OrganizationalUnitIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.accountFilterType = try reader["AccountFilterType"].readIfPresent()
+        return value
+    }
+}
+
+extension CloudFormationClientTypes.EventFilter {
+
+    static func write(value: CloudFormationClientTypes.EventFilter?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["FailedEvents"].write(value.failedEvents)
+    }
+}
+
+extension CloudFormationClientTypes.Export {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.Export {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFormationClientTypes.Export()
+        value.exportingStackId = try reader["ExportingStackId"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        value.value = try reader["Value"].readIfPresent()
+        return value
+    }
+}
+
+extension CloudFormationClientTypes.HookResultSummary {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.HookResultSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFormationClientTypes.HookResultSummary()
+        value.hookResultId = try reader["HookResultId"].readIfPresent()
+        value.invocationPoint = try reader["InvocationPoint"].readIfPresent()
+        value.failureMode = try reader["FailureMode"].readIfPresent()
+        value.typeName = try reader["TypeName"].readIfPresent()
+        value.typeVersionId = try reader["TypeVersionId"].readIfPresent()
+        value.typeConfigurationVersionId = try reader["TypeConfigurationVersionId"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.hookStatusReason = try reader["HookStatusReason"].readIfPresent()
+        value.invokedAt = try reader["InvokedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.targetType = try reader["TargetType"].readIfPresent()
+        value.targetId = try reader["TargetId"].readIfPresent()
+        value.typeArn = try reader["TypeArn"].readIfPresent()
+        value.hookExecutionTarget = try reader["HookExecutionTarget"].readIfPresent()
+        return value
+    }
+}
+
+extension CloudFormationClientTypes.HookTarget {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.HookTarget {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFormationClientTypes.HookTarget()
+        value.targetType = try reader["TargetType"].readIfPresent() ?? .sdkUnknown("")
+        value.targetTypeName = try reader["TargetTypeName"].readIfPresent() ?? ""
+        value.targetId = try reader["TargetId"].readIfPresent() ?? ""
+        value.action = try reader["Action"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension CloudFormationClientTypes.LiveResourceDrift {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.LiveResourceDrift {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFormationClientTypes.LiveResourceDrift()
+        value.previousValue = try reader["PreviousValue"].readIfPresent()
+        value.actualValue = try reader["ActualValue"].readIfPresent()
+        value.driftDetectionTimestamp = try reader["DriftDetectionTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
+extension CloudFormationClientTypes.LoggingConfig {
+
+    static func write(value: CloudFormationClientTypes.LoggingConfig?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["LogGroupName"].write(value.logGroupName)
+        try writer["LogRoleArn"].write(value.logRoleArn)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.LoggingConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFormationClientTypes.LoggingConfig()
+        value.logRoleArn = try reader["LogRoleArn"].readIfPresent() ?? ""
+        value.logGroupName = try reader["LogGroupName"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension CloudFormationClientTypes.ManagedExecution {
+
+    static func write(value: CloudFormationClientTypes.ManagedExecution?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["Active"].write(value.active)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.ManagedExecution {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFormationClientTypes.ManagedExecution()
+        value.active = try reader["Active"].readIfPresent()
+        return value
+    }
+}
+
+extension CloudFormationClientTypes.ModuleInfo {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.ModuleInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFormationClientTypes.ModuleInfo()
+        value.typeHierarchy = try reader["TypeHierarchy"].readIfPresent()
+        value.logicalIdHierarchy = try reader["LogicalIdHierarchy"].readIfPresent()
+        return value
+    }
+}
+
+extension CloudFormationClientTypes.OperationEntry {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.OperationEntry {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFormationClientTypes.OperationEntry()
+        value.operationType = try reader["OperationType"].readIfPresent()
+        value.operationId = try reader["OperationId"].readIfPresent()
         return value
     }
 }
@@ -16447,6 +16455,158 @@ extension CloudFormationClientTypes.OperationEvent {
     }
 }
 
+extension CloudFormationClientTypes.OperationResultFilter {
+
+    static func write(value: CloudFormationClientTypes.OperationResultFilter?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["Name"].write(value.name)
+        try writer["Values"].write(value.values)
+    }
+}
+
+extension CloudFormationClientTypes.Output {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.Output {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFormationClientTypes.Output()
+        value.outputKey = try reader["OutputKey"].readIfPresent()
+        value.outputValue = try reader["OutputValue"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.exportName = try reader["ExportName"].readIfPresent()
+        return value
+    }
+}
+
+extension CloudFormationClientTypes.Parameter {
+
+    static func write(value: CloudFormationClientTypes.Parameter?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["ParameterKey"].write(value.parameterKey)
+        try writer["ParameterValue"].write(value.parameterValue)
+        try writer["ResolvedValue"].write(value.resolvedValue)
+        try writer["UsePreviousValue"].write(value.usePreviousValue)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.Parameter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFormationClientTypes.Parameter()
+        value.parameterKey = try reader["ParameterKey"].readIfPresent()
+        value.parameterValue = try reader["ParameterValue"].readIfPresent()
+        value.usePreviousValue = try reader["UsePreviousValue"].readIfPresent()
+        value.resolvedValue = try reader["ResolvedValue"].readIfPresent()
+        return value
+    }
+}
+
+extension CloudFormationClientTypes.ParameterConstraints {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.ParameterConstraints {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFormationClientTypes.ParameterConstraints()
+        value.allowedValues = try reader["AllowedValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension CloudFormationClientTypes.ParameterDeclaration {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.ParameterDeclaration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFormationClientTypes.ParameterDeclaration()
+        value.parameterKey = try reader["ParameterKey"].readIfPresent()
+        value.defaultValue = try reader["DefaultValue"].readIfPresent()
+        value.parameterType = try reader["ParameterType"].readIfPresent()
+        value.noEcho = try reader["NoEcho"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.parameterConstraints = try reader["ParameterConstraints"].readIfPresent(with: CloudFormationClientTypes.ParameterConstraints.read(from:))
+        return value
+    }
+}
+
+extension CloudFormationClientTypes.PhysicalResourceIdContextKeyValuePair {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.PhysicalResourceIdContextKeyValuePair {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFormationClientTypes.PhysicalResourceIdContextKeyValuePair()
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension CloudFormationClientTypes.PropertyDifference {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.PropertyDifference {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFormationClientTypes.PropertyDifference()
+        value.propertyPath = try reader["PropertyPath"].readIfPresent() ?? ""
+        value.expectedValue = try reader["ExpectedValue"].readIfPresent() ?? ""
+        value.actualValue = try reader["ActualValue"].readIfPresent() ?? ""
+        value.differenceType = try reader["DifferenceType"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension CloudFormationClientTypes.RequiredActivatedType {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.RequiredActivatedType {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFormationClientTypes.RequiredActivatedType()
+        value.typeNameAlias = try reader["TypeNameAlias"].readIfPresent()
+        value.originalTypeName = try reader["OriginalTypeName"].readIfPresent()
+        value.publisherId = try reader["PublisherId"].readIfPresent()
+        value.supportedMajorVersions = try reader["SupportedMajorVersions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension CloudFormationClientTypes.ResourceChange {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.ResourceChange {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFormationClientTypes.ResourceChange()
+        value.policyAction = try reader["PolicyAction"].readIfPresent()
+        value.action = try reader["Action"].readIfPresent()
+        value.logicalResourceId = try reader["LogicalResourceId"].readIfPresent()
+        value.physicalResourceId = try reader["PhysicalResourceId"].readIfPresent()
+        value.resourceType = try reader["ResourceType"].readIfPresent()
+        value.replacement = try reader["Replacement"].readIfPresent()
+        value.scope = try reader["Scope"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<CloudFormationClientTypes.ResourceAttribute>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.resourceDriftStatus = try reader["ResourceDriftStatus"].readIfPresent()
+        value.resourceDriftIgnoredAttributes = try reader["ResourceDriftIgnoredAttributes"].readListIfPresent(memberReadingClosure: CloudFormationClientTypes.ResourceDriftIgnoredAttribute.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.details = try reader["Details"].readListIfPresent(memberReadingClosure: CloudFormationClientTypes.ResourceChangeDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.changeSetId = try reader["ChangeSetId"].readIfPresent()
+        value.moduleInfo = try reader["ModuleInfo"].readIfPresent(with: CloudFormationClientTypes.ModuleInfo.read(from:))
+        value.beforeContext = try reader["BeforeContext"].readIfPresent()
+        value.afterContext = try reader["AfterContext"].readIfPresent()
+        value.previousDeploymentContext = try reader["PreviousDeploymentContext"].readIfPresent()
+        return value
+    }
+}
+
+extension CloudFormationClientTypes.ResourceChangeDetail {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.ResourceChangeDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFormationClientTypes.ResourceChangeDetail()
+        value.target = try reader["Target"].readIfPresent(with: CloudFormationClientTypes.ResourceTargetDefinition.read(from:))
+        value.evaluation = try reader["Evaluation"].readIfPresent()
+        value.changeSource = try reader["ChangeSource"].readIfPresent()
+        value.causingEntity = try reader["CausingEntity"].readIfPresent()
+        return value
+    }
+}
+
+extension CloudFormationClientTypes.ResourceDefinition {
+
+    static func write(value: CloudFormationClientTypes.ResourceDefinition?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["LogicalResourceId"].write(value.logicalResourceId)
+        try writer["ResourceIdentifier"].writeMap(value.resourceIdentifier, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["ResourceType"].write(value.resourceType)
+    }
+}
+
 extension CloudFormationClientTypes.ResourceDetail {
 
     static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.ResourceDetail {
@@ -16462,55 +16622,138 @@ extension CloudFormationClientTypes.ResourceDetail {
     }
 }
 
-extension CloudFormationClientTypes.WarningDetail {
+extension CloudFormationClientTypes.ResourceDriftIgnoredAttribute {
 
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.WarningDetail {
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.ResourceDriftIgnoredAttribute {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFormationClientTypes.WarningDetail()
-        value.type = try reader["Type"].readIfPresent()
-        value.properties = try reader["Properties"].readListIfPresent(memberReadingClosure: CloudFormationClientTypes.WarningProperty.read(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = CloudFormationClientTypes.ResourceDriftIgnoredAttribute()
+        value.path = try reader["Path"].readIfPresent()
+        value.reason = try reader["Reason"].readIfPresent()
         return value
     }
 }
 
-extension CloudFormationClientTypes.WarningProperty {
+extension CloudFormationClientTypes.ResourceIdentifierSummary {
 
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.WarningProperty {
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.ResourceIdentifierSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFormationClientTypes.WarningProperty()
-        value.propertyPath = try reader["PropertyPath"].readIfPresent()
-        value.`required` = try reader["Required"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
+        var value = CloudFormationClientTypes.ResourceIdentifierSummary()
+        value.resourceType = try reader["ResourceType"].readIfPresent()
+        value.logicalResourceIds = try reader["LogicalResourceIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.resourceIdentifiers = try reader["ResourceIdentifiers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
 
-extension CloudFormationClientTypes.TemplateProgress {
+extension CloudFormationClientTypes.ResourceLocation {
 
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.TemplateProgress {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFormationClientTypes.TemplateProgress()
-        value.resourcesSucceeded = try reader["ResourcesSucceeded"].readIfPresent()
-        value.resourcesFailed = try reader["ResourcesFailed"].readIfPresent()
-        value.resourcesProcessing = try reader["ResourcesProcessing"].readIfPresent()
-        value.resourcesPending = try reader["ResourcesPending"].readIfPresent()
-        return value
-    }
-}
-
-extension CloudFormationClientTypes.TemplateConfiguration {
-
-    static func write(value: CloudFormationClientTypes.TemplateConfiguration?, to writer: SmithyFormURL.Writer) throws {
+    static func write(value: CloudFormationClientTypes.ResourceLocation?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
-        try writer["DeletionPolicy"].write(value.deletionPolicy)
-        try writer["UpdateReplacePolicy"].write(value.updateReplacePolicy)
+        try writer["LogicalResourceId"].write(value.logicalResourceId)
+        try writer["StackName"].write(value.stackName)
     }
 
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.TemplateConfiguration {
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.ResourceLocation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFormationClientTypes.TemplateConfiguration()
-        value.deletionPolicy = try reader["DeletionPolicy"].readIfPresent()
-        value.updateReplacePolicy = try reader["UpdateReplacePolicy"].readIfPresent()
+        var value = CloudFormationClientTypes.ResourceLocation()
+        value.stackName = try reader["StackName"].readIfPresent() ?? ""
+        value.logicalResourceId = try reader["LogicalResourceId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension CloudFormationClientTypes.ResourceMapping {
+
+    static func write(value: CloudFormationClientTypes.ResourceMapping?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["Destination"].write(value.destination, with: CloudFormationClientTypes.ResourceLocation.write(value:to:))
+        try writer["Source"].write(value.source, with: CloudFormationClientTypes.ResourceLocation.write(value:to:))
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.ResourceMapping {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFormationClientTypes.ResourceMapping()
+        value.source = try reader["Source"].readIfPresent(with: CloudFormationClientTypes.ResourceLocation.read(from:))
+        value.destination = try reader["Destination"].readIfPresent(with: CloudFormationClientTypes.ResourceLocation.read(from:))
+        return value
+    }
+}
+
+extension CloudFormationClientTypes.ResourceScanSummary {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.ResourceScanSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFormationClientTypes.ResourceScanSummary()
+        value.resourceScanId = try reader["ResourceScanId"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.statusReason = try reader["StatusReason"].readIfPresent()
+        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.percentageCompleted = try reader["PercentageCompleted"].readIfPresent()
+        value.scanType = try reader["ScanType"].readIfPresent()
+        return value
+    }
+}
+
+extension CloudFormationClientTypes.ResourceTargetDefinition {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.ResourceTargetDefinition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFormationClientTypes.ResourceTargetDefinition()
+        value.attribute = try reader["Attribute"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        value.requiresRecreation = try reader["RequiresRecreation"].readIfPresent()
+        value.path = try reader["Path"].readIfPresent()
+        value.beforeValue = try reader["BeforeValue"].readIfPresent()
+        value.afterValue = try reader["AfterValue"].readIfPresent()
+        value.beforeValueFrom = try reader["BeforeValueFrom"].readIfPresent()
+        value.afterValueFrom = try reader["AfterValueFrom"].readIfPresent()
+        value.drift = try reader["Drift"].readIfPresent(with: CloudFormationClientTypes.LiveResourceDrift.read(from:))
+        value.attributeChangeType = try reader["AttributeChangeType"].readIfPresent()
+        return value
+    }
+}
+
+extension CloudFormationClientTypes.ResourceToImport {
+
+    static func write(value: CloudFormationClientTypes.ResourceToImport?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["LogicalResourceId"].write(value.logicalResourceId)
+        try writer["ResourceIdentifier"].writeMap(value.resourceIdentifier, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["ResourceType"].write(value.resourceType)
+    }
+}
+
+extension CloudFormationClientTypes.RollbackConfiguration {
+
+    static func write(value: CloudFormationClientTypes.RollbackConfiguration?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["MonitoringTimeInMinutes"].write(value.monitoringTimeInMinutes)
+        try writer["RollbackTriggers"].writeList(value.rollbackTriggers, memberWritingClosure: CloudFormationClientTypes.RollbackTrigger.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.RollbackConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFormationClientTypes.RollbackConfiguration()
+        value.rollbackTriggers = try reader["RollbackTriggers"].readListIfPresent(memberReadingClosure: CloudFormationClientTypes.RollbackTrigger.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.monitoringTimeInMinutes = try reader["MonitoringTimeInMinutes"].readIfPresent()
+        return value
+    }
+}
+
+extension CloudFormationClientTypes.RollbackTrigger {
+
+    static func write(value: CloudFormationClientTypes.RollbackTrigger?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["Arn"].write(value.arn)
+        try writer["Type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.RollbackTrigger {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFormationClientTypes.RollbackTrigger()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.type = try reader["Type"].readIfPresent() ?? ""
         return value
     }
 }
@@ -16526,6 +16769,94 @@ extension CloudFormationClientTypes.ScanFilter {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CloudFormationClientTypes.ScanFilter()
         value.types = try reader["Types"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension CloudFormationClientTypes.ScannedResource {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.ScannedResource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFormationClientTypes.ScannedResource()
+        value.resourceType = try reader["ResourceType"].readIfPresent()
+        value.resourceIdentifier = try reader["ResourceIdentifier"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.managedByStack = try reader["ManagedByStack"].readIfPresent()
+        return value
+    }
+}
+
+extension CloudFormationClientTypes.ScannedResourceIdentifier {
+
+    static func write(value: CloudFormationClientTypes.ScannedResourceIdentifier?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["ResourceIdentifier"].writeMap(value.resourceIdentifier, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["ResourceType"].write(value.resourceType)
+    }
+}
+
+extension CloudFormationClientTypes.Stack {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.Stack {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFormationClientTypes.Stack()
+        value.stackId = try reader["StackId"].readIfPresent()
+        value.stackName = try reader["StackName"].readIfPresent() ?? ""
+        value.changeSetId = try reader["ChangeSetId"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.parameters = try reader["Parameters"].readListIfPresent(memberReadingClosure: CloudFormationClientTypes.Parameter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.deletionTime = try reader["DeletionTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.lastUpdatedTime = try reader["LastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.rollbackConfiguration = try reader["RollbackConfiguration"].readIfPresent(with: CloudFormationClientTypes.RollbackConfiguration.read(from:))
+        value.stackStatus = try reader["StackStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.stackStatusReason = try reader["StackStatusReason"].readIfPresent()
+        value.disableRollback = try reader["DisableRollback"].readIfPresent()
+        value.notificationARNs = try reader["NotificationARNs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.timeoutInMinutes = try reader["TimeoutInMinutes"].readIfPresent()
+        value.capabilities = try reader["Capabilities"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<CloudFormationClientTypes.Capability>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.outputs = try reader["Outputs"].readListIfPresent(memberReadingClosure: CloudFormationClientTypes.Output.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.roleARN = try reader["RoleARN"].readIfPresent()
+        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: CloudFormationClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.enableTerminationProtection = try reader["EnableTerminationProtection"].readIfPresent()
+        value.parentId = try reader["ParentId"].readIfPresent()
+        value.rootId = try reader["RootId"].readIfPresent()
+        value.driftInformation = try reader["DriftInformation"].readIfPresent(with: CloudFormationClientTypes.StackDriftInformation.read(from:))
+        value.retainExceptOnCreate = try reader["RetainExceptOnCreate"].readIfPresent()
+        value.deletionMode = try reader["DeletionMode"].readIfPresent()
+        value.detailedStatus = try reader["DetailedStatus"].readIfPresent()
+        value.lastOperations = try reader["LastOperations"].readListIfPresent(memberReadingClosure: CloudFormationClientTypes.OperationEntry.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension CloudFormationClientTypes.StackDefinition {
+
+    static func write(value: CloudFormationClientTypes.StackDefinition?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["StackName"].write(value.stackName)
+        try writer["TemplateBody"].write(value.templateBody)
+        try writer["TemplateURL"].write(value.templateURL)
+    }
+}
+
+extension CloudFormationClientTypes.StackDriftInformation {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.StackDriftInformation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFormationClientTypes.StackDriftInformation()
+        value.stackDriftStatus = try reader["StackDriftStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.lastCheckTimestamp = try reader["LastCheckTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
+extension CloudFormationClientTypes.StackDriftInformationSummary {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.StackDriftInformationSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFormationClientTypes.StackDriftInformationSummary()
+        value.stackDriftStatus = try reader["StackDriftStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.lastCheckTimestamp = try reader["LastCheckTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
     }
 }
@@ -16589,533 +16920,12 @@ extension CloudFormationClientTypes.StackInstanceComprehensiveStatus {
     }
 }
 
-extension CloudFormationClientTypes.StackResourceDetail {
+extension CloudFormationClientTypes.StackInstanceFilter {
 
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.StackResourceDetail {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFormationClientTypes.StackResourceDetail()
-        value.stackName = try reader["StackName"].readIfPresent()
-        value.stackId = try reader["StackId"].readIfPresent()
-        value.logicalResourceId = try reader["LogicalResourceId"].readIfPresent() ?? ""
-        value.physicalResourceId = try reader["PhysicalResourceId"].readIfPresent()
-        value.resourceType = try reader["ResourceType"].readIfPresent() ?? ""
-        value.lastUpdatedTimestamp = try reader["LastUpdatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.resourceStatus = try reader["ResourceStatus"].readIfPresent() ?? .sdkUnknown("")
-        value.resourceStatusReason = try reader["ResourceStatusReason"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        value.metadata = try reader["Metadata"].readIfPresent()
-        value.driftInformation = try reader["DriftInformation"].readIfPresent(with: CloudFormationClientTypes.StackResourceDriftInformation.read(from:))
-        value.moduleInfo = try reader["ModuleInfo"].readIfPresent(with: CloudFormationClientTypes.ModuleInfo.read(from:))
-        return value
-    }
-}
-
-extension CloudFormationClientTypes.StackResourceDriftInformation {
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.StackResourceDriftInformation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFormationClientTypes.StackResourceDriftInformation()
-        value.stackResourceDriftStatus = try reader["StackResourceDriftStatus"].readIfPresent() ?? .sdkUnknown("")
-        value.lastCheckTimestamp = try reader["LastCheckTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        return value
-    }
-}
-
-extension CloudFormationClientTypes.StackResourceDrift {
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.StackResourceDrift {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFormationClientTypes.StackResourceDrift()
-        value.stackId = try reader["StackId"].readIfPresent() ?? ""
-        value.logicalResourceId = try reader["LogicalResourceId"].readIfPresent() ?? ""
-        value.physicalResourceId = try reader["PhysicalResourceId"].readIfPresent()
-        value.physicalResourceIdContext = try reader["PhysicalResourceIdContext"].readListIfPresent(memberReadingClosure: CloudFormationClientTypes.PhysicalResourceIdContextKeyValuePair.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.resourceType = try reader["ResourceType"].readIfPresent() ?? ""
-        value.expectedProperties = try reader["ExpectedProperties"].readIfPresent()
-        value.actualProperties = try reader["ActualProperties"].readIfPresent()
-        value.propertyDifferences = try reader["PropertyDifferences"].readListIfPresent(memberReadingClosure: CloudFormationClientTypes.PropertyDifference.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.stackResourceDriftStatus = try reader["StackResourceDriftStatus"].readIfPresent() ?? .sdkUnknown("")
-        value.timestamp = try reader["Timestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.moduleInfo = try reader["ModuleInfo"].readIfPresent(with: CloudFormationClientTypes.ModuleInfo.read(from:))
-        value.driftStatusReason = try reader["DriftStatusReason"].readIfPresent()
-        return value
-    }
-}
-
-extension CloudFormationClientTypes.PropertyDifference {
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.PropertyDifference {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFormationClientTypes.PropertyDifference()
-        value.propertyPath = try reader["PropertyPath"].readIfPresent() ?? ""
-        value.expectedValue = try reader["ExpectedValue"].readIfPresent() ?? ""
-        value.actualValue = try reader["ActualValue"].readIfPresent() ?? ""
-        value.differenceType = try reader["DifferenceType"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension CloudFormationClientTypes.PhysicalResourceIdContextKeyValuePair {
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.PhysicalResourceIdContextKeyValuePair {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFormationClientTypes.PhysicalResourceIdContextKeyValuePair()
-        value.key = try reader["Key"].readIfPresent() ?? ""
-        value.value = try reader["Value"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension CloudFormationClientTypes.StackResource {
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.StackResource {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFormationClientTypes.StackResource()
-        value.stackName = try reader["StackName"].readIfPresent()
-        value.stackId = try reader["StackId"].readIfPresent()
-        value.logicalResourceId = try reader["LogicalResourceId"].readIfPresent() ?? ""
-        value.physicalResourceId = try reader["PhysicalResourceId"].readIfPresent()
-        value.resourceType = try reader["ResourceType"].readIfPresent() ?? ""
-        value.timestamp = try reader["Timestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.resourceStatus = try reader["ResourceStatus"].readIfPresent() ?? .sdkUnknown("")
-        value.resourceStatusReason = try reader["ResourceStatusReason"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        value.driftInformation = try reader["DriftInformation"].readIfPresent(with: CloudFormationClientTypes.StackResourceDriftInformation.read(from:))
-        value.moduleInfo = try reader["ModuleInfo"].readIfPresent(with: CloudFormationClientTypes.ModuleInfo.read(from:))
-        return value
-    }
-}
-
-extension CloudFormationClientTypes.Stack {
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.Stack {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFormationClientTypes.Stack()
-        value.stackId = try reader["StackId"].readIfPresent()
-        value.stackName = try reader["StackName"].readIfPresent() ?? ""
-        value.changeSetId = try reader["ChangeSetId"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        value.parameters = try reader["Parameters"].readListIfPresent(memberReadingClosure: CloudFormationClientTypes.Parameter.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.deletionTime = try reader["DeletionTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.lastUpdatedTime = try reader["LastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.rollbackConfiguration = try reader["RollbackConfiguration"].readIfPresent(with: CloudFormationClientTypes.RollbackConfiguration.read(from:))
-        value.stackStatus = try reader["StackStatus"].readIfPresent() ?? .sdkUnknown("")
-        value.stackStatusReason = try reader["StackStatusReason"].readIfPresent()
-        value.disableRollback = try reader["DisableRollback"].readIfPresent()
-        value.notificationARNs = try reader["NotificationARNs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.timeoutInMinutes = try reader["TimeoutInMinutes"].readIfPresent()
-        value.capabilities = try reader["Capabilities"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<CloudFormationClientTypes.Capability>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.outputs = try reader["Outputs"].readListIfPresent(memberReadingClosure: CloudFormationClientTypes.Output.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.roleARN = try reader["RoleARN"].readIfPresent()
-        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: CloudFormationClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.enableTerminationProtection = try reader["EnableTerminationProtection"].readIfPresent()
-        value.parentId = try reader["ParentId"].readIfPresent()
-        value.rootId = try reader["RootId"].readIfPresent()
-        value.driftInformation = try reader["DriftInformation"].readIfPresent(with: CloudFormationClientTypes.StackDriftInformation.read(from:))
-        value.retainExceptOnCreate = try reader["RetainExceptOnCreate"].readIfPresent()
-        value.deletionMode = try reader["DeletionMode"].readIfPresent()
-        value.detailedStatus = try reader["DetailedStatus"].readIfPresent()
-        value.lastOperations = try reader["LastOperations"].readListIfPresent(memberReadingClosure: CloudFormationClientTypes.OperationEntry.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension CloudFormationClientTypes.OperationEntry {
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.OperationEntry {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFormationClientTypes.OperationEntry()
-        value.operationType = try reader["OperationType"].readIfPresent()
-        value.operationId = try reader["OperationId"].readIfPresent()
-        return value
-    }
-}
-
-extension CloudFormationClientTypes.StackDriftInformation {
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.StackDriftInformation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFormationClientTypes.StackDriftInformation()
-        value.stackDriftStatus = try reader["StackDriftStatus"].readIfPresent() ?? .sdkUnknown("")
-        value.lastCheckTimestamp = try reader["LastCheckTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        return value
-    }
-}
-
-extension CloudFormationClientTypes.Output {
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.Output {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFormationClientTypes.Output()
-        value.outputKey = try reader["OutputKey"].readIfPresent()
-        value.outputValue = try reader["OutputValue"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        value.exportName = try reader["ExportName"].readIfPresent()
-        return value
-    }
-}
-
-extension CloudFormationClientTypes.StackSet {
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.StackSet {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFormationClientTypes.StackSet()
-        value.stackSetName = try reader["StackSetName"].readIfPresent()
-        value.stackSetId = try reader["StackSetId"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.templateBody = try reader["TemplateBody"].readIfPresent()
-        value.parameters = try reader["Parameters"].readListIfPresent(memberReadingClosure: CloudFormationClientTypes.Parameter.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.capabilities = try reader["Capabilities"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<CloudFormationClientTypes.Capability>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: CloudFormationClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.stackSetARN = try reader["StackSetARN"].readIfPresent()
-        value.administrationRoleARN = try reader["AdministrationRoleARN"].readIfPresent()
-        value.executionRoleName = try reader["ExecutionRoleName"].readIfPresent()
-        value.stackSetDriftDetectionDetails = try reader["StackSetDriftDetectionDetails"].readIfPresent(with: CloudFormationClientTypes.StackSetDriftDetectionDetails.read(from:))
-        value.autoDeployment = try reader["AutoDeployment"].readIfPresent(with: CloudFormationClientTypes.AutoDeployment.read(from:))
-        value.permissionModel = try reader["PermissionModel"].readIfPresent()
-        value.organizationalUnitIds = try reader["OrganizationalUnitIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.managedExecution = try reader["ManagedExecution"].readIfPresent(with: CloudFormationClientTypes.ManagedExecution.read(from:))
-        value.regions = try reader["Regions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension CloudFormationClientTypes.ManagedExecution {
-
-    static func write(value: CloudFormationClientTypes.ManagedExecution?, to writer: SmithyFormURL.Writer) throws {
+    static func write(value: CloudFormationClientTypes.StackInstanceFilter?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
-        try writer["Active"].write(value.active)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.ManagedExecution {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFormationClientTypes.ManagedExecution()
-        value.active = try reader["Active"].readIfPresent()
-        return value
-    }
-}
-
-extension CloudFormationClientTypes.AutoDeployment {
-
-    static func write(value: CloudFormationClientTypes.AutoDeployment?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["DependsOn"].writeList(value.dependsOn, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Enabled"].write(value.enabled)
-        try writer["RetainStacksOnAccountRemoval"].write(value.retainStacksOnAccountRemoval)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.AutoDeployment {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFormationClientTypes.AutoDeployment()
-        value.enabled = try reader["Enabled"].readIfPresent()
-        value.retainStacksOnAccountRemoval = try reader["RetainStacksOnAccountRemoval"].readIfPresent()
-        value.dependsOn = try reader["DependsOn"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension CloudFormationClientTypes.StackSetDriftDetectionDetails {
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.StackSetDriftDetectionDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFormationClientTypes.StackSetDriftDetectionDetails()
-        value.driftStatus = try reader["DriftStatus"].readIfPresent()
-        value.driftDetectionStatus = try reader["DriftDetectionStatus"].readIfPresent()
-        value.lastDriftCheckTimestamp = try reader["LastDriftCheckTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.totalStackInstancesCount = try reader["TotalStackInstancesCount"].readIfPresent()
-        value.driftedStackInstancesCount = try reader["DriftedStackInstancesCount"].readIfPresent()
-        value.inSyncStackInstancesCount = try reader["InSyncStackInstancesCount"].readIfPresent()
-        value.inProgressStackInstancesCount = try reader["InProgressStackInstancesCount"].readIfPresent()
-        value.failedStackInstancesCount = try reader["FailedStackInstancesCount"].readIfPresent()
-        return value
-    }
-}
-
-extension CloudFormationClientTypes.StackSetOperation {
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.StackSetOperation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFormationClientTypes.StackSetOperation()
-        value.operationId = try reader["OperationId"].readIfPresent()
-        value.stackSetId = try reader["StackSetId"].readIfPresent()
-        value.action = try reader["Action"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.operationPreferences = try reader["OperationPreferences"].readIfPresent(with: CloudFormationClientTypes.StackSetOperationPreferences.read(from:))
-        value.retainStacks = try reader["RetainStacks"].readIfPresent()
-        value.administrationRoleARN = try reader["AdministrationRoleARN"].readIfPresent()
-        value.executionRoleName = try reader["ExecutionRoleName"].readIfPresent()
-        value.creationTimestamp = try reader["CreationTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.endTimestamp = try reader["EndTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.deploymentTargets = try reader["DeploymentTargets"].readIfPresent(with: CloudFormationClientTypes.DeploymentTargets.read(from:))
-        value.stackSetDriftDetectionDetails = try reader["StackSetDriftDetectionDetails"].readIfPresent(with: CloudFormationClientTypes.StackSetDriftDetectionDetails.read(from:))
-        value.statusReason = try reader["StatusReason"].readIfPresent()
-        value.statusDetails = try reader["StatusDetails"].readIfPresent(with: CloudFormationClientTypes.StackSetOperationStatusDetails.read(from:))
-        return value
-    }
-}
-
-extension CloudFormationClientTypes.StackSetOperationStatusDetails {
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.StackSetOperationStatusDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFormationClientTypes.StackSetOperationStatusDetails()
-        value.failedStackInstancesCount = try reader["FailedStackInstancesCount"].readIfPresent()
-        return value
-    }
-}
-
-extension CloudFormationClientTypes.DeploymentTargets {
-
-    static func write(value: CloudFormationClientTypes.DeploymentTargets?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["AccountFilterType"].write(value.accountFilterType)
-        try writer["Accounts"].writeList(value.accounts, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["AccountsUrl"].write(value.accountsUrl)
-        try writer["OrganizationalUnitIds"].writeList(value.organizationalUnitIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.DeploymentTargets {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFormationClientTypes.DeploymentTargets()
-        value.accounts = try reader["Accounts"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.accountsUrl = try reader["AccountsUrl"].readIfPresent()
-        value.organizationalUnitIds = try reader["OrganizationalUnitIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.accountFilterType = try reader["AccountFilterType"].readIfPresent()
-        return value
-    }
-}
-
-extension CloudFormationClientTypes.StackSetOperationPreferences {
-
-    static func write(value: CloudFormationClientTypes.StackSetOperationPreferences?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["ConcurrencyMode"].write(value.concurrencyMode)
-        try writer["FailureToleranceCount"].write(value.failureToleranceCount)
-        try writer["FailureTolerancePercentage"].write(value.failureTolerancePercentage)
-        try writer["MaxConcurrentCount"].write(value.maxConcurrentCount)
-        try writer["MaxConcurrentPercentage"].write(value.maxConcurrentPercentage)
-        try writer["RegionConcurrencyType"].write(value.regionConcurrencyType)
-        try writer["RegionOrder"].writeList(value.regionOrder, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.StackSetOperationPreferences {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFormationClientTypes.StackSetOperationPreferences()
-        value.regionConcurrencyType = try reader["RegionConcurrencyType"].readIfPresent()
-        value.regionOrder = try reader["RegionOrder"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.failureToleranceCount = try reader["FailureToleranceCount"].readIfPresent()
-        value.failureTolerancePercentage = try reader["FailureTolerancePercentage"].readIfPresent()
-        value.maxConcurrentCount = try reader["MaxConcurrentCount"].readIfPresent()
-        value.maxConcurrentPercentage = try reader["MaxConcurrentPercentage"].readIfPresent()
-        value.concurrencyMode = try reader["ConcurrencyMode"].readIfPresent()
-        return value
-    }
-}
-
-extension CloudFormationClientTypes.LoggingConfig {
-
-    static func write(value: CloudFormationClientTypes.LoggingConfig?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["LogGroupName"].write(value.logGroupName)
-        try writer["LogRoleArn"].write(value.logRoleArn)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.LoggingConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFormationClientTypes.LoggingConfig()
-        value.logRoleArn = try reader["LogRoleArn"].readIfPresent() ?? ""
-        value.logGroupName = try reader["LogGroupName"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension CloudFormationClientTypes.RequiredActivatedType {
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.RequiredActivatedType {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFormationClientTypes.RequiredActivatedType()
-        value.typeNameAlias = try reader["TypeNameAlias"].readIfPresent()
-        value.originalTypeName = try reader["OriginalTypeName"].readIfPresent()
-        value.publisherId = try reader["PublisherId"].readIfPresent()
-        value.supportedMajorVersions = try reader["SupportedMajorVersions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension CloudFormationClientTypes.HookTarget {
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.HookTarget {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFormationClientTypes.HookTarget()
-        value.targetType = try reader["TargetType"].readIfPresent() ?? .sdkUnknown("")
-        value.targetTypeName = try reader["TargetTypeName"].readIfPresent() ?? ""
-        value.targetId = try reader["TargetId"].readIfPresent() ?? ""
-        value.action = try reader["Action"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension CloudFormationClientTypes.Annotation {
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.Annotation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFormationClientTypes.Annotation()
-        value.annotationName = try reader["AnnotationName"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.statusMessage = try reader["StatusMessage"].readIfPresent()
-        value.remediationMessage = try reader["RemediationMessage"].readIfPresent()
-        value.remediationLink = try reader["RemediationLink"].readIfPresent()
-        value.severityLevel = try reader["SeverityLevel"].readIfPresent()
-        return value
-    }
-}
-
-extension CloudFormationClientTypes.ParameterDeclaration {
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.ParameterDeclaration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFormationClientTypes.ParameterDeclaration()
-        value.parameterKey = try reader["ParameterKey"].readIfPresent()
-        value.defaultValue = try reader["DefaultValue"].readIfPresent()
-        value.parameterType = try reader["ParameterType"].readIfPresent()
-        value.noEcho = try reader["NoEcho"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        value.parameterConstraints = try reader["ParameterConstraints"].readIfPresent(with: CloudFormationClientTypes.ParameterConstraints.read(from:))
-        return value
-    }
-}
-
-extension CloudFormationClientTypes.ParameterConstraints {
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.ParameterConstraints {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFormationClientTypes.ParameterConstraints()
-        value.allowedValues = try reader["AllowedValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension CloudFormationClientTypes.ResourceIdentifierSummary {
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.ResourceIdentifierSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFormationClientTypes.ResourceIdentifierSummary()
-        value.resourceType = try reader["ResourceType"].readIfPresent()
-        value.logicalResourceIds = try reader["LogicalResourceIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.resourceIdentifiers = try reader["ResourceIdentifiers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension CloudFormationClientTypes.Warnings {
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.Warnings {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFormationClientTypes.Warnings()
-        value.unrecognizedResourceTypes = try reader["UnrecognizedResourceTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension CloudFormationClientTypes.ChangeSetSummary {
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.ChangeSetSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFormationClientTypes.ChangeSetSummary()
-        value.stackId = try reader["StackId"].readIfPresent()
-        value.stackName = try reader["StackName"].readIfPresent()
-        value.changeSetId = try reader["ChangeSetId"].readIfPresent()
-        value.changeSetName = try reader["ChangeSetName"].readIfPresent()
-        value.executionStatus = try reader["ExecutionStatus"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.statusReason = try reader["StatusReason"].readIfPresent()
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.description = try reader["Description"].readIfPresent()
-        value.includeNestedStacks = try reader["IncludeNestedStacks"].readIfPresent()
-        value.parentChangeSetId = try reader["ParentChangeSetId"].readIfPresent()
-        value.rootChangeSetId = try reader["RootChangeSetId"].readIfPresent()
-        value.importExistingResources = try reader["ImportExistingResources"].readIfPresent()
-        return value
-    }
-}
-
-extension CloudFormationClientTypes.Export {
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.Export {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFormationClientTypes.Export()
-        value.exportingStackId = try reader["ExportingStackId"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
-        return value
-    }
-}
-
-extension CloudFormationClientTypes.TemplateSummary {
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.TemplateSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFormationClientTypes.TemplateSummary()
-        value.generatedTemplateId = try reader["GeneratedTemplateId"].readIfPresent()
-        value.generatedTemplateName = try reader["GeneratedTemplateName"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.statusReason = try reader["StatusReason"].readIfPresent()
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.lastUpdatedTime = try reader["LastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.numberOfResources = try reader["NumberOfResources"].readIfPresent()
-        return value
-    }
-}
-
-extension CloudFormationClientTypes.HookResultSummary {
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.HookResultSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFormationClientTypes.HookResultSummary()
-        value.hookResultId = try reader["HookResultId"].readIfPresent()
-        value.invocationPoint = try reader["InvocationPoint"].readIfPresent()
-        value.failureMode = try reader["FailureMode"].readIfPresent()
-        value.typeName = try reader["TypeName"].readIfPresent()
-        value.typeVersionId = try reader["TypeVersionId"].readIfPresent()
-        value.typeConfigurationVersionId = try reader["TypeConfigurationVersionId"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.hookStatusReason = try reader["HookStatusReason"].readIfPresent()
-        value.invokedAt = try reader["InvokedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.targetType = try reader["TargetType"].readIfPresent()
-        value.targetId = try reader["TargetId"].readIfPresent()
-        value.typeArn = try reader["TypeArn"].readIfPresent()
-        value.hookExecutionTarget = try reader["HookExecutionTarget"].readIfPresent()
-        return value
-    }
-}
-
-extension CloudFormationClientTypes.ScannedResource {
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.ScannedResource {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFormationClientTypes.ScannedResource()
-        value.resourceType = try reader["ResourceType"].readIfPresent()
-        value.resourceIdentifier = try reader["ResourceIdentifier"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.managedByStack = try reader["ManagedByStack"].readIfPresent()
-        return value
-    }
-}
-
-extension CloudFormationClientTypes.ResourceScanSummary {
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.ResourceScanSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFormationClientTypes.ResourceScanSummary()
-        value.resourceScanId = try reader["ResourceScanId"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.statusReason = try reader["StatusReason"].readIfPresent()
-        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.percentageCompleted = try reader["PercentageCompleted"].readIfPresent()
-        value.scanType = try reader["ScanType"].readIfPresent()
-        return value
+        try writer["Name"].write(value.name)
+        try writer["Values"].write(value.values)
     }
 }
 
@@ -17175,40 +16985,6 @@ extension CloudFormationClientTypes.StackRefactorAction {
     }
 }
 
-extension CloudFormationClientTypes.ResourceMapping {
-
-    static func write(value: CloudFormationClientTypes.ResourceMapping?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Destination"].write(value.destination, with: CloudFormationClientTypes.ResourceLocation.write(value:to:))
-        try writer["Source"].write(value.source, with: CloudFormationClientTypes.ResourceLocation.write(value:to:))
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.ResourceMapping {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFormationClientTypes.ResourceMapping()
-        value.source = try reader["Source"].readIfPresent(with: CloudFormationClientTypes.ResourceLocation.read(from:))
-        value.destination = try reader["Destination"].readIfPresent(with: CloudFormationClientTypes.ResourceLocation.read(from:))
-        return value
-    }
-}
-
-extension CloudFormationClientTypes.ResourceLocation {
-
-    static func write(value: CloudFormationClientTypes.ResourceLocation?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["LogicalResourceId"].write(value.logicalResourceId)
-        try writer["StackName"].write(value.stackName)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.ResourceLocation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFormationClientTypes.ResourceLocation()
-        value.stackName = try reader["StackName"].readIfPresent() ?? ""
-        value.logicalResourceId = try reader["LogicalResourceId"].readIfPresent() ?? ""
-        return value
-    }
-}
-
 extension CloudFormationClientTypes.StackRefactorSummary {
 
     static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.StackRefactorSummary {
@@ -17220,6 +16996,90 @@ extension CloudFormationClientTypes.StackRefactorSummary {
         value.executionStatusReason = try reader["ExecutionStatusReason"].readIfPresent()
         value.status = try reader["Status"].readIfPresent()
         value.statusReason = try reader["StatusReason"].readIfPresent()
+        return value
+    }
+}
+
+extension CloudFormationClientTypes.StackResource {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.StackResource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFormationClientTypes.StackResource()
+        value.stackName = try reader["StackName"].readIfPresent()
+        value.stackId = try reader["StackId"].readIfPresent()
+        value.logicalResourceId = try reader["LogicalResourceId"].readIfPresent() ?? ""
+        value.physicalResourceId = try reader["PhysicalResourceId"].readIfPresent()
+        value.resourceType = try reader["ResourceType"].readIfPresent() ?? ""
+        value.timestamp = try reader["Timestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.resourceStatus = try reader["ResourceStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.resourceStatusReason = try reader["ResourceStatusReason"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.driftInformation = try reader["DriftInformation"].readIfPresent(with: CloudFormationClientTypes.StackResourceDriftInformation.read(from:))
+        value.moduleInfo = try reader["ModuleInfo"].readIfPresent(with: CloudFormationClientTypes.ModuleInfo.read(from:))
+        return value
+    }
+}
+
+extension CloudFormationClientTypes.StackResourceDetail {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.StackResourceDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFormationClientTypes.StackResourceDetail()
+        value.stackName = try reader["StackName"].readIfPresent()
+        value.stackId = try reader["StackId"].readIfPresent()
+        value.logicalResourceId = try reader["LogicalResourceId"].readIfPresent() ?? ""
+        value.physicalResourceId = try reader["PhysicalResourceId"].readIfPresent()
+        value.resourceType = try reader["ResourceType"].readIfPresent() ?? ""
+        value.lastUpdatedTimestamp = try reader["LastUpdatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.resourceStatus = try reader["ResourceStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.resourceStatusReason = try reader["ResourceStatusReason"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.metadata = try reader["Metadata"].readIfPresent()
+        value.driftInformation = try reader["DriftInformation"].readIfPresent(with: CloudFormationClientTypes.StackResourceDriftInformation.read(from:))
+        value.moduleInfo = try reader["ModuleInfo"].readIfPresent(with: CloudFormationClientTypes.ModuleInfo.read(from:))
+        return value
+    }
+}
+
+extension CloudFormationClientTypes.StackResourceDrift {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.StackResourceDrift {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFormationClientTypes.StackResourceDrift()
+        value.stackId = try reader["StackId"].readIfPresent() ?? ""
+        value.logicalResourceId = try reader["LogicalResourceId"].readIfPresent() ?? ""
+        value.physicalResourceId = try reader["PhysicalResourceId"].readIfPresent()
+        value.physicalResourceIdContext = try reader["PhysicalResourceIdContext"].readListIfPresent(memberReadingClosure: CloudFormationClientTypes.PhysicalResourceIdContextKeyValuePair.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.resourceType = try reader["ResourceType"].readIfPresent() ?? ""
+        value.expectedProperties = try reader["ExpectedProperties"].readIfPresent()
+        value.actualProperties = try reader["ActualProperties"].readIfPresent()
+        value.propertyDifferences = try reader["PropertyDifferences"].readListIfPresent(memberReadingClosure: CloudFormationClientTypes.PropertyDifference.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.stackResourceDriftStatus = try reader["StackResourceDriftStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.timestamp = try reader["Timestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.moduleInfo = try reader["ModuleInfo"].readIfPresent(with: CloudFormationClientTypes.ModuleInfo.read(from:))
+        value.driftStatusReason = try reader["DriftStatusReason"].readIfPresent()
+        return value
+    }
+}
+
+extension CloudFormationClientTypes.StackResourceDriftInformation {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.StackResourceDriftInformation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFormationClientTypes.StackResourceDriftInformation()
+        value.stackResourceDriftStatus = try reader["StackResourceDriftStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.lastCheckTimestamp = try reader["LastCheckTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
+extension CloudFormationClientTypes.StackResourceDriftInformationSummary {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.StackResourceDriftInformationSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFormationClientTypes.StackResourceDriftInformationSummary()
+        value.stackResourceDriftStatus = try reader["StackResourceDriftStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.lastCheckTimestamp = try reader["LastCheckTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
     }
 }
@@ -17241,45 +17101,28 @@ extension CloudFormationClientTypes.StackResourceSummary {
     }
 }
 
-extension CloudFormationClientTypes.StackResourceDriftInformationSummary {
+extension CloudFormationClientTypes.StackSet {
 
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.StackResourceDriftInformationSummary {
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.StackSet {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFormationClientTypes.StackResourceDriftInformationSummary()
-        value.stackResourceDriftStatus = try reader["StackResourceDriftStatus"].readIfPresent() ?? .sdkUnknown("")
-        value.lastCheckTimestamp = try reader["LastCheckTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        return value
-    }
-}
-
-extension CloudFormationClientTypes.StackSummary {
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.StackSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFormationClientTypes.StackSummary()
-        value.stackId = try reader["StackId"].readIfPresent()
-        value.stackName = try reader["StackName"].readIfPresent() ?? ""
-        value.templateDescription = try reader["TemplateDescription"].readIfPresent()
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.lastUpdatedTime = try reader["LastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.deletionTime = try reader["DeletionTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.stackStatus = try reader["StackStatus"].readIfPresent() ?? .sdkUnknown("")
-        value.stackStatusReason = try reader["StackStatusReason"].readIfPresent()
-        value.parentId = try reader["ParentId"].readIfPresent()
-        value.rootId = try reader["RootId"].readIfPresent()
-        value.driftInformation = try reader["DriftInformation"].readIfPresent(with: CloudFormationClientTypes.StackDriftInformationSummary.read(from:))
-        value.lastOperations = try reader["LastOperations"].readListIfPresent(memberReadingClosure: CloudFormationClientTypes.OperationEntry.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension CloudFormationClientTypes.StackDriftInformationSummary {
-
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.StackDriftInformationSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFormationClientTypes.StackDriftInformationSummary()
-        value.stackDriftStatus = try reader["StackDriftStatus"].readIfPresent() ?? .sdkUnknown("")
-        value.lastCheckTimestamp = try reader["LastCheckTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        var value = CloudFormationClientTypes.StackSet()
+        value.stackSetName = try reader["StackSetName"].readIfPresent()
+        value.stackSetId = try reader["StackSetId"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.templateBody = try reader["TemplateBody"].readIfPresent()
+        value.parameters = try reader["Parameters"].readListIfPresent(memberReadingClosure: CloudFormationClientTypes.Parameter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.capabilities = try reader["Capabilities"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<CloudFormationClientTypes.Capability>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: CloudFormationClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.stackSetARN = try reader["StackSetARN"].readIfPresent()
+        value.administrationRoleARN = try reader["AdministrationRoleARN"].readIfPresent()
+        value.executionRoleName = try reader["ExecutionRoleName"].readIfPresent()
+        value.stackSetDriftDetectionDetails = try reader["StackSetDriftDetectionDetails"].readIfPresent(with: CloudFormationClientTypes.StackSetDriftDetectionDetails.read(from:))
+        value.autoDeployment = try reader["AutoDeployment"].readIfPresent(with: CloudFormationClientTypes.AutoDeployment.read(from:))
+        value.permissionModel = try reader["PermissionModel"].readIfPresent()
+        value.organizationalUnitIds = try reader["OrganizationalUnitIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.managedExecution = try reader["ManagedExecution"].readIfPresent(with: CloudFormationClientTypes.ManagedExecution.read(from:))
+        value.regions = try reader["Regions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -17291,6 +17134,73 @@ extension CloudFormationClientTypes.StackSetAutoDeploymentTargetSummary {
         var value = CloudFormationClientTypes.StackSetAutoDeploymentTargetSummary()
         value.organizationalUnitId = try reader["OrganizationalUnitId"].readIfPresent()
         value.regions = try reader["Regions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension CloudFormationClientTypes.StackSetDriftDetectionDetails {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.StackSetDriftDetectionDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFormationClientTypes.StackSetDriftDetectionDetails()
+        value.driftStatus = try reader["DriftStatus"].readIfPresent()
+        value.driftDetectionStatus = try reader["DriftDetectionStatus"].readIfPresent()
+        value.lastDriftCheckTimestamp = try reader["LastDriftCheckTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.totalStackInstancesCount = try reader["TotalStackInstancesCount"].readIfPresent()
+        value.driftedStackInstancesCount = try reader["DriftedStackInstancesCount"].readIfPresent()
+        value.inSyncStackInstancesCount = try reader["InSyncStackInstancesCount"].readIfPresent()
+        value.inProgressStackInstancesCount = try reader["InProgressStackInstancesCount"].readIfPresent()
+        value.failedStackInstancesCount = try reader["FailedStackInstancesCount"].readIfPresent()
+        return value
+    }
+}
+
+extension CloudFormationClientTypes.StackSetOperation {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.StackSetOperation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFormationClientTypes.StackSetOperation()
+        value.operationId = try reader["OperationId"].readIfPresent()
+        value.stackSetId = try reader["StackSetId"].readIfPresent()
+        value.action = try reader["Action"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.operationPreferences = try reader["OperationPreferences"].readIfPresent(with: CloudFormationClientTypes.StackSetOperationPreferences.read(from:))
+        value.retainStacks = try reader["RetainStacks"].readIfPresent()
+        value.administrationRoleARN = try reader["AdministrationRoleARN"].readIfPresent()
+        value.executionRoleName = try reader["ExecutionRoleName"].readIfPresent()
+        value.creationTimestamp = try reader["CreationTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.endTimestamp = try reader["EndTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.deploymentTargets = try reader["DeploymentTargets"].readIfPresent(with: CloudFormationClientTypes.DeploymentTargets.read(from:))
+        value.stackSetDriftDetectionDetails = try reader["StackSetDriftDetectionDetails"].readIfPresent(with: CloudFormationClientTypes.StackSetDriftDetectionDetails.read(from:))
+        value.statusReason = try reader["StatusReason"].readIfPresent()
+        value.statusDetails = try reader["StatusDetails"].readIfPresent(with: CloudFormationClientTypes.StackSetOperationStatusDetails.read(from:))
+        return value
+    }
+}
+
+extension CloudFormationClientTypes.StackSetOperationPreferences {
+
+    static func write(value: CloudFormationClientTypes.StackSetOperationPreferences?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["ConcurrencyMode"].write(value.concurrencyMode)
+        try writer["FailureToleranceCount"].write(value.failureToleranceCount)
+        try writer["FailureTolerancePercentage"].write(value.failureTolerancePercentage)
+        try writer["MaxConcurrentCount"].write(value.maxConcurrentCount)
+        try writer["MaxConcurrentPercentage"].write(value.maxConcurrentPercentage)
+        try writer["RegionConcurrencyType"].write(value.regionConcurrencyType)
+        try writer["RegionOrder"].writeList(value.regionOrder, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.StackSetOperationPreferences {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFormationClientTypes.StackSetOperationPreferences()
+        value.regionConcurrencyType = try reader["RegionConcurrencyType"].readIfPresent()
+        value.regionOrder = try reader["RegionOrder"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.failureToleranceCount = try reader["FailureToleranceCount"].readIfPresent()
+        value.failureTolerancePercentage = try reader["FailureTolerancePercentage"].readIfPresent()
+        value.maxConcurrentCount = try reader["MaxConcurrentCount"].readIfPresent()
+        value.maxConcurrentPercentage = try reader["MaxConcurrentPercentage"].readIfPresent()
+        value.concurrencyMode = try reader["ConcurrencyMode"].readIfPresent()
         return value
     }
 }
@@ -17310,13 +17220,12 @@ extension CloudFormationClientTypes.StackSetOperationResultSummary {
     }
 }
 
-extension CloudFormationClientTypes.AccountGateResult {
+extension CloudFormationClientTypes.StackSetOperationStatusDetails {
 
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.AccountGateResult {
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.StackSetOperationStatusDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFormationClientTypes.AccountGateResult()
-        value.status = try reader["Status"].readIfPresent()
-        value.statusReason = try reader["StatusReason"].readIfPresent()
+        var value = CloudFormationClientTypes.StackSetOperationStatusDetails()
+        value.failedStackInstancesCount = try reader["FailedStackInstancesCount"].readIfPresent()
         return value
     }
 }
@@ -17353,6 +17262,160 @@ extension CloudFormationClientTypes.StackSetSummary {
         value.lastDriftCheckTimestamp = try reader["LastDriftCheckTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.managedExecution = try reader["ManagedExecution"].readIfPresent(with: CloudFormationClientTypes.ManagedExecution.read(from:))
         return value
+    }
+}
+
+extension CloudFormationClientTypes.StackSummary {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.StackSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFormationClientTypes.StackSummary()
+        value.stackId = try reader["StackId"].readIfPresent()
+        value.stackName = try reader["StackName"].readIfPresent() ?? ""
+        value.templateDescription = try reader["TemplateDescription"].readIfPresent()
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastUpdatedTime = try reader["LastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.deletionTime = try reader["DeletionTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.stackStatus = try reader["StackStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.stackStatusReason = try reader["StackStatusReason"].readIfPresent()
+        value.parentId = try reader["ParentId"].readIfPresent()
+        value.rootId = try reader["RootId"].readIfPresent()
+        value.driftInformation = try reader["DriftInformation"].readIfPresent(with: CloudFormationClientTypes.StackDriftInformationSummary.read(from:))
+        value.lastOperations = try reader["LastOperations"].readListIfPresent(memberReadingClosure: CloudFormationClientTypes.OperationEntry.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension CloudFormationClientTypes.Tag {
+
+    static func write(value: CloudFormationClientTypes.Tag?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["Key"].write(value.key)
+        try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.Tag {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFormationClientTypes.Tag()
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension CloudFormationClientTypes.TemplateConfiguration {
+
+    static func write(value: CloudFormationClientTypes.TemplateConfiguration?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["DeletionPolicy"].write(value.deletionPolicy)
+        try writer["UpdateReplacePolicy"].write(value.updateReplacePolicy)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.TemplateConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFormationClientTypes.TemplateConfiguration()
+        value.deletionPolicy = try reader["DeletionPolicy"].readIfPresent()
+        value.updateReplacePolicy = try reader["UpdateReplacePolicy"].readIfPresent()
+        return value
+    }
+}
+
+extension CloudFormationClientTypes.TemplateParameter {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.TemplateParameter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFormationClientTypes.TemplateParameter()
+        value.parameterKey = try reader["ParameterKey"].readIfPresent()
+        value.defaultValue = try reader["DefaultValue"].readIfPresent()
+        value.noEcho = try reader["NoEcho"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        return value
+    }
+}
+
+extension CloudFormationClientTypes.TemplateProgress {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.TemplateProgress {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFormationClientTypes.TemplateProgress()
+        value.resourcesSucceeded = try reader["ResourcesSucceeded"].readIfPresent()
+        value.resourcesFailed = try reader["ResourcesFailed"].readIfPresent()
+        value.resourcesProcessing = try reader["ResourcesProcessing"].readIfPresent()
+        value.resourcesPending = try reader["ResourcesPending"].readIfPresent()
+        return value
+    }
+}
+
+extension CloudFormationClientTypes.TemplateSummary {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.TemplateSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFormationClientTypes.TemplateSummary()
+        value.generatedTemplateId = try reader["GeneratedTemplateId"].readIfPresent()
+        value.generatedTemplateName = try reader["GeneratedTemplateName"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.statusReason = try reader["StatusReason"].readIfPresent()
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.lastUpdatedTime = try reader["LastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.numberOfResources = try reader["NumberOfResources"].readIfPresent()
+        return value
+    }
+}
+
+extension CloudFormationClientTypes.TemplateSummaryConfig {
+
+    static func write(value: CloudFormationClientTypes.TemplateSummaryConfig?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["TreatUnrecognizedResourceTypesAsWarnings"].write(value.treatUnrecognizedResourceTypesAsWarnings)
+    }
+}
+
+extension CloudFormationClientTypes.TypeConfigurationDetails {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.TypeConfigurationDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFormationClientTypes.TypeConfigurationDetails()
+        value.arn = try reader["Arn"].readIfPresent()
+        value.alias = try reader["Alias"].readIfPresent()
+        value.configuration = try reader["Configuration"].readIfPresent()
+        value.lastUpdated = try reader["LastUpdated"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.typeArn = try reader["TypeArn"].readIfPresent()
+        value.typeName = try reader["TypeName"].readIfPresent()
+        value.isDefaultConfiguration = try reader["IsDefaultConfiguration"].readIfPresent()
+        return value
+    }
+}
+
+extension CloudFormationClientTypes.TypeConfigurationIdentifier {
+
+    static func write(value: CloudFormationClientTypes.TypeConfigurationIdentifier?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["Type"].write(value.type)
+        try writer["TypeArn"].write(value.typeArn)
+        try writer["TypeConfigurationAlias"].write(value.typeConfigurationAlias)
+        try writer["TypeConfigurationArn"].write(value.typeConfigurationArn)
+        try writer["TypeName"].write(value.typeName)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.TypeConfigurationIdentifier {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFormationClientTypes.TypeConfigurationIdentifier()
+        value.typeArn = try reader["TypeArn"].readIfPresent()
+        value.typeConfigurationAlias = try reader["TypeConfigurationAlias"].readIfPresent()
+        value.typeConfigurationArn = try reader["TypeConfigurationArn"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent()
+        value.typeName = try reader["TypeName"].readIfPresent()
+        return value
+    }
+}
+
+extension CloudFormationClientTypes.TypeFilters {
+
+    static func write(value: CloudFormationClientTypes.TypeFilters?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["Category"].write(value.category)
+        try writer["PublisherId"].write(value.publisherId)
+        try writer["TypeNamePrefix"].write(value.typeNamePrefix)
     }
 }
 
@@ -17395,99 +17458,36 @@ extension CloudFormationClientTypes.TypeVersionSummary {
     }
 }
 
-extension CloudFormationClientTypes.TemplateParameter {
+extension CloudFormationClientTypes.WarningDetail {
 
-    static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.TemplateParameter {
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.WarningDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudFormationClientTypes.TemplateParameter()
-        value.parameterKey = try reader["ParameterKey"].readIfPresent()
-        value.defaultValue = try reader["DefaultValue"].readIfPresent()
-        value.noEcho = try reader["NoEcho"].readIfPresent()
+        var value = CloudFormationClientTypes.WarningDetail()
+        value.type = try reader["Type"].readIfPresent()
+        value.properties = try reader["Properties"].readListIfPresent(memberReadingClosure: CloudFormationClientTypes.WarningProperty.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension CloudFormationClientTypes.WarningProperty {
+
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.WarningProperty {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFormationClientTypes.WarningProperty()
+        value.propertyPath = try reader["PropertyPath"].readIfPresent()
+        value.`required` = try reader["Required"].readIfPresent()
         value.description = try reader["Description"].readIfPresent()
         return value
     }
 }
 
-extension CloudFormationClientTypes.ResourceToImport {
+extension CloudFormationClientTypes.Warnings {
 
-    static func write(value: CloudFormationClientTypes.ResourceToImport?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["LogicalResourceId"].write(value.logicalResourceId)
-        try writer["ResourceIdentifier"].writeMap(value.resourceIdentifier, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["ResourceType"].write(value.resourceType)
-    }
-}
-
-extension CloudFormationClientTypes.ResourceDefinition {
-
-    static func write(value: CloudFormationClientTypes.ResourceDefinition?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["LogicalResourceId"].write(value.logicalResourceId)
-        try writer["ResourceIdentifier"].writeMap(value.resourceIdentifier, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["ResourceType"].write(value.resourceType)
-    }
-}
-
-extension CloudFormationClientTypes.StackDefinition {
-
-    static func write(value: CloudFormationClientTypes.StackDefinition?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["StackName"].write(value.stackName)
-        try writer["TemplateBody"].write(value.templateBody)
-        try writer["TemplateURL"].write(value.templateURL)
-    }
-}
-
-extension CloudFormationClientTypes.EventFilter {
-
-    static func write(value: CloudFormationClientTypes.EventFilter?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["FailedEvents"].write(value.failedEvents)
-    }
-}
-
-extension CloudFormationClientTypes.TemplateSummaryConfig {
-
-    static func write(value: CloudFormationClientTypes.TemplateSummaryConfig?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["TreatUnrecognizedResourceTypesAsWarnings"].write(value.treatUnrecognizedResourceTypesAsWarnings)
-    }
-}
-
-extension CloudFormationClientTypes.ScannedResourceIdentifier {
-
-    static func write(value: CloudFormationClientTypes.ScannedResourceIdentifier?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["ResourceIdentifier"].writeMap(value.resourceIdentifier, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["ResourceType"].write(value.resourceType)
-    }
-}
-
-extension CloudFormationClientTypes.StackInstanceFilter {
-
-    static func write(value: CloudFormationClientTypes.StackInstanceFilter?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-        try writer["Values"].write(value.values)
-    }
-}
-
-extension CloudFormationClientTypes.OperationResultFilter {
-
-    static func write(value: CloudFormationClientTypes.OperationResultFilter?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-        try writer["Values"].write(value.values)
-    }
-}
-
-extension CloudFormationClientTypes.TypeFilters {
-
-    static func write(value: CloudFormationClientTypes.TypeFilters?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Category"].write(value.category)
-        try writer["PublisherId"].write(value.publisherId)
-        try writer["TypeNamePrefix"].write(value.typeNamePrefix)
+    static func read(from reader: SmithyXML.Reader) throws -> CloudFormationClientTypes.Warnings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudFormationClientTypes.Warnings()
+        value.unrecognizedResourceTypes = try reader["UnrecognizedResourceTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
     }
 }
 

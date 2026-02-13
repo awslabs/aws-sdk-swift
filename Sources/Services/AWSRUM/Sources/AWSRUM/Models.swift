@@ -2983,71 +2983,6 @@ extension PolicySizeLimitExceededException {
     }
 }
 
-extension RUMClientTypes.BatchCreateRumMetricDefinitionsError {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RUMClientTypes.BatchCreateRumMetricDefinitionsError {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RUMClientTypes.BatchCreateRumMetricDefinitionsError()
-        value.metricDefinition = try reader["MetricDefinition"].readIfPresent(with: RUMClientTypes.MetricDefinitionRequest.read(from:))
-        value.errorCode = try reader["ErrorCode"].readIfPresent() ?? ""
-        value.errorMessage = try reader["ErrorMessage"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension RUMClientTypes.MetricDefinitionRequest {
-
-    static func write(value: RUMClientTypes.MetricDefinitionRequest?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DimensionKeys"].writeMap(value.dimensionKeys, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["EventPattern"].write(value.eventPattern)
-        try writer["Name"].write(value.name)
-        try writer["Namespace"].write(value.namespace)
-        try writer["UnitLabel"].write(value.unitLabel)
-        try writer["ValueKey"].write(value.valueKey)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RUMClientTypes.MetricDefinitionRequest {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RUMClientTypes.MetricDefinitionRequest()
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.valueKey = try reader["ValueKey"].readIfPresent()
-        value.unitLabel = try reader["UnitLabel"].readIfPresent()
-        value.dimensionKeys = try reader["DimensionKeys"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.eventPattern = try reader["EventPattern"].readIfPresent()
-        value.namespace = try reader["Namespace"].readIfPresent()
-        return value
-    }
-}
-
-extension RUMClientTypes.MetricDefinition {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RUMClientTypes.MetricDefinition {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RUMClientTypes.MetricDefinition()
-        value.metricDefinitionId = try reader["MetricDefinitionId"].readIfPresent() ?? ""
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.valueKey = try reader["ValueKey"].readIfPresent()
-        value.unitLabel = try reader["UnitLabel"].readIfPresent()
-        value.dimensionKeys = try reader["DimensionKeys"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.eventPattern = try reader["EventPattern"].readIfPresent()
-        value.namespace = try reader["Namespace"].readIfPresent()
-        return value
-    }
-}
-
-extension RUMClientTypes.BatchDeleteRumMetricDefinitionsError {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RUMClientTypes.BatchDeleteRumMetricDefinitionsError {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RUMClientTypes.BatchDeleteRumMetricDefinitionsError()
-        value.metricDefinitionId = try reader["MetricDefinitionId"].readIfPresent() ?? ""
-        value.errorCode = try reader["ErrorCode"].readIfPresent() ?? ""
-        value.errorMessage = try reader["ErrorMessage"].readIfPresent() ?? ""
-        return value
-    }
-}
-
 extension RUMClientTypes.AppMonitor {
 
     static func read(from reader: SmithyJSON.Reader) throws -> RUMClientTypes.AppMonitor {
@@ -3066,6 +3001,122 @@ extension RUMClientTypes.AppMonitor {
         value.customEvents = try reader["CustomEvents"].readIfPresent(with: RUMClientTypes.CustomEvents.read(from:))
         value.deobfuscationConfiguration = try reader["DeobfuscationConfiguration"].readIfPresent(with: RUMClientTypes.DeobfuscationConfiguration.read(from:))
         value.platform = try reader["Platform"].readIfPresent()
+        return value
+    }
+}
+
+extension RUMClientTypes.AppMonitorConfiguration {
+
+    static func write(value: RUMClientTypes.AppMonitorConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AllowCookies"].write(value.allowCookies)
+        try writer["EnableXRay"].write(value.enableXRay)
+        try writer["ExcludedPages"].writeList(value.excludedPages, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["FavoritePages"].writeList(value.favoritePages, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["GuestRoleArn"].write(value.guestRoleArn)
+        try writer["IdentityPoolId"].write(value.identityPoolId)
+        try writer["IncludedPages"].writeList(value.includedPages, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["SessionSampleRate"].write(value.sessionSampleRate)
+        try writer["Telemetries"].writeList(value.telemetries, memberWritingClosure: SmithyReadWrite.WritingClosureBox<RUMClientTypes.Telemetry>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RUMClientTypes.AppMonitorConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RUMClientTypes.AppMonitorConfiguration()
+        value.identityPoolId = try reader["IdentityPoolId"].readIfPresent()
+        value.excludedPages = try reader["ExcludedPages"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.includedPages = try reader["IncludedPages"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.favoritePages = try reader["FavoritePages"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.sessionSampleRate = try reader["SessionSampleRate"].readIfPresent() ?? 0
+        value.guestRoleArn = try reader["GuestRoleArn"].readIfPresent()
+        value.allowCookies = try reader["AllowCookies"].readIfPresent()
+        value.telemetries = try reader["Telemetries"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<RUMClientTypes.Telemetry>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.enableXRay = try reader["EnableXRay"].readIfPresent()
+        return value
+    }
+}
+
+extension RUMClientTypes.AppMonitorDetails {
+
+    static func write(value: RUMClientTypes.AppMonitorDetails?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["id"].write(value.id)
+        try writer["name"].write(value.name)
+        try writer["version"].write(value.version)
+    }
+}
+
+extension RUMClientTypes.AppMonitorSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RUMClientTypes.AppMonitorSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RUMClientTypes.AppMonitorSummary()
+        value.name = try reader["Name"].readIfPresent()
+        value.id = try reader["Id"].readIfPresent()
+        value.created = try reader["Created"].readIfPresent()
+        value.lastModified = try reader["LastModified"].readIfPresent()
+        value.state = try reader["State"].readIfPresent()
+        value.platform = try reader["Platform"].readIfPresent()
+        return value
+    }
+}
+
+extension RUMClientTypes.BatchCreateRumMetricDefinitionsError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RUMClientTypes.BatchCreateRumMetricDefinitionsError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RUMClientTypes.BatchCreateRumMetricDefinitionsError()
+        value.metricDefinition = try reader["MetricDefinition"].readIfPresent(with: RUMClientTypes.MetricDefinitionRequest.read(from:))
+        value.errorCode = try reader["ErrorCode"].readIfPresent() ?? ""
+        value.errorMessage = try reader["ErrorMessage"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension RUMClientTypes.BatchDeleteRumMetricDefinitionsError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RUMClientTypes.BatchDeleteRumMetricDefinitionsError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RUMClientTypes.BatchDeleteRumMetricDefinitionsError()
+        value.metricDefinitionId = try reader["MetricDefinitionId"].readIfPresent() ?? ""
+        value.errorCode = try reader["ErrorCode"].readIfPresent() ?? ""
+        value.errorMessage = try reader["ErrorMessage"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension RUMClientTypes.CustomEvents {
+
+    static func write(value: RUMClientTypes.CustomEvents?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Status"].write(value.status)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RUMClientTypes.CustomEvents {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RUMClientTypes.CustomEvents()
+        value.status = try reader["Status"].readIfPresent()
+        return value
+    }
+}
+
+extension RUMClientTypes.CwLog {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RUMClientTypes.CwLog {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RUMClientTypes.CwLog()
+        value.cwLogEnabled = try reader["CwLogEnabled"].readIfPresent()
+        value.cwLogGroup = try reader["CwLogGroup"].readIfPresent()
+        return value
+    }
+}
+
+extension RUMClientTypes.DataStorage {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RUMClientTypes.DataStorage {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RUMClientTypes.DataStorage()
+        value.cwLog = try reader["CwLog"].readIfPresent(with: RUMClientTypes.CwLog.read(from:))
         return value
     }
 }
@@ -3102,84 +3153,43 @@ extension RUMClientTypes.JavaScriptSourceMaps {
     }
 }
 
-extension RUMClientTypes.CustomEvents {
+extension RUMClientTypes.MetricDefinition {
 
-    static func write(value: RUMClientTypes.CustomEvents?, to writer: SmithyJSON.Writer) throws {
+    static func read(from reader: SmithyJSON.Reader) throws -> RUMClientTypes.MetricDefinition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RUMClientTypes.MetricDefinition()
+        value.metricDefinitionId = try reader["MetricDefinitionId"].readIfPresent() ?? ""
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.valueKey = try reader["ValueKey"].readIfPresent()
+        value.unitLabel = try reader["UnitLabel"].readIfPresent()
+        value.dimensionKeys = try reader["DimensionKeys"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.eventPattern = try reader["EventPattern"].readIfPresent()
+        value.namespace = try reader["Namespace"].readIfPresent()
+        return value
+    }
+}
+
+extension RUMClientTypes.MetricDefinitionRequest {
+
+    static func write(value: RUMClientTypes.MetricDefinitionRequest?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["Status"].write(value.status)
+        try writer["DimensionKeys"].writeMap(value.dimensionKeys, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["EventPattern"].write(value.eventPattern)
+        try writer["Name"].write(value.name)
+        try writer["Namespace"].write(value.namespace)
+        try writer["UnitLabel"].write(value.unitLabel)
+        try writer["ValueKey"].write(value.valueKey)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> RUMClientTypes.CustomEvents {
+    static func read(from reader: SmithyJSON.Reader) throws -> RUMClientTypes.MetricDefinitionRequest {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RUMClientTypes.CustomEvents()
-        value.status = try reader["Status"].readIfPresent()
-        return value
-    }
-}
-
-extension RUMClientTypes.DataStorage {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RUMClientTypes.DataStorage {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RUMClientTypes.DataStorage()
-        value.cwLog = try reader["CwLog"].readIfPresent(with: RUMClientTypes.CwLog.read(from:))
-        return value
-    }
-}
-
-extension RUMClientTypes.CwLog {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RUMClientTypes.CwLog {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RUMClientTypes.CwLog()
-        value.cwLogEnabled = try reader["CwLogEnabled"].readIfPresent()
-        value.cwLogGroup = try reader["CwLogGroup"].readIfPresent()
-        return value
-    }
-}
-
-extension RUMClientTypes.AppMonitorConfiguration {
-
-    static func write(value: RUMClientTypes.AppMonitorConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AllowCookies"].write(value.allowCookies)
-        try writer["EnableXRay"].write(value.enableXRay)
-        try writer["ExcludedPages"].writeList(value.excludedPages, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["FavoritePages"].writeList(value.favoritePages, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["GuestRoleArn"].write(value.guestRoleArn)
-        try writer["IdentityPoolId"].write(value.identityPoolId)
-        try writer["IncludedPages"].writeList(value.includedPages, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["SessionSampleRate"].write(value.sessionSampleRate)
-        try writer["Telemetries"].writeList(value.telemetries, memberWritingClosure: SmithyReadWrite.WritingClosureBox<RUMClientTypes.Telemetry>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RUMClientTypes.AppMonitorConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RUMClientTypes.AppMonitorConfiguration()
-        value.identityPoolId = try reader["IdentityPoolId"].readIfPresent()
-        value.excludedPages = try reader["ExcludedPages"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.includedPages = try reader["IncludedPages"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.favoritePages = try reader["FavoritePages"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.sessionSampleRate = try reader["SessionSampleRate"].readIfPresent() ?? 0
-        value.guestRoleArn = try reader["GuestRoleArn"].readIfPresent()
-        value.allowCookies = try reader["AllowCookies"].readIfPresent()
-        value.telemetries = try reader["Telemetries"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<RUMClientTypes.Telemetry>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.enableXRay = try reader["EnableXRay"].readIfPresent()
-        return value
-    }
-}
-
-extension RUMClientTypes.AppMonitorSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RUMClientTypes.AppMonitorSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RUMClientTypes.AppMonitorSummary()
-        value.name = try reader["Name"].readIfPresent()
-        value.id = try reader["Id"].readIfPresent()
-        value.created = try reader["Created"].readIfPresent()
-        value.lastModified = try reader["LastModified"].readIfPresent()
-        value.state = try reader["State"].readIfPresent()
-        value.platform = try reader["Platform"].readIfPresent()
+        var value = RUMClientTypes.MetricDefinitionRequest()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.valueKey = try reader["ValueKey"].readIfPresent()
+        value.unitLabel = try reader["UnitLabel"].readIfPresent()
+        value.dimensionKeys = try reader["DimensionKeys"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.eventPattern = try reader["EventPattern"].readIfPresent()
+        value.namespace = try reader["Namespace"].readIfPresent()
         return value
     }
 }
@@ -3196,40 +3206,12 @@ extension RUMClientTypes.MetricDestinationSummary {
     }
 }
 
-extension RUMClientTypes.TimeRange {
-
-    static func write(value: RUMClientTypes.TimeRange?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["After"].write(value.after)
-        try writer["Before"].write(value.before)
-    }
-}
-
 extension RUMClientTypes.QueryFilter {
 
     static func write(value: RUMClientTypes.QueryFilter?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Name"].write(value.name)
         try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension RUMClientTypes.AppMonitorDetails {
-
-    static func write(value: RUMClientTypes.AppMonitorDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["id"].write(value.id)
-        try writer["name"].write(value.name)
-        try writer["version"].write(value.version)
-    }
-}
-
-extension RUMClientTypes.UserDetails {
-
-    static func write(value: RUMClientTypes.UserDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["sessionId"].write(value.sessionId)
-        try writer["userId"].write(value.userId)
     }
 }
 
@@ -3242,6 +3224,24 @@ extension RUMClientTypes.RumEvent {
         try writer["metadata"].write(value.metadata)
         try writer["timestamp"].writeTimestamp(value.timestamp, format: SmithyTimestamps.TimestampFormat.epochSeconds)
         try writer["type"].write(value.type)
+    }
+}
+
+extension RUMClientTypes.TimeRange {
+
+    static func write(value: RUMClientTypes.TimeRange?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["After"].write(value.after)
+        try writer["Before"].write(value.before)
+    }
+}
+
+extension RUMClientTypes.UserDetails {
+
+    static func write(value: RUMClientTypes.UserDetails?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["sessionId"].write(value.sessionId)
+        try writer["userId"].write(value.userId)
     }
 }
 

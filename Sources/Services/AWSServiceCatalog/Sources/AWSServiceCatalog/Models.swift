@@ -11299,118 +11299,31 @@ extension ResourceInUseException {
     }
 }
 
-extension ServiceCatalogClientTypes.FailedServiceActionAssociation {
+extension ServiceCatalogClientTypes.AccessLevelFilter {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogClientTypes.FailedServiceActionAssociation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ServiceCatalogClientTypes.FailedServiceActionAssociation()
-        value.serviceActionId = try reader["ServiceActionId"].readIfPresent()
-        value.productId = try reader["ProductId"].readIfPresent()
-        value.provisioningArtifactId = try reader["ProvisioningArtifactId"].readIfPresent()
-        value.errorCode = try reader["ErrorCode"].readIfPresent()
-        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
-        return value
-    }
-}
-
-extension ServiceCatalogClientTypes.ConstraintDetail {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogClientTypes.ConstraintDetail {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ServiceCatalogClientTypes.ConstraintDetail()
-        value.constraintId = try reader["ConstraintId"].readIfPresent()
-        value.type = try reader["Type"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        value.owner = try reader["Owner"].readIfPresent()
-        value.productId = try reader["ProductId"].readIfPresent()
-        value.portfolioId = try reader["PortfolioId"].readIfPresent()
-        return value
-    }
-}
-
-extension ServiceCatalogClientTypes.PortfolioDetail {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogClientTypes.PortfolioDetail {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ServiceCatalogClientTypes.PortfolioDetail()
-        value.id = try reader["Id"].readIfPresent()
-        value.arn = try reader["ARN"].readIfPresent()
-        value.displayName = try reader["DisplayName"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        value.createdTime = try reader["CreatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.providerName = try reader["ProviderName"].readIfPresent()
-        return value
-    }
-}
-
-extension ServiceCatalogClientTypes.Tag {
-
-    static func write(value: ServiceCatalogClientTypes.Tag?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: ServiceCatalogClientTypes.AccessLevelFilter?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Key"].write(value.key)
         try writer["Value"].write(value.value)
     }
+}
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogClientTypes.Tag {
+extension ServiceCatalogClientTypes.BudgetDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogClientTypes.BudgetDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ServiceCatalogClientTypes.Tag()
-        value.key = try reader["Key"].readIfPresent() ?? ""
-        value.value = try reader["Value"].readIfPresent() ?? ""
+        var value = ServiceCatalogClientTypes.BudgetDetail()
+        value.budgetName = try reader["BudgetName"].readIfPresent()
         return value
     }
 }
 
-extension ServiceCatalogClientTypes.ProductViewDetail {
+extension ServiceCatalogClientTypes.CloudWatchDashboard {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogClientTypes.ProductViewDetail {
+    static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogClientTypes.CloudWatchDashboard {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ServiceCatalogClientTypes.ProductViewDetail()
-        value.productViewSummary = try reader["ProductViewSummary"].readIfPresent(with: ServiceCatalogClientTypes.ProductViewSummary.read(from:))
-        value.status = try reader["Status"].readIfPresent()
-        value.productARN = try reader["ProductARN"].readIfPresent()
-        value.createdTime = try reader["CreatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.sourceConnection = try reader["SourceConnection"].readIfPresent(with: ServiceCatalogClientTypes.SourceConnectionDetail.read(from:))
-        return value
-    }
-}
-
-extension ServiceCatalogClientTypes.SourceConnectionDetail {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogClientTypes.SourceConnectionDetail {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ServiceCatalogClientTypes.SourceConnectionDetail()
-        value.type = try reader["Type"].readIfPresent()
-        value.connectionParameters = try reader["ConnectionParameters"].readIfPresent(with: ServiceCatalogClientTypes.SourceConnectionParameters.read(from:))
-        value.lastSync = try reader["LastSync"].readIfPresent(with: ServiceCatalogClientTypes.LastSync.read(from:))
-        return value
-    }
-}
-
-extension ServiceCatalogClientTypes.LastSync {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogClientTypes.LastSync {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ServiceCatalogClientTypes.LastSync()
-        value.lastSyncTime = try reader["LastSyncTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastSyncStatus = try reader["LastSyncStatus"].readIfPresent()
-        value.lastSyncStatusMessage = try reader["LastSyncStatusMessage"].readIfPresent()
-        value.lastSuccessfulSyncTime = try reader["LastSuccessfulSyncTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastSuccessfulSyncProvisioningArtifactId = try reader["LastSuccessfulSyncProvisioningArtifactId"].readIfPresent()
-        return value
-    }
-}
-
-extension ServiceCatalogClientTypes.SourceConnectionParameters {
-
-    static func write(value: ServiceCatalogClientTypes.SourceConnectionParameters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CodeStar"].write(value.codeStar, with: ServiceCatalogClientTypes.CodeStarParameters.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogClientTypes.SourceConnectionParameters {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ServiceCatalogClientTypes.SourceConnectionParameters()
-        value.codeStar = try reader["CodeStar"].readIfPresent(with: ServiceCatalogClientTypes.CodeStarParameters.read(from:))
+        var value = ServiceCatalogClientTypes.CloudWatchDashboard()
+        value.name = try reader["Name"].readIfPresent()
         return value
     }
 }
@@ -11436,6 +11349,221 @@ extension ServiceCatalogClientTypes.CodeStarParameters {
     }
 }
 
+extension ServiceCatalogClientTypes.ConstraintDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogClientTypes.ConstraintDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ServiceCatalogClientTypes.ConstraintDetail()
+        value.constraintId = try reader["ConstraintId"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.owner = try reader["Owner"].readIfPresent()
+        value.productId = try reader["ProductId"].readIfPresent()
+        value.portfolioId = try reader["PortfolioId"].readIfPresent()
+        return value
+    }
+}
+
+extension ServiceCatalogClientTypes.ConstraintSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogClientTypes.ConstraintSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ServiceCatalogClientTypes.ConstraintSummary()
+        value.type = try reader["Type"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        return value
+    }
+}
+
+extension ServiceCatalogClientTypes.EngineWorkflowResourceIdentifier {
+
+    static func write(value: ServiceCatalogClientTypes.EngineWorkflowResourceIdentifier?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["UniqueTag"].write(value.uniqueTag, with: ServiceCatalogClientTypes.UniqueTagResourceIdentifier.write(value:to:))
+    }
+}
+
+extension ServiceCatalogClientTypes.ExecutionParameter {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogClientTypes.ExecutionParameter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ServiceCatalogClientTypes.ExecutionParameter()
+        value.name = try reader["Name"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent()
+        value.defaultValues = try reader["DefaultValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ServiceCatalogClientTypes.FailedServiceActionAssociation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogClientTypes.FailedServiceActionAssociation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ServiceCatalogClientTypes.FailedServiceActionAssociation()
+        value.serviceActionId = try reader["ServiceActionId"].readIfPresent()
+        value.productId = try reader["ProductId"].readIfPresent()
+        value.provisioningArtifactId = try reader["ProvisioningArtifactId"].readIfPresent()
+        value.errorCode = try reader["ErrorCode"].readIfPresent()
+        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
+        return value
+    }
+}
+
+extension ServiceCatalogClientTypes.LastSync {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogClientTypes.LastSync {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ServiceCatalogClientTypes.LastSync()
+        value.lastSyncTime = try reader["LastSyncTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastSyncStatus = try reader["LastSyncStatus"].readIfPresent()
+        value.lastSyncStatusMessage = try reader["LastSyncStatusMessage"].readIfPresent()
+        value.lastSuccessfulSyncTime = try reader["LastSuccessfulSyncTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastSuccessfulSyncProvisioningArtifactId = try reader["LastSuccessfulSyncProvisioningArtifactId"].readIfPresent()
+        return value
+    }
+}
+
+extension ServiceCatalogClientTypes.LaunchPath {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogClientTypes.LaunchPath {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ServiceCatalogClientTypes.LaunchPath()
+        value.id = try reader["Id"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        return value
+    }
+}
+
+extension ServiceCatalogClientTypes.LaunchPathSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogClientTypes.LaunchPathSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ServiceCatalogClientTypes.LaunchPathSummary()
+        value.id = try reader["Id"].readIfPresent()
+        value.constraintSummaries = try reader["ConstraintSummaries"].readListIfPresent(memberReadingClosure: ServiceCatalogClientTypes.ConstraintSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: ServiceCatalogClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.name = try reader["Name"].readIfPresent()
+        return value
+    }
+}
+
+extension ServiceCatalogClientTypes.ListRecordHistorySearchFilter {
+
+    static func write(value: ServiceCatalogClientTypes.ListRecordHistorySearchFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Key"].write(value.key)
+        try writer["Value"].write(value.value)
+    }
+}
+
+extension ServiceCatalogClientTypes.ListTagOptionsFilters {
+
+    static func write(value: ServiceCatalogClientTypes.ListTagOptionsFilters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Active"].write(value.active)
+        try writer["Key"].write(value.key)
+        try writer["Value"].write(value.value)
+    }
+}
+
+extension ServiceCatalogClientTypes.OrganizationNode {
+
+    static func write(value: ServiceCatalogClientTypes.OrganizationNode?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Type"].write(value.type)
+        try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogClientTypes.OrganizationNode {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ServiceCatalogClientTypes.OrganizationNode()
+        value.type = try reader["Type"].readIfPresent()
+        value.value = try reader["Value"].readIfPresent()
+        return value
+    }
+}
+
+extension ServiceCatalogClientTypes.ParameterConstraints {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogClientTypes.ParameterConstraints {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ServiceCatalogClientTypes.ParameterConstraints()
+        value.allowedValues = try reader["AllowedValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.allowedPattern = try reader["AllowedPattern"].readIfPresent()
+        value.constraintDescription = try reader["ConstraintDescription"].readIfPresent()
+        value.maxLength = try reader["MaxLength"].readIfPresent()
+        value.minLength = try reader["MinLength"].readIfPresent()
+        value.maxValue = try reader["MaxValue"].readIfPresent()
+        value.minValue = try reader["MinValue"].readIfPresent()
+        return value
+    }
+}
+
+extension ServiceCatalogClientTypes.PortfolioDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogClientTypes.PortfolioDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ServiceCatalogClientTypes.PortfolioDetail()
+        value.id = try reader["Id"].readIfPresent()
+        value.arn = try reader["ARN"].readIfPresent()
+        value.displayName = try reader["DisplayName"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.createdTime = try reader["CreatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.providerName = try reader["ProviderName"].readIfPresent()
+        return value
+    }
+}
+
+extension ServiceCatalogClientTypes.PortfolioShareDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogClientTypes.PortfolioShareDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ServiceCatalogClientTypes.PortfolioShareDetail()
+        value.principalId = try reader["PrincipalId"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent()
+        value.accepted = try reader["Accepted"].readIfPresent() ?? false
+        value.shareTagOptions = try reader["ShareTagOptions"].readIfPresent() ?? false
+        value.sharePrincipals = try reader["SharePrincipals"].readIfPresent() ?? false
+        return value
+    }
+}
+
+extension ServiceCatalogClientTypes.Principal {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogClientTypes.Principal {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ServiceCatalogClientTypes.Principal()
+        value.principalARN = try reader["PrincipalARN"].readIfPresent()
+        value.principalType = try reader["PrincipalType"].readIfPresent()
+        return value
+    }
+}
+
+extension ServiceCatalogClientTypes.ProductViewAggregationValue {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogClientTypes.ProductViewAggregationValue {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ServiceCatalogClientTypes.ProductViewAggregationValue()
+        value.value = try reader["Value"].readIfPresent()
+        value.approximateCount = try reader["ApproximateCount"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension ServiceCatalogClientTypes.ProductViewDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogClientTypes.ProductViewDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ServiceCatalogClientTypes.ProductViewDetail()
+        value.productViewSummary = try reader["ProductViewSummary"].readIfPresent(with: ServiceCatalogClientTypes.ProductViewSummary.read(from:))
+        value.status = try reader["Status"].readIfPresent()
+        value.productARN = try reader["ProductARN"].readIfPresent()
+        value.createdTime = try reader["CreatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.sourceConnection = try reader["SourceConnection"].readIfPresent(with: ServiceCatalogClientTypes.SourceConnectionDetail.read(from:))
+        return value
+    }
+}
+
 extension ServiceCatalogClientTypes.ProductViewSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogClientTypes.ProductViewSummary {
@@ -11456,143 +11584,30 @@ extension ServiceCatalogClientTypes.ProductViewSummary {
     }
 }
 
-extension ServiceCatalogClientTypes.ProvisioningArtifactDetail {
+extension ServiceCatalogClientTypes.ProvisionedProductAttribute {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogClientTypes.ProvisioningArtifactDetail {
+    static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogClientTypes.ProvisionedProductAttribute {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ServiceCatalogClientTypes.ProvisioningArtifactDetail()
-        value.id = try reader["Id"].readIfPresent()
+        var value = ServiceCatalogClientTypes.ProvisionedProductAttribute()
         value.name = try reader["Name"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
+        value.arn = try reader["Arn"].readIfPresent()
         value.type = try reader["Type"].readIfPresent()
+        value.id = try reader["Id"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.statusMessage = try reader["StatusMessage"].readIfPresent()
         value.createdTime = try reader["CreatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.active = try reader["Active"].readIfPresent()
-        value.guidance = try reader["Guidance"].readIfPresent()
-        value.sourceRevision = try reader["SourceRevision"].readIfPresent()
-        return value
-    }
-}
-
-extension ServiceCatalogClientTypes.ServiceActionDetail {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogClientTypes.ServiceActionDetail {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ServiceCatalogClientTypes.ServiceActionDetail()
-        value.serviceActionSummary = try reader["ServiceActionSummary"].readIfPresent(with: ServiceCatalogClientTypes.ServiceActionSummary.read(from:))
-        value.definition = try reader["Definition"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
-}
-
-extension ServiceCatalogClientTypes.ServiceActionSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogClientTypes.ServiceActionSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ServiceCatalogClientTypes.ServiceActionSummary()
-        value.id = try reader["Id"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        value.definitionType = try reader["DefinitionType"].readIfPresent()
-        return value
-    }
-}
-
-extension ServiceCatalogClientTypes.TagOptionDetail {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogClientTypes.TagOptionDetail {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ServiceCatalogClientTypes.TagOptionDetail()
-        value.key = try reader["Key"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
-        value.active = try reader["Active"].readIfPresent()
-        value.id = try reader["Id"].readIfPresent()
-        value.owner = try reader["Owner"].readIfPresent()
-        return value
-    }
-}
-
-extension ServiceCatalogClientTypes.BudgetDetail {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogClientTypes.BudgetDetail {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ServiceCatalogClientTypes.BudgetDetail()
-        value.budgetName = try reader["BudgetName"].readIfPresent()
-        return value
-    }
-}
-
-extension ServiceCatalogClientTypes.PortfolioShareDetail {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogClientTypes.PortfolioShareDetail {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ServiceCatalogClientTypes.PortfolioShareDetail()
-        value.principalId = try reader["PrincipalId"].readIfPresent()
-        value.type = try reader["Type"].readIfPresent()
-        value.accepted = try reader["Accepted"].readIfPresent() ?? false
-        value.shareTagOptions = try reader["ShareTagOptions"].readIfPresent() ?? false
-        value.sharePrincipals = try reader["SharePrincipals"].readIfPresent() ?? false
-        return value
-    }
-}
-
-extension ServiceCatalogClientTypes.ShareDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogClientTypes.ShareDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ServiceCatalogClientTypes.ShareDetails()
-        value.successfulShares = try reader["SuccessfulShares"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.shareErrors = try reader["ShareErrors"].readListIfPresent(memberReadingClosure: ServiceCatalogClientTypes.ShareError.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension ServiceCatalogClientTypes.ShareError {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogClientTypes.ShareError {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ServiceCatalogClientTypes.ShareError()
-        value.accounts = try reader["Accounts"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.message = try reader["Message"].readIfPresent()
-        value.error = try reader["Error"].readIfPresent()
-        return value
-    }
-}
-
-extension ServiceCatalogClientTypes.ProvisioningArtifact {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogClientTypes.ProvisioningArtifact {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ServiceCatalogClientTypes.ProvisioningArtifact()
-        value.id = try reader["Id"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        value.createdTime = try reader["CreatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.guidance = try reader["Guidance"].readIfPresent()
-        return value
-    }
-}
-
-extension ServiceCatalogClientTypes.LaunchPath {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogClientTypes.LaunchPath {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ServiceCatalogClientTypes.LaunchPath()
-        value.id = try reader["Id"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
-        return value
-    }
-}
-
-extension ServiceCatalogClientTypes.ProvisioningArtifactSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogClientTypes.ProvisioningArtifactSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ServiceCatalogClientTypes.ProvisioningArtifactSummary()
-        value.id = try reader["Id"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        value.createdTime = try reader["CreatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.provisioningArtifactMetadata = try reader["ProvisioningArtifactMetadata"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.idempotencyToken = try reader["IdempotencyToken"].readIfPresent()
+        value.lastRecordId = try reader["LastRecordId"].readIfPresent()
+        value.lastProvisioningRecordId = try reader["LastProvisioningRecordId"].readIfPresent()
+        value.lastSuccessfulProvisioningRecordId = try reader["LastSuccessfulProvisioningRecordId"].readIfPresent()
+        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: ServiceCatalogClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.physicalId = try reader["PhysicalId"].readIfPresent()
+        value.productId = try reader["ProductId"].readIfPresent()
+        value.productName = try reader["ProductName"].readIfPresent()
+        value.provisioningArtifactId = try reader["ProvisioningArtifactId"].readIfPresent()
+        value.provisioningArtifactName = try reader["ProvisioningArtifactName"].readIfPresent()
+        value.userArn = try reader["UserArn"].readIfPresent()
+        value.userArnSession = try reader["UserArnSession"].readIfPresent()
         return value
     }
 }
@@ -11616,16 +11631,6 @@ extension ServiceCatalogClientTypes.ProvisionedProductDetail {
         value.productId = try reader["ProductId"].readIfPresent()
         value.provisioningArtifactId = try reader["ProvisioningArtifactId"].readIfPresent()
         value.launchRoleArn = try reader["LaunchRoleArn"].readIfPresent()
-        return value
-    }
-}
-
-extension ServiceCatalogClientTypes.CloudWatchDashboard {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogClientTypes.CloudWatchDashboard {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ServiceCatalogClientTypes.CloudWatchDashboard()
-        value.name = try reader["Name"].readIfPresent()
         return value
     }
 }
@@ -11654,61 +11659,59 @@ extension ServiceCatalogClientTypes.ProvisionedProductPlanDetails {
     }
 }
 
-extension ServiceCatalogClientTypes.UpdateProvisioningParameter {
+extension ServiceCatalogClientTypes.ProvisionedProductPlanSummary {
 
-    static func write(value: ServiceCatalogClientTypes.UpdateProvisioningParameter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Key"].write(value.key)
-        try writer["UsePreviousValue"].write(value.usePreviousValue)
-        try writer["Value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogClientTypes.UpdateProvisioningParameter {
+    static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogClientTypes.ProvisionedProductPlanSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ServiceCatalogClientTypes.UpdateProvisioningParameter()
-        value.key = try reader["Key"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
-        value.usePreviousValue = try reader["UsePreviousValue"].readIfPresent() ?? false
+        var value = ServiceCatalogClientTypes.ProvisionedProductPlanSummary()
+        value.planName = try reader["PlanName"].readIfPresent()
+        value.planId = try reader["PlanId"].readIfPresent()
+        value.provisionProductId = try reader["ProvisionProductId"].readIfPresent()
+        value.provisionProductName = try reader["ProvisionProductName"].readIfPresent()
+        value.planType = try reader["PlanType"].readIfPresent()
+        value.provisioningArtifactId = try reader["ProvisioningArtifactId"].readIfPresent()
         return value
     }
 }
 
-extension ServiceCatalogClientTypes.ResourceChange {
+extension ServiceCatalogClientTypes.ProvisioningArtifact {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogClientTypes.ResourceChange {
+    static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogClientTypes.ProvisioningArtifact {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ServiceCatalogClientTypes.ResourceChange()
-        value.action = try reader["Action"].readIfPresent()
-        value.logicalResourceId = try reader["LogicalResourceId"].readIfPresent()
-        value.physicalResourceId = try reader["PhysicalResourceId"].readIfPresent()
-        value.resourceType = try reader["ResourceType"].readIfPresent()
-        value.replacement = try reader["Replacement"].readIfPresent()
-        value.scope = try reader["Scope"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<ServiceCatalogClientTypes.ResourceAttribute>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.details = try reader["Details"].readListIfPresent(memberReadingClosure: ServiceCatalogClientTypes.ResourceChangeDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension ServiceCatalogClientTypes.ResourceChangeDetail {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogClientTypes.ResourceChangeDetail {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ServiceCatalogClientTypes.ResourceChangeDetail()
-        value.target = try reader["Target"].readIfPresent(with: ServiceCatalogClientTypes.ResourceTargetDefinition.read(from:))
-        value.evaluation = try reader["Evaluation"].readIfPresent()
-        value.causingEntity = try reader["CausingEntity"].readIfPresent()
-        return value
-    }
-}
-
-extension ServiceCatalogClientTypes.ResourceTargetDefinition {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogClientTypes.ResourceTargetDefinition {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ServiceCatalogClientTypes.ResourceTargetDefinition()
-        value.attribute = try reader["Attribute"].readIfPresent()
+        var value = ServiceCatalogClientTypes.ProvisioningArtifact()
+        value.id = try reader["Id"].readIfPresent()
         value.name = try reader["Name"].readIfPresent()
-        value.requiresRecreation = try reader["RequiresRecreation"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.createdTime = try reader["CreatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.guidance = try reader["Guidance"].readIfPresent()
+        return value
+    }
+}
+
+extension ServiceCatalogClientTypes.ProvisioningArtifactDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogClientTypes.ProvisioningArtifactDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ServiceCatalogClientTypes.ProvisioningArtifactDetail()
+        value.id = try reader["Id"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent()
+        value.createdTime = try reader["CreatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.active = try reader["Active"].readIfPresent()
+        value.guidance = try reader["Guidance"].readIfPresent()
+        value.sourceRevision = try reader["SourceRevision"].readIfPresent()
+        return value
+    }
+}
+
+extension ServiceCatalogClientTypes.ProvisioningArtifactOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogClientTypes.ProvisioningArtifactOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ServiceCatalogClientTypes.ProvisioningArtifactOutput()
+        value.key = try reader["Key"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
         return value
     }
 }
@@ -11728,55 +11731,6 @@ extension ServiceCatalogClientTypes.ProvisioningArtifactParameter {
     }
 }
 
-extension ServiceCatalogClientTypes.ParameterConstraints {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogClientTypes.ParameterConstraints {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ServiceCatalogClientTypes.ParameterConstraints()
-        value.allowedValues = try reader["AllowedValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.allowedPattern = try reader["AllowedPattern"].readIfPresent()
-        value.constraintDescription = try reader["ConstraintDescription"].readIfPresent()
-        value.maxLength = try reader["MaxLength"].readIfPresent()
-        value.minLength = try reader["MinLength"].readIfPresent()
-        value.maxValue = try reader["MaxValue"].readIfPresent()
-        value.minValue = try reader["MinValue"].readIfPresent()
-        return value
-    }
-}
-
-extension ServiceCatalogClientTypes.ConstraintSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogClientTypes.ConstraintSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ServiceCatalogClientTypes.ConstraintSummary()
-        value.type = try reader["Type"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        return value
-    }
-}
-
-extension ServiceCatalogClientTypes.UsageInstruction {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogClientTypes.UsageInstruction {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ServiceCatalogClientTypes.UsageInstruction()
-        value.type = try reader["Type"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
-        return value
-    }
-}
-
-extension ServiceCatalogClientTypes.TagOptionSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogClientTypes.TagOptionSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ServiceCatalogClientTypes.TagOptionSummary()
-        value.key = try reader["Key"].readIfPresent()
-        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
 extension ServiceCatalogClientTypes.ProvisioningArtifactPreferences {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogClientTypes.ProvisioningArtifactPreferences {
@@ -11788,14 +11742,62 @@ extension ServiceCatalogClientTypes.ProvisioningArtifactPreferences {
     }
 }
 
-extension ServiceCatalogClientTypes.ProvisioningArtifactOutput {
+extension ServiceCatalogClientTypes.ProvisioningArtifactProperties {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogClientTypes.ProvisioningArtifactOutput {
+    static func write(value: ServiceCatalogClientTypes.ProvisioningArtifactProperties?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Description"].write(value.description)
+        try writer["DisableTemplateValidation"].write(value.disableTemplateValidation)
+        try writer["Info"].writeMap(value.info, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["Name"].write(value.name)
+        try writer["Type"].write(value.type)
+    }
+}
+
+extension ServiceCatalogClientTypes.ProvisioningArtifactSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogClientTypes.ProvisioningArtifactSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ServiceCatalogClientTypes.ProvisioningArtifactOutput()
-        value.key = try reader["Key"].readIfPresent()
+        var value = ServiceCatalogClientTypes.ProvisioningArtifactSummary()
+        value.id = try reader["Id"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
         value.description = try reader["Description"].readIfPresent()
+        value.createdTime = try reader["CreatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.provisioningArtifactMetadata = try reader["ProvisioningArtifactMetadata"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
+    }
+}
+
+extension ServiceCatalogClientTypes.ProvisioningArtifactView {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogClientTypes.ProvisioningArtifactView {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ServiceCatalogClientTypes.ProvisioningArtifactView()
+        value.productViewSummary = try reader["ProductViewSummary"].readIfPresent(with: ServiceCatalogClientTypes.ProductViewSummary.read(from:))
+        value.provisioningArtifact = try reader["ProvisioningArtifact"].readIfPresent(with: ServiceCatalogClientTypes.ProvisioningArtifact.read(from:))
+        return value
+    }
+}
+
+extension ServiceCatalogClientTypes.ProvisioningParameter {
+
+    static func write(value: ServiceCatalogClientTypes.ProvisioningParameter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Key"].write(value.key)
+        try writer["Value"].write(value.value)
+    }
+}
+
+extension ServiceCatalogClientTypes.ProvisioningPreferences {
+
+    static func write(value: ServiceCatalogClientTypes.ProvisioningPreferences?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["StackSetAccounts"].writeList(value.stackSetAccounts, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["StackSetFailureToleranceCount"].write(value.stackSetFailureToleranceCount)
+        try writer["StackSetFailureTolerancePercentage"].write(value.stackSetFailureTolerancePercentage)
+        try writer["StackSetMaxConcurrencyCount"].write(value.stackSetMaxConcurrencyCount)
+        try writer["StackSetMaxConcurrencyPercentage"].write(value.stackSetMaxConcurrencyPercentage)
+        try writer["StackSetRegions"].writeList(value.stackSetRegions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -11818,17 +11820,6 @@ extension ServiceCatalogClientTypes.RecordDetail {
         value.recordErrors = try reader["RecordErrors"].readListIfPresent(memberReadingClosure: ServiceCatalogClientTypes.RecordError.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.recordTags = try reader["RecordTags"].readListIfPresent(memberReadingClosure: ServiceCatalogClientTypes.RecordTag.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.launchRoleArn = try reader["LaunchRoleArn"].readIfPresent()
-        return value
-    }
-}
-
-extension ServiceCatalogClientTypes.RecordTag {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogClientTypes.RecordTag {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ServiceCatalogClientTypes.RecordTag()
-        value.key = try reader["Key"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
         return value
     }
 }
@@ -11863,81 +11854,41 @@ extension ServiceCatalogClientTypes.RecordOutput {
     }
 }
 
-extension ServiceCatalogClientTypes.ExecutionParameter {
+extension ServiceCatalogClientTypes.RecordTag {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogClientTypes.ExecutionParameter {
+    static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogClientTypes.RecordTag {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ServiceCatalogClientTypes.ExecutionParameter()
-        value.name = try reader["Name"].readIfPresent()
-        value.type = try reader["Type"].readIfPresent()
-        value.defaultValues = try reader["DefaultValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension ServiceCatalogClientTypes.LaunchPathSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogClientTypes.LaunchPathSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ServiceCatalogClientTypes.LaunchPathSummary()
-        value.id = try reader["Id"].readIfPresent()
-        value.constraintSummaries = try reader["ConstraintSummaries"].readListIfPresent(memberReadingClosure: ServiceCatalogClientTypes.ConstraintSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: ServiceCatalogClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.name = try reader["Name"].readIfPresent()
-        return value
-    }
-}
-
-extension ServiceCatalogClientTypes.OrganizationNode {
-
-    static func write(value: ServiceCatalogClientTypes.OrganizationNode?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Type"].write(value.type)
-        try writer["Value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogClientTypes.OrganizationNode {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ServiceCatalogClientTypes.OrganizationNode()
-        value.type = try reader["Type"].readIfPresent()
+        var value = ServiceCatalogClientTypes.RecordTag()
+        value.key = try reader["Key"].readIfPresent()
         value.value = try reader["Value"].readIfPresent()
         return value
     }
 }
 
-extension ServiceCatalogClientTypes.Principal {
+extension ServiceCatalogClientTypes.ResourceChange {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogClientTypes.Principal {
+    static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogClientTypes.ResourceChange {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ServiceCatalogClientTypes.Principal()
-        value.principalARN = try reader["PrincipalARN"].readIfPresent()
-        value.principalType = try reader["PrincipalType"].readIfPresent()
+        var value = ServiceCatalogClientTypes.ResourceChange()
+        value.action = try reader["Action"].readIfPresent()
+        value.logicalResourceId = try reader["LogicalResourceId"].readIfPresent()
+        value.physicalResourceId = try reader["PhysicalResourceId"].readIfPresent()
+        value.resourceType = try reader["ResourceType"].readIfPresent()
+        value.replacement = try reader["Replacement"].readIfPresent()
+        value.scope = try reader["Scope"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<ServiceCatalogClientTypes.ResourceAttribute>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.details = try reader["Details"].readListIfPresent(memberReadingClosure: ServiceCatalogClientTypes.ResourceChangeDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
 
-extension ServiceCatalogClientTypes.ProvisionedProductPlanSummary {
+extension ServiceCatalogClientTypes.ResourceChangeDetail {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogClientTypes.ProvisionedProductPlanSummary {
+    static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogClientTypes.ResourceChangeDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ServiceCatalogClientTypes.ProvisionedProductPlanSummary()
-        value.planName = try reader["PlanName"].readIfPresent()
-        value.planId = try reader["PlanId"].readIfPresent()
-        value.provisionProductId = try reader["ProvisionProductId"].readIfPresent()
-        value.provisionProductName = try reader["ProvisionProductName"].readIfPresent()
-        value.planType = try reader["PlanType"].readIfPresent()
-        value.provisioningArtifactId = try reader["ProvisioningArtifactId"].readIfPresent()
-        return value
-    }
-}
-
-extension ServiceCatalogClientTypes.ProvisioningArtifactView {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogClientTypes.ProvisioningArtifactView {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ServiceCatalogClientTypes.ProvisioningArtifactView()
-        value.productViewSummary = try reader["ProductViewSummary"].readIfPresent(with: ServiceCatalogClientTypes.ProductViewSummary.read(from:))
-        value.provisioningArtifact = try reader["ProvisioningArtifact"].readIfPresent(with: ServiceCatalogClientTypes.ProvisioningArtifact.read(from:))
+        var value = ServiceCatalogClientTypes.ResourceChangeDetail()
+        value.target = try reader["Target"].readIfPresent(with: ServiceCatalogClientTypes.ResourceTargetDefinition.read(from:))
+        value.evaluation = try reader["Evaluation"].readIfPresent()
+        value.causingEntity = try reader["CausingEntity"].readIfPresent()
         return value
     }
 }
@@ -11956,53 +11907,14 @@ extension ServiceCatalogClientTypes.ResourceDetail {
     }
 }
 
-extension ServiceCatalogClientTypes.StackInstance {
+extension ServiceCatalogClientTypes.ResourceTargetDefinition {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogClientTypes.StackInstance {
+    static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogClientTypes.ResourceTargetDefinition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ServiceCatalogClientTypes.StackInstance()
-        value.account = try reader["Account"].readIfPresent()
-        value.region = try reader["Region"].readIfPresent()
-        value.stackInstanceStatus = try reader["StackInstanceStatus"].readIfPresent()
-        return value
-    }
-}
-
-extension ServiceCatalogClientTypes.ProductViewAggregationValue {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogClientTypes.ProductViewAggregationValue {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ServiceCatalogClientTypes.ProductViewAggregationValue()
-        value.value = try reader["Value"].readIfPresent()
-        value.approximateCount = try reader["ApproximateCount"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension ServiceCatalogClientTypes.ProvisionedProductAttribute {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogClientTypes.ProvisionedProductAttribute {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ServiceCatalogClientTypes.ProvisionedProductAttribute()
+        var value = ServiceCatalogClientTypes.ResourceTargetDefinition()
+        value.attribute = try reader["Attribute"].readIfPresent()
         value.name = try reader["Name"].readIfPresent()
-        value.arn = try reader["Arn"].readIfPresent()
-        value.type = try reader["Type"].readIfPresent()
-        value.id = try reader["Id"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.statusMessage = try reader["StatusMessage"].readIfPresent()
-        value.createdTime = try reader["CreatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.idempotencyToken = try reader["IdempotencyToken"].readIfPresent()
-        value.lastRecordId = try reader["LastRecordId"].readIfPresent()
-        value.lastProvisioningRecordId = try reader["LastProvisioningRecordId"].readIfPresent()
-        value.lastSuccessfulProvisioningRecordId = try reader["LastSuccessfulProvisioningRecordId"].readIfPresent()
-        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: ServiceCatalogClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.physicalId = try reader["PhysicalId"].readIfPresent()
-        value.productId = try reader["ProductId"].readIfPresent()
-        value.productName = try reader["ProductName"].readIfPresent()
-        value.provisioningArtifactId = try reader["ProvisioningArtifactId"].readIfPresent()
-        value.provisioningArtifactName = try reader["ProvisioningArtifactName"].readIfPresent()
-        value.userArn = try reader["UserArn"].readIfPresent()
-        value.userArnSession = try reader["UserArnSession"].readIfPresent()
+        value.requiresRecreation = try reader["RequiresRecreation"].readIfPresent()
         return value
     }
 }
@@ -12017,15 +11929,50 @@ extension ServiceCatalogClientTypes.ServiceActionAssociation {
     }
 }
 
-extension ServiceCatalogClientTypes.ProvisioningArtifactProperties {
+extension ServiceCatalogClientTypes.ServiceActionDetail {
 
-    static func write(value: ServiceCatalogClientTypes.ProvisioningArtifactProperties?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Description"].write(value.description)
-        try writer["DisableTemplateValidation"].write(value.disableTemplateValidation)
-        try writer["Info"].writeMap(value.info, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["Name"].write(value.name)
-        try writer["Type"].write(value.type)
+    static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogClientTypes.ServiceActionDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ServiceCatalogClientTypes.ServiceActionDetail()
+        value.serviceActionSummary = try reader["ServiceActionSummary"].readIfPresent(with: ServiceCatalogClientTypes.ServiceActionSummary.read(from:))
+        value.definition = try reader["Definition"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension ServiceCatalogClientTypes.ServiceActionSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogClientTypes.ServiceActionSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ServiceCatalogClientTypes.ServiceActionSummary()
+        value.id = try reader["Id"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.definitionType = try reader["DefinitionType"].readIfPresent()
+        return value
+    }
+}
+
+extension ServiceCatalogClientTypes.ShareDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogClientTypes.ShareDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ServiceCatalogClientTypes.ShareDetails()
+        value.successfulShares = try reader["SuccessfulShares"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.shareErrors = try reader["ShareErrors"].readListIfPresent(memberReadingClosure: ServiceCatalogClientTypes.ShareError.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ServiceCatalogClientTypes.ShareError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogClientTypes.ShareError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ServiceCatalogClientTypes.ShareError()
+        value.accounts = try reader["Accounts"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.message = try reader["Message"].readIfPresent()
+        value.error = try reader["Error"].readIfPresent()
+        return value
     }
 }
 
@@ -12038,39 +11985,84 @@ extension ServiceCatalogClientTypes.SourceConnection {
     }
 }
 
-extension ServiceCatalogClientTypes.AccessLevelFilter {
+extension ServiceCatalogClientTypes.SourceConnectionDetail {
 
-    static func write(value: ServiceCatalogClientTypes.AccessLevelFilter?, to writer: SmithyJSON.Writer) throws {
+    static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogClientTypes.SourceConnectionDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ServiceCatalogClientTypes.SourceConnectionDetail()
+        value.type = try reader["Type"].readIfPresent()
+        value.connectionParameters = try reader["ConnectionParameters"].readIfPresent(with: ServiceCatalogClientTypes.SourceConnectionParameters.read(from:))
+        value.lastSync = try reader["LastSync"].readIfPresent(with: ServiceCatalogClientTypes.LastSync.read(from:))
+        return value
+    }
+}
+
+extension ServiceCatalogClientTypes.SourceConnectionParameters {
+
+    static func write(value: ServiceCatalogClientTypes.SourceConnectionParameters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CodeStar"].write(value.codeStar, with: ServiceCatalogClientTypes.CodeStarParameters.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogClientTypes.SourceConnectionParameters {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ServiceCatalogClientTypes.SourceConnectionParameters()
+        value.codeStar = try reader["CodeStar"].readIfPresent(with: ServiceCatalogClientTypes.CodeStarParameters.read(from:))
+        return value
+    }
+}
+
+extension ServiceCatalogClientTypes.StackInstance {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogClientTypes.StackInstance {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ServiceCatalogClientTypes.StackInstance()
+        value.account = try reader["Account"].readIfPresent()
+        value.region = try reader["Region"].readIfPresent()
+        value.stackInstanceStatus = try reader["StackInstanceStatus"].readIfPresent()
+        return value
+    }
+}
+
+extension ServiceCatalogClientTypes.Tag {
+
+    static func write(value: ServiceCatalogClientTypes.Tag?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Key"].write(value.key)
         try writer["Value"].write(value.value)
     }
-}
 
-extension ServiceCatalogClientTypes.ListRecordHistorySearchFilter {
-
-    static func write(value: ServiceCatalogClientTypes.ListRecordHistorySearchFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Key"].write(value.key)
-        try writer["Value"].write(value.value)
+    static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogClientTypes.Tag {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ServiceCatalogClientTypes.Tag()
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
+        return value
     }
 }
 
-extension ServiceCatalogClientTypes.ListTagOptionsFilters {
+extension ServiceCatalogClientTypes.TagOptionDetail {
 
-    static func write(value: ServiceCatalogClientTypes.ListTagOptionsFilters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Active"].write(value.active)
-        try writer["Key"].write(value.key)
-        try writer["Value"].write(value.value)
+    static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogClientTypes.TagOptionDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ServiceCatalogClientTypes.TagOptionDetail()
+        value.key = try reader["Key"].readIfPresent()
+        value.value = try reader["Value"].readIfPresent()
+        value.active = try reader["Active"].readIfPresent()
+        value.id = try reader["Id"].readIfPresent()
+        value.owner = try reader["Owner"].readIfPresent()
+        return value
     }
 }
 
-extension ServiceCatalogClientTypes.EngineWorkflowResourceIdentifier {
+extension ServiceCatalogClientTypes.TagOptionSummary {
 
-    static func write(value: ServiceCatalogClientTypes.EngineWorkflowResourceIdentifier?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["UniqueTag"].write(value.uniqueTag, with: ServiceCatalogClientTypes.UniqueTagResourceIdentifier.write(value:to:))
+    static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogClientTypes.TagOptionSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ServiceCatalogClientTypes.TagOptionSummary()
+        value.key = try reader["Key"].readIfPresent()
+        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
     }
 }
 
@@ -12083,25 +12075,22 @@ extension ServiceCatalogClientTypes.UniqueTagResourceIdentifier {
     }
 }
 
-extension ServiceCatalogClientTypes.ProvisioningParameter {
+extension ServiceCatalogClientTypes.UpdateProvisioningParameter {
 
-    static func write(value: ServiceCatalogClientTypes.ProvisioningParameter?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: ServiceCatalogClientTypes.UpdateProvisioningParameter?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Key"].write(value.key)
+        try writer["UsePreviousValue"].write(value.usePreviousValue)
         try writer["Value"].write(value.value)
     }
-}
 
-extension ServiceCatalogClientTypes.ProvisioningPreferences {
-
-    static func write(value: ServiceCatalogClientTypes.ProvisioningPreferences?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["StackSetAccounts"].writeList(value.stackSetAccounts, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["StackSetFailureToleranceCount"].write(value.stackSetFailureToleranceCount)
-        try writer["StackSetFailureTolerancePercentage"].write(value.stackSetFailureTolerancePercentage)
-        try writer["StackSetMaxConcurrencyCount"].write(value.stackSetMaxConcurrencyCount)
-        try writer["StackSetMaxConcurrencyPercentage"].write(value.stackSetMaxConcurrencyPercentage)
-        try writer["StackSetRegions"].writeList(value.stackSetRegions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogClientTypes.UpdateProvisioningParameter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ServiceCatalogClientTypes.UpdateProvisioningParameter()
+        value.key = try reader["Key"].readIfPresent()
+        value.value = try reader["Value"].readIfPresent()
+        value.usePreviousValue = try reader["UsePreviousValue"].readIfPresent() ?? false
+        return value
     }
 }
 
@@ -12116,6 +12105,17 @@ extension ServiceCatalogClientTypes.UpdateProvisioningPreferences {
         try writer["StackSetMaxConcurrencyPercentage"].write(value.stackSetMaxConcurrencyPercentage)
         try writer["StackSetOperationType"].write(value.stackSetOperationType)
         try writer["StackSetRegions"].writeList(value.stackSetRegions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension ServiceCatalogClientTypes.UsageInstruction {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ServiceCatalogClientTypes.UsageInstruction {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ServiceCatalogClientTypes.UsageInstruction()
+        value.type = try reader["Type"].readIfPresent()
+        value.value = try reader["Value"].readIfPresent()
+        return value
     }
 }
 

@@ -1682,32 +1682,6 @@ extension UnsupportedStreamMediaTypeException {
     }
 }
 
-extension KinesisVideoArchivedMediaClientTypes.Image {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KinesisVideoArchivedMediaClientTypes.Image {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KinesisVideoArchivedMediaClientTypes.Image()
-        value.timeStamp = try reader["TimeStamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.error = try reader["Error"].readIfPresent()
-        value.imageContent = try reader["ImageContent"].readIfPresent()
-        return value
-    }
-}
-
-extension KinesisVideoArchivedMediaClientTypes.Fragment {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KinesisVideoArchivedMediaClientTypes.Fragment {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KinesisVideoArchivedMediaClientTypes.Fragment()
-        value.fragmentNumber = try reader["FragmentNumber"].readIfPresent()
-        value.fragmentSizeInBytes = try reader["FragmentSizeInBytes"].readIfPresent() ?? 0
-        value.producerTimestamp = try reader["ProducerTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.serverTimestamp = try reader["ServerTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.fragmentLengthInMilliseconds = try reader["FragmentLengthInMilliseconds"].readIfPresent() ?? 0
-        return value
-    }
-}
-
 extension KinesisVideoArchivedMediaClientTypes.ClipFragmentSelector {
 
     static func write(value: KinesisVideoArchivedMediaClientTypes.ClipFragmentSelector?, to writer: SmithyJSON.Writer) throws {
@@ -1744,6 +1718,29 @@ extension KinesisVideoArchivedMediaClientTypes.DASHTimestampRange {
     }
 }
 
+extension KinesisVideoArchivedMediaClientTypes.Fragment {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KinesisVideoArchivedMediaClientTypes.Fragment {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KinesisVideoArchivedMediaClientTypes.Fragment()
+        value.fragmentNumber = try reader["FragmentNumber"].readIfPresent()
+        value.fragmentSizeInBytes = try reader["FragmentSizeInBytes"].readIfPresent() ?? 0
+        value.producerTimestamp = try reader["ProducerTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.serverTimestamp = try reader["ServerTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.fragmentLengthInMilliseconds = try reader["FragmentLengthInMilliseconds"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension KinesisVideoArchivedMediaClientTypes.FragmentSelector {
+
+    static func write(value: KinesisVideoArchivedMediaClientTypes.FragmentSelector?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FragmentSelectorType"].write(value.fragmentSelectorType)
+        try writer["TimestampRange"].write(value.timestampRange, with: KinesisVideoArchivedMediaClientTypes.TimestampRange.write(value:to:))
+    }
+}
+
 extension KinesisVideoArchivedMediaClientTypes.HLSFragmentSelector {
 
     static func write(value: KinesisVideoArchivedMediaClientTypes.HLSFragmentSelector?, to writer: SmithyJSON.Writer) throws {
@@ -1762,12 +1759,15 @@ extension KinesisVideoArchivedMediaClientTypes.HLSTimestampRange {
     }
 }
 
-extension KinesisVideoArchivedMediaClientTypes.FragmentSelector {
+extension KinesisVideoArchivedMediaClientTypes.Image {
 
-    static func write(value: KinesisVideoArchivedMediaClientTypes.FragmentSelector?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["FragmentSelectorType"].write(value.fragmentSelectorType)
-        try writer["TimestampRange"].write(value.timestampRange, with: KinesisVideoArchivedMediaClientTypes.TimestampRange.write(value:to:))
+    static func read(from reader: SmithyJSON.Reader) throws -> KinesisVideoArchivedMediaClientTypes.Image {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KinesisVideoArchivedMediaClientTypes.Image()
+        value.timeStamp = try reader["TimeStamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.error = try reader["Error"].readIfPresent()
+        value.imageContent = try reader["ImageContent"].readIfPresent()
+        return value
     }
 }
 

@@ -848,6 +848,15 @@ extension Route53RecoveryClusterClientTypes.RoutingControl {
     }
 }
 
+extension Route53RecoveryClusterClientTypes.UpdateRoutingControlStateEntry {
+
+    static func write(value: Route53RecoveryClusterClientTypes.UpdateRoutingControlStateEntry?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["RoutingControlArn"].write(value.routingControlArn)
+        try writer["RoutingControlState"].write(value.routingControlState)
+    }
+}
+
 extension Route53RecoveryClusterClientTypes.ValidationExceptionField {
 
     static func read(from reader: SmithyJSON.Reader) throws -> Route53RecoveryClusterClientTypes.ValidationExceptionField {
@@ -856,15 +865,6 @@ extension Route53RecoveryClusterClientTypes.ValidationExceptionField {
         value.name = try reader["name"].readIfPresent() ?? ""
         value.message = try reader["message"].readIfPresent() ?? ""
         return value
-    }
-}
-
-extension Route53RecoveryClusterClientTypes.UpdateRoutingControlStateEntry {
-
-    static func write(value: Route53RecoveryClusterClientTypes.UpdateRoutingControlStateEntry?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["RoutingControlArn"].write(value.routingControlArn)
-        try writer["RoutingControlState"].write(value.routingControlState)
     }
 }
 

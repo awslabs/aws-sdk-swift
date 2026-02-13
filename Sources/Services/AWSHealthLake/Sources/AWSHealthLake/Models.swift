@@ -2028,6 +2028,17 @@ extension ResourceNotFoundException {
     }
 }
 
+extension HealthLakeClientTypes.DatastoreFilter {
+
+    static func write(value: HealthLakeClientTypes.DatastoreFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CreatedAfter"].writeTimestamp(value.createdAfter, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["CreatedBefore"].writeTimestamp(value.createdBefore, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["DatastoreName"].write(value.datastoreName)
+        try writer["DatastoreStatus"].write(value.datastoreStatus)
+    }
+}
+
 extension HealthLakeClientTypes.DatastoreProperties {
 
     static func read(from reader: SmithyJSON.Reader) throws -> HealthLakeClientTypes.DatastoreProperties {
@@ -2059,6 +2070,24 @@ extension HealthLakeClientTypes.ErrorCause {
     }
 }
 
+extension HealthLakeClientTypes.ExportJobProperties {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> HealthLakeClientTypes.ExportJobProperties {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = HealthLakeClientTypes.ExportJobProperties()
+        value.jobId = try reader["JobId"].readIfPresent() ?? ""
+        value.jobName = try reader["JobName"].readIfPresent()
+        value.jobStatus = try reader["JobStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.submitTime = try reader["SubmitTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.datastoreId = try reader["DatastoreId"].readIfPresent() ?? ""
+        value.outputDataConfig = try reader["OutputDataConfig"].readIfPresent(with: HealthLakeClientTypes.OutputDataConfig.read(from:))
+        value.dataAccessRoleArn = try reader["DataAccessRoleArn"].readIfPresent()
+        value.message = try reader["Message"].readIfPresent()
+        return value
+    }
+}
+
 extension HealthLakeClientTypes.IdentityProviderConfiguration {
 
     static func write(value: HealthLakeClientTypes.IdentityProviderConfiguration?, to writer: SmithyJSON.Writer) throws {
@@ -2080,112 +2109,6 @@ extension HealthLakeClientTypes.IdentityProviderConfiguration {
     }
 }
 
-extension HealthLakeClientTypes.PreloadDataConfig {
-
-    static func write(value: HealthLakeClientTypes.PreloadDataConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["PreloadDataType"].write(value.preloadDataType)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> HealthLakeClientTypes.PreloadDataConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = HealthLakeClientTypes.PreloadDataConfig()
-        value.preloadDataType = try reader["PreloadDataType"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension HealthLakeClientTypes.SseConfiguration {
-
-    static func write(value: HealthLakeClientTypes.SseConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["KmsEncryptionConfig"].write(value.kmsEncryptionConfig, with: HealthLakeClientTypes.KmsEncryptionConfig.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> HealthLakeClientTypes.SseConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = HealthLakeClientTypes.SseConfiguration()
-        value.kmsEncryptionConfig = try reader["KmsEncryptionConfig"].readIfPresent(with: HealthLakeClientTypes.KmsEncryptionConfig.read(from:))
-        return value
-    }
-}
-
-extension HealthLakeClientTypes.KmsEncryptionConfig {
-
-    static func write(value: HealthLakeClientTypes.KmsEncryptionConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CmkType"].write(value.cmkType)
-        try writer["KmsKeyId"].write(value.kmsKeyId)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> HealthLakeClientTypes.KmsEncryptionConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = HealthLakeClientTypes.KmsEncryptionConfig()
-        value.cmkType = try reader["CmkType"].readIfPresent() ?? .sdkUnknown("")
-        value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
-        return value
-    }
-}
-
-extension HealthLakeClientTypes.ExportJobProperties {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> HealthLakeClientTypes.ExportJobProperties {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = HealthLakeClientTypes.ExportJobProperties()
-        value.jobId = try reader["JobId"].readIfPresent() ?? ""
-        value.jobName = try reader["JobName"].readIfPresent()
-        value.jobStatus = try reader["JobStatus"].readIfPresent() ?? .sdkUnknown("")
-        value.submitTime = try reader["SubmitTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.datastoreId = try reader["DatastoreId"].readIfPresent() ?? ""
-        value.outputDataConfig = try reader["OutputDataConfig"].readIfPresent(with: HealthLakeClientTypes.OutputDataConfig.read(from:))
-        value.dataAccessRoleArn = try reader["DataAccessRoleArn"].readIfPresent()
-        value.message = try reader["Message"].readIfPresent()
-        return value
-    }
-}
-
-extension HealthLakeClientTypes.OutputDataConfig {
-
-    static func write(value: HealthLakeClientTypes.OutputDataConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .s3configuration(s3configuration):
-                try writer["S3Configuration"].write(s3configuration, with: HealthLakeClientTypes.S3Configuration.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> HealthLakeClientTypes.OutputDataConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "S3Configuration":
-                return .s3configuration(try reader["S3Configuration"].read(with: HealthLakeClientTypes.S3Configuration.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension HealthLakeClientTypes.S3Configuration {
-
-    static func write(value: HealthLakeClientTypes.S3Configuration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["KmsKeyId"].write(value.kmsKeyId)
-        try writer["S3Uri"].write(value.s3Uri)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> HealthLakeClientTypes.S3Configuration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = HealthLakeClientTypes.S3Configuration()
-        value.s3Uri = try reader["S3Uri"].readIfPresent() ?? ""
-        value.kmsKeyId = try reader["KmsKeyId"].readIfPresent() ?? ""
-        return value
-    }
-}
-
 extension HealthLakeClientTypes.ImportJobProperties {
 
     static func read(from reader: SmithyJSON.Reader) throws -> HealthLakeClientTypes.ImportJobProperties {
@@ -2203,23 +2126,6 @@ extension HealthLakeClientTypes.ImportJobProperties {
         value.dataAccessRoleArn = try reader["DataAccessRoleArn"].readIfPresent()
         value.message = try reader["Message"].readIfPresent()
         value.validationLevel = try reader["ValidationLevel"].readIfPresent()
-        return value
-    }
-}
-
-extension HealthLakeClientTypes.JobProgressReport {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> HealthLakeClientTypes.JobProgressReport {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = HealthLakeClientTypes.JobProgressReport()
-        value.totalNumberOfScannedFiles = try reader["TotalNumberOfScannedFiles"].readIfPresent()
-        value.totalSizeOfScannedFilesInMB = try reader["TotalSizeOfScannedFilesInMB"].readIfPresent()
-        value.totalNumberOfImportedFiles = try reader["TotalNumberOfImportedFiles"].readIfPresent()
-        value.totalNumberOfResourcesScanned = try reader["TotalNumberOfResourcesScanned"].readIfPresent()
-        value.totalNumberOfResourcesImported = try reader["TotalNumberOfResourcesImported"].readIfPresent()
-        value.totalNumberOfResourcesWithCustomerError = try reader["TotalNumberOfResourcesWithCustomerError"].readIfPresent()
-        value.totalNumberOfFilesReadWithCustomerError = try reader["TotalNumberOfFilesReadWithCustomerError"].readIfPresent()
-        value.throughput = try reader["Throughput"].readIfPresent()
         return value
     }
 }
@@ -2248,6 +2154,111 @@ extension HealthLakeClientTypes.InputDataConfig {
     }
 }
 
+extension HealthLakeClientTypes.JobProgressReport {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> HealthLakeClientTypes.JobProgressReport {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = HealthLakeClientTypes.JobProgressReport()
+        value.totalNumberOfScannedFiles = try reader["TotalNumberOfScannedFiles"].readIfPresent()
+        value.totalSizeOfScannedFilesInMB = try reader["TotalSizeOfScannedFilesInMB"].readIfPresent()
+        value.totalNumberOfImportedFiles = try reader["TotalNumberOfImportedFiles"].readIfPresent()
+        value.totalNumberOfResourcesScanned = try reader["TotalNumberOfResourcesScanned"].readIfPresent()
+        value.totalNumberOfResourcesImported = try reader["TotalNumberOfResourcesImported"].readIfPresent()
+        value.totalNumberOfResourcesWithCustomerError = try reader["TotalNumberOfResourcesWithCustomerError"].readIfPresent()
+        value.totalNumberOfFilesReadWithCustomerError = try reader["TotalNumberOfFilesReadWithCustomerError"].readIfPresent()
+        value.throughput = try reader["Throughput"].readIfPresent()
+        return value
+    }
+}
+
+extension HealthLakeClientTypes.KmsEncryptionConfig {
+
+    static func write(value: HealthLakeClientTypes.KmsEncryptionConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CmkType"].write(value.cmkType)
+        try writer["KmsKeyId"].write(value.kmsKeyId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> HealthLakeClientTypes.KmsEncryptionConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = HealthLakeClientTypes.KmsEncryptionConfig()
+        value.cmkType = try reader["CmkType"].readIfPresent() ?? .sdkUnknown("")
+        value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
+        return value
+    }
+}
+
+extension HealthLakeClientTypes.OutputDataConfig {
+
+    static func write(value: HealthLakeClientTypes.OutputDataConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .s3configuration(s3configuration):
+                try writer["S3Configuration"].write(s3configuration, with: HealthLakeClientTypes.S3Configuration.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> HealthLakeClientTypes.OutputDataConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "S3Configuration":
+                return .s3configuration(try reader["S3Configuration"].read(with: HealthLakeClientTypes.S3Configuration.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension HealthLakeClientTypes.PreloadDataConfig {
+
+    static func write(value: HealthLakeClientTypes.PreloadDataConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["PreloadDataType"].write(value.preloadDataType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> HealthLakeClientTypes.PreloadDataConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = HealthLakeClientTypes.PreloadDataConfig()
+        value.preloadDataType = try reader["PreloadDataType"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension HealthLakeClientTypes.S3Configuration {
+
+    static func write(value: HealthLakeClientTypes.S3Configuration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["KmsKeyId"].write(value.kmsKeyId)
+        try writer["S3Uri"].write(value.s3Uri)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> HealthLakeClientTypes.S3Configuration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = HealthLakeClientTypes.S3Configuration()
+        value.s3Uri = try reader["S3Uri"].readIfPresent() ?? ""
+        value.kmsKeyId = try reader["KmsKeyId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension HealthLakeClientTypes.SseConfiguration {
+
+    static func write(value: HealthLakeClientTypes.SseConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["KmsEncryptionConfig"].write(value.kmsEncryptionConfig, with: HealthLakeClientTypes.KmsEncryptionConfig.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> HealthLakeClientTypes.SseConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = HealthLakeClientTypes.SseConfiguration()
+        value.kmsEncryptionConfig = try reader["KmsEncryptionConfig"].readIfPresent(with: HealthLakeClientTypes.KmsEncryptionConfig.read(from:))
+        return value
+    }
+}
+
 extension HealthLakeClientTypes.Tag {
 
     static func write(value: HealthLakeClientTypes.Tag?, to writer: SmithyJSON.Writer) throws {
@@ -2262,17 +2273,6 @@ extension HealthLakeClientTypes.Tag {
         value.key = try reader["Key"].readIfPresent() ?? ""
         value.value = try reader["Value"].readIfPresent() ?? ""
         return value
-    }
-}
-
-extension HealthLakeClientTypes.DatastoreFilter {
-
-    static func write(value: HealthLakeClientTypes.DatastoreFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreatedAfter"].writeTimestamp(value.createdAfter, format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        try writer["CreatedBefore"].writeTimestamp(value.createdBefore, format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        try writer["DatastoreName"].write(value.datastoreName)
-        try writer["DatastoreStatus"].write(value.datastoreStatus)
     }
 }
 

@@ -7325,33 +7325,65 @@ extension InvalidPaginationException {
     }
 }
 
-extension RedshiftServerlessClientTypes.Snapshot {
+extension RedshiftServerlessClientTypes.Association {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> RedshiftServerlessClientTypes.Snapshot {
+    static func read(from reader: SmithyJSON.Reader) throws -> RedshiftServerlessClientTypes.Association {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RedshiftServerlessClientTypes.Snapshot()
-        value.namespaceName = try reader["namespaceName"].readIfPresent()
-        value.namespaceArn = try reader["namespaceArn"].readIfPresent()
-        value.snapshotName = try reader["snapshotName"].readIfPresent()
-        value.snapshotCreateTime = try reader["snapshotCreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.adminUsername = try reader["adminUsername"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.kmsKeyId = try reader["kmsKeyId"].readIfPresent()
-        value.ownerAccount = try reader["ownerAccount"].readIfPresent()
-        value.totalBackupSizeInMegaBytes = try reader["totalBackupSizeInMegaBytes"].readIfPresent()
-        value.actualIncrementalBackupSizeInMegaBytes = try reader["actualIncrementalBackupSizeInMegaBytes"].readIfPresent()
-        value.backupProgressInMegaBytes = try reader["backupProgressInMegaBytes"].readIfPresent()
-        value.currentBackupRateInMegaBytesPerSecond = try reader["currentBackupRateInMegaBytesPerSecond"].readIfPresent()
-        value.estimatedSecondsToCompletion = try reader["estimatedSecondsToCompletion"].readIfPresent()
-        value.elapsedTimeInSeconds = try reader["elapsedTimeInSeconds"].readIfPresent()
-        value.snapshotRetentionPeriod = try reader["snapshotRetentionPeriod"].readIfPresent()
-        value.snapshotRemainingDays = try reader["snapshotRemainingDays"].readIfPresent()
-        value.snapshotRetentionStartTime = try reader["snapshotRetentionStartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.snapshotArn = try reader["snapshotArn"].readIfPresent()
-        value.accountsWithRestoreAccess = try reader["accountsWithRestoreAccess"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.accountsWithProvisionedRestoreAccess = try reader["accountsWithProvisionedRestoreAccess"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.adminPasswordSecretArn = try reader["adminPasswordSecretArn"].readIfPresent()
-        value.adminPasswordSecretKmsKeyId = try reader["adminPasswordSecretKmsKeyId"].readIfPresent()
+        var value = RedshiftServerlessClientTypes.Association()
+        value.customDomainCertificateArn = try reader["customDomainCertificateArn"].readIfPresent()
+        value.customDomainCertificateExpiryTime = try reader["customDomainCertificateExpiryTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.customDomainName = try reader["customDomainName"].readIfPresent()
+        value.workgroupName = try reader["workgroupName"].readIfPresent()
+        return value
+    }
+}
+
+extension RedshiftServerlessClientTypes.ConfigParameter {
+
+    static func write(value: RedshiftServerlessClientTypes.ConfigParameter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["parameterKey"].write(value.parameterKey)
+        try writer["parameterValue"].write(value.parameterValue)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RedshiftServerlessClientTypes.ConfigParameter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RedshiftServerlessClientTypes.ConfigParameter()
+        value.parameterKey = try reader["parameterKey"].readIfPresent()
+        value.parameterValue = try reader["parameterValue"].readIfPresent()
+        return value
+    }
+}
+
+extension RedshiftServerlessClientTypes.CreateSnapshotScheduleActionParameters {
+
+    static func write(value: RedshiftServerlessClientTypes.CreateSnapshotScheduleActionParameters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["namespaceName"].write(value.namespaceName)
+        try writer["retentionPeriod"].write(value.retentionPeriod)
+        try writer["snapshotNamePrefix"].write(value.snapshotNamePrefix)
+        try writer["tags"].writeList(value.tags, memberWritingClosure: RedshiftServerlessClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RedshiftServerlessClientTypes.CreateSnapshotScheduleActionParameters {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RedshiftServerlessClientTypes.CreateSnapshotScheduleActionParameters()
+        value.namespaceName = try reader["namespaceName"].readIfPresent() ?? ""
+        value.snapshotNamePrefix = try reader["snapshotNamePrefix"].readIfPresent() ?? ""
+        value.retentionPeriod = try reader["retentionPeriod"].readIfPresent()
+        value.tags = try reader["tags"].readListIfPresent(memberReadingClosure: RedshiftServerlessClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension RedshiftServerlessClientTypes.Endpoint {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RedshiftServerlessClientTypes.Endpoint {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RedshiftServerlessClientTypes.Endpoint()
+        value.address = try reader["address"].readIfPresent()
+        value.port = try reader["port"].readIfPresent()
+        value.vpcEndpoints = try reader["vpcEndpoints"].readListIfPresent(memberReadingClosure: RedshiftServerlessClientTypes.VpcEndpoint.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -7375,39 +7407,16 @@ extension RedshiftServerlessClientTypes.EndpointAccess {
     }
 }
 
-extension RedshiftServerlessClientTypes.VpcEndpoint {
+extension RedshiftServerlessClientTypes.ManagedWorkgroupListItem {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> RedshiftServerlessClientTypes.VpcEndpoint {
+    static func read(from reader: SmithyJSON.Reader) throws -> RedshiftServerlessClientTypes.ManagedWorkgroupListItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RedshiftServerlessClientTypes.VpcEndpoint()
-        value.vpcEndpointId = try reader["vpcEndpointId"].readIfPresent()
-        value.vpcId = try reader["vpcId"].readIfPresent()
-        value.networkInterfaces = try reader["networkInterfaces"].readListIfPresent(memberReadingClosure: RedshiftServerlessClientTypes.NetworkInterface.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension RedshiftServerlessClientTypes.NetworkInterface {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RedshiftServerlessClientTypes.NetworkInterface {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RedshiftServerlessClientTypes.NetworkInterface()
-        value.networkInterfaceId = try reader["networkInterfaceId"].readIfPresent()
-        value.subnetId = try reader["subnetId"].readIfPresent()
-        value.privateIpAddress = try reader["privateIpAddress"].readIfPresent()
-        value.availabilityZone = try reader["availabilityZone"].readIfPresent()
-        value.ipv6Address = try reader["ipv6Address"].readIfPresent()
-        return value
-    }
-}
-
-extension RedshiftServerlessClientTypes.VpcSecurityGroupMembership {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RedshiftServerlessClientTypes.VpcSecurityGroupMembership {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RedshiftServerlessClientTypes.VpcSecurityGroupMembership()
-        value.vpcSecurityGroupId = try reader["vpcSecurityGroupId"].readIfPresent()
+        var value = RedshiftServerlessClientTypes.ManagedWorkgroupListItem()
+        value.managedWorkgroupName = try reader["managedWorkgroupName"].readIfPresent()
+        value.managedWorkgroupId = try reader["managedWorkgroupId"].readIfPresent()
+        value.sourceArn = try reader["sourceArn"].readIfPresent()
         value.status = try reader["status"].readIfPresent()
+        value.creationDate = try reader["creationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
     }
 }
@@ -7432,6 +7441,52 @@ extension RedshiftServerlessClientTypes.Namespace {
         value.adminPasswordSecretKmsKeyId = try reader["adminPasswordSecretKmsKeyId"].readIfPresent()
         value.lakehouseRegistrationStatus = try reader["lakehouseRegistrationStatus"].readIfPresent()
         value.catalogArn = try reader["catalogArn"].readIfPresent()
+        return value
+    }
+}
+
+extension RedshiftServerlessClientTypes.NetworkInterface {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RedshiftServerlessClientTypes.NetworkInterface {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RedshiftServerlessClientTypes.NetworkInterface()
+        value.networkInterfaceId = try reader["networkInterfaceId"].readIfPresent()
+        value.subnetId = try reader["subnetId"].readIfPresent()
+        value.privateIpAddress = try reader["privateIpAddress"].readIfPresent()
+        value.availabilityZone = try reader["availabilityZone"].readIfPresent()
+        value.ipv6Address = try reader["ipv6Address"].readIfPresent()
+        return value
+    }
+}
+
+extension RedshiftServerlessClientTypes.PerformanceTarget {
+
+    static func write(value: RedshiftServerlessClientTypes.PerformanceTarget?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["level"].write(value.level)
+        try writer["status"].write(value.status)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RedshiftServerlessClientTypes.PerformanceTarget {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RedshiftServerlessClientTypes.PerformanceTarget()
+        value.status = try reader["status"].readIfPresent()
+        value.level = try reader["level"].readIfPresent()
+        return value
+    }
+}
+
+extension RedshiftServerlessClientTypes.RecoveryPoint {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RedshiftServerlessClientTypes.RecoveryPoint {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RedshiftServerlessClientTypes.RecoveryPoint()
+        value.recoveryPointId = try reader["recoveryPointId"].readIfPresent()
+        value.recoveryPointCreateTime = try reader["recoveryPointCreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.totalSizeInMegaBytes = try reader["totalSizeInMegaBytes"].readIfPresent()
+        value.namespaceName = try reader["namespaceName"].readIfPresent()
+        value.workgroupName = try reader["workgroupName"].readIfPresent()
+        value.namespaceArn = try reader["namespaceArn"].readIfPresent()
         return value
     }
 }
@@ -7467,84 +7522,13 @@ extension RedshiftServerlessClientTypes.ReservationOffering {
     }
 }
 
-extension RedshiftServerlessClientTypes.ScheduledActionResponse {
+extension RedshiftServerlessClientTypes.ResourcePolicy {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> RedshiftServerlessClientTypes.ScheduledActionResponse {
+    static func read(from reader: SmithyJSON.Reader) throws -> RedshiftServerlessClientTypes.ResourcePolicy {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RedshiftServerlessClientTypes.ScheduledActionResponse()
-        value.scheduledActionName = try reader["scheduledActionName"].readIfPresent()
-        value.schedule = try reader["schedule"].readIfPresent(with: RedshiftServerlessClientTypes.Schedule.read(from:))
-        value.scheduledActionDescription = try reader["scheduledActionDescription"].readIfPresent()
-        value.nextInvocations = try reader["nextInvocations"].readListIfPresent(memberReadingClosure: SmithyReadWrite.timestampReadingClosure(format: SmithyTimestamps.TimestampFormat.epochSeconds), memberNodeInfo: "member", isFlattened: false)
-        value.roleArn = try reader["roleArn"].readIfPresent()
-        value.state = try reader["state"].readIfPresent()
-        value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.endTime = try reader["endTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.targetAction = try reader["targetAction"].readIfPresent(with: RedshiftServerlessClientTypes.TargetAction.read(from:))
-        value.namespaceName = try reader["namespaceName"].readIfPresent()
-        value.scheduledActionUuid = try reader["scheduledActionUuid"].readIfPresent()
-        return value
-    }
-}
-
-extension RedshiftServerlessClientTypes.TargetAction {
-
-    static func write(value: RedshiftServerlessClientTypes.TargetAction?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .createsnapshot(createsnapshot):
-                try writer["createSnapshot"].write(createsnapshot, with: RedshiftServerlessClientTypes.CreateSnapshotScheduleActionParameters.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RedshiftServerlessClientTypes.TargetAction {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "createSnapshot":
-                return .createsnapshot(try reader["createSnapshot"].read(with: RedshiftServerlessClientTypes.CreateSnapshotScheduleActionParameters.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension RedshiftServerlessClientTypes.CreateSnapshotScheduleActionParameters {
-
-    static func write(value: RedshiftServerlessClientTypes.CreateSnapshotScheduleActionParameters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["namespaceName"].write(value.namespaceName)
-        try writer["retentionPeriod"].write(value.retentionPeriod)
-        try writer["snapshotNamePrefix"].write(value.snapshotNamePrefix)
-        try writer["tags"].writeList(value.tags, memberWritingClosure: RedshiftServerlessClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RedshiftServerlessClientTypes.CreateSnapshotScheduleActionParameters {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RedshiftServerlessClientTypes.CreateSnapshotScheduleActionParameters()
-        value.namespaceName = try reader["namespaceName"].readIfPresent() ?? ""
-        value.snapshotNamePrefix = try reader["snapshotNamePrefix"].readIfPresent() ?? ""
-        value.retentionPeriod = try reader["retentionPeriod"].readIfPresent()
-        value.tags = try reader["tags"].readListIfPresent(memberReadingClosure: RedshiftServerlessClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension RedshiftServerlessClientTypes.Tag {
-
-    static func write(value: RedshiftServerlessClientTypes.Tag?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["key"].write(value.key)
-        try writer["value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RedshiftServerlessClientTypes.Tag {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RedshiftServerlessClientTypes.Tag()
-        value.key = try reader["key"].readIfPresent() ?? ""
-        value.value = try reader["value"].readIfPresent() ?? ""
+        var value = RedshiftServerlessClientTypes.ResourcePolicy()
+        value.resourceArn = try reader["resourceArn"].readIfPresent()
+        value.policy = try reader["policy"].readIfPresent()
         return value
     }
 }
@@ -7577,6 +7561,80 @@ extension RedshiftServerlessClientTypes.Schedule {
     }
 }
 
+extension RedshiftServerlessClientTypes.ScheduledActionAssociation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RedshiftServerlessClientTypes.ScheduledActionAssociation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RedshiftServerlessClientTypes.ScheduledActionAssociation()
+        value.namespaceName = try reader["namespaceName"].readIfPresent()
+        value.scheduledActionName = try reader["scheduledActionName"].readIfPresent()
+        return value
+    }
+}
+
+extension RedshiftServerlessClientTypes.ScheduledActionResponse {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RedshiftServerlessClientTypes.ScheduledActionResponse {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RedshiftServerlessClientTypes.ScheduledActionResponse()
+        value.scheduledActionName = try reader["scheduledActionName"].readIfPresent()
+        value.schedule = try reader["schedule"].readIfPresent(with: RedshiftServerlessClientTypes.Schedule.read(from:))
+        value.scheduledActionDescription = try reader["scheduledActionDescription"].readIfPresent()
+        value.nextInvocations = try reader["nextInvocations"].readListIfPresent(memberReadingClosure: SmithyReadWrite.timestampReadingClosure(format: SmithyTimestamps.TimestampFormat.epochSeconds), memberNodeInfo: "member", isFlattened: false)
+        value.roleArn = try reader["roleArn"].readIfPresent()
+        value.state = try reader["state"].readIfPresent()
+        value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.endTime = try reader["endTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.targetAction = try reader["targetAction"].readIfPresent(with: RedshiftServerlessClientTypes.TargetAction.read(from:))
+        value.namespaceName = try reader["namespaceName"].readIfPresent()
+        value.scheduledActionUuid = try reader["scheduledActionUuid"].readIfPresent()
+        return value
+    }
+}
+
+extension RedshiftServerlessClientTypes.ServerlessTrack {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RedshiftServerlessClientTypes.ServerlessTrack {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RedshiftServerlessClientTypes.ServerlessTrack()
+        value.trackName = try reader["trackName"].readIfPresent()
+        value.workgroupVersion = try reader["workgroupVersion"].readIfPresent()
+        value.updateTargets = try reader["updateTargets"].readListIfPresent(memberReadingClosure: RedshiftServerlessClientTypes.UpdateTarget.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension RedshiftServerlessClientTypes.Snapshot {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RedshiftServerlessClientTypes.Snapshot {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RedshiftServerlessClientTypes.Snapshot()
+        value.namespaceName = try reader["namespaceName"].readIfPresent()
+        value.namespaceArn = try reader["namespaceArn"].readIfPresent()
+        value.snapshotName = try reader["snapshotName"].readIfPresent()
+        value.snapshotCreateTime = try reader["snapshotCreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.adminUsername = try reader["adminUsername"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.kmsKeyId = try reader["kmsKeyId"].readIfPresent()
+        value.ownerAccount = try reader["ownerAccount"].readIfPresent()
+        value.totalBackupSizeInMegaBytes = try reader["totalBackupSizeInMegaBytes"].readIfPresent()
+        value.actualIncrementalBackupSizeInMegaBytes = try reader["actualIncrementalBackupSizeInMegaBytes"].readIfPresent()
+        value.backupProgressInMegaBytes = try reader["backupProgressInMegaBytes"].readIfPresent()
+        value.currentBackupRateInMegaBytesPerSecond = try reader["currentBackupRateInMegaBytesPerSecond"].readIfPresent()
+        value.estimatedSecondsToCompletion = try reader["estimatedSecondsToCompletion"].readIfPresent()
+        value.elapsedTimeInSeconds = try reader["elapsedTimeInSeconds"].readIfPresent()
+        value.snapshotRetentionPeriod = try reader["snapshotRetentionPeriod"].readIfPresent()
+        value.snapshotRemainingDays = try reader["snapshotRemainingDays"].readIfPresent()
+        value.snapshotRetentionStartTime = try reader["snapshotRetentionStartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.snapshotArn = try reader["snapshotArn"].readIfPresent()
+        value.accountsWithRestoreAccess = try reader["accountsWithRestoreAccess"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.accountsWithProvisionedRestoreAccess = try reader["accountsWithProvisionedRestoreAccess"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.adminPasswordSecretArn = try reader["adminPasswordSecretArn"].readIfPresent()
+        value.adminPasswordSecretKmsKeyId = try reader["adminPasswordSecretKmsKeyId"].readIfPresent()
+        return value
+    }
+}
+
 extension RedshiftServerlessClientTypes.SnapshotCopyConfiguration {
 
     static func read(from reader: SmithyJSON.Reader) throws -> RedshiftServerlessClientTypes.SnapshotCopyConfiguration {
@@ -7588,6 +7646,83 @@ extension RedshiftServerlessClientTypes.SnapshotCopyConfiguration {
         value.destinationRegion = try reader["destinationRegion"].readIfPresent()
         value.snapshotRetentionPeriod = try reader["snapshotRetentionPeriod"].readIfPresent()
         value.destinationKmsKeyId = try reader["destinationKmsKeyId"].readIfPresent()
+        return value
+    }
+}
+
+extension RedshiftServerlessClientTypes.TableRestoreStatus {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RedshiftServerlessClientTypes.TableRestoreStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RedshiftServerlessClientTypes.TableRestoreStatus()
+        value.tableRestoreRequestId = try reader["tableRestoreRequestId"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.message = try reader["message"].readIfPresent()
+        value.requestTime = try reader["requestTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.namespaceName = try reader["namespaceName"].readIfPresent()
+        value.workgroupName = try reader["workgroupName"].readIfPresent()
+        value.snapshotName = try reader["snapshotName"].readIfPresent()
+        value.progressInMegaBytes = try reader["progressInMegaBytes"].readIfPresent()
+        value.totalDataInMegaBytes = try reader["totalDataInMegaBytes"].readIfPresent()
+        value.sourceDatabaseName = try reader["sourceDatabaseName"].readIfPresent()
+        value.sourceSchemaName = try reader["sourceSchemaName"].readIfPresent()
+        value.sourceTableName = try reader["sourceTableName"].readIfPresent()
+        value.targetDatabaseName = try reader["targetDatabaseName"].readIfPresent()
+        value.targetSchemaName = try reader["targetSchemaName"].readIfPresent()
+        value.newTableName = try reader["newTableName"].readIfPresent()
+        value.recoveryPointId = try reader["recoveryPointId"].readIfPresent()
+        return value
+    }
+}
+
+extension RedshiftServerlessClientTypes.Tag {
+
+    static func write(value: RedshiftServerlessClientTypes.Tag?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["key"].write(value.key)
+        try writer["value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RedshiftServerlessClientTypes.Tag {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RedshiftServerlessClientTypes.Tag()
+        value.key = try reader["key"].readIfPresent() ?? ""
+        value.value = try reader["value"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension RedshiftServerlessClientTypes.TargetAction {
+
+    static func write(value: RedshiftServerlessClientTypes.TargetAction?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .createsnapshot(createsnapshot):
+                try writer["createSnapshot"].write(createsnapshot, with: RedshiftServerlessClientTypes.CreateSnapshotScheduleActionParameters.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RedshiftServerlessClientTypes.TargetAction {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "createSnapshot":
+                return .createsnapshot(try reader["createSnapshot"].read(with: RedshiftServerlessClientTypes.CreateSnapshotScheduleActionParameters.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension RedshiftServerlessClientTypes.UpdateTarget {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RedshiftServerlessClientTypes.UpdateTarget {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RedshiftServerlessClientTypes.UpdateTarget()
+        value.trackName = try reader["trackName"].readIfPresent()
+        value.workgroupVersion = try reader["workgroupVersion"].readIfPresent()
         return value
     }
 }
@@ -7604,6 +7739,29 @@ extension RedshiftServerlessClientTypes.UsageLimit {
         value.amount = try reader["amount"].readIfPresent()
         value.period = try reader["period"].readIfPresent()
         value.breachAction = try reader["breachAction"].readIfPresent()
+        return value
+    }
+}
+
+extension RedshiftServerlessClientTypes.VpcEndpoint {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RedshiftServerlessClientTypes.VpcEndpoint {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RedshiftServerlessClientTypes.VpcEndpoint()
+        value.vpcEndpointId = try reader["vpcEndpointId"].readIfPresent()
+        value.vpcId = try reader["vpcId"].readIfPresent()
+        value.networkInterfaces = try reader["networkInterfaces"].readListIfPresent(memberReadingClosure: RedshiftServerlessClientTypes.NetworkInterface.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension RedshiftServerlessClientTypes.VpcSecurityGroupMembership {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RedshiftServerlessClientTypes.VpcSecurityGroupMembership {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RedshiftServerlessClientTypes.VpcSecurityGroupMembership()
+        value.vpcSecurityGroupId = try reader["vpcSecurityGroupId"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
         return value
     }
 }
@@ -7639,164 +7797,6 @@ extension RedshiftServerlessClientTypes.Workgroup {
         value.trackName = try reader["trackName"].readIfPresent()
         value.pendingTrackName = try reader["pendingTrackName"].readIfPresent()
         value.extraComputeForAutomaticOptimization = try reader["extraComputeForAutomaticOptimization"].readIfPresent()
-        return value
-    }
-}
-
-extension RedshiftServerlessClientTypes.PerformanceTarget {
-
-    static func write(value: RedshiftServerlessClientTypes.PerformanceTarget?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["level"].write(value.level)
-        try writer["status"].write(value.status)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RedshiftServerlessClientTypes.PerformanceTarget {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RedshiftServerlessClientTypes.PerformanceTarget()
-        value.status = try reader["status"].readIfPresent()
-        value.level = try reader["level"].readIfPresent()
-        return value
-    }
-}
-
-extension RedshiftServerlessClientTypes.Endpoint {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RedshiftServerlessClientTypes.Endpoint {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RedshiftServerlessClientTypes.Endpoint()
-        value.address = try reader["address"].readIfPresent()
-        value.port = try reader["port"].readIfPresent()
-        value.vpcEndpoints = try reader["vpcEndpoints"].readListIfPresent(memberReadingClosure: RedshiftServerlessClientTypes.VpcEndpoint.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension RedshiftServerlessClientTypes.ConfigParameter {
-
-    static func write(value: RedshiftServerlessClientTypes.ConfigParameter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["parameterKey"].write(value.parameterKey)
-        try writer["parameterValue"].write(value.parameterValue)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RedshiftServerlessClientTypes.ConfigParameter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RedshiftServerlessClientTypes.ConfigParameter()
-        value.parameterKey = try reader["parameterKey"].readIfPresent()
-        value.parameterValue = try reader["parameterValue"].readIfPresent()
-        return value
-    }
-}
-
-extension RedshiftServerlessClientTypes.RecoveryPoint {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RedshiftServerlessClientTypes.RecoveryPoint {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RedshiftServerlessClientTypes.RecoveryPoint()
-        value.recoveryPointId = try reader["recoveryPointId"].readIfPresent()
-        value.recoveryPointCreateTime = try reader["recoveryPointCreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.totalSizeInMegaBytes = try reader["totalSizeInMegaBytes"].readIfPresent()
-        value.namespaceName = try reader["namespaceName"].readIfPresent()
-        value.workgroupName = try reader["workgroupName"].readIfPresent()
-        value.namespaceArn = try reader["namespaceArn"].readIfPresent()
-        return value
-    }
-}
-
-extension RedshiftServerlessClientTypes.ResourcePolicy {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RedshiftServerlessClientTypes.ResourcePolicy {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RedshiftServerlessClientTypes.ResourcePolicy()
-        value.resourceArn = try reader["resourceArn"].readIfPresent()
-        value.policy = try reader["policy"].readIfPresent()
-        return value
-    }
-}
-
-extension RedshiftServerlessClientTypes.TableRestoreStatus {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RedshiftServerlessClientTypes.TableRestoreStatus {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RedshiftServerlessClientTypes.TableRestoreStatus()
-        value.tableRestoreRequestId = try reader["tableRestoreRequestId"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.message = try reader["message"].readIfPresent()
-        value.requestTime = try reader["requestTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.namespaceName = try reader["namespaceName"].readIfPresent()
-        value.workgroupName = try reader["workgroupName"].readIfPresent()
-        value.snapshotName = try reader["snapshotName"].readIfPresent()
-        value.progressInMegaBytes = try reader["progressInMegaBytes"].readIfPresent()
-        value.totalDataInMegaBytes = try reader["totalDataInMegaBytes"].readIfPresent()
-        value.sourceDatabaseName = try reader["sourceDatabaseName"].readIfPresent()
-        value.sourceSchemaName = try reader["sourceSchemaName"].readIfPresent()
-        value.sourceTableName = try reader["sourceTableName"].readIfPresent()
-        value.targetDatabaseName = try reader["targetDatabaseName"].readIfPresent()
-        value.targetSchemaName = try reader["targetSchemaName"].readIfPresent()
-        value.newTableName = try reader["newTableName"].readIfPresent()
-        value.recoveryPointId = try reader["recoveryPointId"].readIfPresent()
-        return value
-    }
-}
-
-extension RedshiftServerlessClientTypes.ServerlessTrack {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RedshiftServerlessClientTypes.ServerlessTrack {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RedshiftServerlessClientTypes.ServerlessTrack()
-        value.trackName = try reader["trackName"].readIfPresent()
-        value.workgroupVersion = try reader["workgroupVersion"].readIfPresent()
-        value.updateTargets = try reader["updateTargets"].readListIfPresent(memberReadingClosure: RedshiftServerlessClientTypes.UpdateTarget.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension RedshiftServerlessClientTypes.UpdateTarget {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RedshiftServerlessClientTypes.UpdateTarget {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RedshiftServerlessClientTypes.UpdateTarget()
-        value.trackName = try reader["trackName"].readIfPresent()
-        value.workgroupVersion = try reader["workgroupVersion"].readIfPresent()
-        return value
-    }
-}
-
-extension RedshiftServerlessClientTypes.Association {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RedshiftServerlessClientTypes.Association {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RedshiftServerlessClientTypes.Association()
-        value.customDomainCertificateArn = try reader["customDomainCertificateArn"].readIfPresent()
-        value.customDomainCertificateExpiryTime = try reader["customDomainCertificateExpiryTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.customDomainName = try reader["customDomainName"].readIfPresent()
-        value.workgroupName = try reader["workgroupName"].readIfPresent()
-        return value
-    }
-}
-
-extension RedshiftServerlessClientTypes.ManagedWorkgroupListItem {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RedshiftServerlessClientTypes.ManagedWorkgroupListItem {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RedshiftServerlessClientTypes.ManagedWorkgroupListItem()
-        value.managedWorkgroupName = try reader["managedWorkgroupName"].readIfPresent()
-        value.managedWorkgroupId = try reader["managedWorkgroupId"].readIfPresent()
-        value.sourceArn = try reader["sourceArn"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.creationDate = try reader["creationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        return value
-    }
-}
-
-extension RedshiftServerlessClientTypes.ScheduledActionAssociation {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RedshiftServerlessClientTypes.ScheduledActionAssociation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RedshiftServerlessClientTypes.ScheduledActionAssociation()
-        value.namespaceName = try reader["namespaceName"].readIfPresent()
-        value.scheduledActionName = try reader["scheduledActionName"].readIfPresent()
         return value
     }
 }
