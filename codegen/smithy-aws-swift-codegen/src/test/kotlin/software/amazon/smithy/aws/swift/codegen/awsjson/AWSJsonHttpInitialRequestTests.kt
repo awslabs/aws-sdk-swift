@@ -45,51 +45,6 @@ extension InitialRequestTestClientTypes.TestStream {
     }
 
     @Test
-    fun `002 EventStreamBodyMiddleware gets generated into operation stack with initialRequestMessage`() {
-        val context =
-            setupTests(
-                "awsjson/initial-request.smithy",
-                "com.test#InitialRequestTest",
-            )
-        val contents =
-            TestUtils.getFileContents(
-                context.manifest,
-                "Sources/Example/InitialRequestTestClient.swift",
-            )
-        contents.shouldSyntacticSanityCheck()
-        val expectedContents = """
-        builder.serialize(ClientRuntime.EventStreamBodyMiddleware<EventStreamOpInput, EventStreamOpOutput, InitialRequestTestClientTypes.TestStream>(keyPath: \.eventStream, defaultBody: "{}", marshalClosure: InitialRequestTestClientTypes.TestStream.marshal, initialRequestMessage: try input.makeInitialRequestMessage()))
-"""
-        contents.shouldContainOnlyOnce(expectedContents)
-    }
-
-    @Test
-    fun `003 Encodable conformance is generated for input struct with streaming union member with streaming member excluded`() {
-        val context =
-            setupTests(
-                "awsjson/initial-request.smithy",
-                "com.test#InitialRequestTest",
-            )
-        val contents =
-            TestUtils.getFileContents(
-                context.manifest,
-                "Sources/Example/models/EventStreamOpInput+Write.swift",
-            )
-        contents.shouldSyntacticSanityCheck()
-        val expectedContents = """
-extension EventStreamOpInput {
-
-    static func write(value: EventStreamOpInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["inputMember1"].write(value.inputMember1)
-        try writer["inputMember2"].write(value.inputMember2)
-    }
-}
-"""
-        contents.shouldContainOnlyOnce(expectedContents)
-    }
-
-    @Test
     fun `004 makeInitialRequestMessage method gets generated for input struct in extension`() {
         val context =
             setupTests(

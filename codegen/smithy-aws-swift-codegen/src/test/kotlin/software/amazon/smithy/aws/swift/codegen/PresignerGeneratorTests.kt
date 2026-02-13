@@ -20,6 +20,12 @@ extension GetFooInput {
         let client: (SmithyHTTPAPI.HTTPRequest, Smithy.Context) async throws -> SmithyHTTPAPI.HTTPResponse = { (_, _) in
             throw Smithy.ClientError.unknownError("No HTTP client configured for presigned request")
         }
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = []
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ExampleClient.getFooOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .get)
                       .withServiceName(value: serviceName)
@@ -34,8 +40,11 @@ extension GetFooInput {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "example-signing-name")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<GetFooInput, GetFooOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = RPCv2CBOR.HTTPClientProtocol()
+        builder.apply(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -53,7 +62,7 @@ extension GetFooInput {
         let endpointParamsBlock = { (context: Smithy.Context) in
             EndpointParams()
         }
-        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetFooOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: ${'$'}0) }))
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<GetFooOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetFooOutput>())
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetFooInput, GetFooOutput>(serviceID: serviceName, version: ExampleClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
@@ -93,6 +102,12 @@ extension PostFooInput {
         let client: (SmithyHTTPAPI.HTTPRequest, Smithy.Context) async throws -> SmithyHTTPAPI.HTTPResponse = { (_, _) in
             throw Smithy.ClientError.unknownError("No HTTP client configured for presigned request")
         }
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = []
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ExampleClient.postFooOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
@@ -107,8 +122,11 @@ extension PostFooInput {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "example-signing-name")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<PostFooInput, PostFooOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = RPCv2CBOR.HTTPClientProtocol()
+        builder.apply(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -129,7 +147,7 @@ extension PostFooInput {
         let endpointParamsBlock = { (context: Smithy.Context) in
             EndpointParams()
         }
-        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PostFooOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: ${'$'}0) }))
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PostFooOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PostFooOutput>())
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PostFooInput, PostFooOutput>(serviceID: serviceName, version: ExampleClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
@@ -169,6 +187,12 @@ extension PutFooInput {
         let client: (SmithyHTTPAPI.HTTPRequest, Smithy.Context) async throws -> SmithyHTTPAPI.HTTPResponse = { (_, _) in
             throw Smithy.ClientError.unknownError("No HTTP client configured for presigned request")
         }
+        var config = config
+        let plugins: [any ClientRuntime.Plugin] = []
+        for plugin in plugins {
+            try await plugin.configureClient(clientConfiguration: &config)
+        }
+        let operation = ExampleClient.putFooOperation
         let context = Smithy.ContextBuilder()
                       .withMethod(value: .put)
                       .withServiceName(value: serviceName)
@@ -183,8 +207,11 @@ extension PutFooInput {
                       .withResponseChecksumValidation(value: config.responseChecksumValidation)
                       .withSigningName(value: "example-signing-name")
                       .withSigningRegion(value: config.signingRegion)
+                      .withOperationProperties(value: operation)
                       .build()
         let builder = ClientRuntime.OrchestratorBuilder<PutFooInput, PutFooOutput, SmithyHTTPAPI.HTTPRequest, SmithyHTTPAPI.HTTPResponse>()
+        let clientProtocol = RPCv2CBOR.HTTPClientProtocol()
+        builder.apply(operation, clientProtocol)
         config.interceptorProviders.forEach { provider in
             builder.interceptors.add(provider.create())
         }
@@ -205,7 +232,7 @@ extension PutFooInput {
         let endpointParamsBlock = { (context: Smithy.Context) in
             EndpointParams()
         }
-        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutFooOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: ${'$'}0) }))
+        builder.applyEndpoint(AWSClientRuntime.AWSEndpointResolverMiddleware<PutFooOutput, EndpointParams>(paramsBlock: endpointParamsBlock, resolverBlock: { [config] in try config.endpointResolver.resolve(params: $0) }))
         builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<PutFooOutput>())
         builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<PutFooInput, PutFooOutput>(serviceID: serviceName, version: ExampleClient.version, config: config))
         var metricsAttributes = Smithy.Attributes()
