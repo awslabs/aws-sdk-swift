@@ -76,11 +76,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class S3ControlClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "S3ControlClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: S3ControlClient.S3ControlClientConfig
+    public let config: S3ControlClient.S3ControlClientConfig
     let serviceName = "S3 Control"
 
     @available(*, deprecated, message: "Use S3ControlClient.S3ControlClientConfig instead")
     public typealias Config = S3ControlClient.S3ControlClientConfiguration
+    public typealias Configuration = S3ControlClient.S3ControlClientConfig
 
     public required init(config: S3ControlClient.S3ControlClientConfig) {
         ClientRuntime.initialize()

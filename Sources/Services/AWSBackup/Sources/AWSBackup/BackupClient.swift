@@ -73,11 +73,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class BackupClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "BackupClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: BackupClient.BackupClientConfig
+    public let config: BackupClient.BackupClientConfig
     let serviceName = "Backup"
 
     @available(*, deprecated, message: "Use BackupClient.BackupClientConfig instead")
     public typealias Config = BackupClient.BackupClientConfiguration
+    public typealias Configuration = BackupClient.BackupClientConfig
 
     public required init(config: BackupClient.BackupClientConfig) {
         ClientRuntime.initialize()

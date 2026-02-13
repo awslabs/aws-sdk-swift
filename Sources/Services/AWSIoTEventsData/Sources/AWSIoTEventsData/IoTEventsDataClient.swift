@@ -71,11 +71,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class IoTEventsDataClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "IoTEventsDataClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: IoTEventsDataClient.IoTEventsDataClientConfig
+    public let config: IoTEventsDataClient.IoTEventsDataClientConfig
     let serviceName = "IoT Events Data"
 
     @available(*, deprecated, message: "Use IoTEventsDataClient.IoTEventsDataClientConfig instead")
     public typealias Config = IoTEventsDataClient.IoTEventsDataClientConfiguration
+    public typealias Configuration = IoTEventsDataClient.IoTEventsDataClientConfig
 
     public required init(config: IoTEventsDataClient.IoTEventsDataClientConfig) {
         ClientRuntime.initialize()

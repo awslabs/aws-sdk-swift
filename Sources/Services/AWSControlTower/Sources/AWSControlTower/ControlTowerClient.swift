@@ -72,11 +72,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class ControlTowerClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "ControlTowerClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: ControlTowerClient.ControlTowerClientConfig
+    public let config: ControlTowerClient.ControlTowerClientConfig
     let serviceName = "ControlTower"
 
     @available(*, deprecated, message: "Use ControlTowerClient.ControlTowerClientConfig instead")
     public typealias Config = ControlTowerClient.ControlTowerClientConfiguration
+    public typealias Configuration = ControlTowerClient.ControlTowerClientConfig
 
     public required init(config: ControlTowerClient.ControlTowerClientConfig) {
         ClientRuntime.initialize()

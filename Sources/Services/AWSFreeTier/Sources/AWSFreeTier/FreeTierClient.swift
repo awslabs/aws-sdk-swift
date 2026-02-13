@@ -72,11 +72,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class FreeTierClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "FreeTierClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: FreeTierClient.FreeTierClientConfig
+    public let config: FreeTierClient.FreeTierClientConfig
     let serviceName = "FreeTier"
 
     @available(*, deprecated, message: "Use FreeTierClient.FreeTierClientConfig instead")
     public typealias Config = FreeTierClient.FreeTierClientConfiguration
+    public typealias Configuration = FreeTierClient.FreeTierClientConfig
 
     public required init(config: FreeTierClient.FreeTierClientConfig) {
         ClientRuntime.initialize()

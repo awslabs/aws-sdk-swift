@@ -72,11 +72,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class CloudFormationClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "CloudFormationClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: CloudFormationClient.CloudFormationClientConfig
+    public let config: CloudFormationClient.CloudFormationClientConfig
     let serviceName = "CloudFormation"
 
     @available(*, deprecated, message: "Use CloudFormationClient.CloudFormationClientConfig instead")
     public typealias Config = CloudFormationClient.CloudFormationClientConfiguration
+    public typealias Configuration = CloudFormationClient.CloudFormationClientConfig
 
     public required init(config: CloudFormationClient.CloudFormationClientConfig) {
         ClientRuntime.initialize()

@@ -71,11 +71,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class AIOpsClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "AIOpsClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: AIOpsClient.AIOpsClientConfig
+    public let config: AIOpsClient.AIOpsClientConfig
     let serviceName = "AIOps"
 
     @available(*, deprecated, message: "Use AIOpsClient.AIOpsClientConfig instead")
     public typealias Config = AIOpsClient.AIOpsClientConfiguration
+    public typealias Configuration = AIOpsClient.AIOpsClientConfig
 
     public required init(config: AIOpsClient.AIOpsClientConfig) {
         ClientRuntime.initialize()

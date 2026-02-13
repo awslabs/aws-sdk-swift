@@ -77,11 +77,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class EBSClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "EBSClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: EBSClient.EBSClientConfig
+    public let config: EBSClient.EBSClientConfig
     let serviceName = "EBS"
 
     @available(*, deprecated, message: "Use EBSClient.EBSClientConfig instead")
     public typealias Config = EBSClient.EBSClientConfiguration
+    public typealias Configuration = EBSClient.EBSClientConfig
 
     public required init(config: EBSClient.EBSClientConfig) {
         ClientRuntime.initialize()

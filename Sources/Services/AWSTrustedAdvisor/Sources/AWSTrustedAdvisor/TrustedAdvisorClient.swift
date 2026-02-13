@@ -72,11 +72,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class TrustedAdvisorClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "TrustedAdvisorClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: TrustedAdvisorClient.TrustedAdvisorClientConfig
+    public let config: TrustedAdvisorClient.TrustedAdvisorClientConfig
     let serviceName = "TrustedAdvisor"
 
     @available(*, deprecated, message: "Use TrustedAdvisorClient.TrustedAdvisorClientConfig instead")
     public typealias Config = TrustedAdvisorClient.TrustedAdvisorClientConfiguration
+    public typealias Configuration = TrustedAdvisorClient.TrustedAdvisorClientConfig
 
     public required init(config: TrustedAdvisorClient.TrustedAdvisorClientConfig) {
         ClientRuntime.initialize()

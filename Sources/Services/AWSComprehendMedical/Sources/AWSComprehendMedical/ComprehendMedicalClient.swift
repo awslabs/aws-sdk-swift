@@ -72,11 +72,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class ComprehendMedicalClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "ComprehendMedicalClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: ComprehendMedicalClient.ComprehendMedicalClientConfig
+    public let config: ComprehendMedicalClient.ComprehendMedicalClientConfig
     let serviceName = "ComprehendMedical"
 
     @available(*, deprecated, message: "Use ComprehendMedicalClient.ComprehendMedicalClientConfig instead")
     public typealias Config = ComprehendMedicalClient.ComprehendMedicalClientConfiguration
+    public typealias Configuration = ComprehendMedicalClient.ComprehendMedicalClientConfig
 
     public required init(config: ComprehendMedicalClient.ComprehendMedicalClientConfig) {
         ClientRuntime.initialize()

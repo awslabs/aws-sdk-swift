@@ -73,11 +73,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class QConnectClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "QConnectClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: QConnectClient.QConnectClientConfig
+    public let config: QConnectClient.QConnectClientConfig
     let serviceName = "QConnect"
 
     @available(*, deprecated, message: "Use QConnectClient.QConnectClientConfig instead")
     public typealias Config = QConnectClient.QConnectClientConfiguration
+    public typealias Configuration = QConnectClient.QConnectClientConfig
 
     public required init(config: QConnectClient.QConnectClientConfig) {
         ClientRuntime.initialize()

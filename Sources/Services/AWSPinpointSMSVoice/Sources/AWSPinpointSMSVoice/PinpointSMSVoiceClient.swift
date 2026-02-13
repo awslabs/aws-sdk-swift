@@ -71,11 +71,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class PinpointSMSVoiceClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "PinpointSMSVoiceClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: PinpointSMSVoiceClient.PinpointSMSVoiceClientConfig
+    public let config: PinpointSMSVoiceClient.PinpointSMSVoiceClientConfig
     let serviceName = "Pinpoint SMS Voice"
 
     @available(*, deprecated, message: "Use PinpointSMSVoiceClient.PinpointSMSVoiceClientConfig instead")
     public typealias Config = PinpointSMSVoiceClient.PinpointSMSVoiceClientConfiguration
+    public typealias Configuration = PinpointSMSVoiceClient.PinpointSMSVoiceClientConfig
 
     public required init(config: PinpointSMSVoiceClient.PinpointSMSVoiceClientConfig) {
         ClientRuntime.initialize()

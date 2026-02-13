@@ -72,11 +72,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class PricingClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "PricingClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: PricingClient.PricingClientConfig
+    public let config: PricingClient.PricingClientConfig
     let serviceName = "Pricing"
 
     @available(*, deprecated, message: "Use PricingClient.PricingClientConfig instead")
     public typealias Config = PricingClient.PricingClientConfiguration
+    public typealias Configuration = PricingClient.PricingClientConfig
 
     public required init(config: PricingClient.PricingClientConfig) {
         ClientRuntime.initialize()

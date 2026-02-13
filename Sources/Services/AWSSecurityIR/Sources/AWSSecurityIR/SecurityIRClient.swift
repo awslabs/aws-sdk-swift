@@ -73,11 +73,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class SecurityIRClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "SecurityIRClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: SecurityIRClient.SecurityIRClientConfig
+    public let config: SecurityIRClient.SecurityIRClientConfig
     let serviceName = "Security IR"
 
     @available(*, deprecated, message: "Use SecurityIRClient.SecurityIRClientConfig instead")
     public typealias Config = SecurityIRClient.SecurityIRClientConfiguration
+    public typealias Configuration = SecurityIRClient.SecurityIRClientConfig
 
     public required init(config: SecurityIRClient.SecurityIRClientConfig) {
         ClientRuntime.initialize()

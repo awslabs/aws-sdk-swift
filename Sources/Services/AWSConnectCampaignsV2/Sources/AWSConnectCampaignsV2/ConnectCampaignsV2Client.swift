@@ -71,11 +71,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class ConnectCampaignsV2Client: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "ConnectCampaignsV2Client"
     let client: ClientRuntime.SdkHttpClient
-    let config: ConnectCampaignsV2Client.ConnectCampaignsV2ClientConfig
+    public let config: ConnectCampaignsV2Client.ConnectCampaignsV2ClientConfig
     let serviceName = "ConnectCampaignsV2"
 
     @available(*, deprecated, message: "Use ConnectCampaignsV2Client.ConnectCampaignsV2ClientConfig instead")
     public typealias Config = ConnectCampaignsV2Client.ConnectCampaignsV2ClientConfiguration
+    public typealias Configuration = ConnectCampaignsV2Client.ConnectCampaignsV2ClientConfig
 
     public required init(config: ConnectCampaignsV2Client.ConnectCampaignsV2ClientConfig) {
         ClientRuntime.initialize()

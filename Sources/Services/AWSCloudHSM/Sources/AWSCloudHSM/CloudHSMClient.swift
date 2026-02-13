@@ -71,11 +71,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class CloudHSMClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "CloudHSMClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: CloudHSMClient.CloudHSMClientConfig
+    public let config: CloudHSMClient.CloudHSMClientConfig
     let serviceName = "CloudHSM"
 
     @available(*, deprecated, message: "Use CloudHSMClient.CloudHSMClientConfig instead")
     public typealias Config = CloudHSMClient.CloudHSMClientConfiguration
+    public typealias Configuration = CloudHSMClient.CloudHSMClientConfig
 
     public required init(config: CloudHSMClient.CloudHSMClientConfig) {
         ClientRuntime.initialize()

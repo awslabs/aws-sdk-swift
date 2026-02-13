@@ -72,11 +72,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class KinesisAnalyticsClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "KinesisAnalyticsClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: KinesisAnalyticsClient.KinesisAnalyticsClientConfig
+    public let config: KinesisAnalyticsClient.KinesisAnalyticsClientConfig
     let serviceName = "Kinesis Analytics"
 
     @available(*, deprecated, message: "Use KinesisAnalyticsClient.KinesisAnalyticsClientConfig instead")
     public typealias Config = KinesisAnalyticsClient.KinesisAnalyticsClientConfiguration
+    public typealias Configuration = KinesisAnalyticsClient.KinesisAnalyticsClientConfig
 
     public required init(config: KinesisAnalyticsClient.KinesisAnalyticsClientConfig) {
         ClientRuntime.initialize()

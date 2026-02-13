@@ -73,11 +73,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class IoTFleetWiseClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "IoTFleetWiseClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: IoTFleetWiseClient.IoTFleetWiseClientConfig
+    public let config: IoTFleetWiseClient.IoTFleetWiseClientConfig
     let serviceName = "IoTFleetWise"
 
     @available(*, deprecated, message: "Use IoTFleetWiseClient.IoTFleetWiseClientConfig instead")
     public typealias Config = IoTFleetWiseClient.IoTFleetWiseClientConfiguration
+    public typealias Configuration = IoTFleetWiseClient.IoTFleetWiseClientConfig
 
     public required init(config: IoTFleetWiseClient.IoTFleetWiseClientConfig) {
         ClientRuntime.initialize()

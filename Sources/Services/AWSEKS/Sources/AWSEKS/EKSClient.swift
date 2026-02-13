@@ -73,11 +73,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class EKSClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "EKSClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: EKSClient.EKSClientConfig
+    public let config: EKSClient.EKSClientConfig
     let serviceName = "EKS"
 
     @available(*, deprecated, message: "Use EKSClient.EKSClientConfig instead")
     public typealias Config = EKSClient.EKSClientConfiguration
+    public typealias Configuration = EKSClient.EKSClientConfig
 
     public required init(config: EKSClient.EKSClientConfig) {
         ClientRuntime.initialize()

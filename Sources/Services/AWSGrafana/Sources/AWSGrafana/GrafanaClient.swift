@@ -73,11 +73,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class GrafanaClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "GrafanaClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: GrafanaClient.GrafanaClientConfig
+    public let config: GrafanaClient.GrafanaClientConfig
     let serviceName = "grafana"
 
     @available(*, deprecated, message: "Use GrafanaClient.GrafanaClientConfig instead")
     public typealias Config = GrafanaClient.GrafanaClientConfiguration
+    public typealias Configuration = GrafanaClient.GrafanaClientConfig
 
     public required init(config: GrafanaClient.GrafanaClientConfig) {
         ClientRuntime.initialize()

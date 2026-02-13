@@ -1454,7 +1454,7 @@ public struct ListAgentRuntimesInput: Swift.Sendable {
 
 extension BedrockAgentCoreControlClientTypes {
 
-    /// Contains information about an agent runtime. An agent runtime is the execution environment for a Amazon Bedrock Agent.
+    /// Contains information about an agent runtime. An agent runtime is the execution environment for a Amazon Bedrock AgentCore Agent.
     public struct AgentRuntime: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the agent runtime.
         /// This member is required.
@@ -1991,6 +1991,308 @@ public struct UpdateApiKeyCredentialProviderOutput: Swift.Sendable {
     }
 }
 
+public struct CreateBrowserProfileInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, Amazon Bedrock AgentCore ignores the request but does not return an error.
+    public var clientToken: Swift.String?
+    /// A description of the browser profile. Use this field to describe the purpose or contents of the profile.
+    public var description: Swift.String?
+    /// The name of the browser profile. The name must be unique within your account and can contain alphanumeric characters and underscores.
+    /// This member is required.
+    public var name: Swift.String?
+    /// A map of tag keys and values to assign to the browser profile. Tags enable you to categorize your resources in different ways, for example, by purpose, owner, or environment.
+    public var tags: [Swift.String: Swift.String]?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        description: Swift.String? = nil,
+        name: Swift.String? = nil,
+        tags: [Swift.String: Swift.String]? = nil
+    ) {
+        self.clientToken = clientToken
+        self.description = description
+        self.name = name
+        self.tags = tags
+    }
+}
+
+extension CreateBrowserProfileInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateBrowserProfileInput(clientToken: \(Swift.String(describing: clientToken)), name: \(Swift.String(describing: name)), tags: \(Swift.String(describing: tags)), description: \"CONTENT_REDACTED\")"}
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// The status of a browser profile.
+    public enum BrowserProfileStatus: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case deleted
+        case deleting
+        case ready
+        case saving
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [BrowserProfileStatus] {
+            return [
+                .deleted,
+                .deleting,
+                .ready,
+                .saving
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .deleted: return "DELETED"
+            case .deleting: return "DELETING"
+            case .ready: return "READY"
+            case .saving: return "SAVING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+public struct CreateBrowserProfileOutput: Swift.Sendable {
+    /// The timestamp when the browser profile was created.
+    /// This member is required.
+    public var createdAt: Foundation.Date?
+    /// The Amazon Resource Name (ARN) of the created browser profile.
+    /// This member is required.
+    public var profileArn: Swift.String?
+    /// The unique identifier of the created browser profile.
+    /// This member is required.
+    public var profileId: Swift.String?
+    /// The current status of the browser profile.
+    /// This member is required.
+    public var status: BedrockAgentCoreControlClientTypes.BrowserProfileStatus?
+
+    public init(
+        createdAt: Foundation.Date? = nil,
+        profileArn: Swift.String? = nil,
+        profileId: Swift.String? = nil,
+        status: BedrockAgentCoreControlClientTypes.BrowserProfileStatus? = nil
+    ) {
+        self.createdAt = createdAt
+        self.profileArn = profileArn
+        self.profileId = profileId
+        self.status = status
+    }
+}
+
+public struct DeleteBrowserProfileInput: Swift.Sendable {
+    /// A unique, case-sensitive identifier to ensure idempotency of the request.
+    public var clientToken: Swift.String?
+    /// The unique identifier of the browser profile to delete.
+    /// This member is required.
+    public var profileId: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        profileId: Swift.String? = nil
+    ) {
+        self.clientToken = clientToken
+        self.profileId = profileId
+    }
+}
+
+public struct DeleteBrowserProfileOutput: Swift.Sendable {
+    /// The timestamp when browser session data was last saved to this profile before deletion.
+    public var lastSavedAt: Foundation.Date?
+    /// The timestamp when the browser profile was last updated.
+    /// This member is required.
+    public var lastUpdatedAt: Foundation.Date?
+    /// The Amazon Resource Name (ARN) of the deleted browser profile.
+    /// This member is required.
+    public var profileArn: Swift.String?
+    /// The unique identifier of the deleted browser profile.
+    /// This member is required.
+    public var profileId: Swift.String?
+    /// The current status of the browser profile deletion.
+    /// This member is required.
+    public var status: BedrockAgentCoreControlClientTypes.BrowserProfileStatus?
+
+    public init(
+        lastSavedAt: Foundation.Date? = nil,
+        lastUpdatedAt: Foundation.Date? = nil,
+        profileArn: Swift.String? = nil,
+        profileId: Swift.String? = nil,
+        status: BedrockAgentCoreControlClientTypes.BrowserProfileStatus? = nil
+    ) {
+        self.lastSavedAt = lastSavedAt
+        self.lastUpdatedAt = lastUpdatedAt
+        self.profileArn = profileArn
+        self.profileId = profileId
+        self.status = status
+    }
+}
+
+public struct GetBrowserProfileInput: Swift.Sendable {
+    /// The unique identifier of the browser profile to retrieve.
+    /// This member is required.
+    public var profileId: Swift.String?
+
+    public init(
+        profileId: Swift.String? = nil
+    ) {
+        self.profileId = profileId
+    }
+}
+
+public struct GetBrowserProfileOutput: Swift.Sendable {
+    /// The timestamp when the browser profile was created.
+    /// This member is required.
+    public var createdAt: Foundation.Date?
+    /// The description of the browser profile.
+    public var description: Swift.String?
+    /// The timestamp when browser session data was last saved to this profile.
+    public var lastSavedAt: Foundation.Date?
+    /// The identifier of the browser from which data was last saved to this profile.
+    public var lastSavedBrowserId: Swift.String?
+    /// The identifier of the browser session from which data was last saved to this profile.
+    public var lastSavedBrowserSessionId: Swift.String?
+    /// The timestamp when the browser profile was last updated.
+    /// This member is required.
+    public var lastUpdatedAt: Foundation.Date?
+    /// The name of the browser profile.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The Amazon Resource Name (ARN) of the browser profile.
+    /// This member is required.
+    public var profileArn: Swift.String?
+    /// The unique identifier of the browser profile.
+    /// This member is required.
+    public var profileId: Swift.String?
+    /// The current status of the browser profile.
+    /// This member is required.
+    public var status: BedrockAgentCoreControlClientTypes.BrowserProfileStatus?
+
+    public init(
+        createdAt: Foundation.Date? = nil,
+        description: Swift.String? = nil,
+        lastSavedAt: Foundation.Date? = nil,
+        lastSavedBrowserId: Swift.String? = nil,
+        lastSavedBrowserSessionId: Swift.String? = nil,
+        lastUpdatedAt: Foundation.Date? = nil,
+        name: Swift.String? = nil,
+        profileArn: Swift.String? = nil,
+        profileId: Swift.String? = nil,
+        status: BedrockAgentCoreControlClientTypes.BrowserProfileStatus? = nil
+    ) {
+        self.createdAt = createdAt
+        self.description = description
+        self.lastSavedAt = lastSavedAt
+        self.lastSavedBrowserId = lastSavedBrowserId
+        self.lastSavedBrowserSessionId = lastSavedBrowserSessionId
+        self.lastUpdatedAt = lastUpdatedAt
+        self.name = name
+        self.profileArn = profileArn
+        self.profileId = profileId
+        self.status = status
+    }
+}
+
+extension GetBrowserProfileOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GetBrowserProfileOutput(createdAt: \(Swift.String(describing: createdAt)), lastSavedAt: \(Swift.String(describing: lastSavedAt)), lastSavedBrowserId: \(Swift.String(describing: lastSavedBrowserId)), lastSavedBrowserSessionId: \(Swift.String(describing: lastSavedBrowserSessionId)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), name: \(Swift.String(describing: name)), profileArn: \(Swift.String(describing: profileArn)), profileId: \(Swift.String(describing: profileId)), status: \(Swift.String(describing: status)), description: \"CONTENT_REDACTED\")"}
+}
+
+public struct ListBrowserProfilesInput: Swift.Sendable {
+    /// The maximum number of results to return in the response.
+    public var maxResults: Swift.Int?
+    /// A token to retrieve the next page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    ) {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes {
+
+    /// Contains summary information about a browser profile. A browser profile stores persistent browser data that can be reused across browser sessions.
+    public struct BrowserProfileSummary: Swift.Sendable {
+        /// The timestamp when the browser profile was created.
+        /// This member is required.
+        public var createdAt: Foundation.Date?
+        /// The description of the browser profile.
+        public var description: Swift.String?
+        /// The timestamp when browser session data was last saved to this profile.
+        public var lastSavedAt: Foundation.Date?
+        /// The identifier of the browser from which data was last saved to this profile.
+        public var lastSavedBrowserId: Swift.String?
+        /// The identifier of the browser session from which data was last saved to this profile.
+        public var lastSavedBrowserSessionId: Swift.String?
+        /// The timestamp when the browser profile was last updated.
+        /// This member is required.
+        public var lastUpdatedAt: Foundation.Date?
+        /// The name of the browser profile.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The Amazon Resource Name (ARN) of the browser profile.
+        /// This member is required.
+        public var profileArn: Swift.String?
+        /// The unique identifier of the browser profile.
+        /// This member is required.
+        public var profileId: Swift.String?
+        /// The current status of the browser profile. Possible values include READY, SAVING, DELETING, and DELETED.
+        /// This member is required.
+        public var status: BedrockAgentCoreControlClientTypes.BrowserProfileStatus?
+
+        public init(
+            createdAt: Foundation.Date? = nil,
+            description: Swift.String? = nil,
+            lastSavedAt: Foundation.Date? = nil,
+            lastSavedBrowserId: Swift.String? = nil,
+            lastSavedBrowserSessionId: Swift.String? = nil,
+            lastUpdatedAt: Foundation.Date? = nil,
+            name: Swift.String? = nil,
+            profileArn: Swift.String? = nil,
+            profileId: Swift.String? = nil,
+            status: BedrockAgentCoreControlClientTypes.BrowserProfileStatus? = nil
+        ) {
+            self.createdAt = createdAt
+            self.description = description
+            self.lastSavedAt = lastSavedAt
+            self.lastSavedBrowserId = lastSavedBrowserId
+            self.lastSavedBrowserSessionId = lastSavedBrowserSessionId
+            self.lastUpdatedAt = lastUpdatedAt
+            self.name = name
+            self.profileArn = profileArn
+            self.profileId = profileId
+            self.status = status
+        }
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.BrowserProfileSummary: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "BrowserProfileSummary(createdAt: \(Swift.String(describing: createdAt)), lastSavedAt: \(Swift.String(describing: lastSavedAt)), lastSavedBrowserId: \(Swift.String(describing: lastSavedBrowserId)), lastSavedBrowserSessionId: \(Swift.String(describing: lastSavedBrowserSessionId)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), name: \(Swift.String(describing: name)), profileArn: \(Swift.String(describing: profileArn)), profileId: \(Swift.String(describing: profileId)), status: \(Swift.String(describing: status)), description: \"CONTENT_REDACTED\")"}
+}
+
+public struct ListBrowserProfilesOutput: Swift.Sendable {
+    /// A token to retrieve the next page of results.
+    public var nextToken: Swift.String?
+    /// The list of browser profile summaries.
+    /// This member is required.
+    public var profileSummaries: [BedrockAgentCoreControlClientTypes.BrowserProfileSummary]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        profileSummaries: [BedrockAgentCoreControlClientTypes.BrowserProfileSummary]? = nil
+    ) {
+        self.nextToken = nextToken
+        self.profileSummaries = profileSummaries
+    }
+}
+
 extension BedrockAgentCoreControlClientTypes {
 
     /// Configuration for enabling browser signing capabilities that allow agents to cryptographically identify themselves to websites using HTTP message signatures.
@@ -2078,7 +2380,7 @@ extension BedrockAgentCoreControlClientTypes {
 public struct CreateBrowserInput: Swift.Sendable {
     /// The browser signing configuration that enables cryptographic agent identification using HTTP message signatures for web bot authentication.
     public var browserSigning: BedrockAgentCoreControlClientTypes.BrowserSigningConfigInput?
-    /// A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request but does not return an error.
+    /// A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, Amazon Bedrock AgentCore ignores the request but does not return an error.
     public var clientToken: Swift.String?
     /// The description of the browser.
     public var description: Swift.String?
@@ -2372,7 +2674,7 @@ public struct ListBrowsersInput: Swift.Sendable {
 
 extension BedrockAgentCoreControlClientTypes {
 
-    /// Contains summary information about a browser. A browser enables Amazon Bedrock Agent to interact with web content.
+    /// Contains summary information about a browser. A browser enables Amazon Bedrock AgentCore Agent to interact with web content.
     public struct BrowserSummary: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the browser.
         /// This member is required.
@@ -2487,7 +2789,7 @@ extension BedrockAgentCoreControlClientTypes {
 }
 
 public struct CreateCodeInterpreterInput: Swift.Sendable {
-    /// A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request but does not return an error.
+    /// A unique, case-sensitive identifier to ensure that the operation completes no more than one time. If this token matches a previous request, Amazon Bedrock AgentCore ignores the request but does not return an error.
     public var clientToken: Swift.String?
     /// The description of the code interpreter.
     public var description: Swift.String?
@@ -2722,7 +3024,7 @@ public struct ListCodeInterpretersInput: Swift.Sendable {
 
 extension BedrockAgentCoreControlClientTypes {
 
-    /// Contains summary information about a code interpreter. A code interpreter enables Amazon Bedrock Agent to execute code.
+    /// Contains summary information about a code interpreter. A code interpreter enables Amazon Bedrock AgentCore Agent to execute code.
     public struct CodeInterpreterSummary: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the code interpreter.
         /// This member is required.
@@ -10742,6 +11044,13 @@ extension CreateBrowserInput {
     }
 }
 
+extension CreateBrowserProfileInput {
+
+    static func urlPathProvider(_ value: CreateBrowserProfileInput) -> Swift.String? {
+        return "/browser-profiles"
+    }
+}
+
 extension CreateCodeInterpreterInput {
 
     static func urlPathProvider(_ value: CreateCodeInterpreterInput) -> Swift.String? {
@@ -10885,6 +11194,28 @@ extension DeleteBrowserInput {
 extension DeleteBrowserInput {
 
     static func queryItemProvider(_ value: DeleteBrowserInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let clientToken = value.clientToken {
+            let clientTokenQueryItem = Smithy.URIQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
+            items.append(clientTokenQueryItem)
+        }
+        return items
+    }
+}
+
+extension DeleteBrowserProfileInput {
+
+    static func urlPathProvider(_ value: DeleteBrowserProfileInput) -> Swift.String? {
+        guard let profileId = value.profileId else {
+            return nil
+        }
+        return "/browser-profiles/\(profileId.urlPercentEncoding())"
+    }
+}
+
+extension DeleteBrowserProfileInput {
+
+    static func queryItemProvider(_ value: DeleteBrowserProfileInput) throws -> [Smithy.URIQueryItem] {
         var items = [Smithy.URIQueryItem]()
         if let clientToken = value.clientToken {
             let clientTokenQueryItem = Smithy.URIQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
@@ -11077,6 +11408,16 @@ extension GetBrowserInput {
             return nil
         }
         return "/browsers/\(browserId.urlPercentEncoding())"
+    }
+}
+
+extension GetBrowserProfileInput {
+
+    static func urlPathProvider(_ value: GetBrowserProfileInput) -> Swift.String? {
+        guard let profileId = value.profileId else {
+            return nil
+        }
+        return "/browser-profiles/\(profileId.urlPercentEncoding())"
     }
 }
 
@@ -11301,6 +11642,29 @@ extension ListApiKeyCredentialProvidersInput {
 
     static func urlPathProvider(_ value: ListApiKeyCredentialProvidersInput) -> Swift.String? {
         return "/identities/ListApiKeyCredentialProviders"
+    }
+}
+
+extension ListBrowserProfilesInput {
+
+    static func urlPathProvider(_ value: ListBrowserProfilesInput) -> Swift.String? {
+        return "/browser-profiles"
+    }
+}
+
+extension ListBrowserProfilesInput {
+
+    static func queryItemProvider(_ value: ListBrowserProfilesInput) throws -> [Smithy.URIQueryItem] {
+        var items = [Smithy.URIQueryItem]()
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = Smithy.URIQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = Smithy.URIQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        return items
     }
 }
 
@@ -11841,6 +12205,17 @@ extension CreateBrowserInput {
     }
 }
 
+extension CreateBrowserProfileInput {
+
+    static func write(value: CreateBrowserProfileInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clientToken"].write(value.clientToken)
+        try writer["description"].write(value.description)
+        try writer["name"].write(value.name)
+        try writer["tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
 extension CreateCodeInterpreterInput {
 
     static func write(value: CreateCodeInterpreterInput?, to writer: SmithyJSON.Writer) throws {
@@ -12314,6 +12689,21 @@ extension CreateBrowserOutput {
     }
 }
 
+extension CreateBrowserProfileOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateBrowserProfileOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = CreateBrowserProfileOutput()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.profileArn = try reader["profileArn"].readIfPresent() ?? ""
+        value.profileId = try reader["profileId"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
 extension CreateCodeInterpreterOutput {
 
     static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> CreateCodeInterpreterOutput {
@@ -12540,6 +12930,22 @@ extension DeleteBrowserOutput {
         var value = DeleteBrowserOutput()
         value.browserId = try reader["browserId"].readIfPresent() ?? ""
         value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension DeleteBrowserProfileOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> DeleteBrowserProfileOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = DeleteBrowserProfileOutput()
+        value.lastSavedAt = try reader["lastSavedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.profileArn = try reader["profileArn"].readIfPresent() ?? ""
+        value.profileId = try reader["profileId"].readIfPresent() ?? ""
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
@@ -12775,6 +13181,27 @@ extension GetBrowserOutput {
         value.name = try reader["name"].readIfPresent() ?? ""
         value.networkConfiguration = try reader["networkConfiguration"].readIfPresent(with: BedrockAgentCoreControlClientTypes.BrowserNetworkConfiguration.read(from:))
         value.recording = try reader["recording"].readIfPresent(with: BedrockAgentCoreControlClientTypes.RecordingConfig.read(from:))
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension GetBrowserProfileOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> GetBrowserProfileOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = GetBrowserProfileOutput()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.description = try reader["description"].readIfPresent()
+        value.lastSavedAt = try reader["lastSavedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.lastSavedBrowserId = try reader["lastSavedBrowserId"].readIfPresent()
+        value.lastSavedBrowserSessionId = try reader["lastSavedBrowserSessionId"].readIfPresent()
+        value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.profileArn = try reader["profileArn"].readIfPresent() ?? ""
+        value.profileId = try reader["profileId"].readIfPresent() ?? ""
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
@@ -13082,6 +13509,19 @@ extension ListApiKeyCredentialProvidersOutput {
         var value = ListApiKeyCredentialProvidersOutput()
         value.credentialProviders = try reader["credentialProviders"].readListIfPresent(memberReadingClosure: BedrockAgentCoreControlClientTypes.ApiKeyCredentialProviderItem.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.nextToken = try reader["nextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ListBrowserProfilesOutput {
+
+    static func httpOutput(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> ListBrowserProfilesOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let reader = responseReader
+        var value = ListBrowserProfilesOutput()
+        value.nextToken = try reader["nextToken"].readIfPresent()
+        value.profileSummaries = try reader["profileSummaries"].readListIfPresent(memberReadingClosure: BedrockAgentCoreControlClientTypes.BrowserProfileSummary.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -13646,6 +14086,25 @@ enum CreateBrowserOutputError {
     }
 }
 
+enum CreateBrowserProfileOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
 enum CreateCodeInterpreterOutputError {
 
     static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
@@ -13912,6 +14371,25 @@ enum DeleteBrowserOutputError {
             case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum DeleteBrowserProfileOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "ConflictException": return try ConflictException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
@@ -14197,6 +14675,24 @@ enum GetBrowserOutputError {
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ServiceQuotaExceededException": return try ServiceQuotaExceededException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum GetBrowserProfileOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
@@ -14505,6 +15001,23 @@ enum ListApiKeyCredentialProvidersOutputError {
             case "ResourceNotFoundException": return try ResourceNotFoundException.makeError(baseError: baseError)
             case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "UnauthorizedException": return try UnauthorizedException.makeError(baseError: baseError)
+            case "ValidationException": return try ValidationException.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
+        }
+    }
+}
+
+enum ListBrowserProfilesOutputError {
+
+    static func httpError(from httpResponse: SmithyHTTPAPI.HTTPResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        switch baseError.code {
+            case "AccessDeniedException": return try AccessDeniedException.makeError(baseError: baseError)
+            case "InternalServerException": return try InternalServerException.makeError(baseError: baseError)
+            case "ThrottlingException": return try ThrottlingException.makeError(baseError: baseError)
             case "ValidationException": return try ValidationException.makeError(baseError: baseError)
             default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
@@ -17194,6 +17707,25 @@ extension BedrockAgentCoreControlClientTypes.ApiKeyCredentialProviderItem {
         value.credentialProviderArn = try reader["credentialProviderArn"].readIfPresent() ?? ""
         value.createdTime = try reader["createdTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.lastUpdatedTime = try reader["lastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension BedrockAgentCoreControlClientTypes.BrowserProfileSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BedrockAgentCoreControlClientTypes.BrowserProfileSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BedrockAgentCoreControlClientTypes.BrowserProfileSummary()
+        value.profileId = try reader["profileId"].readIfPresent() ?? ""
+        value.profileArn = try reader["profileArn"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.description = try reader["description"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastSavedAt = try reader["lastSavedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.lastSavedBrowserSessionId = try reader["lastSavedBrowserSessionId"].readIfPresent()
+        value.lastSavedBrowserId = try reader["lastSavedBrowserId"].readIfPresent()
         return value
     }
 }

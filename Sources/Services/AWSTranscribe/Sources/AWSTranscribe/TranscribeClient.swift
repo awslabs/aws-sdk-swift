@@ -73,11 +73,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class TranscribeClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "TranscribeClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: TranscribeClient.TranscribeClientConfig
+    public let config: TranscribeClient.TranscribeClientConfig
     let serviceName = "Transcribe"
 
     @available(*, deprecated, message: "Use TranscribeClient.TranscribeClientConfig instead")
     public typealias Config = TranscribeClient.TranscribeClientConfiguration
+    public typealias Configuration = TranscribeClient.TranscribeClientConfig
 
     public required init(config: TranscribeClient.TranscribeClientConfig) {
         ClientRuntime.initialize()

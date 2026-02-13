@@ -70,11 +70,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class KinesisVideoWebRTCStorageClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "KinesisVideoWebRTCStorageClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: KinesisVideoWebRTCStorageClient.KinesisVideoWebRTCStorageClientConfig
+    public let config: KinesisVideoWebRTCStorageClient.KinesisVideoWebRTCStorageClientConfig
     let serviceName = "Kinesis Video WebRTC Storage"
 
     @available(*, deprecated, message: "Use KinesisVideoWebRTCStorageClient.KinesisVideoWebRTCStorageClientConfig instead")
     public typealias Config = KinesisVideoWebRTCStorageClient.KinesisVideoWebRTCStorageClientConfiguration
+    public typealias Configuration = KinesisVideoWebRTCStorageClient.KinesisVideoWebRTCStorageClientConfig
 
     public required init(config: KinesisVideoWebRTCStorageClient.KinesisVideoWebRTCStorageClientConfig) {
         ClientRuntime.initialize()

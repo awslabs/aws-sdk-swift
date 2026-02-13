@@ -73,11 +73,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class FinspaceClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "FinspaceClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: FinspaceClient.FinspaceClientConfig
+    public let config: FinspaceClient.FinspaceClientConfig
     let serviceName = "finspace"
 
     @available(*, deprecated, message: "Use FinspaceClient.FinspaceClientConfig instead")
     public typealias Config = FinspaceClient.FinspaceClientConfiguration
+    public typealias Configuration = FinspaceClient.FinspaceClientConfig
 
     public required init(config: FinspaceClient.FinspaceClientConfig) {
         ClientRuntime.initialize()

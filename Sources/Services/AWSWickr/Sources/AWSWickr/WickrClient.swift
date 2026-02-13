@@ -74,11 +74,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class WickrClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "WickrClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: WickrClient.WickrClientConfig
+    public let config: WickrClient.WickrClientConfig
     let serviceName = "Wickr"
 
     @available(*, deprecated, message: "Use WickrClient.WickrClientConfig instead")
     public typealias Config = WickrClient.WickrClientConfiguration
+    public typealias Configuration = WickrClient.WickrClientConfig
 
     public required init(config: WickrClient.WickrClientConfig) {
         ClientRuntime.initialize()

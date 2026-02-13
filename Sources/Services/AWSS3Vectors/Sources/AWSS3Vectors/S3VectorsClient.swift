@@ -72,11 +72,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class S3VectorsClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "S3VectorsClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: S3VectorsClient.S3VectorsClientConfig
+    public let config: S3VectorsClient.S3VectorsClientConfig
     let serviceName = "S3Vectors"
 
     @available(*, deprecated, message: "Use S3VectorsClient.S3VectorsClientConfig instead")
     public typealias Config = S3VectorsClient.S3VectorsClientConfiguration
+    public typealias Configuration = S3VectorsClient.S3VectorsClientConfig
 
     public required init(config: S3VectorsClient.S3VectorsClientConfig) {
         ClientRuntime.initialize()

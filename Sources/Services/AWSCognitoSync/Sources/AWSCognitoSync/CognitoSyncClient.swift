@@ -73,11 +73,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class CognitoSyncClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "CognitoSyncClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: CognitoSyncClient.CognitoSyncClientConfig
+    public let config: CognitoSyncClient.CognitoSyncClientConfig
     let serviceName = "Cognito Sync"
 
     @available(*, deprecated, message: "Use CognitoSyncClient.CognitoSyncClientConfig instead")
     public typealias Config = CognitoSyncClient.CognitoSyncClientConfiguration
+    public typealias Configuration = CognitoSyncClient.CognitoSyncClientConfig
 
     public required init(config: CognitoSyncClient.CognitoSyncClientConfig) {
         ClientRuntime.initialize()

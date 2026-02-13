@@ -15757,6 +15757,36 @@ extension MediaLiveClientTypes {
 
 extension MediaLiveClientTypes {
 
+    /// Av1 Bit Depth
+    public enum Av1BitDepth: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case depth10
+        case depth8
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Av1BitDepth] {
+            return [
+                .depth10,
+                .depth8
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .depth10: return "DEPTH_10"
+            case .depth8: return "DEPTH_8"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+
     /// Passthrough applies no color space conversion to the output
     public struct ColorSpacePassthroughSettings: Swift.Sendable {
 
@@ -16266,6 +16296,8 @@ extension MediaLiveClientTypes {
     public struct Av1Settings: Swift.Sendable {
         /// Configures whether MediaLive will write AFD values into the video. AUTO: MediaLive will try to preserve the input AFD value (in cases where multiple AFD values are valid). FIXED: the AFD value will be the value configured in the fixedAfd parameter. NONE: MediaLive won't write AFD into the video
         public var afdSignaling: MediaLiveClientTypes.AfdSignaling?
+        /// Specifies the bit depth for the output encode. Choose a value. Or leave the field empty to use the default, which is 8 bit.
+        public var bitDepth: MediaLiveClientTypes.Av1BitDepth?
         /// Average bitrate in bits/second. Required when the rate control mode is CBR. Not used for QVBR.
         public var bitrate: Swift.Int?
         /// The size of the buffer (HRD buffer model) in bits.
@@ -16315,6 +16347,7 @@ extension MediaLiveClientTypes {
 
         public init(
             afdSignaling: MediaLiveClientTypes.AfdSignaling? = nil,
+            bitDepth: MediaLiveClientTypes.Av1BitDepth? = nil,
             bitrate: Swift.Int? = nil,
             bufSize: Swift.Int? = nil,
             colorSpaceSettings: MediaLiveClientTypes.Av1ColorSpaceSettings? = nil,
@@ -16339,6 +16372,7 @@ extension MediaLiveClientTypes {
             timecodeInsertion: MediaLiveClientTypes.Av1TimecodeInsertionBehavior? = nil
         ) {
             self.afdSignaling = afdSignaling
+            self.bitDepth = bitDepth
             self.bitrate = bitrate
             self.bufSize = bufSize
             self.colorSpaceSettings = colorSpaceSettings
@@ -36348,6 +36382,7 @@ extension MediaLiveClientTypes.Av1Settings {
     static func write(value: MediaLiveClientTypes.Av1Settings?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["afdSignaling"].write(value.afdSignaling)
+        try writer["bitDepth"].write(value.bitDepth)
         try writer["bitrate"].write(value.bitrate)
         try writer["bufSize"].write(value.bufSize)
         try writer["colorSpaceSettings"].write(value.colorSpaceSettings, with: MediaLiveClientTypes.Av1ColorSpaceSettings.write(value:to:))
@@ -36398,6 +36433,7 @@ extension MediaLiveClientTypes.Av1Settings {
         value.spatialAq = try reader["spatialAq"].readIfPresent()
         value.temporalAq = try reader["temporalAq"].readIfPresent()
         value.timecodeInsertion = try reader["timecodeInsertion"].readIfPresent()
+        value.bitDepth = try reader["bitDepth"].readIfPresent()
         return value
     }
 }

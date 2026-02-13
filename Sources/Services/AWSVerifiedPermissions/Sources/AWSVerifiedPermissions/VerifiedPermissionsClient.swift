@@ -73,11 +73,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class VerifiedPermissionsClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "VerifiedPermissionsClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: VerifiedPermissionsClient.VerifiedPermissionsClientConfig
+    public let config: VerifiedPermissionsClient.VerifiedPermissionsClientConfig
     let serviceName = "VerifiedPermissions"
 
     @available(*, deprecated, message: "Use VerifiedPermissionsClient.VerifiedPermissionsClientConfig instead")
     public typealias Config = VerifiedPermissionsClient.VerifiedPermissionsClientConfiguration
+    public typealias Configuration = VerifiedPermissionsClient.VerifiedPermissionsClientConfig
 
     public required init(config: VerifiedPermissionsClient.VerifiedPermissionsClientConfig) {
         ClientRuntime.initialize()

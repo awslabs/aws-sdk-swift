@@ -72,11 +72,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class DetectiveClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "DetectiveClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: DetectiveClient.DetectiveClientConfig
+    public let config: DetectiveClient.DetectiveClientConfig
     let serviceName = "Detective"
 
     @available(*, deprecated, message: "Use DetectiveClient.DetectiveClientConfig instead")
     public typealias Config = DetectiveClient.DetectiveClientConfiguration
+    public typealias Configuration = DetectiveClient.DetectiveClientConfig
 
     public required init(config: DetectiveClient.DetectiveClientConfig) {
         ClientRuntime.initialize()

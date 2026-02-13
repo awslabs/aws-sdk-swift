@@ -71,11 +71,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class EC2InstanceConnectClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "EC2InstanceConnectClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: EC2InstanceConnectClient.EC2InstanceConnectClientConfig
+    public let config: EC2InstanceConnectClient.EC2InstanceConnectClientConfig
     let serviceName = "EC2 Instance Connect"
 
     @available(*, deprecated, message: "Use EC2InstanceConnectClient.EC2InstanceConnectClientConfig instead")
     public typealias Config = EC2InstanceConnectClient.EC2InstanceConnectClientConfiguration
+    public typealias Configuration = EC2InstanceConnectClient.EC2InstanceConnectClientConfig
 
     public required init(config: EC2InstanceConnectClient.EC2InstanceConnectClientConfig) {
         ClientRuntime.initialize()

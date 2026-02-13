@@ -73,11 +73,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class PartnerCentralChannelClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "PartnerCentralChannelClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: PartnerCentralChannelClient.PartnerCentralChannelClientConfig
+    public let config: PartnerCentralChannelClient.PartnerCentralChannelClientConfig
     let serviceName = "PartnerCentral Channel"
 
     @available(*, deprecated, message: "Use PartnerCentralChannelClient.PartnerCentralChannelClientConfig instead")
     public typealias Config = PartnerCentralChannelClient.PartnerCentralChannelClientConfiguration
+    public typealias Configuration = PartnerCentralChannelClient.PartnerCentralChannelClientConfig
 
     public required init(config: PartnerCentralChannelClient.PartnerCentralChannelClientConfig) {
         ClientRuntime.initialize()

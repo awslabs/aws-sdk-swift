@@ -76,11 +76,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class DataZoneClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "DataZoneClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: DataZoneClient.DataZoneClientConfig
+    public let config: DataZoneClient.DataZoneClientConfig
     let serviceName = "DataZone"
 
     @available(*, deprecated, message: "Use DataZoneClient.DataZoneClientConfig instead")
     public typealias Config = DataZoneClient.DataZoneClientConfiguration
+    public typealias Configuration = DataZoneClient.DataZoneClientConfig
 
     public required init(config: DataZoneClient.DataZoneClientConfig) {
         ClientRuntime.initialize()

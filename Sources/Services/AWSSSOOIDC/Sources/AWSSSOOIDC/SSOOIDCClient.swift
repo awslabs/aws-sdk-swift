@@ -71,11 +71,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class SSOOIDCClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "SSOOIDCClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: SSOOIDCClient.SSOOIDCClientConfig
+    public let config: SSOOIDCClient.SSOOIDCClientConfig
     let serviceName = "SSO OIDC"
 
     @available(*, deprecated, message: "Use SSOOIDCClient.SSOOIDCClientConfig instead")
     public typealias Config = SSOOIDCClient.SSOOIDCClientConfiguration
+    public typealias Configuration = SSOOIDCClient.SSOOIDCClientConfig
 
     public required init(config: SSOOIDCClient.SSOOIDCClientConfig) {
         ClientRuntime.initialize()

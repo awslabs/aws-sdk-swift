@@ -72,11 +72,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class ServiceQuotasClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "ServiceQuotasClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: ServiceQuotasClient.ServiceQuotasClientConfig
+    public let config: ServiceQuotasClient.ServiceQuotasClientConfig
     let serviceName = "Service Quotas"
 
     @available(*, deprecated, message: "Use ServiceQuotasClient.ServiceQuotasClientConfig instead")
     public typealias Config = ServiceQuotasClient.ServiceQuotasClientConfiguration
+    public typealias Configuration = ServiceQuotasClient.ServiceQuotasClientConfig
 
     public required init(config: ServiceQuotasClient.ServiceQuotasClientConfig) {
         ClientRuntime.initialize()

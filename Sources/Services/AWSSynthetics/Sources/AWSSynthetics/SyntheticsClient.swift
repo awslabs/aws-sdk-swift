@@ -71,11 +71,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class SyntheticsClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "SyntheticsClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: SyntheticsClient.SyntheticsClientConfig
+    public let config: SyntheticsClient.SyntheticsClientConfig
     let serviceName = "synthetics"
 
     @available(*, deprecated, message: "Use SyntheticsClient.SyntheticsClientConfig instead")
     public typealias Config = SyntheticsClient.SyntheticsClientConfiguration
+    public typealias Configuration = SyntheticsClient.SyntheticsClientConfig
 
     public required init(config: SyntheticsClient.SyntheticsClientConfig) {
         ClientRuntime.initialize()

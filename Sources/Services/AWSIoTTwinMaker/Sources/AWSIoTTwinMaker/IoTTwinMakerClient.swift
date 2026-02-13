@@ -72,11 +72,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class IoTTwinMakerClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "IoTTwinMakerClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: IoTTwinMakerClient.IoTTwinMakerClientConfig
+    public let config: IoTTwinMakerClient.IoTTwinMakerClientConfig
     let serviceName = "IoTTwinMaker"
 
     @available(*, deprecated, message: "Use IoTTwinMakerClient.IoTTwinMakerClientConfig instead")
     public typealias Config = IoTTwinMakerClient.IoTTwinMakerClientConfiguration
+    public typealias Configuration = IoTTwinMakerClient.IoTTwinMakerClientConfig
 
     public required init(config: IoTTwinMakerClient.IoTTwinMakerClientConfig) {
         ClientRuntime.initialize()

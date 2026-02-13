@@ -71,11 +71,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class ArtifactClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "ArtifactClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: ArtifactClient.ArtifactClientConfig
+    public let config: ArtifactClient.ArtifactClientConfig
     let serviceName = "Artifact"
 
     @available(*, deprecated, message: "Use ArtifactClient.ArtifactClientConfig instead")
     public typealias Config = ArtifactClient.ArtifactClientConfiguration
+    public typealias Configuration = ArtifactClient.ArtifactClientConfig
 
     public required init(config: ArtifactClient.ArtifactClientConfig) {
         ClientRuntime.initialize()

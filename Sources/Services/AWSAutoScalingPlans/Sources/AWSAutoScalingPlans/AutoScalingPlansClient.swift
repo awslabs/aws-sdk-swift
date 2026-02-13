@@ -72,11 +72,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class AutoScalingPlansClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "AutoScalingPlansClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: AutoScalingPlansClient.AutoScalingPlansClientConfig
+    public let config: AutoScalingPlansClient.AutoScalingPlansClientConfig
     let serviceName = "Auto Scaling Plans"
 
     @available(*, deprecated, message: "Use AutoScalingPlansClient.AutoScalingPlansClientConfig instead")
     public typealias Config = AutoScalingPlansClient.AutoScalingPlansClientConfiguration
+    public typealias Configuration = AutoScalingPlansClient.AutoScalingPlansClientConfig
 
     public required init(config: AutoScalingPlansClient.AutoScalingPlansClientConfig) {
         ClientRuntime.initialize()

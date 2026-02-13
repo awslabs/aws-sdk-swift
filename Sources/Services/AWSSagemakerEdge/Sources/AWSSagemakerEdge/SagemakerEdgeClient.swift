@@ -70,11 +70,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class SagemakerEdgeClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "SagemakerEdgeClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: SagemakerEdgeClient.SagemakerEdgeClientConfig
+    public let config: SagemakerEdgeClient.SagemakerEdgeClientConfig
     let serviceName = "Sagemaker Edge"
 
     @available(*, deprecated, message: "Use SagemakerEdgeClient.SagemakerEdgeClientConfig instead")
     public typealias Config = SagemakerEdgeClient.SagemakerEdgeClientConfiguration
+    public typealias Configuration = SagemakerEdgeClient.SagemakerEdgeClientConfig
 
     public required init(config: SagemakerEdgeClient.SagemakerEdgeClientConfig) {
         ClientRuntime.initialize()

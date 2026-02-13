@@ -73,11 +73,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class IdentitystoreClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "IdentitystoreClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: IdentitystoreClient.IdentitystoreClientConfig
+    public let config: IdentitystoreClient.IdentitystoreClientConfig
     let serviceName = "identitystore"
 
     @available(*, deprecated, message: "Use IdentitystoreClient.IdentitystoreClientConfig instead")
     public typealias Config = IdentitystoreClient.IdentitystoreClientConfiguration
+    public typealias Configuration = IdentitystoreClient.IdentitystoreClientConfig
 
     public required init(config: IdentitystoreClient.IdentitystoreClientConfig) {
         ClientRuntime.initialize()

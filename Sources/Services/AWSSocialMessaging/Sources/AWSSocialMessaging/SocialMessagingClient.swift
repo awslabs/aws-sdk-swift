@@ -72,11 +72,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class SocialMessagingClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "SocialMessagingClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: SocialMessagingClient.SocialMessagingClientConfig
+    public let config: SocialMessagingClient.SocialMessagingClientConfig
     let serviceName = "SocialMessaging"
 
     @available(*, deprecated, message: "Use SocialMessagingClient.SocialMessagingClientConfig instead")
     public typealias Config = SocialMessagingClient.SocialMessagingClientConfiguration
+    public typealias Configuration = SocialMessagingClient.SocialMessagingClientConfig
 
     public required init(config: SocialMessagingClient.SocialMessagingClientConfig) {
         ClientRuntime.initialize()

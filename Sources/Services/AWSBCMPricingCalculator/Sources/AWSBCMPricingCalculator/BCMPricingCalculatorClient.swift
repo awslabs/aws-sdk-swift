@@ -73,11 +73,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class BCMPricingCalculatorClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "BCMPricingCalculatorClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: BCMPricingCalculatorClient.BCMPricingCalculatorClientConfig
+    public let config: BCMPricingCalculatorClient.BCMPricingCalculatorClientConfig
     let serviceName = "BCM Pricing Calculator"
 
     @available(*, deprecated, message: "Use BCMPricingCalculatorClient.BCMPricingCalculatorClientConfig instead")
     public typealias Config = BCMPricingCalculatorClient.BCMPricingCalculatorClientConfiguration
+    public typealias Configuration = BCMPricingCalculatorClient.BCMPricingCalculatorClientConfig
 
     public required init(config: BCMPricingCalculatorClient.BCMPricingCalculatorClientConfig) {
         ClientRuntime.initialize()

@@ -73,11 +73,12 @@ import typealias SmithyHTTPAuthAPI.AuthSchemes
 public final class ResiliencehubClient: AWSClientRuntime.AWSServiceClient {
     public static let clientName = "ResiliencehubClient"
     let client: ClientRuntime.SdkHttpClient
-    let config: ResiliencehubClient.ResiliencehubClientConfig
+    public let config: ResiliencehubClient.ResiliencehubClientConfig
     let serviceName = "resiliencehub"
 
     @available(*, deprecated, message: "Use ResiliencehubClient.ResiliencehubClientConfig instead")
     public typealias Config = ResiliencehubClient.ResiliencehubClientConfiguration
+    public typealias Configuration = ResiliencehubClient.ResiliencehubClientConfig
 
     public required init(config: ResiliencehubClient.ResiliencehubClientConfig) {
         ClientRuntime.initialize()
