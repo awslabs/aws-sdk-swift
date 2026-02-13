@@ -2195,42 +2195,13 @@ extension NotFoundException {
     }
 }
 
-extension ServerlessApplicationRepositoryClientTypes.Version {
+extension ServerlessApplicationRepositoryClientTypes.ApplicationDependencySummary {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ServerlessApplicationRepositoryClientTypes.Version {
+    static func read(from reader: SmithyJSON.Reader) throws -> ServerlessApplicationRepositoryClientTypes.ApplicationDependencySummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ServerlessApplicationRepositoryClientTypes.Version()
+        var value = ServerlessApplicationRepositoryClientTypes.ApplicationDependencySummary()
         value.applicationId = try reader["applicationId"].readIfPresent() ?? ""
-        value.creationTime = try reader["creationTime"].readIfPresent() ?? ""
-        value.parameterDefinitions = try reader["parameterDefinitions"].readListIfPresent(memberReadingClosure: ServerlessApplicationRepositoryClientTypes.ParameterDefinition.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.requiredCapabilities = try reader["requiredCapabilities"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<ServerlessApplicationRepositoryClientTypes.Capability>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.resourcesSupported = try reader["resourcesSupported"].readIfPresent() ?? false
         value.semanticVersion = try reader["semanticVersion"].readIfPresent() ?? ""
-        value.sourceCodeArchiveUrl = try reader["sourceCodeArchiveUrl"].readIfPresent()
-        value.sourceCodeUrl = try reader["sourceCodeUrl"].readIfPresent()
-        value.templateUrl = try reader["templateUrl"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension ServerlessApplicationRepositoryClientTypes.ParameterDefinition {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ServerlessApplicationRepositoryClientTypes.ParameterDefinition {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ServerlessApplicationRepositoryClientTypes.ParameterDefinition()
-        value.allowedPattern = try reader["allowedPattern"].readIfPresent()
-        value.allowedValues = try reader["allowedValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.constraintDescription = try reader["constraintDescription"].readIfPresent()
-        value.defaultValue = try reader["defaultValue"].readIfPresent()
-        value.description = try reader["description"].readIfPresent()
-        value.maxLength = try reader["maxLength"].readIfPresent()
-        value.maxValue = try reader["maxValue"].readIfPresent()
-        value.minLength = try reader["minLength"].readIfPresent()
-        value.minValue = try reader["minValue"].readIfPresent()
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.noEcho = try reader["noEcho"].readIfPresent()
-        value.referencedByResources = try reader["referencedByResources"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.type = try reader["type"].readIfPresent()
         return value
     }
 }
@@ -2256,17 +2227,6 @@ extension ServerlessApplicationRepositoryClientTypes.ApplicationPolicyStatement 
     }
 }
 
-extension ServerlessApplicationRepositoryClientTypes.ApplicationDependencySummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ServerlessApplicationRepositoryClientTypes.ApplicationDependencySummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ServerlessApplicationRepositoryClientTypes.ApplicationDependencySummary()
-        value.applicationId = try reader["applicationId"].readIfPresent() ?? ""
-        value.semanticVersion = try reader["semanticVersion"].readIfPresent() ?? ""
-        return value
-    }
-}
-
 extension ServerlessApplicationRepositoryClientTypes.ApplicationSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ServerlessApplicationRepositoryClientTypes.ApplicationSummary {
@@ -2284,15 +2244,24 @@ extension ServerlessApplicationRepositoryClientTypes.ApplicationSummary {
     }
 }
 
-extension ServerlessApplicationRepositoryClientTypes.VersionSummary {
+extension ServerlessApplicationRepositoryClientTypes.ParameterDefinition {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ServerlessApplicationRepositoryClientTypes.VersionSummary {
+    static func read(from reader: SmithyJSON.Reader) throws -> ServerlessApplicationRepositoryClientTypes.ParameterDefinition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ServerlessApplicationRepositoryClientTypes.VersionSummary()
-        value.applicationId = try reader["applicationId"].readIfPresent() ?? ""
-        value.creationTime = try reader["creationTime"].readIfPresent() ?? ""
-        value.semanticVersion = try reader["semanticVersion"].readIfPresent() ?? ""
-        value.sourceCodeUrl = try reader["sourceCodeUrl"].readIfPresent()
+        var value = ServerlessApplicationRepositoryClientTypes.ParameterDefinition()
+        value.allowedPattern = try reader["allowedPattern"].readIfPresent()
+        value.allowedValues = try reader["allowedValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.constraintDescription = try reader["constraintDescription"].readIfPresent()
+        value.defaultValue = try reader["defaultValue"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.maxLength = try reader["maxLength"].readIfPresent()
+        value.maxValue = try reader["maxValue"].readIfPresent()
+        value.minLength = try reader["minLength"].readIfPresent()
+        value.minValue = try reader["minValue"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.noEcho = try reader["noEcho"].readIfPresent()
+        value.referencedByResources = try reader["referencedByResources"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.type = try reader["type"].readIfPresent()
         return value
     }
 }
@@ -2330,6 +2299,37 @@ extension ServerlessApplicationRepositoryClientTypes.Tag {
         guard let value else { return }
         try writer["key"].write(value.key)
         try writer["value"].write(value.value)
+    }
+}
+
+extension ServerlessApplicationRepositoryClientTypes.Version {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ServerlessApplicationRepositoryClientTypes.Version {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ServerlessApplicationRepositoryClientTypes.Version()
+        value.applicationId = try reader["applicationId"].readIfPresent() ?? ""
+        value.creationTime = try reader["creationTime"].readIfPresent() ?? ""
+        value.parameterDefinitions = try reader["parameterDefinitions"].readListIfPresent(memberReadingClosure: ServerlessApplicationRepositoryClientTypes.ParameterDefinition.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.requiredCapabilities = try reader["requiredCapabilities"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<ServerlessApplicationRepositoryClientTypes.Capability>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.resourcesSupported = try reader["resourcesSupported"].readIfPresent() ?? false
+        value.semanticVersion = try reader["semanticVersion"].readIfPresent() ?? ""
+        value.sourceCodeArchiveUrl = try reader["sourceCodeArchiveUrl"].readIfPresent()
+        value.sourceCodeUrl = try reader["sourceCodeUrl"].readIfPresent()
+        value.templateUrl = try reader["templateUrl"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension ServerlessApplicationRepositoryClientTypes.VersionSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ServerlessApplicationRepositoryClientTypes.VersionSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ServerlessApplicationRepositoryClientTypes.VersionSummary()
+        value.applicationId = try reader["applicationId"].readIfPresent() ?? ""
+        value.creationTime = try reader["creationTime"].readIfPresent() ?? ""
+        value.semanticVersion = try reader["semanticVersion"].readIfPresent() ?? ""
+        value.sourceCodeUrl = try reader["sourceCodeUrl"].readIfPresent()
+        return value
     }
 }
 

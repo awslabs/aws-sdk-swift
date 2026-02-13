@@ -629,6 +629,18 @@ extension UnauthorizedException {
     }
 }
 
+extension SSOClientTypes.AccountInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SSOClientTypes.AccountInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SSOClientTypes.AccountInfo()
+        value.accountId = try reader["accountId"].readIfPresent()
+        value.accountName = try reader["accountName"].readIfPresent()
+        value.emailAddress = try reader["emailAddress"].readIfPresent()
+        return value
+    }
+}
+
 extension SSOClientTypes.RoleCredentials {
 
     static func read(from reader: SmithyJSON.Reader) throws -> SSOClientTypes.RoleCredentials {
@@ -649,18 +661,6 @@ extension SSOClientTypes.RoleInfo {
         var value = SSOClientTypes.RoleInfo()
         value.roleName = try reader["roleName"].readIfPresent()
         value.accountId = try reader["accountId"].readIfPresent()
-        return value
-    }
-}
-
-extension SSOClientTypes.AccountInfo {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SSOClientTypes.AccountInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SSOClientTypes.AccountInfo()
-        value.accountId = try reader["accountId"].readIfPresent()
-        value.accountName = try reader["accountName"].readIfPresent()
-        value.emailAddress = try reader["emailAddress"].readIfPresent()
         return value
     }
 }

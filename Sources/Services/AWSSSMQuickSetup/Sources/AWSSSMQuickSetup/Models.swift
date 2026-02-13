@@ -2411,20 +2411,6 @@ extension ResourceNotFoundException {
     }
 }
 
-extension SSMQuickSetupClientTypes.StatusSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SSMQuickSetupClientTypes.StatusSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SSMQuickSetupClientTypes.StatusSummary()
-        value.statusType = try reader["StatusType"].readIfPresent() ?? .sdkUnknown("")
-        value.status = try reader["Status"].readIfPresent()
-        value.statusMessage = try reader["StatusMessage"].readIfPresent()
-        value.lastUpdatedAt = try reader["LastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.statusDetails = try reader["StatusDetails"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
-}
-
 extension SSMQuickSetupClientTypes.ConfigurationDefinition {
 
     static func read(from reader: SmithyJSON.Reader) throws -> SSMQuickSetupClientTypes.ConfigurationDefinition {
@@ -2440,12 +2426,27 @@ extension SSMQuickSetupClientTypes.ConfigurationDefinition {
     }
 }
 
-extension SSMQuickSetupClientTypes.ServiceSettings {
+extension SSMQuickSetupClientTypes.ConfigurationDefinitionInput {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SSMQuickSetupClientTypes.ServiceSettings {
+    static func write(value: SSMQuickSetupClientTypes.ConfigurationDefinitionInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["LocalDeploymentAdministrationRoleArn"].write(value.localDeploymentAdministrationRoleArn)
+        try writer["LocalDeploymentExecutionRoleName"].write(value.localDeploymentExecutionRoleName)
+        try writer["Parameters"].writeMap(value.parameters, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["Type"].write(value.type)
+        try writer["TypeVersion"].write(value.typeVersion)
+    }
+}
+
+extension SSMQuickSetupClientTypes.ConfigurationDefinitionSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SSMQuickSetupClientTypes.ConfigurationDefinitionSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SSMQuickSetupClientTypes.ServiceSettings()
-        value.explorerEnablingRoleArn = try reader["ExplorerEnablingRoleArn"].readIfPresent()
+        var value = SSMQuickSetupClientTypes.ConfigurationDefinitionSummary()
+        value.id = try reader["Id"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent()
+        value.typeVersion = try reader["TypeVersion"].readIfPresent()
+        value.firstClassParameters = try reader["FirstClassParameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }
@@ -2460,19 +2461,6 @@ extension SSMQuickSetupClientTypes.ConfigurationManagerSummary {
         value.name = try reader["Name"].readIfPresent()
         value.statusSummaries = try reader["StatusSummaries"].readListIfPresent(memberReadingClosure: SSMQuickSetupClientTypes.StatusSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.configurationDefinitionSummaries = try reader["ConfigurationDefinitionSummaries"].readListIfPresent(memberReadingClosure: SSMQuickSetupClientTypes.ConfigurationDefinitionSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension SSMQuickSetupClientTypes.ConfigurationDefinitionSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SSMQuickSetupClientTypes.ConfigurationDefinitionSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SSMQuickSetupClientTypes.ConfigurationDefinitionSummary()
-        value.id = try reader["Id"].readIfPresent()
-        value.type = try reader["Type"].readIfPresent()
-        value.typeVersion = try reader["TypeVersion"].readIfPresent()
-        value.firstClassParameters = try reader["FirstClassParameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }
@@ -2496,6 +2484,15 @@ extension SSMQuickSetupClientTypes.ConfigurationSummary {
     }
 }
 
+extension SSMQuickSetupClientTypes.Filter {
+
+    static func write(value: SSMQuickSetupClientTypes.Filter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Key"].write(value.key)
+        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension SSMQuickSetupClientTypes.QuickSetupTypeOutput {
 
     static func read(from reader: SmithyJSON.Reader) throws -> SSMQuickSetupClientTypes.QuickSetupTypeOutput {
@@ -2503,6 +2500,30 @@ extension SSMQuickSetupClientTypes.QuickSetupTypeOutput {
         var value = SSMQuickSetupClientTypes.QuickSetupTypeOutput()
         value.type = try reader["Type"].readIfPresent()
         value.latestVersion = try reader["LatestVersion"].readIfPresent()
+        return value
+    }
+}
+
+extension SSMQuickSetupClientTypes.ServiceSettings {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SSMQuickSetupClientTypes.ServiceSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SSMQuickSetupClientTypes.ServiceSettings()
+        value.explorerEnablingRoleArn = try reader["ExplorerEnablingRoleArn"].readIfPresent()
+        return value
+    }
+}
+
+extension SSMQuickSetupClientTypes.StatusSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SSMQuickSetupClientTypes.StatusSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SSMQuickSetupClientTypes.StatusSummary()
+        value.statusType = try reader["StatusType"].readIfPresent() ?? .sdkUnknown("")
+        value.status = try reader["Status"].readIfPresent()
+        value.statusMessage = try reader["StatusMessage"].readIfPresent()
+        value.lastUpdatedAt = try reader["LastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.statusDetails = try reader["StatusDetails"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }
@@ -2515,27 +2536,6 @@ extension SSMQuickSetupClientTypes.TagEntry {
         value.key = try reader["Key"].readIfPresent()
         value.value = try reader["Value"].readIfPresent()
         return value
-    }
-}
-
-extension SSMQuickSetupClientTypes.ConfigurationDefinitionInput {
-
-    static func write(value: SSMQuickSetupClientTypes.ConfigurationDefinitionInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["LocalDeploymentAdministrationRoleArn"].write(value.localDeploymentAdministrationRoleArn)
-        try writer["LocalDeploymentExecutionRoleName"].write(value.localDeploymentExecutionRoleName)
-        try writer["Parameters"].writeMap(value.parameters, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["Type"].write(value.type)
-        try writer["TypeVersion"].write(value.typeVersion)
-    }
-}
-
-extension SSMQuickSetupClientTypes.Filter {
-
-    static func write(value: SSMQuickSetupClientTypes.Filter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Key"].write(value.key)
-        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 

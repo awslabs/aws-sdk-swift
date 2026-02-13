@@ -10156,78 +10156,110 @@ extension InvalidNextTokenException {
     }
 }
 
-extension TransferClientTypes.DescribedAccess {
+extension TransferClientTypes.As2AsyncMdnConnectorConfig {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> TransferClientTypes.DescribedAccess {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TransferClientTypes.DescribedAccess()
-        value.homeDirectory = try reader["HomeDirectory"].readIfPresent()
-        value.homeDirectoryMappings = try reader["HomeDirectoryMappings"].readListIfPresent(memberReadingClosure: TransferClientTypes.HomeDirectoryMapEntry.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.homeDirectoryType = try reader["HomeDirectoryType"].readIfPresent()
-        value.policy = try reader["Policy"].readIfPresent()
-        value.posixProfile = try reader["PosixProfile"].readIfPresent(with: TransferClientTypes.PosixProfile.read(from:))
-        value.role = try reader["Role"].readIfPresent()
-        value.externalId = try reader["ExternalId"].readIfPresent()
-        return value
-    }
-}
-
-extension TransferClientTypes.PosixProfile {
-
-    static func write(value: TransferClientTypes.PosixProfile?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: TransferClientTypes.As2AsyncMdnConnectorConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["Gid"].write(value.gid)
-        try writer["SecondaryGids"].writeList(value.secondaryGids, memberWritingClosure: SmithyReadWrite.WritingClosures.writeInt(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Uid"].write(value.uid)
+        try writer["ServerIds"].writeList(value.serverIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Url"].write(value.url)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> TransferClientTypes.PosixProfile {
+    static func read(from reader: SmithyJSON.Reader) throws -> TransferClientTypes.As2AsyncMdnConnectorConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TransferClientTypes.PosixProfile()
-        value.uid = try reader["Uid"].readIfPresent() ?? 0
-        value.gid = try reader["Gid"].readIfPresent() ?? 0
-        value.secondaryGids = try reader["SecondaryGids"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = TransferClientTypes.As2AsyncMdnConnectorConfig()
+        value.url = try reader["Url"].readIfPresent()
+        value.serverIds = try reader["ServerIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
 
-extension TransferClientTypes.HomeDirectoryMapEntry {
+extension TransferClientTypes.As2ConnectorConfig {
 
-    static func write(value: TransferClientTypes.HomeDirectoryMapEntry?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: TransferClientTypes.As2ConnectorConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["Entry"].write(value.entry)
-        try writer["Target"].write(value.target)
-        try writer["Type"].write(value.type)
+        try writer["AsyncMdnConfig"].write(value.asyncMdnConfig, with: TransferClientTypes.As2AsyncMdnConnectorConfig.write(value:to:))
+        try writer["BasicAuthSecretId"].write(value.basicAuthSecretId)
+        try writer["Compression"].write(value.compression)
+        try writer["EncryptionAlgorithm"].write(value.encryptionAlgorithm)
+        try writer["LocalProfileId"].write(value.localProfileId)
+        try writer["MdnResponse"].write(value.mdnResponse)
+        try writer["MdnSigningAlgorithm"].write(value.mdnSigningAlgorithm)
+        try writer["MessageSubject"].write(value.messageSubject)
+        try writer["PartnerProfileId"].write(value.partnerProfileId)
+        try writer["PreserveContentType"].write(value.preserveContentType)
+        try writer["SigningAlgorithm"].write(value.signingAlgorithm)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> TransferClientTypes.HomeDirectoryMapEntry {
+    static func read(from reader: SmithyJSON.Reader) throws -> TransferClientTypes.As2ConnectorConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TransferClientTypes.HomeDirectoryMapEntry()
-        value.entry = try reader["Entry"].readIfPresent() ?? ""
-        value.target = try reader["Target"].readIfPresent() ?? ""
-        value.type = try reader["Type"].readIfPresent()
-        return value
-    }
-}
-
-extension TransferClientTypes.DescribedAgreement {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TransferClientTypes.DescribedAgreement {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TransferClientTypes.DescribedAgreement()
-        value.arn = try reader["Arn"].readIfPresent() ?? ""
-        value.agreementId = try reader["AgreementId"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.serverId = try reader["ServerId"].readIfPresent()
+        var value = TransferClientTypes.As2ConnectorConfig()
         value.localProfileId = try reader["LocalProfileId"].readIfPresent()
         value.partnerProfileId = try reader["PartnerProfileId"].readIfPresent()
-        value.baseDirectory = try reader["BaseDirectory"].readIfPresent()
-        value.accessRole = try reader["AccessRole"].readIfPresent()
-        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: TransferClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.preserveFilename = try reader["PreserveFilename"].readIfPresent()
-        value.enforceMessageSigning = try reader["EnforceMessageSigning"].readIfPresent()
-        value.customDirectories = try reader["CustomDirectories"].readIfPresent(with: TransferClientTypes.CustomDirectoriesType.read(from:))
+        value.messageSubject = try reader["MessageSubject"].readIfPresent()
+        value.compression = try reader["Compression"].readIfPresent()
+        value.encryptionAlgorithm = try reader["EncryptionAlgorithm"].readIfPresent()
+        value.signingAlgorithm = try reader["SigningAlgorithm"].readIfPresent()
+        value.mdnSigningAlgorithm = try reader["MdnSigningAlgorithm"].readIfPresent()
+        value.mdnResponse = try reader["MdnResponse"].readIfPresent()
+        value.basicAuthSecretId = try reader["BasicAuthSecretId"].readIfPresent()
+        value.preserveContentType = try reader["PreserveContentType"].readIfPresent()
+        value.asyncMdnConfig = try reader["AsyncMdnConfig"].readIfPresent(with: TransferClientTypes.As2AsyncMdnConnectorConfig.read(from:))
+        return value
+    }
+}
+
+extension TransferClientTypes.ConnectorEgressConfig {
+
+    static func write(value: TransferClientTypes.ConnectorEgressConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .vpclattice(vpclattice):
+                try writer["VpcLattice"].write(vpclattice, with: TransferClientTypes.ConnectorVpcLatticeEgressConfig.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension TransferClientTypes.ConnectorFileTransferResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TransferClientTypes.ConnectorFileTransferResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TransferClientTypes.ConnectorFileTransferResult()
+        value.filePath = try reader["FilePath"].readIfPresent() ?? ""
+        value.statusCode = try reader["StatusCode"].readIfPresent() ?? .sdkUnknown("")
+        value.failureCode = try reader["FailureCode"].readIfPresent()
+        value.failureMessage = try reader["FailureMessage"].readIfPresent()
+        return value
+    }
+}
+
+extension TransferClientTypes.ConnectorVpcLatticeEgressConfig {
+
+    static func write(value: TransferClientTypes.ConnectorVpcLatticeEgressConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["PortNumber"].write(value.portNumber)
+        try writer["ResourceConfigurationArn"].write(value.resourceConfigurationArn)
+    }
+}
+
+extension TransferClientTypes.CopyStepDetails {
+
+    static func write(value: TransferClientTypes.CopyStepDetails?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DestinationFileLocation"].write(value.destinationFileLocation, with: TransferClientTypes.InputFileLocation.write(value:to:))
+        try writer["Name"].write(value.name)
+        try writer["OverwriteExisting"].write(value.overwriteExisting)
+        try writer["SourceFileLocation"].write(value.sourceFileLocation)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TransferClientTypes.CopyStepDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TransferClientTypes.CopyStepDetails()
+        value.name = try reader["Name"].readIfPresent()
+        value.destinationFileLocation = try reader["DestinationFileLocation"].readIfPresent(with: TransferClientTypes.InputFileLocation.read(from:))
+        value.overwriteExisting = try reader["OverwriteExisting"].readIfPresent()
+        value.sourceFileLocation = try reader["SourceFileLocation"].readIfPresent()
         return value
     }
 }
@@ -10255,19 +10287,110 @@ extension TransferClientTypes.CustomDirectoriesType {
     }
 }
 
-extension TransferClientTypes.Tag {
+extension TransferClientTypes.CustomHttpHeader {
 
-    static func write(value: TransferClientTypes.Tag?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: TransferClientTypes.CustomHttpHeader?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Key"].write(value.key)
         try writer["Value"].write(value.value)
     }
+}
 
-    static func read(from reader: SmithyJSON.Reader) throws -> TransferClientTypes.Tag {
+extension TransferClientTypes.CustomStepDetails {
+
+    static func write(value: TransferClientTypes.CustomStepDetails?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Name"].write(value.name)
+        try writer["SourceFileLocation"].write(value.sourceFileLocation)
+        try writer["Target"].write(value.target)
+        try writer["TimeoutSeconds"].write(value.timeoutSeconds)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TransferClientTypes.CustomStepDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TransferClientTypes.Tag()
-        value.key = try reader["Key"].readIfPresent() ?? ""
-        value.value = try reader["Value"].readIfPresent() ?? ""
+        var value = TransferClientTypes.CustomStepDetails()
+        value.name = try reader["Name"].readIfPresent()
+        value.target = try reader["Target"].readIfPresent()
+        value.timeoutSeconds = try reader["TimeoutSeconds"].readIfPresent()
+        value.sourceFileLocation = try reader["SourceFileLocation"].readIfPresent()
+        return value
+    }
+}
+
+extension TransferClientTypes.DecryptStepDetails {
+
+    static func write(value: TransferClientTypes.DecryptStepDetails?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DestinationFileLocation"].write(value.destinationFileLocation, with: TransferClientTypes.InputFileLocation.write(value:to:))
+        try writer["Name"].write(value.name)
+        try writer["OverwriteExisting"].write(value.overwriteExisting)
+        try writer["SourceFileLocation"].write(value.sourceFileLocation)
+        try writer["Type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TransferClientTypes.DecryptStepDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TransferClientTypes.DecryptStepDetails()
+        value.name = try reader["Name"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
+        value.sourceFileLocation = try reader["SourceFileLocation"].readIfPresent()
+        value.overwriteExisting = try reader["OverwriteExisting"].readIfPresent()
+        value.destinationFileLocation = try reader["DestinationFileLocation"].readIfPresent(with: TransferClientTypes.InputFileLocation.read(from:))
+        return value
+    }
+}
+
+extension TransferClientTypes.DeleteStepDetails {
+
+    static func write(value: TransferClientTypes.DeleteStepDetails?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Name"].write(value.name)
+        try writer["SourceFileLocation"].write(value.sourceFileLocation)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TransferClientTypes.DeleteStepDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TransferClientTypes.DeleteStepDetails()
+        value.name = try reader["Name"].readIfPresent()
+        value.sourceFileLocation = try reader["SourceFileLocation"].readIfPresent()
+        return value
+    }
+}
+
+extension TransferClientTypes.DescribedAccess {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TransferClientTypes.DescribedAccess {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TransferClientTypes.DescribedAccess()
+        value.homeDirectory = try reader["HomeDirectory"].readIfPresent()
+        value.homeDirectoryMappings = try reader["HomeDirectoryMappings"].readListIfPresent(memberReadingClosure: TransferClientTypes.HomeDirectoryMapEntry.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.homeDirectoryType = try reader["HomeDirectoryType"].readIfPresent()
+        value.policy = try reader["Policy"].readIfPresent()
+        value.posixProfile = try reader["PosixProfile"].readIfPresent(with: TransferClientTypes.PosixProfile.read(from:))
+        value.role = try reader["Role"].readIfPresent()
+        value.externalId = try reader["ExternalId"].readIfPresent()
+        return value
+    }
+}
+
+extension TransferClientTypes.DescribedAgreement {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TransferClientTypes.DescribedAgreement {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TransferClientTypes.DescribedAgreement()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.agreementId = try reader["AgreementId"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.serverId = try reader["ServerId"].readIfPresent()
+        value.localProfileId = try reader["LocalProfileId"].readIfPresent()
+        value.partnerProfileId = try reader["PartnerProfileId"].readIfPresent()
+        value.baseDirectory = try reader["BaseDirectory"].readIfPresent()
+        value.accessRole = try reader["AccessRole"].readIfPresent()
+        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: TransferClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.preserveFilename = try reader["PreserveFilename"].readIfPresent()
+        value.enforceMessageSigning = try reader["EnforceMessageSigning"].readIfPresent()
+        value.customDirectories = try reader["CustomDirectories"].readIfPresent(with: TransferClientTypes.CustomDirectoriesType.read(from:))
         return value
     }
 }
@@ -10343,77 +10466,6 @@ extension TransferClientTypes.DescribedConnectorVpcLatticeEgressConfig {
     }
 }
 
-extension TransferClientTypes.SftpConnectorConfig {
-
-    static func write(value: TransferClientTypes.SftpConnectorConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["MaxConcurrentConnections"].write(value.maxConcurrentConnections)
-        try writer["TrustedHostKeys"].writeList(value.trustedHostKeys, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["UserSecretId"].write(value.userSecretId)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TransferClientTypes.SftpConnectorConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TransferClientTypes.SftpConnectorConfig()
-        value.userSecretId = try reader["UserSecretId"].readIfPresent()
-        value.trustedHostKeys = try reader["TrustedHostKeys"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.maxConcurrentConnections = try reader["MaxConcurrentConnections"].readIfPresent() ?? 1
-        return value
-    }
-}
-
-extension TransferClientTypes.As2ConnectorConfig {
-
-    static func write(value: TransferClientTypes.As2ConnectorConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AsyncMdnConfig"].write(value.asyncMdnConfig, with: TransferClientTypes.As2AsyncMdnConnectorConfig.write(value:to:))
-        try writer["BasicAuthSecretId"].write(value.basicAuthSecretId)
-        try writer["Compression"].write(value.compression)
-        try writer["EncryptionAlgorithm"].write(value.encryptionAlgorithm)
-        try writer["LocalProfileId"].write(value.localProfileId)
-        try writer["MdnResponse"].write(value.mdnResponse)
-        try writer["MdnSigningAlgorithm"].write(value.mdnSigningAlgorithm)
-        try writer["MessageSubject"].write(value.messageSubject)
-        try writer["PartnerProfileId"].write(value.partnerProfileId)
-        try writer["PreserveContentType"].write(value.preserveContentType)
-        try writer["SigningAlgorithm"].write(value.signingAlgorithm)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TransferClientTypes.As2ConnectorConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TransferClientTypes.As2ConnectorConfig()
-        value.localProfileId = try reader["LocalProfileId"].readIfPresent()
-        value.partnerProfileId = try reader["PartnerProfileId"].readIfPresent()
-        value.messageSubject = try reader["MessageSubject"].readIfPresent()
-        value.compression = try reader["Compression"].readIfPresent()
-        value.encryptionAlgorithm = try reader["EncryptionAlgorithm"].readIfPresent()
-        value.signingAlgorithm = try reader["SigningAlgorithm"].readIfPresent()
-        value.mdnSigningAlgorithm = try reader["MdnSigningAlgorithm"].readIfPresent()
-        value.mdnResponse = try reader["MdnResponse"].readIfPresent()
-        value.basicAuthSecretId = try reader["BasicAuthSecretId"].readIfPresent()
-        value.preserveContentType = try reader["PreserveContentType"].readIfPresent()
-        value.asyncMdnConfig = try reader["AsyncMdnConfig"].readIfPresent(with: TransferClientTypes.As2AsyncMdnConnectorConfig.read(from:))
-        return value
-    }
-}
-
-extension TransferClientTypes.As2AsyncMdnConnectorConfig {
-
-    static func write(value: TransferClientTypes.As2AsyncMdnConnectorConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ServerIds"].writeList(value.serverIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Url"].write(value.url)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TransferClientTypes.As2AsyncMdnConnectorConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TransferClientTypes.As2AsyncMdnConnectorConfig()
-        value.url = try reader["Url"].readIfPresent()
-        value.serverIds = try reader["ServerIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
 extension TransferClientTypes.DescribedExecution {
 
     static func read(from reader: SmithyJSON.Reader) throws -> TransferClientTypes.DescribedExecution {
@@ -10431,114 +10483,6 @@ extension TransferClientTypes.DescribedExecution {
     }
 }
 
-extension TransferClientTypes.ExecutionResults {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TransferClientTypes.ExecutionResults {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TransferClientTypes.ExecutionResults()
-        value.steps = try reader["Steps"].readListIfPresent(memberReadingClosure: TransferClientTypes.ExecutionStepResult.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.onExceptionSteps = try reader["OnExceptionSteps"].readListIfPresent(memberReadingClosure: TransferClientTypes.ExecutionStepResult.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension TransferClientTypes.ExecutionStepResult {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TransferClientTypes.ExecutionStepResult {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TransferClientTypes.ExecutionStepResult()
-        value.stepType = try reader["StepType"].readIfPresent()
-        value.outputs = try reader["Outputs"].readIfPresent()
-        value.error = try reader["Error"].readIfPresent(with: TransferClientTypes.ExecutionError.read(from:))
-        return value
-    }
-}
-
-extension TransferClientTypes.ExecutionError {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TransferClientTypes.ExecutionError {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TransferClientTypes.ExecutionError()
-        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
-        value.message = try reader["Message"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension TransferClientTypes.LoggingConfiguration {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TransferClientTypes.LoggingConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TransferClientTypes.LoggingConfiguration()
-        value.loggingRole = try reader["LoggingRole"].readIfPresent()
-        value.logGroupName = try reader["LogGroupName"].readIfPresent()
-        return value
-    }
-}
-
-extension TransferClientTypes.ServiceMetadata {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TransferClientTypes.ServiceMetadata {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TransferClientTypes.ServiceMetadata()
-        value.userDetails = try reader["UserDetails"].readIfPresent(with: TransferClientTypes.UserDetails.read(from:))
-        return value
-    }
-}
-
-extension TransferClientTypes.UserDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TransferClientTypes.UserDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TransferClientTypes.UserDetails()
-        value.userName = try reader["UserName"].readIfPresent() ?? ""
-        value.serverId = try reader["ServerId"].readIfPresent() ?? ""
-        value.sessionId = try reader["SessionId"].readIfPresent()
-        return value
-    }
-}
-
-extension TransferClientTypes.FileLocation {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TransferClientTypes.FileLocation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TransferClientTypes.FileLocation()
-        value.s3FileLocation = try reader["S3FileLocation"].readIfPresent(with: TransferClientTypes.S3FileLocation.read(from:))
-        value.efsFileLocation = try reader["EfsFileLocation"].readIfPresent(with: TransferClientTypes.EfsFileLocation.read(from:))
-        return value
-    }
-}
-
-extension TransferClientTypes.EfsFileLocation {
-
-    static func write(value: TransferClientTypes.EfsFileLocation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["FileSystemId"].write(value.fileSystemId)
-        try writer["Path"].write(value.path)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TransferClientTypes.EfsFileLocation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TransferClientTypes.EfsFileLocation()
-        value.fileSystemId = try reader["FileSystemId"].readIfPresent()
-        value.path = try reader["Path"].readIfPresent()
-        return value
-    }
-}
-
-extension TransferClientTypes.S3FileLocation {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TransferClientTypes.S3FileLocation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TransferClientTypes.S3FileLocation()
-        value.bucket = try reader["Bucket"].readIfPresent()
-        value.key = try reader["Key"].readIfPresent()
-        value.versionId = try reader["VersionId"].readIfPresent()
-        value.etag = try reader["Etag"].readIfPresent()
-        return value
-    }
-}
-
 extension TransferClientTypes.DescribedHostKey {
 
     static func read(from reader: SmithyJSON.Reader) throws -> TransferClientTypes.DescribedHostKey {
@@ -10551,6 +10495,18 @@ extension TransferClientTypes.DescribedHostKey {
         value.type = try reader["Type"].readIfPresent()
         value.dateImported = try reader["DateImported"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: TransferClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension TransferClientTypes.DescribedIdentityCenterConfig {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TransferClientTypes.DescribedIdentityCenterConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TransferClientTypes.DescribedIdentityCenterConfig()
+        value.applicationArn = try reader["ApplicationArn"].readIfPresent()
+        value.instanceArn = try reader["InstanceArn"].readIfPresent()
+        value.role = try reader["Role"].readIfPresent()
         return value
     }
 }
@@ -10620,74 +10576,126 @@ extension TransferClientTypes.DescribedServer {
     }
 }
 
-extension TransferClientTypes.S3StorageOptions {
+extension TransferClientTypes.DescribedUser {
 
-    static func write(value: TransferClientTypes.S3StorageOptions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DirectoryListingOptimization"].write(value.directoryListingOptimization)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TransferClientTypes.S3StorageOptions {
+    static func read(from reader: SmithyJSON.Reader) throws -> TransferClientTypes.DescribedUser {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TransferClientTypes.S3StorageOptions()
-        value.directoryListingOptimization = try reader["DirectoryListingOptimization"].readIfPresent()
+        var value = TransferClientTypes.DescribedUser()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.homeDirectory = try reader["HomeDirectory"].readIfPresent()
+        value.homeDirectoryMappings = try reader["HomeDirectoryMappings"].readListIfPresent(memberReadingClosure: TransferClientTypes.HomeDirectoryMapEntry.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.homeDirectoryType = try reader["HomeDirectoryType"].readIfPresent()
+        value.policy = try reader["Policy"].readIfPresent()
+        value.posixProfile = try reader["PosixProfile"].readIfPresent(with: TransferClientTypes.PosixProfile.read(from:))
+        value.role = try reader["Role"].readIfPresent()
+        value.sshPublicKeys = try reader["SshPublicKeys"].readListIfPresent(memberReadingClosure: TransferClientTypes.SshPublicKey.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: TransferClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.userName = try reader["UserName"].readIfPresent()
         return value
     }
 }
 
-extension TransferClientTypes.WorkflowDetails {
+extension TransferClientTypes.DescribedWebApp {
 
-    static func write(value: TransferClientTypes.WorkflowDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["OnPartialUpload"].writeList(value.onPartialUpload, memberWritingClosure: TransferClientTypes.WorkflowDetail.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["OnUpload"].writeList(value.onUpload, memberWritingClosure: TransferClientTypes.WorkflowDetail.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TransferClientTypes.WorkflowDetails {
+    static func read(from reader: SmithyJSON.Reader) throws -> TransferClientTypes.DescribedWebApp {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TransferClientTypes.WorkflowDetails()
-        value.onUpload = try reader["OnUpload"].readListIfPresent(memberReadingClosure: TransferClientTypes.WorkflowDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.onPartialUpload = try reader["OnPartialUpload"].readListIfPresent(memberReadingClosure: TransferClientTypes.WorkflowDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = TransferClientTypes.DescribedWebApp()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.webAppId = try reader["WebAppId"].readIfPresent() ?? ""
+        value.describedIdentityProviderDetails = try reader["DescribedIdentityProviderDetails"].readIfPresent(with: TransferClientTypes.DescribedWebAppIdentityProviderDetails.read(from:))
+        value.accessEndpoint = try reader["AccessEndpoint"].readIfPresent()
+        value.webAppEndpoint = try reader["WebAppEndpoint"].readIfPresent()
+        value.webAppUnits = try reader["WebAppUnits"].readIfPresent(with: TransferClientTypes.WebAppUnits.read(from:))
+        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: TransferClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.webAppEndpointPolicy = try reader["WebAppEndpointPolicy"].readIfPresent()
+        value.endpointType = try reader["EndpointType"].readIfPresent()
+        value.describedEndpointDetails = try reader["DescribedEndpointDetails"].readIfPresent(with: TransferClientTypes.DescribedWebAppEndpointDetails.read(from:))
         return value
     }
 }
 
-extension TransferClientTypes.WorkflowDetail {
+extension TransferClientTypes.DescribedWebAppCustomization {
 
-    static func write(value: TransferClientTypes.WorkflowDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ExecutionRole"].write(value.executionRole)
-        try writer["WorkflowId"].write(value.workflowId)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TransferClientTypes.WorkflowDetail {
+    static func read(from reader: SmithyJSON.Reader) throws -> TransferClientTypes.DescribedWebAppCustomization {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TransferClientTypes.WorkflowDetail()
-        value.workflowId = try reader["WorkflowId"].readIfPresent() ?? ""
-        value.executionRole = try reader["ExecutionRole"].readIfPresent() ?? ""
+        var value = TransferClientTypes.DescribedWebAppCustomization()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.webAppId = try reader["WebAppId"].readIfPresent() ?? ""
+        value.title = try reader["Title"].readIfPresent()
+        value.logoFile = try reader["LogoFile"].readIfPresent()
+        value.faviconFile = try reader["FaviconFile"].readIfPresent()
         return value
     }
 }
 
-extension TransferClientTypes.IdentityProviderDetails {
+extension TransferClientTypes.DescribedWebAppEndpointDetails {
 
-    static func write(value: TransferClientTypes.IdentityProviderDetails?, to writer: SmithyJSON.Writer) throws {
+    static func read(from reader: SmithyJSON.Reader) throws -> TransferClientTypes.DescribedWebAppEndpointDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "Vpc":
+                return .vpc(try reader["Vpc"].read(with: TransferClientTypes.DescribedWebAppVpcConfig.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension TransferClientTypes.DescribedWebAppIdentityProviderDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TransferClientTypes.DescribedWebAppIdentityProviderDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "IdentityCenterConfig":
+                return .identitycenterconfig(try reader["IdentityCenterConfig"].read(with: TransferClientTypes.DescribedIdentityCenterConfig.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension TransferClientTypes.DescribedWebAppVpcConfig {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TransferClientTypes.DescribedWebAppVpcConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TransferClientTypes.DescribedWebAppVpcConfig()
+        value.subnetIds = try reader["SubnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.vpcId = try reader["VpcId"].readIfPresent()
+        value.vpcEndpointId = try reader["VpcEndpointId"].readIfPresent()
+        return value
+    }
+}
+
+extension TransferClientTypes.DescribedWorkflow {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TransferClientTypes.DescribedWorkflow {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TransferClientTypes.DescribedWorkflow()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.description = try reader["Description"].readIfPresent()
+        value.steps = try reader["Steps"].readListIfPresent(memberReadingClosure: TransferClientTypes.WorkflowStep.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.onExceptionSteps = try reader["OnExceptionSteps"].readListIfPresent(memberReadingClosure: TransferClientTypes.WorkflowStep.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.workflowId = try reader["WorkflowId"].readIfPresent()
+        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: TransferClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension TransferClientTypes.EfsFileLocation {
+
+    static func write(value: TransferClientTypes.EfsFileLocation?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["DirectoryId"].write(value.directoryId)
-        try writer["Function"].write(value.function)
-        try writer["InvocationRole"].write(value.invocationRole)
-        try writer["SftpAuthenticationMethods"].write(value.sftpAuthenticationMethods)
-        try writer["Url"].write(value.url)
+        try writer["FileSystemId"].write(value.fileSystemId)
+        try writer["Path"].write(value.path)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> TransferClientTypes.IdentityProviderDetails {
+    static func read(from reader: SmithyJSON.Reader) throws -> TransferClientTypes.EfsFileLocation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TransferClientTypes.IdentityProviderDetails()
-        value.url = try reader["Url"].readIfPresent()
-        value.invocationRole = try reader["InvocationRole"].readIfPresent()
-        value.directoryId = try reader["DirectoryId"].readIfPresent()
-        value.function = try reader["Function"].readIfPresent()
-        value.sftpAuthenticationMethods = try reader["SftpAuthenticationMethods"].readIfPresent()
+        var value = TransferClientTypes.EfsFileLocation()
+        value.fileSystemId = try reader["FileSystemId"].readIfPresent()
+        value.path = try reader["Path"].readIfPresent()
         return value
     }
 }
@@ -10715,226 +10723,98 @@ extension TransferClientTypes.EndpointDetails {
     }
 }
 
-extension TransferClientTypes.ProtocolDetails {
+extension TransferClientTypes.ExecutionError {
 
-    static func write(value: TransferClientTypes.ProtocolDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["As2Transports"].writeList(value.as2Transports, memberWritingClosure: SmithyReadWrite.WritingClosureBox<TransferClientTypes.As2Transport>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["PassiveIp"].write(value.passiveIp)
-        try writer["SetStatOption"].write(value.setStatOption)
-        try writer["TlsSessionResumptionMode"].write(value.tlsSessionResumptionMode)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TransferClientTypes.ProtocolDetails {
+    static func read(from reader: SmithyJSON.Reader) throws -> TransferClientTypes.ExecutionError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TransferClientTypes.ProtocolDetails()
-        value.passiveIp = try reader["PassiveIp"].readIfPresent()
-        value.tlsSessionResumptionMode = try reader["TlsSessionResumptionMode"].readIfPresent()
-        value.setStatOption = try reader["SetStatOption"].readIfPresent()
-        value.as2Transports = try reader["As2Transports"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<TransferClientTypes.As2Transport>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension TransferClientTypes.DescribedUser {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TransferClientTypes.DescribedUser {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TransferClientTypes.DescribedUser()
-        value.arn = try reader["Arn"].readIfPresent() ?? ""
-        value.homeDirectory = try reader["HomeDirectory"].readIfPresent()
-        value.homeDirectoryMappings = try reader["HomeDirectoryMappings"].readListIfPresent(memberReadingClosure: TransferClientTypes.HomeDirectoryMapEntry.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.homeDirectoryType = try reader["HomeDirectoryType"].readIfPresent()
-        value.policy = try reader["Policy"].readIfPresent()
-        value.posixProfile = try reader["PosixProfile"].readIfPresent(with: TransferClientTypes.PosixProfile.read(from:))
-        value.role = try reader["Role"].readIfPresent()
-        value.sshPublicKeys = try reader["SshPublicKeys"].readListIfPresent(memberReadingClosure: TransferClientTypes.SshPublicKey.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: TransferClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.userName = try reader["UserName"].readIfPresent()
-        return value
-    }
-}
-
-extension TransferClientTypes.SshPublicKey {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TransferClientTypes.SshPublicKey {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TransferClientTypes.SshPublicKey()
-        value.dateImported = try reader["DateImported"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.sshPublicKeyBody = try reader["SshPublicKeyBody"].readIfPresent() ?? ""
-        value.sshPublicKeyId = try reader["SshPublicKeyId"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension TransferClientTypes.DescribedWebApp {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TransferClientTypes.DescribedWebApp {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TransferClientTypes.DescribedWebApp()
-        value.arn = try reader["Arn"].readIfPresent() ?? ""
-        value.webAppId = try reader["WebAppId"].readIfPresent() ?? ""
-        value.describedIdentityProviderDetails = try reader["DescribedIdentityProviderDetails"].readIfPresent(with: TransferClientTypes.DescribedWebAppIdentityProviderDetails.read(from:))
-        value.accessEndpoint = try reader["AccessEndpoint"].readIfPresent()
-        value.webAppEndpoint = try reader["WebAppEndpoint"].readIfPresent()
-        value.webAppUnits = try reader["WebAppUnits"].readIfPresent(with: TransferClientTypes.WebAppUnits.read(from:))
-        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: TransferClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.webAppEndpointPolicy = try reader["WebAppEndpointPolicy"].readIfPresent()
-        value.endpointType = try reader["EndpointType"].readIfPresent()
-        value.describedEndpointDetails = try reader["DescribedEndpointDetails"].readIfPresent(with: TransferClientTypes.DescribedWebAppEndpointDetails.read(from:))
-        return value
-    }
-}
-
-extension TransferClientTypes.DescribedWebAppEndpointDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TransferClientTypes.DescribedWebAppEndpointDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "Vpc":
-                return .vpc(try reader["Vpc"].read(with: TransferClientTypes.DescribedWebAppVpcConfig.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension TransferClientTypes.DescribedWebAppVpcConfig {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TransferClientTypes.DescribedWebAppVpcConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TransferClientTypes.DescribedWebAppVpcConfig()
-        value.subnetIds = try reader["SubnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.vpcId = try reader["VpcId"].readIfPresent()
-        value.vpcEndpointId = try reader["VpcEndpointId"].readIfPresent()
-        return value
-    }
-}
-
-extension TransferClientTypes.WebAppUnits {
-
-    static func write(value: TransferClientTypes.WebAppUnits?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .provisioned(provisioned):
-                try writer["Provisioned"].write(provisioned)
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TransferClientTypes.WebAppUnits {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "Provisioned":
-                return .provisioned(try reader["Provisioned"].read())
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension TransferClientTypes.DescribedWebAppIdentityProviderDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TransferClientTypes.DescribedWebAppIdentityProviderDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "IdentityCenterConfig":
-                return .identitycenterconfig(try reader["IdentityCenterConfig"].read(with: TransferClientTypes.DescribedIdentityCenterConfig.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension TransferClientTypes.DescribedIdentityCenterConfig {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TransferClientTypes.DescribedIdentityCenterConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TransferClientTypes.DescribedIdentityCenterConfig()
-        value.applicationArn = try reader["ApplicationArn"].readIfPresent()
-        value.instanceArn = try reader["InstanceArn"].readIfPresent()
-        value.role = try reader["Role"].readIfPresent()
-        return value
-    }
-}
-
-extension TransferClientTypes.DescribedWebAppCustomization {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TransferClientTypes.DescribedWebAppCustomization {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TransferClientTypes.DescribedWebAppCustomization()
-        value.arn = try reader["Arn"].readIfPresent() ?? ""
-        value.webAppId = try reader["WebAppId"].readIfPresent() ?? ""
-        value.title = try reader["Title"].readIfPresent()
-        value.logoFile = try reader["LogoFile"].readIfPresent()
-        value.faviconFile = try reader["FaviconFile"].readIfPresent()
-        return value
-    }
-}
-
-extension TransferClientTypes.DescribedWorkflow {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TransferClientTypes.DescribedWorkflow {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TransferClientTypes.DescribedWorkflow()
-        value.arn = try reader["Arn"].readIfPresent() ?? ""
-        value.description = try reader["Description"].readIfPresent()
-        value.steps = try reader["Steps"].readListIfPresent(memberReadingClosure: TransferClientTypes.WorkflowStep.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.onExceptionSteps = try reader["OnExceptionSteps"].readListIfPresent(memberReadingClosure: TransferClientTypes.WorkflowStep.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.workflowId = try reader["WorkflowId"].readIfPresent()
-        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: TransferClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension TransferClientTypes.WorkflowStep {
-
-    static func write(value: TransferClientTypes.WorkflowStep?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CopyStepDetails"].write(value.copyStepDetails, with: TransferClientTypes.CopyStepDetails.write(value:to:))
-        try writer["CustomStepDetails"].write(value.customStepDetails, with: TransferClientTypes.CustomStepDetails.write(value:to:))
-        try writer["DecryptStepDetails"].write(value.decryptStepDetails, with: TransferClientTypes.DecryptStepDetails.write(value:to:))
-        try writer["DeleteStepDetails"].write(value.deleteStepDetails, with: TransferClientTypes.DeleteStepDetails.write(value:to:))
-        try writer["TagStepDetails"].write(value.tagStepDetails, with: TransferClientTypes.TagStepDetails.write(value:to:))
-        try writer["Type"].write(value.type)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TransferClientTypes.WorkflowStep {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TransferClientTypes.WorkflowStep()
-        value.type = try reader["Type"].readIfPresent()
-        value.copyStepDetails = try reader["CopyStepDetails"].readIfPresent(with: TransferClientTypes.CopyStepDetails.read(from:))
-        value.customStepDetails = try reader["CustomStepDetails"].readIfPresent(with: TransferClientTypes.CustomStepDetails.read(from:))
-        value.deleteStepDetails = try reader["DeleteStepDetails"].readIfPresent(with: TransferClientTypes.DeleteStepDetails.read(from:))
-        value.tagStepDetails = try reader["TagStepDetails"].readIfPresent(with: TransferClientTypes.TagStepDetails.read(from:))
-        value.decryptStepDetails = try reader["DecryptStepDetails"].readIfPresent(with: TransferClientTypes.DecryptStepDetails.read(from:))
-        return value
-    }
-}
-
-extension TransferClientTypes.DecryptStepDetails {
-
-    static func write(value: TransferClientTypes.DecryptStepDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DestinationFileLocation"].write(value.destinationFileLocation, with: TransferClientTypes.InputFileLocation.write(value:to:))
-        try writer["Name"].write(value.name)
-        try writer["OverwriteExisting"].write(value.overwriteExisting)
-        try writer["SourceFileLocation"].write(value.sourceFileLocation)
-        try writer["Type"].write(value.type)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TransferClientTypes.DecryptStepDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TransferClientTypes.DecryptStepDetails()
-        value.name = try reader["Name"].readIfPresent()
+        var value = TransferClientTypes.ExecutionError()
         value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
-        value.sourceFileLocation = try reader["SourceFileLocation"].readIfPresent()
-        value.overwriteExisting = try reader["OverwriteExisting"].readIfPresent()
-        value.destinationFileLocation = try reader["DestinationFileLocation"].readIfPresent(with: TransferClientTypes.InputFileLocation.read(from:))
+        value.message = try reader["Message"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension TransferClientTypes.ExecutionResults {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TransferClientTypes.ExecutionResults {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TransferClientTypes.ExecutionResults()
+        value.steps = try reader["Steps"].readListIfPresent(memberReadingClosure: TransferClientTypes.ExecutionStepResult.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.onExceptionSteps = try reader["OnExceptionSteps"].readListIfPresent(memberReadingClosure: TransferClientTypes.ExecutionStepResult.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension TransferClientTypes.ExecutionStepResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TransferClientTypes.ExecutionStepResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TransferClientTypes.ExecutionStepResult()
+        value.stepType = try reader["StepType"].readIfPresent()
+        value.outputs = try reader["Outputs"].readIfPresent()
+        value.error = try reader["Error"].readIfPresent(with: TransferClientTypes.ExecutionError.read(from:))
+        return value
+    }
+}
+
+extension TransferClientTypes.FileLocation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TransferClientTypes.FileLocation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TransferClientTypes.FileLocation()
+        value.s3FileLocation = try reader["S3FileLocation"].readIfPresent(with: TransferClientTypes.S3FileLocation.read(from:))
+        value.efsFileLocation = try reader["EfsFileLocation"].readIfPresent(with: TransferClientTypes.EfsFileLocation.read(from:))
+        return value
+    }
+}
+
+extension TransferClientTypes.HomeDirectoryMapEntry {
+
+    static func write(value: TransferClientTypes.HomeDirectoryMapEntry?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Entry"].write(value.entry)
+        try writer["Target"].write(value.target)
+        try writer["Type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TransferClientTypes.HomeDirectoryMapEntry {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TransferClientTypes.HomeDirectoryMapEntry()
+        value.entry = try reader["Entry"].readIfPresent() ?? ""
+        value.target = try reader["Target"].readIfPresent() ?? ""
+        value.type = try reader["Type"].readIfPresent()
+        return value
+    }
+}
+
+extension TransferClientTypes.IdentityCenterConfig {
+
+    static func write(value: TransferClientTypes.IdentityCenterConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["InstanceArn"].write(value.instanceArn)
+        try writer["Role"].write(value.role)
+    }
+}
+
+extension TransferClientTypes.IdentityProviderDetails {
+
+    static func write(value: TransferClientTypes.IdentityProviderDetails?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DirectoryId"].write(value.directoryId)
+        try writer["Function"].write(value.function)
+        try writer["InvocationRole"].write(value.invocationRole)
+        try writer["SftpAuthenticationMethods"].write(value.sftpAuthenticationMethods)
+        try writer["Url"].write(value.url)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TransferClientTypes.IdentityProviderDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TransferClientTypes.IdentityProviderDetails()
+        value.url = try reader["Url"].readIfPresent()
+        value.invocationRole = try reader["InvocationRole"].readIfPresent()
+        value.directoryId = try reader["DirectoryId"].readIfPresent()
+        value.function = try reader["Function"].readIfPresent()
+        value.sftpAuthenticationMethods = try reader["SftpAuthenticationMethods"].readIfPresent()
         return value
     }
 }
@@ -10952,118 +10832,6 @@ extension TransferClientTypes.InputFileLocation {
         var value = TransferClientTypes.InputFileLocation()
         value.s3FileLocation = try reader["S3FileLocation"].readIfPresent(with: TransferClientTypes.S3InputFileLocation.read(from:))
         value.efsFileLocation = try reader["EfsFileLocation"].readIfPresent(with: TransferClientTypes.EfsFileLocation.read(from:))
-        return value
-    }
-}
-
-extension TransferClientTypes.S3InputFileLocation {
-
-    static func write(value: TransferClientTypes.S3InputFileLocation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Bucket"].write(value.bucket)
-        try writer["Key"].write(value.key)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TransferClientTypes.S3InputFileLocation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TransferClientTypes.S3InputFileLocation()
-        value.bucket = try reader["Bucket"].readIfPresent()
-        value.key = try reader["Key"].readIfPresent()
-        return value
-    }
-}
-
-extension TransferClientTypes.TagStepDetails {
-
-    static func write(value: TransferClientTypes.TagStepDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-        try writer["SourceFileLocation"].write(value.sourceFileLocation)
-        try writer["Tags"].writeList(value.tags, memberWritingClosure: TransferClientTypes.S3Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TransferClientTypes.TagStepDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TransferClientTypes.TagStepDetails()
-        value.name = try reader["Name"].readIfPresent()
-        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: TransferClientTypes.S3Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.sourceFileLocation = try reader["SourceFileLocation"].readIfPresent()
-        return value
-    }
-}
-
-extension TransferClientTypes.S3Tag {
-
-    static func write(value: TransferClientTypes.S3Tag?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Key"].write(value.key)
-        try writer["Value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TransferClientTypes.S3Tag {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TransferClientTypes.S3Tag()
-        value.key = try reader["Key"].readIfPresent() ?? ""
-        value.value = try reader["Value"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension TransferClientTypes.DeleteStepDetails {
-
-    static func write(value: TransferClientTypes.DeleteStepDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-        try writer["SourceFileLocation"].write(value.sourceFileLocation)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TransferClientTypes.DeleteStepDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TransferClientTypes.DeleteStepDetails()
-        value.name = try reader["Name"].readIfPresent()
-        value.sourceFileLocation = try reader["SourceFileLocation"].readIfPresent()
-        return value
-    }
-}
-
-extension TransferClientTypes.CustomStepDetails {
-
-    static func write(value: TransferClientTypes.CustomStepDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-        try writer["SourceFileLocation"].write(value.sourceFileLocation)
-        try writer["Target"].write(value.target)
-        try writer["TimeoutSeconds"].write(value.timeoutSeconds)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TransferClientTypes.CustomStepDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TransferClientTypes.CustomStepDetails()
-        value.name = try reader["Name"].readIfPresent()
-        value.target = try reader["Target"].readIfPresent()
-        value.timeoutSeconds = try reader["TimeoutSeconds"].readIfPresent()
-        value.sourceFileLocation = try reader["SourceFileLocation"].readIfPresent()
-        return value
-    }
-}
-
-extension TransferClientTypes.CopyStepDetails {
-
-    static func write(value: TransferClientTypes.CopyStepDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DestinationFileLocation"].write(value.destinationFileLocation, with: TransferClientTypes.InputFileLocation.write(value:to:))
-        try writer["Name"].write(value.name)
-        try writer["OverwriteExisting"].write(value.overwriteExisting)
-        try writer["SourceFileLocation"].write(value.sourceFileLocation)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TransferClientTypes.CopyStepDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TransferClientTypes.CopyStepDetails()
-        value.name = try reader["Name"].readIfPresent()
-        value.destinationFileLocation = try reader["DestinationFileLocation"].readIfPresent(with: TransferClientTypes.InputFileLocation.read(from:))
-        value.overwriteExisting = try reader["OverwriteExisting"].readIfPresent()
-        value.sourceFileLocation = try reader["SourceFileLocation"].readIfPresent()
         return value
     }
 }
@@ -11135,19 +10903,6 @@ extension TransferClientTypes.ListedExecution {
         value.initialFileLocation = try reader["InitialFileLocation"].readIfPresent(with: TransferClientTypes.FileLocation.read(from:))
         value.serviceMetadata = try reader["ServiceMetadata"].readIfPresent(with: TransferClientTypes.ServiceMetadata.read(from:))
         value.status = try reader["Status"].readIfPresent()
-        return value
-    }
-}
-
-extension TransferClientTypes.ConnectorFileTransferResult {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TransferClientTypes.ConnectorFileTransferResult {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TransferClientTypes.ConnectorFileTransferResult()
-        value.filePath = try reader["FilePath"].readIfPresent() ?? ""
-        value.statusCode = try reader["StatusCode"].readIfPresent() ?? .sdkUnknown("")
-        value.failureCode = try reader["FailureCode"].readIfPresent()
-        value.failureMessage = try reader["FailureMessage"].readIfPresent()
         return value
     }
 }
@@ -11238,6 +10993,148 @@ extension TransferClientTypes.ListedWorkflow {
     }
 }
 
+extension TransferClientTypes.LoggingConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TransferClientTypes.LoggingConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TransferClientTypes.LoggingConfiguration()
+        value.loggingRole = try reader["LoggingRole"].readIfPresent()
+        value.logGroupName = try reader["LogGroupName"].readIfPresent()
+        return value
+    }
+}
+
+extension TransferClientTypes.PosixProfile {
+
+    static func write(value: TransferClientTypes.PosixProfile?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Gid"].write(value.gid)
+        try writer["SecondaryGids"].writeList(value.secondaryGids, memberWritingClosure: SmithyReadWrite.WritingClosures.writeInt(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Uid"].write(value.uid)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TransferClientTypes.PosixProfile {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TransferClientTypes.PosixProfile()
+        value.uid = try reader["Uid"].readIfPresent() ?? 0
+        value.gid = try reader["Gid"].readIfPresent() ?? 0
+        value.secondaryGids = try reader["SecondaryGids"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension TransferClientTypes.ProtocolDetails {
+
+    static func write(value: TransferClientTypes.ProtocolDetails?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["As2Transports"].writeList(value.as2Transports, memberWritingClosure: SmithyReadWrite.WritingClosureBox<TransferClientTypes.As2Transport>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["PassiveIp"].write(value.passiveIp)
+        try writer["SetStatOption"].write(value.setStatOption)
+        try writer["TlsSessionResumptionMode"].write(value.tlsSessionResumptionMode)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TransferClientTypes.ProtocolDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TransferClientTypes.ProtocolDetails()
+        value.passiveIp = try reader["PassiveIp"].readIfPresent()
+        value.tlsSessionResumptionMode = try reader["TlsSessionResumptionMode"].readIfPresent()
+        value.setStatOption = try reader["SetStatOption"].readIfPresent()
+        value.as2Transports = try reader["As2Transports"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<TransferClientTypes.As2Transport>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension TransferClientTypes.S3FileLocation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TransferClientTypes.S3FileLocation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TransferClientTypes.S3FileLocation()
+        value.bucket = try reader["Bucket"].readIfPresent()
+        value.key = try reader["Key"].readIfPresent()
+        value.versionId = try reader["VersionId"].readIfPresent()
+        value.etag = try reader["Etag"].readIfPresent()
+        return value
+    }
+}
+
+extension TransferClientTypes.S3InputFileLocation {
+
+    static func write(value: TransferClientTypes.S3InputFileLocation?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Bucket"].write(value.bucket)
+        try writer["Key"].write(value.key)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TransferClientTypes.S3InputFileLocation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TransferClientTypes.S3InputFileLocation()
+        value.bucket = try reader["Bucket"].readIfPresent()
+        value.key = try reader["Key"].readIfPresent()
+        return value
+    }
+}
+
+extension TransferClientTypes.S3StorageOptions {
+
+    static func write(value: TransferClientTypes.S3StorageOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DirectoryListingOptimization"].write(value.directoryListingOptimization)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TransferClientTypes.S3StorageOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TransferClientTypes.S3StorageOptions()
+        value.directoryListingOptimization = try reader["DirectoryListingOptimization"].readIfPresent()
+        return value
+    }
+}
+
+extension TransferClientTypes.S3Tag {
+
+    static func write(value: TransferClientTypes.S3Tag?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Key"].write(value.key)
+        try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TransferClientTypes.S3Tag {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TransferClientTypes.S3Tag()
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension TransferClientTypes.ServiceMetadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TransferClientTypes.ServiceMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TransferClientTypes.ServiceMetadata()
+        value.userDetails = try reader["UserDetails"].readIfPresent(with: TransferClientTypes.UserDetails.read(from:))
+        return value
+    }
+}
+
+extension TransferClientTypes.SftpConnectorConfig {
+
+    static func write(value: TransferClientTypes.SftpConnectorConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MaxConcurrentConnections"].write(value.maxConcurrentConnections)
+        try writer["TrustedHostKeys"].writeList(value.trustedHostKeys, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["UserSecretId"].write(value.userSecretId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TransferClientTypes.SftpConnectorConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TransferClientTypes.SftpConnectorConfig()
+        value.userSecretId = try reader["UserSecretId"].readIfPresent()
+        value.trustedHostKeys = try reader["TrustedHostKeys"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.maxConcurrentConnections = try reader["MaxConcurrentConnections"].readIfPresent() ?? 1
+        return value
+    }
+}
+
 extension TransferClientTypes.SftpConnectorConnectionDetails {
 
     static func read(from reader: SmithyJSON.Reader) throws -> TransferClientTypes.SftpConnectorConnectionDetails {
@@ -11248,79 +11145,51 @@ extension TransferClientTypes.SftpConnectorConnectionDetails {
     }
 }
 
-extension TransferClientTypes.ConnectorEgressConfig {
+extension TransferClientTypes.SshPublicKey {
 
-    static func write(value: TransferClientTypes.ConnectorEgressConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .vpclattice(vpclattice):
-                try writer["VpcLattice"].write(vpclattice, with: TransferClientTypes.ConnectorVpcLatticeEgressConfig.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
+    static func read(from reader: SmithyJSON.Reader) throws -> TransferClientTypes.SshPublicKey {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TransferClientTypes.SshPublicKey()
+        value.dateImported = try reader["DateImported"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.sshPublicKeyBody = try reader["SshPublicKeyBody"].readIfPresent() ?? ""
+        value.sshPublicKeyId = try reader["SshPublicKeyId"].readIfPresent() ?? ""
+        return value
     }
 }
 
-extension TransferClientTypes.ConnectorVpcLatticeEgressConfig {
+extension TransferClientTypes.Tag {
 
-    static func write(value: TransferClientTypes.ConnectorVpcLatticeEgressConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["PortNumber"].write(value.portNumber)
-        try writer["ResourceConfigurationArn"].write(value.resourceConfigurationArn)
-    }
-}
-
-extension TransferClientTypes.WebAppIdentityProviderDetails {
-
-    static func write(value: TransferClientTypes.WebAppIdentityProviderDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .identitycenterconfig(identitycenterconfig):
-                try writer["IdentityCenterConfig"].write(identitycenterconfig, with: TransferClientTypes.IdentityCenterConfig.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-}
-
-extension TransferClientTypes.IdentityCenterConfig {
-
-    static func write(value: TransferClientTypes.IdentityCenterConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["InstanceArn"].write(value.instanceArn)
-        try writer["Role"].write(value.role)
-    }
-}
-
-extension TransferClientTypes.WebAppEndpointDetails {
-
-    static func write(value: TransferClientTypes.WebAppEndpointDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .vpc(vpc):
-                try writer["Vpc"].write(vpc, with: TransferClientTypes.WebAppVpcConfig.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-}
-
-extension TransferClientTypes.WebAppVpcConfig {
-
-    static func write(value: TransferClientTypes.WebAppVpcConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["SecurityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["SubnetIds"].writeList(value.subnetIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["VpcId"].write(value.vpcId)
-    }
-}
-
-extension TransferClientTypes.CustomHttpHeader {
-
-    static func write(value: TransferClientTypes.CustomHttpHeader?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: TransferClientTypes.Tag?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Key"].write(value.key)
         try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TransferClientTypes.Tag {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TransferClientTypes.Tag()
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension TransferClientTypes.TagStepDetails {
+
+    static func write(value: TransferClientTypes.TagStepDetails?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Name"].write(value.name)
+        try writer["SourceFileLocation"].write(value.sourceFileLocation)
+        try writer["Tags"].writeList(value.tags, memberWritingClosure: TransferClientTypes.S3Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TransferClientTypes.TagStepDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TransferClientTypes.TagStepDetails()
+        value.name = try reader["Name"].readIfPresent()
+        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: TransferClientTypes.S3Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.sourceFileLocation = try reader["SourceFileLocation"].readIfPresent()
+        return value
     }
 }
 
@@ -11346,13 +11215,13 @@ extension TransferClientTypes.UpdateConnectorVpcLatticeEgressConfig {
     }
 }
 
-extension TransferClientTypes.UpdateWebAppIdentityProviderDetails {
+extension TransferClientTypes.UpdateWebAppEndpointDetails {
 
-    static func write(value: TransferClientTypes.UpdateWebAppIdentityProviderDetails?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: TransferClientTypes.UpdateWebAppEndpointDetails?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         switch value {
-            case let .identitycenterconfig(identitycenterconfig):
-                try writer["IdentityCenterConfig"].write(identitycenterconfig, with: TransferClientTypes.UpdateWebAppIdentityCenterConfig.write(value:to:))
+            case let .vpc(vpc):
+                try writer["Vpc"].write(vpc, with: TransferClientTypes.UpdateWebAppVpcConfig.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
@@ -11367,13 +11236,13 @@ extension TransferClientTypes.UpdateWebAppIdentityCenterConfig {
     }
 }
 
-extension TransferClientTypes.UpdateWebAppEndpointDetails {
+extension TransferClientTypes.UpdateWebAppIdentityProviderDetails {
 
-    static func write(value: TransferClientTypes.UpdateWebAppEndpointDetails?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: TransferClientTypes.UpdateWebAppIdentityProviderDetails?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         switch value {
-            case let .vpc(vpc):
-                try writer["Vpc"].write(vpc, with: TransferClientTypes.UpdateWebAppVpcConfig.write(value:to:))
+            case let .identitycenterconfig(identitycenterconfig):
+                try writer["IdentityCenterConfig"].write(identitycenterconfig, with: TransferClientTypes.UpdateWebAppIdentityCenterConfig.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
@@ -11385,6 +11254,137 @@ extension TransferClientTypes.UpdateWebAppVpcConfig {
     static func write(value: TransferClientTypes.UpdateWebAppVpcConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["SubnetIds"].writeList(value.subnetIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension TransferClientTypes.UserDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TransferClientTypes.UserDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TransferClientTypes.UserDetails()
+        value.userName = try reader["UserName"].readIfPresent() ?? ""
+        value.serverId = try reader["ServerId"].readIfPresent() ?? ""
+        value.sessionId = try reader["SessionId"].readIfPresent()
+        return value
+    }
+}
+
+extension TransferClientTypes.WebAppEndpointDetails {
+
+    static func write(value: TransferClientTypes.WebAppEndpointDetails?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .vpc(vpc):
+                try writer["Vpc"].write(vpc, with: TransferClientTypes.WebAppVpcConfig.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension TransferClientTypes.WebAppIdentityProviderDetails {
+
+    static func write(value: TransferClientTypes.WebAppIdentityProviderDetails?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .identitycenterconfig(identitycenterconfig):
+                try writer["IdentityCenterConfig"].write(identitycenterconfig, with: TransferClientTypes.IdentityCenterConfig.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension TransferClientTypes.WebAppUnits {
+
+    static func write(value: TransferClientTypes.WebAppUnits?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .provisioned(provisioned):
+                try writer["Provisioned"].write(provisioned)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TransferClientTypes.WebAppUnits {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "Provisioned":
+                return .provisioned(try reader["Provisioned"].read())
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension TransferClientTypes.WebAppVpcConfig {
+
+    static func write(value: TransferClientTypes.WebAppVpcConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["SecurityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["SubnetIds"].writeList(value.subnetIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["VpcId"].write(value.vpcId)
+    }
+}
+
+extension TransferClientTypes.WorkflowDetail {
+
+    static func write(value: TransferClientTypes.WorkflowDetail?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ExecutionRole"].write(value.executionRole)
+        try writer["WorkflowId"].write(value.workflowId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TransferClientTypes.WorkflowDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TransferClientTypes.WorkflowDetail()
+        value.workflowId = try reader["WorkflowId"].readIfPresent() ?? ""
+        value.executionRole = try reader["ExecutionRole"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension TransferClientTypes.WorkflowDetails {
+
+    static func write(value: TransferClientTypes.WorkflowDetails?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["OnPartialUpload"].writeList(value.onPartialUpload, memberWritingClosure: TransferClientTypes.WorkflowDetail.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["OnUpload"].writeList(value.onUpload, memberWritingClosure: TransferClientTypes.WorkflowDetail.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TransferClientTypes.WorkflowDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TransferClientTypes.WorkflowDetails()
+        value.onUpload = try reader["OnUpload"].readListIfPresent(memberReadingClosure: TransferClientTypes.WorkflowDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.onPartialUpload = try reader["OnPartialUpload"].readListIfPresent(memberReadingClosure: TransferClientTypes.WorkflowDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension TransferClientTypes.WorkflowStep {
+
+    static func write(value: TransferClientTypes.WorkflowStep?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CopyStepDetails"].write(value.copyStepDetails, with: TransferClientTypes.CopyStepDetails.write(value:to:))
+        try writer["CustomStepDetails"].write(value.customStepDetails, with: TransferClientTypes.CustomStepDetails.write(value:to:))
+        try writer["DecryptStepDetails"].write(value.decryptStepDetails, with: TransferClientTypes.DecryptStepDetails.write(value:to:))
+        try writer["DeleteStepDetails"].write(value.deleteStepDetails, with: TransferClientTypes.DeleteStepDetails.write(value:to:))
+        try writer["TagStepDetails"].write(value.tagStepDetails, with: TransferClientTypes.TagStepDetails.write(value:to:))
+        try writer["Type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TransferClientTypes.WorkflowStep {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TransferClientTypes.WorkflowStep()
+        value.type = try reader["Type"].readIfPresent()
+        value.copyStepDetails = try reader["CopyStepDetails"].readIfPresent(with: TransferClientTypes.CopyStepDetails.read(from:))
+        value.customStepDetails = try reader["CustomStepDetails"].readIfPresent(with: TransferClientTypes.CustomStepDetails.read(from:))
+        value.deleteStepDetails = try reader["DeleteStepDetails"].readIfPresent(with: TransferClientTypes.DeleteStepDetails.read(from:))
+        value.tagStepDetails = try reader["TagStepDetails"].readIfPresent(with: TransferClientTypes.TagStepDetails.read(from:))
+        value.decryptStepDetails = try reader["DecryptStepDetails"].readIfPresent(with: TransferClientTypes.DecryptStepDetails.read(from:))
+        return value
     }
 }
 

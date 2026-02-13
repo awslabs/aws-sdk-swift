@@ -2184,6 +2184,15 @@ extension RestApiServerException {
     }
 }
 
+extension MWAAClientTypes.Dimension {
+
+    static func write(value: MWAAClientTypes.Dimension?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Name"].write(value.name)
+        try writer["Value"].write(value.value)
+    }
+}
+
 extension MWAAClientTypes.Environment {
 
     static func read(from reader: SmithyJSON.Reader) throws -> MWAAClientTypes.Environment {
@@ -2241,17 +2250,6 @@ extension MWAAClientTypes.LastUpdate {
     }
 }
 
-extension MWAAClientTypes.UpdateError {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MWAAClientTypes.UpdateError {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MWAAClientTypes.UpdateError()
-        value.errorCode = try reader["ErrorCode"].readIfPresent()
-        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
-        return value
-    }
-}
-
 extension MWAAClientTypes.LoggingConfiguration {
 
     static func read(from reader: SmithyJSON.Reader) throws -> MWAAClientTypes.LoggingConfiguration {
@@ -2266,6 +2264,31 @@ extension MWAAClientTypes.LoggingConfiguration {
     }
 }
 
+extension MWAAClientTypes.LoggingConfigurationInput {
+
+    static func write(value: MWAAClientTypes.LoggingConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DagProcessingLogs"].write(value.dagProcessingLogs, with: MWAAClientTypes.ModuleLoggingConfigurationInput.write(value:to:))
+        try writer["SchedulerLogs"].write(value.schedulerLogs, with: MWAAClientTypes.ModuleLoggingConfigurationInput.write(value:to:))
+        try writer["TaskLogs"].write(value.taskLogs, with: MWAAClientTypes.ModuleLoggingConfigurationInput.write(value:to:))
+        try writer["WebserverLogs"].write(value.webserverLogs, with: MWAAClientTypes.ModuleLoggingConfigurationInput.write(value:to:))
+        try writer["WorkerLogs"].write(value.workerLogs, with: MWAAClientTypes.ModuleLoggingConfigurationInput.write(value:to:))
+    }
+}
+
+extension MWAAClientTypes.MetricDatum {
+
+    static func write(value: MWAAClientTypes.MetricDatum?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Dimensions"].writeList(value.dimensions, memberWritingClosure: MWAAClientTypes.Dimension.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["MetricName"].write(value.metricName)
+        try writer["StatisticValues"].write(value.statisticValues, with: MWAAClientTypes.StatisticSet.write(value:to:))
+        try writer["Timestamp"].writeTimestamp(value.timestamp, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["Unit"].write(value.unit)
+        try writer["Value"].write(value.value)
+    }
+}
+
 extension MWAAClientTypes.ModuleLoggingConfiguration {
 
     static func read(from reader: SmithyJSON.Reader) throws -> MWAAClientTypes.ModuleLoggingConfiguration {
@@ -2275,6 +2298,15 @@ extension MWAAClientTypes.ModuleLoggingConfiguration {
         value.logLevel = try reader["LogLevel"].readIfPresent()
         value.cloudWatchLogGroupArn = try reader["CloudWatchLogGroupArn"].readIfPresent()
         return value
+    }
+}
+
+extension MWAAClientTypes.ModuleLoggingConfigurationInput {
+
+    static func write(value: MWAAClientTypes.ModuleLoggingConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Enabled"].write(value.enabled)
+        try writer["LogLevel"].write(value.logLevel)
     }
 }
 
@@ -2295,40 +2327,6 @@ extension MWAAClientTypes.NetworkConfiguration {
     }
 }
 
-extension MWAAClientTypes.LoggingConfigurationInput {
-
-    static func write(value: MWAAClientTypes.LoggingConfigurationInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DagProcessingLogs"].write(value.dagProcessingLogs, with: MWAAClientTypes.ModuleLoggingConfigurationInput.write(value:to:))
-        try writer["SchedulerLogs"].write(value.schedulerLogs, with: MWAAClientTypes.ModuleLoggingConfigurationInput.write(value:to:))
-        try writer["TaskLogs"].write(value.taskLogs, with: MWAAClientTypes.ModuleLoggingConfigurationInput.write(value:to:))
-        try writer["WebserverLogs"].write(value.webserverLogs, with: MWAAClientTypes.ModuleLoggingConfigurationInput.write(value:to:))
-        try writer["WorkerLogs"].write(value.workerLogs, with: MWAAClientTypes.ModuleLoggingConfigurationInput.write(value:to:))
-    }
-}
-
-extension MWAAClientTypes.ModuleLoggingConfigurationInput {
-
-    static func write(value: MWAAClientTypes.ModuleLoggingConfigurationInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Enabled"].write(value.enabled)
-        try writer["LogLevel"].write(value.logLevel)
-    }
-}
-
-extension MWAAClientTypes.MetricDatum {
-
-    static func write(value: MWAAClientTypes.MetricDatum?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Dimensions"].writeList(value.dimensions, memberWritingClosure: MWAAClientTypes.Dimension.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["MetricName"].write(value.metricName)
-        try writer["StatisticValues"].write(value.statisticValues, with: MWAAClientTypes.StatisticSet.write(value:to:))
-        try writer["Timestamp"].writeTimestamp(value.timestamp, format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        try writer["Unit"].write(value.unit)
-        try writer["Value"].write(value.value)
-    }
-}
-
 extension MWAAClientTypes.StatisticSet {
 
     static func write(value: MWAAClientTypes.StatisticSet?, to writer: SmithyJSON.Writer) throws {
@@ -2340,12 +2338,14 @@ extension MWAAClientTypes.StatisticSet {
     }
 }
 
-extension MWAAClientTypes.Dimension {
+extension MWAAClientTypes.UpdateError {
 
-    static func write(value: MWAAClientTypes.Dimension?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-        try writer["Value"].write(value.value)
+    static func read(from reader: SmithyJSON.Reader) throws -> MWAAClientTypes.UpdateError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MWAAClientTypes.UpdateError()
+        value.errorCode = try reader["ErrorCode"].readIfPresent()
+        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
+        return value
     }
 }
 

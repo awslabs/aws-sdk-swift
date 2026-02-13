@@ -832,38 +832,6 @@ extension ResourceNotFound {
     }
 }
 
-extension SageMakerFeatureStoreRuntimeClientTypes.BatchGetRecordResultDetail {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerFeatureStoreRuntimeClientTypes.BatchGetRecordResultDetail {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SageMakerFeatureStoreRuntimeClientTypes.BatchGetRecordResultDetail()
-        value.featureGroupName = try reader["FeatureGroupName"].readIfPresent() ?? ""
-        value.recordIdentifierValueAsString = try reader["RecordIdentifierValueAsString"].readIfPresent() ?? ""
-        value.record = try reader["Record"].readListIfPresent(memberReadingClosure: SageMakerFeatureStoreRuntimeClientTypes.FeatureValue.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.expiresAt = try reader["ExpiresAt"].readIfPresent()
-        return value
-    }
-}
-
-extension SageMakerFeatureStoreRuntimeClientTypes.FeatureValue {
-
-    static func write(value: SageMakerFeatureStoreRuntimeClientTypes.FeatureValue?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["FeatureName"].write(value.featureName)
-        try writer["ValueAsString"].write(value.valueAsString)
-        try writer["ValueAsStringList"].writeList(value.valueAsStringList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerFeatureStoreRuntimeClientTypes.FeatureValue {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SageMakerFeatureStoreRuntimeClientTypes.FeatureValue()
-        value.featureName = try reader["FeatureName"].readIfPresent() ?? ""
-        value.valueAsString = try reader["ValueAsString"].readIfPresent()
-        value.valueAsStringList = try reader["ValueAsStringList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
 extension SageMakerFeatureStoreRuntimeClientTypes.BatchGetRecordError {
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerFeatureStoreRuntimeClientTypes.BatchGetRecordError {
@@ -892,6 +860,38 @@ extension SageMakerFeatureStoreRuntimeClientTypes.BatchGetRecordIdentifier {
         value.featureGroupName = try reader["FeatureGroupName"].readIfPresent() ?? ""
         value.recordIdentifiersValueAsString = try reader["RecordIdentifiersValueAsString"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.featureNames = try reader["FeatureNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension SageMakerFeatureStoreRuntimeClientTypes.BatchGetRecordResultDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerFeatureStoreRuntimeClientTypes.BatchGetRecordResultDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerFeatureStoreRuntimeClientTypes.BatchGetRecordResultDetail()
+        value.featureGroupName = try reader["FeatureGroupName"].readIfPresent() ?? ""
+        value.recordIdentifierValueAsString = try reader["RecordIdentifierValueAsString"].readIfPresent() ?? ""
+        value.record = try reader["Record"].readListIfPresent(memberReadingClosure: SageMakerFeatureStoreRuntimeClientTypes.FeatureValue.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.expiresAt = try reader["ExpiresAt"].readIfPresent()
+        return value
+    }
+}
+
+extension SageMakerFeatureStoreRuntimeClientTypes.FeatureValue {
+
+    static func write(value: SageMakerFeatureStoreRuntimeClientTypes.FeatureValue?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FeatureName"].write(value.featureName)
+        try writer["ValueAsString"].write(value.valueAsString)
+        try writer["ValueAsStringList"].writeList(value.valueAsStringList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerFeatureStoreRuntimeClientTypes.FeatureValue {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerFeatureStoreRuntimeClientTypes.FeatureValue()
+        value.featureName = try reader["FeatureName"].readIfPresent() ?? ""
+        value.valueAsString = try reader["ValueAsString"].readIfPresent()
+        value.valueAsStringList = try reader["ValueAsStringList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }

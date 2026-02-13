@@ -9169,48 +9169,30 @@ extension ResponsibilityTransferAlreadyInStatusException {
     }
 }
 
-extension OrganizationsClientTypes.Handshake {
+extension OrganizationsClientTypes.Account {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> OrganizationsClientTypes.Handshake {
+    static func read(from reader: SmithyJSON.Reader) throws -> OrganizationsClientTypes.Account {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OrganizationsClientTypes.Handshake()
+        var value = OrganizationsClientTypes.Account()
         value.id = try reader["Id"].readIfPresent()
         value.arn = try reader["Arn"].readIfPresent()
-        value.parties = try reader["Parties"].readListIfPresent(memberReadingClosure: OrganizationsClientTypes.HandshakeParty.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.email = try reader["Email"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
         value.state = try reader["State"].readIfPresent()
-        value.requestedTimestamp = try reader["RequestedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.expirationTimestamp = try reader["ExpirationTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.action = try reader["Action"].readIfPresent()
-        value.resources = try reader["Resources"].readListIfPresent(memberReadingClosure: OrganizationsClientTypes.HandshakeResource.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.joinedMethod = try reader["JoinedMethod"].readIfPresent()
+        value.joinedTimestamp = try reader["JoinedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }
 
-extension OrganizationsClientTypes.HandshakeResource {
+extension OrganizationsClientTypes.Child {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> OrganizationsClientTypes.HandshakeResource {
+    static func read(from reader: SmithyJSON.Reader) throws -> OrganizationsClientTypes.Child {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OrganizationsClientTypes.HandshakeResource()
-        value.value = try reader["Value"].readIfPresent()
+        var value = OrganizationsClientTypes.Child()
+        value.id = try reader["Id"].readIfPresent()
         value.type = try reader["Type"].readIfPresent()
-        value.resources = try reader["Resources"].readListIfPresent(memberReadingClosure: OrganizationsClientTypes.HandshakeResource.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension OrganizationsClientTypes.HandshakeParty {
-
-    static func write(value: OrganizationsClientTypes.HandshakeParty?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Id"].write(value.id)
-        try writer["Type"].write(value.type)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OrganizationsClientTypes.HandshakeParty {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OrganizationsClientTypes.HandshakeParty()
-        value.id = try reader["Id"].readIfPresent() ?? ""
-        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -9232,6 +9214,127 @@ extension OrganizationsClientTypes.CreateAccountStatus {
     }
 }
 
+extension OrganizationsClientTypes.DelegatedAdministrator {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OrganizationsClientTypes.DelegatedAdministrator {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OrganizationsClientTypes.DelegatedAdministrator()
+        value.id = try reader["Id"].readIfPresent()
+        value.arn = try reader["Arn"].readIfPresent()
+        value.email = try reader["Email"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.state = try reader["State"].readIfPresent()
+        value.joinedMethod = try reader["JoinedMethod"].readIfPresent()
+        value.joinedTimestamp = try reader["JoinedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.delegationEnabledDate = try reader["DelegationEnabledDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension OrganizationsClientTypes.DelegatedService {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OrganizationsClientTypes.DelegatedService {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OrganizationsClientTypes.DelegatedService()
+        value.servicePrincipal = try reader["ServicePrincipal"].readIfPresent()
+        value.delegationEnabledDate = try reader["DelegationEnabledDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension OrganizationsClientTypes.EffectivePolicy {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OrganizationsClientTypes.EffectivePolicy {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OrganizationsClientTypes.EffectivePolicy()
+        value.policyContent = try reader["PolicyContent"].readIfPresent()
+        value.lastUpdatedTimestamp = try reader["LastUpdatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.targetId = try reader["TargetId"].readIfPresent()
+        value.policyType = try reader["PolicyType"].readIfPresent()
+        return value
+    }
+}
+
+extension OrganizationsClientTypes.EffectivePolicyValidationError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OrganizationsClientTypes.EffectivePolicyValidationError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OrganizationsClientTypes.EffectivePolicyValidationError()
+        value.errorCode = try reader["ErrorCode"].readIfPresent()
+        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
+        value.pathToError = try reader["PathToError"].readIfPresent()
+        value.contributingPolicies = try reader["ContributingPolicies"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension OrganizationsClientTypes.EnabledServicePrincipal {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OrganizationsClientTypes.EnabledServicePrincipal {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OrganizationsClientTypes.EnabledServicePrincipal()
+        value.servicePrincipal = try reader["ServicePrincipal"].readIfPresent()
+        value.dateEnabled = try reader["DateEnabled"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension OrganizationsClientTypes.Handshake {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OrganizationsClientTypes.Handshake {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OrganizationsClientTypes.Handshake()
+        value.id = try reader["Id"].readIfPresent()
+        value.arn = try reader["Arn"].readIfPresent()
+        value.parties = try reader["Parties"].readListIfPresent(memberReadingClosure: OrganizationsClientTypes.HandshakeParty.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.state = try reader["State"].readIfPresent()
+        value.requestedTimestamp = try reader["RequestedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.expirationTimestamp = try reader["ExpirationTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.action = try reader["Action"].readIfPresent()
+        value.resources = try reader["Resources"].readListIfPresent(memberReadingClosure: OrganizationsClientTypes.HandshakeResource.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension OrganizationsClientTypes.HandshakeFilter {
+
+    static func write(value: OrganizationsClientTypes.HandshakeFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ActionType"].write(value.actionType)
+        try writer["ParentHandshakeId"].write(value.parentHandshakeId)
+    }
+}
+
+extension OrganizationsClientTypes.HandshakeParty {
+
+    static func write(value: OrganizationsClientTypes.HandshakeParty?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Id"].write(value.id)
+        try writer["Type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OrganizationsClientTypes.HandshakeParty {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OrganizationsClientTypes.HandshakeParty()
+        value.id = try reader["Id"].readIfPresent() ?? ""
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension OrganizationsClientTypes.HandshakeResource {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OrganizationsClientTypes.HandshakeResource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OrganizationsClientTypes.HandshakeResource()
+        value.value = try reader["Value"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent()
+        value.resources = try reader["Resources"].readListIfPresent(memberReadingClosure: OrganizationsClientTypes.HandshakeResource.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension OrganizationsClientTypes.Organization {
 
     static func read(from reader: SmithyJSON.Reader) throws -> OrganizationsClientTypes.Organization {
@@ -9248,17 +9351,6 @@ extension OrganizationsClientTypes.Organization {
     }
 }
 
-extension OrganizationsClientTypes.PolicyTypeSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OrganizationsClientTypes.PolicyTypeSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OrganizationsClientTypes.PolicyTypeSummary()
-        value.type = try reader["Type"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        return value
-    }
-}
-
 extension OrganizationsClientTypes.OrganizationalUnit {
 
     static func read(from reader: SmithyJSON.Reader) throws -> OrganizationsClientTypes.OrganizationalUnit {
@@ -9267,6 +9359,17 @@ extension OrganizationsClientTypes.OrganizationalUnit {
         value.id = try reader["Id"].readIfPresent()
         value.arn = try reader["Arn"].readIfPresent()
         value.name = try reader["Name"].readIfPresent()
+        return value
+    }
+}
+
+extension OrganizationsClientTypes.Parent {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OrganizationsClientTypes.Parent {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OrganizationsClientTypes.Parent()
+        value.id = try reader["Id"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent()
         return value
     }
 }
@@ -9297,32 +9400,26 @@ extension OrganizationsClientTypes.PolicySummary {
     }
 }
 
-extension OrganizationsClientTypes.Account {
+extension OrganizationsClientTypes.PolicyTargetSummary {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> OrganizationsClientTypes.Account {
+    static func read(from reader: SmithyJSON.Reader) throws -> OrganizationsClientTypes.PolicyTargetSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OrganizationsClientTypes.Account()
-        value.id = try reader["Id"].readIfPresent()
+        var value = OrganizationsClientTypes.PolicyTargetSummary()
+        value.targetId = try reader["TargetId"].readIfPresent()
         value.arn = try reader["Arn"].readIfPresent()
-        value.email = try reader["Email"].readIfPresent()
         value.name = try reader["Name"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.state = try reader["State"].readIfPresent()
-        value.joinedMethod = try reader["JoinedMethod"].readIfPresent()
-        value.joinedTimestamp = try reader["JoinedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.type = try reader["Type"].readIfPresent()
         return value
     }
 }
 
-extension OrganizationsClientTypes.EffectivePolicy {
+extension OrganizationsClientTypes.PolicyTypeSummary {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> OrganizationsClientTypes.EffectivePolicy {
+    static func read(from reader: SmithyJSON.Reader) throws -> OrganizationsClientTypes.PolicyTypeSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OrganizationsClientTypes.EffectivePolicy()
-        value.policyContent = try reader["PolicyContent"].readIfPresent()
-        value.lastUpdatedTimestamp = try reader["LastUpdatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.targetId = try reader["TargetId"].readIfPresent()
-        value.policyType = try reader["PolicyType"].readIfPresent()
+        var value = OrganizationsClientTypes.PolicyTypeSummary()
+        value.type = try reader["Type"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
         return value
     }
 }
@@ -9368,17 +9465,6 @@ extension OrganizationsClientTypes.ResponsibilityTransfer {
     }
 }
 
-extension OrganizationsClientTypes.TransferParticipant {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OrganizationsClientTypes.TransferParticipant {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OrganizationsClientTypes.TransferParticipant()
-        value.managementAccountId = try reader["ManagementAccountId"].readIfPresent()
-        value.managementAccountEmail = try reader["ManagementAccountEmail"].readIfPresent()
-        return value
-    }
-}
-
 extension OrganizationsClientTypes.Root {
 
     static func read(from reader: SmithyJSON.Reader) throws -> OrganizationsClientTypes.Root {
@@ -9388,81 +9474,6 @@ extension OrganizationsClientTypes.Root {
         value.arn = try reader["Arn"].readIfPresent()
         value.name = try reader["Name"].readIfPresent()
         value.policyTypes = try reader["PolicyTypes"].readListIfPresent(memberReadingClosure: OrganizationsClientTypes.PolicyTypeSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension OrganizationsClientTypes.EnabledServicePrincipal {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OrganizationsClientTypes.EnabledServicePrincipal {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OrganizationsClientTypes.EnabledServicePrincipal()
-        value.servicePrincipal = try reader["ServicePrincipal"].readIfPresent()
-        value.dateEnabled = try reader["DateEnabled"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension OrganizationsClientTypes.Child {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OrganizationsClientTypes.Child {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OrganizationsClientTypes.Child()
-        value.id = try reader["Id"].readIfPresent()
-        value.type = try reader["Type"].readIfPresent()
-        return value
-    }
-}
-
-extension OrganizationsClientTypes.DelegatedAdministrator {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OrganizationsClientTypes.DelegatedAdministrator {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OrganizationsClientTypes.DelegatedAdministrator()
-        value.id = try reader["Id"].readIfPresent()
-        value.arn = try reader["Arn"].readIfPresent()
-        value.email = try reader["Email"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.state = try reader["State"].readIfPresent()
-        value.joinedMethod = try reader["JoinedMethod"].readIfPresent()
-        value.joinedTimestamp = try reader["JoinedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.delegationEnabledDate = try reader["DelegationEnabledDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension OrganizationsClientTypes.DelegatedService {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OrganizationsClientTypes.DelegatedService {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OrganizationsClientTypes.DelegatedService()
-        value.servicePrincipal = try reader["ServicePrincipal"].readIfPresent()
-        value.delegationEnabledDate = try reader["DelegationEnabledDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension OrganizationsClientTypes.EffectivePolicyValidationError {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OrganizationsClientTypes.EffectivePolicyValidationError {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OrganizationsClientTypes.EffectivePolicyValidationError()
-        value.errorCode = try reader["ErrorCode"].readIfPresent()
-        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
-        value.pathToError = try reader["PathToError"].readIfPresent()
-        value.contributingPolicies = try reader["ContributingPolicies"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension OrganizationsClientTypes.Parent {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OrganizationsClientTypes.Parent {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OrganizationsClientTypes.Parent()
-        value.id = try reader["Id"].readIfPresent()
-        value.type = try reader["Type"].readIfPresent()
         return value
     }
 }
@@ -9484,25 +9495,14 @@ extension OrganizationsClientTypes.Tag {
     }
 }
 
-extension OrganizationsClientTypes.PolicyTargetSummary {
+extension OrganizationsClientTypes.TransferParticipant {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> OrganizationsClientTypes.PolicyTargetSummary {
+    static func read(from reader: SmithyJSON.Reader) throws -> OrganizationsClientTypes.TransferParticipant {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OrganizationsClientTypes.PolicyTargetSummary()
-        value.targetId = try reader["TargetId"].readIfPresent()
-        value.arn = try reader["Arn"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
-        value.type = try reader["Type"].readIfPresent()
+        var value = OrganizationsClientTypes.TransferParticipant()
+        value.managementAccountId = try reader["ManagementAccountId"].readIfPresent()
+        value.managementAccountEmail = try reader["ManagementAccountEmail"].readIfPresent()
         return value
-    }
-}
-
-extension OrganizationsClientTypes.HandshakeFilter {
-
-    static func write(value: OrganizationsClientTypes.HandshakeFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ActionType"].write(value.actionType)
-        try writer["ParentHandshakeId"].write(value.parentHandshakeId)
     }
 }
 

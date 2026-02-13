@@ -883,6 +883,22 @@ extension ServiceQuotaExceededException {
     }
 }
 
+extension ApplicationCostProfilerClientTypes.ReportDefinition {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ApplicationCostProfilerClientTypes.ReportDefinition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ApplicationCostProfilerClientTypes.ReportDefinition()
+        value.reportId = try reader["reportId"].readIfPresent()
+        value.reportDescription = try reader["reportDescription"].readIfPresent()
+        value.reportFrequency = try reader["reportFrequency"].readIfPresent()
+        value.format = try reader["format"].readIfPresent()
+        value.destinationS3Location = try reader["destinationS3Location"].readIfPresent(with: ApplicationCostProfilerClientTypes.S3Location.read(from:))
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
 extension ApplicationCostProfilerClientTypes.S3Location {
 
     static func write(value: ApplicationCostProfilerClientTypes.S3Location?, to writer: SmithyJSON.Writer) throws {
@@ -896,22 +912,6 @@ extension ApplicationCostProfilerClientTypes.S3Location {
         var value = ApplicationCostProfilerClientTypes.S3Location()
         value.bucket = try reader["bucket"].readIfPresent() ?? ""
         value.`prefix` = try reader["prefix"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension ApplicationCostProfilerClientTypes.ReportDefinition {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ApplicationCostProfilerClientTypes.ReportDefinition {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ApplicationCostProfilerClientTypes.ReportDefinition()
-        value.reportId = try reader["reportId"].readIfPresent()
-        value.reportDescription = try reader["reportDescription"].readIfPresent()
-        value.reportFrequency = try reader["reportFrequency"].readIfPresent()
-        value.format = try reader["format"].readIfPresent()
-        value.destinationS3Location = try reader["destinationS3Location"].readIfPresent(with: ApplicationCostProfilerClientTypes.S3Location.read(from:))
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }

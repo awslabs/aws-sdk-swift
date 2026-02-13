@@ -5527,26 +5527,230 @@ extension TooManyTagsException {
     }
 }
 
-extension XRayClientTypes.Trace {
+extension XRayClientTypes.Alias {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> XRayClientTypes.Trace {
+    static func read(from reader: SmithyJSON.Reader) throws -> XRayClientTypes.Alias {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = XRayClientTypes.Trace()
-        value.id = try reader["Id"].readIfPresent()
-        value.duration = try reader["Duration"].readIfPresent()
-        value.limitExceeded = try reader["LimitExceeded"].readIfPresent()
-        value.segments = try reader["Segments"].readListIfPresent(memberReadingClosure: XRayClientTypes.Segment.read(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = XRayClientTypes.Alias()
+        value.name = try reader["Name"].readIfPresent()
+        value.names = try reader["Names"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.type = try reader["Type"].readIfPresent()
         return value
     }
 }
 
-extension XRayClientTypes.Segment {
+extension XRayClientTypes.AnnotationValue {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> XRayClientTypes.Segment {
+    static func read(from reader: SmithyJSON.Reader) throws -> XRayClientTypes.AnnotationValue {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = XRayClientTypes.Segment()
-        value.id = try reader["Id"].readIfPresent()
-        value.document = try reader["Document"].readIfPresent()
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "NumberValue":
+                return .numbervalue(try reader["NumberValue"].read())
+            case "BooleanValue":
+                return .booleanvalue(try reader["BooleanValue"].read())
+            case "StringValue":
+                return .stringvalue(try reader["StringValue"].read())
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension XRayClientTypes.AnomalousService {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> XRayClientTypes.AnomalousService {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = XRayClientTypes.AnomalousService()
+        value.serviceId = try reader["ServiceId"].readIfPresent(with: XRayClientTypes.ServiceId.read(from:))
+        return value
+    }
+}
+
+extension XRayClientTypes.AvailabilityZoneDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> XRayClientTypes.AvailabilityZoneDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = XRayClientTypes.AvailabilityZoneDetail()
+        value.name = try reader["Name"].readIfPresent()
+        return value
+    }
+}
+
+extension XRayClientTypes.BackendConnectionErrors {
+
+    static func write(value: XRayClientTypes.BackendConnectionErrors?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ConnectionRefusedCount"].write(value.connectionRefusedCount)
+        try writer["HTTPCode4XXCount"].write(value.httpCode4XXCount)
+        try writer["HTTPCode5XXCount"].write(value.httpCode5XXCount)
+        try writer["OtherCount"].write(value.otherCount)
+        try writer["TimeoutCount"].write(value.timeoutCount)
+        try writer["UnknownHostCount"].write(value.unknownHostCount)
+    }
+}
+
+extension XRayClientTypes.Edge {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> XRayClientTypes.Edge {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = XRayClientTypes.Edge()
+        value.referenceId = try reader["ReferenceId"].readIfPresent()
+        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.summaryStatistics = try reader["SummaryStatistics"].readIfPresent(with: XRayClientTypes.EdgeStatistics.read(from:))
+        value.responseTimeHistogram = try reader["ResponseTimeHistogram"].readListIfPresent(memberReadingClosure: XRayClientTypes.HistogramEntry.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.aliases = try reader["Aliases"].readListIfPresent(memberReadingClosure: XRayClientTypes.Alias.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.edgeType = try reader["EdgeType"].readIfPresent()
+        value.receivedEventAgeHistogram = try reader["ReceivedEventAgeHistogram"].readListIfPresent(memberReadingClosure: XRayClientTypes.HistogramEntry.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension XRayClientTypes.EdgeStatistics {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> XRayClientTypes.EdgeStatistics {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = XRayClientTypes.EdgeStatistics()
+        value.okCount = try reader["OkCount"].readIfPresent()
+        value.errorStatistics = try reader["ErrorStatistics"].readIfPresent(with: XRayClientTypes.ErrorStatistics.read(from:))
+        value.faultStatistics = try reader["FaultStatistics"].readIfPresent(with: XRayClientTypes.FaultStatistics.read(from:))
+        value.totalCount = try reader["TotalCount"].readIfPresent()
+        value.totalResponseTime = try reader["TotalResponseTime"].readIfPresent()
+        return value
+    }
+}
+
+extension XRayClientTypes.EncryptionConfig {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> XRayClientTypes.EncryptionConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = XRayClientTypes.EncryptionConfig()
+        value.keyId = try reader["KeyId"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent()
+        return value
+    }
+}
+
+extension XRayClientTypes.ErrorRootCause {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> XRayClientTypes.ErrorRootCause {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = XRayClientTypes.ErrorRootCause()
+        value.services = try reader["Services"].readListIfPresent(memberReadingClosure: XRayClientTypes.ErrorRootCauseService.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.clientImpacting = try reader["ClientImpacting"].readIfPresent()
+        return value
+    }
+}
+
+extension XRayClientTypes.ErrorRootCauseEntity {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> XRayClientTypes.ErrorRootCauseEntity {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = XRayClientTypes.ErrorRootCauseEntity()
+        value.name = try reader["Name"].readIfPresent()
+        value.exceptions = try reader["Exceptions"].readListIfPresent(memberReadingClosure: XRayClientTypes.RootCauseException.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.remote = try reader["Remote"].readIfPresent()
+        return value
+    }
+}
+
+extension XRayClientTypes.ErrorRootCauseService {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> XRayClientTypes.ErrorRootCauseService {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = XRayClientTypes.ErrorRootCauseService()
+        value.name = try reader["Name"].readIfPresent()
+        value.names = try reader["Names"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.type = try reader["Type"].readIfPresent()
+        value.accountId = try reader["AccountId"].readIfPresent()
+        value.entityPath = try reader["EntityPath"].readListIfPresent(memberReadingClosure: XRayClientTypes.ErrorRootCauseEntity.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.inferred = try reader["Inferred"].readIfPresent()
+        return value
+    }
+}
+
+extension XRayClientTypes.ErrorStatistics {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> XRayClientTypes.ErrorStatistics {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = XRayClientTypes.ErrorStatistics()
+        value.throttleCount = try reader["ThrottleCount"].readIfPresent()
+        value.otherCount = try reader["OtherCount"].readIfPresent()
+        value.totalCount = try reader["TotalCount"].readIfPresent()
+        return value
+    }
+}
+
+extension XRayClientTypes.FaultRootCause {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> XRayClientTypes.FaultRootCause {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = XRayClientTypes.FaultRootCause()
+        value.services = try reader["Services"].readListIfPresent(memberReadingClosure: XRayClientTypes.FaultRootCauseService.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.clientImpacting = try reader["ClientImpacting"].readIfPresent()
+        return value
+    }
+}
+
+extension XRayClientTypes.FaultRootCauseEntity {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> XRayClientTypes.FaultRootCauseEntity {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = XRayClientTypes.FaultRootCauseEntity()
+        value.name = try reader["Name"].readIfPresent()
+        value.exceptions = try reader["Exceptions"].readListIfPresent(memberReadingClosure: XRayClientTypes.RootCauseException.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.remote = try reader["Remote"].readIfPresent()
+        return value
+    }
+}
+
+extension XRayClientTypes.FaultRootCauseService {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> XRayClientTypes.FaultRootCauseService {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = XRayClientTypes.FaultRootCauseService()
+        value.name = try reader["Name"].readIfPresent()
+        value.names = try reader["Names"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.type = try reader["Type"].readIfPresent()
+        value.accountId = try reader["AccountId"].readIfPresent()
+        value.entityPath = try reader["EntityPath"].readListIfPresent(memberReadingClosure: XRayClientTypes.FaultRootCauseEntity.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.inferred = try reader["Inferred"].readIfPresent()
+        return value
+    }
+}
+
+extension XRayClientTypes.FaultStatistics {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> XRayClientTypes.FaultStatistics {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = XRayClientTypes.FaultStatistics()
+        value.otherCount = try reader["OtherCount"].readIfPresent()
+        value.totalCount = try reader["TotalCount"].readIfPresent()
+        return value
+    }
+}
+
+extension XRayClientTypes.ForecastStatistics {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> XRayClientTypes.ForecastStatistics {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = XRayClientTypes.ForecastStatistics()
+        value.faultCountHigh = try reader["FaultCountHigh"].readIfPresent()
+        value.faultCountLow = try reader["FaultCountLow"].readIfPresent()
+        return value
+    }
+}
+
+extension XRayClientTypes.GraphLink {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> XRayClientTypes.GraphLink {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = XRayClientTypes.GraphLink()
+        value.referenceType = try reader["ReferenceType"].readIfPresent()
+        value.sourceTraceId = try reader["SourceTraceId"].readIfPresent()
+        value.destinationTraceIds = try reader["DestinationTraceIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -5560,6 +5764,143 @@ extension XRayClientTypes.Group {
         value.groupARN = try reader["GroupARN"].readIfPresent()
         value.filterExpression = try reader["FilterExpression"].readIfPresent()
         value.insightsConfiguration = try reader["InsightsConfiguration"].readIfPresent(with: XRayClientTypes.InsightsConfiguration.read(from:))
+        return value
+    }
+}
+
+extension XRayClientTypes.GroupSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> XRayClientTypes.GroupSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = XRayClientTypes.GroupSummary()
+        value.groupName = try reader["GroupName"].readIfPresent()
+        value.groupARN = try reader["GroupARN"].readIfPresent()
+        value.filterExpression = try reader["FilterExpression"].readIfPresent()
+        value.insightsConfiguration = try reader["InsightsConfiguration"].readIfPresent(with: XRayClientTypes.InsightsConfiguration.read(from:))
+        return value
+    }
+}
+
+extension XRayClientTypes.HistogramEntry {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> XRayClientTypes.HistogramEntry {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = XRayClientTypes.HistogramEntry()
+        value.value = try reader["Value"].readIfPresent() ?? 0
+        value.count = try reader["Count"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension XRayClientTypes.Http {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> XRayClientTypes.Http {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = XRayClientTypes.Http()
+        value.httpURL = try reader["HttpURL"].readIfPresent()
+        value.httpStatus = try reader["HttpStatus"].readIfPresent()
+        value.httpMethod = try reader["HttpMethod"].readIfPresent()
+        value.userAgent = try reader["UserAgent"].readIfPresent()
+        value.clientIp = try reader["ClientIp"].readIfPresent()
+        return value
+    }
+}
+
+extension XRayClientTypes.IndexingRule {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> XRayClientTypes.IndexingRule {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = XRayClientTypes.IndexingRule()
+        value.name = try reader["Name"].readIfPresent()
+        value.modifiedAt = try reader["ModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.rule = try reader["Rule"].readIfPresent(with: XRayClientTypes.IndexingRuleValue.read(from:))
+        return value
+    }
+}
+
+extension XRayClientTypes.IndexingRuleValue {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> XRayClientTypes.IndexingRuleValue {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "Probabilistic":
+                return .probabilistic(try reader["Probabilistic"].read(with: XRayClientTypes.ProbabilisticRuleValue.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension XRayClientTypes.IndexingRuleValueUpdate {
+
+    static func write(value: XRayClientTypes.IndexingRuleValueUpdate?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .probabilistic(probabilistic):
+                try writer["Probabilistic"].write(probabilistic, with: XRayClientTypes.ProbabilisticRuleValueUpdate.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension XRayClientTypes.Insight {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> XRayClientTypes.Insight {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = XRayClientTypes.Insight()
+        value.insightId = try reader["InsightId"].readIfPresent()
+        value.groupARN = try reader["GroupARN"].readIfPresent()
+        value.groupName = try reader["GroupName"].readIfPresent()
+        value.rootCauseServiceId = try reader["RootCauseServiceId"].readIfPresent(with: XRayClientTypes.ServiceId.read(from:))
+        value.categories = try reader["Categories"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<XRayClientTypes.InsightCategory>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.state = try reader["State"].readIfPresent()
+        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.summary = try reader["Summary"].readIfPresent()
+        value.clientRequestImpactStatistics = try reader["ClientRequestImpactStatistics"].readIfPresent(with: XRayClientTypes.RequestImpactStatistics.read(from:))
+        value.rootCauseServiceRequestImpactStatistics = try reader["RootCauseServiceRequestImpactStatistics"].readIfPresent(with: XRayClientTypes.RequestImpactStatistics.read(from:))
+        value.topAnomalousServices = try reader["TopAnomalousServices"].readListIfPresent(memberReadingClosure: XRayClientTypes.AnomalousService.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension XRayClientTypes.InsightEvent {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> XRayClientTypes.InsightEvent {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = XRayClientTypes.InsightEvent()
+        value.summary = try reader["Summary"].readIfPresent()
+        value.eventTime = try reader["EventTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.clientRequestImpactStatistics = try reader["ClientRequestImpactStatistics"].readIfPresent(with: XRayClientTypes.RequestImpactStatistics.read(from:))
+        value.rootCauseServiceRequestImpactStatistics = try reader["RootCauseServiceRequestImpactStatistics"].readIfPresent(with: XRayClientTypes.RequestImpactStatistics.read(from:))
+        value.topAnomalousServices = try reader["TopAnomalousServices"].readListIfPresent(memberReadingClosure: XRayClientTypes.AnomalousService.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension XRayClientTypes.InsightImpactGraphEdge {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> XRayClientTypes.InsightImpactGraphEdge {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = XRayClientTypes.InsightImpactGraphEdge()
+        value.referenceId = try reader["ReferenceId"].readIfPresent()
+        return value
+    }
+}
+
+extension XRayClientTypes.InsightImpactGraphService {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> XRayClientTypes.InsightImpactGraphService {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = XRayClientTypes.InsightImpactGraphService()
+        value.referenceId = try reader["ReferenceId"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        value.names = try reader["Names"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.accountId = try reader["AccountId"].readIfPresent()
+        value.edges = try reader["Edges"].readListIfPresent(memberReadingClosure: XRayClientTypes.InsightImpactGraphEdge.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -5581,14 +5922,201 @@ extension XRayClientTypes.InsightsConfiguration {
     }
 }
 
-extension XRayClientTypes.SamplingRuleRecord {
+extension XRayClientTypes.InsightSummary {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> XRayClientTypes.SamplingRuleRecord {
+    static func read(from reader: SmithyJSON.Reader) throws -> XRayClientTypes.InsightSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = XRayClientTypes.SamplingRuleRecord()
-        value.samplingRule = try reader["SamplingRule"].readIfPresent(with: XRayClientTypes.SamplingRule.read(from:))
-        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.modifiedAt = try reader["ModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        var value = XRayClientTypes.InsightSummary()
+        value.insightId = try reader["InsightId"].readIfPresent()
+        value.groupARN = try reader["GroupARN"].readIfPresent()
+        value.groupName = try reader["GroupName"].readIfPresent()
+        value.rootCauseServiceId = try reader["RootCauseServiceId"].readIfPresent(with: XRayClientTypes.ServiceId.read(from:))
+        value.categories = try reader["Categories"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<XRayClientTypes.InsightCategory>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.state = try reader["State"].readIfPresent()
+        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.summary = try reader["Summary"].readIfPresent()
+        value.clientRequestImpactStatistics = try reader["ClientRequestImpactStatistics"].readIfPresent(with: XRayClientTypes.RequestImpactStatistics.read(from:))
+        value.rootCauseServiceRequestImpactStatistics = try reader["RootCauseServiceRequestImpactStatistics"].readIfPresent(with: XRayClientTypes.RequestImpactStatistics.read(from:))
+        value.topAnomalousServices = try reader["TopAnomalousServices"].readListIfPresent(memberReadingClosure: XRayClientTypes.AnomalousService.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.lastUpdateTime = try reader["LastUpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension XRayClientTypes.InstanceIdDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> XRayClientTypes.InstanceIdDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = XRayClientTypes.InstanceIdDetail()
+        value.id = try reader["Id"].readIfPresent()
+        return value
+    }
+}
+
+extension XRayClientTypes.ProbabilisticRuleValue {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> XRayClientTypes.ProbabilisticRuleValue {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = XRayClientTypes.ProbabilisticRuleValue()
+        value.desiredSamplingPercentage = try reader["DesiredSamplingPercentage"].readIfPresent() ?? 0.0
+        value.actualSamplingPercentage = try reader["ActualSamplingPercentage"].readIfPresent()
+        return value
+    }
+}
+
+extension XRayClientTypes.ProbabilisticRuleValueUpdate {
+
+    static func write(value: XRayClientTypes.ProbabilisticRuleValueUpdate?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DesiredSamplingPercentage"].write(value.desiredSamplingPercentage)
+    }
+}
+
+extension XRayClientTypes.RequestImpactStatistics {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> XRayClientTypes.RequestImpactStatistics {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = XRayClientTypes.RequestImpactStatistics()
+        value.faultCount = try reader["FaultCount"].readIfPresent()
+        value.okCount = try reader["OkCount"].readIfPresent()
+        value.totalCount = try reader["TotalCount"].readIfPresent()
+        return value
+    }
+}
+
+extension XRayClientTypes.ResourceARNDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> XRayClientTypes.ResourceARNDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = XRayClientTypes.ResourceARNDetail()
+        value.arn = try reader["ARN"].readIfPresent()
+        return value
+    }
+}
+
+extension XRayClientTypes.ResourcePolicy {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> XRayClientTypes.ResourcePolicy {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = XRayClientTypes.ResourcePolicy()
+        value.policyName = try reader["PolicyName"].readIfPresent()
+        value.policyDocument = try reader["PolicyDocument"].readIfPresent()
+        value.policyRevisionId = try reader["PolicyRevisionId"].readIfPresent()
+        value.lastUpdatedTime = try reader["LastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension XRayClientTypes.ResponseTimeRootCause {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> XRayClientTypes.ResponseTimeRootCause {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = XRayClientTypes.ResponseTimeRootCause()
+        value.services = try reader["Services"].readListIfPresent(memberReadingClosure: XRayClientTypes.ResponseTimeRootCauseService.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.clientImpacting = try reader["ClientImpacting"].readIfPresent()
+        return value
+    }
+}
+
+extension XRayClientTypes.ResponseTimeRootCauseEntity {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> XRayClientTypes.ResponseTimeRootCauseEntity {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = XRayClientTypes.ResponseTimeRootCauseEntity()
+        value.name = try reader["Name"].readIfPresent()
+        value.coverage = try reader["Coverage"].readIfPresent()
+        value.remote = try reader["Remote"].readIfPresent()
+        return value
+    }
+}
+
+extension XRayClientTypes.ResponseTimeRootCauseService {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> XRayClientTypes.ResponseTimeRootCauseService {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = XRayClientTypes.ResponseTimeRootCauseService()
+        value.name = try reader["Name"].readIfPresent()
+        value.names = try reader["Names"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.type = try reader["Type"].readIfPresent()
+        value.accountId = try reader["AccountId"].readIfPresent()
+        value.entityPath = try reader["EntityPath"].readListIfPresent(memberReadingClosure: XRayClientTypes.ResponseTimeRootCauseEntity.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.inferred = try reader["Inferred"].readIfPresent()
+        return value
+    }
+}
+
+extension XRayClientTypes.RetrievedService {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> XRayClientTypes.RetrievedService {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = XRayClientTypes.RetrievedService()
+        value.service = try reader["Service"].readIfPresent(with: XRayClientTypes.Service.read(from:))
+        value.links = try reader["Links"].readListIfPresent(memberReadingClosure: XRayClientTypes.GraphLink.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension XRayClientTypes.RetrievedTrace {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> XRayClientTypes.RetrievedTrace {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = XRayClientTypes.RetrievedTrace()
+        value.id = try reader["Id"].readIfPresent()
+        value.duration = try reader["Duration"].readIfPresent()
+        value.spans = try reader["Spans"].readListIfPresent(memberReadingClosure: XRayClientTypes.Span.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension XRayClientTypes.RootCauseException {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> XRayClientTypes.RootCauseException {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = XRayClientTypes.RootCauseException()
+        value.name = try reader["Name"].readIfPresent()
+        value.message = try reader["Message"].readIfPresent()
+        return value
+    }
+}
+
+extension XRayClientTypes.SamplingBoost {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> XRayClientTypes.SamplingBoost {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = XRayClientTypes.SamplingBoost()
+        value.boostRate = try reader["BoostRate"].readIfPresent() ?? 0
+        value.boostRateTTL = try reader["BoostRateTTL"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension XRayClientTypes.SamplingBoostStatisticsDocument {
+
+    static func write(value: XRayClientTypes.SamplingBoostStatisticsDocument?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AnomalyCount"].write(value.anomalyCount)
+        try writer["RuleName"].write(value.ruleName)
+        try writer["SampledAnomalyCount"].write(value.sampledAnomalyCount)
+        try writer["ServiceName"].write(value.serviceName)
+        try writer["Timestamp"].writeTimestamp(value.timestamp, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["TotalCount"].write(value.totalCount)
+    }
+}
+
+extension XRayClientTypes.SamplingRateBoost {
+
+    static func write(value: XRayClientTypes.SamplingRateBoost?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CooldownWindowMinutes"].write(value.cooldownWindowMinutes)
+        try writer["MaxRate"].write(value.maxRate)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> XRayClientTypes.SamplingRateBoost {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = XRayClientTypes.SamplingRateBoost()
+        value.maxRate = try reader["MaxRate"].readIfPresent() ?? 0
+        value.cooldownWindowMinutes = try reader["CooldownWindowMinutes"].readIfPresent() ?? 0
         return value
     }
 }
@@ -5634,221 +6162,96 @@ extension XRayClientTypes.SamplingRule {
     }
 }
 
-extension XRayClientTypes.SamplingRateBoost {
+extension XRayClientTypes.SamplingRuleRecord {
 
-    static func write(value: XRayClientTypes.SamplingRateBoost?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CooldownWindowMinutes"].write(value.cooldownWindowMinutes)
-        try writer["MaxRate"].write(value.maxRate)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> XRayClientTypes.SamplingRateBoost {
+    static func read(from reader: SmithyJSON.Reader) throws -> XRayClientTypes.SamplingRuleRecord {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = XRayClientTypes.SamplingRateBoost()
-        value.maxRate = try reader["MaxRate"].readIfPresent() ?? 0
-        value.cooldownWindowMinutes = try reader["CooldownWindowMinutes"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension XRayClientTypes.EncryptionConfig {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> XRayClientTypes.EncryptionConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = XRayClientTypes.EncryptionConfig()
-        value.keyId = try reader["KeyId"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.type = try reader["Type"].readIfPresent()
-        return value
-    }
-}
-
-extension XRayClientTypes.GroupSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> XRayClientTypes.GroupSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = XRayClientTypes.GroupSummary()
-        value.groupName = try reader["GroupName"].readIfPresent()
-        value.groupARN = try reader["GroupARN"].readIfPresent()
-        value.filterExpression = try reader["FilterExpression"].readIfPresent()
-        value.insightsConfiguration = try reader["InsightsConfiguration"].readIfPresent(with: XRayClientTypes.InsightsConfiguration.read(from:))
-        return value
-    }
-}
-
-extension XRayClientTypes.IndexingRule {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> XRayClientTypes.IndexingRule {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = XRayClientTypes.IndexingRule()
-        value.name = try reader["Name"].readIfPresent()
+        var value = XRayClientTypes.SamplingRuleRecord()
+        value.samplingRule = try reader["SamplingRule"].readIfPresent(with: XRayClientTypes.SamplingRule.read(from:))
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.modifiedAt = try reader["ModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.rule = try reader["Rule"].readIfPresent(with: XRayClientTypes.IndexingRuleValue.read(from:))
         return value
     }
 }
 
-extension XRayClientTypes.IndexingRuleValue {
+extension XRayClientTypes.SamplingRuleUpdate {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> XRayClientTypes.IndexingRuleValue {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "Probabilistic":
-                return .probabilistic(try reader["Probabilistic"].read(with: XRayClientTypes.ProbabilisticRuleValue.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
+    static func write(value: XRayClientTypes.SamplingRuleUpdate?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Attributes"].writeMap(value.attributes, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["FixedRate"].write(value.fixedRate)
+        try writer["HTTPMethod"].write(value.httpMethod)
+        try writer["Host"].write(value.host)
+        try writer["Priority"].write(value.priority)
+        try writer["ReservoirSize"].write(value.reservoirSize)
+        try writer["ResourceARN"].write(value.resourceARN)
+        try writer["RuleARN"].write(value.ruleARN)
+        try writer["RuleName"].write(value.ruleName)
+        try writer["SamplingRateBoost"].write(value.samplingRateBoost, with: XRayClientTypes.SamplingRateBoost.write(value:to:))
+        try writer["ServiceName"].write(value.serviceName)
+        try writer["ServiceType"].write(value.serviceType)
+        try writer["URLPath"].write(value.urlPath)
     }
 }
 
-extension XRayClientTypes.ProbabilisticRuleValue {
+extension XRayClientTypes.SamplingStatisticsDocument {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> XRayClientTypes.ProbabilisticRuleValue {
+    static func write(value: XRayClientTypes.SamplingStatisticsDocument?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["BorrowCount"].write(value.borrowCount)
+        try writer["ClientID"].write(value.clientID)
+        try writer["RequestCount"].write(value.requestCount)
+        try writer["RuleName"].write(value.ruleName)
+        try writer["SampledCount"].write(value.sampledCount)
+        try writer["Timestamp"].writeTimestamp(value.timestamp, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+    }
+}
+
+extension XRayClientTypes.SamplingStatisticSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> XRayClientTypes.SamplingStatisticSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = XRayClientTypes.ProbabilisticRuleValue()
-        value.desiredSamplingPercentage = try reader["DesiredSamplingPercentage"].readIfPresent() ?? 0.0
-        value.actualSamplingPercentage = try reader["ActualSamplingPercentage"].readIfPresent()
+        var value = XRayClientTypes.SamplingStatisticSummary()
+        value.ruleName = try reader["RuleName"].readIfPresent()
+        value.timestamp = try reader["Timestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.requestCount = try reader["RequestCount"].readIfPresent() ?? 0
+        value.borrowCount = try reader["BorrowCount"].readIfPresent() ?? 0
+        value.sampledCount = try reader["SampledCount"].readIfPresent() ?? 0
         return value
     }
 }
 
-extension XRayClientTypes.Insight {
+extension XRayClientTypes.SamplingStrategy {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> XRayClientTypes.Insight {
+    static func write(value: XRayClientTypes.SamplingStrategy?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Name"].write(value.name)
+        try writer["Value"].write(value.value)
+    }
+}
+
+extension XRayClientTypes.SamplingTargetDocument {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> XRayClientTypes.SamplingTargetDocument {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = XRayClientTypes.Insight()
-        value.insightId = try reader["InsightId"].readIfPresent()
-        value.groupARN = try reader["GroupARN"].readIfPresent()
-        value.groupName = try reader["GroupName"].readIfPresent()
-        value.rootCauseServiceId = try reader["RootCauseServiceId"].readIfPresent(with: XRayClientTypes.ServiceId.read(from:))
-        value.categories = try reader["Categories"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<XRayClientTypes.InsightCategory>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.state = try reader["State"].readIfPresent()
-        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.summary = try reader["Summary"].readIfPresent()
-        value.clientRequestImpactStatistics = try reader["ClientRequestImpactStatistics"].readIfPresent(with: XRayClientTypes.RequestImpactStatistics.read(from:))
-        value.rootCauseServiceRequestImpactStatistics = try reader["RootCauseServiceRequestImpactStatistics"].readIfPresent(with: XRayClientTypes.RequestImpactStatistics.read(from:))
-        value.topAnomalousServices = try reader["TopAnomalousServices"].readListIfPresent(memberReadingClosure: XRayClientTypes.AnomalousService.read(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = XRayClientTypes.SamplingTargetDocument()
+        value.ruleName = try reader["RuleName"].readIfPresent()
+        value.fixedRate = try reader["FixedRate"].readIfPresent() ?? 0
+        value.reservoirQuota = try reader["ReservoirQuota"].readIfPresent()
+        value.reservoirQuotaTTL = try reader["ReservoirQuotaTTL"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.interval = try reader["Interval"].readIfPresent()
+        value.samplingBoost = try reader["SamplingBoost"].readIfPresent(with: XRayClientTypes.SamplingBoost.read(from:))
         return value
     }
 }
 
-extension XRayClientTypes.AnomalousService {
+extension XRayClientTypes.Segment {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> XRayClientTypes.AnomalousService {
+    static func read(from reader: SmithyJSON.Reader) throws -> XRayClientTypes.Segment {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = XRayClientTypes.AnomalousService()
-        value.serviceId = try reader["ServiceId"].readIfPresent(with: XRayClientTypes.ServiceId.read(from:))
-        return value
-    }
-}
-
-extension XRayClientTypes.ServiceId {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> XRayClientTypes.ServiceId {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = XRayClientTypes.ServiceId()
-        value.name = try reader["Name"].readIfPresent()
-        value.names = try reader["Names"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.accountId = try reader["AccountId"].readIfPresent()
-        value.type = try reader["Type"].readIfPresent()
-        return value
-    }
-}
-
-extension XRayClientTypes.RequestImpactStatistics {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> XRayClientTypes.RequestImpactStatistics {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = XRayClientTypes.RequestImpactStatistics()
-        value.faultCount = try reader["FaultCount"].readIfPresent()
-        value.okCount = try reader["OkCount"].readIfPresent()
-        value.totalCount = try reader["TotalCount"].readIfPresent()
-        return value
-    }
-}
-
-extension XRayClientTypes.InsightEvent {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> XRayClientTypes.InsightEvent {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = XRayClientTypes.InsightEvent()
-        value.summary = try reader["Summary"].readIfPresent()
-        value.eventTime = try reader["EventTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.clientRequestImpactStatistics = try reader["ClientRequestImpactStatistics"].readIfPresent(with: XRayClientTypes.RequestImpactStatistics.read(from:))
-        value.rootCauseServiceRequestImpactStatistics = try reader["RootCauseServiceRequestImpactStatistics"].readIfPresent(with: XRayClientTypes.RequestImpactStatistics.read(from:))
-        value.topAnomalousServices = try reader["TopAnomalousServices"].readListIfPresent(memberReadingClosure: XRayClientTypes.AnomalousService.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension XRayClientTypes.InsightImpactGraphService {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> XRayClientTypes.InsightImpactGraphService {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = XRayClientTypes.InsightImpactGraphService()
-        value.referenceId = try reader["ReferenceId"].readIfPresent()
-        value.type = try reader["Type"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
-        value.names = try reader["Names"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.accountId = try reader["AccountId"].readIfPresent()
-        value.edges = try reader["Edges"].readListIfPresent(memberReadingClosure: XRayClientTypes.InsightImpactGraphEdge.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension XRayClientTypes.InsightImpactGraphEdge {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> XRayClientTypes.InsightImpactGraphEdge {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = XRayClientTypes.InsightImpactGraphEdge()
-        value.referenceId = try reader["ReferenceId"].readIfPresent()
-        return value
-    }
-}
-
-extension XRayClientTypes.InsightSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> XRayClientTypes.InsightSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = XRayClientTypes.InsightSummary()
-        value.insightId = try reader["InsightId"].readIfPresent()
-        value.groupARN = try reader["GroupARN"].readIfPresent()
-        value.groupName = try reader["GroupName"].readIfPresent()
-        value.rootCauseServiceId = try reader["RootCauseServiceId"].readIfPresent(with: XRayClientTypes.ServiceId.read(from:))
-        value.categories = try reader["Categories"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<XRayClientTypes.InsightCategory>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.state = try reader["State"].readIfPresent()
-        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.summary = try reader["Summary"].readIfPresent()
-        value.clientRequestImpactStatistics = try reader["ClientRequestImpactStatistics"].readIfPresent(with: XRayClientTypes.RequestImpactStatistics.read(from:))
-        value.rootCauseServiceRequestImpactStatistics = try reader["RootCauseServiceRequestImpactStatistics"].readIfPresent(with: XRayClientTypes.RequestImpactStatistics.read(from:))
-        value.topAnomalousServices = try reader["TopAnomalousServices"].readListIfPresent(memberReadingClosure: XRayClientTypes.AnomalousService.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.lastUpdateTime = try reader["LastUpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension XRayClientTypes.RetrievedService {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> XRayClientTypes.RetrievedService {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = XRayClientTypes.RetrievedService()
-        value.service = try reader["Service"].readIfPresent(with: XRayClientTypes.Service.read(from:))
-        value.links = try reader["Links"].readListIfPresent(memberReadingClosure: XRayClientTypes.GraphLink.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension XRayClientTypes.GraphLink {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> XRayClientTypes.GraphLink {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = XRayClientTypes.GraphLink()
-        value.referenceType = try reader["ReferenceType"].readIfPresent()
-        value.sourceTraceId = try reader["SourceTraceId"].readIfPresent()
-        value.destinationTraceIds = try reader["DestinationTraceIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = XRayClientTypes.Segment()
+        value.id = try reader["Id"].readIfPresent()
+        value.document = try reader["Document"].readIfPresent()
         return value
     }
 }
@@ -5875,13 +6278,15 @@ extension XRayClientTypes.Service {
     }
 }
 
-extension XRayClientTypes.HistogramEntry {
+extension XRayClientTypes.ServiceId {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> XRayClientTypes.HistogramEntry {
+    static func read(from reader: SmithyJSON.Reader) throws -> XRayClientTypes.ServiceId {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = XRayClientTypes.HistogramEntry()
-        value.value = try reader["Value"].readIfPresent() ?? 0
-        value.count = try reader["Count"].readIfPresent() ?? 0
+        var value = XRayClientTypes.ServiceId()
+        value.name = try reader["Name"].readIfPresent()
+        value.names = try reader["Names"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.accountId = try reader["AccountId"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent()
         return value
     }
 }
@@ -5900,121 +6305,44 @@ extension XRayClientTypes.ServiceStatistics {
     }
 }
 
-extension XRayClientTypes.FaultStatistics {
+extension XRayClientTypes.Span {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> XRayClientTypes.FaultStatistics {
+    static func read(from reader: SmithyJSON.Reader) throws -> XRayClientTypes.Span {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = XRayClientTypes.FaultStatistics()
-        value.otherCount = try reader["OtherCount"].readIfPresent()
-        value.totalCount = try reader["TotalCount"].readIfPresent()
+        var value = XRayClientTypes.Span()
+        value.id = try reader["Id"].readIfPresent()
+        value.document = try reader["Document"].readIfPresent()
         return value
     }
 }
 
-extension XRayClientTypes.ErrorStatistics {
+extension XRayClientTypes.Tag {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> XRayClientTypes.ErrorStatistics {
+    static func write(value: XRayClientTypes.Tag?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Key"].write(value.key)
+        try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> XRayClientTypes.Tag {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = XRayClientTypes.ErrorStatistics()
-        value.throttleCount = try reader["ThrottleCount"].readIfPresent()
-        value.otherCount = try reader["OtherCount"].readIfPresent()
-        value.totalCount = try reader["TotalCount"].readIfPresent()
+        var value = XRayClientTypes.Tag()
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
         return value
     }
 }
 
-extension XRayClientTypes.Edge {
+extension XRayClientTypes.TelemetryRecord {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> XRayClientTypes.Edge {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = XRayClientTypes.Edge()
-        value.referenceId = try reader["ReferenceId"].readIfPresent()
-        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.summaryStatistics = try reader["SummaryStatistics"].readIfPresent(with: XRayClientTypes.EdgeStatistics.read(from:))
-        value.responseTimeHistogram = try reader["ResponseTimeHistogram"].readListIfPresent(memberReadingClosure: XRayClientTypes.HistogramEntry.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.aliases = try reader["Aliases"].readListIfPresent(memberReadingClosure: XRayClientTypes.Alias.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.edgeType = try reader["EdgeType"].readIfPresent()
-        value.receivedEventAgeHistogram = try reader["ReceivedEventAgeHistogram"].readListIfPresent(memberReadingClosure: XRayClientTypes.HistogramEntry.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension XRayClientTypes.Alias {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> XRayClientTypes.Alias {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = XRayClientTypes.Alias()
-        value.name = try reader["Name"].readIfPresent()
-        value.names = try reader["Names"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.type = try reader["Type"].readIfPresent()
-        return value
-    }
-}
-
-extension XRayClientTypes.EdgeStatistics {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> XRayClientTypes.EdgeStatistics {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = XRayClientTypes.EdgeStatistics()
-        value.okCount = try reader["OkCount"].readIfPresent()
-        value.errorStatistics = try reader["ErrorStatistics"].readIfPresent(with: XRayClientTypes.ErrorStatistics.read(from:))
-        value.faultStatistics = try reader["FaultStatistics"].readIfPresent(with: XRayClientTypes.FaultStatistics.read(from:))
-        value.totalCount = try reader["TotalCount"].readIfPresent()
-        value.totalResponseTime = try reader["TotalResponseTime"].readIfPresent()
-        return value
-    }
-}
-
-extension XRayClientTypes.SamplingStatisticSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> XRayClientTypes.SamplingStatisticSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = XRayClientTypes.SamplingStatisticSummary()
-        value.ruleName = try reader["RuleName"].readIfPresent()
-        value.timestamp = try reader["Timestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.requestCount = try reader["RequestCount"].readIfPresent() ?? 0
-        value.borrowCount = try reader["BorrowCount"].readIfPresent() ?? 0
-        value.sampledCount = try reader["SampledCount"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension XRayClientTypes.SamplingTargetDocument {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> XRayClientTypes.SamplingTargetDocument {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = XRayClientTypes.SamplingTargetDocument()
-        value.ruleName = try reader["RuleName"].readIfPresent()
-        value.fixedRate = try reader["FixedRate"].readIfPresent() ?? 0
-        value.reservoirQuota = try reader["ReservoirQuota"].readIfPresent()
-        value.reservoirQuotaTTL = try reader["ReservoirQuotaTTL"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.interval = try reader["Interval"].readIfPresent()
-        value.samplingBoost = try reader["SamplingBoost"].readIfPresent(with: XRayClientTypes.SamplingBoost.read(from:))
-        return value
-    }
-}
-
-extension XRayClientTypes.SamplingBoost {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> XRayClientTypes.SamplingBoost {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = XRayClientTypes.SamplingBoost()
-        value.boostRate = try reader["BoostRate"].readIfPresent() ?? 0
-        value.boostRateTTL = try reader["BoostRateTTL"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        return value
-    }
-}
-
-extension XRayClientTypes.UnprocessedStatistics {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> XRayClientTypes.UnprocessedStatistics {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = XRayClientTypes.UnprocessedStatistics()
-        value.ruleName = try reader["RuleName"].readIfPresent()
-        value.errorCode = try reader["ErrorCode"].readIfPresent()
-        value.message = try reader["Message"].readIfPresent()
-        return value
+    static func write(value: XRayClientTypes.TelemetryRecord?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["BackendConnectionErrors"].write(value.backendConnectionErrors, with: XRayClientTypes.BackendConnectionErrors.write(value:to:))
+        try writer["SegmentsReceivedCount"].write(value.segmentsReceivedCount)
+        try writer["SegmentsRejectedCount"].write(value.segmentsRejectedCount)
+        try writer["SegmentsSentCount"].write(value.segmentsSentCount)
+        try writer["SegmentsSpilloverCount"].write(value.segmentsSpilloverCount)
+        try writer["Timestamp"].writeTimestamp(value.timestamp, format: SmithyTimestamps.TimestampFormat.epochSeconds)
     }
 }
 
@@ -6032,13 +6360,15 @@ extension XRayClientTypes.TimeSeriesServiceStatistics {
     }
 }
 
-extension XRayClientTypes.ForecastStatistics {
+extension XRayClientTypes.Trace {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> XRayClientTypes.ForecastStatistics {
+    static func read(from reader: SmithyJSON.Reader) throws -> XRayClientTypes.Trace {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = XRayClientTypes.ForecastStatistics()
-        value.faultCountHigh = try reader["FaultCountHigh"].readIfPresent()
-        value.faultCountLow = try reader["FaultCountLow"].readIfPresent()
+        var value = XRayClientTypes.Trace()
+        value.id = try reader["Id"].readIfPresent()
+        value.duration = try reader["Duration"].readIfPresent()
+        value.limitExceeded = try reader["LimitExceeded"].readIfPresent()
+        value.segments = try reader["Segments"].readListIfPresent(memberReadingClosure: XRayClientTypes.Segment.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -6073,161 +6403,6 @@ extension XRayClientTypes.TraceSummary {
     }
 }
 
-extension XRayClientTypes.ResponseTimeRootCause {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> XRayClientTypes.ResponseTimeRootCause {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = XRayClientTypes.ResponseTimeRootCause()
-        value.services = try reader["Services"].readListIfPresent(memberReadingClosure: XRayClientTypes.ResponseTimeRootCauseService.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.clientImpacting = try reader["ClientImpacting"].readIfPresent()
-        return value
-    }
-}
-
-extension XRayClientTypes.ResponseTimeRootCauseService {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> XRayClientTypes.ResponseTimeRootCauseService {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = XRayClientTypes.ResponseTimeRootCauseService()
-        value.name = try reader["Name"].readIfPresent()
-        value.names = try reader["Names"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.type = try reader["Type"].readIfPresent()
-        value.accountId = try reader["AccountId"].readIfPresent()
-        value.entityPath = try reader["EntityPath"].readListIfPresent(memberReadingClosure: XRayClientTypes.ResponseTimeRootCauseEntity.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.inferred = try reader["Inferred"].readIfPresent()
-        return value
-    }
-}
-
-extension XRayClientTypes.ResponseTimeRootCauseEntity {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> XRayClientTypes.ResponseTimeRootCauseEntity {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = XRayClientTypes.ResponseTimeRootCauseEntity()
-        value.name = try reader["Name"].readIfPresent()
-        value.coverage = try reader["Coverage"].readIfPresent()
-        value.remote = try reader["Remote"].readIfPresent()
-        return value
-    }
-}
-
-extension XRayClientTypes.ErrorRootCause {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> XRayClientTypes.ErrorRootCause {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = XRayClientTypes.ErrorRootCause()
-        value.services = try reader["Services"].readListIfPresent(memberReadingClosure: XRayClientTypes.ErrorRootCauseService.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.clientImpacting = try reader["ClientImpacting"].readIfPresent()
-        return value
-    }
-}
-
-extension XRayClientTypes.ErrorRootCauseService {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> XRayClientTypes.ErrorRootCauseService {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = XRayClientTypes.ErrorRootCauseService()
-        value.name = try reader["Name"].readIfPresent()
-        value.names = try reader["Names"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.type = try reader["Type"].readIfPresent()
-        value.accountId = try reader["AccountId"].readIfPresent()
-        value.entityPath = try reader["EntityPath"].readListIfPresent(memberReadingClosure: XRayClientTypes.ErrorRootCauseEntity.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.inferred = try reader["Inferred"].readIfPresent()
-        return value
-    }
-}
-
-extension XRayClientTypes.ErrorRootCauseEntity {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> XRayClientTypes.ErrorRootCauseEntity {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = XRayClientTypes.ErrorRootCauseEntity()
-        value.name = try reader["Name"].readIfPresent()
-        value.exceptions = try reader["Exceptions"].readListIfPresent(memberReadingClosure: XRayClientTypes.RootCauseException.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.remote = try reader["Remote"].readIfPresent()
-        return value
-    }
-}
-
-extension XRayClientTypes.RootCauseException {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> XRayClientTypes.RootCauseException {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = XRayClientTypes.RootCauseException()
-        value.name = try reader["Name"].readIfPresent()
-        value.message = try reader["Message"].readIfPresent()
-        return value
-    }
-}
-
-extension XRayClientTypes.FaultRootCause {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> XRayClientTypes.FaultRootCause {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = XRayClientTypes.FaultRootCause()
-        value.services = try reader["Services"].readListIfPresent(memberReadingClosure: XRayClientTypes.FaultRootCauseService.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.clientImpacting = try reader["ClientImpacting"].readIfPresent()
-        return value
-    }
-}
-
-extension XRayClientTypes.FaultRootCauseService {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> XRayClientTypes.FaultRootCauseService {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = XRayClientTypes.FaultRootCauseService()
-        value.name = try reader["Name"].readIfPresent()
-        value.names = try reader["Names"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.type = try reader["Type"].readIfPresent()
-        value.accountId = try reader["AccountId"].readIfPresent()
-        value.entityPath = try reader["EntityPath"].readListIfPresent(memberReadingClosure: XRayClientTypes.FaultRootCauseEntity.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.inferred = try reader["Inferred"].readIfPresent()
-        return value
-    }
-}
-
-extension XRayClientTypes.FaultRootCauseEntity {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> XRayClientTypes.FaultRootCauseEntity {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = XRayClientTypes.FaultRootCauseEntity()
-        value.name = try reader["Name"].readIfPresent()
-        value.exceptions = try reader["Exceptions"].readListIfPresent(memberReadingClosure: XRayClientTypes.RootCauseException.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.remote = try reader["Remote"].readIfPresent()
-        return value
-    }
-}
-
-extension XRayClientTypes.AvailabilityZoneDetail {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> XRayClientTypes.AvailabilityZoneDetail {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = XRayClientTypes.AvailabilityZoneDetail()
-        value.name = try reader["Name"].readIfPresent()
-        return value
-    }
-}
-
-extension XRayClientTypes.InstanceIdDetail {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> XRayClientTypes.InstanceIdDetail {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = XRayClientTypes.InstanceIdDetail()
-        value.id = try reader["Id"].readIfPresent()
-        return value
-    }
-}
-
-extension XRayClientTypes.ResourceARNDetail {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> XRayClientTypes.ResourceARNDetail {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = XRayClientTypes.ResourceARNDetail()
-        value.arn = try reader["ARN"].readIfPresent()
-        return value
-    }
-}
-
 extension XRayClientTypes.TraceUser {
 
     static func read(from reader: SmithyJSON.Reader) throws -> XRayClientTypes.TraceUser {
@@ -6239,98 +6414,14 @@ extension XRayClientTypes.TraceUser {
     }
 }
 
-extension XRayClientTypes.ValueWithServiceIds {
+extension XRayClientTypes.UnprocessedStatistics {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> XRayClientTypes.ValueWithServiceIds {
+    static func read(from reader: SmithyJSON.Reader) throws -> XRayClientTypes.UnprocessedStatistics {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = XRayClientTypes.ValueWithServiceIds()
-        value.annotationValue = try reader["AnnotationValue"].readIfPresent(with: XRayClientTypes.AnnotationValue.read(from:))
-        value.serviceIds = try reader["ServiceIds"].readListIfPresent(memberReadingClosure: XRayClientTypes.ServiceId.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension XRayClientTypes.AnnotationValue {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> XRayClientTypes.AnnotationValue {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "NumberValue":
-                return .numbervalue(try reader["NumberValue"].read())
-            case "BooleanValue":
-                return .booleanvalue(try reader["BooleanValue"].read())
-            case "StringValue":
-                return .stringvalue(try reader["StringValue"].read())
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension XRayClientTypes.Http {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> XRayClientTypes.Http {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = XRayClientTypes.Http()
-        value.httpURL = try reader["HttpURL"].readIfPresent()
-        value.httpStatus = try reader["HttpStatus"].readIfPresent()
-        value.httpMethod = try reader["HttpMethod"].readIfPresent()
-        value.userAgent = try reader["UserAgent"].readIfPresent()
-        value.clientIp = try reader["ClientIp"].readIfPresent()
-        return value
-    }
-}
-
-extension XRayClientTypes.ResourcePolicy {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> XRayClientTypes.ResourcePolicy {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = XRayClientTypes.ResourcePolicy()
-        value.policyName = try reader["PolicyName"].readIfPresent()
-        value.policyDocument = try reader["PolicyDocument"].readIfPresent()
-        value.policyRevisionId = try reader["PolicyRevisionId"].readIfPresent()
-        value.lastUpdatedTime = try reader["LastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension XRayClientTypes.RetrievedTrace {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> XRayClientTypes.RetrievedTrace {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = XRayClientTypes.RetrievedTrace()
-        value.id = try reader["Id"].readIfPresent()
-        value.duration = try reader["Duration"].readIfPresent()
-        value.spans = try reader["Spans"].readListIfPresent(memberReadingClosure: XRayClientTypes.Span.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension XRayClientTypes.Span {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> XRayClientTypes.Span {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = XRayClientTypes.Span()
-        value.id = try reader["Id"].readIfPresent()
-        value.document = try reader["Document"].readIfPresent()
-        return value
-    }
-}
-
-extension XRayClientTypes.Tag {
-
-    static func write(value: XRayClientTypes.Tag?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Key"].write(value.key)
-        try writer["Value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> XRayClientTypes.Tag {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = XRayClientTypes.Tag()
-        value.key = try reader["Key"].readIfPresent() ?? ""
-        value.value = try reader["Value"].readIfPresent() ?? ""
+        var value = XRayClientTypes.UnprocessedStatistics()
+        value.ruleName = try reader["RuleName"].readIfPresent()
+        value.errorCode = try reader["ErrorCode"].readIfPresent()
+        value.message = try reader["Message"].readIfPresent()
         return value
     }
 }
@@ -6347,105 +6438,14 @@ extension XRayClientTypes.UnprocessedTraceSegment {
     }
 }
 
-extension XRayClientTypes.SamplingStatisticsDocument {
+extension XRayClientTypes.ValueWithServiceIds {
 
-    static func write(value: XRayClientTypes.SamplingStatisticsDocument?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BorrowCount"].write(value.borrowCount)
-        try writer["ClientID"].write(value.clientID)
-        try writer["RequestCount"].write(value.requestCount)
-        try writer["RuleName"].write(value.ruleName)
-        try writer["SampledCount"].write(value.sampledCount)
-        try writer["Timestamp"].writeTimestamp(value.timestamp, format: SmithyTimestamps.TimestampFormat.epochSeconds)
-    }
-}
-
-extension XRayClientTypes.SamplingBoostStatisticsDocument {
-
-    static func write(value: XRayClientTypes.SamplingBoostStatisticsDocument?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AnomalyCount"].write(value.anomalyCount)
-        try writer["RuleName"].write(value.ruleName)
-        try writer["SampledAnomalyCount"].write(value.sampledAnomalyCount)
-        try writer["ServiceName"].write(value.serviceName)
-        try writer["Timestamp"].writeTimestamp(value.timestamp, format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        try writer["TotalCount"].write(value.totalCount)
-    }
-}
-
-extension XRayClientTypes.SamplingStrategy {
-
-    static func write(value: XRayClientTypes.SamplingStrategy?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-        try writer["Value"].write(value.value)
-    }
-}
-
-extension XRayClientTypes.TelemetryRecord {
-
-    static func write(value: XRayClientTypes.TelemetryRecord?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BackendConnectionErrors"].write(value.backendConnectionErrors, with: XRayClientTypes.BackendConnectionErrors.write(value:to:))
-        try writer["SegmentsReceivedCount"].write(value.segmentsReceivedCount)
-        try writer["SegmentsRejectedCount"].write(value.segmentsRejectedCount)
-        try writer["SegmentsSentCount"].write(value.segmentsSentCount)
-        try writer["SegmentsSpilloverCount"].write(value.segmentsSpilloverCount)
-        try writer["Timestamp"].writeTimestamp(value.timestamp, format: SmithyTimestamps.TimestampFormat.epochSeconds)
-    }
-}
-
-extension XRayClientTypes.BackendConnectionErrors {
-
-    static func write(value: XRayClientTypes.BackendConnectionErrors?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ConnectionRefusedCount"].write(value.connectionRefusedCount)
-        try writer["HTTPCode4XXCount"].write(value.httpCode4XXCount)
-        try writer["HTTPCode5XXCount"].write(value.httpCode5XXCount)
-        try writer["OtherCount"].write(value.otherCount)
-        try writer["TimeoutCount"].write(value.timeoutCount)
-        try writer["UnknownHostCount"].write(value.unknownHostCount)
-    }
-}
-
-extension XRayClientTypes.IndexingRuleValueUpdate {
-
-    static func write(value: XRayClientTypes.IndexingRuleValueUpdate?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .probabilistic(probabilistic):
-                try writer["Probabilistic"].write(probabilistic, with: XRayClientTypes.ProbabilisticRuleValueUpdate.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-}
-
-extension XRayClientTypes.ProbabilisticRuleValueUpdate {
-
-    static func write(value: XRayClientTypes.ProbabilisticRuleValueUpdate?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DesiredSamplingPercentage"].write(value.desiredSamplingPercentage)
-    }
-}
-
-extension XRayClientTypes.SamplingRuleUpdate {
-
-    static func write(value: XRayClientTypes.SamplingRuleUpdate?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Attributes"].writeMap(value.attributes, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["FixedRate"].write(value.fixedRate)
-        try writer["HTTPMethod"].write(value.httpMethod)
-        try writer["Host"].write(value.host)
-        try writer["Priority"].write(value.priority)
-        try writer["ReservoirSize"].write(value.reservoirSize)
-        try writer["ResourceARN"].write(value.resourceARN)
-        try writer["RuleARN"].write(value.ruleARN)
-        try writer["RuleName"].write(value.ruleName)
-        try writer["SamplingRateBoost"].write(value.samplingRateBoost, with: XRayClientTypes.SamplingRateBoost.write(value:to:))
-        try writer["ServiceName"].write(value.serviceName)
-        try writer["ServiceType"].write(value.serviceType)
-        try writer["URLPath"].write(value.urlPath)
+    static func read(from reader: SmithyJSON.Reader) throws -> XRayClientTypes.ValueWithServiceIds {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = XRayClientTypes.ValueWithServiceIds()
+        value.annotationValue = try reader["AnnotationValue"].readIfPresent(with: XRayClientTypes.AnnotationValue.read(from:))
+        value.serviceIds = try reader["ServiceIds"].readListIfPresent(memberReadingClosure: XRayClientTypes.ServiceId.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
     }
 }
 

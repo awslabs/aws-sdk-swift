@@ -1089,6 +1089,20 @@ extension InvalidStateTransitionException {
     }
 }
 
+extension IoTJobsDataPlaneClientTypes.CommandParameterValue {
+
+    static func write(value: IoTJobsDataPlaneClientTypes.CommandParameterValue?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["B"].write(value.b)
+        try writer["BIN"].write(value.bin)
+        try writer["D"].write(value.d)
+        try writer["I"].write(value.i)
+        try writer["L"].write(value.l)
+        try writer["S"].write(value.s)
+        try writer["UL"].write(value.ul)
+    }
+}
+
 extension IoTJobsDataPlaneClientTypes.JobExecution {
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTJobsDataPlaneClientTypes.JobExecution {
@@ -1109,21 +1123,6 @@ extension IoTJobsDataPlaneClientTypes.JobExecution {
     }
 }
 
-extension IoTJobsDataPlaneClientTypes.JobExecutionSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTJobsDataPlaneClientTypes.JobExecutionSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTJobsDataPlaneClientTypes.JobExecutionSummary()
-        value.jobId = try reader["jobId"].readIfPresent()
-        value.queuedAt = try reader["queuedAt"].readIfPresent() ?? 0
-        value.startedAt = try reader["startedAt"].readIfPresent()
-        value.lastUpdatedAt = try reader["lastUpdatedAt"].readIfPresent() ?? 0
-        value.versionNumber = try reader["versionNumber"].readIfPresent() ?? 0
-        value.executionNumber = try reader["executionNumber"].readIfPresent()
-        return value
-    }
-}
-
 extension IoTJobsDataPlaneClientTypes.JobExecutionState {
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTJobsDataPlaneClientTypes.JobExecutionState {
@@ -1136,17 +1135,18 @@ extension IoTJobsDataPlaneClientTypes.JobExecutionState {
     }
 }
 
-extension IoTJobsDataPlaneClientTypes.CommandParameterValue {
+extension IoTJobsDataPlaneClientTypes.JobExecutionSummary {
 
-    static func write(value: IoTJobsDataPlaneClientTypes.CommandParameterValue?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["B"].write(value.b)
-        try writer["BIN"].write(value.bin)
-        try writer["D"].write(value.d)
-        try writer["I"].write(value.i)
-        try writer["L"].write(value.l)
-        try writer["S"].write(value.s)
-        try writer["UL"].write(value.ul)
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTJobsDataPlaneClientTypes.JobExecutionSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTJobsDataPlaneClientTypes.JobExecutionSummary()
+        value.jobId = try reader["jobId"].readIfPresent()
+        value.queuedAt = try reader["queuedAt"].readIfPresent() ?? 0
+        value.startedAt = try reader["startedAt"].readIfPresent()
+        value.lastUpdatedAt = try reader["lastUpdatedAt"].readIfPresent() ?? 0
+        value.versionNumber = try reader["versionNumber"].readIfPresent() ?? 0
+        value.executionNumber = try reader["executionNumber"].readIfPresent()
+        return value
     }
 }
 

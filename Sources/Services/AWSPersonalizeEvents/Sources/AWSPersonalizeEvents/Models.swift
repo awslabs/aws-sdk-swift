@@ -677,6 +677,15 @@ extension ResourceNotFoundException {
     }
 }
 
+extension PersonalizeEventsClientTypes.Action {
+
+    static func write(value: PersonalizeEventsClientTypes.Action?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["actionId"].write(value.actionId)
+        try writer["properties"].write(value.properties)
+    }
+}
+
 extension PersonalizeEventsClientTypes.ActionInteraction {
 
     static func write(value: PersonalizeEventsClientTypes.ActionInteraction?, to writer: SmithyJSON.Writer) throws {
@@ -690,15 +699,6 @@ extension PersonalizeEventsClientTypes.ActionInteraction {
         try writer["sessionId"].write(value.sessionId)
         try writer["timestamp"].writeTimestamp(value.timestamp, format: SmithyTimestamps.TimestampFormat.epochSeconds)
         try writer["userId"].write(value.userId)
-    }
-}
-
-extension PersonalizeEventsClientTypes.Action {
-
-    static func write(value: PersonalizeEventsClientTypes.Action?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["actionId"].write(value.actionId)
-        try writer["properties"].write(value.properties)
     }
 }
 
@@ -718,20 +718,20 @@ extension PersonalizeEventsClientTypes.Event {
     }
 }
 
-extension PersonalizeEventsClientTypes.MetricAttribution {
-
-    static func write(value: PersonalizeEventsClientTypes.MetricAttribution?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["eventAttributionSource"].write(value.eventAttributionSource)
-    }
-}
-
 extension PersonalizeEventsClientTypes.Item {
 
     static func write(value: PersonalizeEventsClientTypes.Item?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["itemId"].write(value.itemId)
         try writer["properties"].write(value.properties)
+    }
+}
+
+extension PersonalizeEventsClientTypes.MetricAttribution {
+
+    static func write(value: PersonalizeEventsClientTypes.MetricAttribution?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["eventAttributionSource"].write(value.eventAttributionSource)
     }
 }
 
