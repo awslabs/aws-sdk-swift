@@ -11,12 +11,13 @@ import software.amazon.smithy.aws.swift.codegen.middleware.UserAgentMiddleware
 import software.amazon.smithy.aws.swift.codegen.swiftmodules.AWSClientRuntimeTypes
 
 @Suppress("ktlint:standard:class-naming")
-class AWSJSON1_1ProtocolGenerator : software.amazon.smithy.swift.codegen.aws.protocols.awsjson.AWSJSON1_1ProtocolGenerator(
-    customizations = AWSJSONCustomizations(),
-    operationEndpointResolverMiddlewareFactory = { ctx, sym -> AWSOperationEndpointResolverMiddleware(ctx, sym) },
-    userAgentMiddlewareFactory = { ctx -> UserAgentMiddleware(ctx.settings) },
-    xAmzTargetMiddlewareFactory = { ctx -> AWSXAmzTargetMiddleware(ctx.model, ctx.symbolProvider, ctx.service) },
-    serviceErrorProtocolSymbolOverride = AWSClientRuntimeTypes.Core.AWSServiceError,
-    clockSkewProviderSymbolOverride = AWSClientRuntimeTypes.Core.AWSClockSkewProvider,
-    retryErrorInfoProviderSymbolOverride = AWSClientRuntimeTypes.Core.AWSRetryErrorInfoProvider,
-)
+class AWSJSON1_1ProtocolGenerator :
+    software.amazon.smithy.swift.codegen.aws.protocols.awsjson.AWSJSON1_1ProtocolGenerator(
+        customizations = AWSJSONCustomizations(),
+        operationEndpointResolverMiddlewareFactory = { ctx, sym -> AWSOperationEndpointResolverMiddleware(ctx, sym) },
+        userAgentMiddlewareFactory = { ctx -> UserAgentMiddleware(ctx.settings) },
+        xAmzTargetMiddlewareFactory = { ctx -> AWSXAmzTargetMiddleware(ctx.model, ctx.symbolProvider, ctx.service) },
+        serviceErrorProtocolSymbolOverride = AWSClientRuntimeTypes.Core.AWSServiceError,
+        clockSkewProviderSymbolOverride = AWSClientRuntimeTypes.Core.AWSClockSkewProvider,
+        retryErrorInfoProviderSymbolOverride = AWSClientRuntimeTypes.Core.AWSRetryErrorInfoProvider,
+    )
