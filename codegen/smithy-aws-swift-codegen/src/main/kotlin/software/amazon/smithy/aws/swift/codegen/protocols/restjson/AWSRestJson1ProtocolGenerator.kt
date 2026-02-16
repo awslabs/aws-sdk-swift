@@ -9,11 +9,12 @@ import software.amazon.smithy.aws.swift.codegen.middleware.UserAgentMiddleware
 import software.amazon.smithy.aws.swift.codegen.swiftmodules.AWSClientRuntimeTypes
 import software.amazon.smithy.swift.codegen.aws.protocols.restjson.RestJson1ProtocolGenerator
 
-class AWSRestJson1ProtocolGenerator : RestJson1ProtocolGenerator(
-    customizations = RestJSONCustomizations(),
-    operationEndpointResolverMiddlewareFactory = { ctx, sym -> AWSOperationEndpointResolverMiddleware(ctx, sym) },
-    userAgentMiddlewareFactory = { ctx -> UserAgentMiddleware(ctx.settings) },
-    serviceErrorProtocolSymbolOverride = AWSClientRuntimeTypes.Core.AWSServiceError,
-    clockSkewProviderSymbolOverride = AWSClientRuntimeTypes.Core.AWSClockSkewProvider,
-    retryErrorInfoProviderSymbolOverride = AWSClientRuntimeTypes.Core.AWSRetryErrorInfoProvider,
-)
+class AWSRestJson1ProtocolGenerator :
+    RestJson1ProtocolGenerator(
+        customizations = RestJSONCustomizations(),
+        operationEndpointResolverMiddlewareFactory = { ctx, sym -> AWSOperationEndpointResolverMiddleware(ctx, sym) },
+        userAgentMiddlewareFactory = { ctx -> UserAgentMiddleware(ctx.settings) },
+        serviceErrorProtocolSymbolOverride = AWSClientRuntimeTypes.Core.AWSServiceError,
+        clockSkewProviderSymbolOverride = AWSClientRuntimeTypes.Core.AWSClockSkewProvider,
+        retryErrorInfoProviderSymbolOverride = AWSClientRuntimeTypes.Core.AWSRetryErrorInfoProvider,
+    )
