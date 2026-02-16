@@ -13223,13 +13223,185 @@ extension ResourceInUseException {
     }
 }
 
-extension KendraClientTypes.FailedEntity {
+extension KendraClientTypes.AccessControlConfigurationSummary {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.FailedEntity {
+    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.AccessControlConfigurationSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KendraClientTypes.FailedEntity()
-        value.entityId = try reader["EntityId"].readIfPresent()
-        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
+        var value = KendraClientTypes.AccessControlConfigurationSummary()
+        value.id = try reader["Id"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension KendraClientTypes.AccessControlListConfiguration {
+
+    static func write(value: KendraClientTypes.AccessControlListConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["KeyPath"].write(value.keyPath)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.AccessControlListConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KendraClientTypes.AccessControlListConfiguration()
+        value.keyPath = try reader["KeyPath"].readIfPresent()
+        return value
+    }
+}
+
+extension KendraClientTypes.AclConfiguration {
+
+    static func write(value: KendraClientTypes.AclConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AllowedGroupsColumnName"].write(value.allowedGroupsColumnName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.AclConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KendraClientTypes.AclConfiguration()
+        value.allowedGroupsColumnName = try reader["AllowedGroupsColumnName"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension KendraClientTypes.AdditionalResultAttribute {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.AdditionalResultAttribute {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KendraClientTypes.AdditionalResultAttribute()
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.valueType = try reader["ValueType"].readIfPresent() ?? .sdkUnknown("")
+        value.value = try reader["Value"].readIfPresent(with: KendraClientTypes.AdditionalResultAttributeValue.read(from:))
+        return value
+    }
+}
+
+extension KendraClientTypes.AdditionalResultAttributeValue {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.AdditionalResultAttributeValue {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KendraClientTypes.AdditionalResultAttributeValue()
+        value.textWithHighlightsValue = try reader["TextWithHighlightsValue"].readIfPresent(with: KendraClientTypes.TextWithHighlights.read(from:))
+        return value
+    }
+}
+
+extension KendraClientTypes.AlfrescoConfiguration {
+
+    static func write(value: KendraClientTypes.AlfrescoConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["BlogFieldMappings"].writeList(value.blogFieldMappings, memberWritingClosure: KendraClientTypes.DataSourceToIndexFieldMapping.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["CrawlComments"].write(value.crawlComments)
+        try writer["CrawlSystemFolders"].write(value.crawlSystemFolders)
+        try writer["DocumentLibraryFieldMappings"].writeList(value.documentLibraryFieldMappings, memberWritingClosure: KendraClientTypes.DataSourceToIndexFieldMapping.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["EntityFilter"].writeList(value.entityFilter, memberWritingClosure: SmithyReadWrite.WritingClosureBox<KendraClientTypes.AlfrescoEntity>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ExclusionPatterns"].writeList(value.exclusionPatterns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["InclusionPatterns"].writeList(value.inclusionPatterns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["SecretArn"].write(value.secretArn)
+        try writer["SiteId"].write(value.siteId)
+        try writer["SiteUrl"].write(value.siteUrl)
+        try writer["SslCertificateS3Path"].write(value.sslCertificateS3Path, with: KendraClientTypes.S3Path.write(value:to:))
+        try writer["VpcConfiguration"].write(value.vpcConfiguration, with: KendraClientTypes.DataSourceVpcConfiguration.write(value:to:))
+        try writer["WikiFieldMappings"].writeList(value.wikiFieldMappings, memberWritingClosure: KendraClientTypes.DataSourceToIndexFieldMapping.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.AlfrescoConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KendraClientTypes.AlfrescoConfiguration()
+        value.siteUrl = try reader["SiteUrl"].readIfPresent() ?? ""
+        value.siteId = try reader["SiteId"].readIfPresent() ?? ""
+        value.secretArn = try reader["SecretArn"].readIfPresent() ?? ""
+        value.sslCertificateS3Path = try reader["SslCertificateS3Path"].readIfPresent(with: KendraClientTypes.S3Path.read(from:))
+        value.crawlSystemFolders = try reader["CrawlSystemFolders"].readIfPresent() ?? false
+        value.crawlComments = try reader["CrawlComments"].readIfPresent() ?? false
+        value.entityFilter = try reader["EntityFilter"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<KendraClientTypes.AlfrescoEntity>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.documentLibraryFieldMappings = try reader["DocumentLibraryFieldMappings"].readListIfPresent(memberReadingClosure: KendraClientTypes.DataSourceToIndexFieldMapping.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.blogFieldMappings = try reader["BlogFieldMappings"].readListIfPresent(memberReadingClosure: KendraClientTypes.DataSourceToIndexFieldMapping.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.wikiFieldMappings = try reader["WikiFieldMappings"].readListIfPresent(memberReadingClosure: KendraClientTypes.DataSourceToIndexFieldMapping.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.inclusionPatterns = try reader["InclusionPatterns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.exclusionPatterns = try reader["ExclusionPatterns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.vpcConfiguration = try reader["VpcConfiguration"].readIfPresent(with: KendraClientTypes.DataSourceVpcConfiguration.read(from:))
+        return value
+    }
+}
+
+extension KendraClientTypes.AttributeFilter {
+
+    static func write(value: KendraClientTypes.AttributeFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AndAllFilters"].writeList(value.andAllFilters, memberWritingClosure: KendraClientTypes.AttributeFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ContainsAll"].write(value.containsAll, with: KendraClientTypes.DocumentAttribute.write(value:to:))
+        try writer["ContainsAny"].write(value.containsAny, with: KendraClientTypes.DocumentAttribute.write(value:to:))
+        try writer["EqualsTo"].write(value.equalsTo, with: KendraClientTypes.DocumentAttribute.write(value:to:))
+        try writer["GreaterThan"].write(value.greaterThan, with: KendraClientTypes.DocumentAttribute.write(value:to:))
+        try writer["GreaterThanOrEquals"].write(value.greaterThanOrEquals, with: KendraClientTypes.DocumentAttribute.write(value:to:))
+        try writer["LessThan"].write(value.lessThan, with: KendraClientTypes.DocumentAttribute.write(value:to:))
+        try writer["LessThanOrEquals"].write(value.lessThanOrEquals, with: KendraClientTypes.DocumentAttribute.write(value:to:))
+        try writer["NotFilter"].write(value.notFilter, with: KendraClientTypes.AttributeFilter.write(value:to:))
+        try writer["OrAllFilters"].writeList(value.orAllFilters, memberWritingClosure: KendraClientTypes.AttributeFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension KendraClientTypes.AttributeSuggestionsDescribeConfig {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.AttributeSuggestionsDescribeConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KendraClientTypes.AttributeSuggestionsDescribeConfig()
+        value.suggestableConfigList = try reader["SuggestableConfigList"].readListIfPresent(memberReadingClosure: KendraClientTypes.SuggestableConfig.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.attributeSuggestionsMode = try reader["AttributeSuggestionsMode"].readIfPresent()
+        return value
+    }
+}
+
+extension KendraClientTypes.AttributeSuggestionsGetConfig {
+
+    static func write(value: KendraClientTypes.AttributeSuggestionsGetConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AdditionalResponseAttributes"].writeList(value.additionalResponseAttributes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["AttributeFilter"].write(value.attributeFilter, with: KendraClientTypes.AttributeFilter.write(value:to:))
+        try writer["SuggestionAttributes"].writeList(value.suggestionAttributes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["UserContext"].write(value.userContext, with: KendraClientTypes.UserContext.write(value:to:))
+    }
+}
+
+extension KendraClientTypes.AttributeSuggestionsUpdateConfig {
+
+    static func write(value: KendraClientTypes.AttributeSuggestionsUpdateConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AttributeSuggestionsMode"].write(value.attributeSuggestionsMode)
+        try writer["SuggestableConfigList"].writeList(value.suggestableConfigList, memberWritingClosure: KendraClientTypes.SuggestableConfig.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension KendraClientTypes.AuthenticationConfiguration {
+
+    static func write(value: KendraClientTypes.AuthenticationConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["BasicAuthentication"].writeList(value.basicAuthentication, memberWritingClosure: KendraClientTypes.BasicAuthenticationConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.AuthenticationConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KendraClientTypes.AuthenticationConfiguration()
+        value.basicAuthentication = try reader["BasicAuthentication"].readListIfPresent(memberReadingClosure: KendraClientTypes.BasicAuthenticationConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension KendraClientTypes.BasicAuthenticationConfiguration {
+
+    static func write(value: KendraClientTypes.BasicAuthenticationConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Credentials"].write(value.credentials)
+        try writer["Host"].write(value.host)
+        try writer["Port"].write(value.port)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.BasicAuthenticationConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KendraClientTypes.BasicAuthenticationConfiguration()
+        value.host = try reader["Host"].readIfPresent() ?? ""
+        value.port = try reader["Port"].readIfPresent() ?? 0
+        value.credentials = try reader["Credentials"].readIfPresent() ?? ""
         return value
     }
 }
@@ -13272,19 +13444,6 @@ extension KendraClientTypes.BatchGetDocumentStatusResponseError {
     }
 }
 
-extension KendraClientTypes.Status {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.Status {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KendraClientTypes.Status()
-        value.documentId = try reader["DocumentId"].readIfPresent()
-        value.documentStatus = try reader["DocumentStatus"].readIfPresent()
-        value.failureCode = try reader["FailureCode"].readIfPresent()
-        value.failureReason = try reader["FailureReason"].readIfPresent()
-        return value
-    }
-}
-
 extension KendraClientTypes.BatchPutDocumentResponseFailedDocument {
 
     static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.BatchPutDocumentResponseFailedDocument {
@@ -13298,70 +13457,409 @@ extension KendraClientTypes.BatchPutDocumentResponseFailedDocument {
     }
 }
 
-extension KendraClientTypes.FeaturedResultsSet {
+extension KendraClientTypes.BoxConfiguration {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.FeaturedResultsSet {
+    static func write(value: KendraClientTypes.BoxConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CommentFieldMappings"].writeList(value.commentFieldMappings, memberWritingClosure: KendraClientTypes.DataSourceToIndexFieldMapping.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["CrawlComments"].write(value.crawlComments)
+        try writer["CrawlTasks"].write(value.crawlTasks)
+        try writer["CrawlWebLinks"].write(value.crawlWebLinks)
+        try writer["EnterpriseId"].write(value.enterpriseId)
+        try writer["ExclusionPatterns"].writeList(value.exclusionPatterns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["FileFieldMappings"].writeList(value.fileFieldMappings, memberWritingClosure: KendraClientTypes.DataSourceToIndexFieldMapping.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["InclusionPatterns"].writeList(value.inclusionPatterns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["SecretArn"].write(value.secretArn)
+        try writer["TaskFieldMappings"].writeList(value.taskFieldMappings, memberWritingClosure: KendraClientTypes.DataSourceToIndexFieldMapping.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["UseChangeLog"].write(value.useChangeLog)
+        try writer["VpcConfiguration"].write(value.vpcConfiguration, with: KendraClientTypes.DataSourceVpcConfiguration.write(value:to:))
+        try writer["WebLinkFieldMappings"].writeList(value.webLinkFieldMappings, memberWritingClosure: KendraClientTypes.DataSourceToIndexFieldMapping.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.BoxConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KendraClientTypes.FeaturedResultsSet()
-        value.featuredResultsSetId = try reader["FeaturedResultsSetId"].readIfPresent()
-        value.featuredResultsSetName = try reader["FeaturedResultsSetName"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.queryTexts = try reader["QueryTexts"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.featuredDocuments = try reader["FeaturedDocuments"].readListIfPresent(memberReadingClosure: KendraClientTypes.FeaturedDocument.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.lastUpdatedTimestamp = try reader["LastUpdatedTimestamp"].readIfPresent()
-        value.creationTimestamp = try reader["CreationTimestamp"].readIfPresent()
+        var value = KendraClientTypes.BoxConfiguration()
+        value.enterpriseId = try reader["EnterpriseId"].readIfPresent() ?? ""
+        value.secretArn = try reader["SecretArn"].readIfPresent() ?? ""
+        value.useChangeLog = try reader["UseChangeLog"].readIfPresent() ?? false
+        value.crawlComments = try reader["CrawlComments"].readIfPresent() ?? false
+        value.crawlTasks = try reader["CrawlTasks"].readIfPresent() ?? false
+        value.crawlWebLinks = try reader["CrawlWebLinks"].readIfPresent() ?? false
+        value.fileFieldMappings = try reader["FileFieldMappings"].readListIfPresent(memberReadingClosure: KendraClientTypes.DataSourceToIndexFieldMapping.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.taskFieldMappings = try reader["TaskFieldMappings"].readListIfPresent(memberReadingClosure: KendraClientTypes.DataSourceToIndexFieldMapping.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.commentFieldMappings = try reader["CommentFieldMappings"].readListIfPresent(memberReadingClosure: KendraClientTypes.DataSourceToIndexFieldMapping.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.webLinkFieldMappings = try reader["WebLinkFieldMappings"].readListIfPresent(memberReadingClosure: KendraClientTypes.DataSourceToIndexFieldMapping.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.inclusionPatterns = try reader["InclusionPatterns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.exclusionPatterns = try reader["ExclusionPatterns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.vpcConfiguration = try reader["VpcConfiguration"].readIfPresent(with: KendraClientTypes.DataSourceVpcConfiguration.read(from:))
         return value
     }
 }
 
-extension KendraClientTypes.FeaturedDocument {
+extension KendraClientTypes.CapacityUnitsConfiguration {
 
-    static func write(value: KendraClientTypes.FeaturedDocument?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: KendraClientTypes.CapacityUnitsConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["Id"].write(value.id)
+        try writer["QueryCapacityUnits"].write(value.queryCapacityUnits)
+        try writer["StorageCapacityUnits"].write(value.storageCapacityUnits)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.FeaturedDocument {
+    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.CapacityUnitsConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KendraClientTypes.FeaturedDocument()
-        value.id = try reader["Id"].readIfPresent()
+        var value = KendraClientTypes.CapacityUnitsConfiguration()
+        value.storageCapacityUnits = try reader["StorageCapacityUnits"].readIfPresent() ?? 0
+        value.queryCapacityUnits = try reader["QueryCapacityUnits"].readIfPresent() ?? 0
         return value
     }
 }
 
-extension KendraClientTypes.Principal {
+extension KendraClientTypes.ClickFeedback {
 
-    static func write(value: KendraClientTypes.Principal?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: KendraClientTypes.ClickFeedback?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["Access"].write(value.access)
-        try writer["DataSourceId"].write(value.dataSourceId)
-        try writer["Name"].write(value.name)
-        try writer["Type"].write(value.type)
+        try writer["ClickTime"].writeTimestamp(value.clickTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["ResultId"].write(value.resultId)
     }
+}
 
-    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.Principal {
+extension KendraClientTypes.CollapseConfiguration {
+
+    static func write(value: KendraClientTypes.CollapseConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DocumentAttributeKey"].write(value.documentAttributeKey)
+        try writer["Expand"].write(value.expand)
+        try writer["ExpandConfiguration"].write(value.expandConfiguration, with: KendraClientTypes.ExpandConfiguration.write(value:to:))
+        try writer["MissingAttributeKeyStrategy"].write(value.missingAttributeKeyStrategy)
+        try writer["SortingConfigurations"].writeList(value.sortingConfigurations, memberWritingClosure: KendraClientTypes.SortingConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension KendraClientTypes.CollapsedResultDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.CollapsedResultDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KendraClientTypes.Principal()
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
-        value.access = try reader["Access"].readIfPresent() ?? .sdkUnknown("")
-        value.dataSourceId = try reader["DataSourceId"].readIfPresent()
+        var value = KendraClientTypes.CollapsedResultDetail()
+        value.documentAttribute = try reader["DocumentAttribute"].readIfPresent(with: KendraClientTypes.DocumentAttribute.read(from:))
+        value.expandedResults = try reader["ExpandedResults"].readListIfPresent(memberReadingClosure: KendraClientTypes.ExpandedResultItem.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
 
-extension KendraClientTypes.HierarchicalPrincipal {
+extension KendraClientTypes.ColumnConfiguration {
 
-    static func write(value: KendraClientTypes.HierarchicalPrincipal?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: KendraClientTypes.ColumnConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["PrincipalList"].writeList(value.principalList, memberWritingClosure: KendraClientTypes.Principal.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ChangeDetectingColumns"].writeList(value.changeDetectingColumns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["DocumentDataColumnName"].write(value.documentDataColumnName)
+        try writer["DocumentIdColumnName"].write(value.documentIdColumnName)
+        try writer["DocumentTitleColumnName"].write(value.documentTitleColumnName)
+        try writer["FieldMappings"].writeList(value.fieldMappings, memberWritingClosure: KendraClientTypes.DataSourceToIndexFieldMapping.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.HierarchicalPrincipal {
+    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.ColumnConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KendraClientTypes.HierarchicalPrincipal()
-        value.principalList = try reader["PrincipalList"].readListIfPresent(memberReadingClosure: KendraClientTypes.Principal.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        var value = KendraClientTypes.ColumnConfiguration()
+        value.documentIdColumnName = try reader["DocumentIdColumnName"].readIfPresent() ?? ""
+        value.documentDataColumnName = try reader["DocumentDataColumnName"].readIfPresent() ?? ""
+        value.documentTitleColumnName = try reader["DocumentTitleColumnName"].readIfPresent()
+        value.fieldMappings = try reader["FieldMappings"].readListIfPresent(memberReadingClosure: KendraClientTypes.DataSourceToIndexFieldMapping.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.changeDetectingColumns = try reader["ChangeDetectingColumns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension KendraClientTypes.ConflictingItem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.ConflictingItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KendraClientTypes.ConflictingItem()
+        value.queryText = try reader["QueryText"].readIfPresent()
+        value.setName = try reader["SetName"].readIfPresent()
+        value.setId = try reader["SetId"].readIfPresent()
+        return value
+    }
+}
+
+extension KendraClientTypes.ConfluenceAttachmentConfiguration {
+
+    static func write(value: KendraClientTypes.ConfluenceAttachmentConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AttachmentFieldMappings"].writeList(value.attachmentFieldMappings, memberWritingClosure: KendraClientTypes.ConfluenceAttachmentToIndexFieldMapping.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["CrawlAttachments"].write(value.crawlAttachments)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.ConfluenceAttachmentConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KendraClientTypes.ConfluenceAttachmentConfiguration()
+        value.crawlAttachments = try reader["CrawlAttachments"].readIfPresent() ?? false
+        value.attachmentFieldMappings = try reader["AttachmentFieldMappings"].readListIfPresent(memberReadingClosure: KendraClientTypes.ConfluenceAttachmentToIndexFieldMapping.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension KendraClientTypes.ConfluenceAttachmentToIndexFieldMapping {
+
+    static func write(value: KendraClientTypes.ConfluenceAttachmentToIndexFieldMapping?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DataSourceFieldName"].write(value.dataSourceFieldName)
+        try writer["DateFieldFormat"].write(value.dateFieldFormat)
+        try writer["IndexFieldName"].write(value.indexFieldName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.ConfluenceAttachmentToIndexFieldMapping {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KendraClientTypes.ConfluenceAttachmentToIndexFieldMapping()
+        value.dataSourceFieldName = try reader["DataSourceFieldName"].readIfPresent()
+        value.dateFieldFormat = try reader["DateFieldFormat"].readIfPresent()
+        value.indexFieldName = try reader["IndexFieldName"].readIfPresent()
+        return value
+    }
+}
+
+extension KendraClientTypes.ConfluenceBlogConfiguration {
+
+    static func write(value: KendraClientTypes.ConfluenceBlogConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["BlogFieldMappings"].writeList(value.blogFieldMappings, memberWritingClosure: KendraClientTypes.ConfluenceBlogToIndexFieldMapping.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.ConfluenceBlogConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KendraClientTypes.ConfluenceBlogConfiguration()
+        value.blogFieldMappings = try reader["BlogFieldMappings"].readListIfPresent(memberReadingClosure: KendraClientTypes.ConfluenceBlogToIndexFieldMapping.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension KendraClientTypes.ConfluenceBlogToIndexFieldMapping {
+
+    static func write(value: KendraClientTypes.ConfluenceBlogToIndexFieldMapping?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DataSourceFieldName"].write(value.dataSourceFieldName)
+        try writer["DateFieldFormat"].write(value.dateFieldFormat)
+        try writer["IndexFieldName"].write(value.indexFieldName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.ConfluenceBlogToIndexFieldMapping {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KendraClientTypes.ConfluenceBlogToIndexFieldMapping()
+        value.dataSourceFieldName = try reader["DataSourceFieldName"].readIfPresent()
+        value.dateFieldFormat = try reader["DateFieldFormat"].readIfPresent()
+        value.indexFieldName = try reader["IndexFieldName"].readIfPresent()
+        return value
+    }
+}
+
+extension KendraClientTypes.ConfluenceConfiguration {
+
+    static func write(value: KendraClientTypes.ConfluenceConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AttachmentConfiguration"].write(value.attachmentConfiguration, with: KendraClientTypes.ConfluenceAttachmentConfiguration.write(value:to:))
+        try writer["AuthenticationType"].write(value.authenticationType)
+        try writer["BlogConfiguration"].write(value.blogConfiguration, with: KendraClientTypes.ConfluenceBlogConfiguration.write(value:to:))
+        try writer["ExclusionPatterns"].writeList(value.exclusionPatterns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["InclusionPatterns"].writeList(value.inclusionPatterns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["PageConfiguration"].write(value.pageConfiguration, with: KendraClientTypes.ConfluencePageConfiguration.write(value:to:))
+        try writer["ProxyConfiguration"].write(value.proxyConfiguration, with: KendraClientTypes.ProxyConfiguration.write(value:to:))
+        try writer["SecretArn"].write(value.secretArn)
+        try writer["ServerUrl"].write(value.serverUrl)
+        try writer["SpaceConfiguration"].write(value.spaceConfiguration, with: KendraClientTypes.ConfluenceSpaceConfiguration.write(value:to:))
+        try writer["Version"].write(value.version)
+        try writer["VpcConfiguration"].write(value.vpcConfiguration, with: KendraClientTypes.DataSourceVpcConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.ConfluenceConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KendraClientTypes.ConfluenceConfiguration()
+        value.serverUrl = try reader["ServerUrl"].readIfPresent() ?? ""
+        value.secretArn = try reader["SecretArn"].readIfPresent() ?? ""
+        value.version = try reader["Version"].readIfPresent() ?? .sdkUnknown("")
+        value.spaceConfiguration = try reader["SpaceConfiguration"].readIfPresent(with: KendraClientTypes.ConfluenceSpaceConfiguration.read(from:))
+        value.pageConfiguration = try reader["PageConfiguration"].readIfPresent(with: KendraClientTypes.ConfluencePageConfiguration.read(from:))
+        value.blogConfiguration = try reader["BlogConfiguration"].readIfPresent(with: KendraClientTypes.ConfluenceBlogConfiguration.read(from:))
+        value.attachmentConfiguration = try reader["AttachmentConfiguration"].readIfPresent(with: KendraClientTypes.ConfluenceAttachmentConfiguration.read(from:))
+        value.vpcConfiguration = try reader["VpcConfiguration"].readIfPresent(with: KendraClientTypes.DataSourceVpcConfiguration.read(from:))
+        value.inclusionPatterns = try reader["InclusionPatterns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.exclusionPatterns = try reader["ExclusionPatterns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.proxyConfiguration = try reader["ProxyConfiguration"].readIfPresent(with: KendraClientTypes.ProxyConfiguration.read(from:))
+        value.authenticationType = try reader["AuthenticationType"].readIfPresent()
+        return value
+    }
+}
+
+extension KendraClientTypes.ConfluencePageConfiguration {
+
+    static func write(value: KendraClientTypes.ConfluencePageConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["PageFieldMappings"].writeList(value.pageFieldMappings, memberWritingClosure: KendraClientTypes.ConfluencePageToIndexFieldMapping.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.ConfluencePageConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KendraClientTypes.ConfluencePageConfiguration()
+        value.pageFieldMappings = try reader["PageFieldMappings"].readListIfPresent(memberReadingClosure: KendraClientTypes.ConfluencePageToIndexFieldMapping.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension KendraClientTypes.ConfluencePageToIndexFieldMapping {
+
+    static func write(value: KendraClientTypes.ConfluencePageToIndexFieldMapping?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DataSourceFieldName"].write(value.dataSourceFieldName)
+        try writer["DateFieldFormat"].write(value.dateFieldFormat)
+        try writer["IndexFieldName"].write(value.indexFieldName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.ConfluencePageToIndexFieldMapping {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KendraClientTypes.ConfluencePageToIndexFieldMapping()
+        value.dataSourceFieldName = try reader["DataSourceFieldName"].readIfPresent()
+        value.dateFieldFormat = try reader["DateFieldFormat"].readIfPresent()
+        value.indexFieldName = try reader["IndexFieldName"].readIfPresent()
+        return value
+    }
+}
+
+extension KendraClientTypes.ConfluenceSpaceConfiguration {
+
+    static func write(value: KendraClientTypes.ConfluenceSpaceConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CrawlArchivedSpaces"].write(value.crawlArchivedSpaces)
+        try writer["CrawlPersonalSpaces"].write(value.crawlPersonalSpaces)
+        try writer["ExcludeSpaces"].writeList(value.excludeSpaces, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["IncludeSpaces"].writeList(value.includeSpaces, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["SpaceFieldMappings"].writeList(value.spaceFieldMappings, memberWritingClosure: KendraClientTypes.ConfluenceSpaceToIndexFieldMapping.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.ConfluenceSpaceConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KendraClientTypes.ConfluenceSpaceConfiguration()
+        value.crawlPersonalSpaces = try reader["CrawlPersonalSpaces"].readIfPresent() ?? false
+        value.crawlArchivedSpaces = try reader["CrawlArchivedSpaces"].readIfPresent() ?? false
+        value.includeSpaces = try reader["IncludeSpaces"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.excludeSpaces = try reader["ExcludeSpaces"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.spaceFieldMappings = try reader["SpaceFieldMappings"].readListIfPresent(memberReadingClosure: KendraClientTypes.ConfluenceSpaceToIndexFieldMapping.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension KendraClientTypes.ConfluenceSpaceToIndexFieldMapping {
+
+    static func write(value: KendraClientTypes.ConfluenceSpaceToIndexFieldMapping?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DataSourceFieldName"].write(value.dataSourceFieldName)
+        try writer["DateFieldFormat"].write(value.dateFieldFormat)
+        try writer["IndexFieldName"].write(value.indexFieldName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.ConfluenceSpaceToIndexFieldMapping {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KendraClientTypes.ConfluenceSpaceToIndexFieldMapping()
+        value.dataSourceFieldName = try reader["DataSourceFieldName"].readIfPresent()
+        value.dateFieldFormat = try reader["DateFieldFormat"].readIfPresent()
+        value.indexFieldName = try reader["IndexFieldName"].readIfPresent()
+        return value
+    }
+}
+
+extension KendraClientTypes.ConnectionConfiguration {
+
+    static func write(value: KendraClientTypes.ConnectionConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DatabaseHost"].write(value.databaseHost)
+        try writer["DatabaseName"].write(value.databaseName)
+        try writer["DatabasePort"].write(value.databasePort)
+        try writer["SecretArn"].write(value.secretArn)
+        try writer["TableName"].write(value.tableName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.ConnectionConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KendraClientTypes.ConnectionConfiguration()
+        value.databaseHost = try reader["DatabaseHost"].readIfPresent() ?? ""
+        value.databasePort = try reader["DatabasePort"].readIfPresent() ?? 0
+        value.databaseName = try reader["DatabaseName"].readIfPresent() ?? ""
+        value.tableName = try reader["TableName"].readIfPresent() ?? ""
+        value.secretArn = try reader["SecretArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension KendraClientTypes.ContentSourceConfiguration {
+
+    static func write(value: KendraClientTypes.ContentSourceConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DataSourceIds"].writeList(value.dataSourceIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["DirectPutContent"].write(value.directPutContent)
+        try writer["FaqIds"].writeList(value.faqIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.ContentSourceConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KendraClientTypes.ContentSourceConfiguration()
+        value.dataSourceIds = try reader["DataSourceIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.faqIds = try reader["FaqIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.directPutContent = try reader["DirectPutContent"].readIfPresent() ?? false
+        return value
+    }
+}
+
+extension KendraClientTypes.Correction {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.Correction {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KendraClientTypes.Correction()
+        value.beginOffset = try reader["BeginOffset"].readIfPresent()
+        value.endOffset = try reader["EndOffset"].readIfPresent()
+        value.term = try reader["Term"].readIfPresent()
+        value.correctedTerm = try reader["CorrectedTerm"].readIfPresent()
+        return value
+    }
+}
+
+extension KendraClientTypes.CustomDocumentEnrichmentConfiguration {
+
+    static func write(value: KendraClientTypes.CustomDocumentEnrichmentConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["InlineConfigurations"].writeList(value.inlineConfigurations, memberWritingClosure: KendraClientTypes.InlineCustomDocumentEnrichmentConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["PostExtractionHookConfiguration"].write(value.postExtractionHookConfiguration, with: KendraClientTypes.HookConfiguration.write(value:to:))
+        try writer["PreExtractionHookConfiguration"].write(value.preExtractionHookConfiguration, with: KendraClientTypes.HookConfiguration.write(value:to:))
+        try writer["RoleArn"].write(value.roleArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.CustomDocumentEnrichmentConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KendraClientTypes.CustomDocumentEnrichmentConfiguration()
+        value.inlineConfigurations = try reader["InlineConfigurations"].readListIfPresent(memberReadingClosure: KendraClientTypes.InlineCustomDocumentEnrichmentConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.preExtractionHookConfiguration = try reader["PreExtractionHookConfiguration"].readIfPresent(with: KendraClientTypes.HookConfiguration.read(from:))
+        value.postExtractionHookConfiguration = try reader["PostExtractionHookConfiguration"].readIfPresent(with: KendraClientTypes.HookConfiguration.read(from:))
+        value.roleArn = try reader["RoleArn"].readIfPresent()
+        return value
+    }
+}
+
+extension KendraClientTypes.DatabaseConfiguration {
+
+    static func write(value: KendraClientTypes.DatabaseConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AclConfiguration"].write(value.aclConfiguration, with: KendraClientTypes.AclConfiguration.write(value:to:))
+        try writer["ColumnConfiguration"].write(value.columnConfiguration, with: KendraClientTypes.ColumnConfiguration.write(value:to:))
+        try writer["ConnectionConfiguration"].write(value.connectionConfiguration, with: KendraClientTypes.ConnectionConfiguration.write(value:to:))
+        try writer["DatabaseEngineType"].write(value.databaseEngineType)
+        try writer["SqlConfiguration"].write(value.sqlConfiguration, with: KendraClientTypes.SqlConfiguration.write(value:to:))
+        try writer["VpcConfiguration"].write(value.vpcConfiguration, with: KendraClientTypes.DataSourceVpcConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.DatabaseConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KendraClientTypes.DatabaseConfiguration()
+        value.databaseEngineType = try reader["DatabaseEngineType"].readIfPresent() ?? .sdkUnknown("")
+        value.connectionConfiguration = try reader["ConnectionConfiguration"].readIfPresent(with: KendraClientTypes.ConnectionConfiguration.read(from:))
+        value.vpcConfiguration = try reader["VpcConfiguration"].readIfPresent(with: KendraClientTypes.DataSourceVpcConfiguration.read(from:))
+        value.columnConfiguration = try reader["ColumnConfiguration"].readIfPresent(with: KendraClientTypes.ColumnConfiguration.read(from:))
+        value.aclConfiguration = try reader["AclConfiguration"].readIfPresent(with: KendraClientTypes.AclConfiguration.read(from:))
+        value.sqlConfiguration = try reader["SqlConfiguration"].readIfPresent(with: KendraClientTypes.SqlConfiguration.read(from:))
         return value
     }
 }
@@ -13415,74 +13913,68 @@ extension KendraClientTypes.DataSourceConfiguration {
     }
 }
 
-extension KendraClientTypes.TemplateConfiguration {
+extension KendraClientTypes.DataSourceGroup {
 
-    static func write(value: KendraClientTypes.TemplateConfiguration?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: KendraClientTypes.DataSourceGroup?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["Template"].write(value.template)
+        try writer["DataSourceId"].write(value.dataSourceId)
+        try writer["GroupId"].write(value.groupId)
     }
+}
 
-    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.TemplateConfiguration {
+extension KendraClientTypes.DataSourceSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.DataSourceSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KendraClientTypes.TemplateConfiguration()
-        value.template = try reader["Template"].readIfPresent()
+        var value = KendraClientTypes.DataSourceSummary()
+        value.name = try reader["Name"].readIfPresent()
+        value.id = try reader["Id"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent()
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.status = try reader["Status"].readIfPresent()
+        value.languageCode = try reader["LanguageCode"].readIfPresent()
         return value
     }
 }
 
-extension KendraClientTypes.AlfrescoConfiguration {
+extension KendraClientTypes.DataSourceSyncJob {
 
-    static func write(value: KendraClientTypes.AlfrescoConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BlogFieldMappings"].writeList(value.blogFieldMappings, memberWritingClosure: KendraClientTypes.DataSourceToIndexFieldMapping.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["CrawlComments"].write(value.crawlComments)
-        try writer["CrawlSystemFolders"].write(value.crawlSystemFolders)
-        try writer["DocumentLibraryFieldMappings"].writeList(value.documentLibraryFieldMappings, memberWritingClosure: KendraClientTypes.DataSourceToIndexFieldMapping.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["EntityFilter"].writeList(value.entityFilter, memberWritingClosure: SmithyReadWrite.WritingClosureBox<KendraClientTypes.AlfrescoEntity>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ExclusionPatterns"].writeList(value.exclusionPatterns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["InclusionPatterns"].writeList(value.inclusionPatterns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["SecretArn"].write(value.secretArn)
-        try writer["SiteId"].write(value.siteId)
-        try writer["SiteUrl"].write(value.siteUrl)
-        try writer["SslCertificateS3Path"].write(value.sslCertificateS3Path, with: KendraClientTypes.S3Path.write(value:to:))
-        try writer["VpcConfiguration"].write(value.vpcConfiguration, with: KendraClientTypes.DataSourceVpcConfiguration.write(value:to:))
-        try writer["WikiFieldMappings"].writeList(value.wikiFieldMappings, memberWritingClosure: KendraClientTypes.DataSourceToIndexFieldMapping.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.AlfrescoConfiguration {
+    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.DataSourceSyncJob {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KendraClientTypes.AlfrescoConfiguration()
-        value.siteUrl = try reader["SiteUrl"].readIfPresent() ?? ""
-        value.siteId = try reader["SiteId"].readIfPresent() ?? ""
-        value.secretArn = try reader["SecretArn"].readIfPresent() ?? ""
-        value.sslCertificateS3Path = try reader["SslCertificateS3Path"].readIfPresent(with: KendraClientTypes.S3Path.read(from:))
-        value.crawlSystemFolders = try reader["CrawlSystemFolders"].readIfPresent() ?? false
-        value.crawlComments = try reader["CrawlComments"].readIfPresent() ?? false
-        value.entityFilter = try reader["EntityFilter"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<KendraClientTypes.AlfrescoEntity>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.documentLibraryFieldMappings = try reader["DocumentLibraryFieldMappings"].readListIfPresent(memberReadingClosure: KendraClientTypes.DataSourceToIndexFieldMapping.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.blogFieldMappings = try reader["BlogFieldMappings"].readListIfPresent(memberReadingClosure: KendraClientTypes.DataSourceToIndexFieldMapping.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.wikiFieldMappings = try reader["WikiFieldMappings"].readListIfPresent(memberReadingClosure: KendraClientTypes.DataSourceToIndexFieldMapping.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.inclusionPatterns = try reader["InclusionPatterns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.exclusionPatterns = try reader["ExclusionPatterns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.vpcConfiguration = try reader["VpcConfiguration"].readIfPresent(with: KendraClientTypes.DataSourceVpcConfiguration.read(from:))
+        var value = KendraClientTypes.DataSourceSyncJob()
+        value.executionId = try reader["ExecutionId"].readIfPresent()
+        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.status = try reader["Status"].readIfPresent()
+        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
+        value.errorCode = try reader["ErrorCode"].readIfPresent()
+        value.dataSourceErrorCode = try reader["DataSourceErrorCode"].readIfPresent()
+        value.metrics = try reader["Metrics"].readIfPresent(with: KendraClientTypes.DataSourceSyncJobMetrics.read(from:))
         return value
     }
 }
 
-extension KendraClientTypes.DataSourceVpcConfiguration {
+extension KendraClientTypes.DataSourceSyncJobMetrics {
 
-    static func write(value: KendraClientTypes.DataSourceVpcConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["SecurityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["SubnetIds"].writeList(value.subnetIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.DataSourceVpcConfiguration {
+    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.DataSourceSyncJobMetrics {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KendraClientTypes.DataSourceVpcConfiguration()
-        value.subnetIds = try reader["SubnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.securityGroupIds = try reader["SecurityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        var value = KendraClientTypes.DataSourceSyncJobMetrics()
+        value.documentsAdded = try reader["DocumentsAdded"].readIfPresent()
+        value.documentsModified = try reader["DocumentsModified"].readIfPresent()
+        value.documentsDeleted = try reader["DocumentsDeleted"].readIfPresent()
+        value.documentsFailed = try reader["DocumentsFailed"].readIfPresent()
+        value.documentsScanned = try reader["DocumentsScanned"].readIfPresent()
         return value
+    }
+}
+
+extension KendraClientTypes.DataSourceSyncJobMetricTarget {
+
+    static func write(value: KendraClientTypes.DataSourceSyncJobMetricTarget?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DataSourceId"].write(value.dataSourceId)
+        try writer["DataSourceSyncJobId"].write(value.dataSourceSyncJobId)
     }
 }
 
@@ -13505,19 +13997,459 @@ extension KendraClientTypes.DataSourceToIndexFieldMapping {
     }
 }
 
-extension KendraClientTypes.S3Path {
+extension KendraClientTypes.DataSourceVpcConfiguration {
 
-    static func write(value: KendraClientTypes.S3Path?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: KendraClientTypes.DataSourceVpcConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["Bucket"].write(value.bucket)
-        try writer["Key"].write(value.key)
+        try writer["SecurityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["SubnetIds"].writeList(value.subnetIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.S3Path {
+    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.DataSourceVpcConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KendraClientTypes.S3Path()
-        value.bucket = try reader["Bucket"].readIfPresent() ?? ""
+        var value = KendraClientTypes.DataSourceVpcConfiguration()
+        value.subnetIds = try reader["SubnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.securityGroupIds = try reader["SecurityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension KendraClientTypes.Document {
+
+    static func write(value: KendraClientTypes.Document?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AccessControlConfigurationId"].write(value.accessControlConfigurationId)
+        try writer["AccessControlList"].writeList(value.accessControlList, memberWritingClosure: KendraClientTypes.Principal.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Attributes"].writeList(value.attributes, memberWritingClosure: KendraClientTypes.DocumentAttribute.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Blob"].write(value.blob)
+        try writer["ContentType"].write(value.contentType)
+        try writer["HierarchicalAccessControlList"].writeList(value.hierarchicalAccessControlList, memberWritingClosure: KendraClientTypes.HierarchicalPrincipal.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Id"].write(value.id)
+        try writer["S3Path"].write(value.s3Path, with: KendraClientTypes.S3Path.write(value:to:))
+        try writer["Title"].write(value.title)
+    }
+}
+
+extension KendraClientTypes.DocumentAttribute {
+
+    static func write(value: KendraClientTypes.DocumentAttribute?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Key"].write(value.key)
+        try writer["Value"].write(value.value, with: KendraClientTypes.DocumentAttributeValue.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.DocumentAttribute {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KendraClientTypes.DocumentAttribute()
         value.key = try reader["Key"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent(with: KendraClientTypes.DocumentAttributeValue.read(from:))
+        return value
+    }
+}
+
+extension KendraClientTypes.DocumentAttributeCondition {
+
+    static func write(value: KendraClientTypes.DocumentAttributeCondition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ConditionDocumentAttributeKey"].write(value.conditionDocumentAttributeKey)
+        try writer["ConditionOnValue"].write(value.conditionOnValue, with: KendraClientTypes.DocumentAttributeValue.write(value:to:))
+        try writer["Operator"].write(value.`operator`)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.DocumentAttributeCondition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KendraClientTypes.DocumentAttributeCondition()
+        value.conditionDocumentAttributeKey = try reader["ConditionDocumentAttributeKey"].readIfPresent() ?? ""
+        value.`operator` = try reader["Operator"].readIfPresent() ?? .sdkUnknown("")
+        value.conditionOnValue = try reader["ConditionOnValue"].readIfPresent(with: KendraClientTypes.DocumentAttributeValue.read(from:))
+        return value
+    }
+}
+
+extension KendraClientTypes.DocumentAttributeTarget {
+
+    static func write(value: KendraClientTypes.DocumentAttributeTarget?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["TargetDocumentAttributeKey"].write(value.targetDocumentAttributeKey)
+        try writer["TargetDocumentAttributeValue"].write(value.targetDocumentAttributeValue, with: KendraClientTypes.DocumentAttributeValue.write(value:to:))
+        try writer["TargetDocumentAttributeValueDeletion"].write(value.targetDocumentAttributeValueDeletion)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.DocumentAttributeTarget {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KendraClientTypes.DocumentAttributeTarget()
+        value.targetDocumentAttributeKey = try reader["TargetDocumentAttributeKey"].readIfPresent()
+        value.targetDocumentAttributeValueDeletion = try reader["TargetDocumentAttributeValueDeletion"].readIfPresent() ?? false
+        value.targetDocumentAttributeValue = try reader["TargetDocumentAttributeValue"].readIfPresent(with: KendraClientTypes.DocumentAttributeValue.read(from:))
+        return value
+    }
+}
+
+extension KendraClientTypes.DocumentAttributeValue {
+
+    static func write(value: KendraClientTypes.DocumentAttributeValue?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DateValue"].writeTimestamp(value.dateValue, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["LongValue"].write(value.longValue)
+        try writer["StringListValue"].writeList(value.stringListValue, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["StringValue"].write(value.stringValue)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.DocumentAttributeValue {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KendraClientTypes.DocumentAttributeValue()
+        value.stringValue = try reader["StringValue"].readIfPresent()
+        value.stringListValue = try reader["StringListValue"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.longValue = try reader["LongValue"].readIfPresent()
+        value.dateValue = try reader["DateValue"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension KendraClientTypes.DocumentAttributeValueCountPair {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.DocumentAttributeValueCountPair {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KendraClientTypes.DocumentAttributeValueCountPair()
+        value.documentAttributeValue = try reader["DocumentAttributeValue"].readIfPresent(with: KendraClientTypes.DocumentAttributeValue.read(from:))
+        value.count = try reader["Count"].readIfPresent()
+        value.facetResults = try reader["FacetResults"].readListIfPresent(memberReadingClosure: KendraClientTypes.FacetResult.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension KendraClientTypes.DocumentInfo {
+
+    static func write(value: KendraClientTypes.DocumentInfo?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Attributes"].writeList(value.attributes, memberWritingClosure: KendraClientTypes.DocumentAttribute.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["DocumentId"].write(value.documentId)
+    }
+}
+
+extension KendraClientTypes.DocumentMetadataConfiguration {
+
+    static func write(value: KendraClientTypes.DocumentMetadataConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Name"].write(value.name)
+        try writer["Relevance"].write(value.relevance, with: KendraClientTypes.Relevance.write(value:to:))
+        try writer["Search"].write(value.search, with: KendraClientTypes.Search.write(value:to:))
+        try writer["Type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.DocumentMetadataConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KendraClientTypes.DocumentMetadataConfiguration()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
+        value.relevance = try reader["Relevance"].readIfPresent(with: KendraClientTypes.Relevance.read(from:))
+        value.search = try reader["Search"].readIfPresent(with: KendraClientTypes.Search.read(from:))
+        return value
+    }
+}
+
+extension KendraClientTypes.DocumentRelevanceConfiguration {
+
+    static func write(value: KendraClientTypes.DocumentRelevanceConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Name"].write(value.name)
+        try writer["Relevance"].write(value.relevance, with: KendraClientTypes.Relevance.write(value:to:))
+    }
+}
+
+extension KendraClientTypes.DocumentsMetadataConfiguration {
+
+    static func write(value: KendraClientTypes.DocumentsMetadataConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["S3Prefix"].write(value.s3Prefix)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.DocumentsMetadataConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KendraClientTypes.DocumentsMetadataConfiguration()
+        value.s3Prefix = try reader["S3Prefix"].readIfPresent()
+        return value
+    }
+}
+
+extension KendraClientTypes.EntityConfiguration {
+
+    static func write(value: KendraClientTypes.EntityConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["EntityId"].write(value.entityId)
+        try writer["EntityType"].write(value.entityType)
+    }
+}
+
+extension KendraClientTypes.EntityDisplayData {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.EntityDisplayData {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KendraClientTypes.EntityDisplayData()
+        value.userName = try reader["UserName"].readIfPresent()
+        value.groupName = try reader["GroupName"].readIfPresent()
+        value.identifiedUserName = try reader["IdentifiedUserName"].readIfPresent()
+        value.firstName = try reader["FirstName"].readIfPresent()
+        value.lastName = try reader["LastName"].readIfPresent()
+        return value
+    }
+}
+
+extension KendraClientTypes.EntityPersonaConfiguration {
+
+    static func write(value: KendraClientTypes.EntityPersonaConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["EntityId"].write(value.entityId)
+        try writer["Persona"].write(value.persona)
+    }
+}
+
+extension KendraClientTypes.ExpandConfiguration {
+
+    static func write(value: KendraClientTypes.ExpandConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MaxExpandedResultsPerItem"].write(value.maxExpandedResultsPerItem)
+        try writer["MaxResultItemsToExpand"].write(value.maxResultItemsToExpand)
+    }
+}
+
+extension KendraClientTypes.ExpandedResultItem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.ExpandedResultItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KendraClientTypes.ExpandedResultItem()
+        value.id = try reader["Id"].readIfPresent()
+        value.documentId = try reader["DocumentId"].readIfPresent()
+        value.documentTitle = try reader["DocumentTitle"].readIfPresent(with: KendraClientTypes.TextWithHighlights.read(from:))
+        value.documentExcerpt = try reader["DocumentExcerpt"].readIfPresent(with: KendraClientTypes.TextWithHighlights.read(from:))
+        value.documentURI = try reader["DocumentURI"].readIfPresent()
+        value.documentAttributes = try reader["DocumentAttributes"].readListIfPresent(memberReadingClosure: KendraClientTypes.DocumentAttribute.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension KendraClientTypes.ExperienceConfiguration {
+
+    static func write(value: KendraClientTypes.ExperienceConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ContentSourceConfiguration"].write(value.contentSourceConfiguration, with: KendraClientTypes.ContentSourceConfiguration.write(value:to:))
+        try writer["UserIdentityConfiguration"].write(value.userIdentityConfiguration, with: KendraClientTypes.UserIdentityConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.ExperienceConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KendraClientTypes.ExperienceConfiguration()
+        value.contentSourceConfiguration = try reader["ContentSourceConfiguration"].readIfPresent(with: KendraClientTypes.ContentSourceConfiguration.read(from:))
+        value.userIdentityConfiguration = try reader["UserIdentityConfiguration"].readIfPresent(with: KendraClientTypes.UserIdentityConfiguration.read(from:))
+        return value
+    }
+}
+
+extension KendraClientTypes.ExperienceEndpoint {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.ExperienceEndpoint {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KendraClientTypes.ExperienceEndpoint()
+        value.endpointType = try reader["EndpointType"].readIfPresent()
+        value.endpoint = try reader["Endpoint"].readIfPresent()
+        return value
+    }
+}
+
+extension KendraClientTypes.ExperienceEntitiesSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.ExperienceEntitiesSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KendraClientTypes.ExperienceEntitiesSummary()
+        value.entityId = try reader["EntityId"].readIfPresent()
+        value.entityType = try reader["EntityType"].readIfPresent()
+        value.displayData = try reader["DisplayData"].readIfPresent(with: KendraClientTypes.EntityDisplayData.read(from:))
+        return value
+    }
+}
+
+extension KendraClientTypes.ExperiencesSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.ExperiencesSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KendraClientTypes.ExperiencesSummary()
+        value.name = try reader["Name"].readIfPresent()
+        value.id = try reader["Id"].readIfPresent()
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.status = try reader["Status"].readIfPresent()
+        value.endpoints = try reader["Endpoints"].readListIfPresent(memberReadingClosure: KendraClientTypes.ExperienceEndpoint.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension KendraClientTypes.Facet {
+
+    static func write(value: KendraClientTypes.Facet?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DocumentAttributeKey"].write(value.documentAttributeKey)
+        try writer["Facets"].writeList(value.facets, memberWritingClosure: KendraClientTypes.Facet.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["MaxResults"].write(value.maxResults)
+    }
+}
+
+extension KendraClientTypes.FacetResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.FacetResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KendraClientTypes.FacetResult()
+        value.documentAttributeKey = try reader["DocumentAttributeKey"].readIfPresent()
+        value.documentAttributeValueType = try reader["DocumentAttributeValueType"].readIfPresent()
+        value.documentAttributeValueCountPairs = try reader["DocumentAttributeValueCountPairs"].readListIfPresent(memberReadingClosure: KendraClientTypes.DocumentAttributeValueCountPair.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension KendraClientTypes.FailedEntity {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.FailedEntity {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KendraClientTypes.FailedEntity()
+        value.entityId = try reader["EntityId"].readIfPresent()
+        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
+        return value
+    }
+}
+
+extension KendraClientTypes.FaqStatistics {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.FaqStatistics {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KendraClientTypes.FaqStatistics()
+        value.indexedQuestionAnswersCount = try reader["IndexedQuestionAnswersCount"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension KendraClientTypes.FaqSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.FaqSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KendraClientTypes.FaqSummary()
+        value.id = try reader["Id"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.fileFormat = try reader["FileFormat"].readIfPresent()
+        value.languageCode = try reader["LanguageCode"].readIfPresent()
+        return value
+    }
+}
+
+extension KendraClientTypes.FeaturedDocument {
+
+    static func write(value: KendraClientTypes.FeaturedDocument?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Id"].write(value.id)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.FeaturedDocument {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KendraClientTypes.FeaturedDocument()
+        value.id = try reader["Id"].readIfPresent()
+        return value
+    }
+}
+
+extension KendraClientTypes.FeaturedDocumentMissing {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.FeaturedDocumentMissing {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KendraClientTypes.FeaturedDocumentMissing()
+        value.id = try reader["Id"].readIfPresent()
+        return value
+    }
+}
+
+extension KendraClientTypes.FeaturedDocumentWithMetadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.FeaturedDocumentWithMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KendraClientTypes.FeaturedDocumentWithMetadata()
+        value.id = try reader["Id"].readIfPresent()
+        value.title = try reader["Title"].readIfPresent()
+        value.uri = try reader["URI"].readIfPresent()
+        return value
+    }
+}
+
+extension KendraClientTypes.FeaturedResultsItem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.FeaturedResultsItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KendraClientTypes.FeaturedResultsItem()
+        value.id = try reader["Id"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent()
+        value.additionalAttributes = try reader["AdditionalAttributes"].readListIfPresent(memberReadingClosure: KendraClientTypes.AdditionalResultAttribute.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.documentId = try reader["DocumentId"].readIfPresent()
+        value.documentTitle = try reader["DocumentTitle"].readIfPresent(with: KendraClientTypes.TextWithHighlights.read(from:))
+        value.documentExcerpt = try reader["DocumentExcerpt"].readIfPresent(with: KendraClientTypes.TextWithHighlights.read(from:))
+        value.documentURI = try reader["DocumentURI"].readIfPresent()
+        value.documentAttributes = try reader["DocumentAttributes"].readListIfPresent(memberReadingClosure: KendraClientTypes.DocumentAttribute.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.feedbackToken = try reader["FeedbackToken"].readIfPresent()
+        return value
+    }
+}
+
+extension KendraClientTypes.FeaturedResultsSet {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.FeaturedResultsSet {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KendraClientTypes.FeaturedResultsSet()
+        value.featuredResultsSetId = try reader["FeaturedResultsSetId"].readIfPresent()
+        value.featuredResultsSetName = try reader["FeaturedResultsSetName"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.queryTexts = try reader["QueryTexts"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.featuredDocuments = try reader["FeaturedDocuments"].readListIfPresent(memberReadingClosure: KendraClientTypes.FeaturedDocument.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.lastUpdatedTimestamp = try reader["LastUpdatedTimestamp"].readIfPresent()
+        value.creationTimestamp = try reader["CreationTimestamp"].readIfPresent()
+        return value
+    }
+}
+
+extension KendraClientTypes.FeaturedResultsSetSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.FeaturedResultsSetSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KendraClientTypes.FeaturedResultsSetSummary()
+        value.featuredResultsSetId = try reader["FeaturedResultsSetId"].readIfPresent()
+        value.featuredResultsSetName = try reader["FeaturedResultsSetName"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.lastUpdatedTimestamp = try reader["LastUpdatedTimestamp"].readIfPresent()
+        value.creationTimestamp = try reader["CreationTimestamp"].readIfPresent()
+        return value
+    }
+}
+
+extension KendraClientTypes.FsxConfiguration {
+
+    static func write(value: KendraClientTypes.FsxConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ExclusionPatterns"].writeList(value.exclusionPatterns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["FieldMappings"].writeList(value.fieldMappings, memberWritingClosure: KendraClientTypes.DataSourceToIndexFieldMapping.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["FileSystemId"].write(value.fileSystemId)
+        try writer["FileSystemType"].write(value.fileSystemType)
+        try writer["InclusionPatterns"].writeList(value.inclusionPatterns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["SecretArn"].write(value.secretArn)
+        try writer["VpcConfiguration"].write(value.vpcConfiguration, with: KendraClientTypes.DataSourceVpcConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.FsxConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KendraClientTypes.FsxConfiguration()
+        value.fileSystemId = try reader["FileSystemId"].readIfPresent() ?? ""
+        value.fileSystemType = try reader["FileSystemType"].readIfPresent() ?? .sdkUnknown("")
+        value.vpcConfiguration = try reader["VpcConfiguration"].readIfPresent(with: KendraClientTypes.DataSourceVpcConfiguration.read(from:))
+        value.secretArn = try reader["SecretArn"].readIfPresent()
+        value.inclusionPatterns = try reader["InclusionPatterns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.exclusionPatterns = try reader["ExclusionPatterns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.fieldMappings = try reader["FieldMappings"].readListIfPresent(memberReadingClosure: KendraClientTypes.DataSourceToIndexFieldMapping.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -13606,38 +14538,156 @@ extension KendraClientTypes.GitHubDocumentCrawlProperties {
     }
 }
 
-extension KendraClientTypes.OnPremiseConfiguration {
+extension KendraClientTypes.GoogleDriveConfiguration {
 
-    static func write(value: KendraClientTypes.OnPremiseConfiguration?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: KendraClientTypes.GoogleDriveConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["HostUrl"].write(value.hostUrl)
-        try writer["OrganizationName"].write(value.organizationName)
-        try writer["SslCertificateS3Path"].write(value.sslCertificateS3Path, with: KendraClientTypes.S3Path.write(value:to:))
+        try writer["ExcludeMimeTypes"].writeList(value.excludeMimeTypes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ExcludeSharedDrives"].writeList(value.excludeSharedDrives, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ExcludeUserAccounts"].writeList(value.excludeUserAccounts, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ExclusionPatterns"].writeList(value.exclusionPatterns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["FieldMappings"].writeList(value.fieldMappings, memberWritingClosure: KendraClientTypes.DataSourceToIndexFieldMapping.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["InclusionPatterns"].writeList(value.inclusionPatterns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["SecretArn"].write(value.secretArn)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.OnPremiseConfiguration {
+    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.GoogleDriveConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KendraClientTypes.OnPremiseConfiguration()
-        value.hostUrl = try reader["HostUrl"].readIfPresent() ?? ""
-        value.organizationName = try reader["OrganizationName"].readIfPresent() ?? ""
-        value.sslCertificateS3Path = try reader["SslCertificateS3Path"].readIfPresent(with: KendraClientTypes.S3Path.read(from:))
+        var value = KendraClientTypes.GoogleDriveConfiguration()
+        value.secretArn = try reader["SecretArn"].readIfPresent() ?? ""
+        value.inclusionPatterns = try reader["InclusionPatterns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.exclusionPatterns = try reader["ExclusionPatterns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.fieldMappings = try reader["FieldMappings"].readListIfPresent(memberReadingClosure: KendraClientTypes.DataSourceToIndexFieldMapping.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.excludeMimeTypes = try reader["ExcludeMimeTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.excludeUserAccounts = try reader["ExcludeUserAccounts"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.excludeSharedDrives = try reader["ExcludeSharedDrives"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
 
-extension KendraClientTypes.SaaSConfiguration {
+extension KendraClientTypes.GroupMembers {
 
-    static func write(value: KendraClientTypes.SaaSConfiguration?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: KendraClientTypes.GroupMembers?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["HostUrl"].write(value.hostUrl)
-        try writer["OrganizationName"].write(value.organizationName)
+        try writer["MemberGroups"].writeList(value.memberGroups, memberWritingClosure: KendraClientTypes.MemberGroup.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["MemberUsers"].writeList(value.memberUsers, memberWritingClosure: KendraClientTypes.MemberUser.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["S3PathforGroupMembers"].write(value.s3PathforGroupMembers, with: KendraClientTypes.S3Path.write(value:to:))
+    }
+}
+
+extension KendraClientTypes.GroupOrderingIdSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.GroupOrderingIdSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KendraClientTypes.GroupOrderingIdSummary()
+        value.status = try reader["Status"].readIfPresent()
+        value.lastUpdatedAt = try reader["LastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.receivedAt = try reader["ReceivedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.orderingId = try reader["OrderingId"].readIfPresent()
+        value.failureReason = try reader["FailureReason"].readIfPresent()
+        return value
+    }
+}
+
+extension KendraClientTypes.GroupSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.GroupSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KendraClientTypes.GroupSummary()
+        value.groupId = try reader["GroupId"].readIfPresent()
+        value.orderingId = try reader["OrderingId"].readIfPresent()
+        return value
+    }
+}
+
+extension KendraClientTypes.HierarchicalPrincipal {
+
+    static func write(value: KendraClientTypes.HierarchicalPrincipal?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["PrincipalList"].writeList(value.principalList, memberWritingClosure: KendraClientTypes.Principal.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.SaaSConfiguration {
+    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.HierarchicalPrincipal {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KendraClientTypes.SaaSConfiguration()
-        value.organizationName = try reader["OrganizationName"].readIfPresent() ?? ""
-        value.hostUrl = try reader["HostUrl"].readIfPresent() ?? ""
+        var value = KendraClientTypes.HierarchicalPrincipal()
+        value.principalList = try reader["PrincipalList"].readListIfPresent(memberReadingClosure: KendraClientTypes.Principal.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension KendraClientTypes.Highlight {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.Highlight {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KendraClientTypes.Highlight()
+        value.beginOffset = try reader["BeginOffset"].readIfPresent() ?? 0
+        value.endOffset = try reader["EndOffset"].readIfPresent() ?? 0
+        value.topAnswer = try reader["TopAnswer"].readIfPresent() ?? false
+        value.type = try reader["Type"].readIfPresent()
+        return value
+    }
+}
+
+extension KendraClientTypes.HookConfiguration {
+
+    static func write(value: KendraClientTypes.HookConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["InvocationCondition"].write(value.invocationCondition, with: KendraClientTypes.DocumentAttributeCondition.write(value:to:))
+        try writer["LambdaArn"].write(value.lambdaArn)
+        try writer["S3Bucket"].write(value.s3Bucket)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.HookConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KendraClientTypes.HookConfiguration()
+        value.invocationCondition = try reader["InvocationCondition"].readIfPresent(with: KendraClientTypes.DocumentAttributeCondition.read(from:))
+        value.lambdaArn = try reader["LambdaArn"].readIfPresent() ?? ""
+        value.s3Bucket = try reader["S3Bucket"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension KendraClientTypes.IndexConfigurationSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.IndexConfigurationSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KendraClientTypes.IndexConfigurationSummary()
+        value.name = try reader["Name"].readIfPresent()
+        value.id = try reader["Id"].readIfPresent()
+        value.edition = try reader["Edition"].readIfPresent()
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension KendraClientTypes.IndexStatistics {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.IndexStatistics {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KendraClientTypes.IndexStatistics()
+        value.faqStatistics = try reader["FaqStatistics"].readIfPresent(with: KendraClientTypes.FaqStatistics.read(from:))
+        value.textDocumentStatistics = try reader["TextDocumentStatistics"].readIfPresent(with: KendraClientTypes.TextDocumentStatistics.read(from:))
+        return value
+    }
+}
+
+extension KendraClientTypes.InlineCustomDocumentEnrichmentConfiguration {
+
+    static func write(value: KendraClientTypes.InlineCustomDocumentEnrichmentConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Condition"].write(value.condition, with: KendraClientTypes.DocumentAttributeCondition.write(value:to:))
+        try writer["DocumentContentDeletion"].write(value.documentContentDeletion)
+        try writer["Target"].write(value.target, with: KendraClientTypes.DocumentAttributeTarget.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.InlineCustomDocumentEnrichmentConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KendraClientTypes.InlineCustomDocumentEnrichmentConfiguration()
+        value.condition = try reader["Condition"].readIfPresent(with: KendraClientTypes.DocumentAttributeCondition.read(from:))
+        value.target = try reader["Target"].readIfPresent(with: KendraClientTypes.DocumentAttributeTarget.read(from:))
+        value.documentContentDeletion = try reader["DocumentContentDeletion"].readIfPresent() ?? false
         return value
     }
 }
@@ -13681,1333 +14731,6 @@ extension KendraClientTypes.JiraConfiguration {
         value.inclusionPatterns = try reader["InclusionPatterns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.exclusionPatterns = try reader["ExclusionPatterns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.vpcConfiguration = try reader["VpcConfiguration"].readIfPresent(with: KendraClientTypes.DataSourceVpcConfiguration.read(from:))
-        return value
-    }
-}
-
-extension KendraClientTypes.QuipConfiguration {
-
-    static func write(value: KendraClientTypes.QuipConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AttachmentFieldMappings"].writeList(value.attachmentFieldMappings, memberWritingClosure: KendraClientTypes.DataSourceToIndexFieldMapping.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["CrawlAttachments"].write(value.crawlAttachments)
-        try writer["CrawlChatRooms"].write(value.crawlChatRooms)
-        try writer["CrawlFileComments"].write(value.crawlFileComments)
-        try writer["Domain"].write(value.domain)
-        try writer["ExclusionPatterns"].writeList(value.exclusionPatterns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["FolderIds"].writeList(value.folderIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["InclusionPatterns"].writeList(value.inclusionPatterns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["MessageFieldMappings"].writeList(value.messageFieldMappings, memberWritingClosure: KendraClientTypes.DataSourceToIndexFieldMapping.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["SecretArn"].write(value.secretArn)
-        try writer["ThreadFieldMappings"].writeList(value.threadFieldMappings, memberWritingClosure: KendraClientTypes.DataSourceToIndexFieldMapping.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["VpcConfiguration"].write(value.vpcConfiguration, with: KendraClientTypes.DataSourceVpcConfiguration.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.QuipConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KendraClientTypes.QuipConfiguration()
-        value.domain = try reader["Domain"].readIfPresent() ?? ""
-        value.secretArn = try reader["SecretArn"].readIfPresent() ?? ""
-        value.crawlFileComments = try reader["CrawlFileComments"].readIfPresent() ?? false
-        value.crawlChatRooms = try reader["CrawlChatRooms"].readIfPresent() ?? false
-        value.crawlAttachments = try reader["CrawlAttachments"].readIfPresent() ?? false
-        value.folderIds = try reader["FolderIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.threadFieldMappings = try reader["ThreadFieldMappings"].readListIfPresent(memberReadingClosure: KendraClientTypes.DataSourceToIndexFieldMapping.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.messageFieldMappings = try reader["MessageFieldMappings"].readListIfPresent(memberReadingClosure: KendraClientTypes.DataSourceToIndexFieldMapping.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.attachmentFieldMappings = try reader["AttachmentFieldMappings"].readListIfPresent(memberReadingClosure: KendraClientTypes.DataSourceToIndexFieldMapping.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.inclusionPatterns = try reader["InclusionPatterns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.exclusionPatterns = try reader["ExclusionPatterns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.vpcConfiguration = try reader["VpcConfiguration"].readIfPresent(with: KendraClientTypes.DataSourceVpcConfiguration.read(from:))
-        return value
-    }
-}
-
-extension KendraClientTypes.BoxConfiguration {
-
-    static func write(value: KendraClientTypes.BoxConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CommentFieldMappings"].writeList(value.commentFieldMappings, memberWritingClosure: KendraClientTypes.DataSourceToIndexFieldMapping.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["CrawlComments"].write(value.crawlComments)
-        try writer["CrawlTasks"].write(value.crawlTasks)
-        try writer["CrawlWebLinks"].write(value.crawlWebLinks)
-        try writer["EnterpriseId"].write(value.enterpriseId)
-        try writer["ExclusionPatterns"].writeList(value.exclusionPatterns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["FileFieldMappings"].writeList(value.fileFieldMappings, memberWritingClosure: KendraClientTypes.DataSourceToIndexFieldMapping.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["InclusionPatterns"].writeList(value.inclusionPatterns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["SecretArn"].write(value.secretArn)
-        try writer["TaskFieldMappings"].writeList(value.taskFieldMappings, memberWritingClosure: KendraClientTypes.DataSourceToIndexFieldMapping.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["UseChangeLog"].write(value.useChangeLog)
-        try writer["VpcConfiguration"].write(value.vpcConfiguration, with: KendraClientTypes.DataSourceVpcConfiguration.write(value:to:))
-        try writer["WebLinkFieldMappings"].writeList(value.webLinkFieldMappings, memberWritingClosure: KendraClientTypes.DataSourceToIndexFieldMapping.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.BoxConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KendraClientTypes.BoxConfiguration()
-        value.enterpriseId = try reader["EnterpriseId"].readIfPresent() ?? ""
-        value.secretArn = try reader["SecretArn"].readIfPresent() ?? ""
-        value.useChangeLog = try reader["UseChangeLog"].readIfPresent() ?? false
-        value.crawlComments = try reader["CrawlComments"].readIfPresent() ?? false
-        value.crawlTasks = try reader["CrawlTasks"].readIfPresent() ?? false
-        value.crawlWebLinks = try reader["CrawlWebLinks"].readIfPresent() ?? false
-        value.fileFieldMappings = try reader["FileFieldMappings"].readListIfPresent(memberReadingClosure: KendraClientTypes.DataSourceToIndexFieldMapping.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.taskFieldMappings = try reader["TaskFieldMappings"].readListIfPresent(memberReadingClosure: KendraClientTypes.DataSourceToIndexFieldMapping.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.commentFieldMappings = try reader["CommentFieldMappings"].readListIfPresent(memberReadingClosure: KendraClientTypes.DataSourceToIndexFieldMapping.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.webLinkFieldMappings = try reader["WebLinkFieldMappings"].readListIfPresent(memberReadingClosure: KendraClientTypes.DataSourceToIndexFieldMapping.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.inclusionPatterns = try reader["InclusionPatterns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.exclusionPatterns = try reader["ExclusionPatterns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.vpcConfiguration = try reader["VpcConfiguration"].readIfPresent(with: KendraClientTypes.DataSourceVpcConfiguration.read(from:))
-        return value
-    }
-}
-
-extension KendraClientTypes.SlackConfiguration {
-
-    static func write(value: KendraClientTypes.SlackConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CrawlBotMessage"].write(value.crawlBotMessage)
-        try writer["ExcludeArchived"].write(value.excludeArchived)
-        try writer["ExclusionPatterns"].writeList(value.exclusionPatterns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["FieldMappings"].writeList(value.fieldMappings, memberWritingClosure: KendraClientTypes.DataSourceToIndexFieldMapping.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["InclusionPatterns"].writeList(value.inclusionPatterns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["LookBackPeriod"].write(value.lookBackPeriod)
-        try writer["PrivateChannelFilter"].writeList(value.privateChannelFilter, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["PublicChannelFilter"].writeList(value.publicChannelFilter, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["SecretArn"].write(value.secretArn)
-        try writer["SinceCrawlDate"].write(value.sinceCrawlDate)
-        try writer["SlackEntityList"].writeList(value.slackEntityList, memberWritingClosure: SmithyReadWrite.WritingClosureBox<KendraClientTypes.SlackEntity>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["TeamId"].write(value.teamId)
-        try writer["UseChangeLog"].write(value.useChangeLog)
-        try writer["VpcConfiguration"].write(value.vpcConfiguration, with: KendraClientTypes.DataSourceVpcConfiguration.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.SlackConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KendraClientTypes.SlackConfiguration()
-        value.teamId = try reader["TeamId"].readIfPresent() ?? ""
-        value.secretArn = try reader["SecretArn"].readIfPresent() ?? ""
-        value.vpcConfiguration = try reader["VpcConfiguration"].readIfPresent(with: KendraClientTypes.DataSourceVpcConfiguration.read(from:))
-        value.slackEntityList = try reader["SlackEntityList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<KendraClientTypes.SlackEntity>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.useChangeLog = try reader["UseChangeLog"].readIfPresent() ?? false
-        value.crawlBotMessage = try reader["CrawlBotMessage"].readIfPresent() ?? false
-        value.excludeArchived = try reader["ExcludeArchived"].readIfPresent() ?? false
-        value.sinceCrawlDate = try reader["SinceCrawlDate"].readIfPresent() ?? ""
-        value.lookBackPeriod = try reader["LookBackPeriod"].readIfPresent()
-        value.privateChannelFilter = try reader["PrivateChannelFilter"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.publicChannelFilter = try reader["PublicChannelFilter"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.inclusionPatterns = try reader["InclusionPatterns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.exclusionPatterns = try reader["ExclusionPatterns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.fieldMappings = try reader["FieldMappings"].readListIfPresent(memberReadingClosure: KendraClientTypes.DataSourceToIndexFieldMapping.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension KendraClientTypes.FsxConfiguration {
-
-    static func write(value: KendraClientTypes.FsxConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ExclusionPatterns"].writeList(value.exclusionPatterns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["FieldMappings"].writeList(value.fieldMappings, memberWritingClosure: KendraClientTypes.DataSourceToIndexFieldMapping.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["FileSystemId"].write(value.fileSystemId)
-        try writer["FileSystemType"].write(value.fileSystemType)
-        try writer["InclusionPatterns"].writeList(value.inclusionPatterns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["SecretArn"].write(value.secretArn)
-        try writer["VpcConfiguration"].write(value.vpcConfiguration, with: KendraClientTypes.DataSourceVpcConfiguration.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.FsxConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KendraClientTypes.FsxConfiguration()
-        value.fileSystemId = try reader["FileSystemId"].readIfPresent() ?? ""
-        value.fileSystemType = try reader["FileSystemType"].readIfPresent() ?? .sdkUnknown("")
-        value.vpcConfiguration = try reader["VpcConfiguration"].readIfPresent(with: KendraClientTypes.DataSourceVpcConfiguration.read(from:))
-        value.secretArn = try reader["SecretArn"].readIfPresent()
-        value.inclusionPatterns = try reader["InclusionPatterns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.exclusionPatterns = try reader["ExclusionPatterns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.fieldMappings = try reader["FieldMappings"].readListIfPresent(memberReadingClosure: KendraClientTypes.DataSourceToIndexFieldMapping.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension KendraClientTypes.WorkDocsConfiguration {
-
-    static func write(value: KendraClientTypes.WorkDocsConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CrawlComments"].write(value.crawlComments)
-        try writer["ExclusionPatterns"].writeList(value.exclusionPatterns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["FieldMappings"].writeList(value.fieldMappings, memberWritingClosure: KendraClientTypes.DataSourceToIndexFieldMapping.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["InclusionPatterns"].writeList(value.inclusionPatterns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["OrganizationId"].write(value.organizationId)
-        try writer["UseChangeLog"].write(value.useChangeLog)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.WorkDocsConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KendraClientTypes.WorkDocsConfiguration()
-        value.organizationId = try reader["OrganizationId"].readIfPresent() ?? ""
-        value.crawlComments = try reader["CrawlComments"].readIfPresent() ?? false
-        value.useChangeLog = try reader["UseChangeLog"].readIfPresent() ?? false
-        value.inclusionPatterns = try reader["InclusionPatterns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.exclusionPatterns = try reader["ExclusionPatterns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.fieldMappings = try reader["FieldMappings"].readListIfPresent(memberReadingClosure: KendraClientTypes.DataSourceToIndexFieldMapping.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension KendraClientTypes.WebCrawlerConfiguration {
-
-    static func write(value: KendraClientTypes.WebCrawlerConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AuthenticationConfiguration"].write(value.authenticationConfiguration, with: KendraClientTypes.AuthenticationConfiguration.write(value:to:))
-        try writer["CrawlDepth"].write(value.crawlDepth)
-        try writer["MaxContentSizePerPageInMegaBytes"].write(value.maxContentSizePerPageInMegaBytes)
-        try writer["MaxLinksPerPage"].write(value.maxLinksPerPage)
-        try writer["MaxUrlsPerMinuteCrawlRate"].write(value.maxUrlsPerMinuteCrawlRate)
-        try writer["ProxyConfiguration"].write(value.proxyConfiguration, with: KendraClientTypes.ProxyConfiguration.write(value:to:))
-        try writer["UrlExclusionPatterns"].writeList(value.urlExclusionPatterns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["UrlInclusionPatterns"].writeList(value.urlInclusionPatterns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Urls"].write(value.urls, with: KendraClientTypes.Urls.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.WebCrawlerConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KendraClientTypes.WebCrawlerConfiguration()
-        value.urls = try reader["Urls"].readIfPresent(with: KendraClientTypes.Urls.read(from:))
-        value.crawlDepth = try reader["CrawlDepth"].readIfPresent()
-        value.maxLinksPerPage = try reader["MaxLinksPerPage"].readIfPresent()
-        value.maxContentSizePerPageInMegaBytes = try reader["MaxContentSizePerPageInMegaBytes"].readIfPresent()
-        value.maxUrlsPerMinuteCrawlRate = try reader["MaxUrlsPerMinuteCrawlRate"].readIfPresent()
-        value.urlInclusionPatterns = try reader["UrlInclusionPatterns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.urlExclusionPatterns = try reader["UrlExclusionPatterns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.proxyConfiguration = try reader["ProxyConfiguration"].readIfPresent(with: KendraClientTypes.ProxyConfiguration.read(from:))
-        value.authenticationConfiguration = try reader["AuthenticationConfiguration"].readIfPresent(with: KendraClientTypes.AuthenticationConfiguration.read(from:))
-        return value
-    }
-}
-
-extension KendraClientTypes.AuthenticationConfiguration {
-
-    static func write(value: KendraClientTypes.AuthenticationConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BasicAuthentication"].writeList(value.basicAuthentication, memberWritingClosure: KendraClientTypes.BasicAuthenticationConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.AuthenticationConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KendraClientTypes.AuthenticationConfiguration()
-        value.basicAuthentication = try reader["BasicAuthentication"].readListIfPresent(memberReadingClosure: KendraClientTypes.BasicAuthenticationConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension KendraClientTypes.BasicAuthenticationConfiguration {
-
-    static func write(value: KendraClientTypes.BasicAuthenticationConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Credentials"].write(value.credentials)
-        try writer["Host"].write(value.host)
-        try writer["Port"].write(value.port)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.BasicAuthenticationConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KendraClientTypes.BasicAuthenticationConfiguration()
-        value.host = try reader["Host"].readIfPresent() ?? ""
-        value.port = try reader["Port"].readIfPresent() ?? 0
-        value.credentials = try reader["Credentials"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension KendraClientTypes.ProxyConfiguration {
-
-    static func write(value: KendraClientTypes.ProxyConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Credentials"].write(value.credentials)
-        try writer["Host"].write(value.host)
-        try writer["Port"].write(value.port)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.ProxyConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KendraClientTypes.ProxyConfiguration()
-        value.host = try reader["Host"].readIfPresent() ?? ""
-        value.port = try reader["Port"].readIfPresent() ?? 0
-        value.credentials = try reader["Credentials"].readIfPresent()
-        return value
-    }
-}
-
-extension KendraClientTypes.Urls {
-
-    static func write(value: KendraClientTypes.Urls?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["SeedUrlConfiguration"].write(value.seedUrlConfiguration, with: KendraClientTypes.SeedUrlConfiguration.write(value:to:))
-        try writer["SiteMapsConfiguration"].write(value.siteMapsConfiguration, with: KendraClientTypes.SiteMapsConfiguration.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.Urls {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KendraClientTypes.Urls()
-        value.seedUrlConfiguration = try reader["SeedUrlConfiguration"].readIfPresent(with: KendraClientTypes.SeedUrlConfiguration.read(from:))
-        value.siteMapsConfiguration = try reader["SiteMapsConfiguration"].readIfPresent(with: KendraClientTypes.SiteMapsConfiguration.read(from:))
-        return value
-    }
-}
-
-extension KendraClientTypes.SiteMapsConfiguration {
-
-    static func write(value: KendraClientTypes.SiteMapsConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["SiteMaps"].writeList(value.siteMaps, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.SiteMapsConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KendraClientTypes.SiteMapsConfiguration()
-        value.siteMaps = try reader["SiteMaps"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension KendraClientTypes.SeedUrlConfiguration {
-
-    static func write(value: KendraClientTypes.SeedUrlConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["SeedUrls"].writeList(value.seedUrls, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["WebCrawlerMode"].write(value.webCrawlerMode)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.SeedUrlConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KendraClientTypes.SeedUrlConfiguration()
-        value.seedUrls = try reader["SeedUrls"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.webCrawlerMode = try reader["WebCrawlerMode"].readIfPresent()
-        return value
-    }
-}
-
-extension KendraClientTypes.GoogleDriveConfiguration {
-
-    static func write(value: KendraClientTypes.GoogleDriveConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ExcludeMimeTypes"].writeList(value.excludeMimeTypes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ExcludeSharedDrives"].writeList(value.excludeSharedDrives, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ExcludeUserAccounts"].writeList(value.excludeUserAccounts, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ExclusionPatterns"].writeList(value.exclusionPatterns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["FieldMappings"].writeList(value.fieldMappings, memberWritingClosure: KendraClientTypes.DataSourceToIndexFieldMapping.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["InclusionPatterns"].writeList(value.inclusionPatterns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["SecretArn"].write(value.secretArn)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.GoogleDriveConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KendraClientTypes.GoogleDriveConfiguration()
-        value.secretArn = try reader["SecretArn"].readIfPresent() ?? ""
-        value.inclusionPatterns = try reader["InclusionPatterns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.exclusionPatterns = try reader["ExclusionPatterns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.fieldMappings = try reader["FieldMappings"].readListIfPresent(memberReadingClosure: KendraClientTypes.DataSourceToIndexFieldMapping.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.excludeMimeTypes = try reader["ExcludeMimeTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.excludeUserAccounts = try reader["ExcludeUserAccounts"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.excludeSharedDrives = try reader["ExcludeSharedDrives"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension KendraClientTypes.ConfluenceConfiguration {
-
-    static func write(value: KendraClientTypes.ConfluenceConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AttachmentConfiguration"].write(value.attachmentConfiguration, with: KendraClientTypes.ConfluenceAttachmentConfiguration.write(value:to:))
-        try writer["AuthenticationType"].write(value.authenticationType)
-        try writer["BlogConfiguration"].write(value.blogConfiguration, with: KendraClientTypes.ConfluenceBlogConfiguration.write(value:to:))
-        try writer["ExclusionPatterns"].writeList(value.exclusionPatterns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["InclusionPatterns"].writeList(value.inclusionPatterns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["PageConfiguration"].write(value.pageConfiguration, with: KendraClientTypes.ConfluencePageConfiguration.write(value:to:))
-        try writer["ProxyConfiguration"].write(value.proxyConfiguration, with: KendraClientTypes.ProxyConfiguration.write(value:to:))
-        try writer["SecretArn"].write(value.secretArn)
-        try writer["ServerUrl"].write(value.serverUrl)
-        try writer["SpaceConfiguration"].write(value.spaceConfiguration, with: KendraClientTypes.ConfluenceSpaceConfiguration.write(value:to:))
-        try writer["Version"].write(value.version)
-        try writer["VpcConfiguration"].write(value.vpcConfiguration, with: KendraClientTypes.DataSourceVpcConfiguration.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.ConfluenceConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KendraClientTypes.ConfluenceConfiguration()
-        value.serverUrl = try reader["ServerUrl"].readIfPresent() ?? ""
-        value.secretArn = try reader["SecretArn"].readIfPresent() ?? ""
-        value.version = try reader["Version"].readIfPresent() ?? .sdkUnknown("")
-        value.spaceConfiguration = try reader["SpaceConfiguration"].readIfPresent(with: KendraClientTypes.ConfluenceSpaceConfiguration.read(from:))
-        value.pageConfiguration = try reader["PageConfiguration"].readIfPresent(with: KendraClientTypes.ConfluencePageConfiguration.read(from:))
-        value.blogConfiguration = try reader["BlogConfiguration"].readIfPresent(with: KendraClientTypes.ConfluenceBlogConfiguration.read(from:))
-        value.attachmentConfiguration = try reader["AttachmentConfiguration"].readIfPresent(with: KendraClientTypes.ConfluenceAttachmentConfiguration.read(from:))
-        value.vpcConfiguration = try reader["VpcConfiguration"].readIfPresent(with: KendraClientTypes.DataSourceVpcConfiguration.read(from:))
-        value.inclusionPatterns = try reader["InclusionPatterns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.exclusionPatterns = try reader["ExclusionPatterns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.proxyConfiguration = try reader["ProxyConfiguration"].readIfPresent(with: KendraClientTypes.ProxyConfiguration.read(from:))
-        value.authenticationType = try reader["AuthenticationType"].readIfPresent()
-        return value
-    }
-}
-
-extension KendraClientTypes.ConfluenceAttachmentConfiguration {
-
-    static func write(value: KendraClientTypes.ConfluenceAttachmentConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AttachmentFieldMappings"].writeList(value.attachmentFieldMappings, memberWritingClosure: KendraClientTypes.ConfluenceAttachmentToIndexFieldMapping.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["CrawlAttachments"].write(value.crawlAttachments)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.ConfluenceAttachmentConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KendraClientTypes.ConfluenceAttachmentConfiguration()
-        value.crawlAttachments = try reader["CrawlAttachments"].readIfPresent() ?? false
-        value.attachmentFieldMappings = try reader["AttachmentFieldMappings"].readListIfPresent(memberReadingClosure: KendraClientTypes.ConfluenceAttachmentToIndexFieldMapping.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension KendraClientTypes.ConfluenceAttachmentToIndexFieldMapping {
-
-    static func write(value: KendraClientTypes.ConfluenceAttachmentToIndexFieldMapping?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DataSourceFieldName"].write(value.dataSourceFieldName)
-        try writer["DateFieldFormat"].write(value.dateFieldFormat)
-        try writer["IndexFieldName"].write(value.indexFieldName)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.ConfluenceAttachmentToIndexFieldMapping {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KendraClientTypes.ConfluenceAttachmentToIndexFieldMapping()
-        value.dataSourceFieldName = try reader["DataSourceFieldName"].readIfPresent()
-        value.dateFieldFormat = try reader["DateFieldFormat"].readIfPresent()
-        value.indexFieldName = try reader["IndexFieldName"].readIfPresent()
-        return value
-    }
-}
-
-extension KendraClientTypes.ConfluenceBlogConfiguration {
-
-    static func write(value: KendraClientTypes.ConfluenceBlogConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BlogFieldMappings"].writeList(value.blogFieldMappings, memberWritingClosure: KendraClientTypes.ConfluenceBlogToIndexFieldMapping.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.ConfluenceBlogConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KendraClientTypes.ConfluenceBlogConfiguration()
-        value.blogFieldMappings = try reader["BlogFieldMappings"].readListIfPresent(memberReadingClosure: KendraClientTypes.ConfluenceBlogToIndexFieldMapping.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension KendraClientTypes.ConfluenceBlogToIndexFieldMapping {
-
-    static func write(value: KendraClientTypes.ConfluenceBlogToIndexFieldMapping?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DataSourceFieldName"].write(value.dataSourceFieldName)
-        try writer["DateFieldFormat"].write(value.dateFieldFormat)
-        try writer["IndexFieldName"].write(value.indexFieldName)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.ConfluenceBlogToIndexFieldMapping {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KendraClientTypes.ConfluenceBlogToIndexFieldMapping()
-        value.dataSourceFieldName = try reader["DataSourceFieldName"].readIfPresent()
-        value.dateFieldFormat = try reader["DateFieldFormat"].readIfPresent()
-        value.indexFieldName = try reader["IndexFieldName"].readIfPresent()
-        return value
-    }
-}
-
-extension KendraClientTypes.ConfluencePageConfiguration {
-
-    static func write(value: KendraClientTypes.ConfluencePageConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["PageFieldMappings"].writeList(value.pageFieldMappings, memberWritingClosure: KendraClientTypes.ConfluencePageToIndexFieldMapping.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.ConfluencePageConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KendraClientTypes.ConfluencePageConfiguration()
-        value.pageFieldMappings = try reader["PageFieldMappings"].readListIfPresent(memberReadingClosure: KendraClientTypes.ConfluencePageToIndexFieldMapping.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension KendraClientTypes.ConfluencePageToIndexFieldMapping {
-
-    static func write(value: KendraClientTypes.ConfluencePageToIndexFieldMapping?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DataSourceFieldName"].write(value.dataSourceFieldName)
-        try writer["DateFieldFormat"].write(value.dateFieldFormat)
-        try writer["IndexFieldName"].write(value.indexFieldName)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.ConfluencePageToIndexFieldMapping {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KendraClientTypes.ConfluencePageToIndexFieldMapping()
-        value.dataSourceFieldName = try reader["DataSourceFieldName"].readIfPresent()
-        value.dateFieldFormat = try reader["DateFieldFormat"].readIfPresent()
-        value.indexFieldName = try reader["IndexFieldName"].readIfPresent()
-        return value
-    }
-}
-
-extension KendraClientTypes.ConfluenceSpaceConfiguration {
-
-    static func write(value: KendraClientTypes.ConfluenceSpaceConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CrawlArchivedSpaces"].write(value.crawlArchivedSpaces)
-        try writer["CrawlPersonalSpaces"].write(value.crawlPersonalSpaces)
-        try writer["ExcludeSpaces"].writeList(value.excludeSpaces, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["IncludeSpaces"].writeList(value.includeSpaces, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["SpaceFieldMappings"].writeList(value.spaceFieldMappings, memberWritingClosure: KendraClientTypes.ConfluenceSpaceToIndexFieldMapping.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.ConfluenceSpaceConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KendraClientTypes.ConfluenceSpaceConfiguration()
-        value.crawlPersonalSpaces = try reader["CrawlPersonalSpaces"].readIfPresent() ?? false
-        value.crawlArchivedSpaces = try reader["CrawlArchivedSpaces"].readIfPresent() ?? false
-        value.includeSpaces = try reader["IncludeSpaces"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.excludeSpaces = try reader["ExcludeSpaces"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.spaceFieldMappings = try reader["SpaceFieldMappings"].readListIfPresent(memberReadingClosure: KendraClientTypes.ConfluenceSpaceToIndexFieldMapping.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension KendraClientTypes.ConfluenceSpaceToIndexFieldMapping {
-
-    static func write(value: KendraClientTypes.ConfluenceSpaceToIndexFieldMapping?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DataSourceFieldName"].write(value.dataSourceFieldName)
-        try writer["DateFieldFormat"].write(value.dateFieldFormat)
-        try writer["IndexFieldName"].write(value.indexFieldName)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.ConfluenceSpaceToIndexFieldMapping {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KendraClientTypes.ConfluenceSpaceToIndexFieldMapping()
-        value.dataSourceFieldName = try reader["DataSourceFieldName"].readIfPresent()
-        value.dateFieldFormat = try reader["DateFieldFormat"].readIfPresent()
-        value.indexFieldName = try reader["IndexFieldName"].readIfPresent()
-        return value
-    }
-}
-
-extension KendraClientTypes.ServiceNowConfiguration {
-
-    static func write(value: KendraClientTypes.ServiceNowConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AuthenticationType"].write(value.authenticationType)
-        try writer["HostUrl"].write(value.hostUrl)
-        try writer["KnowledgeArticleConfiguration"].write(value.knowledgeArticleConfiguration, with: KendraClientTypes.ServiceNowKnowledgeArticleConfiguration.write(value:to:))
-        try writer["SecretArn"].write(value.secretArn)
-        try writer["ServiceCatalogConfiguration"].write(value.serviceCatalogConfiguration, with: KendraClientTypes.ServiceNowServiceCatalogConfiguration.write(value:to:))
-        try writer["ServiceNowBuildVersion"].write(value.serviceNowBuildVersion)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.ServiceNowConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KendraClientTypes.ServiceNowConfiguration()
-        value.hostUrl = try reader["HostUrl"].readIfPresent() ?? ""
-        value.secretArn = try reader["SecretArn"].readIfPresent() ?? ""
-        value.serviceNowBuildVersion = try reader["ServiceNowBuildVersion"].readIfPresent() ?? .sdkUnknown("")
-        value.knowledgeArticleConfiguration = try reader["KnowledgeArticleConfiguration"].readIfPresent(with: KendraClientTypes.ServiceNowKnowledgeArticleConfiguration.read(from:))
-        value.serviceCatalogConfiguration = try reader["ServiceCatalogConfiguration"].readIfPresent(with: KendraClientTypes.ServiceNowServiceCatalogConfiguration.read(from:))
-        value.authenticationType = try reader["AuthenticationType"].readIfPresent()
-        return value
-    }
-}
-
-extension KendraClientTypes.ServiceNowServiceCatalogConfiguration {
-
-    static func write(value: KendraClientTypes.ServiceNowServiceCatalogConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CrawlAttachments"].write(value.crawlAttachments)
-        try writer["DocumentDataFieldName"].write(value.documentDataFieldName)
-        try writer["DocumentTitleFieldName"].write(value.documentTitleFieldName)
-        try writer["ExcludeAttachmentFilePatterns"].writeList(value.excludeAttachmentFilePatterns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["FieldMappings"].writeList(value.fieldMappings, memberWritingClosure: KendraClientTypes.DataSourceToIndexFieldMapping.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["IncludeAttachmentFilePatterns"].writeList(value.includeAttachmentFilePatterns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.ServiceNowServiceCatalogConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KendraClientTypes.ServiceNowServiceCatalogConfiguration()
-        value.crawlAttachments = try reader["CrawlAttachments"].readIfPresent() ?? false
-        value.includeAttachmentFilePatterns = try reader["IncludeAttachmentFilePatterns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.excludeAttachmentFilePatterns = try reader["ExcludeAttachmentFilePatterns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.documentDataFieldName = try reader["DocumentDataFieldName"].readIfPresent() ?? ""
-        value.documentTitleFieldName = try reader["DocumentTitleFieldName"].readIfPresent()
-        value.fieldMappings = try reader["FieldMappings"].readListIfPresent(memberReadingClosure: KendraClientTypes.DataSourceToIndexFieldMapping.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension KendraClientTypes.ServiceNowKnowledgeArticleConfiguration {
-
-    static func write(value: KendraClientTypes.ServiceNowKnowledgeArticleConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CrawlAttachments"].write(value.crawlAttachments)
-        try writer["DocumentDataFieldName"].write(value.documentDataFieldName)
-        try writer["DocumentTitleFieldName"].write(value.documentTitleFieldName)
-        try writer["ExcludeAttachmentFilePatterns"].writeList(value.excludeAttachmentFilePatterns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["FieldMappings"].writeList(value.fieldMappings, memberWritingClosure: KendraClientTypes.DataSourceToIndexFieldMapping.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["FilterQuery"].write(value.filterQuery)
-        try writer["IncludeAttachmentFilePatterns"].writeList(value.includeAttachmentFilePatterns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.ServiceNowKnowledgeArticleConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KendraClientTypes.ServiceNowKnowledgeArticleConfiguration()
-        value.crawlAttachments = try reader["CrawlAttachments"].readIfPresent() ?? false
-        value.includeAttachmentFilePatterns = try reader["IncludeAttachmentFilePatterns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.excludeAttachmentFilePatterns = try reader["ExcludeAttachmentFilePatterns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.documentDataFieldName = try reader["DocumentDataFieldName"].readIfPresent() ?? ""
-        value.documentTitleFieldName = try reader["DocumentTitleFieldName"].readIfPresent()
-        value.fieldMappings = try reader["FieldMappings"].readListIfPresent(memberReadingClosure: KendraClientTypes.DataSourceToIndexFieldMapping.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.filterQuery = try reader["FilterQuery"].readIfPresent()
-        return value
-    }
-}
-
-extension KendraClientTypes.OneDriveConfiguration {
-
-    static func write(value: KendraClientTypes.OneDriveConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DisableLocalGroups"].write(value.disableLocalGroups)
-        try writer["ExclusionPatterns"].writeList(value.exclusionPatterns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["FieldMappings"].writeList(value.fieldMappings, memberWritingClosure: KendraClientTypes.DataSourceToIndexFieldMapping.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["InclusionPatterns"].writeList(value.inclusionPatterns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["OneDriveUsers"].write(value.oneDriveUsers, with: KendraClientTypes.OneDriveUsers.write(value:to:))
-        try writer["SecretArn"].write(value.secretArn)
-        try writer["TenantDomain"].write(value.tenantDomain)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.OneDriveConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KendraClientTypes.OneDriveConfiguration()
-        value.tenantDomain = try reader["TenantDomain"].readIfPresent() ?? ""
-        value.secretArn = try reader["SecretArn"].readIfPresent() ?? ""
-        value.oneDriveUsers = try reader["OneDriveUsers"].readIfPresent(with: KendraClientTypes.OneDriveUsers.read(from:))
-        value.inclusionPatterns = try reader["InclusionPatterns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.exclusionPatterns = try reader["ExclusionPatterns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.fieldMappings = try reader["FieldMappings"].readListIfPresent(memberReadingClosure: KendraClientTypes.DataSourceToIndexFieldMapping.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.disableLocalGroups = try reader["DisableLocalGroups"].readIfPresent() ?? false
-        return value
-    }
-}
-
-extension KendraClientTypes.OneDriveUsers {
-
-    static func write(value: KendraClientTypes.OneDriveUsers?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["OneDriveUserList"].writeList(value.oneDriveUserList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["OneDriveUserS3Path"].write(value.oneDriveUserS3Path, with: KendraClientTypes.S3Path.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.OneDriveUsers {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KendraClientTypes.OneDriveUsers()
-        value.oneDriveUserList = try reader["OneDriveUserList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.oneDriveUserS3Path = try reader["OneDriveUserS3Path"].readIfPresent(with: KendraClientTypes.S3Path.read(from:))
-        return value
-    }
-}
-
-extension KendraClientTypes.SalesforceConfiguration {
-
-    static func write(value: KendraClientTypes.SalesforceConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ChatterFeedConfiguration"].write(value.chatterFeedConfiguration, with: KendraClientTypes.SalesforceChatterFeedConfiguration.write(value:to:))
-        try writer["CrawlAttachments"].write(value.crawlAttachments)
-        try writer["ExcludeAttachmentFilePatterns"].writeList(value.excludeAttachmentFilePatterns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["IncludeAttachmentFilePatterns"].writeList(value.includeAttachmentFilePatterns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["KnowledgeArticleConfiguration"].write(value.knowledgeArticleConfiguration, with: KendraClientTypes.SalesforceKnowledgeArticleConfiguration.write(value:to:))
-        try writer["SecretArn"].write(value.secretArn)
-        try writer["ServerUrl"].write(value.serverUrl)
-        try writer["StandardObjectAttachmentConfiguration"].write(value.standardObjectAttachmentConfiguration, with: KendraClientTypes.SalesforceStandardObjectAttachmentConfiguration.write(value:to:))
-        try writer["StandardObjectConfigurations"].writeList(value.standardObjectConfigurations, memberWritingClosure: KendraClientTypes.SalesforceStandardObjectConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.SalesforceConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KendraClientTypes.SalesforceConfiguration()
-        value.serverUrl = try reader["ServerUrl"].readIfPresent() ?? ""
-        value.secretArn = try reader["SecretArn"].readIfPresent() ?? ""
-        value.standardObjectConfigurations = try reader["StandardObjectConfigurations"].readListIfPresent(memberReadingClosure: KendraClientTypes.SalesforceStandardObjectConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.knowledgeArticleConfiguration = try reader["KnowledgeArticleConfiguration"].readIfPresent(with: KendraClientTypes.SalesforceKnowledgeArticleConfiguration.read(from:))
-        value.chatterFeedConfiguration = try reader["ChatterFeedConfiguration"].readIfPresent(with: KendraClientTypes.SalesforceChatterFeedConfiguration.read(from:))
-        value.crawlAttachments = try reader["CrawlAttachments"].readIfPresent() ?? false
-        value.standardObjectAttachmentConfiguration = try reader["StandardObjectAttachmentConfiguration"].readIfPresent(with: KendraClientTypes.SalesforceStandardObjectAttachmentConfiguration.read(from:))
-        value.includeAttachmentFilePatterns = try reader["IncludeAttachmentFilePatterns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.excludeAttachmentFilePatterns = try reader["ExcludeAttachmentFilePatterns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension KendraClientTypes.SalesforceStandardObjectAttachmentConfiguration {
-
-    static func write(value: KendraClientTypes.SalesforceStandardObjectAttachmentConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DocumentTitleFieldName"].write(value.documentTitleFieldName)
-        try writer["FieldMappings"].writeList(value.fieldMappings, memberWritingClosure: KendraClientTypes.DataSourceToIndexFieldMapping.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.SalesforceStandardObjectAttachmentConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KendraClientTypes.SalesforceStandardObjectAttachmentConfiguration()
-        value.documentTitleFieldName = try reader["DocumentTitleFieldName"].readIfPresent()
-        value.fieldMappings = try reader["FieldMappings"].readListIfPresent(memberReadingClosure: KendraClientTypes.DataSourceToIndexFieldMapping.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension KendraClientTypes.SalesforceChatterFeedConfiguration {
-
-    static func write(value: KendraClientTypes.SalesforceChatterFeedConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DocumentDataFieldName"].write(value.documentDataFieldName)
-        try writer["DocumentTitleFieldName"].write(value.documentTitleFieldName)
-        try writer["FieldMappings"].writeList(value.fieldMappings, memberWritingClosure: KendraClientTypes.DataSourceToIndexFieldMapping.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["IncludeFilterTypes"].writeList(value.includeFilterTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<KendraClientTypes.SalesforceChatterFeedIncludeFilterType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.SalesforceChatterFeedConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KendraClientTypes.SalesforceChatterFeedConfiguration()
-        value.documentDataFieldName = try reader["DocumentDataFieldName"].readIfPresent() ?? ""
-        value.documentTitleFieldName = try reader["DocumentTitleFieldName"].readIfPresent()
-        value.fieldMappings = try reader["FieldMappings"].readListIfPresent(memberReadingClosure: KendraClientTypes.DataSourceToIndexFieldMapping.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.includeFilterTypes = try reader["IncludeFilterTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<KendraClientTypes.SalesforceChatterFeedIncludeFilterType>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension KendraClientTypes.SalesforceKnowledgeArticleConfiguration {
-
-    static func write(value: KendraClientTypes.SalesforceKnowledgeArticleConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CustomKnowledgeArticleTypeConfigurations"].writeList(value.customKnowledgeArticleTypeConfigurations, memberWritingClosure: KendraClientTypes.SalesforceCustomKnowledgeArticleTypeConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["IncludedStates"].writeList(value.includedStates, memberWritingClosure: SmithyReadWrite.WritingClosureBox<KendraClientTypes.SalesforceKnowledgeArticleState>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["StandardKnowledgeArticleTypeConfiguration"].write(value.standardKnowledgeArticleTypeConfiguration, with: KendraClientTypes.SalesforceStandardKnowledgeArticleTypeConfiguration.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.SalesforceKnowledgeArticleConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KendraClientTypes.SalesforceKnowledgeArticleConfiguration()
-        value.includedStates = try reader["IncludedStates"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<KendraClientTypes.SalesforceKnowledgeArticleState>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.standardKnowledgeArticleTypeConfiguration = try reader["StandardKnowledgeArticleTypeConfiguration"].readIfPresent(with: KendraClientTypes.SalesforceStandardKnowledgeArticleTypeConfiguration.read(from:))
-        value.customKnowledgeArticleTypeConfigurations = try reader["CustomKnowledgeArticleTypeConfigurations"].readListIfPresent(memberReadingClosure: KendraClientTypes.SalesforceCustomKnowledgeArticleTypeConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension KendraClientTypes.SalesforceCustomKnowledgeArticleTypeConfiguration {
-
-    static func write(value: KendraClientTypes.SalesforceCustomKnowledgeArticleTypeConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DocumentDataFieldName"].write(value.documentDataFieldName)
-        try writer["DocumentTitleFieldName"].write(value.documentTitleFieldName)
-        try writer["FieldMappings"].writeList(value.fieldMappings, memberWritingClosure: KendraClientTypes.DataSourceToIndexFieldMapping.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Name"].write(value.name)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.SalesforceCustomKnowledgeArticleTypeConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KendraClientTypes.SalesforceCustomKnowledgeArticleTypeConfiguration()
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.documentDataFieldName = try reader["DocumentDataFieldName"].readIfPresent() ?? ""
-        value.documentTitleFieldName = try reader["DocumentTitleFieldName"].readIfPresent()
-        value.fieldMappings = try reader["FieldMappings"].readListIfPresent(memberReadingClosure: KendraClientTypes.DataSourceToIndexFieldMapping.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension KendraClientTypes.SalesforceStandardKnowledgeArticleTypeConfiguration {
-
-    static func write(value: KendraClientTypes.SalesforceStandardKnowledgeArticleTypeConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DocumentDataFieldName"].write(value.documentDataFieldName)
-        try writer["DocumentTitleFieldName"].write(value.documentTitleFieldName)
-        try writer["FieldMappings"].writeList(value.fieldMappings, memberWritingClosure: KendraClientTypes.DataSourceToIndexFieldMapping.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.SalesforceStandardKnowledgeArticleTypeConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KendraClientTypes.SalesforceStandardKnowledgeArticleTypeConfiguration()
-        value.documentDataFieldName = try reader["DocumentDataFieldName"].readIfPresent() ?? ""
-        value.documentTitleFieldName = try reader["DocumentTitleFieldName"].readIfPresent()
-        value.fieldMappings = try reader["FieldMappings"].readListIfPresent(memberReadingClosure: KendraClientTypes.DataSourceToIndexFieldMapping.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension KendraClientTypes.SalesforceStandardObjectConfiguration {
-
-    static func write(value: KendraClientTypes.SalesforceStandardObjectConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DocumentDataFieldName"].write(value.documentDataFieldName)
-        try writer["DocumentTitleFieldName"].write(value.documentTitleFieldName)
-        try writer["FieldMappings"].writeList(value.fieldMappings, memberWritingClosure: KendraClientTypes.DataSourceToIndexFieldMapping.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Name"].write(value.name)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.SalesforceStandardObjectConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KendraClientTypes.SalesforceStandardObjectConfiguration()
-        value.name = try reader["Name"].readIfPresent() ?? .sdkUnknown("")
-        value.documentDataFieldName = try reader["DocumentDataFieldName"].readIfPresent() ?? ""
-        value.documentTitleFieldName = try reader["DocumentTitleFieldName"].readIfPresent()
-        value.fieldMappings = try reader["FieldMappings"].readListIfPresent(memberReadingClosure: KendraClientTypes.DataSourceToIndexFieldMapping.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension KendraClientTypes.DatabaseConfiguration {
-
-    static func write(value: KendraClientTypes.DatabaseConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AclConfiguration"].write(value.aclConfiguration, with: KendraClientTypes.AclConfiguration.write(value:to:))
-        try writer["ColumnConfiguration"].write(value.columnConfiguration, with: KendraClientTypes.ColumnConfiguration.write(value:to:))
-        try writer["ConnectionConfiguration"].write(value.connectionConfiguration, with: KendraClientTypes.ConnectionConfiguration.write(value:to:))
-        try writer["DatabaseEngineType"].write(value.databaseEngineType)
-        try writer["SqlConfiguration"].write(value.sqlConfiguration, with: KendraClientTypes.SqlConfiguration.write(value:to:))
-        try writer["VpcConfiguration"].write(value.vpcConfiguration, with: KendraClientTypes.DataSourceVpcConfiguration.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.DatabaseConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KendraClientTypes.DatabaseConfiguration()
-        value.databaseEngineType = try reader["DatabaseEngineType"].readIfPresent() ?? .sdkUnknown("")
-        value.connectionConfiguration = try reader["ConnectionConfiguration"].readIfPresent(with: KendraClientTypes.ConnectionConfiguration.read(from:))
-        value.vpcConfiguration = try reader["VpcConfiguration"].readIfPresent(with: KendraClientTypes.DataSourceVpcConfiguration.read(from:))
-        value.columnConfiguration = try reader["ColumnConfiguration"].readIfPresent(with: KendraClientTypes.ColumnConfiguration.read(from:))
-        value.aclConfiguration = try reader["AclConfiguration"].readIfPresent(with: KendraClientTypes.AclConfiguration.read(from:))
-        value.sqlConfiguration = try reader["SqlConfiguration"].readIfPresent(with: KendraClientTypes.SqlConfiguration.read(from:))
-        return value
-    }
-}
-
-extension KendraClientTypes.SqlConfiguration {
-
-    static func write(value: KendraClientTypes.SqlConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["QueryIdentifiersEnclosingOption"].write(value.queryIdentifiersEnclosingOption)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.SqlConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KendraClientTypes.SqlConfiguration()
-        value.queryIdentifiersEnclosingOption = try reader["QueryIdentifiersEnclosingOption"].readIfPresent()
-        return value
-    }
-}
-
-extension KendraClientTypes.AclConfiguration {
-
-    static func write(value: KendraClientTypes.AclConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AllowedGroupsColumnName"].write(value.allowedGroupsColumnName)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.AclConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KendraClientTypes.AclConfiguration()
-        value.allowedGroupsColumnName = try reader["AllowedGroupsColumnName"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension KendraClientTypes.ColumnConfiguration {
-
-    static func write(value: KendraClientTypes.ColumnConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ChangeDetectingColumns"].writeList(value.changeDetectingColumns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["DocumentDataColumnName"].write(value.documentDataColumnName)
-        try writer["DocumentIdColumnName"].write(value.documentIdColumnName)
-        try writer["DocumentTitleColumnName"].write(value.documentTitleColumnName)
-        try writer["FieldMappings"].writeList(value.fieldMappings, memberWritingClosure: KendraClientTypes.DataSourceToIndexFieldMapping.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.ColumnConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KendraClientTypes.ColumnConfiguration()
-        value.documentIdColumnName = try reader["DocumentIdColumnName"].readIfPresent() ?? ""
-        value.documentDataColumnName = try reader["DocumentDataColumnName"].readIfPresent() ?? ""
-        value.documentTitleColumnName = try reader["DocumentTitleColumnName"].readIfPresent()
-        value.fieldMappings = try reader["FieldMappings"].readListIfPresent(memberReadingClosure: KendraClientTypes.DataSourceToIndexFieldMapping.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.changeDetectingColumns = try reader["ChangeDetectingColumns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension KendraClientTypes.ConnectionConfiguration {
-
-    static func write(value: KendraClientTypes.ConnectionConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DatabaseHost"].write(value.databaseHost)
-        try writer["DatabaseName"].write(value.databaseName)
-        try writer["DatabasePort"].write(value.databasePort)
-        try writer["SecretArn"].write(value.secretArn)
-        try writer["TableName"].write(value.tableName)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.ConnectionConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KendraClientTypes.ConnectionConfiguration()
-        value.databaseHost = try reader["DatabaseHost"].readIfPresent() ?? ""
-        value.databasePort = try reader["DatabasePort"].readIfPresent() ?? 0
-        value.databaseName = try reader["DatabaseName"].readIfPresent() ?? ""
-        value.tableName = try reader["TableName"].readIfPresent() ?? ""
-        value.secretArn = try reader["SecretArn"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension KendraClientTypes.SharePointConfiguration {
-
-    static func write(value: KendraClientTypes.SharePointConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AuthenticationType"].write(value.authenticationType)
-        try writer["CrawlAttachments"].write(value.crawlAttachments)
-        try writer["DisableLocalGroups"].write(value.disableLocalGroups)
-        try writer["DocumentTitleFieldName"].write(value.documentTitleFieldName)
-        try writer["ExclusionPatterns"].writeList(value.exclusionPatterns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["FieldMappings"].writeList(value.fieldMappings, memberWritingClosure: KendraClientTypes.DataSourceToIndexFieldMapping.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["InclusionPatterns"].writeList(value.inclusionPatterns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ProxyConfiguration"].write(value.proxyConfiguration, with: KendraClientTypes.ProxyConfiguration.write(value:to:))
-        try writer["SecretArn"].write(value.secretArn)
-        try writer["SharePointVersion"].write(value.sharePointVersion)
-        try writer["SslCertificateS3Path"].write(value.sslCertificateS3Path, with: KendraClientTypes.S3Path.write(value:to:))
-        try writer["Urls"].writeList(value.urls, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["UseChangeLog"].write(value.useChangeLog)
-        try writer["VpcConfiguration"].write(value.vpcConfiguration, with: KendraClientTypes.DataSourceVpcConfiguration.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.SharePointConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KendraClientTypes.SharePointConfiguration()
-        value.sharePointVersion = try reader["SharePointVersion"].readIfPresent() ?? .sdkUnknown("")
-        value.urls = try reader["Urls"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.secretArn = try reader["SecretArn"].readIfPresent() ?? ""
-        value.crawlAttachments = try reader["CrawlAttachments"].readIfPresent() ?? false
-        value.useChangeLog = try reader["UseChangeLog"].readIfPresent() ?? false
-        value.inclusionPatterns = try reader["InclusionPatterns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.exclusionPatterns = try reader["ExclusionPatterns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.vpcConfiguration = try reader["VpcConfiguration"].readIfPresent(with: KendraClientTypes.DataSourceVpcConfiguration.read(from:))
-        value.fieldMappings = try reader["FieldMappings"].readListIfPresent(memberReadingClosure: KendraClientTypes.DataSourceToIndexFieldMapping.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.documentTitleFieldName = try reader["DocumentTitleFieldName"].readIfPresent()
-        value.disableLocalGroups = try reader["DisableLocalGroups"].readIfPresent() ?? false
-        value.sslCertificateS3Path = try reader["SslCertificateS3Path"].readIfPresent(with: KendraClientTypes.S3Path.read(from:))
-        value.authenticationType = try reader["AuthenticationType"].readIfPresent()
-        value.proxyConfiguration = try reader["ProxyConfiguration"].readIfPresent(with: KendraClientTypes.ProxyConfiguration.read(from:))
-        return value
-    }
-}
-
-extension KendraClientTypes.S3DataSourceConfiguration {
-
-    static func write(value: KendraClientTypes.S3DataSourceConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AccessControlListConfiguration"].write(value.accessControlListConfiguration, with: KendraClientTypes.AccessControlListConfiguration.write(value:to:))
-        try writer["BucketName"].write(value.bucketName)
-        try writer["DocumentsMetadataConfiguration"].write(value.documentsMetadataConfiguration, with: KendraClientTypes.DocumentsMetadataConfiguration.write(value:to:))
-        try writer["ExclusionPatterns"].writeList(value.exclusionPatterns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["InclusionPatterns"].writeList(value.inclusionPatterns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["InclusionPrefixes"].writeList(value.inclusionPrefixes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.S3DataSourceConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KendraClientTypes.S3DataSourceConfiguration()
-        value.bucketName = try reader["BucketName"].readIfPresent() ?? ""
-        value.inclusionPrefixes = try reader["InclusionPrefixes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.inclusionPatterns = try reader["InclusionPatterns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.exclusionPatterns = try reader["ExclusionPatterns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.documentsMetadataConfiguration = try reader["DocumentsMetadataConfiguration"].readIfPresent(with: KendraClientTypes.DocumentsMetadataConfiguration.read(from:))
-        value.accessControlListConfiguration = try reader["AccessControlListConfiguration"].readIfPresent(with: KendraClientTypes.AccessControlListConfiguration.read(from:))
-        return value
-    }
-}
-
-extension KendraClientTypes.AccessControlListConfiguration {
-
-    static func write(value: KendraClientTypes.AccessControlListConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["KeyPath"].write(value.keyPath)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.AccessControlListConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KendraClientTypes.AccessControlListConfiguration()
-        value.keyPath = try reader["KeyPath"].readIfPresent()
-        return value
-    }
-}
-
-extension KendraClientTypes.DocumentsMetadataConfiguration {
-
-    static func write(value: KendraClientTypes.DocumentsMetadataConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["S3Prefix"].write(value.s3Prefix)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.DocumentsMetadataConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KendraClientTypes.DocumentsMetadataConfiguration()
-        value.s3Prefix = try reader["S3Prefix"].readIfPresent()
-        return value
-    }
-}
-
-extension KendraClientTypes.CustomDocumentEnrichmentConfiguration {
-
-    static func write(value: KendraClientTypes.CustomDocumentEnrichmentConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["InlineConfigurations"].writeList(value.inlineConfigurations, memberWritingClosure: KendraClientTypes.InlineCustomDocumentEnrichmentConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["PostExtractionHookConfiguration"].write(value.postExtractionHookConfiguration, with: KendraClientTypes.HookConfiguration.write(value:to:))
-        try writer["PreExtractionHookConfiguration"].write(value.preExtractionHookConfiguration, with: KendraClientTypes.HookConfiguration.write(value:to:))
-        try writer["RoleArn"].write(value.roleArn)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.CustomDocumentEnrichmentConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KendraClientTypes.CustomDocumentEnrichmentConfiguration()
-        value.inlineConfigurations = try reader["InlineConfigurations"].readListIfPresent(memberReadingClosure: KendraClientTypes.InlineCustomDocumentEnrichmentConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.preExtractionHookConfiguration = try reader["PreExtractionHookConfiguration"].readIfPresent(with: KendraClientTypes.HookConfiguration.read(from:))
-        value.postExtractionHookConfiguration = try reader["PostExtractionHookConfiguration"].readIfPresent(with: KendraClientTypes.HookConfiguration.read(from:))
-        value.roleArn = try reader["RoleArn"].readIfPresent()
-        return value
-    }
-}
-
-extension KendraClientTypes.HookConfiguration {
-
-    static func write(value: KendraClientTypes.HookConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["InvocationCondition"].write(value.invocationCondition, with: KendraClientTypes.DocumentAttributeCondition.write(value:to:))
-        try writer["LambdaArn"].write(value.lambdaArn)
-        try writer["S3Bucket"].write(value.s3Bucket)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.HookConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KendraClientTypes.HookConfiguration()
-        value.invocationCondition = try reader["InvocationCondition"].readIfPresent(with: KendraClientTypes.DocumentAttributeCondition.read(from:))
-        value.lambdaArn = try reader["LambdaArn"].readIfPresent() ?? ""
-        value.s3Bucket = try reader["S3Bucket"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension KendraClientTypes.DocumentAttributeCondition {
-
-    static func write(value: KendraClientTypes.DocumentAttributeCondition?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ConditionDocumentAttributeKey"].write(value.conditionDocumentAttributeKey)
-        try writer["ConditionOnValue"].write(value.conditionOnValue, with: KendraClientTypes.DocumentAttributeValue.write(value:to:))
-        try writer["Operator"].write(value.`operator`)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.DocumentAttributeCondition {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KendraClientTypes.DocumentAttributeCondition()
-        value.conditionDocumentAttributeKey = try reader["ConditionDocumentAttributeKey"].readIfPresent() ?? ""
-        value.`operator` = try reader["Operator"].readIfPresent() ?? .sdkUnknown("")
-        value.conditionOnValue = try reader["ConditionOnValue"].readIfPresent(with: KendraClientTypes.DocumentAttributeValue.read(from:))
-        return value
-    }
-}
-
-extension KendraClientTypes.DocumentAttributeValue {
-
-    static func write(value: KendraClientTypes.DocumentAttributeValue?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DateValue"].writeTimestamp(value.dateValue, format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        try writer["LongValue"].write(value.longValue)
-        try writer["StringListValue"].writeList(value.stringListValue, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["StringValue"].write(value.stringValue)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.DocumentAttributeValue {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KendraClientTypes.DocumentAttributeValue()
-        value.stringValue = try reader["StringValue"].readIfPresent()
-        value.stringListValue = try reader["StringListValue"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.longValue = try reader["LongValue"].readIfPresent()
-        value.dateValue = try reader["DateValue"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension KendraClientTypes.InlineCustomDocumentEnrichmentConfiguration {
-
-    static func write(value: KendraClientTypes.InlineCustomDocumentEnrichmentConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Condition"].write(value.condition, with: KendraClientTypes.DocumentAttributeCondition.write(value:to:))
-        try writer["DocumentContentDeletion"].write(value.documentContentDeletion)
-        try writer["Target"].write(value.target, with: KendraClientTypes.DocumentAttributeTarget.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.InlineCustomDocumentEnrichmentConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KendraClientTypes.InlineCustomDocumentEnrichmentConfiguration()
-        value.condition = try reader["Condition"].readIfPresent(with: KendraClientTypes.DocumentAttributeCondition.read(from:))
-        value.target = try reader["Target"].readIfPresent(with: KendraClientTypes.DocumentAttributeTarget.read(from:))
-        value.documentContentDeletion = try reader["DocumentContentDeletion"].readIfPresent() ?? false
-        return value
-    }
-}
-
-extension KendraClientTypes.DocumentAttributeTarget {
-
-    static func write(value: KendraClientTypes.DocumentAttributeTarget?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["TargetDocumentAttributeKey"].write(value.targetDocumentAttributeKey)
-        try writer["TargetDocumentAttributeValue"].write(value.targetDocumentAttributeValue, with: KendraClientTypes.DocumentAttributeValue.write(value:to:))
-        try writer["TargetDocumentAttributeValueDeletion"].write(value.targetDocumentAttributeValueDeletion)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.DocumentAttributeTarget {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KendraClientTypes.DocumentAttributeTarget()
-        value.targetDocumentAttributeKey = try reader["TargetDocumentAttributeKey"].readIfPresent()
-        value.targetDocumentAttributeValueDeletion = try reader["TargetDocumentAttributeValueDeletion"].readIfPresent() ?? false
-        value.targetDocumentAttributeValue = try reader["TargetDocumentAttributeValue"].readIfPresent(with: KendraClientTypes.DocumentAttributeValue.read(from:))
-        return value
-    }
-}
-
-extension KendraClientTypes.ExperienceEndpoint {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.ExperienceEndpoint {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KendraClientTypes.ExperienceEndpoint()
-        value.endpointType = try reader["EndpointType"].readIfPresent()
-        value.endpoint = try reader["Endpoint"].readIfPresent()
-        return value
-    }
-}
-
-extension KendraClientTypes.ExperienceConfiguration {
-
-    static func write(value: KendraClientTypes.ExperienceConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ContentSourceConfiguration"].write(value.contentSourceConfiguration, with: KendraClientTypes.ContentSourceConfiguration.write(value:to:))
-        try writer["UserIdentityConfiguration"].write(value.userIdentityConfiguration, with: KendraClientTypes.UserIdentityConfiguration.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.ExperienceConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KendraClientTypes.ExperienceConfiguration()
-        value.contentSourceConfiguration = try reader["ContentSourceConfiguration"].readIfPresent(with: KendraClientTypes.ContentSourceConfiguration.read(from:))
-        value.userIdentityConfiguration = try reader["UserIdentityConfiguration"].readIfPresent(with: KendraClientTypes.UserIdentityConfiguration.read(from:))
-        return value
-    }
-}
-
-extension KendraClientTypes.UserIdentityConfiguration {
-
-    static func write(value: KendraClientTypes.UserIdentityConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["IdentityAttributeName"].write(value.identityAttributeName)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.UserIdentityConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KendraClientTypes.UserIdentityConfiguration()
-        value.identityAttributeName = try reader["IdentityAttributeName"].readIfPresent()
-        return value
-    }
-}
-
-extension KendraClientTypes.ContentSourceConfiguration {
-
-    static func write(value: KendraClientTypes.ContentSourceConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DataSourceIds"].writeList(value.dataSourceIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["DirectPutContent"].write(value.directPutContent)
-        try writer["FaqIds"].writeList(value.faqIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.ContentSourceConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KendraClientTypes.ContentSourceConfiguration()
-        value.dataSourceIds = try reader["DataSourceIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.faqIds = try reader["FaqIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.directPutContent = try reader["DirectPutContent"].readIfPresent() ?? false
-        return value
-    }
-}
-
-extension KendraClientTypes.FeaturedDocumentWithMetadata {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.FeaturedDocumentWithMetadata {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KendraClientTypes.FeaturedDocumentWithMetadata()
-        value.id = try reader["Id"].readIfPresent()
-        value.title = try reader["Title"].readIfPresent()
-        value.uri = try reader["URI"].readIfPresent()
-        return value
-    }
-}
-
-extension KendraClientTypes.FeaturedDocumentMissing {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.FeaturedDocumentMissing {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KendraClientTypes.FeaturedDocumentMissing()
-        value.id = try reader["Id"].readIfPresent()
-        return value
-    }
-}
-
-extension KendraClientTypes.ServerSideEncryptionConfiguration {
-
-    static func write(value: KendraClientTypes.ServerSideEncryptionConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["KmsKeyId"].write(value.kmsKeyId)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.ServerSideEncryptionConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KendraClientTypes.ServerSideEncryptionConfiguration()
-        value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
-        return value
-    }
-}
-
-extension KendraClientTypes.DocumentMetadataConfiguration {
-
-    static func write(value: KendraClientTypes.DocumentMetadataConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-        try writer["Relevance"].write(value.relevance, with: KendraClientTypes.Relevance.write(value:to:))
-        try writer["Search"].write(value.search, with: KendraClientTypes.Search.write(value:to:))
-        try writer["Type"].write(value.type)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.DocumentMetadataConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KendraClientTypes.DocumentMetadataConfiguration()
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
-        value.relevance = try reader["Relevance"].readIfPresent(with: KendraClientTypes.Relevance.read(from:))
-        value.search = try reader["Search"].readIfPresent(with: KendraClientTypes.Search.read(from:))
-        return value
-    }
-}
-
-extension KendraClientTypes.Search {
-
-    static func write(value: KendraClientTypes.Search?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Displayable"].write(value.displayable)
-        try writer["Facetable"].write(value.facetable)
-        try writer["Searchable"].write(value.searchable)
-        try writer["Sortable"].write(value.sortable)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.Search {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KendraClientTypes.Search()
-        value.facetable = try reader["Facetable"].readIfPresent() ?? false
-        value.searchable = try reader["Searchable"].readIfPresent() ?? false
-        value.displayable = try reader["Displayable"].readIfPresent() ?? false
-        value.sortable = try reader["Sortable"].readIfPresent() ?? false
-        return value
-    }
-}
-
-extension KendraClientTypes.Relevance {
-
-    static func write(value: KendraClientTypes.Relevance?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Duration"].write(value.duration)
-        try writer["Freshness"].write(value.freshness)
-        try writer["Importance"].write(value.importance)
-        try writer["RankOrder"].write(value.rankOrder)
-        try writer["ValueImportanceMap"].writeMap(value.valueImportanceMap, valueWritingClosure: SmithyReadWrite.WritingClosures.writeInt(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.Relevance {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KendraClientTypes.Relevance()
-        value.freshness = try reader["Freshness"].readIfPresent()
-        value.importance = try reader["Importance"].readIfPresent()
-        value.duration = try reader["Duration"].readIfPresent()
-        value.rankOrder = try reader["RankOrder"].readIfPresent()
-        value.valueImportanceMap = try reader["ValueImportanceMap"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
-}
-
-extension KendraClientTypes.IndexStatistics {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.IndexStatistics {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KendraClientTypes.IndexStatistics()
-        value.faqStatistics = try reader["FaqStatistics"].readIfPresent(with: KendraClientTypes.FaqStatistics.read(from:))
-        value.textDocumentStatistics = try reader["TextDocumentStatistics"].readIfPresent(with: KendraClientTypes.TextDocumentStatistics.read(from:))
-        return value
-    }
-}
-
-extension KendraClientTypes.TextDocumentStatistics {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.TextDocumentStatistics {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KendraClientTypes.TextDocumentStatistics()
-        value.indexedTextDocumentsCount = try reader["IndexedTextDocumentsCount"].readIfPresent() ?? 0
-        value.indexedTextBytes = try reader["IndexedTextBytes"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension KendraClientTypes.FaqStatistics {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.FaqStatistics {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KendraClientTypes.FaqStatistics()
-        value.indexedQuestionAnswersCount = try reader["IndexedQuestionAnswersCount"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension KendraClientTypes.CapacityUnitsConfiguration {
-
-    static func write(value: KendraClientTypes.CapacityUnitsConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["QueryCapacityUnits"].write(value.queryCapacityUnits)
-        try writer["StorageCapacityUnits"].write(value.storageCapacityUnits)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.CapacityUnitsConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KendraClientTypes.CapacityUnitsConfiguration()
-        value.storageCapacityUnits = try reader["StorageCapacityUnits"].readIfPresent() ?? 0
-        value.queryCapacityUnits = try reader["QueryCapacityUnits"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension KendraClientTypes.UserTokenConfiguration {
-
-    static func write(value: KendraClientTypes.UserTokenConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["JsonTokenTypeConfiguration"].write(value.jsonTokenTypeConfiguration, with: KendraClientTypes.JsonTokenTypeConfiguration.write(value:to:))
-        try writer["JwtTokenTypeConfiguration"].write(value.jwtTokenTypeConfiguration, with: KendraClientTypes.JwtTokenTypeConfiguration.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.UserTokenConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KendraClientTypes.UserTokenConfiguration()
-        value.jwtTokenTypeConfiguration = try reader["JwtTokenTypeConfiguration"].readIfPresent(with: KendraClientTypes.JwtTokenTypeConfiguration.read(from:))
-        value.jsonTokenTypeConfiguration = try reader["JsonTokenTypeConfiguration"].readIfPresent(with: KendraClientTypes.JsonTokenTypeConfiguration.read(from:))
         return value
     }
 }
@@ -15056,42 +14779,770 @@ extension KendraClientTypes.JwtTokenTypeConfiguration {
     }
 }
 
-extension KendraClientTypes.UserGroupResolutionConfiguration {
+extension KendraClientTypes.MemberGroup {
 
-    static func write(value: KendraClientTypes.UserGroupResolutionConfiguration?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: KendraClientTypes.MemberGroup?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["UserGroupResolutionMode"].write(value.userGroupResolutionMode)
+        try writer["DataSourceId"].write(value.dataSourceId)
+        try writer["GroupId"].write(value.groupId)
+    }
+}
+
+extension KendraClientTypes.MemberUser {
+
+    static func write(value: KendraClientTypes.MemberUser?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["UserId"].write(value.userId)
+    }
+}
+
+extension KendraClientTypes.OneDriveConfiguration {
+
+    static func write(value: KendraClientTypes.OneDriveConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DisableLocalGroups"].write(value.disableLocalGroups)
+        try writer["ExclusionPatterns"].writeList(value.exclusionPatterns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["FieldMappings"].writeList(value.fieldMappings, memberWritingClosure: KendraClientTypes.DataSourceToIndexFieldMapping.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["InclusionPatterns"].writeList(value.inclusionPatterns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["OneDriveUsers"].write(value.oneDriveUsers, with: KendraClientTypes.OneDriveUsers.write(value:to:))
+        try writer["SecretArn"].write(value.secretArn)
+        try writer["TenantDomain"].write(value.tenantDomain)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.UserGroupResolutionConfiguration {
+    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.OneDriveConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KendraClientTypes.UserGroupResolutionConfiguration()
-        value.userGroupResolutionMode = try reader["UserGroupResolutionMode"].readIfPresent() ?? .sdkUnknown("")
+        var value = KendraClientTypes.OneDriveConfiguration()
+        value.tenantDomain = try reader["TenantDomain"].readIfPresent() ?? ""
+        value.secretArn = try reader["SecretArn"].readIfPresent() ?? ""
+        value.oneDriveUsers = try reader["OneDriveUsers"].readIfPresent(with: KendraClientTypes.OneDriveUsers.read(from:))
+        value.inclusionPatterns = try reader["InclusionPatterns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.exclusionPatterns = try reader["ExclusionPatterns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.fieldMappings = try reader["FieldMappings"].readListIfPresent(memberReadingClosure: KendraClientTypes.DataSourceToIndexFieldMapping.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.disableLocalGroups = try reader["DisableLocalGroups"].readIfPresent() ?? false
         return value
     }
 }
 
-extension KendraClientTypes.GroupOrderingIdSummary {
+extension KendraClientTypes.OneDriveUsers {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.GroupOrderingIdSummary {
+    static func write(value: KendraClientTypes.OneDriveUsers?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["OneDriveUserList"].writeList(value.oneDriveUserList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["OneDriveUserS3Path"].write(value.oneDriveUserS3Path, with: KendraClientTypes.S3Path.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.OneDriveUsers {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KendraClientTypes.GroupOrderingIdSummary()
+        var value = KendraClientTypes.OneDriveUsers()
+        value.oneDriveUserList = try reader["OneDriveUserList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.oneDriveUserS3Path = try reader["OneDriveUserS3Path"].readIfPresent(with: KendraClientTypes.S3Path.read(from:))
+        return value
+    }
+}
+
+extension KendraClientTypes.OnPremiseConfiguration {
+
+    static func write(value: KendraClientTypes.OnPremiseConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["HostUrl"].write(value.hostUrl)
+        try writer["OrganizationName"].write(value.organizationName)
+        try writer["SslCertificateS3Path"].write(value.sslCertificateS3Path, with: KendraClientTypes.S3Path.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.OnPremiseConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KendraClientTypes.OnPremiseConfiguration()
+        value.hostUrl = try reader["HostUrl"].readIfPresent() ?? ""
+        value.organizationName = try reader["OrganizationName"].readIfPresent() ?? ""
+        value.sslCertificateS3Path = try reader["SslCertificateS3Path"].readIfPresent(with: KendraClientTypes.S3Path.read(from:))
+        return value
+    }
+}
+
+extension KendraClientTypes.PersonasSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.PersonasSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KendraClientTypes.PersonasSummary()
+        value.entityId = try reader["EntityId"].readIfPresent()
+        value.persona = try reader["Persona"].readIfPresent()
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension KendraClientTypes.Principal {
+
+    static func write(value: KendraClientTypes.Principal?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Access"].write(value.access)
+        try writer["DataSourceId"].write(value.dataSourceId)
+        try writer["Name"].write(value.name)
+        try writer["Type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.Principal {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KendraClientTypes.Principal()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
+        value.access = try reader["Access"].readIfPresent() ?? .sdkUnknown("")
+        value.dataSourceId = try reader["DataSourceId"].readIfPresent()
+        return value
+    }
+}
+
+extension KendraClientTypes.ProxyConfiguration {
+
+    static func write(value: KendraClientTypes.ProxyConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Credentials"].write(value.credentials)
+        try writer["Host"].write(value.host)
+        try writer["Port"].write(value.port)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.ProxyConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KendraClientTypes.ProxyConfiguration()
+        value.host = try reader["Host"].readIfPresent() ?? ""
+        value.port = try reader["Port"].readIfPresent() ?? 0
+        value.credentials = try reader["Credentials"].readIfPresent()
+        return value
+    }
+}
+
+extension KendraClientTypes.QueryResultItem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.QueryResultItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KendraClientTypes.QueryResultItem()
+        value.id = try reader["Id"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent()
+        value.format = try reader["Format"].readIfPresent()
+        value.additionalAttributes = try reader["AdditionalAttributes"].readListIfPresent(memberReadingClosure: KendraClientTypes.AdditionalResultAttribute.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.documentId = try reader["DocumentId"].readIfPresent()
+        value.documentTitle = try reader["DocumentTitle"].readIfPresent(with: KendraClientTypes.TextWithHighlights.read(from:))
+        value.documentExcerpt = try reader["DocumentExcerpt"].readIfPresent(with: KendraClientTypes.TextWithHighlights.read(from:))
+        value.documentURI = try reader["DocumentURI"].readIfPresent()
+        value.documentAttributes = try reader["DocumentAttributes"].readListIfPresent(memberReadingClosure: KendraClientTypes.DocumentAttribute.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.scoreAttributes = try reader["ScoreAttributes"].readIfPresent(with: KendraClientTypes.ScoreAttributes.read(from:))
+        value.feedbackToken = try reader["FeedbackToken"].readIfPresent()
+        value.tableExcerpt = try reader["TableExcerpt"].readIfPresent(with: KendraClientTypes.TableExcerpt.read(from:))
+        value.collapsedResultDetail = try reader["CollapsedResultDetail"].readIfPresent(with: KendraClientTypes.CollapsedResultDetail.read(from:))
+        return value
+    }
+}
+
+extension KendraClientTypes.QuerySuggestionsBlockListSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.QuerySuggestionsBlockListSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KendraClientTypes.QuerySuggestionsBlockListSummary()
+        value.id = try reader["Id"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
         value.status = try reader["Status"].readIfPresent()
-        value.lastUpdatedAt = try reader["LastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.receivedAt = try reader["ReceivedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.orderingId = try reader["OrderingId"].readIfPresent()
-        value.failureReason = try reader["FailureReason"].readIfPresent()
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.itemCount = try reader["ItemCount"].readIfPresent()
         return value
     }
 }
 
-extension KendraClientTypes.AttributeSuggestionsDescribeConfig {
+extension KendraClientTypes.QuipConfiguration {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.AttributeSuggestionsDescribeConfig {
+    static func write(value: KendraClientTypes.QuipConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AttachmentFieldMappings"].writeList(value.attachmentFieldMappings, memberWritingClosure: KendraClientTypes.DataSourceToIndexFieldMapping.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["CrawlAttachments"].write(value.crawlAttachments)
+        try writer["CrawlChatRooms"].write(value.crawlChatRooms)
+        try writer["CrawlFileComments"].write(value.crawlFileComments)
+        try writer["Domain"].write(value.domain)
+        try writer["ExclusionPatterns"].writeList(value.exclusionPatterns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["FolderIds"].writeList(value.folderIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["InclusionPatterns"].writeList(value.inclusionPatterns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["MessageFieldMappings"].writeList(value.messageFieldMappings, memberWritingClosure: KendraClientTypes.DataSourceToIndexFieldMapping.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["SecretArn"].write(value.secretArn)
+        try writer["ThreadFieldMappings"].writeList(value.threadFieldMappings, memberWritingClosure: KendraClientTypes.DataSourceToIndexFieldMapping.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["VpcConfiguration"].write(value.vpcConfiguration, with: KendraClientTypes.DataSourceVpcConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.QuipConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KendraClientTypes.AttributeSuggestionsDescribeConfig()
-        value.suggestableConfigList = try reader["SuggestableConfigList"].readListIfPresent(memberReadingClosure: KendraClientTypes.SuggestableConfig.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.attributeSuggestionsMode = try reader["AttributeSuggestionsMode"].readIfPresent()
+        var value = KendraClientTypes.QuipConfiguration()
+        value.domain = try reader["Domain"].readIfPresent() ?? ""
+        value.secretArn = try reader["SecretArn"].readIfPresent() ?? ""
+        value.crawlFileComments = try reader["CrawlFileComments"].readIfPresent() ?? false
+        value.crawlChatRooms = try reader["CrawlChatRooms"].readIfPresent() ?? false
+        value.crawlAttachments = try reader["CrawlAttachments"].readIfPresent() ?? false
+        value.folderIds = try reader["FolderIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.threadFieldMappings = try reader["ThreadFieldMappings"].readListIfPresent(memberReadingClosure: KendraClientTypes.DataSourceToIndexFieldMapping.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.messageFieldMappings = try reader["MessageFieldMappings"].readListIfPresent(memberReadingClosure: KendraClientTypes.DataSourceToIndexFieldMapping.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.attachmentFieldMappings = try reader["AttachmentFieldMappings"].readListIfPresent(memberReadingClosure: KendraClientTypes.DataSourceToIndexFieldMapping.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.inclusionPatterns = try reader["InclusionPatterns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.exclusionPatterns = try reader["ExclusionPatterns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.vpcConfiguration = try reader["VpcConfiguration"].readIfPresent(with: KendraClientTypes.DataSourceVpcConfiguration.read(from:))
+        return value
+    }
+}
+
+extension KendraClientTypes.Relevance {
+
+    static func write(value: KendraClientTypes.Relevance?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Duration"].write(value.duration)
+        try writer["Freshness"].write(value.freshness)
+        try writer["Importance"].write(value.importance)
+        try writer["RankOrder"].write(value.rankOrder)
+        try writer["ValueImportanceMap"].writeMap(value.valueImportanceMap, valueWritingClosure: SmithyReadWrite.WritingClosures.writeInt(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.Relevance {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KendraClientTypes.Relevance()
+        value.freshness = try reader["Freshness"].readIfPresent()
+        value.importance = try reader["Importance"].readIfPresent()
+        value.duration = try reader["Duration"].readIfPresent()
+        value.rankOrder = try reader["RankOrder"].readIfPresent()
+        value.valueImportanceMap = try reader["ValueImportanceMap"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension KendraClientTypes.RelevanceFeedback {
+
+    static func write(value: KendraClientTypes.RelevanceFeedback?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["RelevanceValue"].write(value.relevanceValue)
+        try writer["ResultId"].write(value.resultId)
+    }
+}
+
+extension KendraClientTypes.RetrieveResultItem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.RetrieveResultItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KendraClientTypes.RetrieveResultItem()
+        value.id = try reader["Id"].readIfPresent()
+        value.documentId = try reader["DocumentId"].readIfPresent()
+        value.documentTitle = try reader["DocumentTitle"].readIfPresent()
+        value.content = try reader["Content"].readIfPresent()
+        value.documentURI = try reader["DocumentURI"].readIfPresent()
+        value.documentAttributes = try reader["DocumentAttributes"].readListIfPresent(memberReadingClosure: KendraClientTypes.DocumentAttribute.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.scoreAttributes = try reader["ScoreAttributes"].readIfPresent(with: KendraClientTypes.ScoreAttributes.read(from:))
+        return value
+    }
+}
+
+extension KendraClientTypes.S3DataSourceConfiguration {
+
+    static func write(value: KendraClientTypes.S3DataSourceConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AccessControlListConfiguration"].write(value.accessControlListConfiguration, with: KendraClientTypes.AccessControlListConfiguration.write(value:to:))
+        try writer["BucketName"].write(value.bucketName)
+        try writer["DocumentsMetadataConfiguration"].write(value.documentsMetadataConfiguration, with: KendraClientTypes.DocumentsMetadataConfiguration.write(value:to:))
+        try writer["ExclusionPatterns"].writeList(value.exclusionPatterns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["InclusionPatterns"].writeList(value.inclusionPatterns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["InclusionPrefixes"].writeList(value.inclusionPrefixes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.S3DataSourceConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KendraClientTypes.S3DataSourceConfiguration()
+        value.bucketName = try reader["BucketName"].readIfPresent() ?? ""
+        value.inclusionPrefixes = try reader["InclusionPrefixes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.inclusionPatterns = try reader["InclusionPatterns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.exclusionPatterns = try reader["ExclusionPatterns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.documentsMetadataConfiguration = try reader["DocumentsMetadataConfiguration"].readIfPresent(with: KendraClientTypes.DocumentsMetadataConfiguration.read(from:))
+        value.accessControlListConfiguration = try reader["AccessControlListConfiguration"].readIfPresent(with: KendraClientTypes.AccessControlListConfiguration.read(from:))
+        return value
+    }
+}
+
+extension KendraClientTypes.S3Path {
+
+    static func write(value: KendraClientTypes.S3Path?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Bucket"].write(value.bucket)
+        try writer["Key"].write(value.key)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.S3Path {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KendraClientTypes.S3Path()
+        value.bucket = try reader["Bucket"].readIfPresent() ?? ""
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension KendraClientTypes.SaaSConfiguration {
+
+    static func write(value: KendraClientTypes.SaaSConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["HostUrl"].write(value.hostUrl)
+        try writer["OrganizationName"].write(value.organizationName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.SaaSConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KendraClientTypes.SaaSConfiguration()
+        value.organizationName = try reader["OrganizationName"].readIfPresent() ?? ""
+        value.hostUrl = try reader["HostUrl"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension KendraClientTypes.SalesforceChatterFeedConfiguration {
+
+    static func write(value: KendraClientTypes.SalesforceChatterFeedConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DocumentDataFieldName"].write(value.documentDataFieldName)
+        try writer["DocumentTitleFieldName"].write(value.documentTitleFieldName)
+        try writer["FieldMappings"].writeList(value.fieldMappings, memberWritingClosure: KendraClientTypes.DataSourceToIndexFieldMapping.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["IncludeFilterTypes"].writeList(value.includeFilterTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<KendraClientTypes.SalesforceChatterFeedIncludeFilterType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.SalesforceChatterFeedConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KendraClientTypes.SalesforceChatterFeedConfiguration()
+        value.documentDataFieldName = try reader["DocumentDataFieldName"].readIfPresent() ?? ""
+        value.documentTitleFieldName = try reader["DocumentTitleFieldName"].readIfPresent()
+        value.fieldMappings = try reader["FieldMappings"].readListIfPresent(memberReadingClosure: KendraClientTypes.DataSourceToIndexFieldMapping.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.includeFilterTypes = try reader["IncludeFilterTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<KendraClientTypes.SalesforceChatterFeedIncludeFilterType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension KendraClientTypes.SalesforceConfiguration {
+
+    static func write(value: KendraClientTypes.SalesforceConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ChatterFeedConfiguration"].write(value.chatterFeedConfiguration, with: KendraClientTypes.SalesforceChatterFeedConfiguration.write(value:to:))
+        try writer["CrawlAttachments"].write(value.crawlAttachments)
+        try writer["ExcludeAttachmentFilePatterns"].writeList(value.excludeAttachmentFilePatterns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["IncludeAttachmentFilePatterns"].writeList(value.includeAttachmentFilePatterns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["KnowledgeArticleConfiguration"].write(value.knowledgeArticleConfiguration, with: KendraClientTypes.SalesforceKnowledgeArticleConfiguration.write(value:to:))
+        try writer["SecretArn"].write(value.secretArn)
+        try writer["ServerUrl"].write(value.serverUrl)
+        try writer["StandardObjectAttachmentConfiguration"].write(value.standardObjectAttachmentConfiguration, with: KendraClientTypes.SalesforceStandardObjectAttachmentConfiguration.write(value:to:))
+        try writer["StandardObjectConfigurations"].writeList(value.standardObjectConfigurations, memberWritingClosure: KendraClientTypes.SalesforceStandardObjectConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.SalesforceConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KendraClientTypes.SalesforceConfiguration()
+        value.serverUrl = try reader["ServerUrl"].readIfPresent() ?? ""
+        value.secretArn = try reader["SecretArn"].readIfPresent() ?? ""
+        value.standardObjectConfigurations = try reader["StandardObjectConfigurations"].readListIfPresent(memberReadingClosure: KendraClientTypes.SalesforceStandardObjectConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.knowledgeArticleConfiguration = try reader["KnowledgeArticleConfiguration"].readIfPresent(with: KendraClientTypes.SalesforceKnowledgeArticleConfiguration.read(from:))
+        value.chatterFeedConfiguration = try reader["ChatterFeedConfiguration"].readIfPresent(with: KendraClientTypes.SalesforceChatterFeedConfiguration.read(from:))
+        value.crawlAttachments = try reader["CrawlAttachments"].readIfPresent() ?? false
+        value.standardObjectAttachmentConfiguration = try reader["StandardObjectAttachmentConfiguration"].readIfPresent(with: KendraClientTypes.SalesforceStandardObjectAttachmentConfiguration.read(from:))
+        value.includeAttachmentFilePatterns = try reader["IncludeAttachmentFilePatterns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.excludeAttachmentFilePatterns = try reader["ExcludeAttachmentFilePatterns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension KendraClientTypes.SalesforceCustomKnowledgeArticleTypeConfiguration {
+
+    static func write(value: KendraClientTypes.SalesforceCustomKnowledgeArticleTypeConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DocumentDataFieldName"].write(value.documentDataFieldName)
+        try writer["DocumentTitleFieldName"].write(value.documentTitleFieldName)
+        try writer["FieldMappings"].writeList(value.fieldMappings, memberWritingClosure: KendraClientTypes.DataSourceToIndexFieldMapping.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Name"].write(value.name)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.SalesforceCustomKnowledgeArticleTypeConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KendraClientTypes.SalesforceCustomKnowledgeArticleTypeConfiguration()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.documentDataFieldName = try reader["DocumentDataFieldName"].readIfPresent() ?? ""
+        value.documentTitleFieldName = try reader["DocumentTitleFieldName"].readIfPresent()
+        value.fieldMappings = try reader["FieldMappings"].readListIfPresent(memberReadingClosure: KendraClientTypes.DataSourceToIndexFieldMapping.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension KendraClientTypes.SalesforceKnowledgeArticleConfiguration {
+
+    static func write(value: KendraClientTypes.SalesforceKnowledgeArticleConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CustomKnowledgeArticleTypeConfigurations"].writeList(value.customKnowledgeArticleTypeConfigurations, memberWritingClosure: KendraClientTypes.SalesforceCustomKnowledgeArticleTypeConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["IncludedStates"].writeList(value.includedStates, memberWritingClosure: SmithyReadWrite.WritingClosureBox<KendraClientTypes.SalesforceKnowledgeArticleState>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["StandardKnowledgeArticleTypeConfiguration"].write(value.standardKnowledgeArticleTypeConfiguration, with: KendraClientTypes.SalesforceStandardKnowledgeArticleTypeConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.SalesforceKnowledgeArticleConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KendraClientTypes.SalesforceKnowledgeArticleConfiguration()
+        value.includedStates = try reader["IncludedStates"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<KendraClientTypes.SalesforceKnowledgeArticleState>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.standardKnowledgeArticleTypeConfiguration = try reader["StandardKnowledgeArticleTypeConfiguration"].readIfPresent(with: KendraClientTypes.SalesforceStandardKnowledgeArticleTypeConfiguration.read(from:))
+        value.customKnowledgeArticleTypeConfigurations = try reader["CustomKnowledgeArticleTypeConfigurations"].readListIfPresent(memberReadingClosure: KendraClientTypes.SalesforceCustomKnowledgeArticleTypeConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension KendraClientTypes.SalesforceStandardKnowledgeArticleTypeConfiguration {
+
+    static func write(value: KendraClientTypes.SalesforceStandardKnowledgeArticleTypeConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DocumentDataFieldName"].write(value.documentDataFieldName)
+        try writer["DocumentTitleFieldName"].write(value.documentTitleFieldName)
+        try writer["FieldMappings"].writeList(value.fieldMappings, memberWritingClosure: KendraClientTypes.DataSourceToIndexFieldMapping.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.SalesforceStandardKnowledgeArticleTypeConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KendraClientTypes.SalesforceStandardKnowledgeArticleTypeConfiguration()
+        value.documentDataFieldName = try reader["DocumentDataFieldName"].readIfPresent() ?? ""
+        value.documentTitleFieldName = try reader["DocumentTitleFieldName"].readIfPresent()
+        value.fieldMappings = try reader["FieldMappings"].readListIfPresent(memberReadingClosure: KendraClientTypes.DataSourceToIndexFieldMapping.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension KendraClientTypes.SalesforceStandardObjectAttachmentConfiguration {
+
+    static func write(value: KendraClientTypes.SalesforceStandardObjectAttachmentConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DocumentTitleFieldName"].write(value.documentTitleFieldName)
+        try writer["FieldMappings"].writeList(value.fieldMappings, memberWritingClosure: KendraClientTypes.DataSourceToIndexFieldMapping.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.SalesforceStandardObjectAttachmentConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KendraClientTypes.SalesforceStandardObjectAttachmentConfiguration()
+        value.documentTitleFieldName = try reader["DocumentTitleFieldName"].readIfPresent()
+        value.fieldMappings = try reader["FieldMappings"].readListIfPresent(memberReadingClosure: KendraClientTypes.DataSourceToIndexFieldMapping.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension KendraClientTypes.SalesforceStandardObjectConfiguration {
+
+    static func write(value: KendraClientTypes.SalesforceStandardObjectConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DocumentDataFieldName"].write(value.documentDataFieldName)
+        try writer["DocumentTitleFieldName"].write(value.documentTitleFieldName)
+        try writer["FieldMappings"].writeList(value.fieldMappings, memberWritingClosure: KendraClientTypes.DataSourceToIndexFieldMapping.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Name"].write(value.name)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.SalesforceStandardObjectConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KendraClientTypes.SalesforceStandardObjectConfiguration()
+        value.name = try reader["Name"].readIfPresent() ?? .sdkUnknown("")
+        value.documentDataFieldName = try reader["DocumentDataFieldName"].readIfPresent() ?? ""
+        value.documentTitleFieldName = try reader["DocumentTitleFieldName"].readIfPresent()
+        value.fieldMappings = try reader["FieldMappings"].readListIfPresent(memberReadingClosure: KendraClientTypes.DataSourceToIndexFieldMapping.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension KendraClientTypes.ScoreAttributes {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.ScoreAttributes {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KendraClientTypes.ScoreAttributes()
+        value.scoreConfidence = try reader["ScoreConfidence"].readIfPresent()
+        return value
+    }
+}
+
+extension KendraClientTypes.Search {
+
+    static func write(value: KendraClientTypes.Search?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Displayable"].write(value.displayable)
+        try writer["Facetable"].write(value.facetable)
+        try writer["Searchable"].write(value.searchable)
+        try writer["Sortable"].write(value.sortable)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.Search {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KendraClientTypes.Search()
+        value.facetable = try reader["Facetable"].readIfPresent() ?? false
+        value.searchable = try reader["Searchable"].readIfPresent() ?? false
+        value.displayable = try reader["Displayable"].readIfPresent() ?? false
+        value.sortable = try reader["Sortable"].readIfPresent() ?? false
+        return value
+    }
+}
+
+extension KendraClientTypes.SeedUrlConfiguration {
+
+    static func write(value: KendraClientTypes.SeedUrlConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["SeedUrls"].writeList(value.seedUrls, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["WebCrawlerMode"].write(value.webCrawlerMode)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.SeedUrlConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KendraClientTypes.SeedUrlConfiguration()
+        value.seedUrls = try reader["SeedUrls"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.webCrawlerMode = try reader["WebCrawlerMode"].readIfPresent()
+        return value
+    }
+}
+
+extension KendraClientTypes.ServerSideEncryptionConfiguration {
+
+    static func write(value: KendraClientTypes.ServerSideEncryptionConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["KmsKeyId"].write(value.kmsKeyId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.ServerSideEncryptionConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KendraClientTypes.ServerSideEncryptionConfiguration()
+        value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
+        return value
+    }
+}
+
+extension KendraClientTypes.ServiceNowConfiguration {
+
+    static func write(value: KendraClientTypes.ServiceNowConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AuthenticationType"].write(value.authenticationType)
+        try writer["HostUrl"].write(value.hostUrl)
+        try writer["KnowledgeArticleConfiguration"].write(value.knowledgeArticleConfiguration, with: KendraClientTypes.ServiceNowKnowledgeArticleConfiguration.write(value:to:))
+        try writer["SecretArn"].write(value.secretArn)
+        try writer["ServiceCatalogConfiguration"].write(value.serviceCatalogConfiguration, with: KendraClientTypes.ServiceNowServiceCatalogConfiguration.write(value:to:))
+        try writer["ServiceNowBuildVersion"].write(value.serviceNowBuildVersion)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.ServiceNowConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KendraClientTypes.ServiceNowConfiguration()
+        value.hostUrl = try reader["HostUrl"].readIfPresent() ?? ""
+        value.secretArn = try reader["SecretArn"].readIfPresent() ?? ""
+        value.serviceNowBuildVersion = try reader["ServiceNowBuildVersion"].readIfPresent() ?? .sdkUnknown("")
+        value.knowledgeArticleConfiguration = try reader["KnowledgeArticleConfiguration"].readIfPresent(with: KendraClientTypes.ServiceNowKnowledgeArticleConfiguration.read(from:))
+        value.serviceCatalogConfiguration = try reader["ServiceCatalogConfiguration"].readIfPresent(with: KendraClientTypes.ServiceNowServiceCatalogConfiguration.read(from:))
+        value.authenticationType = try reader["AuthenticationType"].readIfPresent()
+        return value
+    }
+}
+
+extension KendraClientTypes.ServiceNowKnowledgeArticleConfiguration {
+
+    static func write(value: KendraClientTypes.ServiceNowKnowledgeArticleConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CrawlAttachments"].write(value.crawlAttachments)
+        try writer["DocumentDataFieldName"].write(value.documentDataFieldName)
+        try writer["DocumentTitleFieldName"].write(value.documentTitleFieldName)
+        try writer["ExcludeAttachmentFilePatterns"].writeList(value.excludeAttachmentFilePatterns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["FieldMappings"].writeList(value.fieldMappings, memberWritingClosure: KendraClientTypes.DataSourceToIndexFieldMapping.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["FilterQuery"].write(value.filterQuery)
+        try writer["IncludeAttachmentFilePatterns"].writeList(value.includeAttachmentFilePatterns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.ServiceNowKnowledgeArticleConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KendraClientTypes.ServiceNowKnowledgeArticleConfiguration()
+        value.crawlAttachments = try reader["CrawlAttachments"].readIfPresent() ?? false
+        value.includeAttachmentFilePatterns = try reader["IncludeAttachmentFilePatterns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.excludeAttachmentFilePatterns = try reader["ExcludeAttachmentFilePatterns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.documentDataFieldName = try reader["DocumentDataFieldName"].readIfPresent() ?? ""
+        value.documentTitleFieldName = try reader["DocumentTitleFieldName"].readIfPresent()
+        value.fieldMappings = try reader["FieldMappings"].readListIfPresent(memberReadingClosure: KendraClientTypes.DataSourceToIndexFieldMapping.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.filterQuery = try reader["FilterQuery"].readIfPresent()
+        return value
+    }
+}
+
+extension KendraClientTypes.ServiceNowServiceCatalogConfiguration {
+
+    static func write(value: KendraClientTypes.ServiceNowServiceCatalogConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CrawlAttachments"].write(value.crawlAttachments)
+        try writer["DocumentDataFieldName"].write(value.documentDataFieldName)
+        try writer["DocumentTitleFieldName"].write(value.documentTitleFieldName)
+        try writer["ExcludeAttachmentFilePatterns"].writeList(value.excludeAttachmentFilePatterns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["FieldMappings"].writeList(value.fieldMappings, memberWritingClosure: KendraClientTypes.DataSourceToIndexFieldMapping.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["IncludeAttachmentFilePatterns"].writeList(value.includeAttachmentFilePatterns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.ServiceNowServiceCatalogConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KendraClientTypes.ServiceNowServiceCatalogConfiguration()
+        value.crawlAttachments = try reader["CrawlAttachments"].readIfPresent() ?? false
+        value.includeAttachmentFilePatterns = try reader["IncludeAttachmentFilePatterns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.excludeAttachmentFilePatterns = try reader["ExcludeAttachmentFilePatterns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.documentDataFieldName = try reader["DocumentDataFieldName"].readIfPresent() ?? ""
+        value.documentTitleFieldName = try reader["DocumentTitleFieldName"].readIfPresent()
+        value.fieldMappings = try reader["FieldMappings"].readListIfPresent(memberReadingClosure: KendraClientTypes.DataSourceToIndexFieldMapping.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension KendraClientTypes.SharePointConfiguration {
+
+    static func write(value: KendraClientTypes.SharePointConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AuthenticationType"].write(value.authenticationType)
+        try writer["CrawlAttachments"].write(value.crawlAttachments)
+        try writer["DisableLocalGroups"].write(value.disableLocalGroups)
+        try writer["DocumentTitleFieldName"].write(value.documentTitleFieldName)
+        try writer["ExclusionPatterns"].writeList(value.exclusionPatterns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["FieldMappings"].writeList(value.fieldMappings, memberWritingClosure: KendraClientTypes.DataSourceToIndexFieldMapping.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["InclusionPatterns"].writeList(value.inclusionPatterns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ProxyConfiguration"].write(value.proxyConfiguration, with: KendraClientTypes.ProxyConfiguration.write(value:to:))
+        try writer["SecretArn"].write(value.secretArn)
+        try writer["SharePointVersion"].write(value.sharePointVersion)
+        try writer["SslCertificateS3Path"].write(value.sslCertificateS3Path, with: KendraClientTypes.S3Path.write(value:to:))
+        try writer["Urls"].writeList(value.urls, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["UseChangeLog"].write(value.useChangeLog)
+        try writer["VpcConfiguration"].write(value.vpcConfiguration, with: KendraClientTypes.DataSourceVpcConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.SharePointConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KendraClientTypes.SharePointConfiguration()
+        value.sharePointVersion = try reader["SharePointVersion"].readIfPresent() ?? .sdkUnknown("")
+        value.urls = try reader["Urls"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.secretArn = try reader["SecretArn"].readIfPresent() ?? ""
+        value.crawlAttachments = try reader["CrawlAttachments"].readIfPresent() ?? false
+        value.useChangeLog = try reader["UseChangeLog"].readIfPresent() ?? false
+        value.inclusionPatterns = try reader["InclusionPatterns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.exclusionPatterns = try reader["ExclusionPatterns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.vpcConfiguration = try reader["VpcConfiguration"].readIfPresent(with: KendraClientTypes.DataSourceVpcConfiguration.read(from:))
+        value.fieldMappings = try reader["FieldMappings"].readListIfPresent(memberReadingClosure: KendraClientTypes.DataSourceToIndexFieldMapping.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.documentTitleFieldName = try reader["DocumentTitleFieldName"].readIfPresent()
+        value.disableLocalGroups = try reader["DisableLocalGroups"].readIfPresent() ?? false
+        value.sslCertificateS3Path = try reader["SslCertificateS3Path"].readIfPresent(with: KendraClientTypes.S3Path.read(from:))
+        value.authenticationType = try reader["AuthenticationType"].readIfPresent()
+        value.proxyConfiguration = try reader["ProxyConfiguration"].readIfPresent(with: KendraClientTypes.ProxyConfiguration.read(from:))
+        return value
+    }
+}
+
+extension KendraClientTypes.SiteMapsConfiguration {
+
+    static func write(value: KendraClientTypes.SiteMapsConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["SiteMaps"].writeList(value.siteMaps, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.SiteMapsConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KendraClientTypes.SiteMapsConfiguration()
+        value.siteMaps = try reader["SiteMaps"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension KendraClientTypes.SlackConfiguration {
+
+    static func write(value: KendraClientTypes.SlackConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CrawlBotMessage"].write(value.crawlBotMessage)
+        try writer["ExcludeArchived"].write(value.excludeArchived)
+        try writer["ExclusionPatterns"].writeList(value.exclusionPatterns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["FieldMappings"].writeList(value.fieldMappings, memberWritingClosure: KendraClientTypes.DataSourceToIndexFieldMapping.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["InclusionPatterns"].writeList(value.inclusionPatterns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["LookBackPeriod"].write(value.lookBackPeriod)
+        try writer["PrivateChannelFilter"].writeList(value.privateChannelFilter, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["PublicChannelFilter"].writeList(value.publicChannelFilter, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["SecretArn"].write(value.secretArn)
+        try writer["SinceCrawlDate"].write(value.sinceCrawlDate)
+        try writer["SlackEntityList"].writeList(value.slackEntityList, memberWritingClosure: SmithyReadWrite.WritingClosureBox<KendraClientTypes.SlackEntity>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["TeamId"].write(value.teamId)
+        try writer["UseChangeLog"].write(value.useChangeLog)
+        try writer["VpcConfiguration"].write(value.vpcConfiguration, with: KendraClientTypes.DataSourceVpcConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.SlackConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KendraClientTypes.SlackConfiguration()
+        value.teamId = try reader["TeamId"].readIfPresent() ?? ""
+        value.secretArn = try reader["SecretArn"].readIfPresent() ?? ""
+        value.vpcConfiguration = try reader["VpcConfiguration"].readIfPresent(with: KendraClientTypes.DataSourceVpcConfiguration.read(from:))
+        value.slackEntityList = try reader["SlackEntityList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<KendraClientTypes.SlackEntity>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.useChangeLog = try reader["UseChangeLog"].readIfPresent() ?? false
+        value.crawlBotMessage = try reader["CrawlBotMessage"].readIfPresent() ?? false
+        value.excludeArchived = try reader["ExcludeArchived"].readIfPresent() ?? false
+        value.sinceCrawlDate = try reader["SinceCrawlDate"].readIfPresent() ?? ""
+        value.lookBackPeriod = try reader["LookBackPeriod"].readIfPresent()
+        value.privateChannelFilter = try reader["PrivateChannelFilter"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.publicChannelFilter = try reader["PublicChannelFilter"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.inclusionPatterns = try reader["InclusionPatterns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.exclusionPatterns = try reader["ExclusionPatterns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.fieldMappings = try reader["FieldMappings"].readListIfPresent(memberReadingClosure: KendraClientTypes.DataSourceToIndexFieldMapping.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension KendraClientTypes.SortingConfiguration {
+
+    static func write(value: KendraClientTypes.SortingConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DocumentAttributeKey"].write(value.documentAttributeKey)
+        try writer["SortOrder"].write(value.sortOrder)
+    }
+}
+
+extension KendraClientTypes.SourceDocument {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.SourceDocument {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KendraClientTypes.SourceDocument()
+        value.documentId = try reader["DocumentId"].readIfPresent()
+        value.suggestionAttributes = try reader["SuggestionAttributes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.additionalAttributes = try reader["AdditionalAttributes"].readListIfPresent(memberReadingClosure: KendraClientTypes.DocumentAttribute.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension KendraClientTypes.SpellCorrectedQuery {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.SpellCorrectedQuery {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KendraClientTypes.SpellCorrectedQuery()
+        value.suggestedQueryText = try reader["SuggestedQueryText"].readIfPresent()
+        value.corrections = try reader["Corrections"].readListIfPresent(memberReadingClosure: KendraClientTypes.Correction.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension KendraClientTypes.SpellCorrectionConfiguration {
+
+    static func write(value: KendraClientTypes.SpellCorrectionConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["IncludeQuerySpellCheckSuggestions"].write(value.includeQuerySpellCheckSuggestions)
+    }
+}
+
+extension KendraClientTypes.SqlConfiguration {
+
+    static func write(value: KendraClientTypes.SqlConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["QueryIdentifiersEnclosingOption"].write(value.queryIdentifiersEnclosingOption)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.SqlConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KendraClientTypes.SqlConfiguration()
+        value.queryIdentifiersEnclosingOption = try reader["QueryIdentifiersEnclosingOption"].readIfPresent()
+        return value
+    }
+}
+
+extension KendraClientTypes.Status {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.Status {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KendraClientTypes.Status()
+        value.documentId = try reader["DocumentId"].readIfPresent()
+        value.documentStatus = try reader["DocumentStatus"].readIfPresent()
+        value.failureCode = try reader["FailureCode"].readIfPresent()
+        value.failureReason = try reader["FailureReason"].readIfPresent()
         return value
     }
 }
@@ -15125,41 +15576,13 @@ extension KendraClientTypes.Suggestion {
     }
 }
 
-extension KendraClientTypes.SourceDocument {
+extension KendraClientTypes.SuggestionHighlight {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.SourceDocument {
+    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.SuggestionHighlight {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KendraClientTypes.SourceDocument()
-        value.documentId = try reader["DocumentId"].readIfPresent()
-        value.suggestionAttributes = try reader["SuggestionAttributes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.additionalAttributes = try reader["AdditionalAttributes"].readListIfPresent(memberReadingClosure: KendraClientTypes.DocumentAttribute.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension KendraClientTypes.DocumentAttribute {
-
-    static func write(value: KendraClientTypes.DocumentAttribute?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Key"].write(value.key)
-        try writer["Value"].write(value.value, with: KendraClientTypes.DocumentAttributeValue.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.DocumentAttribute {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KendraClientTypes.DocumentAttribute()
-        value.key = try reader["Key"].readIfPresent() ?? ""
-        value.value = try reader["Value"].readIfPresent(with: KendraClientTypes.DocumentAttributeValue.read(from:))
-        return value
-    }
-}
-
-extension KendraClientTypes.SuggestionValue {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.SuggestionValue {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KendraClientTypes.SuggestionValue()
-        value.text = try reader["Text"].readIfPresent(with: KendraClientTypes.SuggestionTextWithHighlights.read(from:))
+        var value = KendraClientTypes.SuggestionHighlight()
+        value.beginOffset = try reader["BeginOffset"].readIfPresent()
+        value.endOffset = try reader["EndOffset"].readIfPresent()
         return value
     }
 }
@@ -15175,314 +15598,25 @@ extension KendraClientTypes.SuggestionTextWithHighlights {
     }
 }
 
-extension KendraClientTypes.SuggestionHighlight {
+extension KendraClientTypes.SuggestionValue {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.SuggestionHighlight {
+    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.SuggestionValue {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KendraClientTypes.SuggestionHighlight()
-        value.beginOffset = try reader["BeginOffset"].readIfPresent()
-        value.endOffset = try reader["EndOffset"].readIfPresent()
+        var value = KendraClientTypes.SuggestionValue()
+        value.text = try reader["Text"].readIfPresent(with: KendraClientTypes.SuggestionTextWithHighlights.read(from:))
         return value
     }
 }
 
-extension KendraClientTypes.TimeRange {
+extension KendraClientTypes.TableCell {
 
-    static func write(value: KendraClientTypes.TimeRange?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["EndTime"].writeTimestamp(value.endTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        try writer["StartTime"].writeTimestamp(value.startTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.TimeRange {
+    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.TableCell {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KendraClientTypes.TimeRange()
-        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension KendraClientTypes.AccessControlConfigurationSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.AccessControlConfigurationSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KendraClientTypes.AccessControlConfigurationSummary()
-        value.id = try reader["Id"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension KendraClientTypes.DataSourceSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.DataSourceSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KendraClientTypes.DataSourceSummary()
-        value.name = try reader["Name"].readIfPresent()
-        value.id = try reader["Id"].readIfPresent()
-        value.type = try reader["Type"].readIfPresent()
-        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.status = try reader["Status"].readIfPresent()
-        value.languageCode = try reader["LanguageCode"].readIfPresent()
-        return value
-    }
-}
-
-extension KendraClientTypes.DataSourceSyncJob {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.DataSourceSyncJob {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KendraClientTypes.DataSourceSyncJob()
-        value.executionId = try reader["ExecutionId"].readIfPresent()
-        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.status = try reader["Status"].readIfPresent()
-        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
-        value.errorCode = try reader["ErrorCode"].readIfPresent()
-        value.dataSourceErrorCode = try reader["DataSourceErrorCode"].readIfPresent()
-        value.metrics = try reader["Metrics"].readIfPresent(with: KendraClientTypes.DataSourceSyncJobMetrics.read(from:))
-        return value
-    }
-}
-
-extension KendraClientTypes.DataSourceSyncJobMetrics {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.DataSourceSyncJobMetrics {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KendraClientTypes.DataSourceSyncJobMetrics()
-        value.documentsAdded = try reader["DocumentsAdded"].readIfPresent()
-        value.documentsModified = try reader["DocumentsModified"].readIfPresent()
-        value.documentsDeleted = try reader["DocumentsDeleted"].readIfPresent()
-        value.documentsFailed = try reader["DocumentsFailed"].readIfPresent()
-        value.documentsScanned = try reader["DocumentsScanned"].readIfPresent()
-        return value
-    }
-}
-
-extension KendraClientTypes.PersonasSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.PersonasSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KendraClientTypes.PersonasSummary()
-        value.entityId = try reader["EntityId"].readIfPresent()
-        value.persona = try reader["Persona"].readIfPresent()
-        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension KendraClientTypes.ExperienceEntitiesSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.ExperienceEntitiesSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KendraClientTypes.ExperienceEntitiesSummary()
-        value.entityId = try reader["EntityId"].readIfPresent()
-        value.entityType = try reader["EntityType"].readIfPresent()
-        value.displayData = try reader["DisplayData"].readIfPresent(with: KendraClientTypes.EntityDisplayData.read(from:))
-        return value
-    }
-}
-
-extension KendraClientTypes.EntityDisplayData {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.EntityDisplayData {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KendraClientTypes.EntityDisplayData()
-        value.userName = try reader["UserName"].readIfPresent()
-        value.groupName = try reader["GroupName"].readIfPresent()
-        value.identifiedUserName = try reader["IdentifiedUserName"].readIfPresent()
-        value.firstName = try reader["FirstName"].readIfPresent()
-        value.lastName = try reader["LastName"].readIfPresent()
-        return value
-    }
-}
-
-extension KendraClientTypes.ExperiencesSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.ExperiencesSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KendraClientTypes.ExperiencesSummary()
-        value.name = try reader["Name"].readIfPresent()
-        value.id = try reader["Id"].readIfPresent()
-        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.status = try reader["Status"].readIfPresent()
-        value.endpoints = try reader["Endpoints"].readListIfPresent(memberReadingClosure: KendraClientTypes.ExperienceEndpoint.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension KendraClientTypes.FaqSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.FaqSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KendraClientTypes.FaqSummary()
-        value.id = try reader["Id"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.fileFormat = try reader["FileFormat"].readIfPresent()
-        value.languageCode = try reader["LanguageCode"].readIfPresent()
-        return value
-    }
-}
-
-extension KendraClientTypes.FeaturedResultsSetSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.FeaturedResultsSetSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KendraClientTypes.FeaturedResultsSetSummary()
-        value.featuredResultsSetId = try reader["FeaturedResultsSetId"].readIfPresent()
-        value.featuredResultsSetName = try reader["FeaturedResultsSetName"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.lastUpdatedTimestamp = try reader["LastUpdatedTimestamp"].readIfPresent()
-        value.creationTimestamp = try reader["CreationTimestamp"].readIfPresent()
-        return value
-    }
-}
-
-extension KendraClientTypes.GroupSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.GroupSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KendraClientTypes.GroupSummary()
-        value.groupId = try reader["GroupId"].readIfPresent()
-        value.orderingId = try reader["OrderingId"].readIfPresent()
-        return value
-    }
-}
-
-extension KendraClientTypes.IndexConfigurationSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.IndexConfigurationSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KendraClientTypes.IndexConfigurationSummary()
-        value.name = try reader["Name"].readIfPresent()
-        value.id = try reader["Id"].readIfPresent()
-        value.edition = try reader["Edition"].readIfPresent()
-        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension KendraClientTypes.QuerySuggestionsBlockListSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.QuerySuggestionsBlockListSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KendraClientTypes.QuerySuggestionsBlockListSummary()
-        value.id = try reader["Id"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.itemCount = try reader["ItemCount"].readIfPresent()
-        return value
-    }
-}
-
-extension KendraClientTypes.Tag {
-
-    static func write(value: KendraClientTypes.Tag?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Key"].write(value.key)
-        try writer["Value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.Tag {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KendraClientTypes.Tag()
-        value.key = try reader["Key"].readIfPresent() ?? ""
-        value.value = try reader["Value"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension KendraClientTypes.ThesaurusSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.ThesaurusSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KendraClientTypes.ThesaurusSummary()
-        value.id = try reader["Id"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension KendraClientTypes.QueryResultItem {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.QueryResultItem {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KendraClientTypes.QueryResultItem()
-        value.id = try reader["Id"].readIfPresent()
-        value.type = try reader["Type"].readIfPresent()
-        value.format = try reader["Format"].readIfPresent()
-        value.additionalAttributes = try reader["AdditionalAttributes"].readListIfPresent(memberReadingClosure: KendraClientTypes.AdditionalResultAttribute.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.documentId = try reader["DocumentId"].readIfPresent()
-        value.documentTitle = try reader["DocumentTitle"].readIfPresent(with: KendraClientTypes.TextWithHighlights.read(from:))
-        value.documentExcerpt = try reader["DocumentExcerpt"].readIfPresent(with: KendraClientTypes.TextWithHighlights.read(from:))
-        value.documentURI = try reader["DocumentURI"].readIfPresent()
-        value.documentAttributes = try reader["DocumentAttributes"].readListIfPresent(memberReadingClosure: KendraClientTypes.DocumentAttribute.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.scoreAttributes = try reader["ScoreAttributes"].readIfPresent(with: KendraClientTypes.ScoreAttributes.read(from:))
-        value.feedbackToken = try reader["FeedbackToken"].readIfPresent()
-        value.tableExcerpt = try reader["TableExcerpt"].readIfPresent(with: KendraClientTypes.TableExcerpt.read(from:))
-        value.collapsedResultDetail = try reader["CollapsedResultDetail"].readIfPresent(with: KendraClientTypes.CollapsedResultDetail.read(from:))
-        return value
-    }
-}
-
-extension KendraClientTypes.CollapsedResultDetail {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.CollapsedResultDetail {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KendraClientTypes.CollapsedResultDetail()
-        value.documentAttribute = try reader["DocumentAttribute"].readIfPresent(with: KendraClientTypes.DocumentAttribute.read(from:))
-        value.expandedResults = try reader["ExpandedResults"].readListIfPresent(memberReadingClosure: KendraClientTypes.ExpandedResultItem.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension KendraClientTypes.ExpandedResultItem {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.ExpandedResultItem {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KendraClientTypes.ExpandedResultItem()
-        value.id = try reader["Id"].readIfPresent()
-        value.documentId = try reader["DocumentId"].readIfPresent()
-        value.documentTitle = try reader["DocumentTitle"].readIfPresent(with: KendraClientTypes.TextWithHighlights.read(from:))
-        value.documentExcerpt = try reader["DocumentExcerpt"].readIfPresent(with: KendraClientTypes.TextWithHighlights.read(from:))
-        value.documentURI = try reader["DocumentURI"].readIfPresent()
-        value.documentAttributes = try reader["DocumentAttributes"].readListIfPresent(memberReadingClosure: KendraClientTypes.DocumentAttribute.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension KendraClientTypes.TextWithHighlights {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.TextWithHighlights {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KendraClientTypes.TextWithHighlights()
-        value.text = try reader["Text"].readIfPresent()
-        value.highlights = try reader["Highlights"].readListIfPresent(memberReadingClosure: KendraClientTypes.Highlight.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension KendraClientTypes.Highlight {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.Highlight {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KendraClientTypes.Highlight()
-        value.beginOffset = try reader["BeginOffset"].readIfPresent() ?? 0
-        value.endOffset = try reader["EndOffset"].readIfPresent() ?? 0
+        var value = KendraClientTypes.TableCell()
+        value.value = try reader["Value"].readIfPresent()
         value.topAnswer = try reader["TopAnswer"].readIfPresent() ?? false
-        value.type = try reader["Type"].readIfPresent()
+        value.highlighted = try reader["Highlighted"].readIfPresent() ?? false
+        value.header = try reader["Header"].readIfPresent() ?? false
         return value
     }
 }
@@ -15508,71 +15642,162 @@ extension KendraClientTypes.TableRow {
     }
 }
 
-extension KendraClientTypes.TableCell {
+extension KendraClientTypes.Tag {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.TableCell {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KendraClientTypes.TableCell()
-        value.value = try reader["Value"].readIfPresent()
-        value.topAnswer = try reader["TopAnswer"].readIfPresent() ?? false
-        value.highlighted = try reader["Highlighted"].readIfPresent() ?? false
-        value.header = try reader["Header"].readIfPresent() ?? false
-        return value
+    static func write(value: KendraClientTypes.Tag?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Key"].write(value.key)
+        try writer["Value"].write(value.value)
     }
-}
 
-extension KendraClientTypes.ScoreAttributes {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.ScoreAttributes {
+    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.Tag {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KendraClientTypes.ScoreAttributes()
-        value.scoreConfidence = try reader["ScoreConfidence"].readIfPresent()
-        return value
-    }
-}
-
-extension KendraClientTypes.AdditionalResultAttribute {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.AdditionalResultAttribute {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KendraClientTypes.AdditionalResultAttribute()
+        var value = KendraClientTypes.Tag()
         value.key = try reader["Key"].readIfPresent() ?? ""
-        value.valueType = try reader["ValueType"].readIfPresent() ?? .sdkUnknown("")
-        value.value = try reader["Value"].readIfPresent(with: KendraClientTypes.AdditionalResultAttributeValue.read(from:))
+        value.value = try reader["Value"].readIfPresent() ?? ""
         return value
     }
 }
 
-extension KendraClientTypes.AdditionalResultAttributeValue {
+extension KendraClientTypes.TemplateConfiguration {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.AdditionalResultAttributeValue {
+    static func write(value: KendraClientTypes.TemplateConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Template"].write(value.template)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.TemplateConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KendraClientTypes.AdditionalResultAttributeValue()
-        value.textWithHighlightsValue = try reader["TextWithHighlightsValue"].readIfPresent(with: KendraClientTypes.TextWithHighlights.read(from:))
+        var value = KendraClientTypes.TemplateConfiguration()
+        value.template = try reader["Template"].readIfPresent()
         return value
     }
 }
 
-extension KendraClientTypes.FacetResult {
+extension KendraClientTypes.TextDocumentStatistics {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.FacetResult {
+    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.TextDocumentStatistics {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KendraClientTypes.FacetResult()
-        value.documentAttributeKey = try reader["DocumentAttributeKey"].readIfPresent()
-        value.documentAttributeValueType = try reader["DocumentAttributeValueType"].readIfPresent()
-        value.documentAttributeValueCountPairs = try reader["DocumentAttributeValueCountPairs"].readListIfPresent(memberReadingClosure: KendraClientTypes.DocumentAttributeValueCountPair.read(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = KendraClientTypes.TextDocumentStatistics()
+        value.indexedTextDocumentsCount = try reader["IndexedTextDocumentsCount"].readIfPresent() ?? 0
+        value.indexedTextBytes = try reader["IndexedTextBytes"].readIfPresent() ?? 0
         return value
     }
 }
 
-extension KendraClientTypes.DocumentAttributeValueCountPair {
+extension KendraClientTypes.TextWithHighlights {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.DocumentAttributeValueCountPair {
+    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.TextWithHighlights {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KendraClientTypes.DocumentAttributeValueCountPair()
-        value.documentAttributeValue = try reader["DocumentAttributeValue"].readIfPresent(with: KendraClientTypes.DocumentAttributeValue.read(from:))
-        value.count = try reader["Count"].readIfPresent()
-        value.facetResults = try reader["FacetResults"].readListIfPresent(memberReadingClosure: KendraClientTypes.FacetResult.read(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = KendraClientTypes.TextWithHighlights()
+        value.text = try reader["Text"].readIfPresent()
+        value.highlights = try reader["Highlights"].readListIfPresent(memberReadingClosure: KendraClientTypes.Highlight.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension KendraClientTypes.ThesaurusSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.ThesaurusSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KendraClientTypes.ThesaurusSummary()
+        value.id = try reader["Id"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension KendraClientTypes.TimeRange {
+
+    static func write(value: KendraClientTypes.TimeRange?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["EndTime"].writeTimestamp(value.endTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["StartTime"].writeTimestamp(value.startTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.TimeRange {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KendraClientTypes.TimeRange()
+        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension KendraClientTypes.Urls {
+
+    static func write(value: KendraClientTypes.Urls?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["SeedUrlConfiguration"].write(value.seedUrlConfiguration, with: KendraClientTypes.SeedUrlConfiguration.write(value:to:))
+        try writer["SiteMapsConfiguration"].write(value.siteMapsConfiguration, with: KendraClientTypes.SiteMapsConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.Urls {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KendraClientTypes.Urls()
+        value.seedUrlConfiguration = try reader["SeedUrlConfiguration"].readIfPresent(with: KendraClientTypes.SeedUrlConfiguration.read(from:))
+        value.siteMapsConfiguration = try reader["SiteMapsConfiguration"].readIfPresent(with: KendraClientTypes.SiteMapsConfiguration.read(from:))
+        return value
+    }
+}
+
+extension KendraClientTypes.UserContext {
+
+    static func write(value: KendraClientTypes.UserContext?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DataSourceGroups"].writeList(value.dataSourceGroups, memberWritingClosure: KendraClientTypes.DataSourceGroup.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Groups"].writeList(value.groups, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Token"].write(value.token)
+        try writer["UserId"].write(value.userId)
+    }
+}
+
+extension KendraClientTypes.UserGroupResolutionConfiguration {
+
+    static func write(value: KendraClientTypes.UserGroupResolutionConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["UserGroupResolutionMode"].write(value.userGroupResolutionMode)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.UserGroupResolutionConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KendraClientTypes.UserGroupResolutionConfiguration()
+        value.userGroupResolutionMode = try reader["UserGroupResolutionMode"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension KendraClientTypes.UserIdentityConfiguration {
+
+    static func write(value: KendraClientTypes.UserIdentityConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["IdentityAttributeName"].write(value.identityAttributeName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.UserIdentityConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KendraClientTypes.UserIdentityConfiguration()
+        value.identityAttributeName = try reader["IdentityAttributeName"].readIfPresent()
+        return value
+    }
+}
+
+extension KendraClientTypes.UserTokenConfiguration {
+
+    static func write(value: KendraClientTypes.UserTokenConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["JsonTokenTypeConfiguration"].write(value.jsonTokenTypeConfiguration, with: KendraClientTypes.JsonTokenTypeConfiguration.write(value:to:))
+        try writer["JwtTokenTypeConfiguration"].write(value.jwtTokenTypeConfiguration, with: KendraClientTypes.JwtTokenTypeConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.UserTokenConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KendraClientTypes.UserTokenConfiguration()
+        value.jwtTokenTypeConfiguration = try reader["JwtTokenTypeConfiguration"].readIfPresent(with: KendraClientTypes.JwtTokenTypeConfiguration.read(from:))
+        value.jsonTokenTypeConfiguration = try reader["JsonTokenTypeConfiguration"].readIfPresent(with: KendraClientTypes.JsonTokenTypeConfiguration.read(from:))
         return value
     }
 }
@@ -15588,284 +15813,59 @@ extension KendraClientTypes.Warning {
     }
 }
 
-extension KendraClientTypes.SpellCorrectedQuery {
+extension KendraClientTypes.WebCrawlerConfiguration {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.SpellCorrectedQuery {
+    static func write(value: KendraClientTypes.WebCrawlerConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AuthenticationConfiguration"].write(value.authenticationConfiguration, with: KendraClientTypes.AuthenticationConfiguration.write(value:to:))
+        try writer["CrawlDepth"].write(value.crawlDepth)
+        try writer["MaxContentSizePerPageInMegaBytes"].write(value.maxContentSizePerPageInMegaBytes)
+        try writer["MaxLinksPerPage"].write(value.maxLinksPerPage)
+        try writer["MaxUrlsPerMinuteCrawlRate"].write(value.maxUrlsPerMinuteCrawlRate)
+        try writer["ProxyConfiguration"].write(value.proxyConfiguration, with: KendraClientTypes.ProxyConfiguration.write(value:to:))
+        try writer["UrlExclusionPatterns"].writeList(value.urlExclusionPatterns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["UrlInclusionPatterns"].writeList(value.urlInclusionPatterns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Urls"].write(value.urls, with: KendraClientTypes.Urls.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.WebCrawlerConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KendraClientTypes.SpellCorrectedQuery()
-        value.suggestedQueryText = try reader["SuggestedQueryText"].readIfPresent()
-        value.corrections = try reader["Corrections"].readListIfPresent(memberReadingClosure: KendraClientTypes.Correction.read(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = KendraClientTypes.WebCrawlerConfiguration()
+        value.urls = try reader["Urls"].readIfPresent(with: KendraClientTypes.Urls.read(from:))
+        value.crawlDepth = try reader["CrawlDepth"].readIfPresent()
+        value.maxLinksPerPage = try reader["MaxLinksPerPage"].readIfPresent()
+        value.maxContentSizePerPageInMegaBytes = try reader["MaxContentSizePerPageInMegaBytes"].readIfPresent()
+        value.maxUrlsPerMinuteCrawlRate = try reader["MaxUrlsPerMinuteCrawlRate"].readIfPresent()
+        value.urlInclusionPatterns = try reader["UrlInclusionPatterns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.urlExclusionPatterns = try reader["UrlExclusionPatterns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.proxyConfiguration = try reader["ProxyConfiguration"].readIfPresent(with: KendraClientTypes.ProxyConfiguration.read(from:))
+        value.authenticationConfiguration = try reader["AuthenticationConfiguration"].readIfPresent(with: KendraClientTypes.AuthenticationConfiguration.read(from:))
         return value
     }
 }
 
-extension KendraClientTypes.Correction {
+extension KendraClientTypes.WorkDocsConfiguration {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.Correction {
+    static func write(value: KendraClientTypes.WorkDocsConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CrawlComments"].write(value.crawlComments)
+        try writer["ExclusionPatterns"].writeList(value.exclusionPatterns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["FieldMappings"].writeList(value.fieldMappings, memberWritingClosure: KendraClientTypes.DataSourceToIndexFieldMapping.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["InclusionPatterns"].writeList(value.inclusionPatterns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["OrganizationId"].write(value.organizationId)
+        try writer["UseChangeLog"].write(value.useChangeLog)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.WorkDocsConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KendraClientTypes.Correction()
-        value.beginOffset = try reader["BeginOffset"].readIfPresent()
-        value.endOffset = try reader["EndOffset"].readIfPresent()
-        value.term = try reader["Term"].readIfPresent()
-        value.correctedTerm = try reader["CorrectedTerm"].readIfPresent()
+        var value = KendraClientTypes.WorkDocsConfiguration()
+        value.organizationId = try reader["OrganizationId"].readIfPresent() ?? ""
+        value.crawlComments = try reader["CrawlComments"].readIfPresent() ?? false
+        value.useChangeLog = try reader["UseChangeLog"].readIfPresent() ?? false
+        value.inclusionPatterns = try reader["InclusionPatterns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.exclusionPatterns = try reader["ExclusionPatterns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.fieldMappings = try reader["FieldMappings"].readListIfPresent(memberReadingClosure: KendraClientTypes.DataSourceToIndexFieldMapping.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
-    }
-}
-
-extension KendraClientTypes.FeaturedResultsItem {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.FeaturedResultsItem {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KendraClientTypes.FeaturedResultsItem()
-        value.id = try reader["Id"].readIfPresent()
-        value.type = try reader["Type"].readIfPresent()
-        value.additionalAttributes = try reader["AdditionalAttributes"].readListIfPresent(memberReadingClosure: KendraClientTypes.AdditionalResultAttribute.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.documentId = try reader["DocumentId"].readIfPresent()
-        value.documentTitle = try reader["DocumentTitle"].readIfPresent(with: KendraClientTypes.TextWithHighlights.read(from:))
-        value.documentExcerpt = try reader["DocumentExcerpt"].readIfPresent(with: KendraClientTypes.TextWithHighlights.read(from:))
-        value.documentURI = try reader["DocumentURI"].readIfPresent()
-        value.documentAttributes = try reader["DocumentAttributes"].readListIfPresent(memberReadingClosure: KendraClientTypes.DocumentAttribute.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.feedbackToken = try reader["FeedbackToken"].readIfPresent()
-        return value
-    }
-}
-
-extension KendraClientTypes.RetrieveResultItem {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.RetrieveResultItem {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KendraClientTypes.RetrieveResultItem()
-        value.id = try reader["Id"].readIfPresent()
-        value.documentId = try reader["DocumentId"].readIfPresent()
-        value.documentTitle = try reader["DocumentTitle"].readIfPresent()
-        value.content = try reader["Content"].readIfPresent()
-        value.documentURI = try reader["DocumentURI"].readIfPresent()
-        value.documentAttributes = try reader["DocumentAttributes"].readListIfPresent(memberReadingClosure: KendraClientTypes.DocumentAttribute.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.scoreAttributes = try reader["ScoreAttributes"].readIfPresent(with: KendraClientTypes.ScoreAttributes.read(from:))
-        return value
-    }
-}
-
-extension KendraClientTypes.ConflictingItem {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KendraClientTypes.ConflictingItem {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KendraClientTypes.ConflictingItem()
-        value.queryText = try reader["QueryText"].readIfPresent()
-        value.setName = try reader["SetName"].readIfPresent()
-        value.setId = try reader["SetId"].readIfPresent()
-        return value
-    }
-}
-
-extension KendraClientTypes.EntityConfiguration {
-
-    static func write(value: KendraClientTypes.EntityConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["EntityId"].write(value.entityId)
-        try writer["EntityType"].write(value.entityType)
-    }
-}
-
-extension KendraClientTypes.EntityPersonaConfiguration {
-
-    static func write(value: KendraClientTypes.EntityPersonaConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["EntityId"].write(value.entityId)
-        try writer["Persona"].write(value.persona)
-    }
-}
-
-extension KendraClientTypes.DataSourceSyncJobMetricTarget {
-
-    static func write(value: KendraClientTypes.DataSourceSyncJobMetricTarget?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DataSourceId"].write(value.dataSourceId)
-        try writer["DataSourceSyncJobId"].write(value.dataSourceSyncJobId)
-    }
-}
-
-extension KendraClientTypes.DocumentInfo {
-
-    static func write(value: KendraClientTypes.DocumentInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Attributes"].writeList(value.attributes, memberWritingClosure: KendraClientTypes.DocumentAttribute.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["DocumentId"].write(value.documentId)
-    }
-}
-
-extension KendraClientTypes.Document {
-
-    static func write(value: KendraClientTypes.Document?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AccessControlConfigurationId"].write(value.accessControlConfigurationId)
-        try writer["AccessControlList"].writeList(value.accessControlList, memberWritingClosure: KendraClientTypes.Principal.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Attributes"].writeList(value.attributes, memberWritingClosure: KendraClientTypes.DocumentAttribute.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Blob"].write(value.blob)
-        try writer["ContentType"].write(value.contentType)
-        try writer["HierarchicalAccessControlList"].writeList(value.hierarchicalAccessControlList, memberWritingClosure: KendraClientTypes.HierarchicalPrincipal.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Id"].write(value.id)
-        try writer["S3Path"].write(value.s3Path, with: KendraClientTypes.S3Path.write(value:to:))
-        try writer["Title"].write(value.title)
-    }
-}
-
-extension KendraClientTypes.AttributeSuggestionsGetConfig {
-
-    static func write(value: KendraClientTypes.AttributeSuggestionsGetConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AdditionalResponseAttributes"].writeList(value.additionalResponseAttributes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["AttributeFilter"].write(value.attributeFilter, with: KendraClientTypes.AttributeFilter.write(value:to:))
-        try writer["SuggestionAttributes"].writeList(value.suggestionAttributes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["UserContext"].write(value.userContext, with: KendraClientTypes.UserContext.write(value:to:))
-    }
-}
-
-extension KendraClientTypes.UserContext {
-
-    static func write(value: KendraClientTypes.UserContext?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DataSourceGroups"].writeList(value.dataSourceGroups, memberWritingClosure: KendraClientTypes.DataSourceGroup.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Groups"].writeList(value.groups, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Token"].write(value.token)
-        try writer["UserId"].write(value.userId)
-    }
-}
-
-extension KendraClientTypes.DataSourceGroup {
-
-    static func write(value: KendraClientTypes.DataSourceGroup?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DataSourceId"].write(value.dataSourceId)
-        try writer["GroupId"].write(value.groupId)
-    }
-}
-
-extension KendraClientTypes.AttributeFilter {
-
-    static func write(value: KendraClientTypes.AttributeFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AndAllFilters"].writeList(value.andAllFilters, memberWritingClosure: KendraClientTypes.AttributeFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ContainsAll"].write(value.containsAll, with: KendraClientTypes.DocumentAttribute.write(value:to:))
-        try writer["ContainsAny"].write(value.containsAny, with: KendraClientTypes.DocumentAttribute.write(value:to:))
-        try writer["EqualsTo"].write(value.equalsTo, with: KendraClientTypes.DocumentAttribute.write(value:to:))
-        try writer["GreaterThan"].write(value.greaterThan, with: KendraClientTypes.DocumentAttribute.write(value:to:))
-        try writer["GreaterThanOrEquals"].write(value.greaterThanOrEquals, with: KendraClientTypes.DocumentAttribute.write(value:to:))
-        try writer["LessThan"].write(value.lessThan, with: KendraClientTypes.DocumentAttribute.write(value:to:))
-        try writer["LessThanOrEquals"].write(value.lessThanOrEquals, with: KendraClientTypes.DocumentAttribute.write(value:to:))
-        try writer["NotFilter"].write(value.notFilter, with: KendraClientTypes.AttributeFilter.write(value:to:))
-        try writer["OrAllFilters"].writeList(value.orAllFilters, memberWritingClosure: KendraClientTypes.AttributeFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension KendraClientTypes.GroupMembers {
-
-    static func write(value: KendraClientTypes.GroupMembers?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["MemberGroups"].writeList(value.memberGroups, memberWritingClosure: KendraClientTypes.MemberGroup.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["MemberUsers"].writeList(value.memberUsers, memberWritingClosure: KendraClientTypes.MemberUser.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["S3PathforGroupMembers"].write(value.s3PathforGroupMembers, with: KendraClientTypes.S3Path.write(value:to:))
-    }
-}
-
-extension KendraClientTypes.MemberUser {
-
-    static func write(value: KendraClientTypes.MemberUser?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["UserId"].write(value.userId)
-    }
-}
-
-extension KendraClientTypes.MemberGroup {
-
-    static func write(value: KendraClientTypes.MemberGroup?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DataSourceId"].write(value.dataSourceId)
-        try writer["GroupId"].write(value.groupId)
-    }
-}
-
-extension KendraClientTypes.Facet {
-
-    static func write(value: KendraClientTypes.Facet?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DocumentAttributeKey"].write(value.documentAttributeKey)
-        try writer["Facets"].writeList(value.facets, memberWritingClosure: KendraClientTypes.Facet.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["MaxResults"].write(value.maxResults)
-    }
-}
-
-extension KendraClientTypes.DocumentRelevanceConfiguration {
-
-    static func write(value: KendraClientTypes.DocumentRelevanceConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-        try writer["Relevance"].write(value.relevance, with: KendraClientTypes.Relevance.write(value:to:))
-    }
-}
-
-extension KendraClientTypes.SortingConfiguration {
-
-    static func write(value: KendraClientTypes.SortingConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DocumentAttributeKey"].write(value.documentAttributeKey)
-        try writer["SortOrder"].write(value.sortOrder)
-    }
-}
-
-extension KendraClientTypes.SpellCorrectionConfiguration {
-
-    static func write(value: KendraClientTypes.SpellCorrectionConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["IncludeQuerySpellCheckSuggestions"].write(value.includeQuerySpellCheckSuggestions)
-    }
-}
-
-extension KendraClientTypes.CollapseConfiguration {
-
-    static func write(value: KendraClientTypes.CollapseConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DocumentAttributeKey"].write(value.documentAttributeKey)
-        try writer["Expand"].write(value.expand)
-        try writer["ExpandConfiguration"].write(value.expandConfiguration, with: KendraClientTypes.ExpandConfiguration.write(value:to:))
-        try writer["MissingAttributeKeyStrategy"].write(value.missingAttributeKeyStrategy)
-        try writer["SortingConfigurations"].writeList(value.sortingConfigurations, memberWritingClosure: KendraClientTypes.SortingConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension KendraClientTypes.ExpandConfiguration {
-
-    static func write(value: KendraClientTypes.ExpandConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["MaxExpandedResultsPerItem"].write(value.maxExpandedResultsPerItem)
-        try writer["MaxResultItemsToExpand"].write(value.maxResultItemsToExpand)
-    }
-}
-
-extension KendraClientTypes.ClickFeedback {
-
-    static func write(value: KendraClientTypes.ClickFeedback?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ClickTime"].writeTimestamp(value.clickTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        try writer["ResultId"].write(value.resultId)
-    }
-}
-
-extension KendraClientTypes.RelevanceFeedback {
-
-    static func write(value: KendraClientTypes.RelevanceFeedback?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["RelevanceValue"].write(value.relevanceValue)
-        try writer["ResultId"].write(value.resultId)
-    }
-}
-
-extension KendraClientTypes.AttributeSuggestionsUpdateConfig {
-
-    static func write(value: KendraClientTypes.AttributeSuggestionsUpdateConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AttributeSuggestionsMode"].write(value.attributeSuggestionsMode)
-        try writer["SuggestableConfigList"].writeList(value.suggestableConfigList, memberWritingClosure: KendraClientTypes.SuggestableConfig.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 

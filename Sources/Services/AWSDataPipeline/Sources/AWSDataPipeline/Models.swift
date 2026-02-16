@@ -2121,25 +2121,6 @@ extension TaskNotFoundException {
     }
 }
 
-extension DataPipelineClientTypes.PipelineObject {
-
-    static func write(value: DataPipelineClientTypes.PipelineObject?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["fields"].writeList(value.fields, memberWritingClosure: DataPipelineClientTypes.Field.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["id"].write(value.id)
-        try writer["name"].write(value.name)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataPipelineClientTypes.PipelineObject {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataPipelineClientTypes.PipelineObject()
-        value.id = try reader["id"].readIfPresent() ?? ""
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.fields = try reader["fields"].readListIfPresent(memberReadingClosure: DataPipelineClientTypes.Field.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
 extension DataPipelineClientTypes.Field {
 
     static func write(value: DataPipelineClientTypes.Field?, to writer: SmithyJSON.Writer) throws {
@@ -2159,33 +2140,37 @@ extension DataPipelineClientTypes.Field {
     }
 }
 
-extension DataPipelineClientTypes.PipelineDescription {
+extension DataPipelineClientTypes.InstanceIdentity {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> DataPipelineClientTypes.PipelineDescription {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataPipelineClientTypes.PipelineDescription()
-        value.pipelineId = try reader["pipelineId"].readIfPresent() ?? ""
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.fields = try reader["fields"].readListIfPresent(memberReadingClosure: DataPipelineClientTypes.Field.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.description = try reader["description"].readIfPresent()
-        value.tags = try reader["tags"].readListIfPresent(memberReadingClosure: DataPipelineClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
+    static func write(value: DataPipelineClientTypes.InstanceIdentity?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["document"].write(value.document)
+        try writer["signature"].write(value.signature)
     }
 }
 
-extension DataPipelineClientTypes.Tag {
+extension DataPipelineClientTypes.Operator {
 
-    static func write(value: DataPipelineClientTypes.Tag?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: DataPipelineClientTypes.Operator?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["type"].write(value.type)
+        try writer["values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension DataPipelineClientTypes.ParameterAttribute {
+
+    static func write(value: DataPipelineClientTypes.ParameterAttribute?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["key"].write(value.key)
-        try writer["value"].write(value.value)
+        try writer["stringValue"].write(value.stringValue)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> DataPipelineClientTypes.Tag {
+    static func read(from reader: SmithyJSON.Reader) throws -> DataPipelineClientTypes.ParameterAttribute {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataPipelineClientTypes.Tag()
+        var value = DataPipelineClientTypes.ParameterAttribute()
         value.key = try reader["key"].readIfPresent() ?? ""
-        value.value = try reader["value"].readIfPresent() ?? ""
+        value.stringValue = try reader["stringValue"].readIfPresent() ?? ""
         return value
     }
 }
@@ -2207,23 +2192,6 @@ extension DataPipelineClientTypes.ParameterObject {
     }
 }
 
-extension DataPipelineClientTypes.ParameterAttribute {
-
-    static func write(value: DataPipelineClientTypes.ParameterAttribute?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["key"].write(value.key)
-        try writer["stringValue"].write(value.stringValue)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DataPipelineClientTypes.ParameterAttribute {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DataPipelineClientTypes.ParameterAttribute()
-        value.key = try reader["key"].readIfPresent() ?? ""
-        value.stringValue = try reader["stringValue"].readIfPresent() ?? ""
-        return value
-    }
-}
-
 extension DataPipelineClientTypes.ParameterValue {
 
     static func write(value: DataPipelineClientTypes.ParameterValue?, to writer: SmithyJSON.Writer) throws {
@@ -2241,6 +2209,20 @@ extension DataPipelineClientTypes.ParameterValue {
     }
 }
 
+extension DataPipelineClientTypes.PipelineDescription {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataPipelineClientTypes.PipelineDescription {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataPipelineClientTypes.PipelineDescription()
+        value.pipelineId = try reader["pipelineId"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.fields = try reader["fields"].readListIfPresent(memberReadingClosure: DataPipelineClientTypes.Field.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.description = try reader["description"].readIfPresent()
+        value.tags = try reader["tags"].readListIfPresent(memberReadingClosure: DataPipelineClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension DataPipelineClientTypes.PipelineIdName {
 
     static func read(from reader: SmithyJSON.Reader) throws -> DataPipelineClientTypes.PipelineIdName {
@@ -2248,6 +2230,59 @@ extension DataPipelineClientTypes.PipelineIdName {
         var value = DataPipelineClientTypes.PipelineIdName()
         value.id = try reader["id"].readIfPresent()
         value.name = try reader["name"].readIfPresent()
+        return value
+    }
+}
+
+extension DataPipelineClientTypes.PipelineObject {
+
+    static func write(value: DataPipelineClientTypes.PipelineObject?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["fields"].writeList(value.fields, memberWritingClosure: DataPipelineClientTypes.Field.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["id"].write(value.id)
+        try writer["name"].write(value.name)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataPipelineClientTypes.PipelineObject {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataPipelineClientTypes.PipelineObject()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.fields = try reader["fields"].readListIfPresent(memberReadingClosure: DataPipelineClientTypes.Field.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension DataPipelineClientTypes.Query {
+
+    static func write(value: DataPipelineClientTypes.Query?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["selectors"].writeList(value.selectors, memberWritingClosure: DataPipelineClientTypes.Selector.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension DataPipelineClientTypes.Selector {
+
+    static func write(value: DataPipelineClientTypes.Selector?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["fieldName"].write(value.fieldName)
+        try writer["operator"].write(value.`operator`, with: DataPipelineClientTypes.Operator.write(value:to:))
+    }
+}
+
+extension DataPipelineClientTypes.Tag {
+
+    static func write(value: DataPipelineClientTypes.Tag?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["key"].write(value.key)
+        try writer["value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DataPipelineClientTypes.Tag {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DataPipelineClientTypes.Tag()
+        value.key = try reader["key"].readIfPresent() ?? ""
+        value.value = try reader["value"].readIfPresent() ?? ""
         return value
     }
 }
@@ -2284,41 +2319,6 @@ extension DataPipelineClientTypes.ValidationWarning {
         value.id = try reader["id"].readIfPresent()
         value.warnings = try reader["warnings"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
-    }
-}
-
-extension DataPipelineClientTypes.InstanceIdentity {
-
-    static func write(value: DataPipelineClientTypes.InstanceIdentity?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["document"].write(value.document)
-        try writer["signature"].write(value.signature)
-    }
-}
-
-extension DataPipelineClientTypes.Query {
-
-    static func write(value: DataPipelineClientTypes.Query?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["selectors"].writeList(value.selectors, memberWritingClosure: DataPipelineClientTypes.Selector.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension DataPipelineClientTypes.Selector {
-
-    static func write(value: DataPipelineClientTypes.Selector?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["fieldName"].write(value.fieldName)
-        try writer["operator"].write(value.`operator`, with: DataPipelineClientTypes.Operator.write(value:to:))
-    }
-}
-
-extension DataPipelineClientTypes.Operator {
-
-    static func write(value: DataPipelineClientTypes.Operator?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["type"].write(value.type)
-        try writer["values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 

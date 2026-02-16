@@ -2850,43 +2850,43 @@ extension ValidationException {
     }
 }
 
-extension SocialMessagingClientTypes.WhatsAppSignupCallbackResult {
+extension SocialMessagingClientTypes.LibraryTemplateBodyInputs {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SocialMessagingClientTypes.WhatsAppSignupCallbackResult {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SocialMessagingClientTypes.WhatsAppSignupCallbackResult()
-        value.associateInProgressToken = try reader["associateInProgressToken"].readIfPresent()
-        value.linkedAccountsWithIncompleteSetup = try reader["linkedAccountsWithIncompleteSetup"].readMapIfPresent(valueReadingClosure: SocialMessagingClientTypes.LinkedWhatsAppBusinessAccountIdMetaData.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
+    static func write(value: SocialMessagingClientTypes.LibraryTemplateBodyInputs?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["addContactNumber"].write(value.addContactNumber)
+        try writer["addLearnMoreLink"].write(value.addLearnMoreLink)
+        try writer["addSecurityRecommendation"].write(value.addSecurityRecommendation)
+        try writer["addTrackPackageLink"].write(value.addTrackPackageLink)
+        try writer["codeExpirationMinutes"].write(value.codeExpirationMinutes)
     }
 }
 
-extension SocialMessagingClientTypes.LinkedWhatsAppBusinessAccountIdMetaData {
+extension SocialMessagingClientTypes.LibraryTemplateButtonInput {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SocialMessagingClientTypes.LinkedWhatsAppBusinessAccountIdMetaData {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SocialMessagingClientTypes.LinkedWhatsAppBusinessAccountIdMetaData()
-        value.accountName = try reader["accountName"].readIfPresent()
-        value.registrationStatus = try reader["registrationStatus"].readIfPresent()
-        value.unregisteredWhatsAppPhoneNumbers = try reader["unregisteredWhatsAppPhoneNumbers"].readListIfPresent(memberReadingClosure: SocialMessagingClientTypes.WhatsAppPhoneNumberDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.wabaId = try reader["wabaId"].readIfPresent()
-        return value
+    static func write(value: SocialMessagingClientTypes.LibraryTemplateButtonInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["otpType"].write(value.otpType)
+        try writer["phoneNumber"].write(value.phoneNumber)
+        try writer["supportedApps"].writeList(value.supportedApps, memberWritingClosure: SmithyReadWrite.mapWritingClosure(valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
+        try writer["type"].write(value.type)
+        try writer["url"].writeMap(value.url, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["zeroTapTermsAccepted"].write(value.zeroTapTermsAccepted)
     }
 }
 
-extension SocialMessagingClientTypes.WhatsAppPhoneNumberDetail {
+extension SocialMessagingClientTypes.LibraryTemplateButtonList {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SocialMessagingClientTypes.WhatsAppPhoneNumberDetail {
+    static func read(from reader: SmithyJSON.Reader) throws -> SocialMessagingClientTypes.LibraryTemplateButtonList {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SocialMessagingClientTypes.WhatsAppPhoneNumberDetail()
-        value.arn = try reader["arn"].readIfPresent() ?? ""
-        value.phoneNumber = try reader["phoneNumber"].readIfPresent() ?? ""
-        value.phoneNumberId = try reader["phoneNumberId"].readIfPresent() ?? ""
-        value.metaPhoneNumberId = try reader["metaPhoneNumberId"].readIfPresent() ?? ""
-        value.displayPhoneNumberName = try reader["displayPhoneNumberName"].readIfPresent() ?? ""
-        value.displayPhoneNumber = try reader["displayPhoneNumber"].readIfPresent() ?? ""
-        value.qualityRating = try reader["qualityRating"].readIfPresent() ?? ""
-        value.dataLocalizationRegion = try reader["dataLocalizationRegion"].readIfPresent()
+        var value = SocialMessagingClientTypes.LibraryTemplateButtonList()
+        value.type = try reader["type"].readIfPresent()
+        value.text = try reader["text"].readIfPresent()
+        value.phoneNumber = try reader["phoneNumber"].readIfPresent()
+        value.url = try reader["url"].readIfPresent()
+        value.otpType = try reader["otpType"].readIfPresent()
+        value.zeroTapTermsAccepted = try reader["zeroTapTermsAccepted"].readIfPresent()
+        value.supportedApps = try reader["supportedApps"].readListIfPresent(memberReadingClosure: SmithyReadWrite.mapReadingClosure(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -2908,36 +2908,15 @@ extension SocialMessagingClientTypes.LinkedWhatsAppBusinessAccount {
     }
 }
 
-extension SocialMessagingClientTypes.WhatsAppPhoneNumberSummary {
+extension SocialMessagingClientTypes.LinkedWhatsAppBusinessAccountIdMetaData {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SocialMessagingClientTypes.WhatsAppPhoneNumberSummary {
+    static func read(from reader: SmithyJSON.Reader) throws -> SocialMessagingClientTypes.LinkedWhatsAppBusinessAccountIdMetaData {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SocialMessagingClientTypes.WhatsAppPhoneNumberSummary()
-        value.arn = try reader["arn"].readIfPresent() ?? ""
-        value.phoneNumber = try reader["phoneNumber"].readIfPresent() ?? ""
-        value.phoneNumberId = try reader["phoneNumberId"].readIfPresent() ?? ""
-        value.metaPhoneNumberId = try reader["metaPhoneNumberId"].readIfPresent() ?? ""
-        value.displayPhoneNumberName = try reader["displayPhoneNumberName"].readIfPresent() ?? ""
-        value.displayPhoneNumber = try reader["displayPhoneNumber"].readIfPresent() ?? ""
-        value.qualityRating = try reader["qualityRating"].readIfPresent() ?? ""
-        value.dataLocalizationRegion = try reader["dataLocalizationRegion"].readIfPresent()
-        return value
-    }
-}
-
-extension SocialMessagingClientTypes.WhatsAppBusinessAccountEventDestination {
-
-    static func write(value: SocialMessagingClientTypes.WhatsAppBusinessAccountEventDestination?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["eventDestinationArn"].write(value.eventDestinationArn)
-        try writer["roleArn"].write(value.roleArn)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SocialMessagingClientTypes.WhatsAppBusinessAccountEventDestination {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SocialMessagingClientTypes.WhatsAppBusinessAccountEventDestination()
-        value.eventDestinationArn = try reader["eventDestinationArn"].readIfPresent() ?? ""
-        value.roleArn = try reader["roleArn"].readIfPresent()
+        var value = SocialMessagingClientTypes.LinkedWhatsAppBusinessAccountIdMetaData()
+        value.accountName = try reader["accountName"].readIfPresent()
+        value.registrationStatus = try reader["registrationStatus"].readIfPresent()
+        value.unregisteredWhatsAppPhoneNumbers = try reader["unregisteredWhatsAppPhoneNumbers"].readListIfPresent(memberReadingClosure: SocialMessagingClientTypes.WhatsAppPhoneNumberDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.wabaId = try reader["wabaId"].readIfPresent()
         return value
     }
 }
@@ -2955,6 +2934,57 @@ extension SocialMessagingClientTypes.LinkedWhatsAppBusinessAccountSummary {
         value.wabaName = try reader["wabaName"].readIfPresent() ?? ""
         value.eventDestinations = try reader["eventDestinations"].readListIfPresent(memberReadingClosure: SocialMessagingClientTypes.WhatsAppBusinessAccountEventDestination.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
+    }
+}
+
+extension SocialMessagingClientTypes.MetaLibraryTemplate {
+
+    static func write(value: SocialMessagingClientTypes.MetaLibraryTemplate?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["libraryTemplateBodyInputs"].write(value.libraryTemplateBodyInputs, with: SocialMessagingClientTypes.LibraryTemplateBodyInputs.write(value:to:))
+        try writer["libraryTemplateButtonInputs"].writeList(value.libraryTemplateButtonInputs, memberWritingClosure: SocialMessagingClientTypes.LibraryTemplateButtonInput.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["libraryTemplateName"].write(value.libraryTemplateName)
+        try writer["templateCategory"].write(value.templateCategory)
+        try writer["templateLanguage"].write(value.templateLanguage)
+        try writer["templateName"].write(value.templateName)
+    }
+}
+
+extension SocialMessagingClientTypes.MetaLibraryTemplateDefinition {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SocialMessagingClientTypes.MetaLibraryTemplateDefinition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SocialMessagingClientTypes.MetaLibraryTemplateDefinition()
+        value.templateName = try reader["templateName"].readIfPresent()
+        value.templateLanguage = try reader["templateLanguage"].readIfPresent()
+        value.templateCategory = try reader["templateCategory"].readIfPresent()
+        value.templateTopic = try reader["templateTopic"].readIfPresent()
+        value.templateUseCase = try reader["templateUseCase"].readIfPresent()
+        value.templateIndustry = try reader["templateIndustry"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.templateHeader = try reader["templateHeader"].readIfPresent()
+        value.templateBody = try reader["templateBody"].readIfPresent()
+        value.templateButtons = try reader["templateButtons"].readListIfPresent(memberReadingClosure: SocialMessagingClientTypes.LibraryTemplateButtonList.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.templateId = try reader["templateId"].readIfPresent()
+        value.templateBodyExampleParams = try reader["templateBodyExampleParams"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension SocialMessagingClientTypes.S3File {
+
+    static func write(value: SocialMessagingClientTypes.S3File?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["bucketName"].write(value.bucketName)
+        try writer["key"].write(value.key)
+    }
+}
+
+extension SocialMessagingClientTypes.S3PresignedUrl {
+
+    static func write(value: SocialMessagingClientTypes.S3PresignedUrl?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["headers"].writeMap(value.headers, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["url"].write(value.url)
     }
 }
 
@@ -2990,48 +3020,75 @@ extension SocialMessagingClientTypes.TemplateSummary {
     }
 }
 
-extension SocialMessagingClientTypes.MetaLibraryTemplateDefinition {
+extension SocialMessagingClientTypes.WabaPhoneNumberSetupFinalization {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SocialMessagingClientTypes.MetaLibraryTemplateDefinition {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SocialMessagingClientTypes.MetaLibraryTemplateDefinition()
-        value.templateName = try reader["templateName"].readIfPresent()
-        value.templateLanguage = try reader["templateLanguage"].readIfPresent()
-        value.templateCategory = try reader["templateCategory"].readIfPresent()
-        value.templateTopic = try reader["templateTopic"].readIfPresent()
-        value.templateUseCase = try reader["templateUseCase"].readIfPresent()
-        value.templateIndustry = try reader["templateIndustry"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.templateHeader = try reader["templateHeader"].readIfPresent()
-        value.templateBody = try reader["templateBody"].readIfPresent()
-        value.templateButtons = try reader["templateButtons"].readListIfPresent(memberReadingClosure: SocialMessagingClientTypes.LibraryTemplateButtonList.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.templateId = try reader["templateId"].readIfPresent()
-        value.templateBodyExampleParams = try reader["templateBodyExampleParams"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension SocialMessagingClientTypes.LibraryTemplateButtonList {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SocialMessagingClientTypes.LibraryTemplateButtonList {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SocialMessagingClientTypes.LibraryTemplateButtonList()
-        value.type = try reader["type"].readIfPresent()
-        value.text = try reader["text"].readIfPresent()
-        value.phoneNumber = try reader["phoneNumber"].readIfPresent()
-        value.url = try reader["url"].readIfPresent()
-        value.otpType = try reader["otpType"].readIfPresent()
-        value.zeroTapTermsAccepted = try reader["zeroTapTermsAccepted"].readIfPresent()
-        value.supportedApps = try reader["supportedApps"].readListIfPresent(memberReadingClosure: SmithyReadWrite.mapReadingClosure(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension SocialMessagingClientTypes.WhatsAppSignupCallback {
-
-    static func write(value: SocialMessagingClientTypes.WhatsAppSignupCallback?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: SocialMessagingClientTypes.WabaPhoneNumberSetupFinalization?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["accessToken"].write(value.accessToken)
-        try writer["callbackUrl"].write(value.callbackUrl)
+        try writer["dataLocalizationRegion"].write(value.dataLocalizationRegion)
+        try writer["id"].write(value.id)
+        try writer["tags"].writeList(value.tags, memberWritingClosure: SocialMessagingClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["twoFactorPin"].write(value.twoFactorPin)
+    }
+}
+
+extension SocialMessagingClientTypes.WabaSetupFinalization {
+
+    static func write(value: SocialMessagingClientTypes.WabaSetupFinalization?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["eventDestinations"].writeList(value.eventDestinations, memberWritingClosure: SocialMessagingClientTypes.WhatsAppBusinessAccountEventDestination.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["id"].write(value.id)
+        try writer["tags"].writeList(value.tags, memberWritingClosure: SocialMessagingClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension SocialMessagingClientTypes.WhatsAppBusinessAccountEventDestination {
+
+    static func write(value: SocialMessagingClientTypes.WhatsAppBusinessAccountEventDestination?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["eventDestinationArn"].write(value.eventDestinationArn)
+        try writer["roleArn"].write(value.roleArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SocialMessagingClientTypes.WhatsAppBusinessAccountEventDestination {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SocialMessagingClientTypes.WhatsAppBusinessAccountEventDestination()
+        value.eventDestinationArn = try reader["eventDestinationArn"].readIfPresent() ?? ""
+        value.roleArn = try reader["roleArn"].readIfPresent()
+        return value
+    }
+}
+
+extension SocialMessagingClientTypes.WhatsAppPhoneNumberDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SocialMessagingClientTypes.WhatsAppPhoneNumberDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SocialMessagingClientTypes.WhatsAppPhoneNumberDetail()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.phoneNumber = try reader["phoneNumber"].readIfPresent() ?? ""
+        value.phoneNumberId = try reader["phoneNumberId"].readIfPresent() ?? ""
+        value.metaPhoneNumberId = try reader["metaPhoneNumberId"].readIfPresent() ?? ""
+        value.displayPhoneNumberName = try reader["displayPhoneNumberName"].readIfPresent() ?? ""
+        value.displayPhoneNumber = try reader["displayPhoneNumber"].readIfPresent() ?? ""
+        value.qualityRating = try reader["qualityRating"].readIfPresent() ?? ""
+        value.dataLocalizationRegion = try reader["dataLocalizationRegion"].readIfPresent()
+        return value
+    }
+}
+
+extension SocialMessagingClientTypes.WhatsAppPhoneNumberSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SocialMessagingClientTypes.WhatsAppPhoneNumberSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SocialMessagingClientTypes.WhatsAppPhoneNumberSummary()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.phoneNumber = try reader["phoneNumber"].readIfPresent() ?? ""
+        value.phoneNumberId = try reader["phoneNumberId"].readIfPresent() ?? ""
+        value.metaPhoneNumberId = try reader["metaPhoneNumberId"].readIfPresent() ?? ""
+        value.displayPhoneNumberName = try reader["displayPhoneNumberName"].readIfPresent() ?? ""
+        value.displayPhoneNumber = try reader["displayPhoneNumber"].readIfPresent() ?? ""
+        value.qualityRating = try reader["qualityRating"].readIfPresent() ?? ""
+        value.dataLocalizationRegion = try reader["dataLocalizationRegion"].readIfPresent()
+        return value
     }
 }
 
@@ -3046,80 +3103,23 @@ extension SocialMessagingClientTypes.WhatsAppSetupFinalization {
     }
 }
 
-extension SocialMessagingClientTypes.WabaSetupFinalization {
+extension SocialMessagingClientTypes.WhatsAppSignupCallback {
 
-    static func write(value: SocialMessagingClientTypes.WabaSetupFinalization?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: SocialMessagingClientTypes.WhatsAppSignupCallback?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["eventDestinations"].writeList(value.eventDestinations, memberWritingClosure: SocialMessagingClientTypes.WhatsAppBusinessAccountEventDestination.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["id"].write(value.id)
-        try writer["tags"].writeList(value.tags, memberWritingClosure: SocialMessagingClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["accessToken"].write(value.accessToken)
+        try writer["callbackUrl"].write(value.callbackUrl)
     }
 }
 
-extension SocialMessagingClientTypes.WabaPhoneNumberSetupFinalization {
+extension SocialMessagingClientTypes.WhatsAppSignupCallbackResult {
 
-    static func write(value: SocialMessagingClientTypes.WabaPhoneNumberSetupFinalization?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["dataLocalizationRegion"].write(value.dataLocalizationRegion)
-        try writer["id"].write(value.id)
-        try writer["tags"].writeList(value.tags, memberWritingClosure: SocialMessagingClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["twoFactorPin"].write(value.twoFactorPin)
-    }
-}
-
-extension SocialMessagingClientTypes.MetaLibraryTemplate {
-
-    static func write(value: SocialMessagingClientTypes.MetaLibraryTemplate?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["libraryTemplateBodyInputs"].write(value.libraryTemplateBodyInputs, with: SocialMessagingClientTypes.LibraryTemplateBodyInputs.write(value:to:))
-        try writer["libraryTemplateButtonInputs"].writeList(value.libraryTemplateButtonInputs, memberWritingClosure: SocialMessagingClientTypes.LibraryTemplateButtonInput.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["libraryTemplateName"].write(value.libraryTemplateName)
-        try writer["templateCategory"].write(value.templateCategory)
-        try writer["templateLanguage"].write(value.templateLanguage)
-        try writer["templateName"].write(value.templateName)
-    }
-}
-
-extension SocialMessagingClientTypes.LibraryTemplateBodyInputs {
-
-    static func write(value: SocialMessagingClientTypes.LibraryTemplateBodyInputs?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["addContactNumber"].write(value.addContactNumber)
-        try writer["addLearnMoreLink"].write(value.addLearnMoreLink)
-        try writer["addSecurityRecommendation"].write(value.addSecurityRecommendation)
-        try writer["addTrackPackageLink"].write(value.addTrackPackageLink)
-        try writer["codeExpirationMinutes"].write(value.codeExpirationMinutes)
-    }
-}
-
-extension SocialMessagingClientTypes.LibraryTemplateButtonInput {
-
-    static func write(value: SocialMessagingClientTypes.LibraryTemplateButtonInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["otpType"].write(value.otpType)
-        try writer["phoneNumber"].write(value.phoneNumber)
-        try writer["supportedApps"].writeList(value.supportedApps, memberWritingClosure: SmithyReadWrite.mapWritingClosure(valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
-        try writer["type"].write(value.type)
-        try writer["url"].writeMap(value.url, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["zeroTapTermsAccepted"].write(value.zeroTapTermsAccepted)
-    }
-}
-
-extension SocialMessagingClientTypes.S3File {
-
-    static func write(value: SocialMessagingClientTypes.S3File?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["bucketName"].write(value.bucketName)
-        try writer["key"].write(value.key)
-    }
-}
-
-extension SocialMessagingClientTypes.S3PresignedUrl {
-
-    static func write(value: SocialMessagingClientTypes.S3PresignedUrl?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["headers"].writeMap(value.headers, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["url"].write(value.url)
+    static func read(from reader: SmithyJSON.Reader) throws -> SocialMessagingClientTypes.WhatsAppSignupCallbackResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SocialMessagingClientTypes.WhatsAppSignupCallbackResult()
+        value.associateInProgressToken = try reader["associateInProgressToken"].readIfPresent()
+        value.linkedAccountsWithIncompleteSetup = try reader["linkedAccountsWithIncompleteSetup"].readMapIfPresent(valueReadingClosure: SocialMessagingClientTypes.LinkedWhatsAppBusinessAccountIdMetaData.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
     }
 }
 

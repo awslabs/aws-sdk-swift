@@ -5045,6 +5045,144 @@ extension KinesisClientTypes.SubscribeToShardEventStream {
     }
 }
 
+extension KinesisClientTypes.ChildShard {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KinesisClientTypes.ChildShard {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KinesisClientTypes.ChildShard()
+        value.shardId = try reader["ShardId"].readIfPresent() ?? ""
+        value.parentShards = try reader["ParentShards"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.hashKeyRange = try reader["HashKeyRange"].readIfPresent(with: KinesisClientTypes.HashKeyRange.read(from:))
+        return value
+    }
+}
+
+extension KinesisClientTypes.Consumer {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KinesisClientTypes.Consumer {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KinesisClientTypes.Consumer()
+        value.consumerName = try reader["ConsumerName"].readIfPresent() ?? ""
+        value.consumerARN = try reader["ConsumerARN"].readIfPresent() ?? ""
+        value.consumerStatus = try reader["ConsumerStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.consumerCreationTimestamp = try reader["ConsumerCreationTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension KinesisClientTypes.ConsumerDescription {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KinesisClientTypes.ConsumerDescription {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KinesisClientTypes.ConsumerDescription()
+        value.consumerName = try reader["ConsumerName"].readIfPresent() ?? ""
+        value.consumerARN = try reader["ConsumerARN"].readIfPresent() ?? ""
+        value.consumerStatus = try reader["ConsumerStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.consumerCreationTimestamp = try reader["ConsumerCreationTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.streamARN = try reader["StreamARN"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension KinesisClientTypes.EnhancedMetrics {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KinesisClientTypes.EnhancedMetrics {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KinesisClientTypes.EnhancedMetrics()
+        value.shardLevelMetrics = try reader["ShardLevelMetrics"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<KinesisClientTypes.MetricsName>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension KinesisClientTypes.HashKeyRange {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KinesisClientTypes.HashKeyRange {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KinesisClientTypes.HashKeyRange()
+        value.startingHashKey = try reader["StartingHashKey"].readIfPresent() ?? ""
+        value.endingHashKey = try reader["EndingHashKey"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension InternalFailureException {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> InternalFailureException {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = InternalFailureException()
+        value.properties.message = try reader["message"].readIfPresent()
+        return value
+    }
+}
+
+extension KMSAccessDeniedException {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KMSAccessDeniedException {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KMSAccessDeniedException()
+        value.properties.message = try reader["message"].readIfPresent()
+        return value
+    }
+}
+
+extension KMSDisabledException {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KMSDisabledException {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KMSDisabledException()
+        value.properties.message = try reader["message"].readIfPresent()
+        return value
+    }
+}
+
+extension KMSInvalidStateException {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KMSInvalidStateException {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KMSInvalidStateException()
+        value.properties.message = try reader["message"].readIfPresent()
+        return value
+    }
+}
+
+extension KMSNotFoundException {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KMSNotFoundException {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KMSNotFoundException()
+        value.properties.message = try reader["message"].readIfPresent()
+        return value
+    }
+}
+
+extension KMSOptInRequired {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KMSOptInRequired {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KMSOptInRequired()
+        value.properties.message = try reader["message"].readIfPresent()
+        return value
+    }
+}
+
+extension KMSThrottlingException {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KMSThrottlingException {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KMSThrottlingException()
+        value.properties.message = try reader["message"].readIfPresent()
+        return value
+    }
+}
+
+extension KinesisClientTypes.MinimumThroughputBillingCommitmentInput {
+
+    static func write(value: KinesisClientTypes.MinimumThroughputBillingCommitmentInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Status"].write(value.status)
+    }
+}
+
 extension KinesisClientTypes.MinimumThroughputBillingCommitmentOutput {
 
     static func read(from reader: SmithyJSON.Reader) throws -> KinesisClientTypes.MinimumThroughputBillingCommitmentOutput {
@@ -5055,6 +5193,108 @@ extension KinesisClientTypes.MinimumThroughputBillingCommitmentOutput {
         value.endedAt = try reader["EndedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.earliestAllowedEndAt = try reader["EarliestAllowedEndAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
+    }
+}
+
+extension KinesisClientTypes.PutRecordsRequestEntry {
+
+    static func write(value: KinesisClientTypes.PutRecordsRequestEntry?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Data"].write(value.data)
+        try writer["ExplicitHashKey"].write(value.explicitHashKey)
+        try writer["PartitionKey"].write(value.partitionKey)
+    }
+}
+
+extension KinesisClientTypes.PutRecordsResultEntry {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KinesisClientTypes.PutRecordsResultEntry {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KinesisClientTypes.PutRecordsResultEntry()
+        value.sequenceNumber = try reader["SequenceNumber"].readIfPresent()
+        value.shardId = try reader["ShardId"].readIfPresent()
+        value.errorCode = try reader["ErrorCode"].readIfPresent()
+        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
+        return value
+    }
+}
+
+extension KinesisClientTypes.Record {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KinesisClientTypes.Record {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KinesisClientTypes.Record()
+        value.sequenceNumber = try reader["SequenceNumber"].readIfPresent() ?? ""
+        value.approximateArrivalTimestamp = try reader["ApproximateArrivalTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.data = try reader["Data"].readIfPresent() ?? Foundation.Data(base64Encoded: "")
+        value.partitionKey = try reader["PartitionKey"].readIfPresent() ?? ""
+        value.encryptionType = try reader["EncryptionType"].readIfPresent()
+        return value
+    }
+}
+
+extension ResourceInUseException {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ResourceInUseException {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ResourceInUseException()
+        value.properties.message = try reader["message"].readIfPresent()
+        return value
+    }
+}
+
+extension ResourceNotFoundException {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ResourceNotFoundException {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ResourceNotFoundException()
+        value.properties.message = try reader["message"].readIfPresent()
+        return value
+    }
+}
+
+extension KinesisClientTypes.SequenceNumberRange {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KinesisClientTypes.SequenceNumberRange {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KinesisClientTypes.SequenceNumberRange()
+        value.startingSequenceNumber = try reader["StartingSequenceNumber"].readIfPresent() ?? ""
+        value.endingSequenceNumber = try reader["EndingSequenceNumber"].readIfPresent()
+        return value
+    }
+}
+
+extension KinesisClientTypes.Shard {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KinesisClientTypes.Shard {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KinesisClientTypes.Shard()
+        value.shardId = try reader["ShardId"].readIfPresent() ?? ""
+        value.parentShardId = try reader["ParentShardId"].readIfPresent()
+        value.adjacentParentShardId = try reader["AdjacentParentShardId"].readIfPresent()
+        value.hashKeyRange = try reader["HashKeyRange"].readIfPresent(with: KinesisClientTypes.HashKeyRange.read(from:))
+        value.sequenceNumberRange = try reader["SequenceNumberRange"].readIfPresent(with: KinesisClientTypes.SequenceNumberRange.read(from:))
+        return value
+    }
+}
+
+extension KinesisClientTypes.ShardFilter {
+
+    static func write(value: KinesisClientTypes.ShardFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ShardId"].write(value.shardId)
+        try writer["Timestamp"].writeTimestamp(value.timestamp, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["Type"].write(value.type)
+    }
+}
+
+extension KinesisClientTypes.StartingPosition {
+
+    static func write(value: KinesisClientTypes.StartingPosition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["SequenceNumber"].write(value.sequenceNumber)
+        try writer["Timestamp"].writeTimestamp(value.timestamp, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["Type"].write(value.type)
     }
 }
 
@@ -5074,81 +5314,6 @@ extension KinesisClientTypes.StreamDescription {
         value.enhancedMonitoring = try reader["EnhancedMonitoring"].readListIfPresent(memberReadingClosure: KinesisClientTypes.EnhancedMetrics.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.encryptionType = try reader["EncryptionType"].readIfPresent()
         value.keyId = try reader["KeyId"].readIfPresent()
-        return value
-    }
-}
-
-extension KinesisClientTypes.EnhancedMetrics {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KinesisClientTypes.EnhancedMetrics {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KinesisClientTypes.EnhancedMetrics()
-        value.shardLevelMetrics = try reader["ShardLevelMetrics"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<KinesisClientTypes.MetricsName>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension KinesisClientTypes.Shard {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KinesisClientTypes.Shard {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KinesisClientTypes.Shard()
-        value.shardId = try reader["ShardId"].readIfPresent() ?? ""
-        value.parentShardId = try reader["ParentShardId"].readIfPresent()
-        value.adjacentParentShardId = try reader["AdjacentParentShardId"].readIfPresent()
-        value.hashKeyRange = try reader["HashKeyRange"].readIfPresent(with: KinesisClientTypes.HashKeyRange.read(from:))
-        value.sequenceNumberRange = try reader["SequenceNumberRange"].readIfPresent(with: KinesisClientTypes.SequenceNumberRange.read(from:))
-        return value
-    }
-}
-
-extension KinesisClientTypes.SequenceNumberRange {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KinesisClientTypes.SequenceNumberRange {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KinesisClientTypes.SequenceNumberRange()
-        value.startingSequenceNumber = try reader["StartingSequenceNumber"].readIfPresent() ?? ""
-        value.endingSequenceNumber = try reader["EndingSequenceNumber"].readIfPresent()
-        return value
-    }
-}
-
-extension KinesisClientTypes.HashKeyRange {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KinesisClientTypes.HashKeyRange {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KinesisClientTypes.HashKeyRange()
-        value.startingHashKey = try reader["StartingHashKey"].readIfPresent() ?? ""
-        value.endingHashKey = try reader["EndingHashKey"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension KinesisClientTypes.StreamModeDetails {
-
-    static func write(value: KinesisClientTypes.StreamModeDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["StreamMode"].write(value.streamMode)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KinesisClientTypes.StreamModeDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KinesisClientTypes.StreamModeDetails()
-        value.streamMode = try reader["StreamMode"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension KinesisClientTypes.ConsumerDescription {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KinesisClientTypes.ConsumerDescription {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KinesisClientTypes.ConsumerDescription()
-        value.consumerName = try reader["ConsumerName"].readIfPresent() ?? ""
-        value.consumerARN = try reader["ConsumerARN"].readIfPresent() ?? ""
-        value.consumerStatus = try reader["ConsumerStatus"].readIfPresent() ?? .sdkUnknown("")
-        value.consumerCreationTimestamp = try reader["ConsumerCreationTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.streamARN = try reader["StreamARN"].readIfPresent() ?? ""
         return value
     }
 }
@@ -5176,52 +5341,17 @@ extension KinesisClientTypes.StreamDescriptionSummary {
     }
 }
 
-extension KinesisClientTypes.WarmThroughputObject {
+extension KinesisClientTypes.StreamModeDetails {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> KinesisClientTypes.WarmThroughputObject {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KinesisClientTypes.WarmThroughputObject()
-        value.targetMiBps = try reader["TargetMiBps"].readIfPresent()
-        value.currentMiBps = try reader["CurrentMiBps"].readIfPresent()
-        return value
+    static func write(value: KinesisClientTypes.StreamModeDetails?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["StreamMode"].write(value.streamMode)
     }
-}
 
-extension KinesisClientTypes.Record {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KinesisClientTypes.Record {
+    static func read(from reader: SmithyJSON.Reader) throws -> KinesisClientTypes.StreamModeDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KinesisClientTypes.Record()
-        value.sequenceNumber = try reader["SequenceNumber"].readIfPresent() ?? ""
-        value.approximateArrivalTimestamp = try reader["ApproximateArrivalTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.data = try reader["Data"].readIfPresent() ?? Foundation.Data(base64Encoded: "")
-        value.partitionKey = try reader["PartitionKey"].readIfPresent() ?? ""
-        value.encryptionType = try reader["EncryptionType"].readIfPresent()
-        return value
-    }
-}
-
-extension KinesisClientTypes.ChildShard {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KinesisClientTypes.ChildShard {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KinesisClientTypes.ChildShard()
-        value.shardId = try reader["ShardId"].readIfPresent() ?? ""
-        value.parentShards = try reader["ParentShards"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.hashKeyRange = try reader["HashKeyRange"].readIfPresent(with: KinesisClientTypes.HashKeyRange.read(from:))
-        return value
-    }
-}
-
-extension KinesisClientTypes.Consumer {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KinesisClientTypes.Consumer {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KinesisClientTypes.Consumer()
-        value.consumerName = try reader["ConsumerName"].readIfPresent() ?? ""
-        value.consumerARN = try reader["ConsumerARN"].readIfPresent() ?? ""
-        value.consumerStatus = try reader["ConsumerStatus"].readIfPresent() ?? .sdkUnknown("")
-        value.consumerCreationTimestamp = try reader["ConsumerCreationTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        var value = KinesisClientTypes.StreamModeDetails()
+        value.streamMode = try reader["StreamMode"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -5240,120 +5370,6 @@ extension KinesisClientTypes.StreamSummary {
     }
 }
 
-extension KinesisClientTypes.Tag {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KinesisClientTypes.Tag {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KinesisClientTypes.Tag()
-        value.key = try reader["Key"].readIfPresent() ?? ""
-        value.value = try reader["Value"].readIfPresent()
-        return value
-    }
-}
-
-extension KinesisClientTypes.PutRecordsResultEntry {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KinesisClientTypes.PutRecordsResultEntry {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KinesisClientTypes.PutRecordsResultEntry()
-        value.sequenceNumber = try reader["SequenceNumber"].readIfPresent()
-        value.shardId = try reader["ShardId"].readIfPresent()
-        value.errorCode = try reader["ErrorCode"].readIfPresent()
-        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
-        return value
-    }
-}
-
-extension InternalFailureException {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> InternalFailureException {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = InternalFailureException()
-        value.properties.message = try reader["message"].readIfPresent()
-        return value
-    }
-}
-
-extension KMSThrottlingException {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KMSThrottlingException {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KMSThrottlingException()
-        value.properties.message = try reader["message"].readIfPresent()
-        return value
-    }
-}
-
-extension KMSOptInRequired {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KMSOptInRequired {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KMSOptInRequired()
-        value.properties.message = try reader["message"].readIfPresent()
-        return value
-    }
-}
-
-extension KMSNotFoundException {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KMSNotFoundException {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KMSNotFoundException()
-        value.properties.message = try reader["message"].readIfPresent()
-        return value
-    }
-}
-
-extension KMSAccessDeniedException {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KMSAccessDeniedException {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KMSAccessDeniedException()
-        value.properties.message = try reader["message"].readIfPresent()
-        return value
-    }
-}
-
-extension KMSInvalidStateException {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KMSInvalidStateException {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KMSInvalidStateException()
-        value.properties.message = try reader["message"].readIfPresent()
-        return value
-    }
-}
-
-extension KMSDisabledException {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KMSDisabledException {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KMSDisabledException()
-        value.properties.message = try reader["message"].readIfPresent()
-        return value
-    }
-}
-
-extension ResourceInUseException {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ResourceInUseException {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ResourceInUseException()
-        value.properties.message = try reader["message"].readIfPresent()
-        return value
-    }
-}
-
-extension ResourceNotFoundException {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ResourceNotFoundException {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ResourceNotFoundException()
-        value.properties.message = try reader["message"].readIfPresent()
-        return value
-    }
-}
-
 extension KinesisClientTypes.SubscribeToShardEvent {
 
     static func read(from reader: SmithyJSON.Reader) throws -> KinesisClientTypes.SubscribeToShardEvent {
@@ -5367,41 +5383,25 @@ extension KinesisClientTypes.SubscribeToShardEvent {
     }
 }
 
-extension KinesisClientTypes.ShardFilter {
+extension KinesisClientTypes.Tag {
 
-    static func write(value: KinesisClientTypes.ShardFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ShardId"].write(value.shardId)
-        try writer["Timestamp"].writeTimestamp(value.timestamp, format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        try writer["Type"].write(value.type)
+    static func read(from reader: SmithyJSON.Reader) throws -> KinesisClientTypes.Tag {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KinesisClientTypes.Tag()
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent()
+        return value
     }
 }
 
-extension KinesisClientTypes.PutRecordsRequestEntry {
+extension KinesisClientTypes.WarmThroughputObject {
 
-    static func write(value: KinesisClientTypes.PutRecordsRequestEntry?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Data"].write(value.data)
-        try writer["ExplicitHashKey"].write(value.explicitHashKey)
-        try writer["PartitionKey"].write(value.partitionKey)
-    }
-}
-
-extension KinesisClientTypes.StartingPosition {
-
-    static func write(value: KinesisClientTypes.StartingPosition?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["SequenceNumber"].write(value.sequenceNumber)
-        try writer["Timestamp"].writeTimestamp(value.timestamp, format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        try writer["Type"].write(value.type)
-    }
-}
-
-extension KinesisClientTypes.MinimumThroughputBillingCommitmentInput {
-
-    static func write(value: KinesisClientTypes.MinimumThroughputBillingCommitmentInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Status"].write(value.status)
+    static func read(from reader: SmithyJSON.Reader) throws -> KinesisClientTypes.WarmThroughputObject {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KinesisClientTypes.WarmThroughputObject()
+        value.targetMiBps = try reader["TargetMiBps"].readIfPresent()
+        value.currentMiBps = try reader["CurrentMiBps"].readIfPresent()
+        return value
     }
 }
 

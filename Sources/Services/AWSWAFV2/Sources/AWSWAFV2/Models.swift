@@ -11461,110 +11461,336 @@ extension WAFInvalidPermissionPolicyException {
     }
 }
 
-extension WAFV2ClientTypes.IPSetSummary {
+extension WAFV2ClientTypes.ActionCondition {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.IPSetSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFV2ClientTypes.IPSetSummary()
-        value.name = try reader["Name"].readIfPresent()
-        value.id = try reader["Id"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        value.lockToken = try reader["LockToken"].readIfPresent()
-        value.arn = try reader["ARN"].readIfPresent()
-        return value
-    }
-}
-
-extension WAFV2ClientTypes.RegexPatternSetSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.RegexPatternSetSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFV2ClientTypes.RegexPatternSetSummary()
-        value.name = try reader["Name"].readIfPresent()
-        value.id = try reader["Id"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        value.lockToken = try reader["LockToken"].readIfPresent()
-        value.arn = try reader["ARN"].readIfPresent()
-        return value
-    }
-}
-
-extension WAFV2ClientTypes.RuleGroupSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.RuleGroupSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFV2ClientTypes.RuleGroupSummary()
-        value.name = try reader["Name"].readIfPresent()
-        value.id = try reader["Id"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        value.lockToken = try reader["LockToken"].readIfPresent()
-        value.arn = try reader["ARN"].readIfPresent()
-        return value
-    }
-}
-
-extension WAFV2ClientTypes.WebACLSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.WebACLSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFV2ClientTypes.WebACLSummary()
-        value.name = try reader["Name"].readIfPresent()
-        value.id = try reader["Id"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        value.lockToken = try reader["LockToken"].readIfPresent()
-        value.arn = try reader["ARN"].readIfPresent()
-        return value
-    }
-}
-
-extension WAFV2ClientTypes.ManagedProductDescriptor {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.ManagedProductDescriptor {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFV2ClientTypes.ManagedProductDescriptor()
-        value.vendorName = try reader["VendorName"].readIfPresent()
-        value.managedRuleSetName = try reader["ManagedRuleSetName"].readIfPresent()
-        value.productId = try reader["ProductId"].readIfPresent()
-        value.productLink = try reader["ProductLink"].readIfPresent()
-        value.productTitle = try reader["ProductTitle"].readIfPresent()
-        value.productDescription = try reader["ProductDescription"].readIfPresent()
-        value.snsTopicArn = try reader["SnsTopicArn"].readIfPresent()
-        value.isVersioningSupported = try reader["IsVersioningSupported"].readIfPresent() ?? false
-        value.isAdvancedManagedRuleSet = try reader["IsAdvancedManagedRuleSet"].readIfPresent() ?? false
-        return value
-    }
-}
-
-extension WAFV2ClientTypes.RuleSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.RuleSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFV2ClientTypes.RuleSummary()
-        value.name = try reader["Name"].readIfPresent()
-        value.action = try reader["Action"].readIfPresent(with: WAFV2ClientTypes.RuleAction.read(from:))
-        return value
-    }
-}
-
-extension WAFV2ClientTypes.RuleAction {
-
-    static func write(value: WAFV2ClientTypes.RuleAction?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: WAFV2ClientTypes.ActionCondition?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["Allow"].write(value.allow, with: WAFV2ClientTypes.AllowAction.write(value:to:))
-        try writer["Block"].write(value.block, with: WAFV2ClientTypes.BlockAction.write(value:to:))
-        try writer["Captcha"].write(value.captcha, with: WAFV2ClientTypes.CaptchaAction.write(value:to:))
-        try writer["Challenge"].write(value.challenge, with: WAFV2ClientTypes.ChallengeAction.write(value:to:))
-        try writer["Count"].write(value.count, with: WAFV2ClientTypes.CountAction.write(value:to:))
+        try writer["Action"].write(value.action)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.RuleAction {
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.ActionCondition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFV2ClientTypes.RuleAction()
-        value.block = try reader["Block"].readIfPresent(with: WAFV2ClientTypes.BlockAction.read(from:))
-        value.allow = try reader["Allow"].readIfPresent(with: WAFV2ClientTypes.AllowAction.read(from:))
-        value.count = try reader["Count"].readIfPresent(with: WAFV2ClientTypes.CountAction.read(from:))
-        value.captcha = try reader["Captcha"].readIfPresent(with: WAFV2ClientTypes.CaptchaAction.read(from:))
-        value.challenge = try reader["Challenge"].readIfPresent(with: WAFV2ClientTypes.ChallengeAction.read(from:))
+        var value = WAFV2ClientTypes.ActionCondition()
+        value.action = try reader["Action"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension WAFV2ClientTypes.AddressField {
+
+    static func write(value: WAFV2ClientTypes.AddressField?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Identifier"].write(value.identifier)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.AddressField {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFV2ClientTypes.AddressField()
+        value.identifier = try reader["Identifier"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension WAFV2ClientTypes.All {
+
+    static func write(value: WAFV2ClientTypes.All?, to writer: SmithyJSON.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.All {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        return WAFV2ClientTypes.All()
+    }
+}
+
+extension WAFV2ClientTypes.AllowAction {
+
+    static func write(value: WAFV2ClientTypes.AllowAction?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CustomRequestHandling"].write(value.customRequestHandling, with: WAFV2ClientTypes.CustomRequestHandling.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.AllowAction {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFV2ClientTypes.AllowAction()
+        value.customRequestHandling = try reader["CustomRequestHandling"].readIfPresent(with: WAFV2ClientTypes.CustomRequestHandling.read(from:))
+        return value
+    }
+}
+
+extension WAFV2ClientTypes.AllQueryArguments {
+
+    static func write(value: WAFV2ClientTypes.AllQueryArguments?, to writer: SmithyJSON.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.AllQueryArguments {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        return WAFV2ClientTypes.AllQueryArguments()
+    }
+}
+
+extension WAFV2ClientTypes.AndStatement {
+
+    static func write(value: WAFV2ClientTypes.AndStatement?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Statements"].writeList(value.statements, memberWritingClosure: WAFV2ClientTypes.Statement.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.AndStatement {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFV2ClientTypes.AndStatement()
+        value.statements = try reader["Statements"].readListIfPresent(memberReadingClosure: WAFV2ClientTypes.Statement.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension WAFV2ClientTypes.APIKeySummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.APIKeySummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFV2ClientTypes.APIKeySummary()
+        value.tokenDomains = try reader["TokenDomains"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.apiKey = try reader["APIKey"].readIfPresent()
+        value.creationTimestamp = try reader["CreationTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.version = try reader["Version"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension WAFV2ClientTypes.ApplicationAttribute {
+
+    static func write(value: WAFV2ClientTypes.ApplicationAttribute?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Name"].write(value.name)
+        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.ApplicationAttribute {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFV2ClientTypes.ApplicationAttribute()
+        value.name = try reader["Name"].readIfPresent()
+        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension WAFV2ClientTypes.ApplicationConfig {
+
+    static func write(value: WAFV2ClientTypes.ApplicationConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Attributes"].writeList(value.attributes, memberWritingClosure: WAFV2ClientTypes.ApplicationAttribute.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.ApplicationConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFV2ClientTypes.ApplicationConfig()
+        value.attributes = try reader["Attributes"].readListIfPresent(memberReadingClosure: WAFV2ClientTypes.ApplicationAttribute.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension WAFV2ClientTypes.AsnMatchStatement {
+
+    static func write(value: WAFV2ClientTypes.AsnMatchStatement?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AsnList"].writeList(value.asnList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeInt(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ForwardedIPConfig"].write(value.forwardedIPConfig, with: WAFV2ClientTypes.ForwardedIPConfig.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.AsnMatchStatement {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFV2ClientTypes.AsnMatchStatement()
+        value.asnList = try reader["AsnList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.forwardedIPConfig = try reader["ForwardedIPConfig"].readIfPresent(with: WAFV2ClientTypes.ForwardedIPConfig.read(from:))
+        return value
+    }
+}
+
+extension WAFV2ClientTypes.AssociationConfig {
+
+    static func write(value: WAFV2ClientTypes.AssociationConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["RequestBody"].writeMap(value.requestBody, valueWritingClosure: WAFV2ClientTypes.RequestBodyAssociatedResourceTypeConfig.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.AssociationConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFV2ClientTypes.AssociationConfig()
+        value.requestBody = try reader["RequestBody"].readMapIfPresent(valueReadingClosure: WAFV2ClientTypes.RequestBodyAssociatedResourceTypeConfig.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension WAFV2ClientTypes.AWSManagedRulesACFPRuleSet {
+
+    static func write(value: WAFV2ClientTypes.AWSManagedRulesACFPRuleSet?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CreationPath"].write(value.creationPath)
+        try writer["EnableRegexInPath"].write(value.enableRegexInPath)
+        try writer["RegistrationPagePath"].write(value.registrationPagePath)
+        try writer["RequestInspection"].write(value.requestInspection, with: WAFV2ClientTypes.RequestInspectionACFP.write(value:to:))
+        try writer["ResponseInspection"].write(value.responseInspection, with: WAFV2ClientTypes.ResponseInspection.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.AWSManagedRulesACFPRuleSet {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFV2ClientTypes.AWSManagedRulesACFPRuleSet()
+        value.creationPath = try reader["CreationPath"].readIfPresent() ?? ""
+        value.registrationPagePath = try reader["RegistrationPagePath"].readIfPresent() ?? ""
+        value.requestInspection = try reader["RequestInspection"].readIfPresent(with: WAFV2ClientTypes.RequestInspectionACFP.read(from:))
+        value.responseInspection = try reader["ResponseInspection"].readIfPresent(with: WAFV2ClientTypes.ResponseInspection.read(from:))
+        value.enableRegexInPath = try reader["EnableRegexInPath"].readIfPresent() ?? false
+        return value
+    }
+}
+
+extension WAFV2ClientTypes.AWSManagedRulesAntiDDoSRuleSet {
+
+    static func write(value: WAFV2ClientTypes.AWSManagedRulesAntiDDoSRuleSet?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ClientSideActionConfig"].write(value.clientSideActionConfig, with: WAFV2ClientTypes.ClientSideActionConfig.write(value:to:))
+        try writer["SensitivityToBlock"].write(value.sensitivityToBlock)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.AWSManagedRulesAntiDDoSRuleSet {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFV2ClientTypes.AWSManagedRulesAntiDDoSRuleSet()
+        value.clientSideActionConfig = try reader["ClientSideActionConfig"].readIfPresent(with: WAFV2ClientTypes.ClientSideActionConfig.read(from:))
+        value.sensitivityToBlock = try reader["SensitivityToBlock"].readIfPresent()
+        return value
+    }
+}
+
+extension WAFV2ClientTypes.AWSManagedRulesATPRuleSet {
+
+    static func write(value: WAFV2ClientTypes.AWSManagedRulesATPRuleSet?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["EnableRegexInPath"].write(value.enableRegexInPath)
+        try writer["LoginPath"].write(value.loginPath)
+        try writer["RequestInspection"].write(value.requestInspection, with: WAFV2ClientTypes.RequestInspection.write(value:to:))
+        try writer["ResponseInspection"].write(value.responseInspection, with: WAFV2ClientTypes.ResponseInspection.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.AWSManagedRulesATPRuleSet {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFV2ClientTypes.AWSManagedRulesATPRuleSet()
+        value.loginPath = try reader["LoginPath"].readIfPresent() ?? ""
+        value.requestInspection = try reader["RequestInspection"].readIfPresent(with: WAFV2ClientTypes.RequestInspection.read(from:))
+        value.responseInspection = try reader["ResponseInspection"].readIfPresent(with: WAFV2ClientTypes.ResponseInspection.read(from:))
+        value.enableRegexInPath = try reader["EnableRegexInPath"].readIfPresent() ?? false
+        return value
+    }
+}
+
+extension WAFV2ClientTypes.AWSManagedRulesBotControlRuleSet {
+
+    static func write(value: WAFV2ClientTypes.AWSManagedRulesBotControlRuleSet?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["EnableMachineLearning"].write(value.enableMachineLearning)
+        try writer["InspectionLevel"].write(value.inspectionLevel)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.AWSManagedRulesBotControlRuleSet {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFV2ClientTypes.AWSManagedRulesBotControlRuleSet()
+        value.inspectionLevel = try reader["InspectionLevel"].readIfPresent() ?? .sdkUnknown("")
+        value.enableMachineLearning = try reader["EnableMachineLearning"].readIfPresent() ?? true
+        return value
+    }
+}
+
+extension WAFV2ClientTypes.BlockAction {
+
+    static func write(value: WAFV2ClientTypes.BlockAction?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CustomResponse"].write(value.customResponse, with: WAFV2ClientTypes.CustomResponse.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.BlockAction {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFV2ClientTypes.BlockAction()
+        value.customResponse = try reader["CustomResponse"].readIfPresent(with: WAFV2ClientTypes.CustomResponse.read(from:))
+        return value
+    }
+}
+
+extension WAFV2ClientTypes.Body {
+
+    static func write(value: WAFV2ClientTypes.Body?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["OversizeHandling"].write(value.oversizeHandling)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.Body {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFV2ClientTypes.Body()
+        value.oversizeHandling = try reader["OversizeHandling"].readIfPresent()
+        return value
+    }
+}
+
+extension WAFV2ClientTypes.ByteMatchStatement {
+
+    static func write(value: WAFV2ClientTypes.ByteMatchStatement?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FieldToMatch"].write(value.fieldToMatch, with: WAFV2ClientTypes.FieldToMatch.write(value:to:))
+        try writer["PositionalConstraint"].write(value.positionalConstraint)
+        try writer["SearchString"].write(value.searchString)
+        try writer["TextTransformations"].writeList(value.textTransformations, memberWritingClosure: WAFV2ClientTypes.TextTransformation.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.ByteMatchStatement {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFV2ClientTypes.ByteMatchStatement()
+        value.searchString = try reader["SearchString"].readIfPresent() ?? Foundation.Data(base64Encoded: "")
+        value.fieldToMatch = try reader["FieldToMatch"].readIfPresent(with: WAFV2ClientTypes.FieldToMatch.read(from:))
+        value.textTransformations = try reader["TextTransformations"].readListIfPresent(memberReadingClosure: WAFV2ClientTypes.TextTransformation.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.positionalConstraint = try reader["PositionalConstraint"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension WAFV2ClientTypes.CaptchaAction {
+
+    static func write(value: WAFV2ClientTypes.CaptchaAction?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CustomRequestHandling"].write(value.customRequestHandling, with: WAFV2ClientTypes.CustomRequestHandling.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.CaptchaAction {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFV2ClientTypes.CaptchaAction()
+        value.customRequestHandling = try reader["CustomRequestHandling"].readIfPresent(with: WAFV2ClientTypes.CustomRequestHandling.read(from:))
+        return value
+    }
+}
+
+extension WAFV2ClientTypes.CaptchaConfig {
+
+    static func write(value: WAFV2ClientTypes.CaptchaConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ImmunityTimeProperty"].write(value.immunityTimeProperty, with: WAFV2ClientTypes.ImmunityTimeProperty.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.CaptchaConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFV2ClientTypes.CaptchaConfig()
+        value.immunityTimeProperty = try reader["ImmunityTimeProperty"].readIfPresent(with: WAFV2ClientTypes.ImmunityTimeProperty.read(from:))
+        return value
+    }
+}
+
+extension WAFV2ClientTypes.CaptchaResponse {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.CaptchaResponse {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFV2ClientTypes.CaptchaResponse()
+        value.responseCode = try reader["ResponseCode"].readIfPresent()
+        value.solveTimestamp = try reader["SolveTimestamp"].readIfPresent()
+        value.failureReason = try reader["FailureReason"].readIfPresent()
         return value
     }
 }
@@ -11584,17 +11810,133 @@ extension WAFV2ClientTypes.ChallengeAction {
     }
 }
 
-extension WAFV2ClientTypes.CustomRequestHandling {
+extension WAFV2ClientTypes.ChallengeConfig {
 
-    static func write(value: WAFV2ClientTypes.CustomRequestHandling?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: WAFV2ClientTypes.ChallengeConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["InsertHeaders"].writeList(value.insertHeaders, memberWritingClosure: WAFV2ClientTypes.CustomHTTPHeader.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ImmunityTimeProperty"].write(value.immunityTimeProperty, with: WAFV2ClientTypes.ImmunityTimeProperty.write(value:to:))
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.CustomRequestHandling {
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.ChallengeConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFV2ClientTypes.CustomRequestHandling()
-        value.insertHeaders = try reader["InsertHeaders"].readListIfPresent(memberReadingClosure: WAFV2ClientTypes.CustomHTTPHeader.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        var value = WAFV2ClientTypes.ChallengeConfig()
+        value.immunityTimeProperty = try reader["ImmunityTimeProperty"].readIfPresent(with: WAFV2ClientTypes.ImmunityTimeProperty.read(from:))
+        return value
+    }
+}
+
+extension WAFV2ClientTypes.ChallengeResponse {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.ChallengeResponse {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFV2ClientTypes.ChallengeResponse()
+        value.responseCode = try reader["ResponseCode"].readIfPresent()
+        value.solveTimestamp = try reader["SolveTimestamp"].readIfPresent()
+        value.failureReason = try reader["FailureReason"].readIfPresent()
+        return value
+    }
+}
+
+extension WAFV2ClientTypes.ClientSideAction {
+
+    static func write(value: WAFV2ClientTypes.ClientSideAction?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ExemptUriRegularExpressions"].writeList(value.exemptUriRegularExpressions, memberWritingClosure: WAFV2ClientTypes.Regex.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Sensitivity"].write(value.sensitivity)
+        try writer["UsageOfAction"].write(value.usageOfAction)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.ClientSideAction {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFV2ClientTypes.ClientSideAction()
+        value.usageOfAction = try reader["UsageOfAction"].readIfPresent() ?? .sdkUnknown("")
+        value.sensitivity = try reader["Sensitivity"].readIfPresent()
+        value.exemptUriRegularExpressions = try reader["ExemptUriRegularExpressions"].readListIfPresent(memberReadingClosure: WAFV2ClientTypes.Regex.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension WAFV2ClientTypes.ClientSideActionConfig {
+
+    static func write(value: WAFV2ClientTypes.ClientSideActionConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Challenge"].write(value.challenge, with: WAFV2ClientTypes.ClientSideAction.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.ClientSideActionConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFV2ClientTypes.ClientSideActionConfig()
+        value.challenge = try reader["Challenge"].readIfPresent(with: WAFV2ClientTypes.ClientSideAction.read(from:))
+        return value
+    }
+}
+
+extension WAFV2ClientTypes.Condition {
+
+    static func write(value: WAFV2ClientTypes.Condition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ActionCondition"].write(value.actionCondition, with: WAFV2ClientTypes.ActionCondition.write(value:to:))
+        try writer["LabelNameCondition"].write(value.labelNameCondition, with: WAFV2ClientTypes.LabelNameCondition.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.Condition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFV2ClientTypes.Condition()
+        value.actionCondition = try reader["ActionCondition"].readIfPresent(with: WAFV2ClientTypes.ActionCondition.read(from:))
+        value.labelNameCondition = try reader["LabelNameCondition"].readIfPresent(with: WAFV2ClientTypes.LabelNameCondition.read(from:))
+        return value
+    }
+}
+
+extension WAFV2ClientTypes.CookieMatchPattern {
+
+    static func write(value: WAFV2ClientTypes.CookieMatchPattern?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["All"].write(value.all, with: WAFV2ClientTypes.All.write(value:to:))
+        try writer["ExcludedCookies"].writeList(value.excludedCookies, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["IncludedCookies"].writeList(value.includedCookies, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.CookieMatchPattern {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFV2ClientTypes.CookieMatchPattern()
+        value.all = try reader["All"].readIfPresent(with: WAFV2ClientTypes.All.read(from:))
+        value.includedCookies = try reader["IncludedCookies"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.excludedCookies = try reader["ExcludedCookies"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension WAFV2ClientTypes.Cookies {
+
+    static func write(value: WAFV2ClientTypes.Cookies?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MatchPattern"].write(value.matchPattern, with: WAFV2ClientTypes.CookieMatchPattern.write(value:to:))
+        try writer["MatchScope"].write(value.matchScope)
+        try writer["OversizeHandling"].write(value.oversizeHandling)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.Cookies {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFV2ClientTypes.Cookies()
+        value.matchPattern = try reader["MatchPattern"].readIfPresent(with: WAFV2ClientTypes.CookieMatchPattern.read(from:))
+        value.matchScope = try reader["MatchScope"].readIfPresent() ?? .sdkUnknown("")
+        value.oversizeHandling = try reader["OversizeHandling"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension WAFV2ClientTypes.CountAction {
+
+    static func write(value: WAFV2ClientTypes.CountAction?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CustomRequestHandling"].write(value.customRequestHandling, with: WAFV2ClientTypes.CustomRequestHandling.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.CountAction {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFV2ClientTypes.CountAction()
+        value.customRequestHandling = try reader["CustomRequestHandling"].readIfPresent(with: WAFV2ClientTypes.CustomRequestHandling.read(from:))
         return value
     }
 }
@@ -11616,62 +11958,17 @@ extension WAFV2ClientTypes.CustomHTTPHeader {
     }
 }
 
-extension WAFV2ClientTypes.CaptchaAction {
+extension WAFV2ClientTypes.CustomRequestHandling {
 
-    static func write(value: WAFV2ClientTypes.CaptchaAction?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: WAFV2ClientTypes.CustomRequestHandling?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["CustomRequestHandling"].write(value.customRequestHandling, with: WAFV2ClientTypes.CustomRequestHandling.write(value:to:))
+        try writer["InsertHeaders"].writeList(value.insertHeaders, memberWritingClosure: WAFV2ClientTypes.CustomHTTPHeader.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.CaptchaAction {
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.CustomRequestHandling {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFV2ClientTypes.CaptchaAction()
-        value.customRequestHandling = try reader["CustomRequestHandling"].readIfPresent(with: WAFV2ClientTypes.CustomRequestHandling.read(from:))
-        return value
-    }
-}
-
-extension WAFV2ClientTypes.CountAction {
-
-    static func write(value: WAFV2ClientTypes.CountAction?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CustomRequestHandling"].write(value.customRequestHandling, with: WAFV2ClientTypes.CustomRequestHandling.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.CountAction {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFV2ClientTypes.CountAction()
-        value.customRequestHandling = try reader["CustomRequestHandling"].readIfPresent(with: WAFV2ClientTypes.CustomRequestHandling.read(from:))
-        return value
-    }
-}
-
-extension WAFV2ClientTypes.AllowAction {
-
-    static func write(value: WAFV2ClientTypes.AllowAction?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CustomRequestHandling"].write(value.customRequestHandling, with: WAFV2ClientTypes.CustomRequestHandling.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.AllowAction {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFV2ClientTypes.AllowAction()
-        value.customRequestHandling = try reader["CustomRequestHandling"].readIfPresent(with: WAFV2ClientTypes.CustomRequestHandling.read(from:))
-        return value
-    }
-}
-
-extension WAFV2ClientTypes.BlockAction {
-
-    static func write(value: WAFV2ClientTypes.BlockAction?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CustomResponse"].write(value.customResponse, with: WAFV2ClientTypes.CustomResponse.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.BlockAction {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFV2ClientTypes.BlockAction()
-        value.customResponse = try reader["CustomResponse"].readIfPresent(with: WAFV2ClientTypes.CustomResponse.read(from:))
+        var value = WAFV2ClientTypes.CustomRequestHandling()
+        value.insertHeaders = try reader["InsertHeaders"].readListIfPresent(memberReadingClosure: WAFV2ClientTypes.CustomHTTPHeader.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -11695,12 +11992,343 @@ extension WAFV2ClientTypes.CustomResponse {
     }
 }
 
-extension WAFV2ClientTypes.LabelSummary {
+extension WAFV2ClientTypes.CustomResponseBody {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.LabelSummary {
+    static func write(value: WAFV2ClientTypes.CustomResponseBody?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Content"].write(value.content)
+        try writer["ContentType"].write(value.contentType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.CustomResponseBody {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFV2ClientTypes.LabelSummary()
+        var value = WAFV2ClientTypes.CustomResponseBody()
+        value.contentType = try reader["ContentType"].readIfPresent() ?? .sdkUnknown("")
+        value.content = try reader["Content"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension WAFV2ClientTypes.DataProtection {
+
+    static func write(value: WAFV2ClientTypes.DataProtection?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Action"].write(value.action)
+        try writer["ExcludeRateBasedDetails"].write(value.excludeRateBasedDetails)
+        try writer["ExcludeRuleMatchDetails"].write(value.excludeRuleMatchDetails)
+        try writer["Field"].write(value.field, with: WAFV2ClientTypes.FieldToProtect.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.DataProtection {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFV2ClientTypes.DataProtection()
+        value.field = try reader["Field"].readIfPresent(with: WAFV2ClientTypes.FieldToProtect.read(from:))
+        value.action = try reader["Action"].readIfPresent() ?? .sdkUnknown("")
+        value.excludeRuleMatchDetails = try reader["ExcludeRuleMatchDetails"].readIfPresent() ?? false
+        value.excludeRateBasedDetails = try reader["ExcludeRateBasedDetails"].readIfPresent() ?? false
+        return value
+    }
+}
+
+extension WAFV2ClientTypes.DataProtectionConfig {
+
+    static func write(value: WAFV2ClientTypes.DataProtectionConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DataProtections"].writeList(value.dataProtections, memberWritingClosure: WAFV2ClientTypes.DataProtection.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.DataProtectionConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFV2ClientTypes.DataProtectionConfig()
+        value.dataProtections = try reader["DataProtections"].readListIfPresent(memberReadingClosure: WAFV2ClientTypes.DataProtection.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension WAFV2ClientTypes.DefaultAction {
+
+    static func write(value: WAFV2ClientTypes.DefaultAction?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Allow"].write(value.allow, with: WAFV2ClientTypes.AllowAction.write(value:to:))
+        try writer["Block"].write(value.block, with: WAFV2ClientTypes.BlockAction.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.DefaultAction {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFV2ClientTypes.DefaultAction()
+        value.block = try reader["Block"].readIfPresent(with: WAFV2ClientTypes.BlockAction.read(from:))
+        value.allow = try reader["Allow"].readIfPresent(with: WAFV2ClientTypes.AllowAction.read(from:))
+        return value
+    }
+}
+
+extension WAFV2ClientTypes.DisallowedFeature {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.DisallowedFeature {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFV2ClientTypes.DisallowedFeature()
+        value.feature = try reader["Feature"].readIfPresent()
+        value.requiredPricingPlan = try reader["RequiredPricingPlan"].readIfPresent()
+        return value
+    }
+}
+
+extension WAFV2ClientTypes.EmailField {
+
+    static func write(value: WAFV2ClientTypes.EmailField?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Identifier"].write(value.identifier)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.EmailField {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFV2ClientTypes.EmailField()
+        value.identifier = try reader["Identifier"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension WAFV2ClientTypes.ExcludedRule {
+
+    static func write(value: WAFV2ClientTypes.ExcludedRule?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Name"].write(value.name)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.ExcludedRule {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFV2ClientTypes.ExcludedRule()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension WAFV2ClientTypes.FieldToMatch {
+
+    static func write(value: WAFV2ClientTypes.FieldToMatch?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AllQueryArguments"].write(value.allQueryArguments, with: WAFV2ClientTypes.AllQueryArguments.write(value:to:))
+        try writer["Body"].write(value.body, with: WAFV2ClientTypes.Body.write(value:to:))
+        try writer["Cookies"].write(value.cookies, with: WAFV2ClientTypes.Cookies.write(value:to:))
+        try writer["HeaderOrder"].write(value.headerOrder, with: WAFV2ClientTypes.HeaderOrder.write(value:to:))
+        try writer["Headers"].write(value.headers, with: WAFV2ClientTypes.Headers.write(value:to:))
+        try writer["JA3Fingerprint"].write(value.ja3Fingerprint, with: WAFV2ClientTypes.JA3Fingerprint.write(value:to:))
+        try writer["JA4Fingerprint"].write(value.ja4Fingerprint, with: WAFV2ClientTypes.JA4Fingerprint.write(value:to:))
+        try writer["JsonBody"].write(value.jsonBody, with: WAFV2ClientTypes.JsonBody.write(value:to:))
+        try writer["Method"].write(value.method, with: WAFV2ClientTypes.Method.write(value:to:))
+        try writer["QueryString"].write(value.queryString, with: WAFV2ClientTypes.QueryString.write(value:to:))
+        try writer["SingleHeader"].write(value.singleHeader, with: WAFV2ClientTypes.SingleHeader.write(value:to:))
+        try writer["SingleQueryArgument"].write(value.singleQueryArgument, with: WAFV2ClientTypes.SingleQueryArgument.write(value:to:))
+        try writer["UriFragment"].write(value.uriFragment, with: WAFV2ClientTypes.UriFragment.write(value:to:))
+        try writer["UriPath"].write(value.uriPath, with: WAFV2ClientTypes.UriPath.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.FieldToMatch {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFV2ClientTypes.FieldToMatch()
+        value.singleHeader = try reader["SingleHeader"].readIfPresent(with: WAFV2ClientTypes.SingleHeader.read(from:))
+        value.singleQueryArgument = try reader["SingleQueryArgument"].readIfPresent(with: WAFV2ClientTypes.SingleQueryArgument.read(from:))
+        value.allQueryArguments = try reader["AllQueryArguments"].readIfPresent(with: WAFV2ClientTypes.AllQueryArguments.read(from:))
+        value.uriPath = try reader["UriPath"].readIfPresent(with: WAFV2ClientTypes.UriPath.read(from:))
+        value.queryString = try reader["QueryString"].readIfPresent(with: WAFV2ClientTypes.QueryString.read(from:))
+        value.body = try reader["Body"].readIfPresent(with: WAFV2ClientTypes.Body.read(from:))
+        value.method = try reader["Method"].readIfPresent(with: WAFV2ClientTypes.Method.read(from:))
+        value.jsonBody = try reader["JsonBody"].readIfPresent(with: WAFV2ClientTypes.JsonBody.read(from:))
+        value.headers = try reader["Headers"].readIfPresent(with: WAFV2ClientTypes.Headers.read(from:))
+        value.cookies = try reader["Cookies"].readIfPresent(with: WAFV2ClientTypes.Cookies.read(from:))
+        value.headerOrder = try reader["HeaderOrder"].readIfPresent(with: WAFV2ClientTypes.HeaderOrder.read(from:))
+        value.ja3Fingerprint = try reader["JA3Fingerprint"].readIfPresent(with: WAFV2ClientTypes.JA3Fingerprint.read(from:))
+        value.ja4Fingerprint = try reader["JA4Fingerprint"].readIfPresent(with: WAFV2ClientTypes.JA4Fingerprint.read(from:))
+        value.uriFragment = try reader["UriFragment"].readIfPresent(with: WAFV2ClientTypes.UriFragment.read(from:))
+        return value
+    }
+}
+
+extension WAFV2ClientTypes.FieldToProtect {
+
+    static func write(value: WAFV2ClientTypes.FieldToProtect?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FieldKeys"].writeList(value.fieldKeys, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["FieldType"].write(value.fieldType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.FieldToProtect {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFV2ClientTypes.FieldToProtect()
+        value.fieldType = try reader["FieldType"].readIfPresent() ?? .sdkUnknown("")
+        value.fieldKeys = try reader["FieldKeys"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension WAFV2ClientTypes.Filter {
+
+    static func write(value: WAFV2ClientTypes.Filter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Behavior"].write(value.behavior)
+        try writer["Conditions"].writeList(value.conditions, memberWritingClosure: WAFV2ClientTypes.Condition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Requirement"].write(value.requirement)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.Filter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFV2ClientTypes.Filter()
+        value.behavior = try reader["Behavior"].readIfPresent() ?? .sdkUnknown("")
+        value.requirement = try reader["Requirement"].readIfPresent() ?? .sdkUnknown("")
+        value.conditions = try reader["Conditions"].readListIfPresent(memberReadingClosure: WAFV2ClientTypes.Condition.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension WAFV2ClientTypes.FirewallManagerRuleGroup {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.FirewallManagerRuleGroup {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFV2ClientTypes.FirewallManagerRuleGroup()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.priority = try reader["Priority"].readIfPresent() ?? 0
+        value.firewallManagerStatement = try reader["FirewallManagerStatement"].readIfPresent(with: WAFV2ClientTypes.FirewallManagerStatement.read(from:))
+        value.overrideAction = try reader["OverrideAction"].readIfPresent(with: WAFV2ClientTypes.OverrideAction.read(from:))
+        value.visibilityConfig = try reader["VisibilityConfig"].readIfPresent(with: WAFV2ClientTypes.VisibilityConfig.read(from:))
+        return value
+    }
+}
+
+extension WAFV2ClientTypes.FirewallManagerStatement {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.FirewallManagerStatement {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFV2ClientTypes.FirewallManagerStatement()
+        value.managedRuleGroupStatement = try reader["ManagedRuleGroupStatement"].readIfPresent(with: WAFV2ClientTypes.ManagedRuleGroupStatement.read(from:))
+        value.ruleGroupReferenceStatement = try reader["RuleGroupReferenceStatement"].readIfPresent(with: WAFV2ClientTypes.RuleGroupReferenceStatement.read(from:))
+        return value
+    }
+}
+
+extension WAFV2ClientTypes.ForwardedIPConfig {
+
+    static func write(value: WAFV2ClientTypes.ForwardedIPConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FallbackBehavior"].write(value.fallbackBehavior)
+        try writer["HeaderName"].write(value.headerName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.ForwardedIPConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFV2ClientTypes.ForwardedIPConfig()
+        value.headerName = try reader["HeaderName"].readIfPresent() ?? ""
+        value.fallbackBehavior = try reader["FallbackBehavior"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension WAFV2ClientTypes.GeoMatchStatement {
+
+    static func write(value: WAFV2ClientTypes.GeoMatchStatement?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CountryCodes"].writeList(value.countryCodes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<WAFV2ClientTypes.CountryCode>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ForwardedIPConfig"].write(value.forwardedIPConfig, with: WAFV2ClientTypes.ForwardedIPConfig.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.GeoMatchStatement {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFV2ClientTypes.GeoMatchStatement()
+        value.countryCodes = try reader["CountryCodes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<WAFV2ClientTypes.CountryCode>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.forwardedIPConfig = try reader["ForwardedIPConfig"].readIfPresent(with: WAFV2ClientTypes.ForwardedIPConfig.read(from:))
+        return value
+    }
+}
+
+extension WAFV2ClientTypes.HeaderMatchPattern {
+
+    static func write(value: WAFV2ClientTypes.HeaderMatchPattern?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["All"].write(value.all, with: WAFV2ClientTypes.All.write(value:to:))
+        try writer["ExcludedHeaders"].writeList(value.excludedHeaders, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["IncludedHeaders"].writeList(value.includedHeaders, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.HeaderMatchPattern {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFV2ClientTypes.HeaderMatchPattern()
+        value.all = try reader["All"].readIfPresent(with: WAFV2ClientTypes.All.read(from:))
+        value.includedHeaders = try reader["IncludedHeaders"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.excludedHeaders = try reader["ExcludedHeaders"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension WAFV2ClientTypes.HeaderOrder {
+
+    static func write(value: WAFV2ClientTypes.HeaderOrder?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["OversizeHandling"].write(value.oversizeHandling)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.HeaderOrder {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFV2ClientTypes.HeaderOrder()
+        value.oversizeHandling = try reader["OversizeHandling"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension WAFV2ClientTypes.Headers {
+
+    static func write(value: WAFV2ClientTypes.Headers?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MatchPattern"].write(value.matchPattern, with: WAFV2ClientTypes.HeaderMatchPattern.write(value:to:))
+        try writer["MatchScope"].write(value.matchScope)
+        try writer["OversizeHandling"].write(value.oversizeHandling)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.Headers {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFV2ClientTypes.Headers()
+        value.matchPattern = try reader["MatchPattern"].readIfPresent(with: WAFV2ClientTypes.HeaderMatchPattern.read(from:))
+        value.matchScope = try reader["MatchScope"].readIfPresent() ?? .sdkUnknown("")
+        value.oversizeHandling = try reader["OversizeHandling"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension WAFV2ClientTypes.HTTPHeader {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.HTTPHeader {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFV2ClientTypes.HTTPHeader()
         value.name = try reader["Name"].readIfPresent()
+        value.value = try reader["Value"].readIfPresent()
+        return value
+    }
+}
+
+extension WAFV2ClientTypes.HTTPRequest {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.HTTPRequest {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFV2ClientTypes.HTTPRequest()
+        value.clientIP = try reader["ClientIP"].readIfPresent()
+        value.country = try reader["Country"].readIfPresent()
+        value.uri = try reader["URI"].readIfPresent()
+        value.method = try reader["Method"].readIfPresent()
+        value.httpVersion = try reader["HTTPVersion"].readIfPresent()
+        value.headers = try reader["Headers"].readListIfPresent(memberReadingClosure: WAFV2ClientTypes.HTTPHeader.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension WAFV2ClientTypes.ImmunityTimeProperty {
+
+    static func write(value: WAFV2ClientTypes.ImmunityTimeProperty?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ImmunityTime"].write(value.immunityTime)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.ImmunityTimeProperty {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFV2ClientTypes.ImmunityTimeProperty()
+        value.immunityTime = try reader["ImmunityTime"].readIfPresent() ?? 0
         return value
     }
 }
@@ -11716,6 +12344,181 @@ extension WAFV2ClientTypes.IPSet {
         value.description = try reader["Description"].readIfPresent()
         value.ipAddressVersion = try reader["IPAddressVersion"].readIfPresent() ?? .sdkUnknown("")
         value.addresses = try reader["Addresses"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension WAFV2ClientTypes.IPSetForwardedIPConfig {
+
+    static func write(value: WAFV2ClientTypes.IPSetForwardedIPConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FallbackBehavior"].write(value.fallbackBehavior)
+        try writer["HeaderName"].write(value.headerName)
+        try writer["Position"].write(value.position)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.IPSetForwardedIPConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFV2ClientTypes.IPSetForwardedIPConfig()
+        value.headerName = try reader["HeaderName"].readIfPresent() ?? ""
+        value.fallbackBehavior = try reader["FallbackBehavior"].readIfPresent() ?? .sdkUnknown("")
+        value.position = try reader["Position"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension WAFV2ClientTypes.IPSetReferenceStatement {
+
+    static func write(value: WAFV2ClientTypes.IPSetReferenceStatement?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ARN"].write(value.arn)
+        try writer["IPSetForwardedIPConfig"].write(value.ipSetForwardedIPConfig, with: WAFV2ClientTypes.IPSetForwardedIPConfig.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.IPSetReferenceStatement {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFV2ClientTypes.IPSetReferenceStatement()
+        value.arn = try reader["ARN"].readIfPresent() ?? ""
+        value.ipSetForwardedIPConfig = try reader["IPSetForwardedIPConfig"].readIfPresent(with: WAFV2ClientTypes.IPSetForwardedIPConfig.read(from:))
+        return value
+    }
+}
+
+extension WAFV2ClientTypes.IPSetSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.IPSetSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFV2ClientTypes.IPSetSummary()
+        value.name = try reader["Name"].readIfPresent()
+        value.id = try reader["Id"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.lockToken = try reader["LockToken"].readIfPresent()
+        value.arn = try reader["ARN"].readIfPresent()
+        return value
+    }
+}
+
+extension WAFV2ClientTypes.JA3Fingerprint {
+
+    static func write(value: WAFV2ClientTypes.JA3Fingerprint?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FallbackBehavior"].write(value.fallbackBehavior)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.JA3Fingerprint {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFV2ClientTypes.JA3Fingerprint()
+        value.fallbackBehavior = try reader["FallbackBehavior"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension WAFV2ClientTypes.JA4Fingerprint {
+
+    static func write(value: WAFV2ClientTypes.JA4Fingerprint?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FallbackBehavior"].write(value.fallbackBehavior)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.JA4Fingerprint {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFV2ClientTypes.JA4Fingerprint()
+        value.fallbackBehavior = try reader["FallbackBehavior"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension WAFV2ClientTypes.JsonBody {
+
+    static func write(value: WAFV2ClientTypes.JsonBody?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["InvalidFallbackBehavior"].write(value.invalidFallbackBehavior)
+        try writer["MatchPattern"].write(value.matchPattern, with: WAFV2ClientTypes.JsonMatchPattern.write(value:to:))
+        try writer["MatchScope"].write(value.matchScope)
+        try writer["OversizeHandling"].write(value.oversizeHandling)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.JsonBody {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFV2ClientTypes.JsonBody()
+        value.matchPattern = try reader["MatchPattern"].readIfPresent(with: WAFV2ClientTypes.JsonMatchPattern.read(from:))
+        value.matchScope = try reader["MatchScope"].readIfPresent() ?? .sdkUnknown("")
+        value.invalidFallbackBehavior = try reader["InvalidFallbackBehavior"].readIfPresent()
+        value.oversizeHandling = try reader["OversizeHandling"].readIfPresent()
+        return value
+    }
+}
+
+extension WAFV2ClientTypes.JsonMatchPattern {
+
+    static func write(value: WAFV2ClientTypes.JsonMatchPattern?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["All"].write(value.all, with: WAFV2ClientTypes.All.write(value:to:))
+        try writer["IncludedPaths"].writeList(value.includedPaths, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.JsonMatchPattern {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFV2ClientTypes.JsonMatchPattern()
+        value.all = try reader["All"].readIfPresent(with: WAFV2ClientTypes.All.read(from:))
+        value.includedPaths = try reader["IncludedPaths"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension WAFV2ClientTypes.Label {
+
+    static func write(value: WAFV2ClientTypes.Label?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Name"].write(value.name)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.Label {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFV2ClientTypes.Label()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension WAFV2ClientTypes.LabelMatchStatement {
+
+    static func write(value: WAFV2ClientTypes.LabelMatchStatement?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Key"].write(value.key)
+        try writer["Scope"].write(value.scope)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.LabelMatchStatement {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFV2ClientTypes.LabelMatchStatement()
+        value.scope = try reader["Scope"].readIfPresent() ?? .sdkUnknown("")
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension WAFV2ClientTypes.LabelNameCondition {
+
+    static func write(value: WAFV2ClientTypes.LabelNameCondition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["LabelName"].write(value.labelName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.LabelNameCondition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFV2ClientTypes.LabelNameCondition()
+        value.labelName = try reader["LabelName"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension WAFV2ClientTypes.LabelSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.LabelSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFV2ClientTypes.LabelSummary()
+        value.name = try reader["Name"].readIfPresent()
         return value
     }
 }
@@ -11764,847 +12567,20 @@ extension WAFV2ClientTypes.LoggingFilter {
     }
 }
 
-extension WAFV2ClientTypes.Filter {
+extension WAFV2ClientTypes.ManagedProductDescriptor {
 
-    static func write(value: WAFV2ClientTypes.Filter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Behavior"].write(value.behavior)
-        try writer["Conditions"].writeList(value.conditions, memberWritingClosure: WAFV2ClientTypes.Condition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Requirement"].write(value.requirement)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.Filter {
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.ManagedProductDescriptor {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFV2ClientTypes.Filter()
-        value.behavior = try reader["Behavior"].readIfPresent() ?? .sdkUnknown("")
-        value.requirement = try reader["Requirement"].readIfPresent() ?? .sdkUnknown("")
-        value.conditions = try reader["Conditions"].readListIfPresent(memberReadingClosure: WAFV2ClientTypes.Condition.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension WAFV2ClientTypes.Condition {
-
-    static func write(value: WAFV2ClientTypes.Condition?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ActionCondition"].write(value.actionCondition, with: WAFV2ClientTypes.ActionCondition.write(value:to:))
-        try writer["LabelNameCondition"].write(value.labelNameCondition, with: WAFV2ClientTypes.LabelNameCondition.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.Condition {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFV2ClientTypes.Condition()
-        value.actionCondition = try reader["ActionCondition"].readIfPresent(with: WAFV2ClientTypes.ActionCondition.read(from:))
-        value.labelNameCondition = try reader["LabelNameCondition"].readIfPresent(with: WAFV2ClientTypes.LabelNameCondition.read(from:))
-        return value
-    }
-}
-
-extension WAFV2ClientTypes.LabelNameCondition {
-
-    static func write(value: WAFV2ClientTypes.LabelNameCondition?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["LabelName"].write(value.labelName)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.LabelNameCondition {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFV2ClientTypes.LabelNameCondition()
-        value.labelName = try reader["LabelName"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension WAFV2ClientTypes.ActionCondition {
-
-    static func write(value: WAFV2ClientTypes.ActionCondition?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Action"].write(value.action)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.ActionCondition {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFV2ClientTypes.ActionCondition()
-        value.action = try reader["Action"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension WAFV2ClientTypes.FieldToMatch {
-
-    static func write(value: WAFV2ClientTypes.FieldToMatch?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AllQueryArguments"].write(value.allQueryArguments, with: WAFV2ClientTypes.AllQueryArguments.write(value:to:))
-        try writer["Body"].write(value.body, with: WAFV2ClientTypes.Body.write(value:to:))
-        try writer["Cookies"].write(value.cookies, with: WAFV2ClientTypes.Cookies.write(value:to:))
-        try writer["HeaderOrder"].write(value.headerOrder, with: WAFV2ClientTypes.HeaderOrder.write(value:to:))
-        try writer["Headers"].write(value.headers, with: WAFV2ClientTypes.Headers.write(value:to:))
-        try writer["JA3Fingerprint"].write(value.ja3Fingerprint, with: WAFV2ClientTypes.JA3Fingerprint.write(value:to:))
-        try writer["JA4Fingerprint"].write(value.ja4Fingerprint, with: WAFV2ClientTypes.JA4Fingerprint.write(value:to:))
-        try writer["JsonBody"].write(value.jsonBody, with: WAFV2ClientTypes.JsonBody.write(value:to:))
-        try writer["Method"].write(value.method, with: WAFV2ClientTypes.Method.write(value:to:))
-        try writer["QueryString"].write(value.queryString, with: WAFV2ClientTypes.QueryString.write(value:to:))
-        try writer["SingleHeader"].write(value.singleHeader, with: WAFV2ClientTypes.SingleHeader.write(value:to:))
-        try writer["SingleQueryArgument"].write(value.singleQueryArgument, with: WAFV2ClientTypes.SingleQueryArgument.write(value:to:))
-        try writer["UriFragment"].write(value.uriFragment, with: WAFV2ClientTypes.UriFragment.write(value:to:))
-        try writer["UriPath"].write(value.uriPath, with: WAFV2ClientTypes.UriPath.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.FieldToMatch {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFV2ClientTypes.FieldToMatch()
-        value.singleHeader = try reader["SingleHeader"].readIfPresent(with: WAFV2ClientTypes.SingleHeader.read(from:))
-        value.singleQueryArgument = try reader["SingleQueryArgument"].readIfPresent(with: WAFV2ClientTypes.SingleQueryArgument.read(from:))
-        value.allQueryArguments = try reader["AllQueryArguments"].readIfPresent(with: WAFV2ClientTypes.AllQueryArguments.read(from:))
-        value.uriPath = try reader["UriPath"].readIfPresent(with: WAFV2ClientTypes.UriPath.read(from:))
-        value.queryString = try reader["QueryString"].readIfPresent(with: WAFV2ClientTypes.QueryString.read(from:))
-        value.body = try reader["Body"].readIfPresent(with: WAFV2ClientTypes.Body.read(from:))
-        value.method = try reader["Method"].readIfPresent(with: WAFV2ClientTypes.Method.read(from:))
-        value.jsonBody = try reader["JsonBody"].readIfPresent(with: WAFV2ClientTypes.JsonBody.read(from:))
-        value.headers = try reader["Headers"].readIfPresent(with: WAFV2ClientTypes.Headers.read(from:))
-        value.cookies = try reader["Cookies"].readIfPresent(with: WAFV2ClientTypes.Cookies.read(from:))
-        value.headerOrder = try reader["HeaderOrder"].readIfPresent(with: WAFV2ClientTypes.HeaderOrder.read(from:))
-        value.ja3Fingerprint = try reader["JA3Fingerprint"].readIfPresent(with: WAFV2ClientTypes.JA3Fingerprint.read(from:))
-        value.ja4Fingerprint = try reader["JA4Fingerprint"].readIfPresent(with: WAFV2ClientTypes.JA4Fingerprint.read(from:))
-        value.uriFragment = try reader["UriFragment"].readIfPresent(with: WAFV2ClientTypes.UriFragment.read(from:))
-        return value
-    }
-}
-
-extension WAFV2ClientTypes.UriFragment {
-
-    static func write(value: WAFV2ClientTypes.UriFragment?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["FallbackBehavior"].write(value.fallbackBehavior)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.UriFragment {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFV2ClientTypes.UriFragment()
-        value.fallbackBehavior = try reader["FallbackBehavior"].readIfPresent()
-        return value
-    }
-}
-
-extension WAFV2ClientTypes.JA4Fingerprint {
-
-    static func write(value: WAFV2ClientTypes.JA4Fingerprint?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["FallbackBehavior"].write(value.fallbackBehavior)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.JA4Fingerprint {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFV2ClientTypes.JA4Fingerprint()
-        value.fallbackBehavior = try reader["FallbackBehavior"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension WAFV2ClientTypes.JA3Fingerprint {
-
-    static func write(value: WAFV2ClientTypes.JA3Fingerprint?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["FallbackBehavior"].write(value.fallbackBehavior)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.JA3Fingerprint {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFV2ClientTypes.JA3Fingerprint()
-        value.fallbackBehavior = try reader["FallbackBehavior"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension WAFV2ClientTypes.HeaderOrder {
-
-    static func write(value: WAFV2ClientTypes.HeaderOrder?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["OversizeHandling"].write(value.oversizeHandling)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.HeaderOrder {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFV2ClientTypes.HeaderOrder()
-        value.oversizeHandling = try reader["OversizeHandling"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension WAFV2ClientTypes.Cookies {
-
-    static func write(value: WAFV2ClientTypes.Cookies?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["MatchPattern"].write(value.matchPattern, with: WAFV2ClientTypes.CookieMatchPattern.write(value:to:))
-        try writer["MatchScope"].write(value.matchScope)
-        try writer["OversizeHandling"].write(value.oversizeHandling)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.Cookies {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFV2ClientTypes.Cookies()
-        value.matchPattern = try reader["MatchPattern"].readIfPresent(with: WAFV2ClientTypes.CookieMatchPattern.read(from:))
-        value.matchScope = try reader["MatchScope"].readIfPresent() ?? .sdkUnknown("")
-        value.oversizeHandling = try reader["OversizeHandling"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension WAFV2ClientTypes.CookieMatchPattern {
-
-    static func write(value: WAFV2ClientTypes.CookieMatchPattern?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["All"].write(value.all, with: WAFV2ClientTypes.All.write(value:to:))
-        try writer["ExcludedCookies"].writeList(value.excludedCookies, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["IncludedCookies"].writeList(value.includedCookies, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.CookieMatchPattern {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFV2ClientTypes.CookieMatchPattern()
-        value.all = try reader["All"].readIfPresent(with: WAFV2ClientTypes.All.read(from:))
-        value.includedCookies = try reader["IncludedCookies"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.excludedCookies = try reader["ExcludedCookies"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension WAFV2ClientTypes.All {
-
-    static func write(value: WAFV2ClientTypes.All?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.All {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        return WAFV2ClientTypes.All()
-    }
-}
-
-extension WAFV2ClientTypes.Headers {
-
-    static func write(value: WAFV2ClientTypes.Headers?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["MatchPattern"].write(value.matchPattern, with: WAFV2ClientTypes.HeaderMatchPattern.write(value:to:))
-        try writer["MatchScope"].write(value.matchScope)
-        try writer["OversizeHandling"].write(value.oversizeHandling)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.Headers {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFV2ClientTypes.Headers()
-        value.matchPattern = try reader["MatchPattern"].readIfPresent(with: WAFV2ClientTypes.HeaderMatchPattern.read(from:))
-        value.matchScope = try reader["MatchScope"].readIfPresent() ?? .sdkUnknown("")
-        value.oversizeHandling = try reader["OversizeHandling"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension WAFV2ClientTypes.HeaderMatchPattern {
-
-    static func write(value: WAFV2ClientTypes.HeaderMatchPattern?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["All"].write(value.all, with: WAFV2ClientTypes.All.write(value:to:))
-        try writer["ExcludedHeaders"].writeList(value.excludedHeaders, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["IncludedHeaders"].writeList(value.includedHeaders, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.HeaderMatchPattern {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFV2ClientTypes.HeaderMatchPattern()
-        value.all = try reader["All"].readIfPresent(with: WAFV2ClientTypes.All.read(from:))
-        value.includedHeaders = try reader["IncludedHeaders"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.excludedHeaders = try reader["ExcludedHeaders"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension WAFV2ClientTypes.JsonBody {
-
-    static func write(value: WAFV2ClientTypes.JsonBody?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["InvalidFallbackBehavior"].write(value.invalidFallbackBehavior)
-        try writer["MatchPattern"].write(value.matchPattern, with: WAFV2ClientTypes.JsonMatchPattern.write(value:to:))
-        try writer["MatchScope"].write(value.matchScope)
-        try writer["OversizeHandling"].write(value.oversizeHandling)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.JsonBody {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFV2ClientTypes.JsonBody()
-        value.matchPattern = try reader["MatchPattern"].readIfPresent(with: WAFV2ClientTypes.JsonMatchPattern.read(from:))
-        value.matchScope = try reader["MatchScope"].readIfPresent() ?? .sdkUnknown("")
-        value.invalidFallbackBehavior = try reader["InvalidFallbackBehavior"].readIfPresent()
-        value.oversizeHandling = try reader["OversizeHandling"].readIfPresent()
-        return value
-    }
-}
-
-extension WAFV2ClientTypes.JsonMatchPattern {
-
-    static func write(value: WAFV2ClientTypes.JsonMatchPattern?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["All"].write(value.all, with: WAFV2ClientTypes.All.write(value:to:))
-        try writer["IncludedPaths"].writeList(value.includedPaths, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.JsonMatchPattern {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFV2ClientTypes.JsonMatchPattern()
-        value.all = try reader["All"].readIfPresent(with: WAFV2ClientTypes.All.read(from:))
-        value.includedPaths = try reader["IncludedPaths"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension WAFV2ClientTypes.Method {
-
-    static func write(value: WAFV2ClientTypes.Method?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.Method {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        return WAFV2ClientTypes.Method()
-    }
-}
-
-extension WAFV2ClientTypes.Body {
-
-    static func write(value: WAFV2ClientTypes.Body?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["OversizeHandling"].write(value.oversizeHandling)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.Body {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFV2ClientTypes.Body()
-        value.oversizeHandling = try reader["OversizeHandling"].readIfPresent()
-        return value
-    }
-}
-
-extension WAFV2ClientTypes.QueryString {
-
-    static func write(value: WAFV2ClientTypes.QueryString?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.QueryString {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        return WAFV2ClientTypes.QueryString()
-    }
-}
-
-extension WAFV2ClientTypes.UriPath {
-
-    static func write(value: WAFV2ClientTypes.UriPath?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.UriPath {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        return WAFV2ClientTypes.UriPath()
-    }
-}
-
-extension WAFV2ClientTypes.AllQueryArguments {
-
-    static func write(value: WAFV2ClientTypes.AllQueryArguments?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.AllQueryArguments {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        return WAFV2ClientTypes.AllQueryArguments()
-    }
-}
-
-extension WAFV2ClientTypes.SingleQueryArgument {
-
-    static func write(value: WAFV2ClientTypes.SingleQueryArgument?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.SingleQueryArgument {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFV2ClientTypes.SingleQueryArgument()
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension WAFV2ClientTypes.SingleHeader {
-
-    static func write(value: WAFV2ClientTypes.SingleHeader?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.SingleHeader {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFV2ClientTypes.SingleHeader()
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension WAFV2ClientTypes.ManagedRuleSet {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.ManagedRuleSet {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFV2ClientTypes.ManagedRuleSet()
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.id = try reader["Id"].readIfPresent() ?? ""
-        value.arn = try reader["ARN"].readIfPresent() ?? ""
-        value.description = try reader["Description"].readIfPresent()
-        value.publishedVersions = try reader["PublishedVersions"].readMapIfPresent(valueReadingClosure: WAFV2ClientTypes.ManagedRuleSetVersion.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.recommendedVersion = try reader["RecommendedVersion"].readIfPresent()
-        value.labelNamespace = try reader["LabelNamespace"].readIfPresent()
-        return value
-    }
-}
-
-extension WAFV2ClientTypes.ManagedRuleSetVersion {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.ManagedRuleSetVersion {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFV2ClientTypes.ManagedRuleSetVersion()
-        value.associatedRuleGroupArn = try reader["AssociatedRuleGroupArn"].readIfPresent()
-        value.capacity = try reader["Capacity"].readIfPresent()
-        value.forecastedLifetime = try reader["ForecastedLifetime"].readIfPresent()
-        value.publishTimestamp = try reader["PublishTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastUpdateTimestamp = try reader["LastUpdateTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.expiryTimestamp = try reader["ExpiryTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension WAFV2ClientTypes.MobileSdkRelease {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.MobileSdkRelease {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFV2ClientTypes.MobileSdkRelease()
-        value.releaseVersion = try reader["ReleaseVersion"].readIfPresent()
-        value.timestamp = try reader["Timestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.releaseNotes = try reader["ReleaseNotes"].readIfPresent()
-        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: WAFV2ClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension WAFV2ClientTypes.Tag {
-
-    static func write(value: WAFV2ClientTypes.Tag?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Key"].write(value.key)
-        try writer["Value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.Tag {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFV2ClientTypes.Tag()
-        value.key = try reader["Key"].readIfPresent() ?? ""
-        value.value = try reader["Value"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension WAFV2ClientTypes.RateBasedStatementManagedKeysIPSet {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.RateBasedStatementManagedKeysIPSet {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFV2ClientTypes.RateBasedStatementManagedKeysIPSet()
-        value.ipAddressVersion = try reader["IPAddressVersion"].readIfPresent()
-        value.addresses = try reader["Addresses"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension WAFV2ClientTypes.RegexPatternSet {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.RegexPatternSet {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFV2ClientTypes.RegexPatternSet()
-        value.name = try reader["Name"].readIfPresent()
-        value.id = try reader["Id"].readIfPresent()
-        value.arn = try reader["ARN"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        value.regularExpressionList = try reader["RegularExpressionList"].readListIfPresent(memberReadingClosure: WAFV2ClientTypes.Regex.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension WAFV2ClientTypes.Regex {
-
-    static func write(value: WAFV2ClientTypes.Regex?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["RegexString"].write(value.regexString)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.Regex {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFV2ClientTypes.Regex()
-        value.regexString = try reader["RegexString"].readIfPresent()
-        return value
-    }
-}
-
-extension WAFV2ClientTypes.RuleGroup {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.RuleGroup {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFV2ClientTypes.RuleGroup()
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.id = try reader["Id"].readIfPresent() ?? ""
-        value.capacity = try reader["Capacity"].readIfPresent() ?? 0
-        value.arn = try reader["ARN"].readIfPresent() ?? ""
-        value.description = try reader["Description"].readIfPresent()
-        value.rules = try reader["Rules"].readListIfPresent(memberReadingClosure: WAFV2ClientTypes.Rule.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.visibilityConfig = try reader["VisibilityConfig"].readIfPresent(with: WAFV2ClientTypes.VisibilityConfig.read(from:))
-        value.labelNamespace = try reader["LabelNamespace"].readIfPresent()
-        value.customResponseBodies = try reader["CustomResponseBodies"].readMapIfPresent(valueReadingClosure: WAFV2ClientTypes.CustomResponseBody.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.availableLabels = try reader["AvailableLabels"].readListIfPresent(memberReadingClosure: WAFV2ClientTypes.LabelSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.consumedLabels = try reader["ConsumedLabels"].readListIfPresent(memberReadingClosure: WAFV2ClientTypes.LabelSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension WAFV2ClientTypes.CustomResponseBody {
-
-    static func write(value: WAFV2ClientTypes.CustomResponseBody?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Content"].write(value.content)
-        try writer["ContentType"].write(value.contentType)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.CustomResponseBody {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFV2ClientTypes.CustomResponseBody()
-        value.contentType = try reader["ContentType"].readIfPresent() ?? .sdkUnknown("")
-        value.content = try reader["Content"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension WAFV2ClientTypes.VisibilityConfig {
-
-    static func write(value: WAFV2ClientTypes.VisibilityConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CloudWatchMetricsEnabled"].write(value.cloudWatchMetricsEnabled)
-        try writer["MetricName"].write(value.metricName)
-        try writer["SampledRequestsEnabled"].write(value.sampledRequestsEnabled)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.VisibilityConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFV2ClientTypes.VisibilityConfig()
-        value.sampledRequestsEnabled = try reader["SampledRequestsEnabled"].readIfPresent() ?? false
-        value.cloudWatchMetricsEnabled = try reader["CloudWatchMetricsEnabled"].readIfPresent() ?? false
-        value.metricName = try reader["MetricName"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension WAFV2ClientTypes.Rule {
-
-    static func write(value: WAFV2ClientTypes.Rule?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Action"].write(value.action, with: WAFV2ClientTypes.RuleAction.write(value:to:))
-        try writer["CaptchaConfig"].write(value.captchaConfig, with: WAFV2ClientTypes.CaptchaConfig.write(value:to:))
-        try writer["ChallengeConfig"].write(value.challengeConfig, with: WAFV2ClientTypes.ChallengeConfig.write(value:to:))
-        try writer["Name"].write(value.name)
-        try writer["OverrideAction"].write(value.overrideAction, with: WAFV2ClientTypes.OverrideAction.write(value:to:))
-        try writer["Priority"].write(value.priority)
-        try writer["RuleLabels"].writeList(value.ruleLabels, memberWritingClosure: WAFV2ClientTypes.Label.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Statement"].write(value.statement, with: WAFV2ClientTypes.Statement.write(value:to:))
-        try writer["VisibilityConfig"].write(value.visibilityConfig, with: WAFV2ClientTypes.VisibilityConfig.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.Rule {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFV2ClientTypes.Rule()
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.priority = try reader["Priority"].readIfPresent() ?? 0
-        value.statement = try reader["Statement"].readIfPresent(with: WAFV2ClientTypes.Statement.read(from:))
-        value.action = try reader["Action"].readIfPresent(with: WAFV2ClientTypes.RuleAction.read(from:))
-        value.overrideAction = try reader["OverrideAction"].readIfPresent(with: WAFV2ClientTypes.OverrideAction.read(from:))
-        value.ruleLabels = try reader["RuleLabels"].readListIfPresent(memberReadingClosure: WAFV2ClientTypes.Label.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.visibilityConfig = try reader["VisibilityConfig"].readIfPresent(with: WAFV2ClientTypes.VisibilityConfig.read(from:))
-        value.captchaConfig = try reader["CaptchaConfig"].readIfPresent(with: WAFV2ClientTypes.CaptchaConfig.read(from:))
-        value.challengeConfig = try reader["ChallengeConfig"].readIfPresent(with: WAFV2ClientTypes.ChallengeConfig.read(from:))
-        return value
-    }
-}
-
-extension WAFV2ClientTypes.ChallengeConfig {
-
-    static func write(value: WAFV2ClientTypes.ChallengeConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ImmunityTimeProperty"].write(value.immunityTimeProperty, with: WAFV2ClientTypes.ImmunityTimeProperty.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.ChallengeConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFV2ClientTypes.ChallengeConfig()
-        value.immunityTimeProperty = try reader["ImmunityTimeProperty"].readIfPresent(with: WAFV2ClientTypes.ImmunityTimeProperty.read(from:))
-        return value
-    }
-}
-
-extension WAFV2ClientTypes.ImmunityTimeProperty {
-
-    static func write(value: WAFV2ClientTypes.ImmunityTimeProperty?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ImmunityTime"].write(value.immunityTime)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.ImmunityTimeProperty {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFV2ClientTypes.ImmunityTimeProperty()
-        value.immunityTime = try reader["ImmunityTime"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension WAFV2ClientTypes.CaptchaConfig {
-
-    static func write(value: WAFV2ClientTypes.CaptchaConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ImmunityTimeProperty"].write(value.immunityTimeProperty, with: WAFV2ClientTypes.ImmunityTimeProperty.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.CaptchaConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFV2ClientTypes.CaptchaConfig()
-        value.immunityTimeProperty = try reader["ImmunityTimeProperty"].readIfPresent(with: WAFV2ClientTypes.ImmunityTimeProperty.read(from:))
-        return value
-    }
-}
-
-extension WAFV2ClientTypes.Label {
-
-    static func write(value: WAFV2ClientTypes.Label?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.Label {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFV2ClientTypes.Label()
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension WAFV2ClientTypes.OverrideAction {
-
-    static func write(value: WAFV2ClientTypes.OverrideAction?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Count"].write(value.count, with: WAFV2ClientTypes.CountAction.write(value:to:))
-        try writer["None"].write(value.`none`, with: WAFV2ClientTypes.NoneAction.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.OverrideAction {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFV2ClientTypes.OverrideAction()
-        value.count = try reader["Count"].readIfPresent(with: WAFV2ClientTypes.CountAction.read(from:))
-        value.`none` = try reader["None"].readIfPresent(with: WAFV2ClientTypes.NoneAction.read(from:))
-        return value
-    }
-}
-
-extension WAFV2ClientTypes.NoneAction {
-
-    static func write(value: WAFV2ClientTypes.NoneAction?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.NoneAction {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        return WAFV2ClientTypes.NoneAction()
-    }
-}
-
-extension WAFV2ClientTypes.Statement {
-
-    static func write(value: WAFV2ClientTypes.Statement?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AndStatement"].write(value.andStatement, with: WAFV2ClientTypes.AndStatement.write(value:to:))
-        try writer["AsnMatchStatement"].write(value.asnMatchStatement, with: WAFV2ClientTypes.AsnMatchStatement.write(value:to:))
-        try writer["ByteMatchStatement"].write(value.byteMatchStatement, with: WAFV2ClientTypes.ByteMatchStatement.write(value:to:))
-        try writer["GeoMatchStatement"].write(value.geoMatchStatement, with: WAFV2ClientTypes.GeoMatchStatement.write(value:to:))
-        try writer["IPSetReferenceStatement"].write(value.ipSetReferenceStatement, with: WAFV2ClientTypes.IPSetReferenceStatement.write(value:to:))
-        try writer["LabelMatchStatement"].write(value.labelMatchStatement, with: WAFV2ClientTypes.LabelMatchStatement.write(value:to:))
-        try writer["ManagedRuleGroupStatement"].write(value.managedRuleGroupStatement, with: WAFV2ClientTypes.ManagedRuleGroupStatement.write(value:to:))
-        try writer["NotStatement"].write(value.notStatement, with: WAFV2ClientTypes.NotStatement.write(value:to:))
-        try writer["OrStatement"].write(value.orStatement, with: WAFV2ClientTypes.OrStatement.write(value:to:))
-        try writer["RateBasedStatement"].write(value.rateBasedStatement, with: WAFV2ClientTypes.RateBasedStatement.write(value:to:))
-        try writer["RegexMatchStatement"].write(value.regexMatchStatement, with: WAFV2ClientTypes.RegexMatchStatement.write(value:to:))
-        try writer["RegexPatternSetReferenceStatement"].write(value.regexPatternSetReferenceStatement, with: WAFV2ClientTypes.RegexPatternSetReferenceStatement.write(value:to:))
-        try writer["RuleGroupReferenceStatement"].write(value.ruleGroupReferenceStatement, with: WAFV2ClientTypes.RuleGroupReferenceStatement.write(value:to:))
-        try writer["SizeConstraintStatement"].write(value.sizeConstraintStatement, with: WAFV2ClientTypes.SizeConstraintStatement.write(value:to:))
-        try writer["SqliMatchStatement"].write(value.sqliMatchStatement, with: WAFV2ClientTypes.SqliMatchStatement.write(value:to:))
-        try writer["XssMatchStatement"].write(value.xssMatchStatement, with: WAFV2ClientTypes.XssMatchStatement.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.Statement {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFV2ClientTypes.Statement()
-        value.byteMatchStatement = try reader["ByteMatchStatement"].readIfPresent(with: WAFV2ClientTypes.ByteMatchStatement.read(from:))
-        value.sqliMatchStatement = try reader["SqliMatchStatement"].readIfPresent(with: WAFV2ClientTypes.SqliMatchStatement.read(from:))
-        value.xssMatchStatement = try reader["XssMatchStatement"].readIfPresent(with: WAFV2ClientTypes.XssMatchStatement.read(from:))
-        value.sizeConstraintStatement = try reader["SizeConstraintStatement"].readIfPresent(with: WAFV2ClientTypes.SizeConstraintStatement.read(from:))
-        value.geoMatchStatement = try reader["GeoMatchStatement"].readIfPresent(with: WAFV2ClientTypes.GeoMatchStatement.read(from:))
-        value.ruleGroupReferenceStatement = try reader["RuleGroupReferenceStatement"].readIfPresent(with: WAFV2ClientTypes.RuleGroupReferenceStatement.read(from:))
-        value.ipSetReferenceStatement = try reader["IPSetReferenceStatement"].readIfPresent(with: WAFV2ClientTypes.IPSetReferenceStatement.read(from:))
-        value.regexPatternSetReferenceStatement = try reader["RegexPatternSetReferenceStatement"].readIfPresent(with: WAFV2ClientTypes.RegexPatternSetReferenceStatement.read(from:))
-        value.rateBasedStatement = try reader["RateBasedStatement"].readIfPresent(with: WAFV2ClientTypes.RateBasedStatement.read(from:))
-        value.andStatement = try reader["AndStatement"].readIfPresent(with: WAFV2ClientTypes.AndStatement.read(from:))
-        value.orStatement = try reader["OrStatement"].readIfPresent(with: WAFV2ClientTypes.OrStatement.read(from:))
-        value.notStatement = try reader["NotStatement"].readIfPresent(with: WAFV2ClientTypes.NotStatement.read(from:))
-        value.managedRuleGroupStatement = try reader["ManagedRuleGroupStatement"].readIfPresent(with: WAFV2ClientTypes.ManagedRuleGroupStatement.read(from:))
-        value.labelMatchStatement = try reader["LabelMatchStatement"].readIfPresent(with: WAFV2ClientTypes.LabelMatchStatement.read(from:))
-        value.regexMatchStatement = try reader["RegexMatchStatement"].readIfPresent(with: WAFV2ClientTypes.RegexMatchStatement.read(from:))
-        value.asnMatchStatement = try reader["AsnMatchStatement"].readIfPresent(with: WAFV2ClientTypes.AsnMatchStatement.read(from:))
-        return value
-    }
-}
-
-extension WAFV2ClientTypes.AsnMatchStatement {
-
-    static func write(value: WAFV2ClientTypes.AsnMatchStatement?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AsnList"].writeList(value.asnList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeInt(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ForwardedIPConfig"].write(value.forwardedIPConfig, with: WAFV2ClientTypes.ForwardedIPConfig.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.AsnMatchStatement {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFV2ClientTypes.AsnMatchStatement()
-        value.asnList = try reader["AsnList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.forwardedIPConfig = try reader["ForwardedIPConfig"].readIfPresent(with: WAFV2ClientTypes.ForwardedIPConfig.read(from:))
-        return value
-    }
-}
-
-extension WAFV2ClientTypes.ForwardedIPConfig {
-
-    static func write(value: WAFV2ClientTypes.ForwardedIPConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["FallbackBehavior"].write(value.fallbackBehavior)
-        try writer["HeaderName"].write(value.headerName)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.ForwardedIPConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFV2ClientTypes.ForwardedIPConfig()
-        value.headerName = try reader["HeaderName"].readIfPresent() ?? ""
-        value.fallbackBehavior = try reader["FallbackBehavior"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension WAFV2ClientTypes.RegexMatchStatement {
-
-    static func write(value: WAFV2ClientTypes.RegexMatchStatement?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["FieldToMatch"].write(value.fieldToMatch, with: WAFV2ClientTypes.FieldToMatch.write(value:to:))
-        try writer["RegexString"].write(value.regexString)
-        try writer["TextTransformations"].writeList(value.textTransformations, memberWritingClosure: WAFV2ClientTypes.TextTransformation.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.RegexMatchStatement {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFV2ClientTypes.RegexMatchStatement()
-        value.regexString = try reader["RegexString"].readIfPresent() ?? ""
-        value.fieldToMatch = try reader["FieldToMatch"].readIfPresent(with: WAFV2ClientTypes.FieldToMatch.read(from:))
-        value.textTransformations = try reader["TextTransformations"].readListIfPresent(memberReadingClosure: WAFV2ClientTypes.TextTransformation.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension WAFV2ClientTypes.TextTransformation {
-
-    static func write(value: WAFV2ClientTypes.TextTransformation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Priority"].write(value.priority)
-        try writer["Type"].write(value.type)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.TextTransformation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFV2ClientTypes.TextTransformation()
-        value.priority = try reader["Priority"].readIfPresent() ?? 0
-        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension WAFV2ClientTypes.LabelMatchStatement {
-
-    static func write(value: WAFV2ClientTypes.LabelMatchStatement?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Key"].write(value.key)
-        try writer["Scope"].write(value.scope)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.LabelMatchStatement {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFV2ClientTypes.LabelMatchStatement()
-        value.scope = try reader["Scope"].readIfPresent() ?? .sdkUnknown("")
-        value.key = try reader["Key"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension WAFV2ClientTypes.ManagedRuleGroupStatement {
-
-    static func write(value: WAFV2ClientTypes.ManagedRuleGroupStatement?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ExcludedRules"].writeList(value.excludedRules, memberWritingClosure: WAFV2ClientTypes.ExcludedRule.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ManagedRuleGroupConfigs"].writeList(value.managedRuleGroupConfigs, memberWritingClosure: WAFV2ClientTypes.ManagedRuleGroupConfig.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Name"].write(value.name)
-        try writer["RuleActionOverrides"].writeList(value.ruleActionOverrides, memberWritingClosure: WAFV2ClientTypes.RuleActionOverride.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ScopeDownStatement"].write(value.scopeDownStatement, with: WAFV2ClientTypes.Statement.write(value:to:))
-        try writer["VendorName"].write(value.vendorName)
-        try writer["Version"].write(value.version)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.ManagedRuleGroupStatement {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFV2ClientTypes.ManagedRuleGroupStatement()
-        value.vendorName = try reader["VendorName"].readIfPresent() ?? ""
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.version = try reader["Version"].readIfPresent()
-        value.excludedRules = try reader["ExcludedRules"].readListIfPresent(memberReadingClosure: WAFV2ClientTypes.ExcludedRule.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.scopeDownStatement = try reader["ScopeDownStatement"].readIfPresent(with: WAFV2ClientTypes.Statement.read(from:))
-        value.managedRuleGroupConfigs = try reader["ManagedRuleGroupConfigs"].readListIfPresent(memberReadingClosure: WAFV2ClientTypes.ManagedRuleGroupConfig.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.ruleActionOverrides = try reader["RuleActionOverrides"].readListIfPresent(memberReadingClosure: WAFV2ClientTypes.RuleActionOverride.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension WAFV2ClientTypes.RuleActionOverride {
-
-    static func write(value: WAFV2ClientTypes.RuleActionOverride?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ActionToUse"].write(value.actionToUse, with: WAFV2ClientTypes.RuleAction.write(value:to:))
-        try writer["Name"].write(value.name)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.RuleActionOverride {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFV2ClientTypes.RuleActionOverride()
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.actionToUse = try reader["ActionToUse"].readIfPresent(with: WAFV2ClientTypes.RuleAction.read(from:))
+        var value = WAFV2ClientTypes.ManagedProductDescriptor()
+        value.vendorName = try reader["VendorName"].readIfPresent()
+        value.managedRuleSetName = try reader["ManagedRuleSetName"].readIfPresent()
+        value.productId = try reader["ProductId"].readIfPresent()
+        value.productLink = try reader["ProductLink"].readIfPresent()
+        value.productTitle = try reader["ProductTitle"].readIfPresent()
+        value.productDescription = try reader["ProductDescription"].readIfPresent()
+        value.snsTopicArn = try reader["SnsTopicArn"].readIfPresent()
+        value.isVersioningSupported = try reader["IsVersioningSupported"].readIfPresent() ?? false
+        value.isAdvancedManagedRuleSet = try reader["IsAdvancedManagedRuleSet"].readIfPresent() ?? false
         return value
     }
 }
@@ -12638,208 +12614,214 @@ extension WAFV2ClientTypes.ManagedRuleGroupConfig {
     }
 }
 
-extension WAFV2ClientTypes.AWSManagedRulesAntiDDoSRuleSet {
+extension WAFV2ClientTypes.ManagedRuleGroupStatement {
 
-    static func write(value: WAFV2ClientTypes.AWSManagedRulesAntiDDoSRuleSet?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: WAFV2ClientTypes.ManagedRuleGroupStatement?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["ClientSideActionConfig"].write(value.clientSideActionConfig, with: WAFV2ClientTypes.ClientSideActionConfig.write(value:to:))
-        try writer["SensitivityToBlock"].write(value.sensitivityToBlock)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.AWSManagedRulesAntiDDoSRuleSet {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFV2ClientTypes.AWSManagedRulesAntiDDoSRuleSet()
-        value.clientSideActionConfig = try reader["ClientSideActionConfig"].readIfPresent(with: WAFV2ClientTypes.ClientSideActionConfig.read(from:))
-        value.sensitivityToBlock = try reader["SensitivityToBlock"].readIfPresent()
-        return value
-    }
-}
-
-extension WAFV2ClientTypes.ClientSideActionConfig {
-
-    static func write(value: WAFV2ClientTypes.ClientSideActionConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Challenge"].write(value.challenge, with: WAFV2ClientTypes.ClientSideAction.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.ClientSideActionConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFV2ClientTypes.ClientSideActionConfig()
-        value.challenge = try reader["Challenge"].readIfPresent(with: WAFV2ClientTypes.ClientSideAction.read(from:))
-        return value
-    }
-}
-
-extension WAFV2ClientTypes.ClientSideAction {
-
-    static func write(value: WAFV2ClientTypes.ClientSideAction?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ExemptUriRegularExpressions"].writeList(value.exemptUriRegularExpressions, memberWritingClosure: WAFV2ClientTypes.Regex.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Sensitivity"].write(value.sensitivity)
-        try writer["UsageOfAction"].write(value.usageOfAction)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.ClientSideAction {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFV2ClientTypes.ClientSideAction()
-        value.usageOfAction = try reader["UsageOfAction"].readIfPresent() ?? .sdkUnknown("")
-        value.sensitivity = try reader["Sensitivity"].readIfPresent()
-        value.exemptUriRegularExpressions = try reader["ExemptUriRegularExpressions"].readListIfPresent(memberReadingClosure: WAFV2ClientTypes.Regex.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension WAFV2ClientTypes.AWSManagedRulesACFPRuleSet {
-
-    static func write(value: WAFV2ClientTypes.AWSManagedRulesACFPRuleSet?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreationPath"].write(value.creationPath)
-        try writer["EnableRegexInPath"].write(value.enableRegexInPath)
-        try writer["RegistrationPagePath"].write(value.registrationPagePath)
-        try writer["RequestInspection"].write(value.requestInspection, with: WAFV2ClientTypes.RequestInspectionACFP.write(value:to:))
-        try writer["ResponseInspection"].write(value.responseInspection, with: WAFV2ClientTypes.ResponseInspection.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.AWSManagedRulesACFPRuleSet {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFV2ClientTypes.AWSManagedRulesACFPRuleSet()
-        value.creationPath = try reader["CreationPath"].readIfPresent() ?? ""
-        value.registrationPagePath = try reader["RegistrationPagePath"].readIfPresent() ?? ""
-        value.requestInspection = try reader["RequestInspection"].readIfPresent(with: WAFV2ClientTypes.RequestInspectionACFP.read(from:))
-        value.responseInspection = try reader["ResponseInspection"].readIfPresent(with: WAFV2ClientTypes.ResponseInspection.read(from:))
-        value.enableRegexInPath = try reader["EnableRegexInPath"].readIfPresent() ?? false
-        return value
-    }
-}
-
-extension WAFV2ClientTypes.ResponseInspection {
-
-    static func write(value: WAFV2ClientTypes.ResponseInspection?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BodyContains"].write(value.bodyContains, with: WAFV2ClientTypes.ResponseInspectionBodyContains.write(value:to:))
-        try writer["Header"].write(value.header, with: WAFV2ClientTypes.ResponseInspectionHeader.write(value:to:))
-        try writer["Json"].write(value.json, with: WAFV2ClientTypes.ResponseInspectionJson.write(value:to:))
-        try writer["StatusCode"].write(value.statusCode, with: WAFV2ClientTypes.ResponseInspectionStatusCode.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.ResponseInspection {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFV2ClientTypes.ResponseInspection()
-        value.statusCode = try reader["StatusCode"].readIfPresent(with: WAFV2ClientTypes.ResponseInspectionStatusCode.read(from:))
-        value.header = try reader["Header"].readIfPresent(with: WAFV2ClientTypes.ResponseInspectionHeader.read(from:))
-        value.bodyContains = try reader["BodyContains"].readIfPresent(with: WAFV2ClientTypes.ResponseInspectionBodyContains.read(from:))
-        value.json = try reader["Json"].readIfPresent(with: WAFV2ClientTypes.ResponseInspectionJson.read(from:))
-        return value
-    }
-}
-
-extension WAFV2ClientTypes.ResponseInspectionJson {
-
-    static func write(value: WAFV2ClientTypes.ResponseInspectionJson?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["FailureValues"].writeList(value.failureValues, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Identifier"].write(value.identifier)
-        try writer["SuccessValues"].writeList(value.successValues, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.ResponseInspectionJson {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFV2ClientTypes.ResponseInspectionJson()
-        value.identifier = try reader["Identifier"].readIfPresent() ?? ""
-        value.successValues = try reader["SuccessValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.failureValues = try reader["FailureValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension WAFV2ClientTypes.ResponseInspectionBodyContains {
-
-    static func write(value: WAFV2ClientTypes.ResponseInspectionBodyContains?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["FailureStrings"].writeList(value.failureStrings, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["SuccessStrings"].writeList(value.successStrings, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.ResponseInspectionBodyContains {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFV2ClientTypes.ResponseInspectionBodyContains()
-        value.successStrings = try reader["SuccessStrings"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.failureStrings = try reader["FailureStrings"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension WAFV2ClientTypes.ResponseInspectionHeader {
-
-    static func write(value: WAFV2ClientTypes.ResponseInspectionHeader?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["FailureValues"].writeList(value.failureValues, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ExcludedRules"].writeList(value.excludedRules, memberWritingClosure: WAFV2ClientTypes.ExcludedRule.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ManagedRuleGroupConfigs"].writeList(value.managedRuleGroupConfigs, memberWritingClosure: WAFV2ClientTypes.ManagedRuleGroupConfig.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Name"].write(value.name)
-        try writer["SuccessValues"].writeList(value.successValues, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["RuleActionOverrides"].writeList(value.ruleActionOverrides, memberWritingClosure: WAFV2ClientTypes.RuleActionOverride.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ScopeDownStatement"].write(value.scopeDownStatement, with: WAFV2ClientTypes.Statement.write(value:to:))
+        try writer["VendorName"].write(value.vendorName)
+        try writer["Version"].write(value.version)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.ResponseInspectionHeader {
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.ManagedRuleGroupStatement {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFV2ClientTypes.ResponseInspectionHeader()
+        var value = WAFV2ClientTypes.ManagedRuleGroupStatement()
+        value.vendorName = try reader["VendorName"].readIfPresent() ?? ""
         value.name = try reader["Name"].readIfPresent() ?? ""
-        value.successValues = try reader["SuccessValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.failureValues = try reader["FailureValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.version = try reader["Version"].readIfPresent()
+        value.excludedRules = try reader["ExcludedRules"].readListIfPresent(memberReadingClosure: WAFV2ClientTypes.ExcludedRule.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.scopeDownStatement = try reader["ScopeDownStatement"].readIfPresent(with: WAFV2ClientTypes.Statement.read(from:))
+        value.managedRuleGroupConfigs = try reader["ManagedRuleGroupConfigs"].readListIfPresent(memberReadingClosure: WAFV2ClientTypes.ManagedRuleGroupConfig.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.ruleActionOverrides = try reader["RuleActionOverrides"].readListIfPresent(memberReadingClosure: WAFV2ClientTypes.RuleActionOverride.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
 
-extension WAFV2ClientTypes.ResponseInspectionStatusCode {
+extension WAFV2ClientTypes.ManagedRuleGroupSummary {
 
-    static func write(value: WAFV2ClientTypes.ResponseInspectionStatusCode?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["FailureCodes"].writeList(value.failureCodes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeInt(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["SuccessCodes"].writeList(value.successCodes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeInt(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.ResponseInspectionStatusCode {
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.ManagedRuleGroupSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFV2ClientTypes.ResponseInspectionStatusCode()
-        value.successCodes = try reader["SuccessCodes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.failureCodes = try reader["FailureCodes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        var value = WAFV2ClientTypes.ManagedRuleGroupSummary()
+        value.vendorName = try reader["VendorName"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        value.versioningSupported = try reader["VersioningSupported"].readIfPresent() ?? false
+        value.description = try reader["Description"].readIfPresent()
         return value
     }
 }
 
-extension WAFV2ClientTypes.RequestInspectionACFP {
+extension WAFV2ClientTypes.ManagedRuleGroupVersion {
 
-    static func write(value: WAFV2ClientTypes.RequestInspectionACFP?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AddressFields"].writeList(value.addressFields, memberWritingClosure: WAFV2ClientTypes.AddressField.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["EmailField"].write(value.emailField, with: WAFV2ClientTypes.EmailField.write(value:to:))
-        try writer["PasswordField"].write(value.passwordField, with: WAFV2ClientTypes.PasswordField.write(value:to:))
-        try writer["PayloadType"].write(value.payloadType)
-        try writer["PhoneNumberFields"].writeList(value.phoneNumberFields, memberWritingClosure: WAFV2ClientTypes.PhoneNumberField.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["UsernameField"].write(value.usernameField, with: WAFV2ClientTypes.UsernameField.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.RequestInspectionACFP {
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.ManagedRuleGroupVersion {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFV2ClientTypes.RequestInspectionACFP()
-        value.payloadType = try reader["PayloadType"].readIfPresent() ?? .sdkUnknown("")
-        value.usernameField = try reader["UsernameField"].readIfPresent(with: WAFV2ClientTypes.UsernameField.read(from:))
-        value.passwordField = try reader["PasswordField"].readIfPresent(with: WAFV2ClientTypes.PasswordField.read(from:))
-        value.emailField = try reader["EmailField"].readIfPresent(with: WAFV2ClientTypes.EmailField.read(from:))
-        value.phoneNumberFields = try reader["PhoneNumberFields"].readListIfPresent(memberReadingClosure: WAFV2ClientTypes.PhoneNumberField.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.addressFields = try reader["AddressFields"].readListIfPresent(memberReadingClosure: WAFV2ClientTypes.AddressField.read(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = WAFV2ClientTypes.ManagedRuleGroupVersion()
+        value.name = try reader["Name"].readIfPresent()
+        value.lastUpdateTimestamp = try reader["LastUpdateTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }
 
-extension WAFV2ClientTypes.AddressField {
+extension WAFV2ClientTypes.ManagedRuleSet {
 
-    static func write(value: WAFV2ClientTypes.AddressField?, to writer: SmithyJSON.Writer) throws {
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.ManagedRuleSet {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFV2ClientTypes.ManagedRuleSet()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.id = try reader["Id"].readIfPresent() ?? ""
+        value.arn = try reader["ARN"].readIfPresent() ?? ""
+        value.description = try reader["Description"].readIfPresent()
+        value.publishedVersions = try reader["PublishedVersions"].readMapIfPresent(valueReadingClosure: WAFV2ClientTypes.ManagedRuleSetVersion.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.recommendedVersion = try reader["RecommendedVersion"].readIfPresent()
+        value.labelNamespace = try reader["LabelNamespace"].readIfPresent()
+        return value
+    }
+}
+
+extension WAFV2ClientTypes.ManagedRuleSetSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.ManagedRuleSetSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFV2ClientTypes.ManagedRuleSetSummary()
+        value.name = try reader["Name"].readIfPresent()
+        value.id = try reader["Id"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.lockToken = try reader["LockToken"].readIfPresent()
+        value.arn = try reader["ARN"].readIfPresent()
+        value.labelNamespace = try reader["LabelNamespace"].readIfPresent()
+        return value
+    }
+}
+
+extension WAFV2ClientTypes.ManagedRuleSetVersion {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.ManagedRuleSetVersion {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFV2ClientTypes.ManagedRuleSetVersion()
+        value.associatedRuleGroupArn = try reader["AssociatedRuleGroupArn"].readIfPresent()
+        value.capacity = try reader["Capacity"].readIfPresent()
+        value.forecastedLifetime = try reader["ForecastedLifetime"].readIfPresent()
+        value.publishTimestamp = try reader["PublishTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastUpdateTimestamp = try reader["LastUpdateTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.expiryTimestamp = try reader["ExpiryTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension WAFV2ClientTypes.Method {
+
+    static func write(value: WAFV2ClientTypes.Method?, to writer: SmithyJSON.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.Method {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        return WAFV2ClientTypes.Method()
+    }
+}
+
+extension WAFV2ClientTypes.MobileSdkRelease {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.MobileSdkRelease {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFV2ClientTypes.MobileSdkRelease()
+        value.releaseVersion = try reader["ReleaseVersion"].readIfPresent()
+        value.timestamp = try reader["Timestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.releaseNotes = try reader["ReleaseNotes"].readIfPresent()
+        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: WAFV2ClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension WAFV2ClientTypes.NoneAction {
+
+    static func write(value: WAFV2ClientTypes.NoneAction?, to writer: SmithyJSON.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.NoneAction {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        return WAFV2ClientTypes.NoneAction()
+    }
+}
+
+extension WAFV2ClientTypes.NotStatement {
+
+    static func write(value: WAFV2ClientTypes.NotStatement?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Statement"].write(value.statement, with: WAFV2ClientTypes.Statement.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.NotStatement {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let value = WAFV2ClientTypes.NotStatement()
+        value.statement = try reader["Statement"].readIfPresent(with: WAFV2ClientTypes.Statement.read(from:))
+        return value
+    }
+}
+
+extension WAFV2ClientTypes.OnSourceDDoSProtectionConfig {
+
+    static func write(value: WAFV2ClientTypes.OnSourceDDoSProtectionConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ALBLowReputationMode"].write(value.albLowReputationMode)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.OnSourceDDoSProtectionConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFV2ClientTypes.OnSourceDDoSProtectionConfig()
+        value.albLowReputationMode = try reader["ALBLowReputationMode"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension WAFV2ClientTypes.OrStatement {
+
+    static func write(value: WAFV2ClientTypes.OrStatement?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Statements"].writeList(value.statements, memberWritingClosure: WAFV2ClientTypes.Statement.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.OrStatement {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFV2ClientTypes.OrStatement()
+        value.statements = try reader["Statements"].readListIfPresent(memberReadingClosure: WAFV2ClientTypes.Statement.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension WAFV2ClientTypes.OverrideAction {
+
+    static func write(value: WAFV2ClientTypes.OverrideAction?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Count"].write(value.count, with: WAFV2ClientTypes.CountAction.write(value:to:))
+        try writer["None"].write(value.`none`, with: WAFV2ClientTypes.NoneAction.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.OverrideAction {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFV2ClientTypes.OverrideAction()
+        value.count = try reader["Count"].readIfPresent(with: WAFV2ClientTypes.CountAction.read(from:))
+        value.`none` = try reader["None"].readIfPresent(with: WAFV2ClientTypes.NoneAction.read(from:))
+        return value
+    }
+}
+
+extension WAFV2ClientTypes.PasswordField {
+
+    static func write(value: WAFV2ClientTypes.PasswordField?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Identifier"].write(value.identifier)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.AddressField {
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.PasswordField {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFV2ClientTypes.AddressField()
+        var value = WAFV2ClientTypes.PasswordField()
         value.identifier = try reader["Identifier"].readIfPresent() ?? ""
         return value
     }
@@ -12860,165 +12842,16 @@ extension WAFV2ClientTypes.PhoneNumberField {
     }
 }
 
-extension WAFV2ClientTypes.EmailField {
+extension WAFV2ClientTypes.QueryString {
 
-    static func write(value: WAFV2ClientTypes.EmailField?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Identifier"].write(value.identifier)
+    static func write(value: WAFV2ClientTypes.QueryString?, to writer: SmithyJSON.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.EmailField {
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.QueryString {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFV2ClientTypes.EmailField()
-        value.identifier = try reader["Identifier"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension WAFV2ClientTypes.PasswordField {
-
-    static func write(value: WAFV2ClientTypes.PasswordField?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Identifier"].write(value.identifier)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.PasswordField {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFV2ClientTypes.PasswordField()
-        value.identifier = try reader["Identifier"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension WAFV2ClientTypes.UsernameField {
-
-    static func write(value: WAFV2ClientTypes.UsernameField?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Identifier"].write(value.identifier)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.UsernameField {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFV2ClientTypes.UsernameField()
-        value.identifier = try reader["Identifier"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension WAFV2ClientTypes.AWSManagedRulesATPRuleSet {
-
-    static func write(value: WAFV2ClientTypes.AWSManagedRulesATPRuleSet?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["EnableRegexInPath"].write(value.enableRegexInPath)
-        try writer["LoginPath"].write(value.loginPath)
-        try writer["RequestInspection"].write(value.requestInspection, with: WAFV2ClientTypes.RequestInspection.write(value:to:))
-        try writer["ResponseInspection"].write(value.responseInspection, with: WAFV2ClientTypes.ResponseInspection.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.AWSManagedRulesATPRuleSet {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFV2ClientTypes.AWSManagedRulesATPRuleSet()
-        value.loginPath = try reader["LoginPath"].readIfPresent() ?? ""
-        value.requestInspection = try reader["RequestInspection"].readIfPresent(with: WAFV2ClientTypes.RequestInspection.read(from:))
-        value.responseInspection = try reader["ResponseInspection"].readIfPresent(with: WAFV2ClientTypes.ResponseInspection.read(from:))
-        value.enableRegexInPath = try reader["EnableRegexInPath"].readIfPresent() ?? false
-        return value
-    }
-}
-
-extension WAFV2ClientTypes.RequestInspection {
-
-    static func write(value: WAFV2ClientTypes.RequestInspection?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["PasswordField"].write(value.passwordField, with: WAFV2ClientTypes.PasswordField.write(value:to:))
-        try writer["PayloadType"].write(value.payloadType)
-        try writer["UsernameField"].write(value.usernameField, with: WAFV2ClientTypes.UsernameField.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.RequestInspection {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFV2ClientTypes.RequestInspection()
-        value.payloadType = try reader["PayloadType"].readIfPresent() ?? .sdkUnknown("")
-        value.usernameField = try reader["UsernameField"].readIfPresent(with: WAFV2ClientTypes.UsernameField.read(from:))
-        value.passwordField = try reader["PasswordField"].readIfPresent(with: WAFV2ClientTypes.PasswordField.read(from:))
-        return value
-    }
-}
-
-extension WAFV2ClientTypes.AWSManagedRulesBotControlRuleSet {
-
-    static func write(value: WAFV2ClientTypes.AWSManagedRulesBotControlRuleSet?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["EnableMachineLearning"].write(value.enableMachineLearning)
-        try writer["InspectionLevel"].write(value.inspectionLevel)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.AWSManagedRulesBotControlRuleSet {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFV2ClientTypes.AWSManagedRulesBotControlRuleSet()
-        value.inspectionLevel = try reader["InspectionLevel"].readIfPresent() ?? .sdkUnknown("")
-        value.enableMachineLearning = try reader["EnableMachineLearning"].readIfPresent() ?? true
-        return value
-    }
-}
-
-extension WAFV2ClientTypes.ExcludedRule {
-
-    static func write(value: WAFV2ClientTypes.ExcludedRule?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.ExcludedRule {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFV2ClientTypes.ExcludedRule()
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension WAFV2ClientTypes.NotStatement {
-
-    static func write(value: WAFV2ClientTypes.NotStatement?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Statement"].write(value.statement, with: WAFV2ClientTypes.Statement.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.NotStatement {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let value = WAFV2ClientTypes.NotStatement()
-        value.statement = try reader["Statement"].readIfPresent(with: WAFV2ClientTypes.Statement.read(from:))
-        return value
-    }
-}
-
-extension WAFV2ClientTypes.OrStatement {
-
-    static func write(value: WAFV2ClientTypes.OrStatement?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Statements"].writeList(value.statements, memberWritingClosure: WAFV2ClientTypes.Statement.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.OrStatement {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFV2ClientTypes.OrStatement()
-        value.statements = try reader["Statements"].readListIfPresent(memberReadingClosure: WAFV2ClientTypes.Statement.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension WAFV2ClientTypes.AndStatement {
-
-    static func write(value: WAFV2ClientTypes.AndStatement?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Statements"].writeList(value.statements, memberWritingClosure: WAFV2ClientTypes.Statement.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.AndStatement {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFV2ClientTypes.AndStatement()
-        value.statements = try reader["Statements"].readListIfPresent(memberReadingClosure: WAFV2ClientTypes.Statement.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
+        return WAFV2ClientTypes.QueryString()
     }
 }
 
@@ -13084,6 +12917,17 @@ extension WAFV2ClientTypes.RateBasedStatementCustomKey {
     }
 }
 
+extension WAFV2ClientTypes.RateBasedStatementManagedKeysIPSet {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.RateBasedStatementManagedKeysIPSet {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFV2ClientTypes.RateBasedStatementManagedKeysIPSet()
+        value.ipAddressVersion = try reader["IPAddressVersion"].readIfPresent()
+        value.addresses = try reader["Addresses"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension WAFV2ClientTypes.RateLimitAsn {
 
     static func write(value: WAFV2ClientTypes.RateLimitAsn?, to writer: SmithyJSON.Writer) throws {
@@ -13097,18 +12941,76 @@ extension WAFV2ClientTypes.RateLimitAsn {
     }
 }
 
-extension WAFV2ClientTypes.RateLimitJA4Fingerprint {
+extension WAFV2ClientTypes.RateLimitCookie {
 
-    static func write(value: WAFV2ClientTypes.RateLimitJA4Fingerprint?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: WAFV2ClientTypes.RateLimitCookie?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["FallbackBehavior"].write(value.fallbackBehavior)
+        try writer["Name"].write(value.name)
+        try writer["TextTransformations"].writeList(value.textTransformations, memberWritingClosure: WAFV2ClientTypes.TextTransformation.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.RateLimitJA4Fingerprint {
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.RateLimitCookie {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFV2ClientTypes.RateLimitJA4Fingerprint()
-        value.fallbackBehavior = try reader["FallbackBehavior"].readIfPresent() ?? .sdkUnknown("")
+        var value = WAFV2ClientTypes.RateLimitCookie()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.textTransformations = try reader["TextTransformations"].readListIfPresent(memberReadingClosure: WAFV2ClientTypes.TextTransformation.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
+    }
+}
+
+extension WAFV2ClientTypes.RateLimitForwardedIP {
+
+    static func write(value: WAFV2ClientTypes.RateLimitForwardedIP?, to writer: SmithyJSON.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.RateLimitForwardedIP {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        return WAFV2ClientTypes.RateLimitForwardedIP()
+    }
+}
+
+extension WAFV2ClientTypes.RateLimitHeader {
+
+    static func write(value: WAFV2ClientTypes.RateLimitHeader?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Name"].write(value.name)
+        try writer["TextTransformations"].writeList(value.textTransformations, memberWritingClosure: WAFV2ClientTypes.TextTransformation.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.RateLimitHeader {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFV2ClientTypes.RateLimitHeader()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.textTransformations = try reader["TextTransformations"].readListIfPresent(memberReadingClosure: WAFV2ClientTypes.TextTransformation.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension WAFV2ClientTypes.RateLimitHTTPMethod {
+
+    static func write(value: WAFV2ClientTypes.RateLimitHTTPMethod?, to writer: SmithyJSON.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.RateLimitHTTPMethod {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        return WAFV2ClientTypes.RateLimitHTTPMethod()
+    }
+}
+
+extension WAFV2ClientTypes.RateLimitIP {
+
+    static func write(value: WAFV2ClientTypes.RateLimitIP?, to writer: SmithyJSON.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.RateLimitIP {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        return WAFV2ClientTypes.RateLimitIP()
     }
 }
 
@@ -13127,17 +13029,17 @@ extension WAFV2ClientTypes.RateLimitJA3Fingerprint {
     }
 }
 
-extension WAFV2ClientTypes.RateLimitUriPath {
+extension WAFV2ClientTypes.RateLimitJA4Fingerprint {
 
-    static func write(value: WAFV2ClientTypes.RateLimitUriPath?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: WAFV2ClientTypes.RateLimitJA4Fingerprint?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["TextTransformations"].writeList(value.textTransformations, memberWritingClosure: WAFV2ClientTypes.TextTransformation.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["FallbackBehavior"].write(value.fallbackBehavior)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.RateLimitUriPath {
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.RateLimitJA4Fingerprint {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFV2ClientTypes.RateLimitUriPath()
-        value.textTransformations = try reader["TextTransformations"].readListIfPresent(memberReadingClosure: WAFV2ClientTypes.TextTransformation.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        var value = WAFV2ClientTypes.RateLimitJA4Fingerprint()
+        value.fallbackBehavior = try reader["FallbackBehavior"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -13153,60 +13055,6 @@ extension WAFV2ClientTypes.RateLimitLabelNamespace {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = WAFV2ClientTypes.RateLimitLabelNamespace()
         value.namespace = try reader["Namespace"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension WAFV2ClientTypes.RateLimitIP {
-
-    static func write(value: WAFV2ClientTypes.RateLimitIP?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.RateLimitIP {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        return WAFV2ClientTypes.RateLimitIP()
-    }
-}
-
-extension WAFV2ClientTypes.RateLimitForwardedIP {
-
-    static func write(value: WAFV2ClientTypes.RateLimitForwardedIP?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.RateLimitForwardedIP {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        return WAFV2ClientTypes.RateLimitForwardedIP()
-    }
-}
-
-extension WAFV2ClientTypes.RateLimitHTTPMethod {
-
-    static func write(value: WAFV2ClientTypes.RateLimitHTTPMethod?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.RateLimitHTTPMethod {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        return WAFV2ClientTypes.RateLimitHTTPMethod()
-    }
-}
-
-extension WAFV2ClientTypes.RateLimitQueryString {
-
-    static func write(value: WAFV2ClientTypes.RateLimitQueryString?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["TextTransformations"].writeList(value.textTransformations, memberWritingClosure: WAFV2ClientTypes.TextTransformation.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.RateLimitQueryString {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFV2ClientTypes.RateLimitQueryString()
-        value.textTransformations = try reader["TextTransformations"].readListIfPresent(memberReadingClosure: WAFV2ClientTypes.TextTransformation.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -13228,36 +13076,80 @@ extension WAFV2ClientTypes.RateLimitQueryArgument {
     }
 }
 
-extension WAFV2ClientTypes.RateLimitCookie {
+extension WAFV2ClientTypes.RateLimitQueryString {
 
-    static func write(value: WAFV2ClientTypes.RateLimitCookie?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: WAFV2ClientTypes.RateLimitQueryString?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["Name"].write(value.name)
         try writer["TextTransformations"].writeList(value.textTransformations, memberWritingClosure: WAFV2ClientTypes.TextTransformation.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.RateLimitCookie {
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.RateLimitQueryString {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFV2ClientTypes.RateLimitCookie()
-        value.name = try reader["Name"].readIfPresent() ?? ""
+        var value = WAFV2ClientTypes.RateLimitQueryString()
         value.textTransformations = try reader["TextTransformations"].readListIfPresent(memberReadingClosure: WAFV2ClientTypes.TextTransformation.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
 
-extension WAFV2ClientTypes.RateLimitHeader {
+extension WAFV2ClientTypes.RateLimitUriPath {
 
-    static func write(value: WAFV2ClientTypes.RateLimitHeader?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: WAFV2ClientTypes.RateLimitUriPath?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["Name"].write(value.name)
         try writer["TextTransformations"].writeList(value.textTransformations, memberWritingClosure: WAFV2ClientTypes.TextTransformation.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.RateLimitHeader {
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.RateLimitUriPath {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFV2ClientTypes.RateLimitHeader()
-        value.name = try reader["Name"].readIfPresent() ?? ""
+        var value = WAFV2ClientTypes.RateLimitUriPath()
         value.textTransformations = try reader["TextTransformations"].readListIfPresent(memberReadingClosure: WAFV2ClientTypes.TextTransformation.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension WAFV2ClientTypes.Regex {
+
+    static func write(value: WAFV2ClientTypes.Regex?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["RegexString"].write(value.regexString)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.Regex {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFV2ClientTypes.Regex()
+        value.regexString = try reader["RegexString"].readIfPresent()
+        return value
+    }
+}
+
+extension WAFV2ClientTypes.RegexMatchStatement {
+
+    static func write(value: WAFV2ClientTypes.RegexMatchStatement?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FieldToMatch"].write(value.fieldToMatch, with: WAFV2ClientTypes.FieldToMatch.write(value:to:))
+        try writer["RegexString"].write(value.regexString)
+        try writer["TextTransformations"].writeList(value.textTransformations, memberWritingClosure: WAFV2ClientTypes.TextTransformation.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.RegexMatchStatement {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFV2ClientTypes.RegexMatchStatement()
+        value.regexString = try reader["RegexString"].readIfPresent() ?? ""
+        value.fieldToMatch = try reader["FieldToMatch"].readIfPresent(with: WAFV2ClientTypes.FieldToMatch.read(from:))
+        value.textTransformations = try reader["TextTransformations"].readListIfPresent(memberReadingClosure: WAFV2ClientTypes.TextTransformation.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension WAFV2ClientTypes.RegexPatternSet {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.RegexPatternSet {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFV2ClientTypes.RegexPatternSet()
+        value.name = try reader["Name"].readIfPresent()
+        value.id = try reader["Id"].readIfPresent()
+        value.arn = try reader["ARN"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.regularExpressionList = try reader["RegularExpressionList"].readListIfPresent(memberReadingClosure: WAFV2ClientTypes.Regex.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -13281,38 +13173,270 @@ extension WAFV2ClientTypes.RegexPatternSetReferenceStatement {
     }
 }
 
-extension WAFV2ClientTypes.IPSetReferenceStatement {
+extension WAFV2ClientTypes.RegexPatternSetSummary {
 
-    static func write(value: WAFV2ClientTypes.IPSetReferenceStatement?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ARN"].write(value.arn)
-        try writer["IPSetForwardedIPConfig"].write(value.ipSetForwardedIPConfig, with: WAFV2ClientTypes.IPSetForwardedIPConfig.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.IPSetReferenceStatement {
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.RegexPatternSetSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFV2ClientTypes.IPSetReferenceStatement()
-        value.arn = try reader["ARN"].readIfPresent() ?? ""
-        value.ipSetForwardedIPConfig = try reader["IPSetForwardedIPConfig"].readIfPresent(with: WAFV2ClientTypes.IPSetForwardedIPConfig.read(from:))
+        var value = WAFV2ClientTypes.RegexPatternSetSummary()
+        value.name = try reader["Name"].readIfPresent()
+        value.id = try reader["Id"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.lockToken = try reader["LockToken"].readIfPresent()
+        value.arn = try reader["ARN"].readIfPresent()
         return value
     }
 }
 
-extension WAFV2ClientTypes.IPSetForwardedIPConfig {
+extension WAFV2ClientTypes.ReleaseSummary {
 
-    static func write(value: WAFV2ClientTypes.IPSetForwardedIPConfig?, to writer: SmithyJSON.Writer) throws {
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.ReleaseSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFV2ClientTypes.ReleaseSummary()
+        value.releaseVersion = try reader["ReleaseVersion"].readIfPresent()
+        value.timestamp = try reader["Timestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension WAFV2ClientTypes.RequestBodyAssociatedResourceTypeConfig {
+
+    static func write(value: WAFV2ClientTypes.RequestBodyAssociatedResourceTypeConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["FallbackBehavior"].write(value.fallbackBehavior)
-        try writer["HeaderName"].write(value.headerName)
-        try writer["Position"].write(value.position)
+        try writer["DefaultSizeInspectionLimit"].write(value.defaultSizeInspectionLimit)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.IPSetForwardedIPConfig {
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.RequestBodyAssociatedResourceTypeConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFV2ClientTypes.IPSetForwardedIPConfig()
-        value.headerName = try reader["HeaderName"].readIfPresent() ?? ""
-        value.fallbackBehavior = try reader["FallbackBehavior"].readIfPresent() ?? .sdkUnknown("")
-        value.position = try reader["Position"].readIfPresent() ?? .sdkUnknown("")
+        var value = WAFV2ClientTypes.RequestBodyAssociatedResourceTypeConfig()
+        value.defaultSizeInspectionLimit = try reader["DefaultSizeInspectionLimit"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension WAFV2ClientTypes.RequestInspection {
+
+    static func write(value: WAFV2ClientTypes.RequestInspection?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["PasswordField"].write(value.passwordField, with: WAFV2ClientTypes.PasswordField.write(value:to:))
+        try writer["PayloadType"].write(value.payloadType)
+        try writer["UsernameField"].write(value.usernameField, with: WAFV2ClientTypes.UsernameField.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.RequestInspection {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFV2ClientTypes.RequestInspection()
+        value.payloadType = try reader["PayloadType"].readIfPresent() ?? .sdkUnknown("")
+        value.usernameField = try reader["UsernameField"].readIfPresent(with: WAFV2ClientTypes.UsernameField.read(from:))
+        value.passwordField = try reader["PasswordField"].readIfPresent(with: WAFV2ClientTypes.PasswordField.read(from:))
+        return value
+    }
+}
+
+extension WAFV2ClientTypes.RequestInspectionACFP {
+
+    static func write(value: WAFV2ClientTypes.RequestInspectionACFP?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AddressFields"].writeList(value.addressFields, memberWritingClosure: WAFV2ClientTypes.AddressField.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["EmailField"].write(value.emailField, with: WAFV2ClientTypes.EmailField.write(value:to:))
+        try writer["PasswordField"].write(value.passwordField, with: WAFV2ClientTypes.PasswordField.write(value:to:))
+        try writer["PayloadType"].write(value.payloadType)
+        try writer["PhoneNumberFields"].writeList(value.phoneNumberFields, memberWritingClosure: WAFV2ClientTypes.PhoneNumberField.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["UsernameField"].write(value.usernameField, with: WAFV2ClientTypes.UsernameField.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.RequestInspectionACFP {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFV2ClientTypes.RequestInspectionACFP()
+        value.payloadType = try reader["PayloadType"].readIfPresent() ?? .sdkUnknown("")
+        value.usernameField = try reader["UsernameField"].readIfPresent(with: WAFV2ClientTypes.UsernameField.read(from:))
+        value.passwordField = try reader["PasswordField"].readIfPresent(with: WAFV2ClientTypes.PasswordField.read(from:))
+        value.emailField = try reader["EmailField"].readIfPresent(with: WAFV2ClientTypes.EmailField.read(from:))
+        value.phoneNumberFields = try reader["PhoneNumberFields"].readListIfPresent(memberReadingClosure: WAFV2ClientTypes.PhoneNumberField.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.addressFields = try reader["AddressFields"].readListIfPresent(memberReadingClosure: WAFV2ClientTypes.AddressField.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension WAFV2ClientTypes.ResponseInspection {
+
+    static func write(value: WAFV2ClientTypes.ResponseInspection?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["BodyContains"].write(value.bodyContains, with: WAFV2ClientTypes.ResponseInspectionBodyContains.write(value:to:))
+        try writer["Header"].write(value.header, with: WAFV2ClientTypes.ResponseInspectionHeader.write(value:to:))
+        try writer["Json"].write(value.json, with: WAFV2ClientTypes.ResponseInspectionJson.write(value:to:))
+        try writer["StatusCode"].write(value.statusCode, with: WAFV2ClientTypes.ResponseInspectionStatusCode.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.ResponseInspection {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFV2ClientTypes.ResponseInspection()
+        value.statusCode = try reader["StatusCode"].readIfPresent(with: WAFV2ClientTypes.ResponseInspectionStatusCode.read(from:))
+        value.header = try reader["Header"].readIfPresent(with: WAFV2ClientTypes.ResponseInspectionHeader.read(from:))
+        value.bodyContains = try reader["BodyContains"].readIfPresent(with: WAFV2ClientTypes.ResponseInspectionBodyContains.read(from:))
+        value.json = try reader["Json"].readIfPresent(with: WAFV2ClientTypes.ResponseInspectionJson.read(from:))
+        return value
+    }
+}
+
+extension WAFV2ClientTypes.ResponseInspectionBodyContains {
+
+    static func write(value: WAFV2ClientTypes.ResponseInspectionBodyContains?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FailureStrings"].writeList(value.failureStrings, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["SuccessStrings"].writeList(value.successStrings, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.ResponseInspectionBodyContains {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFV2ClientTypes.ResponseInspectionBodyContains()
+        value.successStrings = try reader["SuccessStrings"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.failureStrings = try reader["FailureStrings"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension WAFV2ClientTypes.ResponseInspectionHeader {
+
+    static func write(value: WAFV2ClientTypes.ResponseInspectionHeader?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FailureValues"].writeList(value.failureValues, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Name"].write(value.name)
+        try writer["SuccessValues"].writeList(value.successValues, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.ResponseInspectionHeader {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFV2ClientTypes.ResponseInspectionHeader()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.successValues = try reader["SuccessValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.failureValues = try reader["FailureValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension WAFV2ClientTypes.ResponseInspectionJson {
+
+    static func write(value: WAFV2ClientTypes.ResponseInspectionJson?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FailureValues"].writeList(value.failureValues, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Identifier"].write(value.identifier)
+        try writer["SuccessValues"].writeList(value.successValues, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.ResponseInspectionJson {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFV2ClientTypes.ResponseInspectionJson()
+        value.identifier = try reader["Identifier"].readIfPresent() ?? ""
+        value.successValues = try reader["SuccessValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.failureValues = try reader["FailureValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension WAFV2ClientTypes.ResponseInspectionStatusCode {
+
+    static func write(value: WAFV2ClientTypes.ResponseInspectionStatusCode?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FailureCodes"].writeList(value.failureCodes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeInt(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["SuccessCodes"].writeList(value.successCodes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeInt(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.ResponseInspectionStatusCode {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFV2ClientTypes.ResponseInspectionStatusCode()
+        value.successCodes = try reader["SuccessCodes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.failureCodes = try reader["FailureCodes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension WAFV2ClientTypes.Rule {
+
+    static func write(value: WAFV2ClientTypes.Rule?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Action"].write(value.action, with: WAFV2ClientTypes.RuleAction.write(value:to:))
+        try writer["CaptchaConfig"].write(value.captchaConfig, with: WAFV2ClientTypes.CaptchaConfig.write(value:to:))
+        try writer["ChallengeConfig"].write(value.challengeConfig, with: WAFV2ClientTypes.ChallengeConfig.write(value:to:))
+        try writer["Name"].write(value.name)
+        try writer["OverrideAction"].write(value.overrideAction, with: WAFV2ClientTypes.OverrideAction.write(value:to:))
+        try writer["Priority"].write(value.priority)
+        try writer["RuleLabels"].writeList(value.ruleLabels, memberWritingClosure: WAFV2ClientTypes.Label.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Statement"].write(value.statement, with: WAFV2ClientTypes.Statement.write(value:to:))
+        try writer["VisibilityConfig"].write(value.visibilityConfig, with: WAFV2ClientTypes.VisibilityConfig.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.Rule {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFV2ClientTypes.Rule()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.priority = try reader["Priority"].readIfPresent() ?? 0
+        value.statement = try reader["Statement"].readIfPresent(with: WAFV2ClientTypes.Statement.read(from:))
+        value.action = try reader["Action"].readIfPresent(with: WAFV2ClientTypes.RuleAction.read(from:))
+        value.overrideAction = try reader["OverrideAction"].readIfPresent(with: WAFV2ClientTypes.OverrideAction.read(from:))
+        value.ruleLabels = try reader["RuleLabels"].readListIfPresent(memberReadingClosure: WAFV2ClientTypes.Label.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.visibilityConfig = try reader["VisibilityConfig"].readIfPresent(with: WAFV2ClientTypes.VisibilityConfig.read(from:))
+        value.captchaConfig = try reader["CaptchaConfig"].readIfPresent(with: WAFV2ClientTypes.CaptchaConfig.read(from:))
+        value.challengeConfig = try reader["ChallengeConfig"].readIfPresent(with: WAFV2ClientTypes.ChallengeConfig.read(from:))
+        return value
+    }
+}
+
+extension WAFV2ClientTypes.RuleAction {
+
+    static func write(value: WAFV2ClientTypes.RuleAction?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Allow"].write(value.allow, with: WAFV2ClientTypes.AllowAction.write(value:to:))
+        try writer["Block"].write(value.block, with: WAFV2ClientTypes.BlockAction.write(value:to:))
+        try writer["Captcha"].write(value.captcha, with: WAFV2ClientTypes.CaptchaAction.write(value:to:))
+        try writer["Challenge"].write(value.challenge, with: WAFV2ClientTypes.ChallengeAction.write(value:to:))
+        try writer["Count"].write(value.count, with: WAFV2ClientTypes.CountAction.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.RuleAction {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFV2ClientTypes.RuleAction()
+        value.block = try reader["Block"].readIfPresent(with: WAFV2ClientTypes.BlockAction.read(from:))
+        value.allow = try reader["Allow"].readIfPresent(with: WAFV2ClientTypes.AllowAction.read(from:))
+        value.count = try reader["Count"].readIfPresent(with: WAFV2ClientTypes.CountAction.read(from:))
+        value.captcha = try reader["Captcha"].readIfPresent(with: WAFV2ClientTypes.CaptchaAction.read(from:))
+        value.challenge = try reader["Challenge"].readIfPresent(with: WAFV2ClientTypes.ChallengeAction.read(from:))
+        return value
+    }
+}
+
+extension WAFV2ClientTypes.RuleActionOverride {
+
+    static func write(value: WAFV2ClientTypes.RuleActionOverride?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ActionToUse"].write(value.actionToUse, with: WAFV2ClientTypes.RuleAction.write(value:to:))
+        try writer["Name"].write(value.name)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.RuleActionOverride {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFV2ClientTypes.RuleActionOverride()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.actionToUse = try reader["ActionToUse"].readIfPresent(with: WAFV2ClientTypes.RuleAction.read(from:))
+        return value
+    }
+}
+
+extension WAFV2ClientTypes.RuleGroup {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.RuleGroup {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFV2ClientTypes.RuleGroup()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.id = try reader["Id"].readIfPresent() ?? ""
+        value.capacity = try reader["Capacity"].readIfPresent() ?? 0
+        value.arn = try reader["ARN"].readIfPresent() ?? ""
+        value.description = try reader["Description"].readIfPresent()
+        value.rules = try reader["Rules"].readListIfPresent(memberReadingClosure: WAFV2ClientTypes.Rule.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.visibilityConfig = try reader["VisibilityConfig"].readIfPresent(with: WAFV2ClientTypes.VisibilityConfig.read(from:))
+        value.labelNamespace = try reader["LabelNamespace"].readIfPresent()
+        value.customResponseBodies = try reader["CustomResponseBodies"].readMapIfPresent(valueReadingClosure: WAFV2ClientTypes.CustomResponseBody.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.availableLabels = try reader["AvailableLabels"].readListIfPresent(memberReadingClosure: WAFV2ClientTypes.LabelSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.consumedLabels = try reader["ConsumedLabels"].readListIfPresent(memberReadingClosure: WAFV2ClientTypes.LabelSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -13336,19 +13460,77 @@ extension WAFV2ClientTypes.RuleGroupReferenceStatement {
     }
 }
 
-extension WAFV2ClientTypes.GeoMatchStatement {
+extension WAFV2ClientTypes.RuleGroupSummary {
 
-    static func write(value: WAFV2ClientTypes.GeoMatchStatement?, to writer: SmithyJSON.Writer) throws {
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.RuleGroupSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFV2ClientTypes.RuleGroupSummary()
+        value.name = try reader["Name"].readIfPresent()
+        value.id = try reader["Id"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.lockToken = try reader["LockToken"].readIfPresent()
+        value.arn = try reader["ARN"].readIfPresent()
+        return value
+    }
+}
+
+extension WAFV2ClientTypes.RuleSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.RuleSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFV2ClientTypes.RuleSummary()
+        value.name = try reader["Name"].readIfPresent()
+        value.action = try reader["Action"].readIfPresent(with: WAFV2ClientTypes.RuleAction.read(from:))
+        return value
+    }
+}
+
+extension WAFV2ClientTypes.SampledHTTPRequest {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.SampledHTTPRequest {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFV2ClientTypes.SampledHTTPRequest()
+        value.request = try reader["Request"].readIfPresent(with: WAFV2ClientTypes.HTTPRequest.read(from:))
+        value.weight = try reader["Weight"].readIfPresent() ?? 0
+        value.timestamp = try reader["Timestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.action = try reader["Action"].readIfPresent()
+        value.ruleNameWithinRuleGroup = try reader["RuleNameWithinRuleGroup"].readIfPresent()
+        value.requestHeadersInserted = try reader["RequestHeadersInserted"].readListIfPresent(memberReadingClosure: WAFV2ClientTypes.HTTPHeader.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.responseCodeSent = try reader["ResponseCodeSent"].readIfPresent()
+        value.labels = try reader["Labels"].readListIfPresent(memberReadingClosure: WAFV2ClientTypes.Label.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.captchaResponse = try reader["CaptchaResponse"].readIfPresent(with: WAFV2ClientTypes.CaptchaResponse.read(from:))
+        value.challengeResponse = try reader["ChallengeResponse"].readIfPresent(with: WAFV2ClientTypes.ChallengeResponse.read(from:))
+        value.overriddenAction = try reader["OverriddenAction"].readIfPresent()
+        return value
+    }
+}
+
+extension WAFV2ClientTypes.SingleHeader {
+
+    static func write(value: WAFV2ClientTypes.SingleHeader?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["CountryCodes"].writeList(value.countryCodes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<WAFV2ClientTypes.CountryCode>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ForwardedIPConfig"].write(value.forwardedIPConfig, with: WAFV2ClientTypes.ForwardedIPConfig.write(value:to:))
+        try writer["Name"].write(value.name)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.GeoMatchStatement {
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.SingleHeader {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFV2ClientTypes.GeoMatchStatement()
-        value.countryCodes = try reader["CountryCodes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<WAFV2ClientTypes.CountryCode>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.forwardedIPConfig = try reader["ForwardedIPConfig"].readIfPresent(with: WAFV2ClientTypes.ForwardedIPConfig.read(from:))
+        var value = WAFV2ClientTypes.SingleHeader()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension WAFV2ClientTypes.SingleQueryArgument {
+
+    static func write(value: WAFV2ClientTypes.SingleQueryArgument?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Name"].write(value.name)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.SingleQueryArgument {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFV2ClientTypes.SingleQueryArgument()
+        value.name = try reader["Name"].readIfPresent() ?? ""
         return value
     }
 }
@@ -13374,23 +13556,6 @@ extension WAFV2ClientTypes.SizeConstraintStatement {
     }
 }
 
-extension WAFV2ClientTypes.XssMatchStatement {
-
-    static func write(value: WAFV2ClientTypes.XssMatchStatement?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["FieldToMatch"].write(value.fieldToMatch, with: WAFV2ClientTypes.FieldToMatch.write(value:to:))
-        try writer["TextTransformations"].writeList(value.textTransformations, memberWritingClosure: WAFV2ClientTypes.TextTransformation.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.XssMatchStatement {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFV2ClientTypes.XssMatchStatement()
-        value.fieldToMatch = try reader["FieldToMatch"].readIfPresent(with: WAFV2ClientTypes.FieldToMatch.read(from:))
-        value.textTransformations = try reader["TextTransformations"].readListIfPresent(memberReadingClosure: WAFV2ClientTypes.TextTransformation.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
 extension WAFV2ClientTypes.SqliMatchStatement {
 
     static func write(value: WAFV2ClientTypes.SqliMatchStatement?, to writer: SmithyJSON.Writer) throws {
@@ -13410,93 +13575,92 @@ extension WAFV2ClientTypes.SqliMatchStatement {
     }
 }
 
-extension WAFV2ClientTypes.ByteMatchStatement {
+extension WAFV2ClientTypes.Statement {
 
-    static func write(value: WAFV2ClientTypes.ByteMatchStatement?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: WAFV2ClientTypes.Statement?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["FieldToMatch"].write(value.fieldToMatch, with: WAFV2ClientTypes.FieldToMatch.write(value:to:))
-        try writer["PositionalConstraint"].write(value.positionalConstraint)
-        try writer["SearchString"].write(value.searchString)
-        try writer["TextTransformations"].writeList(value.textTransformations, memberWritingClosure: WAFV2ClientTypes.TextTransformation.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["AndStatement"].write(value.andStatement, with: WAFV2ClientTypes.AndStatement.write(value:to:))
+        try writer["AsnMatchStatement"].write(value.asnMatchStatement, with: WAFV2ClientTypes.AsnMatchStatement.write(value:to:))
+        try writer["ByteMatchStatement"].write(value.byteMatchStatement, with: WAFV2ClientTypes.ByteMatchStatement.write(value:to:))
+        try writer["GeoMatchStatement"].write(value.geoMatchStatement, with: WAFV2ClientTypes.GeoMatchStatement.write(value:to:))
+        try writer["IPSetReferenceStatement"].write(value.ipSetReferenceStatement, with: WAFV2ClientTypes.IPSetReferenceStatement.write(value:to:))
+        try writer["LabelMatchStatement"].write(value.labelMatchStatement, with: WAFV2ClientTypes.LabelMatchStatement.write(value:to:))
+        try writer["ManagedRuleGroupStatement"].write(value.managedRuleGroupStatement, with: WAFV2ClientTypes.ManagedRuleGroupStatement.write(value:to:))
+        try writer["NotStatement"].write(value.notStatement, with: WAFV2ClientTypes.NotStatement.write(value:to:))
+        try writer["OrStatement"].write(value.orStatement, with: WAFV2ClientTypes.OrStatement.write(value:to:))
+        try writer["RateBasedStatement"].write(value.rateBasedStatement, with: WAFV2ClientTypes.RateBasedStatement.write(value:to:))
+        try writer["RegexMatchStatement"].write(value.regexMatchStatement, with: WAFV2ClientTypes.RegexMatchStatement.write(value:to:))
+        try writer["RegexPatternSetReferenceStatement"].write(value.regexPatternSetReferenceStatement, with: WAFV2ClientTypes.RegexPatternSetReferenceStatement.write(value:to:))
+        try writer["RuleGroupReferenceStatement"].write(value.ruleGroupReferenceStatement, with: WAFV2ClientTypes.RuleGroupReferenceStatement.write(value:to:))
+        try writer["SizeConstraintStatement"].write(value.sizeConstraintStatement, with: WAFV2ClientTypes.SizeConstraintStatement.write(value:to:))
+        try writer["SqliMatchStatement"].write(value.sqliMatchStatement, with: WAFV2ClientTypes.SqliMatchStatement.write(value:to:))
+        try writer["XssMatchStatement"].write(value.xssMatchStatement, with: WAFV2ClientTypes.XssMatchStatement.write(value:to:))
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.ByteMatchStatement {
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.Statement {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFV2ClientTypes.ByteMatchStatement()
-        value.searchString = try reader["SearchString"].readIfPresent() ?? Foundation.Data(base64Encoded: "")
-        value.fieldToMatch = try reader["FieldToMatch"].readIfPresent(with: WAFV2ClientTypes.FieldToMatch.read(from:))
-        value.textTransformations = try reader["TextTransformations"].readListIfPresent(memberReadingClosure: WAFV2ClientTypes.TextTransformation.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.positionalConstraint = try reader["PositionalConstraint"].readIfPresent() ?? .sdkUnknown("")
+        var value = WAFV2ClientTypes.Statement()
+        value.byteMatchStatement = try reader["ByteMatchStatement"].readIfPresent(with: WAFV2ClientTypes.ByteMatchStatement.read(from:))
+        value.sqliMatchStatement = try reader["SqliMatchStatement"].readIfPresent(with: WAFV2ClientTypes.SqliMatchStatement.read(from:))
+        value.xssMatchStatement = try reader["XssMatchStatement"].readIfPresent(with: WAFV2ClientTypes.XssMatchStatement.read(from:))
+        value.sizeConstraintStatement = try reader["SizeConstraintStatement"].readIfPresent(with: WAFV2ClientTypes.SizeConstraintStatement.read(from:))
+        value.geoMatchStatement = try reader["GeoMatchStatement"].readIfPresent(with: WAFV2ClientTypes.GeoMatchStatement.read(from:))
+        value.ruleGroupReferenceStatement = try reader["RuleGroupReferenceStatement"].readIfPresent(with: WAFV2ClientTypes.RuleGroupReferenceStatement.read(from:))
+        value.ipSetReferenceStatement = try reader["IPSetReferenceStatement"].readIfPresent(with: WAFV2ClientTypes.IPSetReferenceStatement.read(from:))
+        value.regexPatternSetReferenceStatement = try reader["RegexPatternSetReferenceStatement"].readIfPresent(with: WAFV2ClientTypes.RegexPatternSetReferenceStatement.read(from:))
+        value.rateBasedStatement = try reader["RateBasedStatement"].readIfPresent(with: WAFV2ClientTypes.RateBasedStatement.read(from:))
+        value.andStatement = try reader["AndStatement"].readIfPresent(with: WAFV2ClientTypes.AndStatement.read(from:))
+        value.orStatement = try reader["OrStatement"].readIfPresent(with: WAFV2ClientTypes.OrStatement.read(from:))
+        value.notStatement = try reader["NotStatement"].readIfPresent(with: WAFV2ClientTypes.NotStatement.read(from:))
+        value.managedRuleGroupStatement = try reader["ManagedRuleGroupStatement"].readIfPresent(with: WAFV2ClientTypes.ManagedRuleGroupStatement.read(from:))
+        value.labelMatchStatement = try reader["LabelMatchStatement"].readIfPresent(with: WAFV2ClientTypes.LabelMatchStatement.read(from:))
+        value.regexMatchStatement = try reader["RegexMatchStatement"].readIfPresent(with: WAFV2ClientTypes.RegexMatchStatement.read(from:))
+        value.asnMatchStatement = try reader["AsnMatchStatement"].readIfPresent(with: WAFV2ClientTypes.AsnMatchStatement.read(from:))
         return value
     }
 }
 
-extension WAFV2ClientTypes.SampledHTTPRequest {
+extension WAFV2ClientTypes.Tag {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.SampledHTTPRequest {
+    static func write(value: WAFV2ClientTypes.Tag?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Key"].write(value.key)
+        try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.Tag {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFV2ClientTypes.SampledHTTPRequest()
-        value.request = try reader["Request"].readIfPresent(with: WAFV2ClientTypes.HTTPRequest.read(from:))
-        value.weight = try reader["Weight"].readIfPresent() ?? 0
-        value.timestamp = try reader["Timestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.action = try reader["Action"].readIfPresent()
-        value.ruleNameWithinRuleGroup = try reader["RuleNameWithinRuleGroup"].readIfPresent()
-        value.requestHeadersInserted = try reader["RequestHeadersInserted"].readListIfPresent(memberReadingClosure: WAFV2ClientTypes.HTTPHeader.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.responseCodeSent = try reader["ResponseCodeSent"].readIfPresent()
-        value.labels = try reader["Labels"].readListIfPresent(memberReadingClosure: WAFV2ClientTypes.Label.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.captchaResponse = try reader["CaptchaResponse"].readIfPresent(with: WAFV2ClientTypes.CaptchaResponse.read(from:))
-        value.challengeResponse = try reader["ChallengeResponse"].readIfPresent(with: WAFV2ClientTypes.ChallengeResponse.read(from:))
-        value.overriddenAction = try reader["OverriddenAction"].readIfPresent()
+        var value = WAFV2ClientTypes.Tag()
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
         return value
     }
 }
 
-extension WAFV2ClientTypes.ChallengeResponse {
+extension WAFV2ClientTypes.TagInfoForResource {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.ChallengeResponse {
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.TagInfoForResource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFV2ClientTypes.ChallengeResponse()
-        value.responseCode = try reader["ResponseCode"].readIfPresent()
-        value.solveTimestamp = try reader["SolveTimestamp"].readIfPresent()
-        value.failureReason = try reader["FailureReason"].readIfPresent()
+        var value = WAFV2ClientTypes.TagInfoForResource()
+        value.resourceARN = try reader["ResourceARN"].readIfPresent()
+        value.tagList = try reader["TagList"].readListIfPresent(memberReadingClosure: WAFV2ClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
 
-extension WAFV2ClientTypes.CaptchaResponse {
+extension WAFV2ClientTypes.TextTransformation {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.CaptchaResponse {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFV2ClientTypes.CaptchaResponse()
-        value.responseCode = try reader["ResponseCode"].readIfPresent()
-        value.solveTimestamp = try reader["SolveTimestamp"].readIfPresent()
-        value.failureReason = try reader["FailureReason"].readIfPresent()
-        return value
+    static func write(value: WAFV2ClientTypes.TextTransformation?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Priority"].write(value.priority)
+        try writer["Type"].write(value.type)
     }
-}
 
-extension WAFV2ClientTypes.HTTPHeader {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.HTTPHeader {
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.TextTransformation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFV2ClientTypes.HTTPHeader()
-        value.name = try reader["Name"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
-        return value
-    }
-}
-
-extension WAFV2ClientTypes.HTTPRequest {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.HTTPRequest {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFV2ClientTypes.HTTPRequest()
-        value.clientIP = try reader["ClientIP"].readIfPresent()
-        value.country = try reader["Country"].readIfPresent()
-        value.uri = try reader["URI"].readIfPresent()
-        value.method = try reader["Method"].readIfPresent()
-        value.httpVersion = try reader["HTTPVersion"].readIfPresent()
-        value.headers = try reader["Headers"].readListIfPresent(memberReadingClosure: WAFV2ClientTypes.HTTPHeader.read(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = WAFV2ClientTypes.TextTransformation()
+        value.priority = try reader["Priority"].readIfPresent() ?? 0
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -13514,6 +13678,77 @@ extension WAFV2ClientTypes.TimeWindow {
         var value = WAFV2ClientTypes.TimeWindow()
         value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension WAFV2ClientTypes.UriFragment {
+
+    static func write(value: WAFV2ClientTypes.UriFragment?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FallbackBehavior"].write(value.fallbackBehavior)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.UriFragment {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFV2ClientTypes.UriFragment()
+        value.fallbackBehavior = try reader["FallbackBehavior"].readIfPresent()
+        return value
+    }
+}
+
+extension WAFV2ClientTypes.UriPath {
+
+    static func write(value: WAFV2ClientTypes.UriPath?, to writer: SmithyJSON.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.UriPath {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        return WAFV2ClientTypes.UriPath()
+    }
+}
+
+extension WAFV2ClientTypes.UsernameField {
+
+    static func write(value: WAFV2ClientTypes.UsernameField?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Identifier"].write(value.identifier)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.UsernameField {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFV2ClientTypes.UsernameField()
+        value.identifier = try reader["Identifier"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension WAFV2ClientTypes.VersionToPublish {
+
+    static func write(value: WAFV2ClientTypes.VersionToPublish?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AssociatedRuleGroupArn"].write(value.associatedRuleGroupArn)
+        try writer["ForecastedLifetime"].write(value.forecastedLifetime)
+    }
+}
+
+extension WAFV2ClientTypes.VisibilityConfig {
+
+    static func write(value: WAFV2ClientTypes.VisibilityConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CloudWatchMetricsEnabled"].write(value.cloudWatchMetricsEnabled)
+        try writer["MetricName"].write(value.metricName)
+        try writer["SampledRequestsEnabled"].write(value.sampledRequestsEnabled)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.VisibilityConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFV2ClientTypes.VisibilityConfig()
+        value.sampledRequestsEnabled = try reader["SampledRequestsEnabled"].readIfPresent() ?? false
+        value.cloudWatchMetricsEnabled = try reader["CloudWatchMetricsEnabled"].readIfPresent() ?? false
+        value.metricName = try reader["MetricName"].readIfPresent() ?? ""
         return value
     }
 }
@@ -13548,269 +13783,34 @@ extension WAFV2ClientTypes.WebACL {
     }
 }
 
-extension WAFV2ClientTypes.ApplicationConfig {
+extension WAFV2ClientTypes.WebACLSummary {
 
-    static func write(value: WAFV2ClientTypes.ApplicationConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Attributes"].writeList(value.attributes, memberWritingClosure: WAFV2ClientTypes.ApplicationAttribute.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.ApplicationConfig {
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.WebACLSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFV2ClientTypes.ApplicationConfig()
-        value.attributes = try reader["Attributes"].readListIfPresent(memberReadingClosure: WAFV2ClientTypes.ApplicationAttribute.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension WAFV2ClientTypes.ApplicationAttribute {
-
-    static func write(value: WAFV2ClientTypes.ApplicationAttribute?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.ApplicationAttribute {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFV2ClientTypes.ApplicationAttribute()
-        value.name = try reader["Name"].readIfPresent()
-        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension WAFV2ClientTypes.OnSourceDDoSProtectionConfig {
-
-    static func write(value: WAFV2ClientTypes.OnSourceDDoSProtectionConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ALBLowReputationMode"].write(value.albLowReputationMode)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.OnSourceDDoSProtectionConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFV2ClientTypes.OnSourceDDoSProtectionConfig()
-        value.albLowReputationMode = try reader["ALBLowReputationMode"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension WAFV2ClientTypes.AssociationConfig {
-
-    static func write(value: WAFV2ClientTypes.AssociationConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["RequestBody"].writeMap(value.requestBody, valueWritingClosure: WAFV2ClientTypes.RequestBodyAssociatedResourceTypeConfig.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.AssociationConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFV2ClientTypes.AssociationConfig()
-        value.requestBody = try reader["RequestBody"].readMapIfPresent(valueReadingClosure: WAFV2ClientTypes.RequestBodyAssociatedResourceTypeConfig.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
-}
-
-extension WAFV2ClientTypes.RequestBodyAssociatedResourceTypeConfig {
-
-    static func write(value: WAFV2ClientTypes.RequestBodyAssociatedResourceTypeConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DefaultSizeInspectionLimit"].write(value.defaultSizeInspectionLimit)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.RequestBodyAssociatedResourceTypeConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFV2ClientTypes.RequestBodyAssociatedResourceTypeConfig()
-        value.defaultSizeInspectionLimit = try reader["DefaultSizeInspectionLimit"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension WAFV2ClientTypes.FirewallManagerRuleGroup {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.FirewallManagerRuleGroup {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFV2ClientTypes.FirewallManagerRuleGroup()
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.priority = try reader["Priority"].readIfPresent() ?? 0
-        value.firewallManagerStatement = try reader["FirewallManagerStatement"].readIfPresent(with: WAFV2ClientTypes.FirewallManagerStatement.read(from:))
-        value.overrideAction = try reader["OverrideAction"].readIfPresent(with: WAFV2ClientTypes.OverrideAction.read(from:))
-        value.visibilityConfig = try reader["VisibilityConfig"].readIfPresent(with: WAFV2ClientTypes.VisibilityConfig.read(from:))
-        return value
-    }
-}
-
-extension WAFV2ClientTypes.FirewallManagerStatement {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.FirewallManagerStatement {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFV2ClientTypes.FirewallManagerStatement()
-        value.managedRuleGroupStatement = try reader["ManagedRuleGroupStatement"].readIfPresent(with: WAFV2ClientTypes.ManagedRuleGroupStatement.read(from:))
-        value.ruleGroupReferenceStatement = try reader["RuleGroupReferenceStatement"].readIfPresent(with: WAFV2ClientTypes.RuleGroupReferenceStatement.read(from:))
-        return value
-    }
-}
-
-extension WAFV2ClientTypes.DataProtectionConfig {
-
-    static func write(value: WAFV2ClientTypes.DataProtectionConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DataProtections"].writeList(value.dataProtections, memberWritingClosure: WAFV2ClientTypes.DataProtection.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.DataProtectionConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFV2ClientTypes.DataProtectionConfig()
-        value.dataProtections = try reader["DataProtections"].readListIfPresent(memberReadingClosure: WAFV2ClientTypes.DataProtection.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension WAFV2ClientTypes.DataProtection {
-
-    static func write(value: WAFV2ClientTypes.DataProtection?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Action"].write(value.action)
-        try writer["ExcludeRateBasedDetails"].write(value.excludeRateBasedDetails)
-        try writer["ExcludeRuleMatchDetails"].write(value.excludeRuleMatchDetails)
-        try writer["Field"].write(value.field, with: WAFV2ClientTypes.FieldToProtect.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.DataProtection {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFV2ClientTypes.DataProtection()
-        value.field = try reader["Field"].readIfPresent(with: WAFV2ClientTypes.FieldToProtect.read(from:))
-        value.action = try reader["Action"].readIfPresent() ?? .sdkUnknown("")
-        value.excludeRuleMatchDetails = try reader["ExcludeRuleMatchDetails"].readIfPresent() ?? false
-        value.excludeRateBasedDetails = try reader["ExcludeRateBasedDetails"].readIfPresent() ?? false
-        return value
-    }
-}
-
-extension WAFV2ClientTypes.FieldToProtect {
-
-    static func write(value: WAFV2ClientTypes.FieldToProtect?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["FieldKeys"].writeList(value.fieldKeys, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["FieldType"].write(value.fieldType)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.FieldToProtect {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFV2ClientTypes.FieldToProtect()
-        value.fieldType = try reader["FieldType"].readIfPresent() ?? .sdkUnknown("")
-        value.fieldKeys = try reader["FieldKeys"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension WAFV2ClientTypes.DefaultAction {
-
-    static func write(value: WAFV2ClientTypes.DefaultAction?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Allow"].write(value.allow, with: WAFV2ClientTypes.AllowAction.write(value:to:))
-        try writer["Block"].write(value.block, with: WAFV2ClientTypes.BlockAction.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.DefaultAction {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFV2ClientTypes.DefaultAction()
-        value.block = try reader["Block"].readIfPresent(with: WAFV2ClientTypes.BlockAction.read(from:))
-        value.allow = try reader["Allow"].readIfPresent(with: WAFV2ClientTypes.AllowAction.read(from:))
-        return value
-    }
-}
-
-extension WAFV2ClientTypes.APIKeySummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.APIKeySummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFV2ClientTypes.APIKeySummary()
-        value.tokenDomains = try reader["TokenDomains"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.apiKey = try reader["APIKey"].readIfPresent()
-        value.creationTimestamp = try reader["CreationTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.version = try reader["Version"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension WAFV2ClientTypes.ManagedRuleGroupSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.ManagedRuleGroupSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFV2ClientTypes.ManagedRuleGroupSummary()
-        value.vendorName = try reader["VendorName"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
-        value.versioningSupported = try reader["VersioningSupported"].readIfPresent() ?? false
-        value.description = try reader["Description"].readIfPresent()
-        return value
-    }
-}
-
-extension WAFV2ClientTypes.ManagedRuleGroupVersion {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.ManagedRuleGroupVersion {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFV2ClientTypes.ManagedRuleGroupVersion()
-        value.name = try reader["Name"].readIfPresent()
-        value.lastUpdateTimestamp = try reader["LastUpdateTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension WAFV2ClientTypes.ManagedRuleSetSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.ManagedRuleSetSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFV2ClientTypes.ManagedRuleSetSummary()
+        var value = WAFV2ClientTypes.WebACLSummary()
         value.name = try reader["Name"].readIfPresent()
         value.id = try reader["Id"].readIfPresent()
         value.description = try reader["Description"].readIfPresent()
         value.lockToken = try reader["LockToken"].readIfPresent()
         value.arn = try reader["ARN"].readIfPresent()
-        value.labelNamespace = try reader["LabelNamespace"].readIfPresent()
         return value
     }
 }
 
-extension WAFV2ClientTypes.ReleaseSummary {
+extension WAFV2ClientTypes.XssMatchStatement {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.ReleaseSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFV2ClientTypes.ReleaseSummary()
-        value.releaseVersion = try reader["ReleaseVersion"].readIfPresent()
-        value.timestamp = try reader["Timestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension WAFV2ClientTypes.TagInfoForResource {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.TagInfoForResource {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFV2ClientTypes.TagInfoForResource()
-        value.resourceARN = try reader["ResourceARN"].readIfPresent()
-        value.tagList = try reader["TagList"].readListIfPresent(memberReadingClosure: WAFV2ClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension WAFV2ClientTypes.DisallowedFeature {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.DisallowedFeature {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFV2ClientTypes.DisallowedFeature()
-        value.feature = try reader["Feature"].readIfPresent()
-        value.requiredPricingPlan = try reader["RequiredPricingPlan"].readIfPresent()
-        return value
-    }
-}
-
-extension WAFV2ClientTypes.VersionToPublish {
-
-    static func write(value: WAFV2ClientTypes.VersionToPublish?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: WAFV2ClientTypes.XssMatchStatement?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["AssociatedRuleGroupArn"].write(value.associatedRuleGroupArn)
-        try writer["ForecastedLifetime"].write(value.forecastedLifetime)
+        try writer["FieldToMatch"].write(value.fieldToMatch, with: WAFV2ClientTypes.FieldToMatch.write(value:to:))
+        try writer["TextTransformations"].writeList(value.textTransformations, memberWritingClosure: WAFV2ClientTypes.TextTransformation.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFV2ClientTypes.XssMatchStatement {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFV2ClientTypes.XssMatchStatement()
+        value.fieldToMatch = try reader["FieldToMatch"].readIfPresent(with: WAFV2ClientTypes.FieldToMatch.read(from:))
+        value.textTransformations = try reader["TextTransformations"].readListIfPresent(memberReadingClosure: WAFV2ClientTypes.TextTransformation.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
     }
 }
 

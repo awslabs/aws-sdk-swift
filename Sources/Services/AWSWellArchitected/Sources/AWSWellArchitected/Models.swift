@@ -10658,6 +10658,43 @@ extension ServiceQuotaExceededException {
     }
 }
 
+extension WellArchitectedClientTypes.AccountJiraConfigurationInput {
+
+    static func write(value: WellArchitectedClientTypes.AccountJiraConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["IntegrationStatus"].write(value.integrationStatus)
+        try writer["IssueManagementStatus"].write(value.issueManagementStatus)
+        try writer["IssueManagementType"].write(value.issueManagementType)
+        try writer["JiraProjectKey"].write(value.jiraProjectKey)
+    }
+}
+
+extension WellArchitectedClientTypes.AccountJiraConfigurationOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.AccountJiraConfigurationOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WellArchitectedClientTypes.AccountJiraConfigurationOutput()
+        value.integrationStatus = try reader["IntegrationStatus"].readIfPresent()
+        value.issueManagementStatus = try reader["IssueManagementStatus"].readIfPresent()
+        value.issueManagementType = try reader["IssueManagementType"].readIfPresent()
+        value.subdomain = try reader["Subdomain"].readIfPresent()
+        value.jiraProjectKey = try reader["JiraProjectKey"].readIfPresent()
+        value.statusMessage = try reader["StatusMessage"].readIfPresent()
+        return value
+    }
+}
+
+extension WellArchitectedClientTypes.AdditionalResources {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.AdditionalResources {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WellArchitectedClientTypes.AdditionalResources()
+        value.type = try reader["Type"].readIfPresent()
+        value.content = try reader["Content"].readListIfPresent(memberReadingClosure: WellArchitectedClientTypes.ChoiceContent.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension WellArchitectedClientTypes.Answer {
 
     static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.Answer {
@@ -10682,26 +10719,75 @@ extension WellArchitectedClientTypes.Answer {
     }
 }
 
-extension WellArchitectedClientTypes.JiraConfiguration {
+extension WellArchitectedClientTypes.AnswerSummary {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.JiraConfiguration {
+    static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.AnswerSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WellArchitectedClientTypes.JiraConfiguration()
-        value.jiraIssueUrl = try reader["JiraIssueUrl"].readIfPresent()
-        value.lastSyncedTime = try reader["LastSyncedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        var value = WellArchitectedClientTypes.AnswerSummary()
+        value.questionId = try reader["QuestionId"].readIfPresent()
+        value.pillarId = try reader["PillarId"].readIfPresent()
+        value.questionTitle = try reader["QuestionTitle"].readIfPresent()
+        value.choices = try reader["Choices"].readListIfPresent(memberReadingClosure: WellArchitectedClientTypes.Choice.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.selectedChoices = try reader["SelectedChoices"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.choiceAnswerSummaries = try reader["ChoiceAnswerSummaries"].readListIfPresent(memberReadingClosure: WellArchitectedClientTypes.ChoiceAnswerSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.isApplicable = try reader["IsApplicable"].readIfPresent()
+        value.risk = try reader["Risk"].readIfPresent()
+        value.reason = try reader["Reason"].readIfPresent()
+        value.questionType = try reader["QuestionType"].readIfPresent()
+        value.jiraConfiguration = try reader["JiraConfiguration"].readIfPresent(with: WellArchitectedClientTypes.JiraConfiguration.read(from:))
         return value
     }
 }
 
-extension WellArchitectedClientTypes.ChoiceAnswer {
+extension WellArchitectedClientTypes.BestPractice {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.ChoiceAnswer {
+    static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.BestPractice {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WellArchitectedClientTypes.ChoiceAnswer()
+        var value = WellArchitectedClientTypes.BestPractice()
+        value.choiceId = try reader["ChoiceId"].readIfPresent()
+        value.choiceTitle = try reader["ChoiceTitle"].readIfPresent()
+        return value
+    }
+}
+
+extension WellArchitectedClientTypes.CheckDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.CheckDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WellArchitectedClientTypes.CheckDetail()
+        value.id = try reader["Id"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.provider = try reader["Provider"].readIfPresent()
+        value.lensArn = try reader["LensArn"].readIfPresent()
+        value.pillarId = try reader["PillarId"].readIfPresent()
+        value.questionId = try reader["QuestionId"].readIfPresent()
         value.choiceId = try reader["ChoiceId"].readIfPresent()
         value.status = try reader["Status"].readIfPresent()
+        value.accountId = try reader["AccountId"].readIfPresent()
+        value.flaggedResources = try reader["FlaggedResources"].readIfPresent()
         value.reason = try reader["Reason"].readIfPresent()
-        value.notes = try reader["Notes"].readIfPresent()
+        value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension WellArchitectedClientTypes.CheckSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.CheckSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WellArchitectedClientTypes.CheckSummary()
+        value.id = try reader["Id"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        value.provider = try reader["Provider"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lensArn = try reader["LensArn"].readIfPresent()
+        value.pillarId = try reader["PillarId"].readIfPresent()
+        value.questionId = try reader["QuestionId"].readIfPresent()
+        value.choiceId = try reader["ChoiceId"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.accountSummary = try reader["AccountSummary"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }
@@ -10721,13 +10807,27 @@ extension WellArchitectedClientTypes.Choice {
     }
 }
 
-extension WellArchitectedClientTypes.AdditionalResources {
+extension WellArchitectedClientTypes.ChoiceAnswer {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.AdditionalResources {
+    static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.ChoiceAnswer {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WellArchitectedClientTypes.AdditionalResources()
-        value.type = try reader["Type"].readIfPresent()
-        value.content = try reader["Content"].readListIfPresent(memberReadingClosure: WellArchitectedClientTypes.ChoiceContent.read(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = WellArchitectedClientTypes.ChoiceAnswer()
+        value.choiceId = try reader["ChoiceId"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.reason = try reader["Reason"].readIfPresent()
+        value.notes = try reader["Notes"].readIfPresent()
+        return value
+    }
+}
+
+extension WellArchitectedClientTypes.ChoiceAnswerSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.ChoiceAnswerSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WellArchitectedClientTypes.ChoiceAnswerSummary()
+        value.choiceId = try reader["ChoiceId"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.reason = try reader["Reason"].readIfPresent()
         return value
     }
 }
@@ -10740,6 +10840,28 @@ extension WellArchitectedClientTypes.ChoiceContent {
         value.displayText = try reader["DisplayText"].readIfPresent()
         value.url = try reader["Url"].readIfPresent()
         return value
+    }
+}
+
+extension WellArchitectedClientTypes.ChoiceImprovementPlan {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.ChoiceImprovementPlan {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WellArchitectedClientTypes.ChoiceImprovementPlan()
+        value.choiceId = try reader["ChoiceId"].readIfPresent()
+        value.displayText = try reader["DisplayText"].readIfPresent()
+        value.improvementPlanUrl = try reader["ImprovementPlanUrl"].readIfPresent()
+        return value
+    }
+}
+
+extension WellArchitectedClientTypes.ChoiceUpdate {
+
+    static func write(value: WellArchitectedClientTypes.ChoiceUpdate?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Notes"].write(value.notes)
+        try writer["Reason"].write(value.reason)
+        try writer["Status"].write(value.status)
     }
 }
 
@@ -10760,64 +10882,44 @@ extension WellArchitectedClientTypes.ConsolidatedReportMetric {
     }
 }
 
-extension WellArchitectedClientTypes.LensMetric {
+extension WellArchitectedClientTypes.ImprovementSummary {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.LensMetric {
+    static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.ImprovementSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WellArchitectedClientTypes.LensMetric()
-        value.lensArn = try reader["LensArn"].readIfPresent()
-        value.pillars = try reader["Pillars"].readListIfPresent(memberReadingClosure: WellArchitectedClientTypes.PillarMetric.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.riskCounts = try reader["RiskCounts"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
-}
-
-extension WellArchitectedClientTypes.PillarMetric {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.PillarMetric {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WellArchitectedClientTypes.PillarMetric()
-        value.pillarId = try reader["PillarId"].readIfPresent()
-        value.riskCounts = try reader["RiskCounts"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.questions = try reader["Questions"].readListIfPresent(memberReadingClosure: WellArchitectedClientTypes.QuestionMetric.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension WellArchitectedClientTypes.QuestionMetric {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.QuestionMetric {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WellArchitectedClientTypes.QuestionMetric()
+        var value = WellArchitectedClientTypes.ImprovementSummary()
         value.questionId = try reader["QuestionId"].readIfPresent()
+        value.pillarId = try reader["PillarId"].readIfPresent()
+        value.questionTitle = try reader["QuestionTitle"].readIfPresent()
         value.risk = try reader["Risk"].readIfPresent()
-        value.bestPractices = try reader["BestPractices"].readListIfPresent(memberReadingClosure: WellArchitectedClientTypes.BestPractice.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.improvementPlanUrl = try reader["ImprovementPlanUrl"].readIfPresent()
+        value.improvementPlans = try reader["ImprovementPlans"].readListIfPresent(memberReadingClosure: WellArchitectedClientTypes.ChoiceImprovementPlan.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.jiraConfiguration = try reader["JiraConfiguration"].readIfPresent(with: WellArchitectedClientTypes.JiraConfiguration.read(from:))
         return value
     }
 }
 
-extension WellArchitectedClientTypes.BestPractice {
+extension WellArchitectedClientTypes.JiraConfiguration {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.BestPractice {
+    static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.JiraConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WellArchitectedClientTypes.BestPractice()
-        value.choiceId = try reader["ChoiceId"].readIfPresent()
-        value.choiceTitle = try reader["ChoiceTitle"].readIfPresent()
+        var value = WellArchitectedClientTypes.JiraConfiguration()
+        value.jiraIssueUrl = try reader["JiraIssueUrl"].readIfPresent()
+        value.lastSyncedTime = try reader["LastSyncedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }
 
-extension WellArchitectedClientTypes.AccountJiraConfigurationOutput {
+extension WellArchitectedClientTypes.JiraSelectedQuestionConfiguration {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.AccountJiraConfigurationOutput {
+    static func write(value: WellArchitectedClientTypes.JiraSelectedQuestionConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["SelectedPillars"].writeList(value.selectedPillars, memberWritingClosure: WellArchitectedClientTypes.SelectedPillar.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.JiraSelectedQuestionConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WellArchitectedClientTypes.AccountJiraConfigurationOutput()
-        value.integrationStatus = try reader["IntegrationStatus"].readIfPresent()
-        value.issueManagementStatus = try reader["IssueManagementStatus"].readIfPresent()
-        value.issueManagementType = try reader["IssueManagementType"].readIfPresent()
-        value.subdomain = try reader["Subdomain"].readIfPresent()
-        value.jiraProjectKey = try reader["JiraProjectKey"].readIfPresent()
-        value.statusMessage = try reader["StatusMessage"].readIfPresent()
+        var value = WellArchitectedClientTypes.JiraSelectedQuestionConfiguration()
+        value.selectedPillars = try reader["SelectedPillars"].readListIfPresent(memberReadingClosure: WellArchitectedClientTypes.SelectedPillar.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -10834,6 +10936,18 @@ extension WellArchitectedClientTypes.Lens {
         value.owner = try reader["Owner"].readIfPresent()
         value.shareInvitationId = try reader["ShareInvitationId"].readIfPresent()
         value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension WellArchitectedClientTypes.LensMetric {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.LensMetric {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WellArchitectedClientTypes.LensMetric()
+        value.lensArn = try reader["LensArn"].readIfPresent()
+        value.pillars = try reader["Pillars"].readListIfPresent(memberReadingClosure: WellArchitectedClientTypes.PillarMetric.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.riskCounts = try reader["RiskCounts"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }
@@ -10860,63 +10974,6 @@ extension WellArchitectedClientTypes.LensReview {
     }
 }
 
-extension WellArchitectedClientTypes.WorkloadProfile {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.WorkloadProfile {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WellArchitectedClientTypes.WorkloadProfile()
-        value.profileArn = try reader["ProfileArn"].readIfPresent()
-        value.profileVersion = try reader["ProfileVersion"].readIfPresent()
-        return value
-    }
-}
-
-extension WellArchitectedClientTypes.JiraSelectedQuestionConfiguration {
-
-    static func write(value: WellArchitectedClientTypes.JiraSelectedQuestionConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["SelectedPillars"].writeList(value.selectedPillars, memberWritingClosure: WellArchitectedClientTypes.SelectedPillar.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.JiraSelectedQuestionConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WellArchitectedClientTypes.JiraSelectedQuestionConfiguration()
-        value.selectedPillars = try reader["SelectedPillars"].readListIfPresent(memberReadingClosure: WellArchitectedClientTypes.SelectedPillar.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension WellArchitectedClientTypes.SelectedPillar {
-
-    static func write(value: WellArchitectedClientTypes.SelectedPillar?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["PillarId"].write(value.pillarId)
-        try writer["SelectedQuestionIds"].writeList(value.selectedQuestionIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.SelectedPillar {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WellArchitectedClientTypes.SelectedPillar()
-        value.pillarId = try reader["PillarId"].readIfPresent()
-        value.selectedQuestionIds = try reader["SelectedQuestionIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension WellArchitectedClientTypes.PillarReviewSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.PillarReviewSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WellArchitectedClientTypes.PillarReviewSummary()
-        value.pillarId = try reader["PillarId"].readIfPresent()
-        value.pillarName = try reader["PillarName"].readIfPresent()
-        value.notes = try reader["Notes"].readIfPresent()
-        value.riskCounts = try reader["RiskCounts"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.prioritizedRiskCounts = try reader["PrioritizedRiskCounts"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
-}
-
 extension WellArchitectedClientTypes.LensReviewReport {
 
     static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.LensReviewReport {
@@ -10929,37 +10986,69 @@ extension WellArchitectedClientTypes.LensReviewReport {
     }
 }
 
-extension WellArchitectedClientTypes.VersionDifferences {
+extension WellArchitectedClientTypes.LensReviewSummary {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.VersionDifferences {
+    static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.LensReviewSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WellArchitectedClientTypes.VersionDifferences()
-        value.pillarDifferences = try reader["PillarDifferences"].readListIfPresent(memberReadingClosure: WellArchitectedClientTypes.PillarDifference.read(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = WellArchitectedClientTypes.LensReviewSummary()
+        value.lensAlias = try reader["LensAlias"].readIfPresent()
+        value.lensArn = try reader["LensArn"].readIfPresent()
+        value.lensVersion = try reader["LensVersion"].readIfPresent()
+        value.lensName = try reader["LensName"].readIfPresent()
+        value.lensStatus = try reader["LensStatus"].readIfPresent()
+        value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.riskCounts = try reader["RiskCounts"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.profiles = try reader["Profiles"].readListIfPresent(memberReadingClosure: WellArchitectedClientTypes.WorkloadProfile.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.prioritizedRiskCounts = try reader["PrioritizedRiskCounts"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }
 
-extension WellArchitectedClientTypes.PillarDifference {
+extension WellArchitectedClientTypes.LensShareSummary {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.PillarDifference {
+    static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.LensShareSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WellArchitectedClientTypes.PillarDifference()
-        value.pillarId = try reader["PillarId"].readIfPresent()
-        value.pillarName = try reader["PillarName"].readIfPresent()
-        value.differenceStatus = try reader["DifferenceStatus"].readIfPresent()
-        value.questionDifferences = try reader["QuestionDifferences"].readListIfPresent(memberReadingClosure: WellArchitectedClientTypes.QuestionDifference.read(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = WellArchitectedClientTypes.LensShareSummary()
+        value.shareId = try reader["ShareId"].readIfPresent()
+        value.sharedWith = try reader["SharedWith"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.statusMessage = try reader["StatusMessage"].readIfPresent()
         return value
     }
 }
 
-extension WellArchitectedClientTypes.QuestionDifference {
+extension WellArchitectedClientTypes.LensSummary {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.QuestionDifference {
+    static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.LensSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WellArchitectedClientTypes.QuestionDifference()
-        value.questionId = try reader["QuestionId"].readIfPresent()
-        value.questionTitle = try reader["QuestionTitle"].readIfPresent()
-        value.differenceStatus = try reader["DifferenceStatus"].readIfPresent()
+        var value = WellArchitectedClientTypes.LensSummary()
+        value.lensArn = try reader["LensArn"].readIfPresent()
+        value.lensAlias = try reader["LensAlias"].readIfPresent()
+        value.lensName = try reader["LensName"].readIfPresent()
+        value.lensType = try reader["LensType"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lensVersion = try reader["LensVersion"].readIfPresent()
+        value.owner = try reader["Owner"].readIfPresent()
+        value.lensStatus = try reader["LensStatus"].readIfPresent()
+        return value
+    }
+}
+
+extension WellArchitectedClientTypes.LensUpgradeSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.LensUpgradeSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WellArchitectedClientTypes.LensUpgradeSummary()
+        value.workloadId = try reader["WorkloadId"].readIfPresent()
+        value.workloadName = try reader["WorkloadName"].readIfPresent()
+        value.lensAlias = try reader["LensAlias"].readIfPresent()
+        value.lensArn = try reader["LensArn"].readIfPresent()
+        value.currentLensVersion = try reader["CurrentLensVersion"].readIfPresent()
+        value.latestLensVersion = try reader["LatestLensVersion"].readIfPresent()
+        value.resourceArn = try reader["ResourceArn"].readIfPresent()
+        value.resourceName = try reader["ResourceName"].readIfPresent()
         return value
     }
 }
@@ -10977,69 +11066,65 @@ extension WellArchitectedClientTypes.Milestone {
     }
 }
 
-extension WellArchitectedClientTypes.Workload {
+extension WellArchitectedClientTypes.MilestoneSummary {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.Workload {
+    static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.MilestoneSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WellArchitectedClientTypes.Workload()
-        value.workloadId = try reader["WorkloadId"].readIfPresent()
-        value.workloadArn = try reader["WorkloadArn"].readIfPresent()
-        value.workloadName = try reader["WorkloadName"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        value.environment = try reader["Environment"].readIfPresent()
-        value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.accountIds = try reader["AccountIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.awsRegions = try reader["AwsRegions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.nonAwsRegions = try reader["NonAwsRegions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.architecturalDesign = try reader["ArchitecturalDesign"].readIfPresent()
-        value.reviewOwner = try reader["ReviewOwner"].readIfPresent()
-        value.reviewRestrictionDate = try reader["ReviewRestrictionDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.isReviewOwnerUpdateAcknowledged = try reader["IsReviewOwnerUpdateAcknowledged"].readIfPresent()
-        value.industryType = try reader["IndustryType"].readIfPresent()
-        value.industry = try reader["Industry"].readIfPresent()
-        value.notes = try reader["Notes"].readIfPresent()
-        value.improvementStatus = try reader["ImprovementStatus"].readIfPresent()
+        var value = WellArchitectedClientTypes.MilestoneSummary()
+        value.milestoneNumber = try reader["MilestoneNumber"].readIfPresent()
+        value.milestoneName = try reader["MilestoneName"].readIfPresent()
+        value.recordedAt = try reader["RecordedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.workloadSummary = try reader["WorkloadSummary"].readIfPresent(with: WellArchitectedClientTypes.WorkloadSummary.read(from:))
+        return value
+    }
+}
+
+extension WellArchitectedClientTypes.NotificationSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.NotificationSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WellArchitectedClientTypes.NotificationSummary()
+        value.type = try reader["Type"].readIfPresent()
+        value.lensUpgradeSummary = try reader["LensUpgradeSummary"].readIfPresent(with: WellArchitectedClientTypes.LensUpgradeSummary.read(from:))
+        return value
+    }
+}
+
+extension WellArchitectedClientTypes.PillarDifference {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.PillarDifference {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WellArchitectedClientTypes.PillarDifference()
+        value.pillarId = try reader["PillarId"].readIfPresent()
+        value.pillarName = try reader["PillarName"].readIfPresent()
+        value.differenceStatus = try reader["DifferenceStatus"].readIfPresent()
+        value.questionDifferences = try reader["QuestionDifferences"].readListIfPresent(memberReadingClosure: WellArchitectedClientTypes.QuestionDifference.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension WellArchitectedClientTypes.PillarMetric {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.PillarMetric {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WellArchitectedClientTypes.PillarMetric()
+        value.pillarId = try reader["PillarId"].readIfPresent()
         value.riskCounts = try reader["RiskCounts"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.pillarPriorities = try reader["PillarPriorities"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.lenses = try reader["Lenses"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.owner = try reader["Owner"].readIfPresent()
-        value.shareInvitationId = try reader["ShareInvitationId"].readIfPresent()
-        value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.discoveryConfig = try reader["DiscoveryConfig"].readIfPresent(with: WellArchitectedClientTypes.WorkloadDiscoveryConfig.read(from:))
-        value.applications = try reader["Applications"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.profiles = try reader["Profiles"].readListIfPresent(memberReadingClosure: WellArchitectedClientTypes.WorkloadProfile.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.questions = try reader["Questions"].readListIfPresent(memberReadingClosure: WellArchitectedClientTypes.QuestionMetric.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension WellArchitectedClientTypes.PillarReviewSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.PillarReviewSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WellArchitectedClientTypes.PillarReviewSummary()
+        value.pillarId = try reader["PillarId"].readIfPresent()
+        value.pillarName = try reader["PillarName"].readIfPresent()
+        value.notes = try reader["Notes"].readIfPresent()
+        value.riskCounts = try reader["RiskCounts"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.prioritizedRiskCounts = try reader["PrioritizedRiskCounts"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.jiraConfiguration = try reader["JiraConfiguration"].readIfPresent(with: WellArchitectedClientTypes.WorkloadJiraConfigurationOutput.read(from:))
-        return value
-    }
-}
-
-extension WellArchitectedClientTypes.WorkloadJiraConfigurationOutput {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.WorkloadJiraConfigurationOutput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WellArchitectedClientTypes.WorkloadJiraConfigurationOutput()
-        value.issueManagementStatus = try reader["IssueManagementStatus"].readIfPresent()
-        value.issueManagementType = try reader["IssueManagementType"].readIfPresent()
-        value.jiraProjectKey = try reader["JiraProjectKey"].readIfPresent()
-        value.statusMessage = try reader["StatusMessage"].readIfPresent()
-        return value
-    }
-}
-
-extension WellArchitectedClientTypes.WorkloadDiscoveryConfig {
-
-    static func write(value: WellArchitectedClientTypes.WorkloadDiscoveryConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["TrustedAdvisorIntegrationStatus"].write(value.trustedAdvisorIntegrationStatus)
-        try writer["WorkloadResourceDefinition"].writeList(value.workloadResourceDefinition, memberWritingClosure: SmithyReadWrite.WritingClosureBox<WellArchitectedClientTypes.DefinitionType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.WorkloadDiscoveryConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WellArchitectedClientTypes.WorkloadDiscoveryConfig()
-        value.trustedAdvisorIntegrationStatus = try reader["TrustedAdvisorIntegrationStatus"].readIfPresent()
-        value.workloadResourceDefinition = try reader["WorkloadResourceDefinition"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<WellArchitectedClientTypes.DefinitionType>().read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -11063,6 +11148,34 @@ extension WellArchitectedClientTypes.Profile {
     }
 }
 
+extension WellArchitectedClientTypes.ProfileChoice {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.ProfileChoice {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WellArchitectedClientTypes.ProfileChoice()
+        value.choiceId = try reader["ChoiceId"].readIfPresent()
+        value.choiceTitle = try reader["ChoiceTitle"].readIfPresent()
+        value.choiceDescription = try reader["ChoiceDescription"].readIfPresent()
+        return value
+    }
+}
+
+extension WellArchitectedClientTypes.ProfileNotificationSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.ProfileNotificationSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WellArchitectedClientTypes.ProfileNotificationSummary()
+        value.currentProfileVersion = try reader["CurrentProfileVersion"].readIfPresent()
+        value.latestProfileVersion = try reader["LatestProfileVersion"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent()
+        value.profileArn = try reader["ProfileArn"].readIfPresent()
+        value.profileName = try reader["ProfileName"].readIfPresent()
+        value.workloadId = try reader["WorkloadId"].readIfPresent()
+        value.workloadName = try reader["WorkloadName"].readIfPresent()
+        return value
+    }
+}
+
 extension WellArchitectedClientTypes.ProfileQuestion {
 
     static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.ProfileQuestion {
@@ -11079,14 +11192,40 @@ extension WellArchitectedClientTypes.ProfileQuestion {
     }
 }
 
-extension WellArchitectedClientTypes.ProfileChoice {
+extension WellArchitectedClientTypes.ProfileQuestionUpdate {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.ProfileChoice {
+    static func write(value: WellArchitectedClientTypes.ProfileQuestionUpdate?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["QuestionId"].write(value.questionId)
+        try writer["SelectedChoiceIds"].writeList(value.selectedChoiceIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension WellArchitectedClientTypes.ProfileShareSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.ProfileShareSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WellArchitectedClientTypes.ProfileChoice()
-        value.choiceId = try reader["ChoiceId"].readIfPresent()
-        value.choiceTitle = try reader["ChoiceTitle"].readIfPresent()
-        value.choiceDescription = try reader["ChoiceDescription"].readIfPresent()
+        var value = WellArchitectedClientTypes.ProfileShareSummary()
+        value.shareId = try reader["ShareId"].readIfPresent()
+        value.sharedWith = try reader["SharedWith"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.statusMessage = try reader["StatusMessage"].readIfPresent()
+        return value
+    }
+}
+
+extension WellArchitectedClientTypes.ProfileSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.ProfileSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WellArchitectedClientTypes.ProfileSummary()
+        value.profileArn = try reader["ProfileArn"].readIfPresent()
+        value.profileVersion = try reader["ProfileVersion"].readIfPresent()
+        value.profileName = try reader["ProfileName"].readIfPresent()
+        value.profileDescription = try reader["ProfileDescription"].readIfPresent()
+        value.owner = try reader["Owner"].readIfPresent()
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }
@@ -11100,6 +11239,18 @@ extension WellArchitectedClientTypes.ProfileTemplate {
         value.templateQuestions = try reader["TemplateQuestions"].readListIfPresent(memberReadingClosure: WellArchitectedClientTypes.ProfileTemplateQuestion.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension WellArchitectedClientTypes.ProfileTemplateChoice {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.ProfileTemplateChoice {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WellArchitectedClientTypes.ProfileTemplateChoice()
+        value.choiceId = try reader["ChoiceId"].readIfPresent()
+        value.choiceTitle = try reader["ChoiceTitle"].readIfPresent()
+        value.choiceDescription = try reader["ChoiceDescription"].readIfPresent()
         return value
     }
 }
@@ -11119,14 +11270,26 @@ extension WellArchitectedClientTypes.ProfileTemplateQuestion {
     }
 }
 
-extension WellArchitectedClientTypes.ProfileTemplateChoice {
+extension WellArchitectedClientTypes.QuestionDifference {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.ProfileTemplateChoice {
+    static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.QuestionDifference {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WellArchitectedClientTypes.ProfileTemplateChoice()
-        value.choiceId = try reader["ChoiceId"].readIfPresent()
-        value.choiceTitle = try reader["ChoiceTitle"].readIfPresent()
-        value.choiceDescription = try reader["ChoiceDescription"].readIfPresent()
+        var value = WellArchitectedClientTypes.QuestionDifference()
+        value.questionId = try reader["QuestionId"].readIfPresent()
+        value.questionTitle = try reader["QuestionTitle"].readIfPresent()
+        value.differenceStatus = try reader["DifferenceStatus"].readIfPresent()
+        return value
+    }
+}
+
+extension WellArchitectedClientTypes.QuestionMetric {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.QuestionMetric {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WellArchitectedClientTypes.QuestionMetric()
+        value.questionId = try reader["QuestionId"].readIfPresent()
+        value.risk = try reader["Risk"].readIfPresent()
+        value.bestPractices = try reader["BestPractices"].readListIfPresent(memberReadingClosure: WellArchitectedClientTypes.BestPractice.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -11174,6 +11337,25 @@ extension WellArchitectedClientTypes.ReviewTemplateAnswer {
     }
 }
 
+extension WellArchitectedClientTypes.ReviewTemplateAnswerSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.ReviewTemplateAnswerSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WellArchitectedClientTypes.ReviewTemplateAnswerSummary()
+        value.questionId = try reader["QuestionId"].readIfPresent()
+        value.pillarId = try reader["PillarId"].readIfPresent()
+        value.questionTitle = try reader["QuestionTitle"].readIfPresent()
+        value.choices = try reader["Choices"].readListIfPresent(memberReadingClosure: WellArchitectedClientTypes.Choice.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.selectedChoices = try reader["SelectedChoices"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.choiceAnswerSummaries = try reader["ChoiceAnswerSummaries"].readListIfPresent(memberReadingClosure: WellArchitectedClientTypes.ChoiceAnswerSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.isApplicable = try reader["IsApplicable"].readIfPresent()
+        value.answerStatus = try reader["AnswerStatus"].readIfPresent()
+        value.reason = try reader["Reason"].readIfPresent()
+        value.questionType = try reader["QuestionType"].readIfPresent()
+        return value
+    }
+}
+
 extension WellArchitectedClientTypes.ReviewTemplateLensReview {
 
     static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.ReviewTemplateLensReview {
@@ -11206,282 +11388,6 @@ extension WellArchitectedClientTypes.ReviewTemplatePillarReviewSummary {
     }
 }
 
-extension WellArchitectedClientTypes.AnswerSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.AnswerSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WellArchitectedClientTypes.AnswerSummary()
-        value.questionId = try reader["QuestionId"].readIfPresent()
-        value.pillarId = try reader["PillarId"].readIfPresent()
-        value.questionTitle = try reader["QuestionTitle"].readIfPresent()
-        value.choices = try reader["Choices"].readListIfPresent(memberReadingClosure: WellArchitectedClientTypes.Choice.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.selectedChoices = try reader["SelectedChoices"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.choiceAnswerSummaries = try reader["ChoiceAnswerSummaries"].readListIfPresent(memberReadingClosure: WellArchitectedClientTypes.ChoiceAnswerSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.isApplicable = try reader["IsApplicable"].readIfPresent()
-        value.risk = try reader["Risk"].readIfPresent()
-        value.reason = try reader["Reason"].readIfPresent()
-        value.questionType = try reader["QuestionType"].readIfPresent()
-        value.jiraConfiguration = try reader["JiraConfiguration"].readIfPresent(with: WellArchitectedClientTypes.JiraConfiguration.read(from:))
-        return value
-    }
-}
-
-extension WellArchitectedClientTypes.ChoiceAnswerSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.ChoiceAnswerSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WellArchitectedClientTypes.ChoiceAnswerSummary()
-        value.choiceId = try reader["ChoiceId"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.reason = try reader["Reason"].readIfPresent()
-        return value
-    }
-}
-
-extension WellArchitectedClientTypes.CheckDetail {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.CheckDetail {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WellArchitectedClientTypes.CheckDetail()
-        value.id = try reader["Id"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        value.provider = try reader["Provider"].readIfPresent()
-        value.lensArn = try reader["LensArn"].readIfPresent()
-        value.pillarId = try reader["PillarId"].readIfPresent()
-        value.questionId = try reader["QuestionId"].readIfPresent()
-        value.choiceId = try reader["ChoiceId"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.accountId = try reader["AccountId"].readIfPresent()
-        value.flaggedResources = try reader["FlaggedResources"].readIfPresent()
-        value.reason = try reader["Reason"].readIfPresent()
-        value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension WellArchitectedClientTypes.CheckSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.CheckSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WellArchitectedClientTypes.CheckSummary()
-        value.id = try reader["Id"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
-        value.provider = try reader["Provider"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lensArn = try reader["LensArn"].readIfPresent()
-        value.pillarId = try reader["PillarId"].readIfPresent()
-        value.questionId = try reader["QuestionId"].readIfPresent()
-        value.choiceId = try reader["ChoiceId"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.accountSummary = try reader["AccountSummary"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
-}
-
-extension WellArchitectedClientTypes.LensSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.LensSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WellArchitectedClientTypes.LensSummary()
-        value.lensArn = try reader["LensArn"].readIfPresent()
-        value.lensAlias = try reader["LensAlias"].readIfPresent()
-        value.lensName = try reader["LensName"].readIfPresent()
-        value.lensType = try reader["LensType"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lensVersion = try reader["LensVersion"].readIfPresent()
-        value.owner = try reader["Owner"].readIfPresent()
-        value.lensStatus = try reader["LensStatus"].readIfPresent()
-        return value
-    }
-}
-
-extension WellArchitectedClientTypes.ImprovementSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.ImprovementSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WellArchitectedClientTypes.ImprovementSummary()
-        value.questionId = try reader["QuestionId"].readIfPresent()
-        value.pillarId = try reader["PillarId"].readIfPresent()
-        value.questionTitle = try reader["QuestionTitle"].readIfPresent()
-        value.risk = try reader["Risk"].readIfPresent()
-        value.improvementPlanUrl = try reader["ImprovementPlanUrl"].readIfPresent()
-        value.improvementPlans = try reader["ImprovementPlans"].readListIfPresent(memberReadingClosure: WellArchitectedClientTypes.ChoiceImprovementPlan.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.jiraConfiguration = try reader["JiraConfiguration"].readIfPresent(with: WellArchitectedClientTypes.JiraConfiguration.read(from:))
-        return value
-    }
-}
-
-extension WellArchitectedClientTypes.ChoiceImprovementPlan {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.ChoiceImprovementPlan {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WellArchitectedClientTypes.ChoiceImprovementPlan()
-        value.choiceId = try reader["ChoiceId"].readIfPresent()
-        value.displayText = try reader["DisplayText"].readIfPresent()
-        value.improvementPlanUrl = try reader["ImprovementPlanUrl"].readIfPresent()
-        return value
-    }
-}
-
-extension WellArchitectedClientTypes.LensReviewSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.LensReviewSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WellArchitectedClientTypes.LensReviewSummary()
-        value.lensAlias = try reader["LensAlias"].readIfPresent()
-        value.lensArn = try reader["LensArn"].readIfPresent()
-        value.lensVersion = try reader["LensVersion"].readIfPresent()
-        value.lensName = try reader["LensName"].readIfPresent()
-        value.lensStatus = try reader["LensStatus"].readIfPresent()
-        value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.riskCounts = try reader["RiskCounts"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.profiles = try reader["Profiles"].readListIfPresent(memberReadingClosure: WellArchitectedClientTypes.WorkloadProfile.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.prioritizedRiskCounts = try reader["PrioritizedRiskCounts"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
-}
-
-extension WellArchitectedClientTypes.LensShareSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.LensShareSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WellArchitectedClientTypes.LensShareSummary()
-        value.shareId = try reader["ShareId"].readIfPresent()
-        value.sharedWith = try reader["SharedWith"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.statusMessage = try reader["StatusMessage"].readIfPresent()
-        return value
-    }
-}
-
-extension WellArchitectedClientTypes.MilestoneSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.MilestoneSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WellArchitectedClientTypes.MilestoneSummary()
-        value.milestoneNumber = try reader["MilestoneNumber"].readIfPresent()
-        value.milestoneName = try reader["MilestoneName"].readIfPresent()
-        value.recordedAt = try reader["RecordedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.workloadSummary = try reader["WorkloadSummary"].readIfPresent(with: WellArchitectedClientTypes.WorkloadSummary.read(from:))
-        return value
-    }
-}
-
-extension WellArchitectedClientTypes.WorkloadSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.WorkloadSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WellArchitectedClientTypes.WorkloadSummary()
-        value.workloadId = try reader["WorkloadId"].readIfPresent()
-        value.workloadArn = try reader["WorkloadArn"].readIfPresent()
-        value.workloadName = try reader["WorkloadName"].readIfPresent()
-        value.owner = try reader["Owner"].readIfPresent()
-        value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lenses = try reader["Lenses"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.riskCounts = try reader["RiskCounts"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.improvementStatus = try reader["ImprovementStatus"].readIfPresent()
-        value.profiles = try reader["Profiles"].readListIfPresent(memberReadingClosure: WellArchitectedClientTypes.WorkloadProfile.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.prioritizedRiskCounts = try reader["PrioritizedRiskCounts"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
-}
-
-extension WellArchitectedClientTypes.NotificationSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.NotificationSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WellArchitectedClientTypes.NotificationSummary()
-        value.type = try reader["Type"].readIfPresent()
-        value.lensUpgradeSummary = try reader["LensUpgradeSummary"].readIfPresent(with: WellArchitectedClientTypes.LensUpgradeSummary.read(from:))
-        return value
-    }
-}
-
-extension WellArchitectedClientTypes.LensUpgradeSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.LensUpgradeSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WellArchitectedClientTypes.LensUpgradeSummary()
-        value.workloadId = try reader["WorkloadId"].readIfPresent()
-        value.workloadName = try reader["WorkloadName"].readIfPresent()
-        value.lensAlias = try reader["LensAlias"].readIfPresent()
-        value.lensArn = try reader["LensArn"].readIfPresent()
-        value.currentLensVersion = try reader["CurrentLensVersion"].readIfPresent()
-        value.latestLensVersion = try reader["LatestLensVersion"].readIfPresent()
-        value.resourceArn = try reader["ResourceArn"].readIfPresent()
-        value.resourceName = try reader["ResourceName"].readIfPresent()
-        return value
-    }
-}
-
-extension WellArchitectedClientTypes.ProfileNotificationSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.ProfileNotificationSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WellArchitectedClientTypes.ProfileNotificationSummary()
-        value.currentProfileVersion = try reader["CurrentProfileVersion"].readIfPresent()
-        value.latestProfileVersion = try reader["LatestProfileVersion"].readIfPresent()
-        value.type = try reader["Type"].readIfPresent()
-        value.profileArn = try reader["ProfileArn"].readIfPresent()
-        value.profileName = try reader["ProfileName"].readIfPresent()
-        value.workloadId = try reader["WorkloadId"].readIfPresent()
-        value.workloadName = try reader["WorkloadName"].readIfPresent()
-        return value
-    }
-}
-
-extension WellArchitectedClientTypes.ProfileSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.ProfileSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WellArchitectedClientTypes.ProfileSummary()
-        value.profileArn = try reader["ProfileArn"].readIfPresent()
-        value.profileVersion = try reader["ProfileVersion"].readIfPresent()
-        value.profileName = try reader["ProfileName"].readIfPresent()
-        value.profileDescription = try reader["ProfileDescription"].readIfPresent()
-        value.owner = try reader["Owner"].readIfPresent()
-        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension WellArchitectedClientTypes.ProfileShareSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.ProfileShareSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WellArchitectedClientTypes.ProfileShareSummary()
-        value.shareId = try reader["ShareId"].readIfPresent()
-        value.sharedWith = try reader["SharedWith"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.statusMessage = try reader["StatusMessage"].readIfPresent()
-        return value
-    }
-}
-
-extension WellArchitectedClientTypes.ReviewTemplateAnswerSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.ReviewTemplateAnswerSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WellArchitectedClientTypes.ReviewTemplateAnswerSummary()
-        value.questionId = try reader["QuestionId"].readIfPresent()
-        value.pillarId = try reader["PillarId"].readIfPresent()
-        value.questionTitle = try reader["QuestionTitle"].readIfPresent()
-        value.choices = try reader["Choices"].readListIfPresent(memberReadingClosure: WellArchitectedClientTypes.Choice.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.selectedChoices = try reader["SelectedChoices"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.choiceAnswerSummaries = try reader["ChoiceAnswerSummaries"].readListIfPresent(memberReadingClosure: WellArchitectedClientTypes.ChoiceAnswerSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.isApplicable = try reader["IsApplicable"].readIfPresent()
-        value.answerStatus = try reader["AnswerStatus"].readIfPresent()
-        value.reason = try reader["Reason"].readIfPresent()
-        value.questionType = try reader["QuestionType"].readIfPresent()
-        return value
-    }
-}
-
 extension WellArchitectedClientTypes.ReviewTemplateSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.ReviewTemplateSummary {
@@ -11494,6 +11400,39 @@ extension WellArchitectedClientTypes.ReviewTemplateSummary {
         value.templateArn = try reader["TemplateArn"].readIfPresent()
         value.templateName = try reader["TemplateName"].readIfPresent()
         value.updateStatus = try reader["UpdateStatus"].readIfPresent()
+        return value
+    }
+}
+
+extension WellArchitectedClientTypes.SelectedPillar {
+
+    static func write(value: WellArchitectedClientTypes.SelectedPillar?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["PillarId"].write(value.pillarId)
+        try writer["SelectedQuestionIds"].writeList(value.selectedQuestionIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.SelectedPillar {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WellArchitectedClientTypes.SelectedPillar()
+        value.pillarId = try reader["PillarId"].readIfPresent()
+        value.selectedQuestionIds = try reader["SelectedQuestionIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension WellArchitectedClientTypes.ShareInvitation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.ShareInvitation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WellArchitectedClientTypes.ShareInvitation()
+        value.shareInvitationId = try reader["ShareInvitationId"].readIfPresent()
+        value.shareResourceType = try reader["ShareResourceType"].readIfPresent()
+        value.workloadId = try reader["WorkloadId"].readIfPresent()
+        value.lensAlias = try reader["LensAlias"].readIfPresent()
+        value.lensArn = try reader["LensArn"].readIfPresent()
+        value.profileArn = try reader["ProfileArn"].readIfPresent()
+        value.templateArn = try reader["TemplateArn"].readIfPresent()
         return value
     }
 }
@@ -11533,32 +11472,111 @@ extension WellArchitectedClientTypes.TemplateShareSummary {
     }
 }
 
-extension WellArchitectedClientTypes.WorkloadShareSummary {
+extension WellArchitectedClientTypes.ValidationExceptionField {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.WorkloadShareSummary {
+    static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.ValidationExceptionField {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WellArchitectedClientTypes.WorkloadShareSummary()
-        value.shareId = try reader["ShareId"].readIfPresent()
-        value.sharedWith = try reader["SharedWith"].readIfPresent()
-        value.permissionType = try reader["PermissionType"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
+        var value = WellArchitectedClientTypes.ValidationExceptionField()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.message = try reader["Message"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension WellArchitectedClientTypes.VersionDifferences {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.VersionDifferences {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WellArchitectedClientTypes.VersionDifferences()
+        value.pillarDifferences = try reader["PillarDifferences"].readListIfPresent(memberReadingClosure: WellArchitectedClientTypes.PillarDifference.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension WellArchitectedClientTypes.Workload {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.Workload {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WellArchitectedClientTypes.Workload()
+        value.workloadId = try reader["WorkloadId"].readIfPresent()
+        value.workloadArn = try reader["WorkloadArn"].readIfPresent()
+        value.workloadName = try reader["WorkloadName"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.environment = try reader["Environment"].readIfPresent()
+        value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.accountIds = try reader["AccountIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.awsRegions = try reader["AwsRegions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nonAwsRegions = try reader["NonAwsRegions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.architecturalDesign = try reader["ArchitecturalDesign"].readIfPresent()
+        value.reviewOwner = try reader["ReviewOwner"].readIfPresent()
+        value.reviewRestrictionDate = try reader["ReviewRestrictionDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.isReviewOwnerUpdateAcknowledged = try reader["IsReviewOwnerUpdateAcknowledged"].readIfPresent()
+        value.industryType = try reader["IndustryType"].readIfPresent()
+        value.industry = try reader["Industry"].readIfPresent()
+        value.notes = try reader["Notes"].readIfPresent()
+        value.improvementStatus = try reader["ImprovementStatus"].readIfPresent()
+        value.riskCounts = try reader["RiskCounts"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.pillarPriorities = try reader["PillarPriorities"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.lenses = try reader["Lenses"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.owner = try reader["Owner"].readIfPresent()
+        value.shareInvitationId = try reader["ShareInvitationId"].readIfPresent()
+        value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.discoveryConfig = try reader["DiscoveryConfig"].readIfPresent(with: WellArchitectedClientTypes.WorkloadDiscoveryConfig.read(from:))
+        value.applications = try reader["Applications"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.profiles = try reader["Profiles"].readListIfPresent(memberReadingClosure: WellArchitectedClientTypes.WorkloadProfile.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.prioritizedRiskCounts = try reader["PrioritizedRiskCounts"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.jiraConfiguration = try reader["JiraConfiguration"].readIfPresent(with: WellArchitectedClientTypes.WorkloadJiraConfigurationOutput.read(from:))
+        return value
+    }
+}
+
+extension WellArchitectedClientTypes.WorkloadDiscoveryConfig {
+
+    static func write(value: WellArchitectedClientTypes.WorkloadDiscoveryConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["TrustedAdvisorIntegrationStatus"].write(value.trustedAdvisorIntegrationStatus)
+        try writer["WorkloadResourceDefinition"].writeList(value.workloadResourceDefinition, memberWritingClosure: SmithyReadWrite.WritingClosureBox<WellArchitectedClientTypes.DefinitionType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.WorkloadDiscoveryConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WellArchitectedClientTypes.WorkloadDiscoveryConfig()
+        value.trustedAdvisorIntegrationStatus = try reader["TrustedAdvisorIntegrationStatus"].readIfPresent()
+        value.workloadResourceDefinition = try reader["WorkloadResourceDefinition"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<WellArchitectedClientTypes.DefinitionType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension WellArchitectedClientTypes.WorkloadJiraConfigurationInput {
+
+    static func write(value: WellArchitectedClientTypes.WorkloadJiraConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["IssueManagementStatus"].write(value.issueManagementStatus)
+        try writer["IssueManagementType"].write(value.issueManagementType)
+        try writer["JiraProjectKey"].write(value.jiraProjectKey)
+    }
+}
+
+extension WellArchitectedClientTypes.WorkloadJiraConfigurationOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.WorkloadJiraConfigurationOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WellArchitectedClientTypes.WorkloadJiraConfigurationOutput()
+        value.issueManagementStatus = try reader["IssueManagementStatus"].readIfPresent()
+        value.issueManagementType = try reader["IssueManagementType"].readIfPresent()
+        value.jiraProjectKey = try reader["JiraProjectKey"].readIfPresent()
         value.statusMessage = try reader["StatusMessage"].readIfPresent()
         return value
     }
 }
 
-extension WellArchitectedClientTypes.ShareInvitation {
+extension WellArchitectedClientTypes.WorkloadProfile {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.ShareInvitation {
+    static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.WorkloadProfile {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WellArchitectedClientTypes.ShareInvitation()
-        value.shareInvitationId = try reader["ShareInvitationId"].readIfPresent()
-        value.shareResourceType = try reader["ShareResourceType"].readIfPresent()
-        value.workloadId = try reader["WorkloadId"].readIfPresent()
-        value.lensAlias = try reader["LensAlias"].readIfPresent()
-        value.lensArn = try reader["LensArn"].readIfPresent()
+        var value = WellArchitectedClientTypes.WorkloadProfile()
         value.profileArn = try reader["ProfileArn"].readIfPresent()
-        value.templateArn = try reader["TemplateArn"].readIfPresent()
+        value.profileVersion = try reader["ProfileVersion"].readIfPresent()
         return value
     }
 }
@@ -11579,54 +11597,36 @@ extension WellArchitectedClientTypes.WorkloadShare {
     }
 }
 
-extension WellArchitectedClientTypes.ValidationExceptionField {
+extension WellArchitectedClientTypes.WorkloadShareSummary {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.ValidationExceptionField {
+    static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.WorkloadShareSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WellArchitectedClientTypes.ValidationExceptionField()
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.message = try reader["Message"].readIfPresent() ?? ""
+        var value = WellArchitectedClientTypes.WorkloadShareSummary()
+        value.shareId = try reader["ShareId"].readIfPresent()
+        value.sharedWith = try reader["SharedWith"].readIfPresent()
+        value.permissionType = try reader["PermissionType"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.statusMessage = try reader["StatusMessage"].readIfPresent()
         return value
     }
 }
 
-extension WellArchitectedClientTypes.ProfileQuestionUpdate {
+extension WellArchitectedClientTypes.WorkloadSummary {
 
-    static func write(value: WellArchitectedClientTypes.ProfileQuestionUpdate?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["QuestionId"].write(value.questionId)
-        try writer["SelectedChoiceIds"].writeList(value.selectedChoiceIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension WellArchitectedClientTypes.WorkloadJiraConfigurationInput {
-
-    static func write(value: WellArchitectedClientTypes.WorkloadJiraConfigurationInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["IssueManagementStatus"].write(value.issueManagementStatus)
-        try writer["IssueManagementType"].write(value.issueManagementType)
-        try writer["JiraProjectKey"].write(value.jiraProjectKey)
-    }
-}
-
-extension WellArchitectedClientTypes.ChoiceUpdate {
-
-    static func write(value: WellArchitectedClientTypes.ChoiceUpdate?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Notes"].write(value.notes)
-        try writer["Reason"].write(value.reason)
-        try writer["Status"].write(value.status)
-    }
-}
-
-extension WellArchitectedClientTypes.AccountJiraConfigurationInput {
-
-    static func write(value: WellArchitectedClientTypes.AccountJiraConfigurationInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["IntegrationStatus"].write(value.integrationStatus)
-        try writer["IssueManagementStatus"].write(value.issueManagementStatus)
-        try writer["IssueManagementType"].write(value.issueManagementType)
-        try writer["JiraProjectKey"].write(value.jiraProjectKey)
+    static func read(from reader: SmithyJSON.Reader) throws -> WellArchitectedClientTypes.WorkloadSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WellArchitectedClientTypes.WorkloadSummary()
+        value.workloadId = try reader["WorkloadId"].readIfPresent()
+        value.workloadArn = try reader["WorkloadArn"].readIfPresent()
+        value.workloadName = try reader["WorkloadName"].readIfPresent()
+        value.owner = try reader["Owner"].readIfPresent()
+        value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lenses = try reader["Lenses"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.riskCounts = try reader["RiskCounts"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.improvementStatus = try reader["ImprovementStatus"].readIfPresent()
+        value.profiles = try reader["Profiles"].readListIfPresent(memberReadingClosure: WellArchitectedClientTypes.WorkloadProfile.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.prioritizedRiskCounts = try reader["PrioritizedRiskCounts"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
     }
 }
 

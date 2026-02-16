@@ -4037,6 +4037,46 @@ extension ValidationException {
     }
 }
 
+extension ComprehendMedicalClientTypes.Attribute {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ComprehendMedicalClientTypes.Attribute {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ComprehendMedicalClientTypes.Attribute()
+        value.type = try reader["Type"].readIfPresent()
+        value.score = try reader["Score"].readIfPresent()
+        value.relationshipScore = try reader["RelationshipScore"].readIfPresent()
+        value.relationshipType = try reader["RelationshipType"].readIfPresent()
+        value.id = try reader["Id"].readIfPresent()
+        value.beginOffset = try reader["BeginOffset"].readIfPresent()
+        value.endOffset = try reader["EndOffset"].readIfPresent()
+        value.text = try reader["Text"].readIfPresent()
+        value.category = try reader["Category"].readIfPresent()
+        value.traits = try reader["Traits"].readListIfPresent(memberReadingClosure: ComprehendMedicalClientTypes.Trait.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ComprehendMedicalClientTypes.Characters {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ComprehendMedicalClientTypes.Characters {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ComprehendMedicalClientTypes.Characters()
+        value.originalTextCharacters = try reader["OriginalTextCharacters"].readIfPresent()
+        return value
+    }
+}
+
+extension ComprehendMedicalClientTypes.ComprehendMedicalAsyncJobFilter {
+
+    static func write(value: ComprehendMedicalClientTypes.ComprehendMedicalAsyncJobFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["JobName"].write(value.jobName)
+        try writer["JobStatus"].write(value.jobStatus)
+        try writer["SubmitTimeAfter"].writeTimestamp(value.submitTimeAfter, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["SubmitTimeBefore"].writeTimestamp(value.submitTimeBefore, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+    }
+}
+
 extension ComprehendMedicalClientTypes.ComprehendMedicalAsyncJobProperties {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ComprehendMedicalClientTypes.ComprehendMedicalAsyncJobProperties {
@@ -4060,40 +4100,6 @@ extension ComprehendMedicalClientTypes.ComprehendMedicalAsyncJobProperties {
     }
 }
 
-extension ComprehendMedicalClientTypes.OutputDataConfig {
-
-    static func write(value: ComprehendMedicalClientTypes.OutputDataConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["S3Bucket"].write(value.s3Bucket)
-        try writer["S3Key"].write(value.s3Key)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ComprehendMedicalClientTypes.OutputDataConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ComprehendMedicalClientTypes.OutputDataConfig()
-        value.s3Bucket = try reader["S3Bucket"].readIfPresent() ?? ""
-        value.s3Key = try reader["S3Key"].readIfPresent()
-        return value
-    }
-}
-
-extension ComprehendMedicalClientTypes.InputDataConfig {
-
-    static func write(value: ComprehendMedicalClientTypes.InputDataConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["S3Bucket"].write(value.s3Bucket)
-        try writer["S3Key"].write(value.s3Key)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ComprehendMedicalClientTypes.InputDataConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ComprehendMedicalClientTypes.InputDataConfig()
-        value.s3Bucket = try reader["S3Bucket"].readIfPresent() ?? ""
-        value.s3Key = try reader["S3Key"].readIfPresent()
-        return value
-    }
-}
-
 extension ComprehendMedicalClientTypes.Entity {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ComprehendMedicalClientTypes.Entity {
@@ -4108,89 +4114,6 @@ extension ComprehendMedicalClientTypes.Entity {
         value.type = try reader["Type"].readIfPresent()
         value.traits = try reader["Traits"].readListIfPresent(memberReadingClosure: ComprehendMedicalClientTypes.Trait.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.attributes = try reader["Attributes"].readListIfPresent(memberReadingClosure: ComprehendMedicalClientTypes.Attribute.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension ComprehendMedicalClientTypes.Attribute {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ComprehendMedicalClientTypes.Attribute {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ComprehendMedicalClientTypes.Attribute()
-        value.type = try reader["Type"].readIfPresent()
-        value.score = try reader["Score"].readIfPresent()
-        value.relationshipScore = try reader["RelationshipScore"].readIfPresent()
-        value.relationshipType = try reader["RelationshipType"].readIfPresent()
-        value.id = try reader["Id"].readIfPresent()
-        value.beginOffset = try reader["BeginOffset"].readIfPresent()
-        value.endOffset = try reader["EndOffset"].readIfPresent()
-        value.text = try reader["Text"].readIfPresent()
-        value.category = try reader["Category"].readIfPresent()
-        value.traits = try reader["Traits"].readListIfPresent(memberReadingClosure: ComprehendMedicalClientTypes.Trait.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension ComprehendMedicalClientTypes.Trait {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ComprehendMedicalClientTypes.Trait {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ComprehendMedicalClientTypes.Trait()
-        value.name = try reader["Name"].readIfPresent()
-        value.score = try reader["Score"].readIfPresent()
-        return value
-    }
-}
-
-extension ComprehendMedicalClientTypes.UnmappedAttribute {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ComprehendMedicalClientTypes.UnmappedAttribute {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ComprehendMedicalClientTypes.UnmappedAttribute()
-        value.type = try reader["Type"].readIfPresent()
-        value.attribute = try reader["Attribute"].readIfPresent(with: ComprehendMedicalClientTypes.Attribute.read(from:))
-        return value
-    }
-}
-
-extension ComprehendMedicalClientTypes.ICD10CMEntity {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ComprehendMedicalClientTypes.ICD10CMEntity {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ComprehendMedicalClientTypes.ICD10CMEntity()
-        value.id = try reader["Id"].readIfPresent()
-        value.text = try reader["Text"].readIfPresent()
-        value.category = try reader["Category"].readIfPresent()
-        value.type = try reader["Type"].readIfPresent()
-        value.score = try reader["Score"].readIfPresent()
-        value.beginOffset = try reader["BeginOffset"].readIfPresent()
-        value.endOffset = try reader["EndOffset"].readIfPresent()
-        value.attributes = try reader["Attributes"].readListIfPresent(memberReadingClosure: ComprehendMedicalClientTypes.ICD10CMAttribute.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.traits = try reader["Traits"].readListIfPresent(memberReadingClosure: ComprehendMedicalClientTypes.ICD10CMTrait.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.icd10CMConcepts = try reader["ICD10CMConcepts"].readListIfPresent(memberReadingClosure: ComprehendMedicalClientTypes.ICD10CMConcept.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension ComprehendMedicalClientTypes.ICD10CMConcept {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ComprehendMedicalClientTypes.ICD10CMConcept {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ComprehendMedicalClientTypes.ICD10CMConcept()
-        value.description = try reader["Description"].readIfPresent()
-        value.code = try reader["Code"].readIfPresent()
-        value.score = try reader["Score"].readIfPresent()
-        return value
-    }
-}
-
-extension ComprehendMedicalClientTypes.ICD10CMTrait {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ComprehendMedicalClientTypes.ICD10CMTrait {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ComprehendMedicalClientTypes.ICD10CMTrait()
-        value.name = try reader["Name"].readIfPresent()
-        value.score = try reader["Score"].readIfPresent()
         return value
     }
 }
@@ -4214,30 +4137,11 @@ extension ComprehendMedicalClientTypes.ICD10CMAttribute {
     }
 }
 
-extension ComprehendMedicalClientTypes.RxNormEntity {
+extension ComprehendMedicalClientTypes.ICD10CMConcept {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComprehendMedicalClientTypes.RxNormEntity {
+    static func read(from reader: SmithyJSON.Reader) throws -> ComprehendMedicalClientTypes.ICD10CMConcept {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ComprehendMedicalClientTypes.RxNormEntity()
-        value.id = try reader["Id"].readIfPresent()
-        value.text = try reader["Text"].readIfPresent()
-        value.category = try reader["Category"].readIfPresent()
-        value.type = try reader["Type"].readIfPresent()
-        value.score = try reader["Score"].readIfPresent()
-        value.beginOffset = try reader["BeginOffset"].readIfPresent()
-        value.endOffset = try reader["EndOffset"].readIfPresent()
-        value.attributes = try reader["Attributes"].readListIfPresent(memberReadingClosure: ComprehendMedicalClientTypes.RxNormAttribute.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.traits = try reader["Traits"].readListIfPresent(memberReadingClosure: ComprehendMedicalClientTypes.RxNormTrait.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.rxNormConcepts = try reader["RxNormConcepts"].readListIfPresent(memberReadingClosure: ComprehendMedicalClientTypes.RxNormConcept.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension ComprehendMedicalClientTypes.RxNormConcept {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ComprehendMedicalClientTypes.RxNormConcept {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ComprehendMedicalClientTypes.RxNormConcept()
+        var value = ComprehendMedicalClientTypes.ICD10CMConcept()
         value.description = try reader["Description"].readIfPresent()
         value.code = try reader["Code"].readIfPresent()
         value.score = try reader["Score"].readIfPresent()
@@ -4245,13 +4149,66 @@ extension ComprehendMedicalClientTypes.RxNormConcept {
     }
 }
 
-extension ComprehendMedicalClientTypes.RxNormTrait {
+extension ComprehendMedicalClientTypes.ICD10CMEntity {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComprehendMedicalClientTypes.RxNormTrait {
+    static func read(from reader: SmithyJSON.Reader) throws -> ComprehendMedicalClientTypes.ICD10CMEntity {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ComprehendMedicalClientTypes.RxNormTrait()
+        var value = ComprehendMedicalClientTypes.ICD10CMEntity()
+        value.id = try reader["Id"].readIfPresent()
+        value.text = try reader["Text"].readIfPresent()
+        value.category = try reader["Category"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent()
+        value.score = try reader["Score"].readIfPresent()
+        value.beginOffset = try reader["BeginOffset"].readIfPresent()
+        value.endOffset = try reader["EndOffset"].readIfPresent()
+        value.attributes = try reader["Attributes"].readListIfPresent(memberReadingClosure: ComprehendMedicalClientTypes.ICD10CMAttribute.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.traits = try reader["Traits"].readListIfPresent(memberReadingClosure: ComprehendMedicalClientTypes.ICD10CMTrait.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.icd10CMConcepts = try reader["ICD10CMConcepts"].readListIfPresent(memberReadingClosure: ComprehendMedicalClientTypes.ICD10CMConcept.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ComprehendMedicalClientTypes.ICD10CMTrait {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ComprehendMedicalClientTypes.ICD10CMTrait {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ComprehendMedicalClientTypes.ICD10CMTrait()
         value.name = try reader["Name"].readIfPresent()
         value.score = try reader["Score"].readIfPresent()
+        return value
+    }
+}
+
+extension ComprehendMedicalClientTypes.InputDataConfig {
+
+    static func write(value: ComprehendMedicalClientTypes.InputDataConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["S3Bucket"].write(value.s3Bucket)
+        try writer["S3Key"].write(value.s3Key)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ComprehendMedicalClientTypes.InputDataConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ComprehendMedicalClientTypes.InputDataConfig()
+        value.s3Bucket = try reader["S3Bucket"].readIfPresent() ?? ""
+        value.s3Key = try reader["S3Key"].readIfPresent()
+        return value
+    }
+}
+
+extension ComprehendMedicalClientTypes.OutputDataConfig {
+
+    static func write(value: ComprehendMedicalClientTypes.OutputDataConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["S3Bucket"].write(value.s3Bucket)
+        try writer["S3Key"].write(value.s3Key)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ComprehendMedicalClientTypes.OutputDataConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ComprehendMedicalClientTypes.OutputDataConfig()
+        value.s3Bucket = try reader["S3Bucket"].readIfPresent() ?? ""
+        value.s3Key = try reader["S3Key"].readIfPresent()
         return value
     }
 }
@@ -4273,30 +4230,11 @@ extension ComprehendMedicalClientTypes.RxNormAttribute {
     }
 }
 
-extension ComprehendMedicalClientTypes.SNOMEDCTEntity {
+extension ComprehendMedicalClientTypes.RxNormConcept {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComprehendMedicalClientTypes.SNOMEDCTEntity {
+    static func read(from reader: SmithyJSON.Reader) throws -> ComprehendMedicalClientTypes.RxNormConcept {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ComprehendMedicalClientTypes.SNOMEDCTEntity()
-        value.id = try reader["Id"].readIfPresent()
-        value.text = try reader["Text"].readIfPresent()
-        value.category = try reader["Category"].readIfPresent()
-        value.type = try reader["Type"].readIfPresent()
-        value.score = try reader["Score"].readIfPresent()
-        value.beginOffset = try reader["BeginOffset"].readIfPresent()
-        value.endOffset = try reader["EndOffset"].readIfPresent()
-        value.attributes = try reader["Attributes"].readListIfPresent(memberReadingClosure: ComprehendMedicalClientTypes.SNOMEDCTAttribute.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.traits = try reader["Traits"].readListIfPresent(memberReadingClosure: ComprehendMedicalClientTypes.SNOMEDCTTrait.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.snomedctConcepts = try reader["SNOMEDCTConcepts"].readListIfPresent(memberReadingClosure: ComprehendMedicalClientTypes.SNOMEDCTConcept.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension ComprehendMedicalClientTypes.SNOMEDCTConcept {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ComprehendMedicalClientTypes.SNOMEDCTConcept {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ComprehendMedicalClientTypes.SNOMEDCTConcept()
+        var value = ComprehendMedicalClientTypes.RxNormConcept()
         value.description = try reader["Description"].readIfPresent()
         value.code = try reader["Code"].readIfPresent()
         value.score = try reader["Score"].readIfPresent()
@@ -4304,11 +4242,30 @@ extension ComprehendMedicalClientTypes.SNOMEDCTConcept {
     }
 }
 
-extension ComprehendMedicalClientTypes.SNOMEDCTTrait {
+extension ComprehendMedicalClientTypes.RxNormEntity {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComprehendMedicalClientTypes.SNOMEDCTTrait {
+    static func read(from reader: SmithyJSON.Reader) throws -> ComprehendMedicalClientTypes.RxNormEntity {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ComprehendMedicalClientTypes.SNOMEDCTTrait()
+        var value = ComprehendMedicalClientTypes.RxNormEntity()
+        value.id = try reader["Id"].readIfPresent()
+        value.text = try reader["Text"].readIfPresent()
+        value.category = try reader["Category"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent()
+        value.score = try reader["Score"].readIfPresent()
+        value.beginOffset = try reader["BeginOffset"].readIfPresent()
+        value.endOffset = try reader["EndOffset"].readIfPresent()
+        value.attributes = try reader["Attributes"].readListIfPresent(memberReadingClosure: ComprehendMedicalClientTypes.RxNormAttribute.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.traits = try reader["Traits"].readListIfPresent(memberReadingClosure: ComprehendMedicalClientTypes.RxNormTrait.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.rxNormConcepts = try reader["RxNormConcepts"].readListIfPresent(memberReadingClosure: ComprehendMedicalClientTypes.RxNormConcept.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ComprehendMedicalClientTypes.RxNormTrait {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ComprehendMedicalClientTypes.RxNormTrait {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ComprehendMedicalClientTypes.RxNormTrait()
         value.name = try reader["Name"].readIfPresent()
         value.score = try reader["Score"].readIfPresent()
         return value
@@ -4335,6 +4292,18 @@ extension ComprehendMedicalClientTypes.SNOMEDCTAttribute {
     }
 }
 
+extension ComprehendMedicalClientTypes.SNOMEDCTConcept {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ComprehendMedicalClientTypes.SNOMEDCTConcept {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ComprehendMedicalClientTypes.SNOMEDCTConcept()
+        value.description = try reader["Description"].readIfPresent()
+        value.code = try reader["Code"].readIfPresent()
+        value.score = try reader["Score"].readIfPresent()
+        return value
+    }
+}
+
 extension ComprehendMedicalClientTypes.SNOMEDCTDetails {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ComprehendMedicalClientTypes.SNOMEDCTDetails {
@@ -4347,24 +4316,55 @@ extension ComprehendMedicalClientTypes.SNOMEDCTDetails {
     }
 }
 
-extension ComprehendMedicalClientTypes.Characters {
+extension ComprehendMedicalClientTypes.SNOMEDCTEntity {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComprehendMedicalClientTypes.Characters {
+    static func read(from reader: SmithyJSON.Reader) throws -> ComprehendMedicalClientTypes.SNOMEDCTEntity {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ComprehendMedicalClientTypes.Characters()
-        value.originalTextCharacters = try reader["OriginalTextCharacters"].readIfPresent()
+        var value = ComprehendMedicalClientTypes.SNOMEDCTEntity()
+        value.id = try reader["Id"].readIfPresent()
+        value.text = try reader["Text"].readIfPresent()
+        value.category = try reader["Category"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent()
+        value.score = try reader["Score"].readIfPresent()
+        value.beginOffset = try reader["BeginOffset"].readIfPresent()
+        value.endOffset = try reader["EndOffset"].readIfPresent()
+        value.attributes = try reader["Attributes"].readListIfPresent(memberReadingClosure: ComprehendMedicalClientTypes.SNOMEDCTAttribute.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.traits = try reader["Traits"].readListIfPresent(memberReadingClosure: ComprehendMedicalClientTypes.SNOMEDCTTrait.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.snomedctConcepts = try reader["SNOMEDCTConcepts"].readListIfPresent(memberReadingClosure: ComprehendMedicalClientTypes.SNOMEDCTConcept.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
 
-extension ComprehendMedicalClientTypes.ComprehendMedicalAsyncJobFilter {
+extension ComprehendMedicalClientTypes.SNOMEDCTTrait {
 
-    static func write(value: ComprehendMedicalClientTypes.ComprehendMedicalAsyncJobFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["JobName"].write(value.jobName)
-        try writer["JobStatus"].write(value.jobStatus)
-        try writer["SubmitTimeAfter"].writeTimestamp(value.submitTimeAfter, format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        try writer["SubmitTimeBefore"].writeTimestamp(value.submitTimeBefore, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+    static func read(from reader: SmithyJSON.Reader) throws -> ComprehendMedicalClientTypes.SNOMEDCTTrait {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ComprehendMedicalClientTypes.SNOMEDCTTrait()
+        value.name = try reader["Name"].readIfPresent()
+        value.score = try reader["Score"].readIfPresent()
+        return value
+    }
+}
+
+extension ComprehendMedicalClientTypes.Trait {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ComprehendMedicalClientTypes.Trait {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ComprehendMedicalClientTypes.Trait()
+        value.name = try reader["Name"].readIfPresent()
+        value.score = try reader["Score"].readIfPresent()
+        return value
+    }
+}
+
+extension ComprehendMedicalClientTypes.UnmappedAttribute {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ComprehendMedicalClientTypes.UnmappedAttribute {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ComprehendMedicalClientTypes.UnmappedAttribute()
+        value.type = try reader["Type"].readIfPresent()
+        value.attribute = try reader["Attribute"].readIfPresent(with: ComprehendMedicalClientTypes.Attribute.read(from:))
+        return value
     }
 }
 

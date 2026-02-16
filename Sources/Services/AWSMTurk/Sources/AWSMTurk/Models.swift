@@ -4198,6 +4198,41 @@ extension ServiceFault {
     }
 }
 
+extension MTurkClientTypes.Assignment {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MTurkClientTypes.Assignment {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MTurkClientTypes.Assignment()
+        value.assignmentId = try reader["AssignmentId"].readIfPresent()
+        value.workerId = try reader["WorkerId"].readIfPresent()
+        value.hitId = try reader["HITId"].readIfPresent()
+        value.assignmentStatus = try reader["AssignmentStatus"].readIfPresent()
+        value.autoApprovalTime = try reader["AutoApprovalTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.acceptTime = try reader["AcceptTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.submitTime = try reader["SubmitTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.approvalTime = try reader["ApprovalTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.rejectionTime = try reader["RejectionTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.deadline = try reader["Deadline"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.answer = try reader["Answer"].readIfPresent()
+        value.requesterFeedback = try reader["RequesterFeedback"].readIfPresent()
+        return value
+    }
+}
+
+extension MTurkClientTypes.BonusPayment {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MTurkClientTypes.BonusPayment {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MTurkClientTypes.BonusPayment()
+        value.workerId = try reader["WorkerId"].readIfPresent()
+        value.bonusAmount = try reader["BonusAmount"].readIfPresent()
+        value.assignmentId = try reader["AssignmentId"].readIfPresent()
+        value.reason = try reader["Reason"].readIfPresent()
+        value.grantTime = try reader["GrantTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
 extension MTurkClientTypes.HIT {
 
     static func read(from reader: SmithyJSON.Reader) throws -> MTurkClientTypes.HIT {
@@ -4228,6 +4263,121 @@ extension MTurkClientTypes.HIT {
     }
 }
 
+extension MTurkClientTypes.HITLayoutParameter {
+
+    static func write(value: MTurkClientTypes.HITLayoutParameter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Name"].write(value.name)
+        try writer["Value"].write(value.value)
+    }
+}
+
+extension MTurkClientTypes.Locale {
+
+    static func write(value: MTurkClientTypes.Locale?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Country"].write(value.country)
+        try writer["Subdivision"].write(value.subdivision)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MTurkClientTypes.Locale {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MTurkClientTypes.Locale()
+        value.country = try reader["Country"].readIfPresent() ?? ""
+        value.subdivision = try reader["Subdivision"].readIfPresent()
+        return value
+    }
+}
+
+extension MTurkClientTypes.NotificationSpecification {
+
+    static func write(value: MTurkClientTypes.NotificationSpecification?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Destination"].write(value.destination)
+        try writer["EventTypes"].writeList(value.eventTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<MTurkClientTypes.EventType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Transport"].write(value.transport)
+        try writer["Version"].write(value.version)
+    }
+}
+
+extension MTurkClientTypes.NotifyWorkersFailureStatus {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MTurkClientTypes.NotifyWorkersFailureStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MTurkClientTypes.NotifyWorkersFailureStatus()
+        value.notifyWorkersFailureCode = try reader["NotifyWorkersFailureCode"].readIfPresent()
+        value.notifyWorkersFailureMessage = try reader["NotifyWorkersFailureMessage"].readIfPresent()
+        value.workerId = try reader["WorkerId"].readIfPresent()
+        return value
+    }
+}
+
+extension MTurkClientTypes.ParameterMapEntry {
+
+    static func write(value: MTurkClientTypes.ParameterMapEntry?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Key"].write(value.key)
+        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MTurkClientTypes.ParameterMapEntry {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MTurkClientTypes.ParameterMapEntry()
+        value.key = try reader["Key"].readIfPresent()
+        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension MTurkClientTypes.PolicyParameter {
+
+    static func write(value: MTurkClientTypes.PolicyParameter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Key"].write(value.key)
+        try writer["MapEntries"].writeList(value.mapEntries, memberWritingClosure: MTurkClientTypes.ParameterMapEntry.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MTurkClientTypes.PolicyParameter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MTurkClientTypes.PolicyParameter()
+        value.key = try reader["Key"].readIfPresent()
+        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.mapEntries = try reader["MapEntries"].readListIfPresent(memberReadingClosure: MTurkClientTypes.ParameterMapEntry.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension MTurkClientTypes.Qualification {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MTurkClientTypes.Qualification {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MTurkClientTypes.Qualification()
+        value.qualificationTypeId = try reader["QualificationTypeId"].readIfPresent()
+        value.workerId = try reader["WorkerId"].readIfPresent()
+        value.grantTime = try reader["GrantTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.integerValue = try reader["IntegerValue"].readIfPresent()
+        value.localeValue = try reader["LocaleValue"].readIfPresent(with: MTurkClientTypes.Locale.read(from:))
+        value.status = try reader["Status"].readIfPresent()
+        return value
+    }
+}
+
+extension MTurkClientTypes.QualificationRequest {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MTurkClientTypes.QualificationRequest {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MTurkClientTypes.QualificationRequest()
+        value.qualificationRequestId = try reader["QualificationRequestId"].readIfPresent()
+        value.qualificationTypeId = try reader["QualificationTypeId"].readIfPresent()
+        value.workerId = try reader["WorkerId"].readIfPresent()
+        value.test = try reader["Test"].readIfPresent()
+        value.answer = try reader["Answer"].readIfPresent()
+        value.submitTime = try reader["SubmitTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
 extension MTurkClientTypes.QualificationRequirement {
 
     static func write(value: MTurkClientTypes.QualificationRequirement?, to writer: SmithyJSON.Writer) throws {
@@ -4249,23 +4399,6 @@ extension MTurkClientTypes.QualificationRequirement {
         value.localeValues = try reader["LocaleValues"].readListIfPresent(memberReadingClosure: MTurkClientTypes.Locale.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.requiredToPreview = try reader["RequiredToPreview"].readIfPresent()
         value.actionsGuarded = try reader["ActionsGuarded"].readIfPresent()
-        return value
-    }
-}
-
-extension MTurkClientTypes.Locale {
-
-    static func write(value: MTurkClientTypes.Locale?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Country"].write(value.country)
-        try writer["Subdivision"].write(value.subdivision)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MTurkClientTypes.Locale {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MTurkClientTypes.Locale()
-        value.country = try reader["Country"].readIfPresent() ?? ""
-        value.subdivision = try reader["Subdivision"].readIfPresent()
         return value
     }
 }
@@ -4292,67 +4425,19 @@ extension MTurkClientTypes.QualificationType {
     }
 }
 
-extension MTurkClientTypes.Assignment {
+extension MTurkClientTypes.ReviewActionDetail {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> MTurkClientTypes.Assignment {
+    static func read(from reader: SmithyJSON.Reader) throws -> MTurkClientTypes.ReviewActionDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MTurkClientTypes.Assignment()
-        value.assignmentId = try reader["AssignmentId"].readIfPresent()
-        value.workerId = try reader["WorkerId"].readIfPresent()
-        value.hitId = try reader["HITId"].readIfPresent()
-        value.assignmentStatus = try reader["AssignmentStatus"].readIfPresent()
-        value.autoApprovalTime = try reader["AutoApprovalTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.acceptTime = try reader["AcceptTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.submitTime = try reader["SubmitTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.approvalTime = try reader["ApprovalTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.rejectionTime = try reader["RejectionTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.deadline = try reader["Deadline"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.answer = try reader["Answer"].readIfPresent()
-        value.requesterFeedback = try reader["RequesterFeedback"].readIfPresent()
-        return value
-    }
-}
-
-extension MTurkClientTypes.Qualification {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MTurkClientTypes.Qualification {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MTurkClientTypes.Qualification()
-        value.qualificationTypeId = try reader["QualificationTypeId"].readIfPresent()
-        value.workerId = try reader["WorkerId"].readIfPresent()
-        value.grantTime = try reader["GrantTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.integerValue = try reader["IntegerValue"].readIfPresent()
-        value.localeValue = try reader["LocaleValue"].readIfPresent(with: MTurkClientTypes.Locale.read(from:))
+        var value = MTurkClientTypes.ReviewActionDetail()
+        value.actionId = try reader["ActionId"].readIfPresent()
+        value.actionName = try reader["ActionName"].readIfPresent()
+        value.targetId = try reader["TargetId"].readIfPresent()
+        value.targetType = try reader["TargetType"].readIfPresent()
         value.status = try reader["Status"].readIfPresent()
-        return value
-    }
-}
-
-extension MTurkClientTypes.BonusPayment {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MTurkClientTypes.BonusPayment {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MTurkClientTypes.BonusPayment()
-        value.workerId = try reader["WorkerId"].readIfPresent()
-        value.bonusAmount = try reader["BonusAmount"].readIfPresent()
-        value.assignmentId = try reader["AssignmentId"].readIfPresent()
-        value.reason = try reader["Reason"].readIfPresent()
-        value.grantTime = try reader["GrantTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension MTurkClientTypes.QualificationRequest {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MTurkClientTypes.QualificationRequest {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MTurkClientTypes.QualificationRequest()
-        value.qualificationRequestId = try reader["QualificationRequestId"].readIfPresent()
-        value.qualificationTypeId = try reader["QualificationTypeId"].readIfPresent()
-        value.workerId = try reader["WorkerId"].readIfPresent()
-        value.test = try reader["Test"].readIfPresent()
-        value.answer = try reader["Answer"].readIfPresent()
-        value.submitTime = try reader["SubmitTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.completeTime = try reader["CompleteTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.result = try reader["Result"].readIfPresent()
+        value.errorCode = try reader["ErrorCode"].readIfPresent()
         return value
     }
 }
@@ -4374,42 +4459,6 @@ extension MTurkClientTypes.ReviewPolicy {
     }
 }
 
-extension MTurkClientTypes.PolicyParameter {
-
-    static func write(value: MTurkClientTypes.PolicyParameter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Key"].write(value.key)
-        try writer["MapEntries"].writeList(value.mapEntries, memberWritingClosure: MTurkClientTypes.ParameterMapEntry.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MTurkClientTypes.PolicyParameter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MTurkClientTypes.PolicyParameter()
-        value.key = try reader["Key"].readIfPresent()
-        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.mapEntries = try reader["MapEntries"].readListIfPresent(memberReadingClosure: MTurkClientTypes.ParameterMapEntry.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension MTurkClientTypes.ParameterMapEntry {
-
-    static func write(value: MTurkClientTypes.ParameterMapEntry?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Key"].write(value.key)
-        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MTurkClientTypes.ParameterMapEntry {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MTurkClientTypes.ParameterMapEntry()
-        value.key = try reader["Key"].readIfPresent()
-        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
 extension MTurkClientTypes.ReviewReport {
 
     static func read(from reader: SmithyJSON.Reader) throws -> MTurkClientTypes.ReviewReport {
@@ -4417,23 +4466,6 @@ extension MTurkClientTypes.ReviewReport {
         var value = MTurkClientTypes.ReviewReport()
         value.reviewResults = try reader["ReviewResults"].readListIfPresent(memberReadingClosure: MTurkClientTypes.ReviewResultDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.reviewActions = try reader["ReviewActions"].readListIfPresent(memberReadingClosure: MTurkClientTypes.ReviewActionDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension MTurkClientTypes.ReviewActionDetail {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MTurkClientTypes.ReviewActionDetail {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MTurkClientTypes.ReviewActionDetail()
-        value.actionId = try reader["ActionId"].readIfPresent()
-        value.actionName = try reader["ActionName"].readIfPresent()
-        value.targetId = try reader["TargetId"].readIfPresent()
-        value.targetType = try reader["TargetType"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.completeTime = try reader["CompleteTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.result = try reader["Result"].readIfPresent()
-        value.errorCode = try reader["ErrorCode"].readIfPresent()
         return value
     }
 }
@@ -4461,38 +4493,6 @@ extension MTurkClientTypes.WorkerBlock {
         value.workerId = try reader["WorkerId"].readIfPresent()
         value.reason = try reader["Reason"].readIfPresent()
         return value
-    }
-}
-
-extension MTurkClientTypes.NotifyWorkersFailureStatus {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MTurkClientTypes.NotifyWorkersFailureStatus {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MTurkClientTypes.NotifyWorkersFailureStatus()
-        value.notifyWorkersFailureCode = try reader["NotifyWorkersFailureCode"].readIfPresent()
-        value.notifyWorkersFailureMessage = try reader["NotifyWorkersFailureMessage"].readIfPresent()
-        value.workerId = try reader["WorkerId"].readIfPresent()
-        return value
-    }
-}
-
-extension MTurkClientTypes.HITLayoutParameter {
-
-    static func write(value: MTurkClientTypes.HITLayoutParameter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-        try writer["Value"].write(value.value)
-    }
-}
-
-extension MTurkClientTypes.NotificationSpecification {
-
-    static func write(value: MTurkClientTypes.NotificationSpecification?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Destination"].write(value.destination)
-        try writer["EventTypes"].writeList(value.eventTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<MTurkClientTypes.EventType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Transport"].write(value.transport)
-        try writer["Version"].write(value.version)
     }
 }
 

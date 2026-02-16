@@ -4032,67 +4032,269 @@ extension ValidationException {
     }
 }
 
-extension TimestreamInfluxDBClientTypes.LogDeliveryConfiguration {
+extension TimestreamInfluxDBClientTypes.DbClusterSummary {
 
-    static func write(value: TimestreamInfluxDBClientTypes.LogDeliveryConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["s3Configuration"].write(value.s3Configuration, with: TimestreamInfluxDBClientTypes.S3Configuration.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TimestreamInfluxDBClientTypes.LogDeliveryConfiguration {
+    static func read(from reader: SmithyJSON.Reader) throws -> TimestreamInfluxDBClientTypes.DbClusterSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TimestreamInfluxDBClientTypes.LogDeliveryConfiguration()
-        value.s3Configuration = try reader["s3Configuration"].readIfPresent(with: TimestreamInfluxDBClientTypes.S3Configuration.read(from:))
+        var value = TimestreamInfluxDBClientTypes.DbClusterSummary()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent()
+        value.endpoint = try reader["endpoint"].readIfPresent()
+        value.readerEndpoint = try reader["readerEndpoint"].readIfPresent()
+        value.port = try reader["port"].readIfPresent()
+        value.deploymentType = try reader["deploymentType"].readIfPresent()
+        value.dbInstanceType = try reader["dbInstanceType"].readIfPresent()
+        value.networkType = try reader["networkType"].readIfPresent()
+        value.dbStorageType = try reader["dbStorageType"].readIfPresent()
+        value.allocatedStorage = try reader["allocatedStorage"].readIfPresent()
+        value.engineType = try reader["engineType"].readIfPresent()
         return value
     }
 }
 
-extension TimestreamInfluxDBClientTypes.S3Configuration {
+extension TimestreamInfluxDBClientTypes.DbInstanceForClusterSummary {
 
-    static func write(value: TimestreamInfluxDBClientTypes.S3Configuration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["bucketName"].write(value.bucketName)
-        try writer["enabled"].write(value.enabled)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TimestreamInfluxDBClientTypes.S3Configuration {
+    static func read(from reader: SmithyJSON.Reader) throws -> TimestreamInfluxDBClientTypes.DbInstanceForClusterSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TimestreamInfluxDBClientTypes.S3Configuration()
-        value.bucketName = try reader["bucketName"].readIfPresent() ?? ""
-        value.enabled = try reader["enabled"].readIfPresent() ?? false
+        var value = TimestreamInfluxDBClientTypes.DbInstanceForClusterSummary()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent()
+        value.endpoint = try reader["endpoint"].readIfPresent()
+        value.port = try reader["port"].readIfPresent()
+        value.networkType = try reader["networkType"].readIfPresent()
+        value.dbInstanceType = try reader["dbInstanceType"].readIfPresent()
+        value.dbStorageType = try reader["dbStorageType"].readIfPresent()
+        value.allocatedStorage = try reader["allocatedStorage"].readIfPresent()
+        value.deploymentType = try reader["deploymentType"].readIfPresent()
+        value.instanceMode = try reader["instanceMode"].readIfPresent()
+        value.instanceModes = try reader["instanceModes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<TimestreamInfluxDBClientTypes.InstanceMode>().read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
 
-extension TimestreamInfluxDBClientTypes.Parameters {
+extension TimestreamInfluxDBClientTypes.DbInstanceSummary {
 
-    static func write(value: TimestreamInfluxDBClientTypes.Parameters?, to writer: SmithyJSON.Writer) throws {
+    static func read(from reader: SmithyJSON.Reader) throws -> TimestreamInfluxDBClientTypes.DbInstanceSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TimestreamInfluxDBClientTypes.DbInstanceSummary()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent()
+        value.endpoint = try reader["endpoint"].readIfPresent()
+        value.port = try reader["port"].readIfPresent()
+        value.networkType = try reader["networkType"].readIfPresent()
+        value.dbInstanceType = try reader["dbInstanceType"].readIfPresent()
+        value.dbStorageType = try reader["dbStorageType"].readIfPresent()
+        value.allocatedStorage = try reader["allocatedStorage"].readIfPresent()
+        value.deploymentType = try reader["deploymentType"].readIfPresent()
+        return value
+    }
+}
+
+extension TimestreamInfluxDBClientTypes.DbParameterGroupSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TimestreamInfluxDBClientTypes.DbParameterGroupSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TimestreamInfluxDBClientTypes.DbParameterGroupSummary()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.description = try reader["description"].readIfPresent()
+        return value
+    }
+}
+
+extension TimestreamInfluxDBClientTypes.Duration {
+
+    static func write(value: TimestreamInfluxDBClientTypes.Duration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        switch value {
-            case let .influxdbv2(influxdbv2):
-                try writer["InfluxDBv2"].write(influxdbv2, with: TimestreamInfluxDBClientTypes.InfluxDBv2Parameters.write(value:to:))
-            case let .influxdbv3core(influxdbv3core):
-                try writer["InfluxDBv3Core"].write(influxdbv3core, with: TimestreamInfluxDBClientTypes.InfluxDBv3CoreParameters.write(value:to:))
-            case let .influxdbv3enterprise(influxdbv3enterprise):
-                try writer["InfluxDBv3Enterprise"].write(influxdbv3enterprise, with: TimestreamInfluxDBClientTypes.InfluxDBv3EnterpriseParameters.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
+        try writer["durationType"].write(value.durationType)
+        try writer["value"].write(value.value)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> TimestreamInfluxDBClientTypes.Parameters {
+    static func read(from reader: SmithyJSON.Reader) throws -> TimestreamInfluxDBClientTypes.Duration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "InfluxDBv2":
-                return .influxdbv2(try reader["InfluxDBv2"].read(with: TimestreamInfluxDBClientTypes.InfluxDBv2Parameters.read(from:)))
-            case "InfluxDBv3Core":
-                return .influxdbv3core(try reader["InfluxDBv3Core"].read(with: TimestreamInfluxDBClientTypes.InfluxDBv3CoreParameters.read(from:)))
-            case "InfluxDBv3Enterprise":
-                return .influxdbv3enterprise(try reader["InfluxDBv3Enterprise"].read(with: TimestreamInfluxDBClientTypes.InfluxDBv3EnterpriseParameters.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
+        var value = TimestreamInfluxDBClientTypes.Duration()
+        value.durationType = try reader["durationType"].readIfPresent() ?? .sdkUnknown("")
+        value.value = try reader["value"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension TimestreamInfluxDBClientTypes.InfluxDBv2Parameters {
+
+    static func write(value: TimestreamInfluxDBClientTypes.InfluxDBv2Parameters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["fluxLogEnabled"].write(value.fluxLogEnabled)
+        try writer["httpIdleTimeout"].write(value.httpIdleTimeout, with: TimestreamInfluxDBClientTypes.Duration.write(value:to:))
+        try writer["httpReadHeaderTimeout"].write(value.httpReadHeaderTimeout, with: TimestreamInfluxDBClientTypes.Duration.write(value:to:))
+        try writer["httpReadTimeout"].write(value.httpReadTimeout, with: TimestreamInfluxDBClientTypes.Duration.write(value:to:))
+        try writer["httpWriteTimeout"].write(value.httpWriteTimeout, with: TimestreamInfluxDBClientTypes.Duration.write(value:to:))
+        try writer["influxqlMaxSelectBuckets"].write(value.influxqlMaxSelectBuckets)
+        try writer["influxqlMaxSelectPoint"].write(value.influxqlMaxSelectPoint)
+        try writer["influxqlMaxSelectSeries"].write(value.influxqlMaxSelectSeries)
+        try writer["logLevel"].write(value.logLevel)
+        try writer["metricsDisabled"].write(value.metricsDisabled)
+        try writer["noTasks"].write(value.noTasks)
+        try writer["pprofDisabled"].write(value.pprofDisabled)
+        try writer["queryConcurrency"].write(value.queryConcurrency)
+        try writer["queryInitialMemoryBytes"].write(value.queryInitialMemoryBytes)
+        try writer["queryMaxMemoryBytes"].write(value.queryMaxMemoryBytes)
+        try writer["queryMemoryBytes"].write(value.queryMemoryBytes)
+        try writer["queryQueueSize"].write(value.queryQueueSize)
+        try writer["sessionLength"].write(value.sessionLength)
+        try writer["sessionRenewDisabled"].write(value.sessionRenewDisabled)
+        try writer["storageCacheMaxMemorySize"].write(value.storageCacheMaxMemorySize)
+        try writer["storageCacheSnapshotMemorySize"].write(value.storageCacheSnapshotMemorySize)
+        try writer["storageCacheSnapshotWriteColdDuration"].write(value.storageCacheSnapshotWriteColdDuration, with: TimestreamInfluxDBClientTypes.Duration.write(value:to:))
+        try writer["storageCompactFullWriteColdDuration"].write(value.storageCompactFullWriteColdDuration, with: TimestreamInfluxDBClientTypes.Duration.write(value:to:))
+        try writer["storageCompactThroughputBurst"].write(value.storageCompactThroughputBurst)
+        try writer["storageMaxConcurrentCompactions"].write(value.storageMaxConcurrentCompactions)
+        try writer["storageMaxIndexLogFileSize"].write(value.storageMaxIndexLogFileSize)
+        try writer["storageNoValidateFieldSize"].write(value.storageNoValidateFieldSize)
+        try writer["storageRetentionCheckInterval"].write(value.storageRetentionCheckInterval, with: TimestreamInfluxDBClientTypes.Duration.write(value:to:))
+        try writer["storageSeriesFileMaxConcurrentSnapshotCompactions"].write(value.storageSeriesFileMaxConcurrentSnapshotCompactions)
+        try writer["storageSeriesIdSetCacheSize"].write(value.storageSeriesIdSetCacheSize)
+        try writer["storageWalMaxConcurrentWrites"].write(value.storageWalMaxConcurrentWrites)
+        try writer["storageWalMaxWriteDelay"].write(value.storageWalMaxWriteDelay, with: TimestreamInfluxDBClientTypes.Duration.write(value:to:))
+        try writer["tracingType"].write(value.tracingType)
+        try writer["uiDisabled"].write(value.uiDisabled)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TimestreamInfluxDBClientTypes.InfluxDBv2Parameters {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TimestreamInfluxDBClientTypes.InfluxDBv2Parameters()
+        value.fluxLogEnabled = try reader["fluxLogEnabled"].readIfPresent()
+        value.logLevel = try reader["logLevel"].readIfPresent()
+        value.noTasks = try reader["noTasks"].readIfPresent()
+        value.queryConcurrency = try reader["queryConcurrency"].readIfPresent()
+        value.queryQueueSize = try reader["queryQueueSize"].readIfPresent()
+        value.tracingType = try reader["tracingType"].readIfPresent()
+        value.metricsDisabled = try reader["metricsDisabled"].readIfPresent()
+        value.httpIdleTimeout = try reader["httpIdleTimeout"].readIfPresent(with: TimestreamInfluxDBClientTypes.Duration.read(from:))
+        value.httpReadHeaderTimeout = try reader["httpReadHeaderTimeout"].readIfPresent(with: TimestreamInfluxDBClientTypes.Duration.read(from:))
+        value.httpReadTimeout = try reader["httpReadTimeout"].readIfPresent(with: TimestreamInfluxDBClientTypes.Duration.read(from:))
+        value.httpWriteTimeout = try reader["httpWriteTimeout"].readIfPresent(with: TimestreamInfluxDBClientTypes.Duration.read(from:))
+        value.influxqlMaxSelectBuckets = try reader["influxqlMaxSelectBuckets"].readIfPresent()
+        value.influxqlMaxSelectPoint = try reader["influxqlMaxSelectPoint"].readIfPresent()
+        value.influxqlMaxSelectSeries = try reader["influxqlMaxSelectSeries"].readIfPresent()
+        value.pprofDisabled = try reader["pprofDisabled"].readIfPresent()
+        value.queryInitialMemoryBytes = try reader["queryInitialMemoryBytes"].readIfPresent()
+        value.queryMaxMemoryBytes = try reader["queryMaxMemoryBytes"].readIfPresent()
+        value.queryMemoryBytes = try reader["queryMemoryBytes"].readIfPresent()
+        value.sessionLength = try reader["sessionLength"].readIfPresent()
+        value.sessionRenewDisabled = try reader["sessionRenewDisabled"].readIfPresent()
+        value.storageCacheMaxMemorySize = try reader["storageCacheMaxMemorySize"].readIfPresent()
+        value.storageCacheSnapshotMemorySize = try reader["storageCacheSnapshotMemorySize"].readIfPresent()
+        value.storageCacheSnapshotWriteColdDuration = try reader["storageCacheSnapshotWriteColdDuration"].readIfPresent(with: TimestreamInfluxDBClientTypes.Duration.read(from:))
+        value.storageCompactFullWriteColdDuration = try reader["storageCompactFullWriteColdDuration"].readIfPresent(with: TimestreamInfluxDBClientTypes.Duration.read(from:))
+        value.storageCompactThroughputBurst = try reader["storageCompactThroughputBurst"].readIfPresent()
+        value.storageMaxConcurrentCompactions = try reader["storageMaxConcurrentCompactions"].readIfPresent()
+        value.storageMaxIndexLogFileSize = try reader["storageMaxIndexLogFileSize"].readIfPresent()
+        value.storageNoValidateFieldSize = try reader["storageNoValidateFieldSize"].readIfPresent()
+        value.storageRetentionCheckInterval = try reader["storageRetentionCheckInterval"].readIfPresent(with: TimestreamInfluxDBClientTypes.Duration.read(from:))
+        value.storageSeriesFileMaxConcurrentSnapshotCompactions = try reader["storageSeriesFileMaxConcurrentSnapshotCompactions"].readIfPresent()
+        value.storageSeriesIdSetCacheSize = try reader["storageSeriesIdSetCacheSize"].readIfPresent()
+        value.storageWalMaxConcurrentWrites = try reader["storageWalMaxConcurrentWrites"].readIfPresent()
+        value.storageWalMaxWriteDelay = try reader["storageWalMaxWriteDelay"].readIfPresent(with: TimestreamInfluxDBClientTypes.Duration.read(from:))
+        value.uiDisabled = try reader["uiDisabled"].readIfPresent()
+        return value
+    }
+}
+
+extension TimestreamInfluxDBClientTypes.InfluxDBv3CoreParameters {
+
+    static func write(value: TimestreamInfluxDBClientTypes.InfluxDBv3CoreParameters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["dataFusionConfig"].write(value.dataFusionConfig)
+        try writer["dataFusionMaxParquetFanout"].write(value.dataFusionMaxParquetFanout)
+        try writer["dataFusionNumThreads"].write(value.dataFusionNumThreads)
+        try writer["dataFusionRuntimeDisableLifoSlot"].write(value.dataFusionRuntimeDisableLifoSlot)
+        try writer["dataFusionRuntimeEventInterval"].write(value.dataFusionRuntimeEventInterval)
+        try writer["dataFusionRuntimeGlobalQueueInterval"].write(value.dataFusionRuntimeGlobalQueueInterval)
+        try writer["dataFusionRuntimeMaxBlockingThreads"].write(value.dataFusionRuntimeMaxBlockingThreads)
+        try writer["dataFusionRuntimeMaxIoEventsPerTick"].write(value.dataFusionRuntimeMaxIoEventsPerTick)
+        try writer["dataFusionRuntimeThreadKeepAlive"].write(value.dataFusionRuntimeThreadKeepAlive, with: TimestreamInfluxDBClientTypes.Duration.write(value:to:))
+        try writer["dataFusionRuntimeThreadPriority"].write(value.dataFusionRuntimeThreadPriority)
+        try writer["dataFusionRuntimeType"].write(value.dataFusionRuntimeType)
+        try writer["dataFusionUseCachedParquetLoader"].write(value.dataFusionUseCachedParquetLoader)
+        try writer["deleteGracePeriod"].write(value.deleteGracePeriod, with: TimestreamInfluxDBClientTypes.Duration.write(value:to:))
+        try writer["disableParquetMemCache"].write(value.disableParquetMemCache)
+        try writer["distinctCacheEvictionInterval"].write(value.distinctCacheEvictionInterval, with: TimestreamInfluxDBClientTypes.Duration.write(value:to:))
+        try writer["execMemPoolBytes"].write(value.execMemPoolBytes, with: TimestreamInfluxDBClientTypes.PercentOrAbsoluteLong.write(value:to:))
+        try writer["forceSnapshotMemThreshold"].write(value.forceSnapshotMemThreshold, with: TimestreamInfluxDBClientTypes.PercentOrAbsoluteLong.write(value:to:))
+        try writer["gen1Duration"].write(value.gen1Duration, with: TimestreamInfluxDBClientTypes.Duration.write(value:to:))
+        try writer["gen1LookbackDuration"].write(value.gen1LookbackDuration, with: TimestreamInfluxDBClientTypes.Duration.write(value:to:))
+        try writer["hardDeleteDefaultDuration"].write(value.hardDeleteDefaultDuration, with: TimestreamInfluxDBClientTypes.Duration.write(value:to:))
+        try writer["lastCacheEvictionInterval"].write(value.lastCacheEvictionInterval, with: TimestreamInfluxDBClientTypes.Duration.write(value:to:))
+        try writer["logFilter"].write(value.logFilter)
+        try writer["logFormat"].write(value.logFormat)
+        try writer["maxHttpRequestSize"].write(value.maxHttpRequestSize)
+        try writer["parquetMemCachePruneInterval"].write(value.parquetMemCachePruneInterval, with: TimestreamInfluxDBClientTypes.Duration.write(value:to:))
+        try writer["parquetMemCachePrunePercentage"].write(value.parquetMemCachePrunePercentage)
+        try writer["parquetMemCacheQueryPathDuration"].write(value.parquetMemCacheQueryPathDuration, with: TimestreamInfluxDBClientTypes.Duration.write(value:to:))
+        try writer["parquetMemCacheSize"].write(value.parquetMemCacheSize, with: TimestreamInfluxDBClientTypes.PercentOrAbsoluteLong.write(value:to:))
+        try writer["preemptiveCacheAge"].write(value.preemptiveCacheAge, with: TimestreamInfluxDBClientTypes.Duration.write(value:to:))
+        try writer["queryFileLimit"].write(value.queryFileLimit)
+        try writer["queryLogSize"].write(value.queryLogSize)
+        try writer["retentionCheckInterval"].write(value.retentionCheckInterval, with: TimestreamInfluxDBClientTypes.Duration.write(value:to:))
+        try writer["snapshottedWalFilesToKeep"].write(value.snapshottedWalFilesToKeep)
+        try writer["tableIndexCacheConcurrencyLimit"].write(value.tableIndexCacheConcurrencyLimit)
+        try writer["tableIndexCacheMaxEntries"].write(value.tableIndexCacheMaxEntries)
+        try writer["walMaxWriteBufferSize"].write(value.walMaxWriteBufferSize)
+        try writer["walReplayConcurrencyLimit"].write(value.walReplayConcurrencyLimit)
+        try writer["walReplayFailOnError"].write(value.walReplayFailOnError)
+        try writer["walSnapshotSize"].write(value.walSnapshotSize)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TimestreamInfluxDBClientTypes.InfluxDBv3CoreParameters {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TimestreamInfluxDBClientTypes.InfluxDBv3CoreParameters()
+        value.queryFileLimit = try reader["queryFileLimit"].readIfPresent()
+        value.queryLogSize = try reader["queryLogSize"].readIfPresent()
+        value.logFilter = try reader["logFilter"].readIfPresent()
+        value.logFormat = try reader["logFormat"].readIfPresent()
+        value.dataFusionNumThreads = try reader["dataFusionNumThreads"].readIfPresent()
+        value.dataFusionRuntimeType = try reader["dataFusionRuntimeType"].readIfPresent()
+        value.dataFusionRuntimeDisableLifoSlot = try reader["dataFusionRuntimeDisableLifoSlot"].readIfPresent()
+        value.dataFusionRuntimeEventInterval = try reader["dataFusionRuntimeEventInterval"].readIfPresent()
+        value.dataFusionRuntimeGlobalQueueInterval = try reader["dataFusionRuntimeGlobalQueueInterval"].readIfPresent()
+        value.dataFusionRuntimeMaxBlockingThreads = try reader["dataFusionRuntimeMaxBlockingThreads"].readIfPresent()
+        value.dataFusionRuntimeMaxIoEventsPerTick = try reader["dataFusionRuntimeMaxIoEventsPerTick"].readIfPresent()
+        value.dataFusionRuntimeThreadKeepAlive = try reader["dataFusionRuntimeThreadKeepAlive"].readIfPresent(with: TimestreamInfluxDBClientTypes.Duration.read(from:))
+        value.dataFusionRuntimeThreadPriority = try reader["dataFusionRuntimeThreadPriority"].readIfPresent()
+        value.dataFusionMaxParquetFanout = try reader["dataFusionMaxParquetFanout"].readIfPresent()
+        value.dataFusionUseCachedParquetLoader = try reader["dataFusionUseCachedParquetLoader"].readIfPresent()
+        value.dataFusionConfig = try reader["dataFusionConfig"].readIfPresent()
+        value.maxHttpRequestSize = try reader["maxHttpRequestSize"].readIfPresent()
+        value.forceSnapshotMemThreshold = try reader["forceSnapshotMemThreshold"].readIfPresent(with: TimestreamInfluxDBClientTypes.PercentOrAbsoluteLong.read(from:))
+        value.walSnapshotSize = try reader["walSnapshotSize"].readIfPresent()
+        value.walMaxWriteBufferSize = try reader["walMaxWriteBufferSize"].readIfPresent()
+        value.snapshottedWalFilesToKeep = try reader["snapshottedWalFilesToKeep"].readIfPresent()
+        value.preemptiveCacheAge = try reader["preemptiveCacheAge"].readIfPresent(with: TimestreamInfluxDBClientTypes.Duration.read(from:))
+        value.parquetMemCachePrunePercentage = try reader["parquetMemCachePrunePercentage"].readIfPresent()
+        value.parquetMemCachePruneInterval = try reader["parquetMemCachePruneInterval"].readIfPresent(with: TimestreamInfluxDBClientTypes.Duration.read(from:))
+        value.disableParquetMemCache = try reader["disableParquetMemCache"].readIfPresent()
+        value.parquetMemCacheQueryPathDuration = try reader["parquetMemCacheQueryPathDuration"].readIfPresent(with: TimestreamInfluxDBClientTypes.Duration.read(from:))
+        value.lastCacheEvictionInterval = try reader["lastCacheEvictionInterval"].readIfPresent(with: TimestreamInfluxDBClientTypes.Duration.read(from:))
+        value.distinctCacheEvictionInterval = try reader["distinctCacheEvictionInterval"].readIfPresent(with: TimestreamInfluxDBClientTypes.Duration.read(from:))
+        value.gen1Duration = try reader["gen1Duration"].readIfPresent(with: TimestreamInfluxDBClientTypes.Duration.read(from:))
+        value.execMemPoolBytes = try reader["execMemPoolBytes"].readIfPresent(with: TimestreamInfluxDBClientTypes.PercentOrAbsoluteLong.read(from:))
+        value.parquetMemCacheSize = try reader["parquetMemCacheSize"].readIfPresent(with: TimestreamInfluxDBClientTypes.PercentOrAbsoluteLong.read(from:))
+        value.walReplayFailOnError = try reader["walReplayFailOnError"].readIfPresent()
+        value.walReplayConcurrencyLimit = try reader["walReplayConcurrencyLimit"].readIfPresent()
+        value.tableIndexCacheMaxEntries = try reader["tableIndexCacheMaxEntries"].readIfPresent()
+        value.tableIndexCacheConcurrencyLimit = try reader["tableIndexCacheConcurrencyLimit"].readIfPresent()
+        value.gen1LookbackDuration = try reader["gen1LookbackDuration"].readIfPresent(with: TimestreamInfluxDBClientTypes.Duration.read(from:))
+        value.retentionCheckInterval = try reader["retentionCheckInterval"].readIfPresent(with: TimestreamInfluxDBClientTypes.Duration.read(from:))
+        value.deleteGracePeriod = try reader["deleteGracePeriod"].readIfPresent(with: TimestreamInfluxDBClientTypes.Duration.read(from:))
+        value.hardDeleteDefaultDuration = try reader["hardDeleteDefaultDuration"].readIfPresent(with: TimestreamInfluxDBClientTypes.Duration.read(from:))
+        return value
     }
 }
 
@@ -4213,20 +4415,50 @@ extension TimestreamInfluxDBClientTypes.InfluxDBv3EnterpriseParameters {
     }
 }
 
-extension TimestreamInfluxDBClientTypes.Duration {
+extension TimestreamInfluxDBClientTypes.LogDeliveryConfiguration {
 
-    static func write(value: TimestreamInfluxDBClientTypes.Duration?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: TimestreamInfluxDBClientTypes.LogDeliveryConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["durationType"].write(value.durationType)
-        try writer["value"].write(value.value)
+        try writer["s3Configuration"].write(value.s3Configuration, with: TimestreamInfluxDBClientTypes.S3Configuration.write(value:to:))
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> TimestreamInfluxDBClientTypes.Duration {
+    static func read(from reader: SmithyJSON.Reader) throws -> TimestreamInfluxDBClientTypes.LogDeliveryConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TimestreamInfluxDBClientTypes.Duration()
-        value.durationType = try reader["durationType"].readIfPresent() ?? .sdkUnknown("")
-        value.value = try reader["value"].readIfPresent() ?? 0
+        var value = TimestreamInfluxDBClientTypes.LogDeliveryConfiguration()
+        value.s3Configuration = try reader["s3Configuration"].readIfPresent(with: TimestreamInfluxDBClientTypes.S3Configuration.read(from:))
         return value
+    }
+}
+
+extension TimestreamInfluxDBClientTypes.Parameters {
+
+    static func write(value: TimestreamInfluxDBClientTypes.Parameters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .influxdbv2(influxdbv2):
+                try writer["InfluxDBv2"].write(influxdbv2, with: TimestreamInfluxDBClientTypes.InfluxDBv2Parameters.write(value:to:))
+            case let .influxdbv3core(influxdbv3core):
+                try writer["InfluxDBv3Core"].write(influxdbv3core, with: TimestreamInfluxDBClientTypes.InfluxDBv3CoreParameters.write(value:to:))
+            case let .influxdbv3enterprise(influxdbv3enterprise):
+                try writer["InfluxDBv3Enterprise"].write(influxdbv3enterprise, with: TimestreamInfluxDBClientTypes.InfluxDBv3EnterpriseParameters.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TimestreamInfluxDBClientTypes.Parameters {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "InfluxDBv2":
+                return .influxdbv2(try reader["InfluxDBv2"].read(with: TimestreamInfluxDBClientTypes.InfluxDBv2Parameters.read(from:)))
+            case "InfluxDBv3Core":
+                return .influxdbv3core(try reader["InfluxDBv3Core"].read(with: TimestreamInfluxDBClientTypes.InfluxDBv3CoreParameters.read(from:)))
+            case "InfluxDBv3Enterprise":
+                return .influxdbv3enterprise(try reader["InfluxDBv3Enterprise"].read(with: TimestreamInfluxDBClientTypes.InfluxDBv3EnterpriseParameters.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
     }
 }
 
@@ -4258,251 +4490,19 @@ extension TimestreamInfluxDBClientTypes.PercentOrAbsoluteLong {
     }
 }
 
-extension TimestreamInfluxDBClientTypes.InfluxDBv3CoreParameters {
+extension TimestreamInfluxDBClientTypes.S3Configuration {
 
-    static func write(value: TimestreamInfluxDBClientTypes.InfluxDBv3CoreParameters?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: TimestreamInfluxDBClientTypes.S3Configuration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["dataFusionConfig"].write(value.dataFusionConfig)
-        try writer["dataFusionMaxParquetFanout"].write(value.dataFusionMaxParquetFanout)
-        try writer["dataFusionNumThreads"].write(value.dataFusionNumThreads)
-        try writer["dataFusionRuntimeDisableLifoSlot"].write(value.dataFusionRuntimeDisableLifoSlot)
-        try writer["dataFusionRuntimeEventInterval"].write(value.dataFusionRuntimeEventInterval)
-        try writer["dataFusionRuntimeGlobalQueueInterval"].write(value.dataFusionRuntimeGlobalQueueInterval)
-        try writer["dataFusionRuntimeMaxBlockingThreads"].write(value.dataFusionRuntimeMaxBlockingThreads)
-        try writer["dataFusionRuntimeMaxIoEventsPerTick"].write(value.dataFusionRuntimeMaxIoEventsPerTick)
-        try writer["dataFusionRuntimeThreadKeepAlive"].write(value.dataFusionRuntimeThreadKeepAlive, with: TimestreamInfluxDBClientTypes.Duration.write(value:to:))
-        try writer["dataFusionRuntimeThreadPriority"].write(value.dataFusionRuntimeThreadPriority)
-        try writer["dataFusionRuntimeType"].write(value.dataFusionRuntimeType)
-        try writer["dataFusionUseCachedParquetLoader"].write(value.dataFusionUseCachedParquetLoader)
-        try writer["deleteGracePeriod"].write(value.deleteGracePeriod, with: TimestreamInfluxDBClientTypes.Duration.write(value:to:))
-        try writer["disableParquetMemCache"].write(value.disableParquetMemCache)
-        try writer["distinctCacheEvictionInterval"].write(value.distinctCacheEvictionInterval, with: TimestreamInfluxDBClientTypes.Duration.write(value:to:))
-        try writer["execMemPoolBytes"].write(value.execMemPoolBytes, with: TimestreamInfluxDBClientTypes.PercentOrAbsoluteLong.write(value:to:))
-        try writer["forceSnapshotMemThreshold"].write(value.forceSnapshotMemThreshold, with: TimestreamInfluxDBClientTypes.PercentOrAbsoluteLong.write(value:to:))
-        try writer["gen1Duration"].write(value.gen1Duration, with: TimestreamInfluxDBClientTypes.Duration.write(value:to:))
-        try writer["gen1LookbackDuration"].write(value.gen1LookbackDuration, with: TimestreamInfluxDBClientTypes.Duration.write(value:to:))
-        try writer["hardDeleteDefaultDuration"].write(value.hardDeleteDefaultDuration, with: TimestreamInfluxDBClientTypes.Duration.write(value:to:))
-        try writer["lastCacheEvictionInterval"].write(value.lastCacheEvictionInterval, with: TimestreamInfluxDBClientTypes.Duration.write(value:to:))
-        try writer["logFilter"].write(value.logFilter)
-        try writer["logFormat"].write(value.logFormat)
-        try writer["maxHttpRequestSize"].write(value.maxHttpRequestSize)
-        try writer["parquetMemCachePruneInterval"].write(value.parquetMemCachePruneInterval, with: TimestreamInfluxDBClientTypes.Duration.write(value:to:))
-        try writer["parquetMemCachePrunePercentage"].write(value.parquetMemCachePrunePercentage)
-        try writer["parquetMemCacheQueryPathDuration"].write(value.parquetMemCacheQueryPathDuration, with: TimestreamInfluxDBClientTypes.Duration.write(value:to:))
-        try writer["parquetMemCacheSize"].write(value.parquetMemCacheSize, with: TimestreamInfluxDBClientTypes.PercentOrAbsoluteLong.write(value:to:))
-        try writer["preemptiveCacheAge"].write(value.preemptiveCacheAge, with: TimestreamInfluxDBClientTypes.Duration.write(value:to:))
-        try writer["queryFileLimit"].write(value.queryFileLimit)
-        try writer["queryLogSize"].write(value.queryLogSize)
-        try writer["retentionCheckInterval"].write(value.retentionCheckInterval, with: TimestreamInfluxDBClientTypes.Duration.write(value:to:))
-        try writer["snapshottedWalFilesToKeep"].write(value.snapshottedWalFilesToKeep)
-        try writer["tableIndexCacheConcurrencyLimit"].write(value.tableIndexCacheConcurrencyLimit)
-        try writer["tableIndexCacheMaxEntries"].write(value.tableIndexCacheMaxEntries)
-        try writer["walMaxWriteBufferSize"].write(value.walMaxWriteBufferSize)
-        try writer["walReplayConcurrencyLimit"].write(value.walReplayConcurrencyLimit)
-        try writer["walReplayFailOnError"].write(value.walReplayFailOnError)
-        try writer["walSnapshotSize"].write(value.walSnapshotSize)
+        try writer["bucketName"].write(value.bucketName)
+        try writer["enabled"].write(value.enabled)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> TimestreamInfluxDBClientTypes.InfluxDBv3CoreParameters {
+    static func read(from reader: SmithyJSON.Reader) throws -> TimestreamInfluxDBClientTypes.S3Configuration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TimestreamInfluxDBClientTypes.InfluxDBv3CoreParameters()
-        value.queryFileLimit = try reader["queryFileLimit"].readIfPresent()
-        value.queryLogSize = try reader["queryLogSize"].readIfPresent()
-        value.logFilter = try reader["logFilter"].readIfPresent()
-        value.logFormat = try reader["logFormat"].readIfPresent()
-        value.dataFusionNumThreads = try reader["dataFusionNumThreads"].readIfPresent()
-        value.dataFusionRuntimeType = try reader["dataFusionRuntimeType"].readIfPresent()
-        value.dataFusionRuntimeDisableLifoSlot = try reader["dataFusionRuntimeDisableLifoSlot"].readIfPresent()
-        value.dataFusionRuntimeEventInterval = try reader["dataFusionRuntimeEventInterval"].readIfPresent()
-        value.dataFusionRuntimeGlobalQueueInterval = try reader["dataFusionRuntimeGlobalQueueInterval"].readIfPresent()
-        value.dataFusionRuntimeMaxBlockingThreads = try reader["dataFusionRuntimeMaxBlockingThreads"].readIfPresent()
-        value.dataFusionRuntimeMaxIoEventsPerTick = try reader["dataFusionRuntimeMaxIoEventsPerTick"].readIfPresent()
-        value.dataFusionRuntimeThreadKeepAlive = try reader["dataFusionRuntimeThreadKeepAlive"].readIfPresent(with: TimestreamInfluxDBClientTypes.Duration.read(from:))
-        value.dataFusionRuntimeThreadPriority = try reader["dataFusionRuntimeThreadPriority"].readIfPresent()
-        value.dataFusionMaxParquetFanout = try reader["dataFusionMaxParquetFanout"].readIfPresent()
-        value.dataFusionUseCachedParquetLoader = try reader["dataFusionUseCachedParquetLoader"].readIfPresent()
-        value.dataFusionConfig = try reader["dataFusionConfig"].readIfPresent()
-        value.maxHttpRequestSize = try reader["maxHttpRequestSize"].readIfPresent()
-        value.forceSnapshotMemThreshold = try reader["forceSnapshotMemThreshold"].readIfPresent(with: TimestreamInfluxDBClientTypes.PercentOrAbsoluteLong.read(from:))
-        value.walSnapshotSize = try reader["walSnapshotSize"].readIfPresent()
-        value.walMaxWriteBufferSize = try reader["walMaxWriteBufferSize"].readIfPresent()
-        value.snapshottedWalFilesToKeep = try reader["snapshottedWalFilesToKeep"].readIfPresent()
-        value.preemptiveCacheAge = try reader["preemptiveCacheAge"].readIfPresent(with: TimestreamInfluxDBClientTypes.Duration.read(from:))
-        value.parquetMemCachePrunePercentage = try reader["parquetMemCachePrunePercentage"].readIfPresent()
-        value.parquetMemCachePruneInterval = try reader["parquetMemCachePruneInterval"].readIfPresent(with: TimestreamInfluxDBClientTypes.Duration.read(from:))
-        value.disableParquetMemCache = try reader["disableParquetMemCache"].readIfPresent()
-        value.parquetMemCacheQueryPathDuration = try reader["parquetMemCacheQueryPathDuration"].readIfPresent(with: TimestreamInfluxDBClientTypes.Duration.read(from:))
-        value.lastCacheEvictionInterval = try reader["lastCacheEvictionInterval"].readIfPresent(with: TimestreamInfluxDBClientTypes.Duration.read(from:))
-        value.distinctCacheEvictionInterval = try reader["distinctCacheEvictionInterval"].readIfPresent(with: TimestreamInfluxDBClientTypes.Duration.read(from:))
-        value.gen1Duration = try reader["gen1Duration"].readIfPresent(with: TimestreamInfluxDBClientTypes.Duration.read(from:))
-        value.execMemPoolBytes = try reader["execMemPoolBytes"].readIfPresent(with: TimestreamInfluxDBClientTypes.PercentOrAbsoluteLong.read(from:))
-        value.parquetMemCacheSize = try reader["parquetMemCacheSize"].readIfPresent(with: TimestreamInfluxDBClientTypes.PercentOrAbsoluteLong.read(from:))
-        value.walReplayFailOnError = try reader["walReplayFailOnError"].readIfPresent()
-        value.walReplayConcurrencyLimit = try reader["walReplayConcurrencyLimit"].readIfPresent()
-        value.tableIndexCacheMaxEntries = try reader["tableIndexCacheMaxEntries"].readIfPresent()
-        value.tableIndexCacheConcurrencyLimit = try reader["tableIndexCacheConcurrencyLimit"].readIfPresent()
-        value.gen1LookbackDuration = try reader["gen1LookbackDuration"].readIfPresent(with: TimestreamInfluxDBClientTypes.Duration.read(from:))
-        value.retentionCheckInterval = try reader["retentionCheckInterval"].readIfPresent(with: TimestreamInfluxDBClientTypes.Duration.read(from:))
-        value.deleteGracePeriod = try reader["deleteGracePeriod"].readIfPresent(with: TimestreamInfluxDBClientTypes.Duration.read(from:))
-        value.hardDeleteDefaultDuration = try reader["hardDeleteDefaultDuration"].readIfPresent(with: TimestreamInfluxDBClientTypes.Duration.read(from:))
-        return value
-    }
-}
-
-extension TimestreamInfluxDBClientTypes.InfluxDBv2Parameters {
-
-    static func write(value: TimestreamInfluxDBClientTypes.InfluxDBv2Parameters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["fluxLogEnabled"].write(value.fluxLogEnabled)
-        try writer["httpIdleTimeout"].write(value.httpIdleTimeout, with: TimestreamInfluxDBClientTypes.Duration.write(value:to:))
-        try writer["httpReadHeaderTimeout"].write(value.httpReadHeaderTimeout, with: TimestreamInfluxDBClientTypes.Duration.write(value:to:))
-        try writer["httpReadTimeout"].write(value.httpReadTimeout, with: TimestreamInfluxDBClientTypes.Duration.write(value:to:))
-        try writer["httpWriteTimeout"].write(value.httpWriteTimeout, with: TimestreamInfluxDBClientTypes.Duration.write(value:to:))
-        try writer["influxqlMaxSelectBuckets"].write(value.influxqlMaxSelectBuckets)
-        try writer["influxqlMaxSelectPoint"].write(value.influxqlMaxSelectPoint)
-        try writer["influxqlMaxSelectSeries"].write(value.influxqlMaxSelectSeries)
-        try writer["logLevel"].write(value.logLevel)
-        try writer["metricsDisabled"].write(value.metricsDisabled)
-        try writer["noTasks"].write(value.noTasks)
-        try writer["pprofDisabled"].write(value.pprofDisabled)
-        try writer["queryConcurrency"].write(value.queryConcurrency)
-        try writer["queryInitialMemoryBytes"].write(value.queryInitialMemoryBytes)
-        try writer["queryMaxMemoryBytes"].write(value.queryMaxMemoryBytes)
-        try writer["queryMemoryBytes"].write(value.queryMemoryBytes)
-        try writer["queryQueueSize"].write(value.queryQueueSize)
-        try writer["sessionLength"].write(value.sessionLength)
-        try writer["sessionRenewDisabled"].write(value.sessionRenewDisabled)
-        try writer["storageCacheMaxMemorySize"].write(value.storageCacheMaxMemorySize)
-        try writer["storageCacheSnapshotMemorySize"].write(value.storageCacheSnapshotMemorySize)
-        try writer["storageCacheSnapshotWriteColdDuration"].write(value.storageCacheSnapshotWriteColdDuration, with: TimestreamInfluxDBClientTypes.Duration.write(value:to:))
-        try writer["storageCompactFullWriteColdDuration"].write(value.storageCompactFullWriteColdDuration, with: TimestreamInfluxDBClientTypes.Duration.write(value:to:))
-        try writer["storageCompactThroughputBurst"].write(value.storageCompactThroughputBurst)
-        try writer["storageMaxConcurrentCompactions"].write(value.storageMaxConcurrentCompactions)
-        try writer["storageMaxIndexLogFileSize"].write(value.storageMaxIndexLogFileSize)
-        try writer["storageNoValidateFieldSize"].write(value.storageNoValidateFieldSize)
-        try writer["storageRetentionCheckInterval"].write(value.storageRetentionCheckInterval, with: TimestreamInfluxDBClientTypes.Duration.write(value:to:))
-        try writer["storageSeriesFileMaxConcurrentSnapshotCompactions"].write(value.storageSeriesFileMaxConcurrentSnapshotCompactions)
-        try writer["storageSeriesIdSetCacheSize"].write(value.storageSeriesIdSetCacheSize)
-        try writer["storageWalMaxConcurrentWrites"].write(value.storageWalMaxConcurrentWrites)
-        try writer["storageWalMaxWriteDelay"].write(value.storageWalMaxWriteDelay, with: TimestreamInfluxDBClientTypes.Duration.write(value:to:))
-        try writer["tracingType"].write(value.tracingType)
-        try writer["uiDisabled"].write(value.uiDisabled)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TimestreamInfluxDBClientTypes.InfluxDBv2Parameters {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TimestreamInfluxDBClientTypes.InfluxDBv2Parameters()
-        value.fluxLogEnabled = try reader["fluxLogEnabled"].readIfPresent()
-        value.logLevel = try reader["logLevel"].readIfPresent()
-        value.noTasks = try reader["noTasks"].readIfPresent()
-        value.queryConcurrency = try reader["queryConcurrency"].readIfPresent()
-        value.queryQueueSize = try reader["queryQueueSize"].readIfPresent()
-        value.tracingType = try reader["tracingType"].readIfPresent()
-        value.metricsDisabled = try reader["metricsDisabled"].readIfPresent()
-        value.httpIdleTimeout = try reader["httpIdleTimeout"].readIfPresent(with: TimestreamInfluxDBClientTypes.Duration.read(from:))
-        value.httpReadHeaderTimeout = try reader["httpReadHeaderTimeout"].readIfPresent(with: TimestreamInfluxDBClientTypes.Duration.read(from:))
-        value.httpReadTimeout = try reader["httpReadTimeout"].readIfPresent(with: TimestreamInfluxDBClientTypes.Duration.read(from:))
-        value.httpWriteTimeout = try reader["httpWriteTimeout"].readIfPresent(with: TimestreamInfluxDBClientTypes.Duration.read(from:))
-        value.influxqlMaxSelectBuckets = try reader["influxqlMaxSelectBuckets"].readIfPresent()
-        value.influxqlMaxSelectPoint = try reader["influxqlMaxSelectPoint"].readIfPresent()
-        value.influxqlMaxSelectSeries = try reader["influxqlMaxSelectSeries"].readIfPresent()
-        value.pprofDisabled = try reader["pprofDisabled"].readIfPresent()
-        value.queryInitialMemoryBytes = try reader["queryInitialMemoryBytes"].readIfPresent()
-        value.queryMaxMemoryBytes = try reader["queryMaxMemoryBytes"].readIfPresent()
-        value.queryMemoryBytes = try reader["queryMemoryBytes"].readIfPresent()
-        value.sessionLength = try reader["sessionLength"].readIfPresent()
-        value.sessionRenewDisabled = try reader["sessionRenewDisabled"].readIfPresent()
-        value.storageCacheMaxMemorySize = try reader["storageCacheMaxMemorySize"].readIfPresent()
-        value.storageCacheSnapshotMemorySize = try reader["storageCacheSnapshotMemorySize"].readIfPresent()
-        value.storageCacheSnapshotWriteColdDuration = try reader["storageCacheSnapshotWriteColdDuration"].readIfPresent(with: TimestreamInfluxDBClientTypes.Duration.read(from:))
-        value.storageCompactFullWriteColdDuration = try reader["storageCompactFullWriteColdDuration"].readIfPresent(with: TimestreamInfluxDBClientTypes.Duration.read(from:))
-        value.storageCompactThroughputBurst = try reader["storageCompactThroughputBurst"].readIfPresent()
-        value.storageMaxConcurrentCompactions = try reader["storageMaxConcurrentCompactions"].readIfPresent()
-        value.storageMaxIndexLogFileSize = try reader["storageMaxIndexLogFileSize"].readIfPresent()
-        value.storageNoValidateFieldSize = try reader["storageNoValidateFieldSize"].readIfPresent()
-        value.storageRetentionCheckInterval = try reader["storageRetentionCheckInterval"].readIfPresent(with: TimestreamInfluxDBClientTypes.Duration.read(from:))
-        value.storageSeriesFileMaxConcurrentSnapshotCompactions = try reader["storageSeriesFileMaxConcurrentSnapshotCompactions"].readIfPresent()
-        value.storageSeriesIdSetCacheSize = try reader["storageSeriesIdSetCacheSize"].readIfPresent()
-        value.storageWalMaxConcurrentWrites = try reader["storageWalMaxConcurrentWrites"].readIfPresent()
-        value.storageWalMaxWriteDelay = try reader["storageWalMaxWriteDelay"].readIfPresent(with: TimestreamInfluxDBClientTypes.Duration.read(from:))
-        value.uiDisabled = try reader["uiDisabled"].readIfPresent()
-        return value
-    }
-}
-
-extension TimestreamInfluxDBClientTypes.DbClusterSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TimestreamInfluxDBClientTypes.DbClusterSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TimestreamInfluxDBClientTypes.DbClusterSummary()
-        value.id = try reader["id"].readIfPresent() ?? ""
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.arn = try reader["arn"].readIfPresent() ?? ""
-        value.status = try reader["status"].readIfPresent()
-        value.endpoint = try reader["endpoint"].readIfPresent()
-        value.readerEndpoint = try reader["readerEndpoint"].readIfPresent()
-        value.port = try reader["port"].readIfPresent()
-        value.deploymentType = try reader["deploymentType"].readIfPresent()
-        value.dbInstanceType = try reader["dbInstanceType"].readIfPresent()
-        value.networkType = try reader["networkType"].readIfPresent()
-        value.dbStorageType = try reader["dbStorageType"].readIfPresent()
-        value.allocatedStorage = try reader["allocatedStorage"].readIfPresent()
-        value.engineType = try reader["engineType"].readIfPresent()
-        return value
-    }
-}
-
-extension TimestreamInfluxDBClientTypes.DbInstanceSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TimestreamInfluxDBClientTypes.DbInstanceSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TimestreamInfluxDBClientTypes.DbInstanceSummary()
-        value.id = try reader["id"].readIfPresent() ?? ""
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.arn = try reader["arn"].readIfPresent() ?? ""
-        value.status = try reader["status"].readIfPresent()
-        value.endpoint = try reader["endpoint"].readIfPresent()
-        value.port = try reader["port"].readIfPresent()
-        value.networkType = try reader["networkType"].readIfPresent()
-        value.dbInstanceType = try reader["dbInstanceType"].readIfPresent()
-        value.dbStorageType = try reader["dbStorageType"].readIfPresent()
-        value.allocatedStorage = try reader["allocatedStorage"].readIfPresent()
-        value.deploymentType = try reader["deploymentType"].readIfPresent()
-        return value
-    }
-}
-
-extension TimestreamInfluxDBClientTypes.DbInstanceForClusterSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TimestreamInfluxDBClientTypes.DbInstanceForClusterSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TimestreamInfluxDBClientTypes.DbInstanceForClusterSummary()
-        value.id = try reader["id"].readIfPresent() ?? ""
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.arn = try reader["arn"].readIfPresent() ?? ""
-        value.status = try reader["status"].readIfPresent()
-        value.endpoint = try reader["endpoint"].readIfPresent()
-        value.port = try reader["port"].readIfPresent()
-        value.networkType = try reader["networkType"].readIfPresent()
-        value.dbInstanceType = try reader["dbInstanceType"].readIfPresent()
-        value.dbStorageType = try reader["dbStorageType"].readIfPresent()
-        value.allocatedStorage = try reader["allocatedStorage"].readIfPresent()
-        value.deploymentType = try reader["deploymentType"].readIfPresent()
-        value.instanceMode = try reader["instanceMode"].readIfPresent()
-        value.instanceModes = try reader["instanceModes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<TimestreamInfluxDBClientTypes.InstanceMode>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension TimestreamInfluxDBClientTypes.DbParameterGroupSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TimestreamInfluxDBClientTypes.DbParameterGroupSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TimestreamInfluxDBClientTypes.DbParameterGroupSummary()
-        value.id = try reader["id"].readIfPresent() ?? ""
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.arn = try reader["arn"].readIfPresent() ?? ""
-        value.description = try reader["description"].readIfPresent()
+        var value = TimestreamInfluxDBClientTypes.S3Configuration()
+        value.bucketName = try reader["bucketName"].readIfPresent() ?? ""
+        value.enabled = try reader["enabled"].readIfPresent() ?? false
         return value
     }
 }

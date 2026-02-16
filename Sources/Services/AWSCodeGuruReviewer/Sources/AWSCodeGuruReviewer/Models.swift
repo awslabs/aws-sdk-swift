@@ -2721,40 +2721,19 @@ extension NotFoundException {
     }
 }
 
-extension CodeGuruReviewerClientTypes.RepositoryAssociation {
+extension CodeGuruReviewerClientTypes.BranchDiffSourceCodeType {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruReviewerClientTypes.RepositoryAssociation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeGuruReviewerClientTypes.RepositoryAssociation()
-        value.associationId = try reader["AssociationId"].readIfPresent()
-        value.associationArn = try reader["AssociationArn"].readIfPresent()
-        value.connectionArn = try reader["ConnectionArn"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
-        value.owner = try reader["Owner"].readIfPresent()
-        value.providerType = try reader["ProviderType"].readIfPresent()
-        value.state = try reader["State"].readIfPresent()
-        value.stateReason = try reader["StateReason"].readIfPresent()
-        value.lastUpdatedTimeStamp = try reader["LastUpdatedTimeStamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.createdTimeStamp = try reader["CreatedTimeStamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.kmsKeyDetails = try reader["KMSKeyDetails"].readIfPresent(with: CodeGuruReviewerClientTypes.KMSKeyDetails.read(from:))
-        value.s3RepositoryDetails = try reader["S3RepositoryDetails"].readIfPresent(with: CodeGuruReviewerClientTypes.S3RepositoryDetails.read(from:))
-        return value
-    }
-}
-
-extension CodeGuruReviewerClientTypes.S3RepositoryDetails {
-
-    static func write(value: CodeGuruReviewerClientTypes.S3RepositoryDetails?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: CodeGuruReviewerClientTypes.BranchDiffSourceCodeType?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["BucketName"].write(value.bucketName)
-        try writer["CodeArtifacts"].write(value.codeArtifacts, with: CodeGuruReviewerClientTypes.CodeArtifacts.write(value:to:))
+        try writer["DestinationBranchName"].write(value.destinationBranchName)
+        try writer["SourceBranchName"].write(value.sourceBranchName)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruReviewerClientTypes.S3RepositoryDetails {
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruReviewerClientTypes.BranchDiffSourceCodeType {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeGuruReviewerClientTypes.S3RepositoryDetails()
-        value.bucketName = try reader["BucketName"].readIfPresent()
-        value.codeArtifacts = try reader["CodeArtifacts"].readIfPresent(with: CodeGuruReviewerClientTypes.CodeArtifacts.read(from:))
+        var value = CodeGuruReviewerClientTypes.BranchDiffSourceCodeType()
+        value.sourceBranchName = try reader["SourceBranchName"].readIfPresent() ?? ""
+        value.destinationBranchName = try reader["DestinationBranchName"].readIfPresent() ?? ""
         return value
     }
 }
@@ -2776,20 +2755,11 @@ extension CodeGuruReviewerClientTypes.CodeArtifacts {
     }
 }
 
-extension CodeGuruReviewerClientTypes.KMSKeyDetails {
+extension CodeGuruReviewerClientTypes.CodeCommitRepository {
 
-    static func write(value: CodeGuruReviewerClientTypes.KMSKeyDetails?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: CodeGuruReviewerClientTypes.CodeCommitRepository?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["EncryptionOption"].write(value.encryptionOption)
-        try writer["KMSKeyId"].write(value.kmsKeyId)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruReviewerClientTypes.KMSKeyDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeGuruReviewerClientTypes.KMSKeyDetails()
-        value.kmsKeyId = try reader["KMSKeyId"].readIfPresent()
-        value.encryptionOption = try reader["EncryptionOption"].readIfPresent()
-        return value
+        try writer["Name"].write(value.name)
     }
 }
 
@@ -2818,125 +2788,33 @@ extension CodeGuruReviewerClientTypes.CodeReview {
     }
 }
 
-extension CodeGuruReviewerClientTypes.Metrics {
+extension CodeGuruReviewerClientTypes.CodeReviewSummary {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruReviewerClientTypes.Metrics {
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruReviewerClientTypes.CodeReviewSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeGuruReviewerClientTypes.Metrics()
-        value.meteredLinesOfCodeCount = try reader["MeteredLinesOfCodeCount"].readIfPresent()
-        value.suppressedLinesOfCodeCount = try reader["SuppressedLinesOfCodeCount"].readIfPresent()
-        value.findingsCount = try reader["FindingsCount"].readIfPresent()
-        return value
-    }
-}
-
-extension CodeGuruReviewerClientTypes.SourceCodeType {
-
-    static func write(value: CodeGuruReviewerClientTypes.SourceCodeType?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BranchDiff"].write(value.branchDiff, with: CodeGuruReviewerClientTypes.BranchDiffSourceCodeType.write(value:to:))
-        try writer["CommitDiff"].write(value.commitDiff, with: CodeGuruReviewerClientTypes.CommitDiffSourceCodeType.write(value:to:))
-        try writer["RepositoryHead"].write(value.repositoryHead, with: CodeGuruReviewerClientTypes.RepositoryHeadSourceCodeType.write(value:to:))
-        try writer["RequestMetadata"].write(value.requestMetadata, with: CodeGuruReviewerClientTypes.RequestMetadata.write(value:to:))
-        try writer["S3BucketRepository"].write(value.s3BucketRepository, with: CodeGuruReviewerClientTypes.S3BucketRepository.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruReviewerClientTypes.SourceCodeType {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeGuruReviewerClientTypes.SourceCodeType()
-        value.commitDiff = try reader["CommitDiff"].readIfPresent(with: CodeGuruReviewerClientTypes.CommitDiffSourceCodeType.read(from:))
-        value.repositoryHead = try reader["RepositoryHead"].readIfPresent(with: CodeGuruReviewerClientTypes.RepositoryHeadSourceCodeType.read(from:))
-        value.branchDiff = try reader["BranchDiff"].readIfPresent(with: CodeGuruReviewerClientTypes.BranchDiffSourceCodeType.read(from:))
-        value.s3BucketRepository = try reader["S3BucketRepository"].readIfPresent(with: CodeGuruReviewerClientTypes.S3BucketRepository.read(from:))
-        value.requestMetadata = try reader["RequestMetadata"].readIfPresent(with: CodeGuruReviewerClientTypes.RequestMetadata.read(from:))
-        return value
-    }
-}
-
-extension CodeGuruReviewerClientTypes.RequestMetadata {
-
-    static func write(value: CodeGuruReviewerClientTypes.RequestMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["EventInfo"].write(value.eventInfo, with: CodeGuruReviewerClientTypes.EventInfo.write(value:to:))
-        try writer["RequestId"].write(value.requestId)
-        try writer["Requester"].write(value.requester)
-        try writer["VendorName"].write(value.vendorName)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruReviewerClientTypes.RequestMetadata {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeGuruReviewerClientTypes.RequestMetadata()
-        value.requestId = try reader["RequestId"].readIfPresent()
-        value.requester = try reader["Requester"].readIfPresent()
-        value.eventInfo = try reader["EventInfo"].readIfPresent(with: CodeGuruReviewerClientTypes.EventInfo.read(from:))
-        value.vendorName = try reader["VendorName"].readIfPresent()
-        return value
-    }
-}
-
-extension CodeGuruReviewerClientTypes.EventInfo {
-
-    static func write(value: CodeGuruReviewerClientTypes.EventInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-        try writer["State"].write(value.state)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruReviewerClientTypes.EventInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeGuruReviewerClientTypes.EventInfo()
+        var value = CodeGuruReviewerClientTypes.CodeReviewSummary()
         value.name = try reader["Name"].readIfPresent()
+        value.codeReviewArn = try reader["CodeReviewArn"].readIfPresent()
+        value.repositoryName = try reader["RepositoryName"].readIfPresent()
+        value.owner = try reader["Owner"].readIfPresent()
+        value.providerType = try reader["ProviderType"].readIfPresent()
         value.state = try reader["State"].readIfPresent()
+        value.createdTimeStamp = try reader["CreatedTimeStamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastUpdatedTimeStamp = try reader["LastUpdatedTimeStamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.type = try reader["Type"].readIfPresent()
+        value.pullRequestId = try reader["PullRequestId"].readIfPresent()
+        value.metricsSummary = try reader["MetricsSummary"].readIfPresent(with: CodeGuruReviewerClientTypes.MetricsSummary.read(from:))
+        value.sourceCodeType = try reader["SourceCodeType"].readIfPresent(with: CodeGuruReviewerClientTypes.SourceCodeType.read(from:))
         return value
     }
 }
 
-extension CodeGuruReviewerClientTypes.S3BucketRepository {
+extension CodeGuruReviewerClientTypes.CodeReviewType {
 
-    static func write(value: CodeGuruReviewerClientTypes.S3BucketRepository?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: CodeGuruReviewerClientTypes.CodeReviewType?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["Details"].write(value.details, with: CodeGuruReviewerClientTypes.S3RepositoryDetails.write(value:to:))
-        try writer["Name"].write(value.name)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruReviewerClientTypes.S3BucketRepository {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeGuruReviewerClientTypes.S3BucketRepository()
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.details = try reader["Details"].readIfPresent(with: CodeGuruReviewerClientTypes.S3RepositoryDetails.read(from:))
-        return value
-    }
-}
-
-extension CodeGuruReviewerClientTypes.BranchDiffSourceCodeType {
-
-    static func write(value: CodeGuruReviewerClientTypes.BranchDiffSourceCodeType?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DestinationBranchName"].write(value.destinationBranchName)
-        try writer["SourceBranchName"].write(value.sourceBranchName)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruReviewerClientTypes.BranchDiffSourceCodeType {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeGuruReviewerClientTypes.BranchDiffSourceCodeType()
-        value.sourceBranchName = try reader["SourceBranchName"].readIfPresent() ?? ""
-        value.destinationBranchName = try reader["DestinationBranchName"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension CodeGuruReviewerClientTypes.RepositoryHeadSourceCodeType {
-
-    static func write(value: CodeGuruReviewerClientTypes.RepositoryHeadSourceCodeType?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BranchName"].write(value.branchName)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruReviewerClientTypes.RepositoryHeadSourceCodeType {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeGuruReviewerClientTypes.RepositoryHeadSourceCodeType()
-        value.branchName = try reader["BranchName"].readIfPresent() ?? ""
-        return value
+        try writer["AnalysisTypes"].writeList(value.analysisTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<CodeGuruReviewerClientTypes.AnalysisType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["RepositoryAnalysis"].write(value.repositoryAnalysis, with: CodeGuruReviewerClientTypes.RepositoryAnalysis.write(value:to:))
     }
 }
 
@@ -2959,38 +2837,48 @@ extension CodeGuruReviewerClientTypes.CommitDiffSourceCodeType {
     }
 }
 
-extension CodeGuruReviewerClientTypes.RecommendationFeedback {
+extension CodeGuruReviewerClientTypes.EventInfo {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruReviewerClientTypes.RecommendationFeedback {
+    static func write(value: CodeGuruReviewerClientTypes.EventInfo?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Name"].write(value.name)
+        try writer["State"].write(value.state)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruReviewerClientTypes.EventInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeGuruReviewerClientTypes.RecommendationFeedback()
-        value.codeReviewArn = try reader["CodeReviewArn"].readIfPresent()
-        value.recommendationId = try reader["RecommendationId"].readIfPresent()
-        value.reactions = try reader["Reactions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<CodeGuruReviewerClientTypes.Reaction>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.userId = try reader["UserId"].readIfPresent()
-        value.createdTimeStamp = try reader["CreatedTimeStamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastUpdatedTimeStamp = try reader["LastUpdatedTimeStamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        var value = CodeGuruReviewerClientTypes.EventInfo()
+        value.name = try reader["Name"].readIfPresent()
+        value.state = try reader["State"].readIfPresent()
         return value
     }
 }
 
-extension CodeGuruReviewerClientTypes.CodeReviewSummary {
+extension CodeGuruReviewerClientTypes.KMSKeyDetails {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruReviewerClientTypes.CodeReviewSummary {
+    static func write(value: CodeGuruReviewerClientTypes.KMSKeyDetails?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["EncryptionOption"].write(value.encryptionOption)
+        try writer["KMSKeyId"].write(value.kmsKeyId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruReviewerClientTypes.KMSKeyDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeGuruReviewerClientTypes.CodeReviewSummary()
-        value.name = try reader["Name"].readIfPresent()
-        value.codeReviewArn = try reader["CodeReviewArn"].readIfPresent()
-        value.repositoryName = try reader["RepositoryName"].readIfPresent()
-        value.owner = try reader["Owner"].readIfPresent()
-        value.providerType = try reader["ProviderType"].readIfPresent()
-        value.state = try reader["State"].readIfPresent()
-        value.createdTimeStamp = try reader["CreatedTimeStamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastUpdatedTimeStamp = try reader["LastUpdatedTimeStamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.type = try reader["Type"].readIfPresent()
-        value.pullRequestId = try reader["PullRequestId"].readIfPresent()
-        value.metricsSummary = try reader["MetricsSummary"].readIfPresent(with: CodeGuruReviewerClientTypes.MetricsSummary.read(from:))
-        value.sourceCodeType = try reader["SourceCodeType"].readIfPresent(with: CodeGuruReviewerClientTypes.SourceCodeType.read(from:))
+        var value = CodeGuruReviewerClientTypes.KMSKeyDetails()
+        value.kmsKeyId = try reader["KMSKeyId"].readIfPresent()
+        value.encryptionOption = try reader["EncryptionOption"].readIfPresent()
+        return value
+    }
+}
+
+extension CodeGuruReviewerClientTypes.Metrics {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruReviewerClientTypes.Metrics {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CodeGuruReviewerClientTypes.Metrics()
+        value.meteredLinesOfCodeCount = try reader["MeteredLinesOfCodeCount"].readIfPresent()
+        value.suppressedLinesOfCodeCount = try reader["SuppressedLinesOfCodeCount"].readIfPresent()
+        value.findingsCount = try reader["FindingsCount"].readIfPresent()
         return value
     }
 }
@@ -3003,6 +2891,21 @@ extension CodeGuruReviewerClientTypes.MetricsSummary {
         value.meteredLinesOfCodeCount = try reader["MeteredLinesOfCodeCount"].readIfPresent()
         value.suppressedLinesOfCodeCount = try reader["SuppressedLinesOfCodeCount"].readIfPresent()
         value.findingsCount = try reader["FindingsCount"].readIfPresent()
+        return value
+    }
+}
+
+extension CodeGuruReviewerClientTypes.RecommendationFeedback {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruReviewerClientTypes.RecommendationFeedback {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CodeGuruReviewerClientTypes.RecommendationFeedback()
+        value.codeReviewArn = try reader["CodeReviewArn"].readIfPresent()
+        value.recommendationId = try reader["RecommendationId"].readIfPresent()
+        value.reactions = try reader["Reactions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<CodeGuruReviewerClientTypes.Reaction>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.userId = try reader["UserId"].readIfPresent()
+        value.createdTimeStamp = try reader["CreatedTimeStamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastUpdatedTimeStamp = try reader["LastUpdatedTimeStamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }
@@ -3036,16 +2939,43 @@ extension CodeGuruReviewerClientTypes.RecommendationSummary {
     }
 }
 
-extension CodeGuruReviewerClientTypes.RuleMetadata {
+extension CodeGuruReviewerClientTypes.Repository {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruReviewerClientTypes.RuleMetadata {
+    static func write(value: CodeGuruReviewerClientTypes.Repository?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Bitbucket"].write(value.bitbucket, with: CodeGuruReviewerClientTypes.ThirdPartySourceRepository.write(value:to:))
+        try writer["CodeCommit"].write(value.codeCommit, with: CodeGuruReviewerClientTypes.CodeCommitRepository.write(value:to:))
+        try writer["GitHubEnterpriseServer"].write(value.gitHubEnterpriseServer, with: CodeGuruReviewerClientTypes.ThirdPartySourceRepository.write(value:to:))
+        try writer["S3Bucket"].write(value.s3Bucket, with: CodeGuruReviewerClientTypes.S3Repository.write(value:to:))
+    }
+}
+
+extension CodeGuruReviewerClientTypes.RepositoryAnalysis {
+
+    static func write(value: CodeGuruReviewerClientTypes.RepositoryAnalysis?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["RepositoryHead"].write(value.repositoryHead, with: CodeGuruReviewerClientTypes.RepositoryHeadSourceCodeType.write(value:to:))
+        try writer["SourceCodeType"].write(value.sourceCodeType, with: CodeGuruReviewerClientTypes.SourceCodeType.write(value:to:))
+    }
+}
+
+extension CodeGuruReviewerClientTypes.RepositoryAssociation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruReviewerClientTypes.RepositoryAssociation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeGuruReviewerClientTypes.RuleMetadata()
-        value.ruleId = try reader["RuleId"].readIfPresent()
-        value.ruleName = try reader["RuleName"].readIfPresent()
-        value.shortDescription = try reader["ShortDescription"].readIfPresent()
-        value.longDescription = try reader["LongDescription"].readIfPresent()
-        value.ruleTags = try reader["RuleTags"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = CodeGuruReviewerClientTypes.RepositoryAssociation()
+        value.associationId = try reader["AssociationId"].readIfPresent()
+        value.associationArn = try reader["AssociationArn"].readIfPresent()
+        value.connectionArn = try reader["ConnectionArn"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        value.owner = try reader["Owner"].readIfPresent()
+        value.providerType = try reader["ProviderType"].readIfPresent()
+        value.state = try reader["State"].readIfPresent()
+        value.stateReason = try reader["StateReason"].readIfPresent()
+        value.lastUpdatedTimeStamp = try reader["LastUpdatedTimeStamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.createdTimeStamp = try reader["CreatedTimeStamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.kmsKeyDetails = try reader["KMSKeyDetails"].readIfPresent(with: CodeGuruReviewerClientTypes.KMSKeyDetails.read(from:))
+        value.s3RepositoryDetails = try reader["S3RepositoryDetails"].readIfPresent(with: CodeGuruReviewerClientTypes.S3RepositoryDetails.read(from:))
         return value
     }
 }
@@ -3067,14 +2997,70 @@ extension CodeGuruReviewerClientTypes.RepositoryAssociationSummary {
     }
 }
 
-extension CodeGuruReviewerClientTypes.Repository {
+extension CodeGuruReviewerClientTypes.RepositoryHeadSourceCodeType {
 
-    static func write(value: CodeGuruReviewerClientTypes.Repository?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: CodeGuruReviewerClientTypes.RepositoryHeadSourceCodeType?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["Bitbucket"].write(value.bitbucket, with: CodeGuruReviewerClientTypes.ThirdPartySourceRepository.write(value:to:))
-        try writer["CodeCommit"].write(value.codeCommit, with: CodeGuruReviewerClientTypes.CodeCommitRepository.write(value:to:))
-        try writer["GitHubEnterpriseServer"].write(value.gitHubEnterpriseServer, with: CodeGuruReviewerClientTypes.ThirdPartySourceRepository.write(value:to:))
-        try writer["S3Bucket"].write(value.s3Bucket, with: CodeGuruReviewerClientTypes.S3Repository.write(value:to:))
+        try writer["BranchName"].write(value.branchName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruReviewerClientTypes.RepositoryHeadSourceCodeType {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CodeGuruReviewerClientTypes.RepositoryHeadSourceCodeType()
+        value.branchName = try reader["BranchName"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension CodeGuruReviewerClientTypes.RequestMetadata {
+
+    static func write(value: CodeGuruReviewerClientTypes.RequestMetadata?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["EventInfo"].write(value.eventInfo, with: CodeGuruReviewerClientTypes.EventInfo.write(value:to:))
+        try writer["RequestId"].write(value.requestId)
+        try writer["Requester"].write(value.requester)
+        try writer["VendorName"].write(value.vendorName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruReviewerClientTypes.RequestMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CodeGuruReviewerClientTypes.RequestMetadata()
+        value.requestId = try reader["RequestId"].readIfPresent()
+        value.requester = try reader["Requester"].readIfPresent()
+        value.eventInfo = try reader["EventInfo"].readIfPresent(with: CodeGuruReviewerClientTypes.EventInfo.read(from:))
+        value.vendorName = try reader["VendorName"].readIfPresent()
+        return value
+    }
+}
+
+extension CodeGuruReviewerClientTypes.RuleMetadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruReviewerClientTypes.RuleMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CodeGuruReviewerClientTypes.RuleMetadata()
+        value.ruleId = try reader["RuleId"].readIfPresent()
+        value.ruleName = try reader["RuleName"].readIfPresent()
+        value.shortDescription = try reader["ShortDescription"].readIfPresent()
+        value.longDescription = try reader["LongDescription"].readIfPresent()
+        value.ruleTags = try reader["RuleTags"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension CodeGuruReviewerClientTypes.S3BucketRepository {
+
+    static func write(value: CodeGuruReviewerClientTypes.S3BucketRepository?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Details"].write(value.details, with: CodeGuruReviewerClientTypes.S3RepositoryDetails.write(value:to:))
+        try writer["Name"].write(value.name)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruReviewerClientTypes.S3BucketRepository {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CodeGuruReviewerClientTypes.S3BucketRepository()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.details = try reader["Details"].readIfPresent(with: CodeGuruReviewerClientTypes.S3RepositoryDetails.read(from:))
+        return value
     }
 }
 
@@ -3087,6 +3073,46 @@ extension CodeGuruReviewerClientTypes.S3Repository {
     }
 }
 
+extension CodeGuruReviewerClientTypes.S3RepositoryDetails {
+
+    static func write(value: CodeGuruReviewerClientTypes.S3RepositoryDetails?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["BucketName"].write(value.bucketName)
+        try writer["CodeArtifacts"].write(value.codeArtifacts, with: CodeGuruReviewerClientTypes.CodeArtifacts.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruReviewerClientTypes.S3RepositoryDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CodeGuruReviewerClientTypes.S3RepositoryDetails()
+        value.bucketName = try reader["BucketName"].readIfPresent()
+        value.codeArtifacts = try reader["CodeArtifacts"].readIfPresent(with: CodeGuruReviewerClientTypes.CodeArtifacts.read(from:))
+        return value
+    }
+}
+
+extension CodeGuruReviewerClientTypes.SourceCodeType {
+
+    static func write(value: CodeGuruReviewerClientTypes.SourceCodeType?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["BranchDiff"].write(value.branchDiff, with: CodeGuruReviewerClientTypes.BranchDiffSourceCodeType.write(value:to:))
+        try writer["CommitDiff"].write(value.commitDiff, with: CodeGuruReviewerClientTypes.CommitDiffSourceCodeType.write(value:to:))
+        try writer["RepositoryHead"].write(value.repositoryHead, with: CodeGuruReviewerClientTypes.RepositoryHeadSourceCodeType.write(value:to:))
+        try writer["RequestMetadata"].write(value.requestMetadata, with: CodeGuruReviewerClientTypes.RequestMetadata.write(value:to:))
+        try writer["S3BucketRepository"].write(value.s3BucketRepository, with: CodeGuruReviewerClientTypes.S3BucketRepository.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruReviewerClientTypes.SourceCodeType {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CodeGuruReviewerClientTypes.SourceCodeType()
+        value.commitDiff = try reader["CommitDiff"].readIfPresent(with: CodeGuruReviewerClientTypes.CommitDiffSourceCodeType.read(from:))
+        value.repositoryHead = try reader["RepositoryHead"].readIfPresent(with: CodeGuruReviewerClientTypes.RepositoryHeadSourceCodeType.read(from:))
+        value.branchDiff = try reader["BranchDiff"].readIfPresent(with: CodeGuruReviewerClientTypes.BranchDiffSourceCodeType.read(from:))
+        value.s3BucketRepository = try reader["S3BucketRepository"].readIfPresent(with: CodeGuruReviewerClientTypes.S3BucketRepository.read(from:))
+        value.requestMetadata = try reader["RequestMetadata"].readIfPresent(with: CodeGuruReviewerClientTypes.RequestMetadata.read(from:))
+        return value
+    }
+}
+
 extension CodeGuruReviewerClientTypes.ThirdPartySourceRepository {
 
     static func write(value: CodeGuruReviewerClientTypes.ThirdPartySourceRepository?, to writer: SmithyJSON.Writer) throws {
@@ -3094,32 +3120,6 @@ extension CodeGuruReviewerClientTypes.ThirdPartySourceRepository {
         try writer["ConnectionArn"].write(value.connectionArn)
         try writer["Name"].write(value.name)
         try writer["Owner"].write(value.owner)
-    }
-}
-
-extension CodeGuruReviewerClientTypes.CodeCommitRepository {
-
-    static func write(value: CodeGuruReviewerClientTypes.CodeCommitRepository?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-    }
-}
-
-extension CodeGuruReviewerClientTypes.CodeReviewType {
-
-    static func write(value: CodeGuruReviewerClientTypes.CodeReviewType?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AnalysisTypes"].writeList(value.analysisTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<CodeGuruReviewerClientTypes.AnalysisType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["RepositoryAnalysis"].write(value.repositoryAnalysis, with: CodeGuruReviewerClientTypes.RepositoryAnalysis.write(value:to:))
-    }
-}
-
-extension CodeGuruReviewerClientTypes.RepositoryAnalysis {
-
-    static func write(value: CodeGuruReviewerClientTypes.RepositoryAnalysis?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["RepositoryHead"].write(value.repositoryHead, with: CodeGuruReviewerClientTypes.RepositoryHeadSourceCodeType.write(value:to:))
-        try writer["SourceCodeType"].write(value.sourceCodeType, with: CodeGuruReviewerClientTypes.SourceCodeType.write(value:to:))
     }
 }
 

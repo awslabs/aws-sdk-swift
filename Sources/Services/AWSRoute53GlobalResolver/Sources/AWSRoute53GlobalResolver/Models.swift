@@ -7249,6 +7249,64 @@ extension ValidationException {
     }
 }
 
+extension Route53GlobalResolverClientTypes.AccessSourcesItem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> Route53GlobalResolverClientTypes.AccessSourcesItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Route53GlobalResolverClientTypes.AccessSourcesItem()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.cidr = try reader["cidr"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.ipAddressType = try reader["ipAddressType"].readIfPresent() ?? .sdkUnknown("")
+        value.name = try reader["name"].readIfPresent()
+        value.dnsViewId = try reader["dnsViewId"].readIfPresent() ?? ""
+        value.`protocol` = try reader["protocol"].readIfPresent() ?? .sdkUnknown("")
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension Route53GlobalResolverClientTypes.AccessTokenItem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> Route53GlobalResolverClientTypes.AccessTokenItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Route53GlobalResolverClientTypes.AccessTokenItem()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.dnsViewId = try reader["dnsViewId"].readIfPresent() ?? ""
+        value.expiresAt = try reader["expiresAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.globalResolverId = try reader["globalResolverId"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension Route53GlobalResolverClientTypes.BatchCreateFirewallRuleInputItem {
+
+    static func write(value: Route53GlobalResolverClientTypes.BatchCreateFirewallRuleInputItem?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["action"].write(value.action)
+        try writer["blockOverrideDnsType"].write(value.blockOverrideDnsType)
+        try writer["blockOverrideDomain"].write(value.blockOverrideDomain)
+        try writer["blockOverrideTtl"].write(value.blockOverrideTtl)
+        try writer["blockResponse"].write(value.blockResponse)
+        try writer["clientToken"].write(value.clientToken)
+        try writer["confidenceThreshold"].write(value.confidenceThreshold)
+        try writer["description"].write(value.description)
+        try writer["dnsAdvancedProtection"].write(value.dnsAdvancedProtection)
+        try writer["dnsViewId"].write(value.dnsViewId)
+        try writer["firewallDomainListId"].write(value.firewallDomainListId)
+        try writer["name"].write(value.name)
+        try writer["priority"].write(value.priority)
+        try writer["qType"].write(value.qType)
+    }
+}
+
 extension Route53GlobalResolverClientTypes.BatchCreateFirewallRuleOutputItem {
 
     static func read(from reader: SmithyJSON.Reader) throws -> Route53GlobalResolverClientTypes.BatchCreateFirewallRuleOutputItem {
@@ -7289,6 +7347,14 @@ extension Route53GlobalResolverClientTypes.BatchCreateFirewallRuleResult {
     }
 }
 
+extension Route53GlobalResolverClientTypes.BatchDeleteFirewallRuleInputItem {
+
+    static func write(value: Route53GlobalResolverClientTypes.BatchDeleteFirewallRuleInputItem?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["firewallRuleId"].write(value.firewallRuleId)
+    }
+}
+
 extension Route53GlobalResolverClientTypes.BatchDeleteFirewallRuleOutputItem {
 
     static func read(from reader: SmithyJSON.Reader) throws -> Route53GlobalResolverClientTypes.BatchDeleteFirewallRuleOutputItem {
@@ -7311,6 +7377,24 @@ extension Route53GlobalResolverClientTypes.BatchDeleteFirewallRuleResult {
         value.name = try reader["name"].readIfPresent()
         value.status = try reader["status"].readIfPresent()
         return value
+    }
+}
+
+extension Route53GlobalResolverClientTypes.BatchUpdateFirewallRuleInputItem {
+
+    static func write(value: Route53GlobalResolverClientTypes.BatchUpdateFirewallRuleInputItem?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["action"].write(value.action)
+        try writer["blockOverrideDnsType"].write(value.blockOverrideDnsType)
+        try writer["blockOverrideDomain"].write(value.blockOverrideDomain)
+        try writer["blockOverrideTtl"].write(value.blockOverrideTtl)
+        try writer["blockResponse"].write(value.blockResponse)
+        try writer["confidenceThreshold"].write(value.confidenceThreshold)
+        try writer["description"].write(value.description)
+        try writer["dnsAdvancedProtection"].write(value.dnsAdvancedProtection)
+        try writer["firewallRuleId"].write(value.firewallRuleId)
+        try writer["name"].write(value.name)
+        try writer["priority"].write(value.priority)
     }
 }
 
@@ -7349,43 +7433,6 @@ extension Route53GlobalResolverClientTypes.BatchUpdateFirewallRuleResult {
         value.queryType = try reader["queryType"].readIfPresent()
         value.status = try reader["status"].readIfPresent()
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        return value
-    }
-}
-
-extension Route53GlobalResolverClientTypes.AccessSourcesItem {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> Route53GlobalResolverClientTypes.AccessSourcesItem {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Route53GlobalResolverClientTypes.AccessSourcesItem()
-        value.arn = try reader["arn"].readIfPresent() ?? ""
-        value.cidr = try reader["cidr"].readIfPresent() ?? ""
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.id = try reader["id"].readIfPresent() ?? ""
-        value.ipAddressType = try reader["ipAddressType"].readIfPresent() ?? .sdkUnknown("")
-        value.name = try reader["name"].readIfPresent()
-        value.dnsViewId = try reader["dnsViewId"].readIfPresent() ?? ""
-        value.`protocol` = try reader["protocol"].readIfPresent() ?? .sdkUnknown("")
-        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
-        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        return value
-    }
-}
-
-extension Route53GlobalResolverClientTypes.AccessTokenItem {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> Route53GlobalResolverClientTypes.AccessTokenItem {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Route53GlobalResolverClientTypes.AccessTokenItem()
-        value.id = try reader["id"].readIfPresent() ?? ""
-        value.arn = try reader["arn"].readIfPresent() ?? ""
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.dnsViewId = try reader["dnsViewId"].readIfPresent() ?? ""
-        value.expiresAt = try reader["expiresAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.globalResolverId = try reader["globalResolverId"].readIfPresent() ?? ""
-        value.name = try reader["name"].readIfPresent()
-        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
-        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -7513,53 +7560,6 @@ extension Route53GlobalResolverClientTypes.ValidationExceptionField {
         value.name = try reader["name"].readIfPresent() ?? ""
         value.message = try reader["message"].readIfPresent() ?? ""
         return value
-    }
-}
-
-extension Route53GlobalResolverClientTypes.BatchCreateFirewallRuleInputItem {
-
-    static func write(value: Route53GlobalResolverClientTypes.BatchCreateFirewallRuleInputItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["action"].write(value.action)
-        try writer["blockOverrideDnsType"].write(value.blockOverrideDnsType)
-        try writer["blockOverrideDomain"].write(value.blockOverrideDomain)
-        try writer["blockOverrideTtl"].write(value.blockOverrideTtl)
-        try writer["blockResponse"].write(value.blockResponse)
-        try writer["clientToken"].write(value.clientToken)
-        try writer["confidenceThreshold"].write(value.confidenceThreshold)
-        try writer["description"].write(value.description)
-        try writer["dnsAdvancedProtection"].write(value.dnsAdvancedProtection)
-        try writer["dnsViewId"].write(value.dnsViewId)
-        try writer["firewallDomainListId"].write(value.firewallDomainListId)
-        try writer["name"].write(value.name)
-        try writer["priority"].write(value.priority)
-        try writer["qType"].write(value.qType)
-    }
-}
-
-extension Route53GlobalResolverClientTypes.BatchDeleteFirewallRuleInputItem {
-
-    static func write(value: Route53GlobalResolverClientTypes.BatchDeleteFirewallRuleInputItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["firewallRuleId"].write(value.firewallRuleId)
-    }
-}
-
-extension Route53GlobalResolverClientTypes.BatchUpdateFirewallRuleInputItem {
-
-    static func write(value: Route53GlobalResolverClientTypes.BatchUpdateFirewallRuleInputItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["action"].write(value.action)
-        try writer["blockOverrideDnsType"].write(value.blockOverrideDnsType)
-        try writer["blockOverrideDomain"].write(value.blockOverrideDomain)
-        try writer["blockOverrideTtl"].write(value.blockOverrideTtl)
-        try writer["blockResponse"].write(value.blockResponse)
-        try writer["confidenceThreshold"].write(value.confidenceThreshold)
-        try writer["description"].write(value.description)
-        try writer["dnsAdvancedProtection"].write(value.dnsAdvancedProtection)
-        try writer["firewallRuleId"].write(value.firewallRuleId)
-        try writer["name"].write(value.name)
-        try writer["priority"].write(value.priority)
     }
 }
 

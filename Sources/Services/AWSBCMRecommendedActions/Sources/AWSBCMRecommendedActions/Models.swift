@@ -633,6 +633,16 @@ extension ValidationException {
     }
 }
 
+extension BCMRecommendedActionsClientTypes.ActionFilter {
+
+    static func write(value: BCMRecommendedActionsClientTypes.ActionFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["key"].write(value.key)
+        try writer["matchOption"].write(value.matchOption)
+        try writer["values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension BCMRecommendedActionsClientTypes.RecommendedAction {
 
     static func read(from reader: SmithyJSON.Reader) throws -> BCMRecommendedActionsClientTypes.RecommendedAction {
@@ -650,17 +660,6 @@ extension BCMRecommendedActionsClientTypes.RecommendedAction {
     }
 }
 
-extension BCMRecommendedActionsClientTypes.ValidationExceptionField {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BCMRecommendedActionsClientTypes.ValidationExceptionField {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BCMRecommendedActionsClientTypes.ValidationExceptionField()
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.message = try reader["message"].readIfPresent() ?? ""
-        return value
-    }
-}
-
 extension BCMRecommendedActionsClientTypes.RequestFilter {
 
     static func write(value: BCMRecommendedActionsClientTypes.RequestFilter?, to writer: SmithyJSON.Writer) throws {
@@ -669,13 +668,14 @@ extension BCMRecommendedActionsClientTypes.RequestFilter {
     }
 }
 
-extension BCMRecommendedActionsClientTypes.ActionFilter {
+extension BCMRecommendedActionsClientTypes.ValidationExceptionField {
 
-    static func write(value: BCMRecommendedActionsClientTypes.ActionFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["key"].write(value.key)
-        try writer["matchOption"].write(value.matchOption)
-        try writer["values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    static func read(from reader: SmithyJSON.Reader) throws -> BCMRecommendedActionsClientTypes.ValidationExceptionField {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BCMRecommendedActionsClientTypes.ValidationExceptionField()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.message = try reader["message"].readIfPresent() ?? ""
+        return value
     }
 }
 

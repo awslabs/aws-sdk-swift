@@ -2056,22 +2056,6 @@ extension ServiceQuotaExceededException {
     }
 }
 
-extension SnowDeviceManagementClientTypes.PhysicalNetworkInterface {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SnowDeviceManagementClientTypes.PhysicalNetworkInterface {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SnowDeviceManagementClientTypes.PhysicalNetworkInterface()
-        value.physicalNetworkInterfaceId = try reader["physicalNetworkInterfaceId"].readIfPresent()
-        value.physicalConnectorType = try reader["physicalConnectorType"].readIfPresent()
-        value.ipAddressAssignment = try reader["ipAddressAssignment"].readIfPresent()
-        value.ipAddress = try reader["ipAddress"].readIfPresent()
-        value.netmask = try reader["netmask"].readIfPresent()
-        value.defaultGateway = try reader["defaultGateway"].readIfPresent()
-        value.macAddress = try reader["macAddress"].readIfPresent()
-        return value
-    }
-}
-
 extension SnowDeviceManagementClientTypes.Capacity {
 
     static func read(from reader: SmithyJSON.Reader) throws -> SnowDeviceManagementClientTypes.Capacity {
@@ -2086,25 +2070,67 @@ extension SnowDeviceManagementClientTypes.Capacity {
     }
 }
 
-extension SnowDeviceManagementClientTypes.SoftwareInformation {
+extension SnowDeviceManagementClientTypes.Command {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SnowDeviceManagementClientTypes.SoftwareInformation {
+    static func write(value: SnowDeviceManagementClientTypes.Command?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .reboot(reboot):
+                try writer["reboot"].write(reboot, with: SnowDeviceManagementClientTypes.Reboot.write(value:to:))
+            case let .unlock(unlock):
+                try writer["unlock"].write(unlock, with: SnowDeviceManagementClientTypes.Unlock.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension SnowDeviceManagementClientTypes.CpuOptions {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SnowDeviceManagementClientTypes.CpuOptions {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SnowDeviceManagementClientTypes.SoftwareInformation()
-        value.installedVersion = try reader["installedVersion"].readIfPresent()
-        value.installingVersion = try reader["installingVersion"].readIfPresent()
-        value.installState = try reader["installState"].readIfPresent()
+        var value = SnowDeviceManagementClientTypes.CpuOptions()
+        value.coreCount = try reader["coreCount"].readIfPresent()
+        value.threadsPerCore = try reader["threadsPerCore"].readIfPresent()
         return value
     }
 }
 
-extension SnowDeviceManagementClientTypes.InstanceSummary {
+extension SnowDeviceManagementClientTypes.DeviceSummary {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SnowDeviceManagementClientTypes.InstanceSummary {
+    static func read(from reader: SmithyJSON.Reader) throws -> SnowDeviceManagementClientTypes.DeviceSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SnowDeviceManagementClientTypes.InstanceSummary()
-        value.instance = try reader["instance"].readIfPresent(with: SnowDeviceManagementClientTypes.Instance.read(from:))
-        value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        var value = SnowDeviceManagementClientTypes.DeviceSummary()
+        value.managedDeviceId = try reader["managedDeviceId"].readIfPresent()
+        value.managedDeviceArn = try reader["managedDeviceArn"].readIfPresent()
+        value.associatedWithJob = try reader["associatedWithJob"].readIfPresent()
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension SnowDeviceManagementClientTypes.EbsInstanceBlockDevice {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SnowDeviceManagementClientTypes.EbsInstanceBlockDevice {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SnowDeviceManagementClientTypes.EbsInstanceBlockDevice()
+        value.attachTime = try reader["attachTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.deleteOnTermination = try reader["deleteOnTermination"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.volumeId = try reader["volumeId"].readIfPresent()
+        return value
+    }
+}
+
+extension SnowDeviceManagementClientTypes.ExecutionSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SnowDeviceManagementClientTypes.ExecutionSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SnowDeviceManagementClientTypes.ExecutionSummary()
+        value.taskId = try reader["taskId"].readIfPresent()
+        value.executionId = try reader["executionId"].readIfPresent()
+        value.managedDeviceId = try reader["managedDeviceId"].readIfPresent()
+        value.state = try reader["state"].readIfPresent()
         return value
     }
 }
@@ -2131,28 +2157,6 @@ extension SnowDeviceManagementClientTypes.Instance {
     }
 }
 
-extension SnowDeviceManagementClientTypes.CpuOptions {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SnowDeviceManagementClientTypes.CpuOptions {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SnowDeviceManagementClientTypes.CpuOptions()
-        value.coreCount = try reader["coreCount"].readIfPresent()
-        value.threadsPerCore = try reader["threadsPerCore"].readIfPresent()
-        return value
-    }
-}
-
-extension SnowDeviceManagementClientTypes.SecurityGroupIdentifier {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SnowDeviceManagementClientTypes.SecurityGroupIdentifier {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SnowDeviceManagementClientTypes.SecurityGroupIdentifier()
-        value.groupId = try reader["groupId"].readIfPresent()
-        value.groupName = try reader["groupName"].readIfPresent()
-        return value
-    }
-}
-
 extension SnowDeviceManagementClientTypes.InstanceBlockDeviceMapping {
 
     static func read(from reader: SmithyJSON.Reader) throws -> SnowDeviceManagementClientTypes.InstanceBlockDeviceMapping {
@@ -2160,19 +2164,6 @@ extension SnowDeviceManagementClientTypes.InstanceBlockDeviceMapping {
         var value = SnowDeviceManagementClientTypes.InstanceBlockDeviceMapping()
         value.deviceName = try reader["deviceName"].readIfPresent()
         value.ebs = try reader["ebs"].readIfPresent(with: SnowDeviceManagementClientTypes.EbsInstanceBlockDevice.read(from:))
-        return value
-    }
-}
-
-extension SnowDeviceManagementClientTypes.EbsInstanceBlockDevice {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SnowDeviceManagementClientTypes.EbsInstanceBlockDevice {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SnowDeviceManagementClientTypes.EbsInstanceBlockDevice()
-        value.attachTime = try reader["attachTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.deleteOnTermination = try reader["deleteOnTermination"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.volumeId = try reader["volumeId"].readIfPresent()
         return value
     }
 }
@@ -2188,6 +2179,41 @@ extension SnowDeviceManagementClientTypes.InstanceState {
     }
 }
 
+extension SnowDeviceManagementClientTypes.InstanceSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SnowDeviceManagementClientTypes.InstanceSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SnowDeviceManagementClientTypes.InstanceSummary()
+        value.instance = try reader["instance"].readIfPresent(with: SnowDeviceManagementClientTypes.Instance.read(from:))
+        value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension SnowDeviceManagementClientTypes.PhysicalNetworkInterface {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SnowDeviceManagementClientTypes.PhysicalNetworkInterface {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SnowDeviceManagementClientTypes.PhysicalNetworkInterface()
+        value.physicalNetworkInterfaceId = try reader["physicalNetworkInterfaceId"].readIfPresent()
+        value.physicalConnectorType = try reader["physicalConnectorType"].readIfPresent()
+        value.ipAddressAssignment = try reader["ipAddressAssignment"].readIfPresent()
+        value.ipAddress = try reader["ipAddress"].readIfPresent()
+        value.netmask = try reader["netmask"].readIfPresent()
+        value.defaultGateway = try reader["defaultGateway"].readIfPresent()
+        value.macAddress = try reader["macAddress"].readIfPresent()
+        return value
+    }
+}
+
+extension SnowDeviceManagementClientTypes.Reboot {
+
+    static func write(value: SnowDeviceManagementClientTypes.Reboot?, to writer: SmithyJSON.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
+    }
+}
+
 extension SnowDeviceManagementClientTypes.ResourceSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> SnowDeviceManagementClientTypes.ResourceSummary {
@@ -2200,28 +2226,25 @@ extension SnowDeviceManagementClientTypes.ResourceSummary {
     }
 }
 
-extension SnowDeviceManagementClientTypes.DeviceSummary {
+extension SnowDeviceManagementClientTypes.SecurityGroupIdentifier {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SnowDeviceManagementClientTypes.DeviceSummary {
+    static func read(from reader: SmithyJSON.Reader) throws -> SnowDeviceManagementClientTypes.SecurityGroupIdentifier {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SnowDeviceManagementClientTypes.DeviceSummary()
-        value.managedDeviceId = try reader["managedDeviceId"].readIfPresent()
-        value.managedDeviceArn = try reader["managedDeviceArn"].readIfPresent()
-        value.associatedWithJob = try reader["associatedWithJob"].readIfPresent()
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        var value = SnowDeviceManagementClientTypes.SecurityGroupIdentifier()
+        value.groupId = try reader["groupId"].readIfPresent()
+        value.groupName = try reader["groupName"].readIfPresent()
         return value
     }
 }
 
-extension SnowDeviceManagementClientTypes.ExecutionSummary {
+extension SnowDeviceManagementClientTypes.SoftwareInformation {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SnowDeviceManagementClientTypes.ExecutionSummary {
+    static func read(from reader: SmithyJSON.Reader) throws -> SnowDeviceManagementClientTypes.SoftwareInformation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SnowDeviceManagementClientTypes.ExecutionSummary()
-        value.taskId = try reader["taskId"].readIfPresent()
-        value.executionId = try reader["executionId"].readIfPresent()
-        value.managedDeviceId = try reader["managedDeviceId"].readIfPresent()
-        value.state = try reader["state"].readIfPresent()
+        var value = SnowDeviceManagementClientTypes.SoftwareInformation()
+        value.installedVersion = try reader["installedVersion"].readIfPresent()
+        value.installingVersion = try reader["installingVersion"].readIfPresent()
+        value.installState = try reader["installState"].readIfPresent()
         return value
     }
 }
@@ -2236,29 +2259,6 @@ extension SnowDeviceManagementClientTypes.TaskSummary {
         value.state = try reader["state"].readIfPresent()
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
-    }
-}
-
-extension SnowDeviceManagementClientTypes.Command {
-
-    static func write(value: SnowDeviceManagementClientTypes.Command?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .reboot(reboot):
-                try writer["reboot"].write(reboot, with: SnowDeviceManagementClientTypes.Reboot.write(value:to:))
-            case let .unlock(unlock):
-                try writer["unlock"].write(unlock, with: SnowDeviceManagementClientTypes.Unlock.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-}
-
-extension SnowDeviceManagementClientTypes.Reboot {
-
-    static func write(value: SnowDeviceManagementClientTypes.Reboot?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
     }
 }
 

@@ -2422,6 +2422,35 @@ extension ValidationException {
     }
 }
 
+extension S3VectorsClientTypes.EncryptionConfiguration {
+
+    static func write(value: S3VectorsClientTypes.EncryptionConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["kmsKeyArn"].write(value.kmsKeyArn)
+        try writer["sseType"].write(value.sseType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> S3VectorsClientTypes.EncryptionConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3VectorsClientTypes.EncryptionConfiguration()
+        value.sseType = try reader["sseType"].readIfPresent() ?? S3VectorsClientTypes.SseType.aes256
+        value.kmsKeyArn = try reader["kmsKeyArn"].readIfPresent()
+        return value
+    }
+}
+
+extension S3VectorsClientTypes.GetOutputVector {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> S3VectorsClientTypes.GetOutputVector {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3VectorsClientTypes.GetOutputVector()
+        value.key = try reader["key"].readIfPresent() ?? ""
+        value.data = try reader["data"].readIfPresent(with: S3VectorsClientTypes.VectorData.read(from:))
+        value.metadata = try reader["metadata"].readIfPresent()
+        return value
+    }
+}
+
 extension S3VectorsClientTypes.Index {
 
     static func read(from reader: SmithyJSON.Reader) throws -> S3VectorsClientTypes.Index {
@@ -2440,19 +2469,27 @@ extension S3VectorsClientTypes.Index {
     }
 }
 
-extension S3VectorsClientTypes.EncryptionConfiguration {
+extension S3VectorsClientTypes.IndexSummary {
 
-    static func write(value: S3VectorsClientTypes.EncryptionConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["kmsKeyArn"].write(value.kmsKeyArn)
-        try writer["sseType"].write(value.sseType)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> S3VectorsClientTypes.EncryptionConfiguration {
+    static func read(from reader: SmithyJSON.Reader) throws -> S3VectorsClientTypes.IndexSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = S3VectorsClientTypes.EncryptionConfiguration()
-        value.sseType = try reader["sseType"].readIfPresent() ?? S3VectorsClientTypes.SseType.aes256
-        value.kmsKeyArn = try reader["kmsKeyArn"].readIfPresent()
+        var value = S3VectorsClientTypes.IndexSummary()
+        value.vectorBucketName = try reader["vectorBucketName"].readIfPresent() ?? ""
+        value.indexName = try reader["indexName"].readIfPresent() ?? ""
+        value.indexArn = try reader["indexArn"].readIfPresent() ?? ""
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension S3VectorsClientTypes.ListOutputVector {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> S3VectorsClientTypes.ListOutputVector {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3VectorsClientTypes.ListOutputVector()
+        value.key = try reader["key"].readIfPresent() ?? ""
+        value.data = try reader["data"].readIfPresent(with: S3VectorsClientTypes.VectorData.read(from:))
+        value.metadata = try reader["metadata"].readIfPresent()
         return value
     }
 }
@@ -2472,89 +2509,13 @@ extension S3VectorsClientTypes.MetadataConfiguration {
     }
 }
 
-extension S3VectorsClientTypes.VectorBucket {
+extension S3VectorsClientTypes.PutInputVector {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> S3VectorsClientTypes.VectorBucket {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = S3VectorsClientTypes.VectorBucket()
-        value.vectorBucketName = try reader["vectorBucketName"].readIfPresent() ?? ""
-        value.vectorBucketArn = try reader["vectorBucketArn"].readIfPresent() ?? ""
-        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.encryptionConfiguration = try reader["encryptionConfiguration"].readIfPresent(with: S3VectorsClientTypes.EncryptionConfiguration.read(from:))
-        return value
-    }
-}
-
-extension S3VectorsClientTypes.GetOutputVector {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> S3VectorsClientTypes.GetOutputVector {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = S3VectorsClientTypes.GetOutputVector()
-        value.key = try reader["key"].readIfPresent() ?? ""
-        value.data = try reader["data"].readIfPresent(with: S3VectorsClientTypes.VectorData.read(from:))
-        value.metadata = try reader["metadata"].readIfPresent()
-        return value
-    }
-}
-
-extension S3VectorsClientTypes.VectorData {
-
-    static func write(value: S3VectorsClientTypes.VectorData?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: S3VectorsClientTypes.PutInputVector?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        switch value {
-            case let .float32(float32):
-                try writer["float32"].writeList(float32, memberWritingClosure: SmithyReadWrite.WritingClosures.writeFloat(value:to:), memberNodeInfo: "member", isFlattened: false)
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> S3VectorsClientTypes.VectorData {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "float32":
-                return .float32(try reader["float32"].readList(memberReadingClosure: SmithyReadWrite.ReadingClosures.readFloat(from:), memberNodeInfo: "member", isFlattened: false))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension S3VectorsClientTypes.IndexSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> S3VectorsClientTypes.IndexSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = S3VectorsClientTypes.IndexSummary()
-        value.vectorBucketName = try reader["vectorBucketName"].readIfPresent() ?? ""
-        value.indexName = try reader["indexName"].readIfPresent() ?? ""
-        value.indexArn = try reader["indexArn"].readIfPresent() ?? ""
-        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        return value
-    }
-}
-
-extension S3VectorsClientTypes.VectorBucketSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> S3VectorsClientTypes.VectorBucketSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = S3VectorsClientTypes.VectorBucketSummary()
-        value.vectorBucketName = try reader["vectorBucketName"].readIfPresent() ?? ""
-        value.vectorBucketArn = try reader["vectorBucketArn"].readIfPresent() ?? ""
-        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        return value
-    }
-}
-
-extension S3VectorsClientTypes.ListOutputVector {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> S3VectorsClientTypes.ListOutputVector {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = S3VectorsClientTypes.ListOutputVector()
-        value.key = try reader["key"].readIfPresent() ?? ""
-        value.data = try reader["data"].readIfPresent(with: S3VectorsClientTypes.VectorData.read(from:))
-        value.metadata = try reader["metadata"].readIfPresent()
-        return value
+        try writer["data"].write(value.data, with: S3VectorsClientTypes.VectorData.write(value:to:))
+        try writer["key"].write(value.key)
+        try writer["metadata"].write(value.metadata)
     }
 }
 
@@ -2581,13 +2542,52 @@ extension S3VectorsClientTypes.ValidationExceptionField {
     }
 }
 
-extension S3VectorsClientTypes.PutInputVector {
+extension S3VectorsClientTypes.VectorBucket {
 
-    static func write(value: S3VectorsClientTypes.PutInputVector?, to writer: SmithyJSON.Writer) throws {
+    static func read(from reader: SmithyJSON.Reader) throws -> S3VectorsClientTypes.VectorBucket {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3VectorsClientTypes.VectorBucket()
+        value.vectorBucketName = try reader["vectorBucketName"].readIfPresent() ?? ""
+        value.vectorBucketArn = try reader["vectorBucketArn"].readIfPresent() ?? ""
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.encryptionConfiguration = try reader["encryptionConfiguration"].readIfPresent(with: S3VectorsClientTypes.EncryptionConfiguration.read(from:))
+        return value
+    }
+}
+
+extension S3VectorsClientTypes.VectorBucketSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> S3VectorsClientTypes.VectorBucketSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = S3VectorsClientTypes.VectorBucketSummary()
+        value.vectorBucketName = try reader["vectorBucketName"].readIfPresent() ?? ""
+        value.vectorBucketArn = try reader["vectorBucketArn"].readIfPresent() ?? ""
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension S3VectorsClientTypes.VectorData {
+
+    static func write(value: S3VectorsClientTypes.VectorData?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["data"].write(value.data, with: S3VectorsClientTypes.VectorData.write(value:to:))
-        try writer["key"].write(value.key)
-        try writer["metadata"].write(value.metadata)
+        switch value {
+            case let .float32(float32):
+                try writer["float32"].writeList(float32, memberWritingClosure: SmithyReadWrite.WritingClosures.writeFloat(value:to:), memberNodeInfo: "member", isFlattened: false)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> S3VectorsClientTypes.VectorData {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "float32":
+                return .float32(try reader["float32"].readList(memberReadingClosure: SmithyReadWrite.ReadingClosures.readFloat(from:), memberNodeInfo: "member", isFlattened: false))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
     }
 }
 

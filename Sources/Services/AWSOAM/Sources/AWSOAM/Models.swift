@@ -1830,36 +1830,6 @@ extension OAMClientTypes.LinkConfiguration {
     }
 }
 
-extension OAMClientTypes.MetricConfiguration {
-
-    static func write(value: OAMClientTypes.MetricConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Filter"].write(value.filter)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OAMClientTypes.MetricConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OAMClientTypes.MetricConfiguration()
-        value.filter = try reader["Filter"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension OAMClientTypes.LogGroupConfiguration {
-
-    static func write(value: OAMClientTypes.LogGroupConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Filter"].write(value.filter)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> OAMClientTypes.LogGroupConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = OAMClientTypes.LogGroupConfiguration()
-        value.filter = try reader["Filter"].readIfPresent() ?? ""
-        return value
-    }
-}
-
 extension OAMClientTypes.ListAttachedLinksItem {
 
     static func read(from reader: SmithyJSON.Reader) throws -> OAMClientTypes.ListAttachedLinksItem {
@@ -1894,6 +1864,36 @@ extension OAMClientTypes.ListSinksItem {
         value.arn = try reader["Arn"].readIfPresent()
         value.id = try reader["Id"].readIfPresent()
         value.name = try reader["Name"].readIfPresent()
+        return value
+    }
+}
+
+extension OAMClientTypes.LogGroupConfiguration {
+
+    static func write(value: OAMClientTypes.LogGroupConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Filter"].write(value.filter)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OAMClientTypes.LogGroupConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OAMClientTypes.LogGroupConfiguration()
+        value.filter = try reader["Filter"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension OAMClientTypes.MetricConfiguration {
+
+    static func write(value: OAMClientTypes.MetricConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Filter"].write(value.filter)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> OAMClientTypes.MetricConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = OAMClientTypes.MetricConfiguration()
+        value.filter = try reader["Filter"].readIfPresent() ?? ""
         return value
     }
 }

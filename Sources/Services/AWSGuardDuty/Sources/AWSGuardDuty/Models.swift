@@ -16565,239 +16565,169 @@ extension ResourceNotFoundException {
     }
 }
 
-extension GuardDutyClientTypes.UnprocessedDataSourcesResult {
+extension GuardDutyClientTypes.AccessControlList {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.UnprocessedDataSourcesResult {
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.AccessControlList {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.UnprocessedDataSourcesResult()
-        value.malwareProtection = try reader["malwareProtection"].readIfPresent(with: GuardDutyClientTypes.MalwareProtectionConfigurationResult.read(from:))
+        var value = GuardDutyClientTypes.AccessControlList()
+        value.allowsPublicReadAccess = try reader["allowsPublicReadAccess"].readIfPresent()
+        value.allowsPublicWriteAccess = try reader["allowsPublicWriteAccess"].readIfPresent()
         return value
     }
 }
 
-extension GuardDutyClientTypes.MalwareProtectionConfigurationResult {
+extension GuardDutyClientTypes.AccessKey {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.MalwareProtectionConfigurationResult {
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.AccessKey {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.MalwareProtectionConfigurationResult()
-        value.scanEc2InstanceWithFindings = try reader["scanEc2InstanceWithFindings"].readIfPresent(with: GuardDutyClientTypes.ScanEc2InstanceWithFindingsResult.read(from:))
-        value.serviceRole = try reader["serviceRole"].readIfPresent()
+        var value = GuardDutyClientTypes.AccessKey()
+        value.principalId = try reader["principalId"].readIfPresent()
+        value.userName = try reader["userName"].readIfPresent()
+        value.userType = try reader["userType"].readIfPresent()
         return value
     }
 }
 
-extension GuardDutyClientTypes.ScanEc2InstanceWithFindingsResult {
+extension GuardDutyClientTypes.AccessKeyDetails {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.ScanEc2InstanceWithFindingsResult {
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.AccessKeyDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.ScanEc2InstanceWithFindingsResult()
-        value.ebsVolumes = try reader["ebsVolumes"].readIfPresent(with: GuardDutyClientTypes.EbsVolumesResult.read(from:))
+        var value = GuardDutyClientTypes.AccessKeyDetails()
+        value.accessKeyId = try reader["accessKeyId"].readIfPresent()
+        value.principalId = try reader["principalId"].readIfPresent()
+        value.userName = try reader["userName"].readIfPresent()
+        value.userType = try reader["userType"].readIfPresent()
         return value
     }
 }
 
-extension GuardDutyClientTypes.EbsVolumesResult {
+extension GuardDutyClientTypes.Account {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.EbsVolumesResult {
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.Account {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.EbsVolumesResult()
-        value.status = try reader["status"].readIfPresent()
-        value.reason = try reader["reason"].readIfPresent()
+        var value = GuardDutyClientTypes.Account()
+        value.uid = try reader["uid"].readIfPresent() ?? ""
+        value.name = try reader["account"].readIfPresent()
         return value
     }
 }
 
-extension GuardDutyClientTypes.UnprocessedAccount {
+extension GuardDutyClientTypes.AccountDetail {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.UnprocessedAccount {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.UnprocessedAccount()
-        value.accountId = try reader["accountId"].readIfPresent() ?? ""
-        value.result = try reader["result"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.Scan {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.Scan {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.Scan()
-        value.detectorId = try reader["detectorId"].readIfPresent()
-        value.adminDetectorId = try reader["adminDetectorId"].readIfPresent()
-        value.scanId = try reader["scanId"].readIfPresent()
-        value.scanStatus = try reader["scanStatus"].readIfPresent()
-        value.failureReason = try reader["failureReason"].readIfPresent()
-        value.scanStartTime = try reader["scanStartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.scanEndTime = try reader["scanEndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.triggerDetails = try reader["triggerDetails"].readIfPresent(with: GuardDutyClientTypes.TriggerDetails.read(from:))
-        value.resourceDetails = try reader["resourceDetails"].readIfPresent(with: GuardDutyClientTypes.ResourceDetails.read(from:))
-        value.scanResultDetails = try reader["scanResultDetails"].readIfPresent(with: GuardDutyClientTypes.ScanResultDetails.read(from:))
-        value.accountId = try reader["accountId"].readIfPresent()
-        value.totalBytes = try reader["totalBytes"].readIfPresent()
-        value.fileCount = try reader["fileCount"].readIfPresent()
-        value.attachedVolumes = try reader["attachedVolumes"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.VolumeDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.scanType = try reader["scanType"].readIfPresent()
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.VolumeDetail {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.VolumeDetail {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.VolumeDetail()
-        value.volumeArn = try reader["volumeArn"].readIfPresent()
-        value.volumeType = try reader["volumeType"].readIfPresent()
-        value.deviceName = try reader["deviceName"].readIfPresent()
-        value.volumeSizeInGB = try reader["volumeSizeInGB"].readIfPresent()
-        value.encryptionType = try reader["encryptionType"].readIfPresent()
-        value.snapshotArn = try reader["snapshotArn"].readIfPresent()
-        value.kmsKeyArn = try reader["kmsKeyArn"].readIfPresent()
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.ScanResultDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.ScanResultDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.ScanResultDetails()
-        value.scanResult = try reader["scanResult"].readIfPresent()
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.ResourceDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.ResourceDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.ResourceDetails()
-        value.instanceArn = try reader["instanceArn"].readIfPresent()
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.TriggerDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.TriggerDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.TriggerDetails()
-        value.guardDutyFindingId = try reader["guardDutyFindingId"].readIfPresent()
-        value.description = try reader["description"].readIfPresent()
-        value.triggerType = try reader["triggerType"].readIfPresent()
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.OrganizationDataSourceConfigurationsResult {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.OrganizationDataSourceConfigurationsResult {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.OrganizationDataSourceConfigurationsResult()
-        value.s3Logs = try reader["s3Logs"].readIfPresent(with: GuardDutyClientTypes.OrganizationS3LogsConfigurationResult.read(from:))
-        value.kubernetes = try reader["kubernetes"].readIfPresent(with: GuardDutyClientTypes.OrganizationKubernetesConfigurationResult.read(from:))
-        value.malwareProtection = try reader["malwareProtection"].readIfPresent(with: GuardDutyClientTypes.OrganizationMalwareProtectionConfigurationResult.read(from:))
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.OrganizationMalwareProtectionConfigurationResult {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.OrganizationMalwareProtectionConfigurationResult {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.OrganizationMalwareProtectionConfigurationResult()
-        value.scanEc2InstanceWithFindings = try reader["scanEc2InstanceWithFindings"].readIfPresent(with: GuardDutyClientTypes.OrganizationScanEc2InstanceWithFindingsResult.read(from:))
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.OrganizationScanEc2InstanceWithFindingsResult {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.OrganizationScanEc2InstanceWithFindingsResult {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.OrganizationScanEc2InstanceWithFindingsResult()
-        value.ebsVolumes = try reader["ebsVolumes"].readIfPresent(with: GuardDutyClientTypes.OrganizationEbsVolumesResult.read(from:))
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.OrganizationEbsVolumesResult {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.OrganizationEbsVolumesResult {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.OrganizationEbsVolumesResult()
-        value.autoEnable = try reader["autoEnable"].readIfPresent()
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.OrganizationKubernetesConfigurationResult {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.OrganizationKubernetesConfigurationResult {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.OrganizationKubernetesConfigurationResult()
-        value.auditLogs = try reader["auditLogs"].readIfPresent(with: GuardDutyClientTypes.OrganizationKubernetesAuditLogsConfigurationResult.read(from:))
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.OrganizationKubernetesAuditLogsConfigurationResult {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.OrganizationKubernetesAuditLogsConfigurationResult {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.OrganizationKubernetesAuditLogsConfigurationResult()
-        value.autoEnable = try reader["autoEnable"].readIfPresent() ?? false
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.OrganizationS3LogsConfigurationResult {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.OrganizationS3LogsConfigurationResult {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.OrganizationS3LogsConfigurationResult()
-        value.autoEnable = try reader["autoEnable"].readIfPresent() ?? false
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.OrganizationFeatureConfigurationResult {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.OrganizationFeatureConfigurationResult {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.OrganizationFeatureConfigurationResult()
-        value.name = try reader["name"].readIfPresent()
-        value.autoEnable = try reader["autoEnable"].readIfPresent()
-        value.additionalConfiguration = try reader["additionalConfiguration"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.OrganizationAdditionalConfigurationResult.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.OrganizationAdditionalConfigurationResult {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.OrganizationAdditionalConfigurationResult {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.OrganizationAdditionalConfigurationResult()
-        value.name = try reader["name"].readIfPresent()
-        value.autoEnable = try reader["autoEnable"].readIfPresent()
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.DestinationProperties {
-
-    static func write(value: GuardDutyClientTypes.DestinationProperties?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: GuardDutyClientTypes.AccountDetail?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["destinationArn"].write(value.destinationArn)
-        try writer["kmsKeyArn"].write(value.kmsKeyArn)
+        try writer["accountId"].write(value.accountId)
+        try writer["email"].write(value.email)
     }
+}
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.DestinationProperties {
+extension GuardDutyClientTypes.AccountFreeTrialInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.AccountFreeTrialInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.DestinationProperties()
-        value.destinationArn = try reader["destinationArn"].readIfPresent()
-        value.kmsKeyArn = try reader["kmsKeyArn"].readIfPresent()
+        var value = GuardDutyClientTypes.AccountFreeTrialInfo()
+        value.accountId = try reader["accountId"].readIfPresent()
+        value.dataSources = try reader["dataSources"].readIfPresent(with: GuardDutyClientTypes.DataSourcesFreeTrial.read(from:))
+        value.features = try reader["features"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.FreeTrialFeatureConfigurationResult.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.AccountLevelPermissions {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.AccountLevelPermissions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.AccountLevelPermissions()
+        value.blockPublicAccess = try reader["blockPublicAccess"].readIfPresent(with: GuardDutyClientTypes.BlockPublicAccess.read(from:))
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.AccountStatistics {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.AccountStatistics {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.AccountStatistics()
+        value.accountId = try reader["accountId"].readIfPresent()
+        value.lastGeneratedAt = try reader["lastGeneratedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.totalFindings = try reader["totalFindings"].readIfPresent()
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.Action {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.Action {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.Action()
+        value.actionType = try reader["actionType"].readIfPresent()
+        value.awsApiCallAction = try reader["awsApiCallAction"].readIfPresent(with: GuardDutyClientTypes.AwsApiCallAction.read(from:))
+        value.dnsRequestAction = try reader["dnsRequestAction"].readIfPresent(with: GuardDutyClientTypes.DnsRequestAction.read(from:))
+        value.networkConnectionAction = try reader["networkConnectionAction"].readIfPresent(with: GuardDutyClientTypes.NetworkConnectionAction.read(from:))
+        value.portProbeAction = try reader["portProbeAction"].readIfPresent(with: GuardDutyClientTypes.PortProbeAction.read(from:))
+        value.kubernetesApiCallAction = try reader["kubernetesApiCallAction"].readIfPresent(with: GuardDutyClientTypes.KubernetesApiCallAction.read(from:))
+        value.rdsLoginAttemptAction = try reader["rdsLoginAttemptAction"].readIfPresent(with: GuardDutyClientTypes.RdsLoginAttemptAction.read(from:))
+        value.kubernetesPermissionCheckedDetails = try reader["kubernetesPermissionCheckedDetails"].readIfPresent(with: GuardDutyClientTypes.KubernetesPermissionCheckedDetails.read(from:))
+        value.kubernetesRoleBindingDetails = try reader["kubernetesRoleBindingDetails"].readIfPresent(with: GuardDutyClientTypes.KubernetesRoleBindingDetails.read(from:))
+        value.kubernetesRoleDetails = try reader["kubernetesRoleDetails"].readIfPresent(with: GuardDutyClientTypes.KubernetesRoleDetails.read(from:))
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.Actor {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.Actor {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.Actor()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.user = try reader["user"].readIfPresent(with: GuardDutyClientTypes.User.read(from:))
+        value.session = try reader["session"].readIfPresent(with: GuardDutyClientTypes.Session.read(from:))
+        value.process = try reader["process"].readIfPresent(with: GuardDutyClientTypes.ActorProcess.read(from:))
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.ActorProcess {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.ActorProcess {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.ActorProcess()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.path = try reader["path"].readIfPresent() ?? ""
+        value.sha256 = try reader["sha256"].readIfPresent()
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.AdditionalInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.AdditionalInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.AdditionalInfo()
+        value.versionId = try reader["versionId"].readIfPresent()
+        value.deviceName = try reader["deviceName"].readIfPresent()
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.AddonDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.AddonDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.AddonDetails()
+        value.addonVersion = try reader["addonVersion"].readIfPresent()
+        value.addonStatus = try reader["addonStatus"].readIfPresent()
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.AdminAccount {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.AdminAccount {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.AdminAccount()
+        value.adminAccountId = try reader["adminAccountId"].readIfPresent()
+        value.adminStatus = try reader["adminStatus"].readIfPresent()
         return value
     }
 }
@@ -16815,78 +16745,140 @@ extension GuardDutyClientTypes.Administrator {
     }
 }
 
-extension GuardDutyClientTypes.CoverageStatistics {
+extension GuardDutyClientTypes.AgentDetails {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.CoverageStatistics {
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.AgentDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.CoverageStatistics()
-        value.countByResourceType = try reader["countByResourceType"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.countByCoverageStatus = try reader["countByCoverageStatus"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        var value = GuardDutyClientTypes.AgentDetails()
+        value.version = try reader["version"].readIfPresent()
         return value
     }
 }
 
-extension GuardDutyClientTypes.DataSourceConfigurationsResult {
+extension GuardDutyClientTypes.Anomaly {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.DataSourceConfigurationsResult {
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.Anomaly {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.DataSourceConfigurationsResult()
-        value.cloudTrail = try reader["cloudTrail"].readIfPresent(with: GuardDutyClientTypes.CloudTrailConfigurationResult.read(from:))
-        value.dnsLogs = try reader["dnsLogs"].readIfPresent(with: GuardDutyClientTypes.DNSLogsConfigurationResult.read(from:))
-        value.flowLogs = try reader["flowLogs"].readIfPresent(with: GuardDutyClientTypes.FlowLogsConfigurationResult.read(from:))
-        value.s3Logs = try reader["s3Logs"].readIfPresent(with: GuardDutyClientTypes.S3LogsConfigurationResult.read(from:))
-        value.kubernetes = try reader["kubernetes"].readIfPresent(with: GuardDutyClientTypes.KubernetesConfigurationResult.read(from:))
-        value.malwareProtection = try reader["malwareProtection"].readIfPresent(with: GuardDutyClientTypes.MalwareProtectionConfigurationResult.read(from:))
+        var value = GuardDutyClientTypes.Anomaly()
+        value.profiles = try reader["profiles"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.mapReadingClosure(valueReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: GuardDutyClientTypes.AnomalyObject.read(from:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.unusual = try reader["unusual"].readIfPresent(with: GuardDutyClientTypes.AnomalyUnusual.read(from:))
         return value
     }
 }
 
-extension GuardDutyClientTypes.KubernetesConfigurationResult {
+extension GuardDutyClientTypes.AnomalyObject {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.KubernetesConfigurationResult {
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.AnomalyObject {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.KubernetesConfigurationResult()
-        value.auditLogs = try reader["auditLogs"].readIfPresent(with: GuardDutyClientTypes.KubernetesAuditLogsConfigurationResult.read(from:))
+        var value = GuardDutyClientTypes.AnomalyObject()
+        value.profileType = try reader["profileType"].readIfPresent()
+        value.profileSubtype = try reader["profileSubtype"].readIfPresent()
+        value.observations = try reader["observations"].readIfPresent(with: GuardDutyClientTypes.Observations.read(from:))
         return value
     }
 }
 
-extension GuardDutyClientTypes.KubernetesAuditLogsConfigurationResult {
+extension GuardDutyClientTypes.AnomalyUnusual {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.KubernetesAuditLogsConfigurationResult {
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.AnomalyUnusual {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.KubernetesAuditLogsConfigurationResult()
-        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        var value = GuardDutyClientTypes.AnomalyUnusual()
+        value.behavior = try reader["behavior"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.mapReadingClosure(valueReadingClosure: GuardDutyClientTypes.AnomalyObject.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }
 
-extension GuardDutyClientTypes.S3LogsConfigurationResult {
+extension GuardDutyClientTypes.AutonomousSystem {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.S3LogsConfigurationResult {
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.AutonomousSystem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.S3LogsConfigurationResult()
-        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        var value = GuardDutyClientTypes.AutonomousSystem()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.number = try reader["number"].readIfPresent() ?? 0
         return value
     }
 }
 
-extension GuardDutyClientTypes.FlowLogsConfigurationResult {
+extension GuardDutyClientTypes.AutoscalingAutoScalingGroup {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.FlowLogsConfigurationResult {
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.AutoscalingAutoScalingGroup {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.FlowLogsConfigurationResult()
-        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        var value = GuardDutyClientTypes.AutoscalingAutoScalingGroup()
+        value.ec2InstanceUids = try reader["ec2InstanceUids"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
 
-extension GuardDutyClientTypes.DNSLogsConfigurationResult {
+extension GuardDutyClientTypes.AwsApiCallAction {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.DNSLogsConfigurationResult {
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.AwsApiCallAction {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.DNSLogsConfigurationResult()
-        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        var value = GuardDutyClientTypes.AwsApiCallAction()
+        value.api = try reader["api"].readIfPresent()
+        value.callerType = try reader["callerType"].readIfPresent()
+        value.domainDetails = try reader["domainDetails"].readIfPresent(with: GuardDutyClientTypes.DomainDetails.read(from:))
+        value.errorCode = try reader["errorCode"].readIfPresent()
+        value.userAgent = try reader["userAgent"].readIfPresent()
+        value.remoteIpDetails = try reader["remoteIpDetails"].readIfPresent(with: GuardDutyClientTypes.RemoteIpDetails.read(from:))
+        value.serviceName = try reader["serviceName"].readIfPresent()
+        value.remoteAccountDetails = try reader["remoteAccountDetails"].readIfPresent(with: GuardDutyClientTypes.RemoteAccountDetails.read(from:))
+        value.affectedResources = try reader["affectedResources"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.BlockPublicAccess {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.BlockPublicAccess {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.BlockPublicAccess()
+        value.ignorePublicAcls = try reader["ignorePublicAcls"].readIfPresent()
+        value.restrictPublicBuckets = try reader["restrictPublicBuckets"].readIfPresent()
+        value.blockPublicAcls = try reader["blockPublicAcls"].readIfPresent()
+        value.blockPublicPolicy = try reader["blockPublicPolicy"].readIfPresent()
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.BucketLevelPermissions {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.BucketLevelPermissions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.BucketLevelPermissions()
+        value.accessControlList = try reader["accessControlList"].readIfPresent(with: GuardDutyClientTypes.AccessControlList.read(from:))
+        value.bucketPolicy = try reader["bucketPolicy"].readIfPresent(with: GuardDutyClientTypes.BucketPolicy.read(from:))
+        value.blockPublicAccess = try reader["blockPublicAccess"].readIfPresent(with: GuardDutyClientTypes.BlockPublicAccess.read(from:))
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.BucketPolicy {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.BucketPolicy {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.BucketPolicy()
+        value.allowsPublicReadAccess = try reader["allowsPublicReadAccess"].readIfPresent()
+        value.allowsPublicWriteAccess = try reader["allowsPublicWriteAccess"].readIfPresent()
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.City {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.City {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.City()
+        value.cityName = try reader["cityName"].readIfPresent()
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.CloudformationStack {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.CloudformationStack {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.CloudformationStack()
+        value.ec2InstanceUids = try reader["ec2InstanceUids"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -16897,46 +16889,6 @@ extension GuardDutyClientTypes.CloudTrailConfigurationResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = GuardDutyClientTypes.CloudTrailConfigurationResult()
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.DetectorFeatureConfigurationResult {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.DetectorFeatureConfigurationResult {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.DetectorFeatureConfigurationResult()
-        value.name = try reader["name"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.additionalConfiguration = try reader["additionalConfiguration"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.DetectorAdditionalConfigurationResult.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.DetectorAdditionalConfigurationResult {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.DetectorAdditionalConfigurationResult {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.DetectorAdditionalConfigurationResult()
-        value.name = try reader["name"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.FindingCriteria {
-
-    static func write(value: GuardDutyClientTypes.FindingCriteria?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["criterion"].writeMap(value.criterion, valueWritingClosure: GuardDutyClientTypes.Condition.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.FindingCriteria {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.FindingCriteria()
-        value.criterion = try reader["criterion"].readMapIfPresent(valueReadingClosure: GuardDutyClientTypes.Condition.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }
@@ -16982,6 +16934,664 @@ extension GuardDutyClientTypes.Condition {
     }
 }
 
+extension GuardDutyClientTypes.Container {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.Container {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.Container()
+        value.containerRuntime = try reader["containerRuntime"].readIfPresent()
+        value.id = try reader["id"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        value.image = try reader["image"].readIfPresent()
+        value.imagePrefix = try reader["imagePrefix"].readIfPresent()
+        value.volumeMounts = try reader["volumeMounts"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.VolumeMount.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.securityContext = try reader["securityContext"].readIfPresent(with: GuardDutyClientTypes.SecurityContext.read(from:))
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.ContainerFindingResource {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.ContainerFindingResource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.ContainerFindingResource()
+        value.image = try reader["image"].readIfPresent() ?? ""
+        value.imageUid = try reader["imageUid"].readIfPresent()
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.ContainerInstanceDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.ContainerInstanceDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.ContainerInstanceDetails()
+        value.coveredContainerInstances = try reader["coveredContainerInstances"].readIfPresent()
+        value.compatibleContainerInstances = try reader["compatibleContainerInstances"].readIfPresent()
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.Country {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.Country {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.Country()
+        value.countryCode = try reader["countryCode"].readIfPresent()
+        value.countryName = try reader["countryName"].readIfPresent()
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.CoverageEc2InstanceDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.CoverageEc2InstanceDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.CoverageEc2InstanceDetails()
+        value.instanceId = try reader["instanceId"].readIfPresent()
+        value.instanceType = try reader["instanceType"].readIfPresent()
+        value.clusterArn = try reader["clusterArn"].readIfPresent()
+        value.agentDetails = try reader["agentDetails"].readIfPresent(with: GuardDutyClientTypes.AgentDetails.read(from:))
+        value.managementType = try reader["managementType"].readIfPresent()
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.CoverageEcsClusterDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.CoverageEcsClusterDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.CoverageEcsClusterDetails()
+        value.clusterName = try reader["clusterName"].readIfPresent()
+        value.fargateDetails = try reader["fargateDetails"].readIfPresent(with: GuardDutyClientTypes.FargateDetails.read(from:))
+        value.containerInstanceDetails = try reader["containerInstanceDetails"].readIfPresent(with: GuardDutyClientTypes.ContainerInstanceDetails.read(from:))
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.CoverageEksClusterDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.CoverageEksClusterDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.CoverageEksClusterDetails()
+        value.clusterName = try reader["clusterName"].readIfPresent()
+        value.coveredNodes = try reader["coveredNodes"].readIfPresent()
+        value.compatibleNodes = try reader["compatibleNodes"].readIfPresent()
+        value.addonDetails = try reader["addonDetails"].readIfPresent(with: GuardDutyClientTypes.AddonDetails.read(from:))
+        value.managementType = try reader["managementType"].readIfPresent()
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.CoverageFilterCondition {
+
+    static func write(value: GuardDutyClientTypes.CoverageFilterCondition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["equals"].writeList(value.equals, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["notEquals"].writeList(value.notEquals, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension GuardDutyClientTypes.CoverageFilterCriteria {
+
+    static func write(value: GuardDutyClientTypes.CoverageFilterCriteria?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["filterCriterion"].writeList(value.filterCriterion, memberWritingClosure: GuardDutyClientTypes.CoverageFilterCriterion.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension GuardDutyClientTypes.CoverageFilterCriterion {
+
+    static func write(value: GuardDutyClientTypes.CoverageFilterCriterion?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["criterionKey"].write(value.criterionKey)
+        try writer["filterCondition"].write(value.filterCondition, with: GuardDutyClientTypes.CoverageFilterCondition.write(value:to:))
+    }
+}
+
+extension GuardDutyClientTypes.CoverageResource {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.CoverageResource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.CoverageResource()
+        value.resourceId = try reader["resourceId"].readIfPresent()
+        value.detectorId = try reader["detectorId"].readIfPresent()
+        value.accountId = try reader["accountId"].readIfPresent()
+        value.resourceDetails = try reader["resourceDetails"].readIfPresent(with: GuardDutyClientTypes.CoverageResourceDetails.read(from:))
+        value.coverageStatus = try reader["coverageStatus"].readIfPresent()
+        value.issue = try reader["issue"].readIfPresent()
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.CoverageResourceDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.CoverageResourceDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.CoverageResourceDetails()
+        value.eksClusterDetails = try reader["eksClusterDetails"].readIfPresent(with: GuardDutyClientTypes.CoverageEksClusterDetails.read(from:))
+        value.resourceType = try reader["resourceType"].readIfPresent()
+        value.ecsClusterDetails = try reader["ecsClusterDetails"].readIfPresent(with: GuardDutyClientTypes.CoverageEcsClusterDetails.read(from:))
+        value.ec2InstanceDetails = try reader["ec2InstanceDetails"].readIfPresent(with: GuardDutyClientTypes.CoverageEc2InstanceDetails.read(from:))
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.CoverageSortCriteria {
+
+    static func write(value: GuardDutyClientTypes.CoverageSortCriteria?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["attributeName"].write(value.attributeName)
+        try writer["orderBy"].write(value.orderBy)
+    }
+}
+
+extension GuardDutyClientTypes.CoverageStatistics {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.CoverageStatistics {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.CoverageStatistics()
+        value.countByResourceType = try reader["countByResourceType"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.countByCoverageStatus = try reader["countByCoverageStatus"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.CreateProtectedResource {
+
+    static func write(value: GuardDutyClientTypes.CreateProtectedResource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["s3Bucket"].write(value.s3Bucket, with: GuardDutyClientTypes.CreateS3BucketResource.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.CreateProtectedResource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.CreateProtectedResource()
+        value.s3Bucket = try reader["s3Bucket"].readIfPresent(with: GuardDutyClientTypes.CreateS3BucketResource.read(from:))
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.CreateS3BucketResource {
+
+    static func write(value: GuardDutyClientTypes.CreateS3BucketResource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["bucketName"].write(value.bucketName)
+        try writer["objectPrefixes"].writeList(value.objectPrefixes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.CreateS3BucketResource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.CreateS3BucketResource()
+        value.bucketName = try reader["bucketName"].readIfPresent()
+        value.objectPrefixes = try reader["objectPrefixes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.DataSourceConfigurations {
+
+    static func write(value: GuardDutyClientTypes.DataSourceConfigurations?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["kubernetes"].write(value.kubernetes, with: GuardDutyClientTypes.KubernetesConfiguration.write(value:to:))
+        try writer["malwareProtection"].write(value.malwareProtection, with: GuardDutyClientTypes.MalwareProtectionConfiguration.write(value:to:))
+        try writer["s3Logs"].write(value.s3Logs, with: GuardDutyClientTypes.S3LogsConfiguration.write(value:to:))
+    }
+}
+
+extension GuardDutyClientTypes.DataSourceConfigurationsResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.DataSourceConfigurationsResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.DataSourceConfigurationsResult()
+        value.cloudTrail = try reader["cloudTrail"].readIfPresent(with: GuardDutyClientTypes.CloudTrailConfigurationResult.read(from:))
+        value.dnsLogs = try reader["dnsLogs"].readIfPresent(with: GuardDutyClientTypes.DNSLogsConfigurationResult.read(from:))
+        value.flowLogs = try reader["flowLogs"].readIfPresent(with: GuardDutyClientTypes.FlowLogsConfigurationResult.read(from:))
+        value.s3Logs = try reader["s3Logs"].readIfPresent(with: GuardDutyClientTypes.S3LogsConfigurationResult.read(from:))
+        value.kubernetes = try reader["kubernetes"].readIfPresent(with: GuardDutyClientTypes.KubernetesConfigurationResult.read(from:))
+        value.malwareProtection = try reader["malwareProtection"].readIfPresent(with: GuardDutyClientTypes.MalwareProtectionConfigurationResult.read(from:))
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.DataSourceFreeTrial {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.DataSourceFreeTrial {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.DataSourceFreeTrial()
+        value.freeTrialDaysRemaining = try reader["freeTrialDaysRemaining"].readIfPresent()
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.DataSourcesFreeTrial {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.DataSourcesFreeTrial {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.DataSourcesFreeTrial()
+        value.cloudTrail = try reader["cloudTrail"].readIfPresent(with: GuardDutyClientTypes.DataSourceFreeTrial.read(from:))
+        value.dnsLogs = try reader["dnsLogs"].readIfPresent(with: GuardDutyClientTypes.DataSourceFreeTrial.read(from:))
+        value.flowLogs = try reader["flowLogs"].readIfPresent(with: GuardDutyClientTypes.DataSourceFreeTrial.read(from:))
+        value.s3Logs = try reader["s3Logs"].readIfPresent(with: GuardDutyClientTypes.DataSourceFreeTrial.read(from:))
+        value.kubernetes = try reader["kubernetes"].readIfPresent(with: GuardDutyClientTypes.KubernetesDataSourceFreeTrial.read(from:))
+        value.malwareProtection = try reader["malwareProtection"].readIfPresent(with: GuardDutyClientTypes.MalwareProtectionDataSourceFreeTrial.read(from:))
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.DateStatistics {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.DateStatistics {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.DateStatistics()
+        value.date = try reader["date"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastGeneratedAt = try reader["lastGeneratedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.severity = try reader["severity"].readIfPresent()
+        value.totalFindings = try reader["totalFindings"].readIfPresent()
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.DefaultServerSideEncryption {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.DefaultServerSideEncryption {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.DefaultServerSideEncryption()
+        value.encryptionType = try reader["encryptionType"].readIfPresent()
+        value.kmsMasterKeyArn = try reader["kmsMasterKeyArn"].readIfPresent()
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.Destination {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.Destination {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.Destination()
+        value.destinationId = try reader["destinationId"].readIfPresent() ?? ""
+        value.destinationType = try reader["destinationType"].readIfPresent() ?? .sdkUnknown("")
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.DestinationProperties {
+
+    static func write(value: GuardDutyClientTypes.DestinationProperties?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["destinationArn"].write(value.destinationArn)
+        try writer["kmsKeyArn"].write(value.kmsKeyArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.DestinationProperties {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.DestinationProperties()
+        value.destinationArn = try reader["destinationArn"].readIfPresent()
+        value.kmsKeyArn = try reader["kmsKeyArn"].readIfPresent()
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.Detection {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.Detection {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.Detection()
+        value.anomaly = try reader["anomaly"].readIfPresent(with: GuardDutyClientTypes.Anomaly.read(from:))
+        value.sequence = try reader["sequence"].readIfPresent(with: GuardDutyClientTypes.Sequence.read(from:))
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.DetectorAdditionalConfiguration {
+
+    static func write(value: GuardDutyClientTypes.DetectorAdditionalConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["name"].write(value.name)
+        try writer["status"].write(value.status)
+    }
+}
+
+extension GuardDutyClientTypes.DetectorAdditionalConfigurationResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.DetectorAdditionalConfigurationResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.DetectorAdditionalConfigurationResult()
+        value.name = try reader["name"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.DetectorFeatureConfiguration {
+
+    static func write(value: GuardDutyClientTypes.DetectorFeatureConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["additionalConfiguration"].writeList(value.additionalConfiguration, memberWritingClosure: GuardDutyClientTypes.DetectorAdditionalConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["name"].write(value.name)
+        try writer["status"].write(value.status)
+    }
+}
+
+extension GuardDutyClientTypes.DetectorFeatureConfigurationResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.DetectorFeatureConfigurationResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.DetectorFeatureConfigurationResult()
+        value.name = try reader["name"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.additionalConfiguration = try reader["additionalConfiguration"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.DetectorAdditionalConfigurationResult.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.DNSLogsConfigurationResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.DNSLogsConfigurationResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.DNSLogsConfigurationResult()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.DnsRequestAction {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.DnsRequestAction {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.DnsRequestAction()
+        value.domain = try reader["domain"].readIfPresent()
+        value.`protocol` = try reader["protocol"].readIfPresent()
+        value.blocked = try reader["blocked"].readIfPresent()
+        value.domainWithSuffix = try reader["domainWithSuffix"].readIfPresent()
+        value.vpcOwnerAccountId = try reader["vpcOwnerAccountId"].readIfPresent()
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.DomainDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.DomainDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.DomainDetails()
+        value.domain = try reader["domain"].readIfPresent()
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.EbsSnapshot {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.EbsSnapshot {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.EbsSnapshot()
+        value.deviceName = try reader["deviceName"].readIfPresent()
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.EbsSnapshotDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.EbsSnapshotDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.EbsSnapshotDetails()
+        value.snapshotArn = try reader["snapshotArn"].readIfPresent()
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.EbsVolumeDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.EbsVolumeDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.EbsVolumeDetails()
+        value.scannedVolumeDetails = try reader["scannedVolumeDetails"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.VolumeDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.skippedVolumeDetails = try reader["skippedVolumeDetails"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.VolumeDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.EbsVolumeScanDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.EbsVolumeScanDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.EbsVolumeScanDetails()
+        value.scanId = try reader["scanId"].readIfPresent()
+        value.scanStartedAt = try reader["scanStartedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.scanCompletedAt = try reader["scanCompletedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.triggerFindingId = try reader["triggerFindingId"].readIfPresent()
+        value.sources = try reader["sources"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.scanDetections = try reader["scanDetections"].readIfPresent(with: GuardDutyClientTypes.ScanDetections.read(from:))
+        value.scanType = try reader["scanType"].readIfPresent()
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.EbsVolumesResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.EbsVolumesResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.EbsVolumesResult()
+        value.status = try reader["status"].readIfPresent()
+        value.reason = try reader["reason"].readIfPresent()
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.Ec2Image {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.Ec2Image {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.Ec2Image()
+        value.ec2InstanceUids = try reader["ec2InstanceUids"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.Ec2ImageDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.Ec2ImageDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.Ec2ImageDetails()
+        value.imageArn = try reader["imageArn"].readIfPresent()
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.Ec2Instance {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.Ec2Instance {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.Ec2Instance()
+        value.availabilityZone = try reader["availabilityZone"].readIfPresent()
+        value.imageDescription = try reader["imageDescription"].readIfPresent()
+        value.instanceState = try reader["instanceState"].readIfPresent()
+        value.iamInstanceProfile = try reader["IamInstanceProfile"].readIfPresent(with: GuardDutyClientTypes.IamInstanceProfile.read(from:))
+        value.instanceType = try reader["instanceType"].readIfPresent()
+        value.outpostArn = try reader["outpostArn"].readIfPresent()
+        value.platform = try reader["platform"].readIfPresent()
+        value.productCodes = try reader["productCodes"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.ProductCode.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.ec2NetworkInterfaceUids = try reader["ec2NetworkInterfaceUids"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.Ec2LaunchTemplate {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.Ec2LaunchTemplate {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.Ec2LaunchTemplate()
+        value.ec2InstanceUids = try reader["ec2InstanceUids"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.version = try reader["version"].readIfPresent()
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.Ec2NetworkInterface {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.Ec2NetworkInterface {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.Ec2NetworkInterface()
+        value.ipv6Addresses = try reader["ipv6Addresses"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.privateIpAddresses = try reader["privateIpAddresses"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.PrivateIpAddressDetails.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.publicIp = try reader["publicIp"].readIfPresent()
+        value.securityGroups = try reader["securityGroups"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.SecurityGroup.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.subNetId = try reader["subNetId"].readIfPresent()
+        value.vpcId = try reader["vpcId"].readIfPresent()
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.Ec2Vpc {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.Ec2Vpc {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.Ec2Vpc()
+        value.ec2InstanceUids = try reader["ec2InstanceUids"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.EcsCluster {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.EcsCluster {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.EcsCluster()
+        value.status = try reader["status"].readIfPresent()
+        value.ec2InstanceUids = try reader["ec2InstanceUids"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.EcsClusterDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.EcsClusterDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.EcsClusterDetails()
+        value.name = try reader["name"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.activeServicesCount = try reader["activeServicesCount"].readIfPresent()
+        value.registeredContainerInstancesCount = try reader["registeredContainerInstancesCount"].readIfPresent()
+        value.runningTasksCount = try reader["runningTasksCount"].readIfPresent()
+        value.tags = try reader["tags"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.taskDetails = try reader["taskDetails"].readIfPresent(with: GuardDutyClientTypes.EcsTaskDetails.read(from:))
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.EcsTask {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.EcsTask {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.EcsTask()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.taskDefinitionArn = try reader["taskDefinitionArn"].readIfPresent()
+        value.launchType = try reader["launchType"].readIfPresent()
+        value.containerUids = try reader["containerUids"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.EcsTaskDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.EcsTaskDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.EcsTaskDetails()
+        value.arn = try reader["arn"].readIfPresent()
+        value.definitionArn = try reader["definitionArn"].readIfPresent()
+        value.version = try reader["version"].readIfPresent()
+        value.taskCreatedAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.startedAt = try reader["startedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.startedBy = try reader["startedBy"].readIfPresent()
+        value.tags = try reader["tags"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.volumes = try reader["volumes"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.Volume.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.containers = try reader["containers"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.Container.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.group = try reader["group"].readIfPresent()
+        value.launchType = try reader["launchType"].readIfPresent()
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.EksCluster {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.EksCluster {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.EksCluster()
+        value.arn = try reader["arn"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.status = try reader["status"].readIfPresent()
+        value.vpcId = try reader["vpcId"].readIfPresent()
+        value.ec2InstanceUids = try reader["ec2InstanceUids"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.EksClusterDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.EksClusterDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.EksClusterDetails()
+        value.name = try reader["name"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent()
+        value.vpcId = try reader["vpcId"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.tags = try reader["tags"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.Evidence {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.Evidence {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.Evidence()
+        value.threatIntelligenceDetails = try reader["threatIntelligenceDetails"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.ThreatIntelligenceDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.FargateDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.FargateDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.FargateDetails()
+        value.issues = try reader["issues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.managementType = try reader["managementType"].readIfPresent()
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.FilterCondition {
+
+    static func write(value: GuardDutyClientTypes.FilterCondition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["equalsValue"].write(value.equalsValue)
+        try writer["greaterThan"].write(value.greaterThan)
+        try writer["lessThan"].write(value.lessThan)
+    }
+}
+
+extension GuardDutyClientTypes.FilterCriteria {
+
+    static func write(value: GuardDutyClientTypes.FilterCriteria?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["filterCriterion"].writeList(value.filterCriterion, memberWritingClosure: GuardDutyClientTypes.FilterCriterion.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension GuardDutyClientTypes.FilterCriterion {
+
+    static func write(value: GuardDutyClientTypes.FilterCriterion?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["criterionKey"].write(value.criterionKey)
+        try writer["filterCondition"].write(value.filterCondition, with: GuardDutyClientTypes.FilterCondition.write(value:to:))
+    }
+}
+
 extension GuardDutyClientTypes.Finding {
 
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.Finding {
@@ -17007,53 +17617,147 @@ extension GuardDutyClientTypes.Finding {
     }
 }
 
-extension GuardDutyClientTypes.Service {
+extension GuardDutyClientTypes.FindingCriteria {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.Service {
+    static func write(value: GuardDutyClientTypes.FindingCriteria?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["criterion"].writeMap(value.criterion, valueWritingClosure: GuardDutyClientTypes.Condition.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.FindingCriteria {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.Service()
-        value.action = try reader["action"].readIfPresent(with: GuardDutyClientTypes.Action.read(from:))
-        value.evidence = try reader["evidence"].readIfPresent(with: GuardDutyClientTypes.Evidence.read(from:))
-        value.archived = try reader["archived"].readIfPresent()
-        value.count = try reader["count"].readIfPresent()
-        value.detectorId = try reader["detectorId"].readIfPresent()
-        value.eventFirstSeen = try reader["eventFirstSeen"].readIfPresent()
-        value.eventLastSeen = try reader["eventLastSeen"].readIfPresent()
-        value.resourceRole = try reader["resourceRole"].readIfPresent()
-        value.serviceName = try reader["serviceName"].readIfPresent()
-        value.userFeedback = try reader["userFeedback"].readIfPresent()
-        value.additionalInfo = try reader["additionalInfo"].readIfPresent(with: GuardDutyClientTypes.ServiceAdditionalInfo.read(from:))
-        value.featureName = try reader["featureName"].readIfPresent()
-        value.ebsVolumeScanDetails = try reader["ebsVolumeScanDetails"].readIfPresent(with: GuardDutyClientTypes.EbsVolumeScanDetails.read(from:))
-        value.runtimeDetails = try reader["runtimeDetails"].readIfPresent(with: GuardDutyClientTypes.RuntimeDetails.read(from:))
-        value.detection = try reader["detection"].readIfPresent(with: GuardDutyClientTypes.Detection.read(from:))
-        value.malwareScanDetails = try reader["malwareScanDetails"].readIfPresent(with: GuardDutyClientTypes.MalwareScanDetails.read(from:))
+        var value = GuardDutyClientTypes.FindingCriteria()
+        value.criterion = try reader["criterion"].readMapIfPresent(valueReadingClosure: GuardDutyClientTypes.Condition.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }
 
-extension GuardDutyClientTypes.MalwareScanDetails {
+extension GuardDutyClientTypes.FindingStatistics {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.MalwareScanDetails {
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.FindingStatistics {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.MalwareScanDetails()
-        value.threats = try reader["threats"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.Threat.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.scanId = try reader["scanId"].readIfPresent()
-        value.scanType = try reader["scanType"].readIfPresent()
-        value.scanCategory = try reader["scanCategory"].readIfPresent()
-        value.scanConfiguration = try reader["scanConfiguration"].readIfPresent(with: GuardDutyClientTypes.MalwareProtectionFindingsScanConfiguration.read(from:))
+        var value = GuardDutyClientTypes.FindingStatistics()
+        value.countBySeverity = try reader["countBySeverity"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.groupedByAccount = try reader["groupedByAccount"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.AccountStatistics.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.groupedByDate = try reader["groupedByDate"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.DateStatistics.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.groupedByFindingType = try reader["groupedByFindingType"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.FindingTypeStatistics.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.groupedByResource = try reader["groupedByResource"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.ResourceStatistics.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.groupedBySeverity = try reader["groupedBySeverity"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.SeverityStatistics.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.FindingTypeStatistics {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.FindingTypeStatistics {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.FindingTypeStatistics()
+        value.findingType = try reader["findingType"].readIfPresent()
+        value.lastGeneratedAt = try reader["lastGeneratedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.totalFindings = try reader["totalFindings"].readIfPresent()
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.FlowLogsConfigurationResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.FlowLogsConfigurationResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.FlowLogsConfigurationResult()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.FreeTrialFeatureConfigurationResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.FreeTrialFeatureConfigurationResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.FreeTrialFeatureConfigurationResult()
+        value.name = try reader["name"].readIfPresent()
+        value.freeTrialDaysRemaining = try reader["freeTrialDaysRemaining"].readIfPresent()
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.GeoLocation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.GeoLocation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.GeoLocation()
+        value.lat = try reader["lat"].readIfPresent()
+        value.lon = try reader["lon"].readIfPresent()
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.GetMalwareScanResultDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.GetMalwareScanResultDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.GetMalwareScanResultDetails()
+        value.scanResultStatus = try reader["scanResultStatus"].readIfPresent()
+        value.skippedFileCount = try reader["skippedFileCount"].readIfPresent()
+        value.failedFileCount = try reader["failedFileCount"].readIfPresent()
+        value.threatFoundFileCount = try reader["threatFoundFileCount"].readIfPresent()
+        value.totalFileCount = try reader["totalFileCount"].readIfPresent()
+        value.totalBytes = try reader["totalBytes"].readIfPresent()
         value.uniqueThreatCount = try reader["uniqueThreatCount"].readIfPresent()
+        value.threats = try reader["threats"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.ScanResultThreat.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
 
-extension GuardDutyClientTypes.MalwareProtectionFindingsScanConfiguration {
+extension GuardDutyClientTypes.HighestSeverityThreatDetails {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.MalwareProtectionFindingsScanConfiguration {
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.HighestSeverityThreatDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.MalwareProtectionFindingsScanConfiguration()
-        value.triggerType = try reader["triggerType"].readIfPresent()
-        value.incrementalScanDetails = try reader["incrementalScanDetails"].readIfPresent(with: GuardDutyClientTypes.IncrementalScanDetails.read(from:))
+        var value = GuardDutyClientTypes.HighestSeverityThreatDetails()
+        value.severity = try reader["severity"].readIfPresent()
+        value.threatName = try reader["threatName"].readIfPresent()
+        value.count = try reader["count"].readIfPresent()
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.HostPath {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.HostPath {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.HostPath()
+        value.path = try reader["path"].readIfPresent()
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.IamInstanceProfile {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.IamInstanceProfile {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.IamInstanceProfile()
+        value.arn = try reader["arn"].readIfPresent()
+        value.id = try reader["id"].readIfPresent()
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.IamInstanceProfileV2 {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.IamInstanceProfileV2 {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.IamInstanceProfileV2()
+        value.ec2InstanceUids = try reader["ec2InstanceUids"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.ImpersonatedUser {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.ImpersonatedUser {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.ImpersonatedUser()
+        value.username = try reader["username"].readIfPresent()
+        value.groups = try reader["groups"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -17073,17 +17777,49 @@ extension GuardDutyClientTypes.IncrementalScanDetails {
     }
 }
 
-extension GuardDutyClientTypes.Threat {
+extension GuardDutyClientTypes.Indicator {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.Threat {
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.Indicator {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.Threat()
-        value.name = try reader["name"].readIfPresent()
-        value.source = try reader["source"].readIfPresent()
-        value.itemPaths = try reader["itemPaths"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.ItemPath.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.count = try reader["count"].readIfPresent()
-        value.hash = try reader["hash"].readIfPresent()
-        value.itemDetails = try reader["itemDetails"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.ItemDetails.read(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = GuardDutyClientTypes.Indicator()
+        value.key = try reader["key"].readIfPresent() ?? .sdkUnknown("")
+        value.values = try reader["values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.title = try reader["title"].readIfPresent()
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.InstanceDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.InstanceDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.InstanceDetails()
+        value.availabilityZone = try reader["availabilityZone"].readIfPresent()
+        value.iamInstanceProfile = try reader["iamInstanceProfile"].readIfPresent(with: GuardDutyClientTypes.IamInstanceProfile.read(from:))
+        value.imageDescription = try reader["imageDescription"].readIfPresent()
+        value.imageId = try reader["imageId"].readIfPresent()
+        value.instanceId = try reader["instanceId"].readIfPresent()
+        value.instanceState = try reader["instanceState"].readIfPresent()
+        value.instanceType = try reader["instanceType"].readIfPresent()
+        value.outpostArn = try reader["outpostArn"].readIfPresent()
+        value.launchTime = try reader["launchTime"].readIfPresent()
+        value.networkInterfaces = try reader["networkInterfaces"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.NetworkInterface.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.platform = try reader["platform"].readIfPresent()
+        value.productCodes = try reader["productCodes"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.ProductCode.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.tags = try reader["tags"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.Invitation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.Invitation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.Invitation()
+        value.accountId = try reader["accountId"].readIfPresent()
+        value.invitationId = try reader["invitationId"].readIfPresent()
+        value.relationshipStatus = try reader["relationshipStatus"].readIfPresent()
+        value.invitedAt = try reader["invitedAt"].readIfPresent()
         return value
     }
 }
@@ -17101,17 +17837,6 @@ extension GuardDutyClientTypes.ItemDetails {
     }
 }
 
-extension GuardDutyClientTypes.AdditionalInfo {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.AdditionalInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.AdditionalInfo()
-        value.versionId = try reader["versionId"].readIfPresent()
-        value.deviceName = try reader["deviceName"].readIfPresent()
-        return value
-    }
-}
-
 extension GuardDutyClientTypes.ItemPath {
 
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.ItemPath {
@@ -17123,65 +17848,487 @@ extension GuardDutyClientTypes.ItemPath {
     }
 }
 
-extension GuardDutyClientTypes.Detection {
+extension GuardDutyClientTypes.KubernetesApiCallAction {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.Detection {
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.KubernetesApiCallAction {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.Detection()
-        value.anomaly = try reader["anomaly"].readIfPresent(with: GuardDutyClientTypes.Anomaly.read(from:))
-        value.sequence = try reader["sequence"].readIfPresent(with: GuardDutyClientTypes.Sequence.read(from:))
+        var value = GuardDutyClientTypes.KubernetesApiCallAction()
+        value.requestUri = try reader["requestUri"].readIfPresent()
+        value.verb = try reader["verb"].readIfPresent()
+        value.sourceIps = try reader["sourceIPs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.userAgent = try reader["userAgent"].readIfPresent()
+        value.remoteIpDetails = try reader["remoteIpDetails"].readIfPresent(with: GuardDutyClientTypes.RemoteIpDetails.read(from:))
+        value.statusCode = try reader["statusCode"].readIfPresent()
+        value.parameters = try reader["parameters"].readIfPresent()
+        value.resource = try reader["resource"].readIfPresent()
+        value.subresource = try reader["subresource"].readIfPresent()
+        value.namespace = try reader["namespace"].readIfPresent()
+        value.resourceName = try reader["resourceName"].readIfPresent()
         return value
     }
 }
 
-extension GuardDutyClientTypes.Sequence {
+extension GuardDutyClientTypes.KubernetesAuditLogsConfiguration {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.Sequence {
+    static func write(value: GuardDutyClientTypes.KubernetesAuditLogsConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["enable"].write(value.enable)
+    }
+}
+
+extension GuardDutyClientTypes.KubernetesAuditLogsConfigurationResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.KubernetesAuditLogsConfigurationResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.Sequence()
-        value.uid = try reader["uid"].readIfPresent() ?? ""
-        value.description = try reader["description"].readIfPresent() ?? ""
-        value.actors = try reader["actors"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.Actor.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.resources = try reader["resources"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.ResourceV2.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.endpoints = try reader["endpoints"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.NetworkEndpoint.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.signals = try reader["signals"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.Signal.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.sequenceIndicators = try reader["sequenceIndicators"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.Indicator.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.additionalSequenceTypes = try reader["additionalSequenceTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = GuardDutyClientTypes.KubernetesAuditLogsConfigurationResult()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
 
-extension GuardDutyClientTypes.Indicator {
+extension GuardDutyClientTypes.KubernetesConfiguration {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.Indicator {
+    static func write(value: GuardDutyClientTypes.KubernetesConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["auditLogs"].write(value.auditLogs, with: GuardDutyClientTypes.KubernetesAuditLogsConfiguration.write(value:to:))
+    }
+}
+
+extension GuardDutyClientTypes.KubernetesConfigurationResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.KubernetesConfigurationResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.Indicator()
-        value.key = try reader["key"].readIfPresent() ?? .sdkUnknown("")
-        value.values = try reader["values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.title = try reader["title"].readIfPresent()
+        var value = GuardDutyClientTypes.KubernetesConfigurationResult()
+        value.auditLogs = try reader["auditLogs"].readIfPresent(with: GuardDutyClientTypes.KubernetesAuditLogsConfigurationResult.read(from:))
         return value
     }
 }
 
-extension GuardDutyClientTypes.Signal {
+extension GuardDutyClientTypes.KubernetesDataSourceFreeTrial {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.Signal {
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.KubernetesDataSourceFreeTrial {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.Signal()
-        value.uid = try reader["uid"].readIfPresent() ?? ""
-        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        var value = GuardDutyClientTypes.KubernetesDataSourceFreeTrial()
+        value.auditLogs = try reader["auditLogs"].readIfPresent(with: GuardDutyClientTypes.DataSourceFreeTrial.read(from:))
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.KubernetesDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.KubernetesDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.KubernetesDetails()
+        value.kubernetesUserDetails = try reader["kubernetesUserDetails"].readIfPresent(with: GuardDutyClientTypes.KubernetesUserDetails.read(from:))
+        value.kubernetesWorkloadDetails = try reader["kubernetesWorkloadDetails"].readIfPresent(with: GuardDutyClientTypes.KubernetesWorkloadDetails.read(from:))
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.KubernetesPermissionCheckedDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.KubernetesPermissionCheckedDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.KubernetesPermissionCheckedDetails()
+        value.verb = try reader["verb"].readIfPresent()
+        value.resource = try reader["resource"].readIfPresent()
+        value.namespace = try reader["namespace"].readIfPresent()
+        value.allowed = try reader["allowed"].readIfPresent()
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.KubernetesRoleBindingDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.KubernetesRoleBindingDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.KubernetesRoleBindingDetails()
+        value.kind = try reader["kind"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        value.uid = try reader["uid"].readIfPresent()
+        value.roleRefName = try reader["roleRefName"].readIfPresent()
+        value.roleRefKind = try reader["roleRefKind"].readIfPresent()
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.KubernetesRoleDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.KubernetesRoleDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.KubernetesRoleDetails()
+        value.kind = try reader["kind"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        value.uid = try reader["uid"].readIfPresent()
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.KubernetesUserDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.KubernetesUserDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.KubernetesUserDetails()
+        value.username = try reader["username"].readIfPresent()
+        value.uid = try reader["uid"].readIfPresent()
+        value.groups = try reader["groups"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.sessionName = try reader["sessionName"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.impersonatedUser = try reader["impersonatedUser"].readIfPresent(with: GuardDutyClientTypes.ImpersonatedUser.read(from:))
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.KubernetesWorkload {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.KubernetesWorkload {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.KubernetesWorkload()
+        value.containerUids = try reader["containerUids"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.namespace = try reader["namespace"].readIfPresent()
+        value.kubernetesResourcesTypes = try reader["type"].readIfPresent()
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.KubernetesWorkloadDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.KubernetesWorkloadDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.KubernetesWorkloadDetails()
+        value.name = try reader["name"].readIfPresent()
+        value.type = try reader["type"].readIfPresent()
+        value.uid = try reader["uid"].readIfPresent()
+        value.namespace = try reader["namespace"].readIfPresent()
+        value.hostNetwork = try reader["hostNetwork"].readIfPresent()
+        value.containers = try reader["containers"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.Container.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.volumes = try reader["volumes"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.Volume.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.serviceAccountName = try reader["serviceAccountName"].readIfPresent()
+        value.hostIPC = try reader["hostIPC"].readIfPresent()
+        value.hostPID = try reader["hostPID"].readIfPresent()
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.LambdaDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.LambdaDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.LambdaDetails()
+        value.functionArn = try reader["functionArn"].readIfPresent()
+        value.functionName = try reader["functionName"].readIfPresent()
         value.description = try reader["description"].readIfPresent()
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.firstSeenAt = try reader["firstSeenAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.lastSeenAt = try reader["lastSeenAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.severity = try reader["severity"].readIfPresent()
-        value.count = try reader["count"].readIfPresent() ?? 0
-        value.resourceUids = try reader["resourceUids"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.actorIds = try reader["actorIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.endpointIds = try reader["endpointIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.signalIndicators = try reader["signalIndicators"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.Indicator.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.lastModifiedAt = try reader["lastModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.revisionId = try reader["revisionId"].readIfPresent()
+        value.functionVersion = try reader["functionVersion"].readIfPresent()
+        value.role = try reader["role"].readIfPresent()
+        value.vpcConfig = try reader["vpcConfig"].readIfPresent(with: GuardDutyClientTypes.VpcConfig.read(from:))
+        value.tags = try reader["tags"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.LineageObject {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.LineageObject {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.LineageObject()
+        value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.namespacePid = try reader["namespacePid"].readIfPresent()
+        value.userId = try reader["userId"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        value.pid = try reader["pid"].readIfPresent()
+        value.uuid = try reader["uuid"].readIfPresent()
+        value.executablePath = try reader["executablePath"].readIfPresent()
+        value.euid = try reader["euid"].readIfPresent()
+        value.parentUuid = try reader["parentUuid"].readIfPresent()
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.ListMalwareScansFilterCriteria {
+
+    static func write(value: GuardDutyClientTypes.ListMalwareScansFilterCriteria?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["filterCriterion"].writeList(value.listMalwareScansFilterCriterion, memberWritingClosure: GuardDutyClientTypes.ListMalwareScansFilterCriterion.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension GuardDutyClientTypes.ListMalwareScansFilterCriterion {
+
+    static func write(value: GuardDutyClientTypes.ListMalwareScansFilterCriterion?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["filterCondition"].write(value.filterCondition, with: GuardDutyClientTypes.FilterCondition.write(value:to:))
+        try writer["criterionKey"].write(value.listMalwareScansCriterionKey)
+    }
+}
+
+extension GuardDutyClientTypes.LocalIpDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.LocalIpDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.LocalIpDetails()
+        value.ipAddressV4 = try reader["ipAddressV4"].readIfPresent()
+        value.ipAddressV6 = try reader["ipAddressV6"].readIfPresent()
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.LocalPortDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.LocalPortDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.LocalPortDetails()
+        value.port = try reader["port"].readIfPresent()
+        value.portName = try reader["portName"].readIfPresent()
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.LoginAttribute {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.LoginAttribute {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.LoginAttribute()
+        value.user = try reader["user"].readIfPresent()
+        value.application = try reader["application"].readIfPresent()
+        value.failedLoginAttempts = try reader["failedLoginAttempts"].readIfPresent()
+        value.successfulLoginAttempts = try reader["successfulLoginAttempts"].readIfPresent()
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.MalwareProtectionConfiguration {
+
+    static func write(value: GuardDutyClientTypes.MalwareProtectionConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["scanEc2InstanceWithFindings"].write(value.scanEc2InstanceWithFindings, with: GuardDutyClientTypes.ScanEc2InstanceWithFindings.write(value:to:))
+    }
+}
+
+extension GuardDutyClientTypes.MalwareProtectionConfigurationResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.MalwareProtectionConfigurationResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.MalwareProtectionConfigurationResult()
+        value.scanEc2InstanceWithFindings = try reader["scanEc2InstanceWithFindings"].readIfPresent(with: GuardDutyClientTypes.ScanEc2InstanceWithFindingsResult.read(from:))
+        value.serviceRole = try reader["serviceRole"].readIfPresent()
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.MalwareProtectionDataSourceFreeTrial {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.MalwareProtectionDataSourceFreeTrial {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.MalwareProtectionDataSourceFreeTrial()
+        value.scanEc2InstanceWithFindings = try reader["scanEc2InstanceWithFindings"].readIfPresent(with: GuardDutyClientTypes.DataSourceFreeTrial.read(from:))
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.MalwareProtectionFindingsScanConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.MalwareProtectionFindingsScanConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.MalwareProtectionFindingsScanConfiguration()
+        value.triggerType = try reader["triggerType"].readIfPresent()
+        value.incrementalScanDetails = try reader["incrementalScanDetails"].readIfPresent(with: GuardDutyClientTypes.IncrementalScanDetails.read(from:))
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.MalwareProtectionPlanActions {
+
+    static func write(value: GuardDutyClientTypes.MalwareProtectionPlanActions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["tagging"].write(value.tagging, with: GuardDutyClientTypes.MalwareProtectionPlanTaggingAction.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.MalwareProtectionPlanActions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.MalwareProtectionPlanActions()
+        value.tagging = try reader["tagging"].readIfPresent(with: GuardDutyClientTypes.MalwareProtectionPlanTaggingAction.read(from:))
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.MalwareProtectionPlanStatusReason {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.MalwareProtectionPlanStatusReason {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.MalwareProtectionPlanStatusReason()
+        value.code = try reader["code"].readIfPresent()
+        value.message = try reader["message"].readIfPresent()
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.MalwareProtectionPlanSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.MalwareProtectionPlanSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.MalwareProtectionPlanSummary()
+        value.malwareProtectionPlanId = try reader["malwareProtectionPlanId"].readIfPresent()
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.MalwareProtectionPlanTaggingAction {
+
+    static func write(value: GuardDutyClientTypes.MalwareProtectionPlanTaggingAction?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["status"].write(value.status)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.MalwareProtectionPlanTaggingAction {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.MalwareProtectionPlanTaggingAction()
+        value.status = try reader["status"].readIfPresent()
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.MalwareScan {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.MalwareScan {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.MalwareScan()
+        value.resourceArn = try reader["resourceArn"].readIfPresent()
+        value.resourceType = try reader["resourceType"].readIfPresent()
+        value.scanId = try reader["scanId"].readIfPresent()
+        value.scanStatus = try reader["scanStatus"].readIfPresent()
+        value.scanResultStatus = try reader["scanResultStatus"].readIfPresent()
+        value.scanType = try reader["scanType"].readIfPresent()
+        value.scanStartedAt = try reader["scanStartedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.scanCompletedAt = try reader["scanCompletedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.MalwareScanDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.MalwareScanDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.MalwareScanDetails()
+        value.threats = try reader["threats"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.Threat.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.scanId = try reader["scanId"].readIfPresent()
+        value.scanType = try reader["scanType"].readIfPresent()
+        value.scanCategory = try reader["scanCategory"].readIfPresent()
+        value.scanConfiguration = try reader["scanConfiguration"].readIfPresent(with: GuardDutyClientTypes.MalwareProtectionFindingsScanConfiguration.read(from:))
+        value.uniqueThreatCount = try reader["uniqueThreatCount"].readIfPresent()
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.Master {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.Master {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.Master()
+        value.accountId = try reader["accountId"].readIfPresent()
+        value.invitationId = try reader["invitationId"].readIfPresent()
+        value.relationshipStatus = try reader["relationshipStatus"].readIfPresent()
+        value.invitedAt = try reader["invitedAt"].readIfPresent()
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.Member {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.Member {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.Member()
+        value.accountId = try reader["accountId"].readIfPresent() ?? ""
+        value.detectorId = try reader["detectorId"].readIfPresent()
+        value.masterId = try reader["masterId"].readIfPresent() ?? ""
+        value.email = try reader["email"].readIfPresent() ?? ""
+        value.relationshipStatus = try reader["relationshipStatus"].readIfPresent() ?? ""
+        value.invitedAt = try reader["invitedAt"].readIfPresent()
+        value.updatedAt = try reader["updatedAt"].readIfPresent() ?? ""
+        value.administratorId = try reader["administratorId"].readIfPresent()
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.MemberAdditionalConfiguration {
+
+    static func write(value: GuardDutyClientTypes.MemberAdditionalConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["name"].write(value.name)
+        try writer["status"].write(value.status)
+    }
+}
+
+extension GuardDutyClientTypes.MemberAdditionalConfigurationResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.MemberAdditionalConfigurationResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.MemberAdditionalConfigurationResult()
+        value.name = try reader["name"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.MemberDataSourceConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.MemberDataSourceConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.MemberDataSourceConfiguration()
+        value.accountId = try reader["accountId"].readIfPresent() ?? ""
+        value.dataSources = try reader["dataSources"].readIfPresent(with: GuardDutyClientTypes.DataSourceConfigurationsResult.read(from:))
+        value.features = try reader["features"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.MemberFeaturesConfigurationResult.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.MemberFeaturesConfiguration {
+
+    static func write(value: GuardDutyClientTypes.MemberFeaturesConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["additionalConfiguration"].writeList(value.additionalConfiguration, memberWritingClosure: GuardDutyClientTypes.MemberAdditionalConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["name"].write(value.name)
+        try writer["status"].write(value.status)
+    }
+}
+
+extension GuardDutyClientTypes.MemberFeaturesConfigurationResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.MemberFeaturesConfigurationResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.MemberFeaturesConfigurationResult()
+        value.name = try reader["name"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.additionalConfiguration = try reader["additionalConfiguration"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.MemberAdditionalConfigurationResult.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.NetworkConnection {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.NetworkConnection {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.NetworkConnection()
+        value.direction = try reader["direction"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.NetworkConnectionAction {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.NetworkConnectionAction {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.NetworkConnectionAction()
+        value.blocked = try reader["blocked"].readIfPresent()
+        value.connectionDirection = try reader["connectionDirection"].readIfPresent()
+        value.localPortDetails = try reader["localPortDetails"].readIfPresent(with: GuardDutyClientTypes.LocalPortDetails.read(from:))
+        value.`protocol` = try reader["protocol"].readIfPresent()
+        value.localIpDetails = try reader["localIpDetails"].readIfPresent(with: GuardDutyClientTypes.LocalIpDetails.read(from:))
+        value.localNetworkInterface = try reader["localNetworkInterface"].readIfPresent()
+        value.remoteIpDetails = try reader["remoteIpDetails"].readIfPresent(with: GuardDutyClientTypes.RemoteIpDetails.read(from:))
+        value.remotePortDetails = try reader["remotePortDetails"].readIfPresent(with: GuardDutyClientTypes.RemotePortDetails.read(from:))
         return value
     }
 }
@@ -17202,27 +18349,6 @@ extension GuardDutyClientTypes.NetworkEndpoint {
     }
 }
 
-extension GuardDutyClientTypes.NetworkConnection {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.NetworkConnection {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.NetworkConnection()
-        value.direction = try reader["direction"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.AutonomousSystem {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.AutonomousSystem {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.AutonomousSystem()
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.number = try reader["number"].readIfPresent() ?? 0
-        return value
-    }
-}
-
 extension GuardDutyClientTypes.NetworkGeoLocation {
 
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.NetworkGeoLocation {
@@ -17236,20 +18362,514 @@ extension GuardDutyClientTypes.NetworkGeoLocation {
     }
 }
 
-extension GuardDutyClientTypes.ResourceV2 {
+extension GuardDutyClientTypes.NetworkInterface {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.ResourceV2 {
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.NetworkInterface {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.ResourceV2()
-        value.uid = try reader["uid"].readIfPresent() ?? ""
+        var value = GuardDutyClientTypes.NetworkInterface()
+        value.ipv6Addresses = try reader["ipv6Addresses"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.networkInterfaceId = try reader["networkInterfaceId"].readIfPresent()
+        value.privateDnsName = try reader["privateDnsName"].readIfPresent()
+        value.privateIpAddress = try reader["privateIpAddress"].readIfPresent()
+        value.privateIpAddresses = try reader["privateIpAddresses"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.PrivateIpAddressDetails.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.publicDnsName = try reader["publicDnsName"].readIfPresent()
+        value.publicIp = try reader["publicIp"].readIfPresent()
+        value.securityGroups = try reader["securityGroups"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.SecurityGroup.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.subnetId = try reader["subnetId"].readIfPresent()
+        value.vpcId = try reader["vpcId"].readIfPresent()
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.Observations {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.Observations {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.Observations()
+        value.text = try reader["text"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.Organization {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.Organization {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.Organization()
+        value.asn = try reader["asn"].readIfPresent()
+        value.asnOrg = try reader["asnOrg"].readIfPresent()
+        value.isp = try reader["isp"].readIfPresent()
+        value.org = try reader["org"].readIfPresent()
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.OrganizationAdditionalConfiguration {
+
+    static func write(value: GuardDutyClientTypes.OrganizationAdditionalConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["autoEnable"].write(value.autoEnable)
+        try writer["name"].write(value.name)
+    }
+}
+
+extension GuardDutyClientTypes.OrganizationAdditionalConfigurationResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.OrganizationAdditionalConfigurationResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.OrganizationAdditionalConfigurationResult()
         value.name = try reader["name"].readIfPresent()
-        value.accountId = try reader["accountId"].readIfPresent()
-        value.resourceType = try reader["resourceType"].readIfPresent() ?? .sdkUnknown("")
-        value.region = try reader["region"].readIfPresent()
-        value.service = try reader["service"].readIfPresent()
-        value.cloudPartition = try reader["cloudPartition"].readIfPresent()
+        value.autoEnable = try reader["autoEnable"].readIfPresent()
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.OrganizationDataSourceConfigurations {
+
+    static func write(value: GuardDutyClientTypes.OrganizationDataSourceConfigurations?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["kubernetes"].write(value.kubernetes, with: GuardDutyClientTypes.OrganizationKubernetesConfiguration.write(value:to:))
+        try writer["malwareProtection"].write(value.malwareProtection, with: GuardDutyClientTypes.OrganizationMalwareProtectionConfiguration.write(value:to:))
+        try writer["s3Logs"].write(value.s3Logs, with: GuardDutyClientTypes.OrganizationS3LogsConfiguration.write(value:to:))
+    }
+}
+
+extension GuardDutyClientTypes.OrganizationDataSourceConfigurationsResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.OrganizationDataSourceConfigurationsResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.OrganizationDataSourceConfigurationsResult()
+        value.s3Logs = try reader["s3Logs"].readIfPresent(with: GuardDutyClientTypes.OrganizationS3LogsConfigurationResult.read(from:))
+        value.kubernetes = try reader["kubernetes"].readIfPresent(with: GuardDutyClientTypes.OrganizationKubernetesConfigurationResult.read(from:))
+        value.malwareProtection = try reader["malwareProtection"].readIfPresent(with: GuardDutyClientTypes.OrganizationMalwareProtectionConfigurationResult.read(from:))
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.OrganizationDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.OrganizationDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.OrganizationDetails()
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.organizationStatistics = try reader["organizationStatistics"].readIfPresent(with: GuardDutyClientTypes.OrganizationStatistics.read(from:))
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.OrganizationEbsVolumes {
+
+    static func write(value: GuardDutyClientTypes.OrganizationEbsVolumes?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["autoEnable"].write(value.autoEnable)
+    }
+}
+
+extension GuardDutyClientTypes.OrganizationEbsVolumesResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.OrganizationEbsVolumesResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.OrganizationEbsVolumesResult()
+        value.autoEnable = try reader["autoEnable"].readIfPresent()
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.OrganizationFeatureConfiguration {
+
+    static func write(value: GuardDutyClientTypes.OrganizationFeatureConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["additionalConfiguration"].writeList(value.additionalConfiguration, memberWritingClosure: GuardDutyClientTypes.OrganizationAdditionalConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["autoEnable"].write(value.autoEnable)
+        try writer["name"].write(value.name)
+    }
+}
+
+extension GuardDutyClientTypes.OrganizationFeatureConfigurationResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.OrganizationFeatureConfigurationResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.OrganizationFeatureConfigurationResult()
+        value.name = try reader["name"].readIfPresent()
+        value.autoEnable = try reader["autoEnable"].readIfPresent()
+        value.additionalConfiguration = try reader["additionalConfiguration"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.OrganizationAdditionalConfigurationResult.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.OrganizationFeatureStatistics {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.OrganizationFeatureStatistics {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.OrganizationFeatureStatistics()
+        value.name = try reader["name"].readIfPresent()
+        value.enabledAccountsCount = try reader["enabledAccountsCount"].readIfPresent()
+        value.additionalConfiguration = try reader["additionalConfiguration"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.OrganizationFeatureStatisticsAdditionalConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.OrganizationFeatureStatisticsAdditionalConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.OrganizationFeatureStatisticsAdditionalConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.OrganizationFeatureStatisticsAdditionalConfiguration()
+        value.name = try reader["name"].readIfPresent()
+        value.enabledAccountsCount = try reader["enabledAccountsCount"].readIfPresent()
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.OrganizationKubernetesAuditLogsConfiguration {
+
+    static func write(value: GuardDutyClientTypes.OrganizationKubernetesAuditLogsConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["autoEnable"].write(value.autoEnable)
+    }
+}
+
+extension GuardDutyClientTypes.OrganizationKubernetesAuditLogsConfigurationResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.OrganizationKubernetesAuditLogsConfigurationResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.OrganizationKubernetesAuditLogsConfigurationResult()
+        value.autoEnable = try reader["autoEnable"].readIfPresent() ?? false
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.OrganizationKubernetesConfiguration {
+
+    static func write(value: GuardDutyClientTypes.OrganizationKubernetesConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["auditLogs"].write(value.auditLogs, with: GuardDutyClientTypes.OrganizationKubernetesAuditLogsConfiguration.write(value:to:))
+    }
+}
+
+extension GuardDutyClientTypes.OrganizationKubernetesConfigurationResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.OrganizationKubernetesConfigurationResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.OrganizationKubernetesConfigurationResult()
+        value.auditLogs = try reader["auditLogs"].readIfPresent(with: GuardDutyClientTypes.OrganizationKubernetesAuditLogsConfigurationResult.read(from:))
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.OrganizationMalwareProtectionConfiguration {
+
+    static func write(value: GuardDutyClientTypes.OrganizationMalwareProtectionConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["scanEc2InstanceWithFindings"].write(value.scanEc2InstanceWithFindings, with: GuardDutyClientTypes.OrganizationScanEc2InstanceWithFindings.write(value:to:))
+    }
+}
+
+extension GuardDutyClientTypes.OrganizationMalwareProtectionConfigurationResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.OrganizationMalwareProtectionConfigurationResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.OrganizationMalwareProtectionConfigurationResult()
+        value.scanEc2InstanceWithFindings = try reader["scanEc2InstanceWithFindings"].readIfPresent(with: GuardDutyClientTypes.OrganizationScanEc2InstanceWithFindingsResult.read(from:))
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.OrganizationS3LogsConfiguration {
+
+    static func write(value: GuardDutyClientTypes.OrganizationS3LogsConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["autoEnable"].write(value.autoEnable)
+    }
+}
+
+extension GuardDutyClientTypes.OrganizationS3LogsConfigurationResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.OrganizationS3LogsConfigurationResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.OrganizationS3LogsConfigurationResult()
+        value.autoEnable = try reader["autoEnable"].readIfPresent() ?? false
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.OrganizationScanEc2InstanceWithFindings {
+
+    static func write(value: GuardDutyClientTypes.OrganizationScanEc2InstanceWithFindings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ebsVolumes"].write(value.ebsVolumes, with: GuardDutyClientTypes.OrganizationEbsVolumes.write(value:to:))
+    }
+}
+
+extension GuardDutyClientTypes.OrganizationScanEc2InstanceWithFindingsResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.OrganizationScanEc2InstanceWithFindingsResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.OrganizationScanEc2InstanceWithFindingsResult()
+        value.ebsVolumes = try reader["ebsVolumes"].readIfPresent(with: GuardDutyClientTypes.OrganizationEbsVolumesResult.read(from:))
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.OrganizationStatistics {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.OrganizationStatistics {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.OrganizationStatistics()
+        value.totalAccountsCount = try reader["totalAccountsCount"].readIfPresent()
+        value.memberAccountsCount = try reader["memberAccountsCount"].readIfPresent()
+        value.activeAccountsCount = try reader["activeAccountsCount"].readIfPresent()
+        value.enabledAccountsCount = try reader["enabledAccountsCount"].readIfPresent()
+        value.countByFeature = try reader["countByFeature"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.OrganizationFeatureStatistics.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.Owner {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.Owner {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.Owner()
+        value.id = try reader["id"].readIfPresent()
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.PermissionConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.PermissionConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.PermissionConfiguration()
+        value.bucketLevelPermissions = try reader["bucketLevelPermissions"].readIfPresent(with: GuardDutyClientTypes.BucketLevelPermissions.read(from:))
+        value.accountLevelPermissions = try reader["accountLevelPermissions"].readIfPresent(with: GuardDutyClientTypes.AccountLevelPermissions.read(from:))
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.PortProbeAction {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.PortProbeAction {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.PortProbeAction()
+        value.blocked = try reader["blocked"].readIfPresent()
+        value.portProbeDetails = try reader["portProbeDetails"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.PortProbeDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.PortProbeDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.PortProbeDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.PortProbeDetail()
+        value.localPortDetails = try reader["localPortDetails"].readIfPresent(with: GuardDutyClientTypes.LocalPortDetails.read(from:))
+        value.localIpDetails = try reader["localIpDetails"].readIfPresent(with: GuardDutyClientTypes.LocalIpDetails.read(from:))
+        value.remoteIpDetails = try reader["remoteIpDetails"].readIfPresent(with: GuardDutyClientTypes.RemoteIpDetails.read(from:))
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.PrivateIpAddressDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.PrivateIpAddressDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.PrivateIpAddressDetails()
+        value.privateDnsName = try reader["privateDnsName"].readIfPresent()
+        value.privateIpAddress = try reader["privateIpAddress"].readIfPresent()
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.ProcessDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.ProcessDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.ProcessDetails()
+        value.name = try reader["name"].readIfPresent()
+        value.executablePath = try reader["executablePath"].readIfPresent()
+        value.executableSha256 = try reader["executableSha256"].readIfPresent()
+        value.namespacePid = try reader["namespacePid"].readIfPresent()
+        value.pwd = try reader["pwd"].readIfPresent()
+        value.pid = try reader["pid"].readIfPresent()
+        value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.uuid = try reader["uuid"].readIfPresent()
+        value.parentUuid = try reader["parentUuid"].readIfPresent()
+        value.user = try reader["user"].readIfPresent()
+        value.userId = try reader["userId"].readIfPresent()
+        value.euid = try reader["euid"].readIfPresent()
+        value.lineage = try reader["lineage"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.LineageObject.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.ProductCode {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.ProductCode {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.ProductCode()
+        value.code = try reader["productCodeId"].readIfPresent()
+        value.productType = try reader["productCodeType"].readIfPresent()
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.PublicAccess {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.PublicAccess {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.PublicAccess()
+        value.permissionConfiguration = try reader["permissionConfiguration"].readIfPresent(with: GuardDutyClientTypes.PermissionConfiguration.read(from:))
+        value.effectivePermission = try reader["effectivePermission"].readIfPresent()
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.PublicAccessConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.PublicAccessConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.PublicAccessConfiguration()
+        value.publicAclAccess = try reader["publicAclAccess"].readIfPresent()
+        value.publicPolicyAccess = try reader["publicPolicyAccess"].readIfPresent()
+        value.publicAclIgnoreBehavior = try reader["publicAclIgnoreBehavior"].readIfPresent()
+        value.publicBucketRestrictBehavior = try reader["publicBucketRestrictBehavior"].readIfPresent()
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.RdsDbInstanceDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.RdsDbInstanceDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.RdsDbInstanceDetails()
+        value.dbInstanceIdentifier = try reader["dbInstanceIdentifier"].readIfPresent()
+        value.engine = try reader["engine"].readIfPresent()
+        value.engineVersion = try reader["engineVersion"].readIfPresent()
+        value.dbClusterIdentifier = try reader["dbClusterIdentifier"].readIfPresent()
+        value.dbInstanceArn = try reader["dbInstanceArn"].readIfPresent()
+        value.dbiResourceId = try reader["dbiResourceId"].readIfPresent()
         value.tags = try reader["tags"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.data = try reader["data"].readIfPresent(with: GuardDutyClientTypes.ResourceData.read(from:))
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.RdsDbUserDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.RdsDbUserDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.RdsDbUserDetails()
+        value.user = try reader["user"].readIfPresent()
+        value.application = try reader["application"].readIfPresent()
+        value.database = try reader["database"].readIfPresent()
+        value.ssl = try reader["ssl"].readIfPresent()
+        value.authMethod = try reader["authMethod"].readIfPresent()
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.RdsLimitlessDbDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.RdsLimitlessDbDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.RdsLimitlessDbDetails()
+        value.dbShardGroupIdentifier = try reader["dbShardGroupIdentifier"].readIfPresent()
+        value.dbShardGroupResourceId = try reader["dbShardGroupResourceId"].readIfPresent()
+        value.dbShardGroupArn = try reader["dbShardGroupArn"].readIfPresent()
+        value.engine = try reader["engine"].readIfPresent()
+        value.engineVersion = try reader["engineVersion"].readIfPresent()
+        value.dbClusterIdentifier = try reader["dbClusterIdentifier"].readIfPresent()
+        value.tags = try reader["tags"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.RdsLoginAttemptAction {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.RdsLoginAttemptAction {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.RdsLoginAttemptAction()
+        value.remoteIpDetails = try reader["remoteIpDetails"].readIfPresent(with: GuardDutyClientTypes.RemoteIpDetails.read(from:))
+        value.loginAttributes = try reader["LoginAttributes"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.LoginAttribute.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.RecoveryPoint {
+
+    static func write(value: GuardDutyClientTypes.RecoveryPoint?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["backupVaultName"].write(value.backupVaultName)
+    }
+}
+
+extension GuardDutyClientTypes.RecoveryPointDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.RecoveryPointDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.RecoveryPointDetails()
+        value.recoveryPointArn = try reader["recoveryPointArn"].readIfPresent()
+        value.backupVaultName = try reader["backupVaultName"].readIfPresent()
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.RemoteAccountDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.RemoteAccountDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.RemoteAccountDetails()
+        value.accountId = try reader["accountId"].readIfPresent()
+        value.affiliated = try reader["affiliated"].readIfPresent()
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.RemoteIpDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.RemoteIpDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.RemoteIpDetails()
+        value.city = try reader["city"].readIfPresent(with: GuardDutyClientTypes.City.read(from:))
+        value.country = try reader["country"].readIfPresent(with: GuardDutyClientTypes.Country.read(from:))
+        value.geoLocation = try reader["geoLocation"].readIfPresent(with: GuardDutyClientTypes.GeoLocation.read(from:))
+        value.ipAddressV4 = try reader["ipAddressV4"].readIfPresent()
+        value.ipAddressV6 = try reader["ipAddressV6"].readIfPresent()
+        value.organization = try reader["organization"].readIfPresent(with: GuardDutyClientTypes.Organization.read(from:))
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.RemotePortDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.RemotePortDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.RemotePortDetails()
+        value.port = try reader["port"].readIfPresent()
+        value.portName = try reader["portName"].readIfPresent()
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.Resource {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.Resource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.Resource()
+        value.accessKeyDetails = try reader["accessKeyDetails"].readIfPresent(with: GuardDutyClientTypes.AccessKeyDetails.read(from:))
+        value.s3BucketDetails = try reader["s3BucketDetails"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.S3BucketDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.instanceDetails = try reader["instanceDetails"].readIfPresent(with: GuardDutyClientTypes.InstanceDetails.read(from:))
+        value.eksClusterDetails = try reader["eksClusterDetails"].readIfPresent(with: GuardDutyClientTypes.EksClusterDetails.read(from:))
+        value.kubernetesDetails = try reader["kubernetesDetails"].readIfPresent(with: GuardDutyClientTypes.KubernetesDetails.read(from:))
+        value.resourceType = try reader["resourceType"].readIfPresent()
+        value.ebsVolumeDetails = try reader["ebsVolumeDetails"].readIfPresent(with: GuardDutyClientTypes.EbsVolumeDetails.read(from:))
+        value.ecsClusterDetails = try reader["ecsClusterDetails"].readIfPresent(with: GuardDutyClientTypes.EcsClusterDetails.read(from:))
+        value.containerDetails = try reader["containerDetails"].readIfPresent(with: GuardDutyClientTypes.Container.read(from:))
+        value.rdsDbInstanceDetails = try reader["rdsDbInstanceDetails"].readIfPresent(with: GuardDutyClientTypes.RdsDbInstanceDetails.read(from:))
+        value.rdsLimitlessDbDetails = try reader["rdsLimitlessDbDetails"].readIfPresent(with: GuardDutyClientTypes.RdsLimitlessDbDetails.read(from:))
+        value.rdsDbUserDetails = try reader["rdsDbUserDetails"].readIfPresent(with: GuardDutyClientTypes.RdsDbUserDetails.read(from:))
+        value.lambdaDetails = try reader["lambdaDetails"].readIfPresent(with: GuardDutyClientTypes.LambdaDetails.read(from:))
+        value.ebsSnapshotDetails = try reader["ebsSnapshotDetails"].readIfPresent(with: GuardDutyClientTypes.EbsSnapshotDetails.read(from:))
+        value.ec2ImageDetails = try reader["ec2ImageDetails"].readIfPresent(with: GuardDutyClientTypes.Ec2ImageDetails.read(from:))
+        value.recoveryPointDetails = try reader["recoveryPointDetails"].readIfPresent(with: GuardDutyClientTypes.RecoveryPointDetails.read(from:))
         return value
     }
 }
@@ -17279,385 +18899,44 @@ extension GuardDutyClientTypes.ResourceData {
     }
 }
 
-extension GuardDutyClientTypes.CloudformationStack {
+extension GuardDutyClientTypes.ResourceDetails {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.CloudformationStack {
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.ResourceDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.CloudformationStack()
-        value.ec2InstanceUids = try reader["ec2InstanceUids"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = GuardDutyClientTypes.ResourceDetails()
+        value.instanceArn = try reader["instanceArn"].readIfPresent()
         return value
     }
 }
 
-extension GuardDutyClientTypes.Ec2Image {
+extension GuardDutyClientTypes.ResourceStatistics {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.Ec2Image {
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.ResourceStatistics {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.Ec2Image()
-        value.ec2InstanceUids = try reader["ec2InstanceUids"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = GuardDutyClientTypes.ResourceStatistics()
+        value.accountId = try reader["accountId"].readIfPresent()
+        value.lastGeneratedAt = try reader["lastGeneratedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.resourceId = try reader["resourceId"].readIfPresent()
+        value.resourceType = try reader["resourceType"].readIfPresent()
+        value.totalFindings = try reader["totalFindings"].readIfPresent()
         return value
     }
 }
 
-extension GuardDutyClientTypes.Ec2Vpc {
+extension GuardDutyClientTypes.ResourceV2 {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.Ec2Vpc {
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.ResourceV2 {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.Ec2Vpc()
-        value.ec2InstanceUids = try reader["ec2InstanceUids"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.Ec2LaunchTemplate {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.Ec2LaunchTemplate {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.Ec2LaunchTemplate()
-        value.ec2InstanceUids = try reader["ec2InstanceUids"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.version = try reader["version"].readIfPresent()
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.AutoscalingAutoScalingGroup {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.AutoscalingAutoScalingGroup {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.AutoscalingAutoScalingGroup()
-        value.ec2InstanceUids = try reader["ec2InstanceUids"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.IamInstanceProfileV2 {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.IamInstanceProfileV2 {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.IamInstanceProfileV2()
-        value.ec2InstanceUids = try reader["ec2InstanceUids"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.EcsTask {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.EcsTask {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.EcsTask()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.taskDefinitionArn = try reader["taskDefinitionArn"].readIfPresent()
-        value.launchType = try reader["launchType"].readIfPresent()
-        value.containerUids = try reader["containerUids"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.EcsCluster {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.EcsCluster {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.EcsCluster()
-        value.status = try reader["status"].readIfPresent()
-        value.ec2InstanceUids = try reader["ec2InstanceUids"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.ContainerFindingResource {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.ContainerFindingResource {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.ContainerFindingResource()
-        value.image = try reader["image"].readIfPresent() ?? ""
-        value.imageUid = try reader["imageUid"].readIfPresent()
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.KubernetesWorkload {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.KubernetesWorkload {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.KubernetesWorkload()
-        value.containerUids = try reader["containerUids"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.namespace = try reader["namespace"].readIfPresent()
-        value.kubernetesResourcesTypes = try reader["type"].readIfPresent()
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.EksCluster {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.EksCluster {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.EksCluster()
-        value.arn = try reader["arn"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.status = try reader["status"].readIfPresent()
-        value.vpcId = try reader["vpcId"].readIfPresent()
-        value.ec2InstanceUids = try reader["ec2InstanceUids"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.S3Object {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.S3Object {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.S3Object()
-        value.eTag = try reader["eTag"].readIfPresent()
-        value.key = try reader["key"].readIfPresent()
-        value.versionId = try reader["versionId"].readIfPresent()
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.Ec2NetworkInterface {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.Ec2NetworkInterface {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.Ec2NetworkInterface()
-        value.ipv6Addresses = try reader["ipv6Addresses"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.privateIpAddresses = try reader["privateIpAddresses"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.PrivateIpAddressDetails.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.publicIp = try reader["publicIp"].readIfPresent()
-        value.securityGroups = try reader["securityGroups"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.SecurityGroup.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.subNetId = try reader["subNetId"].readIfPresent()
-        value.vpcId = try reader["vpcId"].readIfPresent()
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.SecurityGroup {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.SecurityGroup {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.SecurityGroup()
-        value.groupId = try reader["groupId"].readIfPresent()
-        value.groupName = try reader["groupName"].readIfPresent()
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.PrivateIpAddressDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.PrivateIpAddressDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.PrivateIpAddressDetails()
-        value.privateDnsName = try reader["privateDnsName"].readIfPresent()
-        value.privateIpAddress = try reader["privateIpAddress"].readIfPresent()
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.AccessKey {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.AccessKey {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.AccessKey()
-        value.principalId = try reader["principalId"].readIfPresent()
-        value.userName = try reader["userName"].readIfPresent()
-        value.userType = try reader["userType"].readIfPresent()
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.Ec2Instance {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.Ec2Instance {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.Ec2Instance()
-        value.availabilityZone = try reader["availabilityZone"].readIfPresent()
-        value.imageDescription = try reader["imageDescription"].readIfPresent()
-        value.instanceState = try reader["instanceState"].readIfPresent()
-        value.iamInstanceProfile = try reader["IamInstanceProfile"].readIfPresent(with: GuardDutyClientTypes.IamInstanceProfile.read(from:))
-        value.instanceType = try reader["instanceType"].readIfPresent()
-        value.outpostArn = try reader["outpostArn"].readIfPresent()
-        value.platform = try reader["platform"].readIfPresent()
-        value.productCodes = try reader["productCodes"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.ProductCode.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.ec2NetworkInterfaceUids = try reader["ec2NetworkInterfaceUids"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.ProductCode {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.ProductCode {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.ProductCode()
-        value.code = try reader["productCodeId"].readIfPresent()
-        value.productType = try reader["productCodeType"].readIfPresent()
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.IamInstanceProfile {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.IamInstanceProfile {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.IamInstanceProfile()
-        value.arn = try reader["arn"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.S3Bucket {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.S3Bucket {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.S3Bucket()
-        value.ownerId = try reader["ownerId"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.encryptionType = try reader["encryptionType"].readIfPresent()
-        value.encryptionKeyArn = try reader["encryptionKeyArn"].readIfPresent()
-        value.effectivePermission = try reader["effectivePermission"].readIfPresent()
-        value.publicReadAccess = try reader["publicReadAccess"].readIfPresent()
-        value.publicWriteAccess = try reader["publicWriteAccess"].readIfPresent()
-        value.accountPublicAccess = try reader["accountPublicAccess"].readIfPresent(with: GuardDutyClientTypes.PublicAccessConfiguration.read(from:))
-        value.bucketPublicAccess = try reader["bucketPublicAccess"].readIfPresent(with: GuardDutyClientTypes.PublicAccessConfiguration.read(from:))
-        value.s3ObjectUids = try reader["s3ObjectUids"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.PublicAccessConfiguration {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.PublicAccessConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.PublicAccessConfiguration()
-        value.publicAclAccess = try reader["publicAclAccess"].readIfPresent()
-        value.publicPolicyAccess = try reader["publicPolicyAccess"].readIfPresent()
-        value.publicAclIgnoreBehavior = try reader["publicAclIgnoreBehavior"].readIfPresent()
-        value.publicBucketRestrictBehavior = try reader["publicBucketRestrictBehavior"].readIfPresent()
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.Tag {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.Tag {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.Tag()
-        value.key = try reader["key"].readIfPresent()
-        value.value = try reader["value"].readIfPresent()
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.Actor {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.Actor {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.Actor()
-        value.id = try reader["id"].readIfPresent() ?? ""
-        value.user = try reader["user"].readIfPresent(with: GuardDutyClientTypes.User.read(from:))
-        value.session = try reader["session"].readIfPresent(with: GuardDutyClientTypes.Session.read(from:))
-        value.process = try reader["process"].readIfPresent(with: GuardDutyClientTypes.ActorProcess.read(from:))
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.ActorProcess {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.ActorProcess {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.ActorProcess()
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.path = try reader["path"].readIfPresent() ?? ""
-        value.sha256 = try reader["sha256"].readIfPresent()
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.Session {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.Session {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.Session()
-        value.uid = try reader["uid"].readIfPresent()
-        value.mfaStatus = try reader["mfaStatus"].readIfPresent()
-        value.createdTime = try reader["createdTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.issuer = try reader["issuer"].readIfPresent()
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.User {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.User {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.User()
-        value.name = try reader["name"].readIfPresent() ?? ""
+        var value = GuardDutyClientTypes.ResourceV2()
         value.uid = try reader["uid"].readIfPresent() ?? ""
-        value.type = try reader["type"].readIfPresent() ?? ""
-        value.credentialUid = try reader["credentialUid"].readIfPresent()
-        value.account = try reader["account"].readIfPresent(with: GuardDutyClientTypes.Account.read(from:))
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.Account {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.Account {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.Account()
-        value.uid = try reader["uid"].readIfPresent() ?? ""
-        value.name = try reader["account"].readIfPresent()
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.Anomaly {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.Anomaly {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.Anomaly()
-        value.profiles = try reader["profiles"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.mapReadingClosure(valueReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: GuardDutyClientTypes.AnomalyObject.read(from:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.unusual = try reader["unusual"].readIfPresent(with: GuardDutyClientTypes.AnomalyUnusual.read(from:))
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.AnomalyUnusual {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.AnomalyUnusual {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.AnomalyUnusual()
-        value.behavior = try reader["behavior"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.mapReadingClosure(valueReadingClosure: GuardDutyClientTypes.AnomalyObject.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.AnomalyObject {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.AnomalyObject {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.AnomalyObject()
-        value.profileType = try reader["profileType"].readIfPresent()
-        value.profileSubtype = try reader["profileSubtype"].readIfPresent()
-        value.observations = try reader["observations"].readIfPresent(with: GuardDutyClientTypes.Observations.read(from:))
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.Observations {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.Observations {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.Observations()
-        value.text = try reader["text"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.RuntimeDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.RuntimeDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.RuntimeDetails()
-        value.process = try reader["process"].readIfPresent(with: GuardDutyClientTypes.ProcessDetails.read(from:))
-        value.context = try reader["context"].readIfPresent(with: GuardDutyClientTypes.RuntimeContext.read(from:))
+        value.name = try reader["name"].readIfPresent()
+        value.accountId = try reader["accountId"].readIfPresent()
+        value.resourceType = try reader["resourceType"].readIfPresent() ?? .sdkUnknown("")
+        value.region = try reader["region"].readIfPresent()
+        value.service = try reader["service"].readIfPresent()
+        value.cloudPartition = try reader["cloudPartition"].readIfPresent()
+        value.tags = try reader["tags"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.data = try reader["data"].readIfPresent(with: GuardDutyClientTypes.ResourceData.read(from:))
         return value
     }
 }
@@ -17696,815 +18975,32 @@ extension GuardDutyClientTypes.RuntimeContext {
     }
 }
 
-extension GuardDutyClientTypes.ProcessDetails {
+extension GuardDutyClientTypes.RuntimeDetails {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.ProcessDetails {
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.RuntimeDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.ProcessDetails()
-        value.name = try reader["name"].readIfPresent()
-        value.executablePath = try reader["executablePath"].readIfPresent()
-        value.executableSha256 = try reader["executableSha256"].readIfPresent()
-        value.namespacePid = try reader["namespacePid"].readIfPresent()
-        value.pwd = try reader["pwd"].readIfPresent()
-        value.pid = try reader["pid"].readIfPresent()
-        value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.uuid = try reader["uuid"].readIfPresent()
-        value.parentUuid = try reader["parentUuid"].readIfPresent()
-        value.user = try reader["user"].readIfPresent()
-        value.userId = try reader["userId"].readIfPresent()
-        value.euid = try reader["euid"].readIfPresent()
-        value.lineage = try reader["lineage"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.LineageObject.read(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = GuardDutyClientTypes.RuntimeDetails()
+        value.process = try reader["process"].readIfPresent(with: GuardDutyClientTypes.ProcessDetails.read(from:))
+        value.context = try reader["context"].readIfPresent(with: GuardDutyClientTypes.RuntimeContext.read(from:))
         return value
     }
 }
 
-extension GuardDutyClientTypes.LineageObject {
+extension GuardDutyClientTypes.S3Bucket {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.LineageObject {
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.S3Bucket {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.LineageObject()
-        value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.namespacePid = try reader["namespacePid"].readIfPresent()
-        value.userId = try reader["userId"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.pid = try reader["pid"].readIfPresent()
-        value.uuid = try reader["uuid"].readIfPresent()
-        value.executablePath = try reader["executablePath"].readIfPresent()
-        value.euid = try reader["euid"].readIfPresent()
-        value.parentUuid = try reader["parentUuid"].readIfPresent()
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.EbsVolumeScanDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.EbsVolumeScanDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.EbsVolumeScanDetails()
-        value.scanId = try reader["scanId"].readIfPresent()
-        value.scanStartedAt = try reader["scanStartedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.scanCompletedAt = try reader["scanCompletedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.triggerFindingId = try reader["triggerFindingId"].readIfPresent()
-        value.sources = try reader["sources"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.scanDetections = try reader["scanDetections"].readIfPresent(with: GuardDutyClientTypes.ScanDetections.read(from:))
-        value.scanType = try reader["scanType"].readIfPresent()
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.ScanDetections {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.ScanDetections {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.ScanDetections()
-        value.scannedItemCount = try reader["scannedItemCount"].readIfPresent(with: GuardDutyClientTypes.ScannedItemCount.read(from:))
-        value.threatsDetectedItemCount = try reader["threatsDetectedItemCount"].readIfPresent(with: GuardDutyClientTypes.ThreatsDetectedItemCount.read(from:))
-        value.highestSeverityThreatDetails = try reader["highestSeverityThreatDetails"].readIfPresent(with: GuardDutyClientTypes.HighestSeverityThreatDetails.read(from:))
-        value.threatDetectedByName = try reader["threatDetectedByName"].readIfPresent(with: GuardDutyClientTypes.ThreatDetectedByName.read(from:))
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.ThreatDetectedByName {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.ThreatDetectedByName {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.ThreatDetectedByName()
-        value.itemCount = try reader["itemCount"].readIfPresent()
-        value.uniqueThreatNameCount = try reader["uniqueThreatNameCount"].readIfPresent()
-        value.shortened = try reader["shortened"].readIfPresent()
-        value.threatNames = try reader["threatNames"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.ScanThreatName.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.ScanThreatName {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.ScanThreatName {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.ScanThreatName()
-        value.name = try reader["name"].readIfPresent()
-        value.severity = try reader["severity"].readIfPresent()
-        value.itemCount = try reader["itemCount"].readIfPresent()
-        value.filePaths = try reader["filePaths"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.ScanFilePath.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.ScanFilePath {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.ScanFilePath {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.ScanFilePath()
-        value.filePath = try reader["filePath"].readIfPresent()
-        value.volumeArn = try reader["volumeArn"].readIfPresent()
-        value.hash = try reader["hash"].readIfPresent()
-        value.fileName = try reader["fileName"].readIfPresent()
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.HighestSeverityThreatDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.HighestSeverityThreatDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.HighestSeverityThreatDetails()
-        value.severity = try reader["severity"].readIfPresent()
-        value.threatName = try reader["threatName"].readIfPresent()
-        value.count = try reader["count"].readIfPresent()
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.ThreatsDetectedItemCount {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.ThreatsDetectedItemCount {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.ThreatsDetectedItemCount()
-        value.files = try reader["files"].readIfPresent()
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.ScannedItemCount {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.ScannedItemCount {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.ScannedItemCount()
-        value.totalGb = try reader["totalGb"].readIfPresent()
-        value.files = try reader["files"].readIfPresent()
-        value.volumes = try reader["volumes"].readIfPresent()
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.ServiceAdditionalInfo {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.ServiceAdditionalInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.ServiceAdditionalInfo()
-        value.value = try reader["value"].readIfPresent()
-        value.type = try reader["type"].readIfPresent()
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.Evidence {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.Evidence {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.Evidence()
-        value.threatIntelligenceDetails = try reader["threatIntelligenceDetails"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.ThreatIntelligenceDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.ThreatIntelligenceDetail {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.ThreatIntelligenceDetail {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.ThreatIntelligenceDetail()
-        value.threatListName = try reader["threatListName"].readIfPresent()
-        value.threatNames = try reader["threatNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.threatFileSha256 = try reader["threatFileSha256"].readIfPresent()
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.Action {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.Action {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.Action()
-        value.actionType = try reader["actionType"].readIfPresent()
-        value.awsApiCallAction = try reader["awsApiCallAction"].readIfPresent(with: GuardDutyClientTypes.AwsApiCallAction.read(from:))
-        value.dnsRequestAction = try reader["dnsRequestAction"].readIfPresent(with: GuardDutyClientTypes.DnsRequestAction.read(from:))
-        value.networkConnectionAction = try reader["networkConnectionAction"].readIfPresent(with: GuardDutyClientTypes.NetworkConnectionAction.read(from:))
-        value.portProbeAction = try reader["portProbeAction"].readIfPresent(with: GuardDutyClientTypes.PortProbeAction.read(from:))
-        value.kubernetesApiCallAction = try reader["kubernetesApiCallAction"].readIfPresent(with: GuardDutyClientTypes.KubernetesApiCallAction.read(from:))
-        value.rdsLoginAttemptAction = try reader["rdsLoginAttemptAction"].readIfPresent(with: GuardDutyClientTypes.RdsLoginAttemptAction.read(from:))
-        value.kubernetesPermissionCheckedDetails = try reader["kubernetesPermissionCheckedDetails"].readIfPresent(with: GuardDutyClientTypes.KubernetesPermissionCheckedDetails.read(from:))
-        value.kubernetesRoleBindingDetails = try reader["kubernetesRoleBindingDetails"].readIfPresent(with: GuardDutyClientTypes.KubernetesRoleBindingDetails.read(from:))
-        value.kubernetesRoleDetails = try reader["kubernetesRoleDetails"].readIfPresent(with: GuardDutyClientTypes.KubernetesRoleDetails.read(from:))
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.KubernetesRoleDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.KubernetesRoleDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.KubernetesRoleDetails()
-        value.kind = try reader["kind"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.uid = try reader["uid"].readIfPresent()
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.KubernetesRoleBindingDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.KubernetesRoleBindingDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.KubernetesRoleBindingDetails()
-        value.kind = try reader["kind"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.uid = try reader["uid"].readIfPresent()
-        value.roleRefName = try reader["roleRefName"].readIfPresent()
-        value.roleRefKind = try reader["roleRefKind"].readIfPresent()
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.KubernetesPermissionCheckedDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.KubernetesPermissionCheckedDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.KubernetesPermissionCheckedDetails()
-        value.verb = try reader["verb"].readIfPresent()
-        value.resource = try reader["resource"].readIfPresent()
-        value.namespace = try reader["namespace"].readIfPresent()
-        value.allowed = try reader["allowed"].readIfPresent()
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.RdsLoginAttemptAction {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.RdsLoginAttemptAction {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.RdsLoginAttemptAction()
-        value.remoteIpDetails = try reader["remoteIpDetails"].readIfPresent(with: GuardDutyClientTypes.RemoteIpDetails.read(from:))
-        value.loginAttributes = try reader["LoginAttributes"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.LoginAttribute.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.LoginAttribute {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.LoginAttribute {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.LoginAttribute()
-        value.user = try reader["user"].readIfPresent()
-        value.application = try reader["application"].readIfPresent()
-        value.failedLoginAttempts = try reader["failedLoginAttempts"].readIfPresent()
-        value.successfulLoginAttempts = try reader["successfulLoginAttempts"].readIfPresent()
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.RemoteIpDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.RemoteIpDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.RemoteIpDetails()
-        value.city = try reader["city"].readIfPresent(with: GuardDutyClientTypes.City.read(from:))
-        value.country = try reader["country"].readIfPresent(with: GuardDutyClientTypes.Country.read(from:))
-        value.geoLocation = try reader["geoLocation"].readIfPresent(with: GuardDutyClientTypes.GeoLocation.read(from:))
-        value.ipAddressV4 = try reader["ipAddressV4"].readIfPresent()
-        value.ipAddressV6 = try reader["ipAddressV6"].readIfPresent()
-        value.organization = try reader["organization"].readIfPresent(with: GuardDutyClientTypes.Organization.read(from:))
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.Organization {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.Organization {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.Organization()
-        value.asn = try reader["asn"].readIfPresent()
-        value.asnOrg = try reader["asnOrg"].readIfPresent()
-        value.isp = try reader["isp"].readIfPresent()
-        value.org = try reader["org"].readIfPresent()
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.GeoLocation {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.GeoLocation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.GeoLocation()
-        value.lat = try reader["lat"].readIfPresent()
-        value.lon = try reader["lon"].readIfPresent()
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.Country {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.Country {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.Country()
-        value.countryCode = try reader["countryCode"].readIfPresent()
-        value.countryName = try reader["countryName"].readIfPresent()
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.City {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.City {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.City()
-        value.cityName = try reader["cityName"].readIfPresent()
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.KubernetesApiCallAction {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.KubernetesApiCallAction {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.KubernetesApiCallAction()
-        value.requestUri = try reader["requestUri"].readIfPresent()
-        value.verb = try reader["verb"].readIfPresent()
-        value.sourceIps = try reader["sourceIPs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.userAgent = try reader["userAgent"].readIfPresent()
-        value.remoteIpDetails = try reader["remoteIpDetails"].readIfPresent(with: GuardDutyClientTypes.RemoteIpDetails.read(from:))
-        value.statusCode = try reader["statusCode"].readIfPresent()
-        value.parameters = try reader["parameters"].readIfPresent()
-        value.resource = try reader["resource"].readIfPresent()
-        value.subresource = try reader["subresource"].readIfPresent()
-        value.namespace = try reader["namespace"].readIfPresent()
-        value.resourceName = try reader["resourceName"].readIfPresent()
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.PortProbeAction {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.PortProbeAction {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.PortProbeAction()
-        value.blocked = try reader["blocked"].readIfPresent()
-        value.portProbeDetails = try reader["portProbeDetails"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.PortProbeDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.PortProbeDetail {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.PortProbeDetail {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.PortProbeDetail()
-        value.localPortDetails = try reader["localPortDetails"].readIfPresent(with: GuardDutyClientTypes.LocalPortDetails.read(from:))
-        value.localIpDetails = try reader["localIpDetails"].readIfPresent(with: GuardDutyClientTypes.LocalIpDetails.read(from:))
-        value.remoteIpDetails = try reader["remoteIpDetails"].readIfPresent(with: GuardDutyClientTypes.RemoteIpDetails.read(from:))
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.LocalIpDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.LocalIpDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.LocalIpDetails()
-        value.ipAddressV4 = try reader["ipAddressV4"].readIfPresent()
-        value.ipAddressV6 = try reader["ipAddressV6"].readIfPresent()
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.LocalPortDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.LocalPortDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.LocalPortDetails()
-        value.port = try reader["port"].readIfPresent()
-        value.portName = try reader["portName"].readIfPresent()
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.NetworkConnectionAction {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.NetworkConnectionAction {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.NetworkConnectionAction()
-        value.blocked = try reader["blocked"].readIfPresent()
-        value.connectionDirection = try reader["connectionDirection"].readIfPresent()
-        value.localPortDetails = try reader["localPortDetails"].readIfPresent(with: GuardDutyClientTypes.LocalPortDetails.read(from:))
-        value.`protocol` = try reader["protocol"].readIfPresent()
-        value.localIpDetails = try reader["localIpDetails"].readIfPresent(with: GuardDutyClientTypes.LocalIpDetails.read(from:))
-        value.localNetworkInterface = try reader["localNetworkInterface"].readIfPresent()
-        value.remoteIpDetails = try reader["remoteIpDetails"].readIfPresent(with: GuardDutyClientTypes.RemoteIpDetails.read(from:))
-        value.remotePortDetails = try reader["remotePortDetails"].readIfPresent(with: GuardDutyClientTypes.RemotePortDetails.read(from:))
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.RemotePortDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.RemotePortDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.RemotePortDetails()
-        value.port = try reader["port"].readIfPresent()
-        value.portName = try reader["portName"].readIfPresent()
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.DnsRequestAction {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.DnsRequestAction {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.DnsRequestAction()
-        value.domain = try reader["domain"].readIfPresent()
-        value.`protocol` = try reader["protocol"].readIfPresent()
-        value.blocked = try reader["blocked"].readIfPresent()
-        value.domainWithSuffix = try reader["domainWithSuffix"].readIfPresent()
-        value.vpcOwnerAccountId = try reader["vpcOwnerAccountId"].readIfPresent()
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.AwsApiCallAction {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.AwsApiCallAction {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.AwsApiCallAction()
-        value.api = try reader["api"].readIfPresent()
-        value.callerType = try reader["callerType"].readIfPresent()
-        value.domainDetails = try reader["domainDetails"].readIfPresent(with: GuardDutyClientTypes.DomainDetails.read(from:))
-        value.errorCode = try reader["errorCode"].readIfPresent()
-        value.userAgent = try reader["userAgent"].readIfPresent()
-        value.remoteIpDetails = try reader["remoteIpDetails"].readIfPresent(with: GuardDutyClientTypes.RemoteIpDetails.read(from:))
-        value.serviceName = try reader["serviceName"].readIfPresent()
-        value.remoteAccountDetails = try reader["remoteAccountDetails"].readIfPresent(with: GuardDutyClientTypes.RemoteAccountDetails.read(from:))
-        value.affectedResources = try reader["affectedResources"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.RemoteAccountDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.RemoteAccountDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.RemoteAccountDetails()
-        value.accountId = try reader["accountId"].readIfPresent()
-        value.affiliated = try reader["affiliated"].readIfPresent()
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.DomainDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.DomainDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.DomainDetails()
-        value.domain = try reader["domain"].readIfPresent()
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.Resource {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.Resource {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.Resource()
-        value.accessKeyDetails = try reader["accessKeyDetails"].readIfPresent(with: GuardDutyClientTypes.AccessKeyDetails.read(from:))
-        value.s3BucketDetails = try reader["s3BucketDetails"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.S3BucketDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.instanceDetails = try reader["instanceDetails"].readIfPresent(with: GuardDutyClientTypes.InstanceDetails.read(from:))
-        value.eksClusterDetails = try reader["eksClusterDetails"].readIfPresent(with: GuardDutyClientTypes.EksClusterDetails.read(from:))
-        value.kubernetesDetails = try reader["kubernetesDetails"].readIfPresent(with: GuardDutyClientTypes.KubernetesDetails.read(from:))
-        value.resourceType = try reader["resourceType"].readIfPresent()
-        value.ebsVolumeDetails = try reader["ebsVolumeDetails"].readIfPresent(with: GuardDutyClientTypes.EbsVolumeDetails.read(from:))
-        value.ecsClusterDetails = try reader["ecsClusterDetails"].readIfPresent(with: GuardDutyClientTypes.EcsClusterDetails.read(from:))
-        value.containerDetails = try reader["containerDetails"].readIfPresent(with: GuardDutyClientTypes.Container.read(from:))
-        value.rdsDbInstanceDetails = try reader["rdsDbInstanceDetails"].readIfPresent(with: GuardDutyClientTypes.RdsDbInstanceDetails.read(from:))
-        value.rdsLimitlessDbDetails = try reader["rdsLimitlessDbDetails"].readIfPresent(with: GuardDutyClientTypes.RdsLimitlessDbDetails.read(from:))
-        value.rdsDbUserDetails = try reader["rdsDbUserDetails"].readIfPresent(with: GuardDutyClientTypes.RdsDbUserDetails.read(from:))
-        value.lambdaDetails = try reader["lambdaDetails"].readIfPresent(with: GuardDutyClientTypes.LambdaDetails.read(from:))
-        value.ebsSnapshotDetails = try reader["ebsSnapshotDetails"].readIfPresent(with: GuardDutyClientTypes.EbsSnapshotDetails.read(from:))
-        value.ec2ImageDetails = try reader["ec2ImageDetails"].readIfPresent(with: GuardDutyClientTypes.Ec2ImageDetails.read(from:))
-        value.recoveryPointDetails = try reader["recoveryPointDetails"].readIfPresent(with: GuardDutyClientTypes.RecoveryPointDetails.read(from:))
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.RecoveryPointDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.RecoveryPointDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.RecoveryPointDetails()
-        value.recoveryPointArn = try reader["recoveryPointArn"].readIfPresent()
-        value.backupVaultName = try reader["backupVaultName"].readIfPresent()
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.Ec2ImageDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.Ec2ImageDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.Ec2ImageDetails()
-        value.imageArn = try reader["imageArn"].readIfPresent()
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.EbsSnapshotDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.EbsSnapshotDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.EbsSnapshotDetails()
-        value.snapshotArn = try reader["snapshotArn"].readIfPresent()
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.LambdaDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.LambdaDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.LambdaDetails()
-        value.functionArn = try reader["functionArn"].readIfPresent()
-        value.functionName = try reader["functionName"].readIfPresent()
-        value.description = try reader["description"].readIfPresent()
-        value.lastModifiedAt = try reader["lastModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.revisionId = try reader["revisionId"].readIfPresent()
-        value.functionVersion = try reader["functionVersion"].readIfPresent()
-        value.role = try reader["role"].readIfPresent()
-        value.vpcConfig = try reader["vpcConfig"].readIfPresent(with: GuardDutyClientTypes.VpcConfig.read(from:))
-        value.tags = try reader["tags"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.VpcConfig {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.VpcConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.VpcConfig()
-        value.subnetIds = try reader["subnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.vpcId = try reader["vpcId"].readIfPresent()
-        value.securityGroups = try reader["securityGroups"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.SecurityGroup.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.RdsDbUserDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.RdsDbUserDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.RdsDbUserDetails()
-        value.user = try reader["user"].readIfPresent()
-        value.application = try reader["application"].readIfPresent()
-        value.database = try reader["database"].readIfPresent()
-        value.ssl = try reader["ssl"].readIfPresent()
-        value.authMethod = try reader["authMethod"].readIfPresent()
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.RdsLimitlessDbDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.RdsLimitlessDbDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.RdsLimitlessDbDetails()
-        value.dbShardGroupIdentifier = try reader["dbShardGroupIdentifier"].readIfPresent()
-        value.dbShardGroupResourceId = try reader["dbShardGroupResourceId"].readIfPresent()
-        value.dbShardGroupArn = try reader["dbShardGroupArn"].readIfPresent()
-        value.engine = try reader["engine"].readIfPresent()
-        value.engineVersion = try reader["engineVersion"].readIfPresent()
-        value.dbClusterIdentifier = try reader["dbClusterIdentifier"].readIfPresent()
-        value.tags = try reader["tags"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.RdsDbInstanceDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.RdsDbInstanceDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.RdsDbInstanceDetails()
-        value.dbInstanceIdentifier = try reader["dbInstanceIdentifier"].readIfPresent()
-        value.engine = try reader["engine"].readIfPresent()
-        value.engineVersion = try reader["engineVersion"].readIfPresent()
-        value.dbClusterIdentifier = try reader["dbClusterIdentifier"].readIfPresent()
-        value.dbInstanceArn = try reader["dbInstanceArn"].readIfPresent()
-        value.dbiResourceId = try reader["dbiResourceId"].readIfPresent()
-        value.tags = try reader["tags"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.Container {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.Container {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.Container()
-        value.containerRuntime = try reader["containerRuntime"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.image = try reader["image"].readIfPresent()
-        value.imagePrefix = try reader["imagePrefix"].readIfPresent()
-        value.volumeMounts = try reader["volumeMounts"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.VolumeMount.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.securityContext = try reader["securityContext"].readIfPresent(with: GuardDutyClientTypes.SecurityContext.read(from:))
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.SecurityContext {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.SecurityContext {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.SecurityContext()
-        value.privileged = try reader["privileged"].readIfPresent()
-        value.allowPrivilegeEscalation = try reader["allowPrivilegeEscalation"].readIfPresent()
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.VolumeMount {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.VolumeMount {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.VolumeMount()
-        value.name = try reader["name"].readIfPresent()
-        value.mountPath = try reader["mountPath"].readIfPresent()
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.EcsClusterDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.EcsClusterDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.EcsClusterDetails()
-        value.name = try reader["name"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.activeServicesCount = try reader["activeServicesCount"].readIfPresent()
-        value.registeredContainerInstancesCount = try reader["registeredContainerInstancesCount"].readIfPresent()
-        value.runningTasksCount = try reader["runningTasksCount"].readIfPresent()
-        value.tags = try reader["tags"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.taskDetails = try reader["taskDetails"].readIfPresent(with: GuardDutyClientTypes.EcsTaskDetails.read(from:))
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.EcsTaskDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.EcsTaskDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.EcsTaskDetails()
-        value.arn = try reader["arn"].readIfPresent()
-        value.definitionArn = try reader["definitionArn"].readIfPresent()
-        value.version = try reader["version"].readIfPresent()
-        value.taskCreatedAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.startedAt = try reader["startedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.startedBy = try reader["startedBy"].readIfPresent()
-        value.tags = try reader["tags"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.volumes = try reader["volumes"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.Volume.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.containers = try reader["containers"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.Container.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.group = try reader["group"].readIfPresent()
-        value.launchType = try reader["launchType"].readIfPresent()
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.Volume {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.Volume {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.Volume()
-        value.name = try reader["name"].readIfPresent()
-        value.hostPath = try reader["hostPath"].readIfPresent(with: GuardDutyClientTypes.HostPath.read(from:))
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.HostPath {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.HostPath {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.HostPath()
-        value.path = try reader["path"].readIfPresent()
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.EbsVolumeDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.EbsVolumeDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.EbsVolumeDetails()
-        value.scannedVolumeDetails = try reader["scannedVolumeDetails"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.VolumeDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.skippedVolumeDetails = try reader["skippedVolumeDetails"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.VolumeDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.KubernetesDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.KubernetesDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.KubernetesDetails()
-        value.kubernetesUserDetails = try reader["kubernetesUserDetails"].readIfPresent(with: GuardDutyClientTypes.KubernetesUserDetails.read(from:))
-        value.kubernetesWorkloadDetails = try reader["kubernetesWorkloadDetails"].readIfPresent(with: GuardDutyClientTypes.KubernetesWorkloadDetails.read(from:))
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.KubernetesWorkloadDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.KubernetesWorkloadDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.KubernetesWorkloadDetails()
-        value.name = try reader["name"].readIfPresent()
-        value.type = try reader["type"].readIfPresent()
-        value.uid = try reader["uid"].readIfPresent()
-        value.namespace = try reader["namespace"].readIfPresent()
-        value.hostNetwork = try reader["hostNetwork"].readIfPresent()
-        value.containers = try reader["containers"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.Container.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.volumes = try reader["volumes"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.Volume.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.serviceAccountName = try reader["serviceAccountName"].readIfPresent()
-        value.hostIPC = try reader["hostIPC"].readIfPresent()
-        value.hostPID = try reader["hostPID"].readIfPresent()
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.KubernetesUserDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.KubernetesUserDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.KubernetesUserDetails()
-        value.username = try reader["username"].readIfPresent()
-        value.uid = try reader["uid"].readIfPresent()
-        value.groups = try reader["groups"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.sessionName = try reader["sessionName"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.impersonatedUser = try reader["impersonatedUser"].readIfPresent(with: GuardDutyClientTypes.ImpersonatedUser.read(from:))
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.ImpersonatedUser {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.ImpersonatedUser {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.ImpersonatedUser()
-        value.username = try reader["username"].readIfPresent()
-        value.groups = try reader["groups"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.EksClusterDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.EksClusterDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.EksClusterDetails()
-        value.name = try reader["name"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
-        value.vpcId = try reader["vpcId"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.tags = try reader["tags"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = GuardDutyClientTypes.S3Bucket()
+        value.ownerId = try reader["ownerId"].readIfPresent()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.InstanceDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.InstanceDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.InstanceDetails()
-        value.availabilityZone = try reader["availabilityZone"].readIfPresent()
-        value.iamInstanceProfile = try reader["iamInstanceProfile"].readIfPresent(with: GuardDutyClientTypes.IamInstanceProfile.read(from:))
-        value.imageDescription = try reader["imageDescription"].readIfPresent()
-        value.imageId = try reader["imageId"].readIfPresent()
-        value.instanceId = try reader["instanceId"].readIfPresent()
-        value.instanceState = try reader["instanceState"].readIfPresent()
-        value.instanceType = try reader["instanceType"].readIfPresent()
-        value.outpostArn = try reader["outpostArn"].readIfPresent()
-        value.launchTime = try reader["launchTime"].readIfPresent()
-        value.networkInterfaces = try reader["networkInterfaces"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.NetworkInterface.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.platform = try reader["platform"].readIfPresent()
-        value.productCodes = try reader["productCodes"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.ProductCode.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.tags = try reader["tags"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.NetworkInterface {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.NetworkInterface {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.NetworkInterface()
-        value.ipv6Addresses = try reader["ipv6Addresses"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.networkInterfaceId = try reader["networkInterfaceId"].readIfPresent()
-        value.privateDnsName = try reader["privateDnsName"].readIfPresent()
-        value.privateIpAddress = try reader["privateIpAddress"].readIfPresent()
-        value.privateIpAddresses = try reader["privateIpAddresses"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.PrivateIpAddressDetails.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.publicDnsName = try reader["publicDnsName"].readIfPresent()
-        value.publicIp = try reader["publicIp"].readIfPresent()
-        value.securityGroups = try reader["securityGroups"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.SecurityGroup.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.subnetId = try reader["subnetId"].readIfPresent()
-        value.vpcId = try reader["vpcId"].readIfPresent()
+        value.encryptionType = try reader["encryptionType"].readIfPresent()
+        value.encryptionKeyArn = try reader["encryptionKeyArn"].readIfPresent()
+        value.effectivePermission = try reader["effectivePermission"].readIfPresent()
+        value.publicReadAccess = try reader["publicReadAccess"].readIfPresent()
+        value.publicWriteAccess = try reader["publicWriteAccess"].readIfPresent()
+        value.accountPublicAccess = try reader["accountPublicAccess"].readIfPresent(with: GuardDutyClientTypes.PublicAccessConfiguration.read(from:))
+        value.bucketPublicAccess = try reader["bucketPublicAccess"].readIfPresent(with: GuardDutyClientTypes.PublicAccessConfiguration.read(from:))
+        value.s3ObjectUids = try reader["s3ObjectUids"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -18527,6 +19023,36 @@ extension GuardDutyClientTypes.S3BucketDetail {
     }
 }
 
+extension GuardDutyClientTypes.S3LogsConfiguration {
+
+    static func write(value: GuardDutyClientTypes.S3LogsConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["enable"].write(value.enable)
+    }
+}
+
+extension GuardDutyClientTypes.S3LogsConfigurationResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.S3LogsConfigurationResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.S3LogsConfigurationResult()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.S3Object {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.S3Object {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.S3Object()
+        value.eTag = try reader["eTag"].readIfPresent()
+        value.key = try reader["key"].readIfPresent()
+        value.versionId = try reader["versionId"].readIfPresent()
+        return value
+    }
+}
+
 extension GuardDutyClientTypes.S3ObjectDetail {
 
     static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.S3ObjectDetail {
@@ -18541,372 +19067,36 @@ extension GuardDutyClientTypes.S3ObjectDetail {
     }
 }
 
-extension GuardDutyClientTypes.PublicAccess {
+extension GuardDutyClientTypes.S3ObjectForSendObjectMalwareScan {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.PublicAccess {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.PublicAccess()
-        value.permissionConfiguration = try reader["permissionConfiguration"].readIfPresent(with: GuardDutyClientTypes.PermissionConfiguration.read(from:))
-        value.effectivePermission = try reader["effectivePermission"].readIfPresent()
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.PermissionConfiguration {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.PermissionConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.PermissionConfiguration()
-        value.bucketLevelPermissions = try reader["bucketLevelPermissions"].readIfPresent(with: GuardDutyClientTypes.BucketLevelPermissions.read(from:))
-        value.accountLevelPermissions = try reader["accountLevelPermissions"].readIfPresent(with: GuardDutyClientTypes.AccountLevelPermissions.read(from:))
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.AccountLevelPermissions {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.AccountLevelPermissions {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.AccountLevelPermissions()
-        value.blockPublicAccess = try reader["blockPublicAccess"].readIfPresent(with: GuardDutyClientTypes.BlockPublicAccess.read(from:))
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.BlockPublicAccess {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.BlockPublicAccess {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.BlockPublicAccess()
-        value.ignorePublicAcls = try reader["ignorePublicAcls"].readIfPresent()
-        value.restrictPublicBuckets = try reader["restrictPublicBuckets"].readIfPresent()
-        value.blockPublicAcls = try reader["blockPublicAcls"].readIfPresent()
-        value.blockPublicPolicy = try reader["blockPublicPolicy"].readIfPresent()
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.BucketLevelPermissions {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.BucketLevelPermissions {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.BucketLevelPermissions()
-        value.accessControlList = try reader["accessControlList"].readIfPresent(with: GuardDutyClientTypes.AccessControlList.read(from:))
-        value.bucketPolicy = try reader["bucketPolicy"].readIfPresent(with: GuardDutyClientTypes.BucketPolicy.read(from:))
-        value.blockPublicAccess = try reader["blockPublicAccess"].readIfPresent(with: GuardDutyClientTypes.BlockPublicAccess.read(from:))
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.BucketPolicy {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.BucketPolicy {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.BucketPolicy()
-        value.allowsPublicReadAccess = try reader["allowsPublicReadAccess"].readIfPresent()
-        value.allowsPublicWriteAccess = try reader["allowsPublicWriteAccess"].readIfPresent()
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.AccessControlList {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.AccessControlList {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.AccessControlList()
-        value.allowsPublicReadAccess = try reader["allowsPublicReadAccess"].readIfPresent()
-        value.allowsPublicWriteAccess = try reader["allowsPublicWriteAccess"].readIfPresent()
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.DefaultServerSideEncryption {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.DefaultServerSideEncryption {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.DefaultServerSideEncryption()
-        value.encryptionType = try reader["encryptionType"].readIfPresent()
-        value.kmsMasterKeyArn = try reader["kmsMasterKeyArn"].readIfPresent()
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.Owner {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.Owner {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.Owner()
-        value.id = try reader["id"].readIfPresent()
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.AccessKeyDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.AccessKeyDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.AccessKeyDetails()
-        value.accessKeyId = try reader["accessKeyId"].readIfPresent()
-        value.principalId = try reader["principalId"].readIfPresent()
-        value.userName = try reader["userName"].readIfPresent()
-        value.userType = try reader["userType"].readIfPresent()
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.FindingStatistics {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.FindingStatistics {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.FindingStatistics()
-        value.countBySeverity = try reader["countBySeverity"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.groupedByAccount = try reader["groupedByAccount"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.AccountStatistics.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.groupedByDate = try reader["groupedByDate"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.DateStatistics.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.groupedByFindingType = try reader["groupedByFindingType"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.FindingTypeStatistics.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.groupedByResource = try reader["groupedByResource"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.ResourceStatistics.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.groupedBySeverity = try reader["groupedBySeverity"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.SeverityStatistics.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.SeverityStatistics {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.SeverityStatistics {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.SeverityStatistics()
-        value.lastGeneratedAt = try reader["lastGeneratedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.severity = try reader["severity"].readIfPresent()
-        value.totalFindings = try reader["totalFindings"].readIfPresent()
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.ResourceStatistics {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.ResourceStatistics {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.ResourceStatistics()
-        value.accountId = try reader["accountId"].readIfPresent()
-        value.lastGeneratedAt = try reader["lastGeneratedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.resourceId = try reader["resourceId"].readIfPresent()
-        value.resourceType = try reader["resourceType"].readIfPresent()
-        value.totalFindings = try reader["totalFindings"].readIfPresent()
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.FindingTypeStatistics {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.FindingTypeStatistics {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.FindingTypeStatistics()
-        value.findingType = try reader["findingType"].readIfPresent()
-        value.lastGeneratedAt = try reader["lastGeneratedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.totalFindings = try reader["totalFindings"].readIfPresent()
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.DateStatistics {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.DateStatistics {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.DateStatistics()
-        value.date = try reader["date"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastGeneratedAt = try reader["lastGeneratedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.severity = try reader["severity"].readIfPresent()
-        value.totalFindings = try reader["totalFindings"].readIfPresent()
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.AccountStatistics {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.AccountStatistics {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.AccountStatistics()
-        value.accountId = try reader["accountId"].readIfPresent()
-        value.lastGeneratedAt = try reader["lastGeneratedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.totalFindings = try reader["totalFindings"].readIfPresent()
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.CreateProtectedResource {
-
-    static func write(value: GuardDutyClientTypes.CreateProtectedResource?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: GuardDutyClientTypes.S3ObjectForSendObjectMalwareScan?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["s3Bucket"].write(value.s3Bucket, with: GuardDutyClientTypes.CreateS3BucketResource.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.CreateProtectedResource {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.CreateProtectedResource()
-        value.s3Bucket = try reader["s3Bucket"].readIfPresent(with: GuardDutyClientTypes.CreateS3BucketResource.read(from:))
-        return value
+        try writer["bucket"].write(value.bucket)
+        try writer["key"].write(value.key)
+        try writer["versionId"].write(value.versionId)
     }
 }
 
-extension GuardDutyClientTypes.CreateS3BucketResource {
+extension GuardDutyClientTypes.Scan {
 
-    static func write(value: GuardDutyClientTypes.CreateS3BucketResource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["bucketName"].write(value.bucketName)
-        try writer["objectPrefixes"].writeList(value.objectPrefixes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.CreateS3BucketResource {
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.Scan {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.CreateS3BucketResource()
-        value.bucketName = try reader["bucketName"].readIfPresent()
-        value.objectPrefixes = try reader["objectPrefixes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.MalwareProtectionPlanActions {
-
-    static func write(value: GuardDutyClientTypes.MalwareProtectionPlanActions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["tagging"].write(value.tagging, with: GuardDutyClientTypes.MalwareProtectionPlanTaggingAction.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.MalwareProtectionPlanActions {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.MalwareProtectionPlanActions()
-        value.tagging = try reader["tagging"].readIfPresent(with: GuardDutyClientTypes.MalwareProtectionPlanTaggingAction.read(from:))
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.MalwareProtectionPlanTaggingAction {
-
-    static func write(value: GuardDutyClientTypes.MalwareProtectionPlanTaggingAction?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["status"].write(value.status)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.MalwareProtectionPlanTaggingAction {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.MalwareProtectionPlanTaggingAction()
-        value.status = try reader["status"].readIfPresent()
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.MalwareProtectionPlanStatusReason {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.MalwareProtectionPlanStatusReason {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.MalwareProtectionPlanStatusReason()
-        value.code = try reader["code"].readIfPresent()
-        value.message = try reader["message"].readIfPresent()
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.ScannedResource {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.ScannedResource {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.ScannedResource()
-        value.scannedResourceArn = try reader["scannedResourceArn"].readIfPresent()
-        value.scannedResourceType = try reader["scannedResourceType"].readIfPresent()
-        value.scannedResourceStatus = try reader["scannedResourceStatus"].readIfPresent()
-        value.scanStatusReason = try reader["scanStatusReason"].readIfPresent()
-        value.resourceDetails = try reader["resourceDetails"].readIfPresent(with: GuardDutyClientTypes.ScannedResourceDetails.read(from:))
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.ScannedResourceDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.ScannedResourceDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.ScannedResourceDetails()
-        value.ebsVolume = try reader["ebsVolume"].readIfPresent(with: GuardDutyClientTypes.VolumeDetail.read(from:))
-        value.ebsSnapshot = try reader["ebsSnapshot"].readIfPresent(with: GuardDutyClientTypes.EbsSnapshot.read(from:))
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.EbsSnapshot {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.EbsSnapshot {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.EbsSnapshot()
-        value.deviceName = try reader["deviceName"].readIfPresent()
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.ScanConfiguration {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.ScanConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.ScanConfiguration()
-        value.role = try reader["role"].readIfPresent()
+        var value = GuardDutyClientTypes.Scan()
+        value.detectorId = try reader["detectorId"].readIfPresent()
+        value.adminDetectorId = try reader["adminDetectorId"].readIfPresent()
+        value.scanId = try reader["scanId"].readIfPresent()
+        value.scanStatus = try reader["scanStatus"].readIfPresent()
+        value.failureReason = try reader["failureReason"].readIfPresent()
+        value.scanStartTime = try reader["scanStartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.scanEndTime = try reader["scanEndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.triggerDetails = try reader["triggerDetails"].readIfPresent(with: GuardDutyClientTypes.TriggerDetails.read(from:))
-        value.incrementalScanDetails = try reader["incrementalScanDetails"].readIfPresent(with: GuardDutyClientTypes.IncrementalScanDetails.read(from:))
-        value.recoveryPoint = try reader["recoveryPoint"].readIfPresent(with: GuardDutyClientTypes.ScanConfigurationRecoveryPoint.read(from:))
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.ScanConfigurationRecoveryPoint {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.ScanConfigurationRecoveryPoint {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.ScanConfigurationRecoveryPoint()
-        value.backupVaultName = try reader["backupVaultName"].readIfPresent()
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.GetMalwareScanResultDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.GetMalwareScanResultDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.GetMalwareScanResultDetails()
-        value.scanResultStatus = try reader["scanResultStatus"].readIfPresent()
-        value.skippedFileCount = try reader["skippedFileCount"].readIfPresent()
-        value.failedFileCount = try reader["failedFileCount"].readIfPresent()
-        value.threatFoundFileCount = try reader["threatFoundFileCount"].readIfPresent()
-        value.totalFileCount = try reader["totalFileCount"].readIfPresent()
+        value.resourceDetails = try reader["resourceDetails"].readIfPresent(with: GuardDutyClientTypes.ResourceDetails.read(from:))
+        value.scanResultDetails = try reader["scanResultDetails"].readIfPresent(with: GuardDutyClientTypes.ScanResultDetails.read(from:))
+        value.accountId = try reader["accountId"].readIfPresent()
         value.totalBytes = try reader["totalBytes"].readIfPresent()
-        value.uniqueThreatCount = try reader["uniqueThreatCount"].readIfPresent()
-        value.threats = try reader["threats"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.ScanResultThreat.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.ScanResultThreat {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.ScanResultThreat {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.ScanResultThreat()
-        value.name = try reader["name"].readIfPresent()
-        value.source = try reader["source"].readIfPresent()
-        value.count = try reader["count"].readIfPresent()
-        value.hash = try reader["hash"].readIfPresent()
-        value.itemDetails = try reader["itemDetails"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.ItemDetails.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.ScanResourceCriteria {
-
-    static func write(value: GuardDutyClientTypes.ScanResourceCriteria?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["exclude"].writeMap(value.exclude, valueWritingClosure: GuardDutyClientTypes.ScanCondition.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["include"].writeMap(value.include, valueWritingClosure: GuardDutyClientTypes.ScanCondition.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.ScanResourceCriteria {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.ScanResourceCriteria()
-        value.include = try reader["include"].readMapIfPresent(valueReadingClosure: GuardDutyClientTypes.ScanCondition.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.exclude = try reader["exclude"].readMapIfPresent(valueReadingClosure: GuardDutyClientTypes.ScanCondition.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.fileCount = try reader["fileCount"].readIfPresent()
+        value.attachedVolumes = try reader["attachedVolumes"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.VolumeDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.scanType = try reader["scanType"].readIfPresent()
         return value
     }
 }
@@ -18943,211 +19133,363 @@ extension GuardDutyClientTypes.ScanConditionPair {
     }
 }
 
-extension GuardDutyClientTypes.Master {
+extension GuardDutyClientTypes.ScanConfiguration {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.Master {
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.ScanConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.Master()
-        value.accountId = try reader["accountId"].readIfPresent()
-        value.invitationId = try reader["invitationId"].readIfPresent()
-        value.relationshipStatus = try reader["relationshipStatus"].readIfPresent()
-        value.invitedAt = try reader["invitedAt"].readIfPresent()
+        var value = GuardDutyClientTypes.ScanConfiguration()
+        value.role = try reader["role"].readIfPresent()
+        value.triggerDetails = try reader["triggerDetails"].readIfPresent(with: GuardDutyClientTypes.TriggerDetails.read(from:))
+        value.incrementalScanDetails = try reader["incrementalScanDetails"].readIfPresent(with: GuardDutyClientTypes.IncrementalScanDetails.read(from:))
+        value.recoveryPoint = try reader["recoveryPoint"].readIfPresent(with: GuardDutyClientTypes.ScanConfigurationRecoveryPoint.read(from:))
         return value
     }
 }
 
-extension GuardDutyClientTypes.MemberDataSourceConfiguration {
+extension GuardDutyClientTypes.ScanConfigurationRecoveryPoint {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.MemberDataSourceConfiguration {
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.ScanConfigurationRecoveryPoint {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.MemberDataSourceConfiguration()
-        value.accountId = try reader["accountId"].readIfPresent() ?? ""
-        value.dataSources = try reader["dataSources"].readIfPresent(with: GuardDutyClientTypes.DataSourceConfigurationsResult.read(from:))
-        value.features = try reader["features"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.MemberFeaturesConfigurationResult.read(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = GuardDutyClientTypes.ScanConfigurationRecoveryPoint()
+        value.backupVaultName = try reader["backupVaultName"].readIfPresent()
         return value
     }
 }
 
-extension GuardDutyClientTypes.MemberFeaturesConfigurationResult {
+extension GuardDutyClientTypes.ScanDetections {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.MemberFeaturesConfigurationResult {
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.ScanDetections {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.MemberFeaturesConfigurationResult()
+        var value = GuardDutyClientTypes.ScanDetections()
+        value.scannedItemCount = try reader["scannedItemCount"].readIfPresent(with: GuardDutyClientTypes.ScannedItemCount.read(from:))
+        value.threatsDetectedItemCount = try reader["threatsDetectedItemCount"].readIfPresent(with: GuardDutyClientTypes.ThreatsDetectedItemCount.read(from:))
+        value.highestSeverityThreatDetails = try reader["highestSeverityThreatDetails"].readIfPresent(with: GuardDutyClientTypes.HighestSeverityThreatDetails.read(from:))
+        value.threatDetectedByName = try reader["threatDetectedByName"].readIfPresent(with: GuardDutyClientTypes.ThreatDetectedByName.read(from:))
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.ScanEc2InstanceWithFindings {
+
+    static func write(value: GuardDutyClientTypes.ScanEc2InstanceWithFindings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ebsVolumes"].write(value.ebsVolumes)
+    }
+}
+
+extension GuardDutyClientTypes.ScanEc2InstanceWithFindingsResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.ScanEc2InstanceWithFindingsResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.ScanEc2InstanceWithFindingsResult()
+        value.ebsVolumes = try reader["ebsVolumes"].readIfPresent(with: GuardDutyClientTypes.EbsVolumesResult.read(from:))
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.ScanFilePath {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.ScanFilePath {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.ScanFilePath()
+        value.filePath = try reader["filePath"].readIfPresent()
+        value.volumeArn = try reader["volumeArn"].readIfPresent()
+        value.hash = try reader["hash"].readIfPresent()
+        value.fileName = try reader["fileName"].readIfPresent()
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.ScannedItemCount {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.ScannedItemCount {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.ScannedItemCount()
+        value.totalGb = try reader["totalGb"].readIfPresent()
+        value.files = try reader["files"].readIfPresent()
+        value.volumes = try reader["volumes"].readIfPresent()
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.ScannedResource {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.ScannedResource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.ScannedResource()
+        value.scannedResourceArn = try reader["scannedResourceArn"].readIfPresent()
+        value.scannedResourceType = try reader["scannedResourceType"].readIfPresent()
+        value.scannedResourceStatus = try reader["scannedResourceStatus"].readIfPresent()
+        value.scanStatusReason = try reader["scanStatusReason"].readIfPresent()
+        value.resourceDetails = try reader["resourceDetails"].readIfPresent(with: GuardDutyClientTypes.ScannedResourceDetails.read(from:))
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.ScannedResourceDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.ScannedResourceDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.ScannedResourceDetails()
+        value.ebsVolume = try reader["ebsVolume"].readIfPresent(with: GuardDutyClientTypes.VolumeDetail.read(from:))
+        value.ebsSnapshot = try reader["ebsSnapshot"].readIfPresent(with: GuardDutyClientTypes.EbsSnapshot.read(from:))
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.ScanResourceCriteria {
+
+    static func write(value: GuardDutyClientTypes.ScanResourceCriteria?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["exclude"].writeMap(value.exclude, valueWritingClosure: GuardDutyClientTypes.ScanCondition.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["include"].writeMap(value.include, valueWritingClosure: GuardDutyClientTypes.ScanCondition.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.ScanResourceCriteria {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.ScanResourceCriteria()
+        value.include = try reader["include"].readMapIfPresent(valueReadingClosure: GuardDutyClientTypes.ScanCondition.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.exclude = try reader["exclude"].readMapIfPresent(valueReadingClosure: GuardDutyClientTypes.ScanCondition.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.ScanResultDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.ScanResultDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.ScanResultDetails()
+        value.scanResult = try reader["scanResult"].readIfPresent()
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.ScanResultThreat {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.ScanResultThreat {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.ScanResultThreat()
         value.name = try reader["name"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.additionalConfiguration = try reader["additionalConfiguration"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.MemberAdditionalConfigurationResult.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.source = try reader["source"].readIfPresent()
+        value.count = try reader["count"].readIfPresent()
+        value.hash = try reader["hash"].readIfPresent()
+        value.itemDetails = try reader["itemDetails"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.ItemDetails.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
 
-extension GuardDutyClientTypes.MemberAdditionalConfigurationResult {
+extension GuardDutyClientTypes.ScanThreatName {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.MemberAdditionalConfigurationResult {
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.ScanThreatName {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.MemberAdditionalConfigurationResult()
+        var value = GuardDutyClientTypes.ScanThreatName()
         value.name = try reader["name"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.severity = try reader["severity"].readIfPresent()
+        value.itemCount = try reader["itemCount"].readIfPresent()
+        value.filePaths = try reader["filePaths"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.ScanFilePath.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
 
-extension GuardDutyClientTypes.Member {
+extension GuardDutyClientTypes.SecurityContext {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.Member {
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.SecurityContext {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.Member()
-        value.accountId = try reader["accountId"].readIfPresent() ?? ""
+        var value = GuardDutyClientTypes.SecurityContext()
+        value.privileged = try reader["privileged"].readIfPresent()
+        value.allowPrivilegeEscalation = try reader["allowPrivilegeEscalation"].readIfPresent()
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.SecurityGroup {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.SecurityGroup {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.SecurityGroup()
+        value.groupId = try reader["groupId"].readIfPresent()
+        value.groupName = try reader["groupName"].readIfPresent()
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.Sequence {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.Sequence {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.Sequence()
+        value.uid = try reader["uid"].readIfPresent() ?? ""
+        value.description = try reader["description"].readIfPresent() ?? ""
+        value.actors = try reader["actors"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.Actor.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.resources = try reader["resources"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.ResourceV2.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.endpoints = try reader["endpoints"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.NetworkEndpoint.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.signals = try reader["signals"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.Signal.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.sequenceIndicators = try reader["sequenceIndicators"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.Indicator.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.additionalSequenceTypes = try reader["additionalSequenceTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.Service {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.Service {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.Service()
+        value.action = try reader["action"].readIfPresent(with: GuardDutyClientTypes.Action.read(from:))
+        value.evidence = try reader["evidence"].readIfPresent(with: GuardDutyClientTypes.Evidence.read(from:))
+        value.archived = try reader["archived"].readIfPresent()
+        value.count = try reader["count"].readIfPresent()
         value.detectorId = try reader["detectorId"].readIfPresent()
-        value.masterId = try reader["masterId"].readIfPresent() ?? ""
-        value.email = try reader["email"].readIfPresent() ?? ""
-        value.relationshipStatus = try reader["relationshipStatus"].readIfPresent() ?? ""
-        value.invitedAt = try reader["invitedAt"].readIfPresent()
-        value.updatedAt = try reader["updatedAt"].readIfPresent() ?? ""
-        value.administratorId = try reader["administratorId"].readIfPresent()
+        value.eventFirstSeen = try reader["eventFirstSeen"].readIfPresent()
+        value.eventLastSeen = try reader["eventLastSeen"].readIfPresent()
+        value.resourceRole = try reader["resourceRole"].readIfPresent()
+        value.serviceName = try reader["serviceName"].readIfPresent()
+        value.userFeedback = try reader["userFeedback"].readIfPresent()
+        value.additionalInfo = try reader["additionalInfo"].readIfPresent(with: GuardDutyClientTypes.ServiceAdditionalInfo.read(from:))
+        value.featureName = try reader["featureName"].readIfPresent()
+        value.ebsVolumeScanDetails = try reader["ebsVolumeScanDetails"].readIfPresent(with: GuardDutyClientTypes.EbsVolumeScanDetails.read(from:))
+        value.runtimeDetails = try reader["runtimeDetails"].readIfPresent(with: GuardDutyClientTypes.RuntimeDetails.read(from:))
+        value.detection = try reader["detection"].readIfPresent(with: GuardDutyClientTypes.Detection.read(from:))
+        value.malwareScanDetails = try reader["malwareScanDetails"].readIfPresent(with: GuardDutyClientTypes.MalwareScanDetails.read(from:))
         return value
     }
 }
 
-extension GuardDutyClientTypes.OrganizationDetails {
+extension GuardDutyClientTypes.ServiceAdditionalInfo {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.OrganizationDetails {
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.ServiceAdditionalInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.OrganizationDetails()
-        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.organizationStatistics = try reader["organizationStatistics"].readIfPresent(with: GuardDutyClientTypes.OrganizationStatistics.read(from:))
+        var value = GuardDutyClientTypes.ServiceAdditionalInfo()
+        value.value = try reader["value"].readIfPresent()
+        value.type = try reader["type"].readIfPresent()
         return value
     }
 }
 
-extension GuardDutyClientTypes.OrganizationStatistics {
+extension GuardDutyClientTypes.Session {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.OrganizationStatistics {
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.Session {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.OrganizationStatistics()
-        value.totalAccountsCount = try reader["totalAccountsCount"].readIfPresent()
-        value.memberAccountsCount = try reader["memberAccountsCount"].readIfPresent()
-        value.activeAccountsCount = try reader["activeAccountsCount"].readIfPresent()
-        value.enabledAccountsCount = try reader["enabledAccountsCount"].readIfPresent()
-        value.countByFeature = try reader["countByFeature"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.OrganizationFeatureStatistics.read(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = GuardDutyClientTypes.Session()
+        value.uid = try reader["uid"].readIfPresent()
+        value.mfaStatus = try reader["mfaStatus"].readIfPresent()
+        value.createdTime = try reader["createdTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.issuer = try reader["issuer"].readIfPresent()
         return value
     }
 }
 
-extension GuardDutyClientTypes.OrganizationFeatureStatistics {
+extension GuardDutyClientTypes.SeverityStatistics {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.OrganizationFeatureStatistics {
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.SeverityStatistics {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.OrganizationFeatureStatistics()
+        var value = GuardDutyClientTypes.SeverityStatistics()
+        value.lastGeneratedAt = try reader["lastGeneratedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.severity = try reader["severity"].readIfPresent()
+        value.totalFindings = try reader["totalFindings"].readIfPresent()
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.Signal {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.Signal {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.Signal()
+        value.uid = try reader["uid"].readIfPresent() ?? ""
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.description = try reader["description"].readIfPresent()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.firstSeenAt = try reader["firstSeenAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastSeenAt = try reader["lastSeenAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.severity = try reader["severity"].readIfPresent()
+        value.count = try reader["count"].readIfPresent() ?? 0
+        value.resourceUids = try reader["resourceUids"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.actorIds = try reader["actorIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.endpointIds = try reader["endpointIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.signalIndicators = try reader["signalIndicators"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.Indicator.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.SortCriteria {
+
+    static func write(value: GuardDutyClientTypes.SortCriteria?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["attributeName"].write(value.attributeName)
+        try writer["orderBy"].write(value.orderBy)
+    }
+}
+
+extension GuardDutyClientTypes.StartMalwareScanConfiguration {
+
+    static func write(value: GuardDutyClientTypes.StartMalwareScanConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["incrementalScanDetails"].write(value.incrementalScanDetails, with: GuardDutyClientTypes.IncrementalScanDetails.write(value:to:))
+        try writer["recoveryPoint"].write(value.recoveryPoint, with: GuardDutyClientTypes.RecoveryPoint.write(value:to:))
+        try writer["role"].write(value.role)
+    }
+}
+
+extension GuardDutyClientTypes.Tag {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.Tag {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.Tag()
+        value.key = try reader["key"].readIfPresent()
+        value.value = try reader["value"].readIfPresent()
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.Threat {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.Threat {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.Threat()
         value.name = try reader["name"].readIfPresent()
-        value.enabledAccountsCount = try reader["enabledAccountsCount"].readIfPresent()
-        value.additionalConfiguration = try reader["additionalConfiguration"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.OrganizationFeatureStatisticsAdditionalConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.source = try reader["source"].readIfPresent()
+        value.itemPaths = try reader["itemPaths"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.ItemPath.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.count = try reader["count"].readIfPresent()
+        value.hash = try reader["hash"].readIfPresent()
+        value.itemDetails = try reader["itemDetails"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.ItemDetails.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
 
-extension GuardDutyClientTypes.OrganizationFeatureStatisticsAdditionalConfiguration {
+extension GuardDutyClientTypes.ThreatDetectedByName {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.OrganizationFeatureStatisticsAdditionalConfiguration {
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.ThreatDetectedByName {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.OrganizationFeatureStatisticsAdditionalConfiguration()
-        value.name = try reader["name"].readIfPresent()
-        value.enabledAccountsCount = try reader["enabledAccountsCount"].readIfPresent()
+        var value = GuardDutyClientTypes.ThreatDetectedByName()
+        value.itemCount = try reader["itemCount"].readIfPresent()
+        value.uniqueThreatNameCount = try reader["uniqueThreatNameCount"].readIfPresent()
+        value.shortened = try reader["shortened"].readIfPresent()
+        value.threatNames = try reader["threatNames"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.ScanThreatName.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
 
-extension GuardDutyClientTypes.AccountFreeTrialInfo {
+extension GuardDutyClientTypes.ThreatIntelligenceDetail {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.AccountFreeTrialInfo {
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.ThreatIntelligenceDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.AccountFreeTrialInfo()
-        value.accountId = try reader["accountId"].readIfPresent()
-        value.dataSources = try reader["dataSources"].readIfPresent(with: GuardDutyClientTypes.DataSourcesFreeTrial.read(from:))
-        value.features = try reader["features"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.FreeTrialFeatureConfigurationResult.read(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = GuardDutyClientTypes.ThreatIntelligenceDetail()
+        value.threatListName = try reader["threatListName"].readIfPresent()
+        value.threatNames = try reader["threatNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.threatFileSha256 = try reader["threatFileSha256"].readIfPresent()
         return value
     }
 }
 
-extension GuardDutyClientTypes.FreeTrialFeatureConfigurationResult {
+extension GuardDutyClientTypes.ThreatsDetectedItemCount {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.FreeTrialFeatureConfigurationResult {
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.ThreatsDetectedItemCount {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.FreeTrialFeatureConfigurationResult()
-        value.name = try reader["name"].readIfPresent()
-        value.freeTrialDaysRemaining = try reader["freeTrialDaysRemaining"].readIfPresent()
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.DataSourcesFreeTrial {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.DataSourcesFreeTrial {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.DataSourcesFreeTrial()
-        value.cloudTrail = try reader["cloudTrail"].readIfPresent(with: GuardDutyClientTypes.DataSourceFreeTrial.read(from:))
-        value.dnsLogs = try reader["dnsLogs"].readIfPresent(with: GuardDutyClientTypes.DataSourceFreeTrial.read(from:))
-        value.flowLogs = try reader["flowLogs"].readIfPresent(with: GuardDutyClientTypes.DataSourceFreeTrial.read(from:))
-        value.s3Logs = try reader["s3Logs"].readIfPresent(with: GuardDutyClientTypes.DataSourceFreeTrial.read(from:))
-        value.kubernetes = try reader["kubernetes"].readIfPresent(with: GuardDutyClientTypes.KubernetesDataSourceFreeTrial.read(from:))
-        value.malwareProtection = try reader["malwareProtection"].readIfPresent(with: GuardDutyClientTypes.MalwareProtectionDataSourceFreeTrial.read(from:))
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.MalwareProtectionDataSourceFreeTrial {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.MalwareProtectionDataSourceFreeTrial {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.MalwareProtectionDataSourceFreeTrial()
-        value.scanEc2InstanceWithFindings = try reader["scanEc2InstanceWithFindings"].readIfPresent(with: GuardDutyClientTypes.DataSourceFreeTrial.read(from:))
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.DataSourceFreeTrial {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.DataSourceFreeTrial {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.DataSourceFreeTrial()
-        value.freeTrialDaysRemaining = try reader["freeTrialDaysRemaining"].readIfPresent()
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.KubernetesDataSourceFreeTrial {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.KubernetesDataSourceFreeTrial {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.KubernetesDataSourceFreeTrial()
-        value.auditLogs = try reader["auditLogs"].readIfPresent(with: GuardDutyClientTypes.DataSourceFreeTrial.read(from:))
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.UsageStatistics {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.UsageStatistics {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.UsageStatistics()
-        value.sumByAccount = try reader["sumByAccount"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.UsageAccountResult.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.topAccountsByFeature = try reader["topAccountsByFeature"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.UsageTopAccountsResult.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.sumByDataSource = try reader["sumByDataSource"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.UsageDataSourceResult.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.sumByResource = try reader["sumByResource"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.UsageResourceResult.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.topResources = try reader["topResources"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.UsageResourceResult.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.sumByFeature = try reader["sumByFeature"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.UsageFeatureResult.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.UsageFeatureResult {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.UsageFeatureResult {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.UsageFeatureResult()
-        value.feature = try reader["feature"].readIfPresent()
-        value.total = try reader["total"].readIfPresent(with: GuardDutyClientTypes.Total.read(from:))
+        var value = GuardDutyClientTypes.ThreatsDetectedItemCount()
+        value.files = try reader["files"].readIfPresent()
         return value
     }
 }
@@ -19163,438 +19505,36 @@ extension GuardDutyClientTypes.Total {
     }
 }
 
-extension GuardDutyClientTypes.UsageResourceResult {
+extension GuardDutyClientTypes.TriggerDetails {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.UsageResourceResult {
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.TriggerDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.UsageResourceResult()
-        value.resource = try reader["resource"].readIfPresent()
-        value.total = try reader["total"].readIfPresent(with: GuardDutyClientTypes.Total.read(from:))
+        var value = GuardDutyClientTypes.TriggerDetails()
+        value.guardDutyFindingId = try reader["guardDutyFindingId"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.triggerType = try reader["triggerType"].readIfPresent()
         return value
     }
 }
 
-extension GuardDutyClientTypes.UsageDataSourceResult {
+extension GuardDutyClientTypes.UnprocessedAccount {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.UsageDataSourceResult {
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.UnprocessedAccount {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.UsageDataSourceResult()
-        value.dataSource = try reader["dataSource"].readIfPresent()
-        value.total = try reader["total"].readIfPresent(with: GuardDutyClientTypes.Total.read(from:))
+        var value = GuardDutyClientTypes.UnprocessedAccount()
+        value.accountId = try reader["accountId"].readIfPresent() ?? ""
+        value.result = try reader["result"].readIfPresent() ?? ""
         return value
     }
 }
 
-extension GuardDutyClientTypes.UsageTopAccountsResult {
+extension GuardDutyClientTypes.UnprocessedDataSourcesResult {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.UsageTopAccountsResult {
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.UnprocessedDataSourcesResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.UsageTopAccountsResult()
-        value.feature = try reader["feature"].readIfPresent()
-        value.accounts = try reader["accounts"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.UsageTopAccountResult.read(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = GuardDutyClientTypes.UnprocessedDataSourcesResult()
+        value.malwareProtection = try reader["malwareProtection"].readIfPresent(with: GuardDutyClientTypes.MalwareProtectionConfigurationResult.read(from:))
         return value
-    }
-}
-
-extension GuardDutyClientTypes.UsageTopAccountResult {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.UsageTopAccountResult {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.UsageTopAccountResult()
-        value.accountId = try reader["accountId"].readIfPresent()
-        value.total = try reader["total"].readIfPresent(with: GuardDutyClientTypes.Total.read(from:))
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.UsageAccountResult {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.UsageAccountResult {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.UsageAccountResult()
-        value.accountId = try reader["accountId"].readIfPresent()
-        value.total = try reader["total"].readIfPresent(with: GuardDutyClientTypes.Total.read(from:))
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.CoverageResource {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.CoverageResource {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.CoverageResource()
-        value.resourceId = try reader["resourceId"].readIfPresent()
-        value.detectorId = try reader["detectorId"].readIfPresent()
-        value.accountId = try reader["accountId"].readIfPresent()
-        value.resourceDetails = try reader["resourceDetails"].readIfPresent(with: GuardDutyClientTypes.CoverageResourceDetails.read(from:))
-        value.coverageStatus = try reader["coverageStatus"].readIfPresent()
-        value.issue = try reader["issue"].readIfPresent()
-        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.CoverageResourceDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.CoverageResourceDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.CoverageResourceDetails()
-        value.eksClusterDetails = try reader["eksClusterDetails"].readIfPresent(with: GuardDutyClientTypes.CoverageEksClusterDetails.read(from:))
-        value.resourceType = try reader["resourceType"].readIfPresent()
-        value.ecsClusterDetails = try reader["ecsClusterDetails"].readIfPresent(with: GuardDutyClientTypes.CoverageEcsClusterDetails.read(from:))
-        value.ec2InstanceDetails = try reader["ec2InstanceDetails"].readIfPresent(with: GuardDutyClientTypes.CoverageEc2InstanceDetails.read(from:))
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.CoverageEc2InstanceDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.CoverageEc2InstanceDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.CoverageEc2InstanceDetails()
-        value.instanceId = try reader["instanceId"].readIfPresent()
-        value.instanceType = try reader["instanceType"].readIfPresent()
-        value.clusterArn = try reader["clusterArn"].readIfPresent()
-        value.agentDetails = try reader["agentDetails"].readIfPresent(with: GuardDutyClientTypes.AgentDetails.read(from:))
-        value.managementType = try reader["managementType"].readIfPresent()
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.AgentDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.AgentDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.AgentDetails()
-        value.version = try reader["version"].readIfPresent()
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.CoverageEcsClusterDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.CoverageEcsClusterDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.CoverageEcsClusterDetails()
-        value.clusterName = try reader["clusterName"].readIfPresent()
-        value.fargateDetails = try reader["fargateDetails"].readIfPresent(with: GuardDutyClientTypes.FargateDetails.read(from:))
-        value.containerInstanceDetails = try reader["containerInstanceDetails"].readIfPresent(with: GuardDutyClientTypes.ContainerInstanceDetails.read(from:))
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.ContainerInstanceDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.ContainerInstanceDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.ContainerInstanceDetails()
-        value.coveredContainerInstances = try reader["coveredContainerInstances"].readIfPresent()
-        value.compatibleContainerInstances = try reader["compatibleContainerInstances"].readIfPresent()
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.FargateDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.FargateDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.FargateDetails()
-        value.issues = try reader["issues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.managementType = try reader["managementType"].readIfPresent()
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.CoverageEksClusterDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.CoverageEksClusterDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.CoverageEksClusterDetails()
-        value.clusterName = try reader["clusterName"].readIfPresent()
-        value.coveredNodes = try reader["coveredNodes"].readIfPresent()
-        value.compatibleNodes = try reader["compatibleNodes"].readIfPresent()
-        value.addonDetails = try reader["addonDetails"].readIfPresent(with: GuardDutyClientTypes.AddonDetails.read(from:))
-        value.managementType = try reader["managementType"].readIfPresent()
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.AddonDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.AddonDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.AddonDetails()
-        value.addonVersion = try reader["addonVersion"].readIfPresent()
-        value.addonStatus = try reader["addonStatus"].readIfPresent()
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.Invitation {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.Invitation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.Invitation()
-        value.accountId = try reader["accountId"].readIfPresent()
-        value.invitationId = try reader["invitationId"].readIfPresent()
-        value.relationshipStatus = try reader["relationshipStatus"].readIfPresent()
-        value.invitedAt = try reader["invitedAt"].readIfPresent()
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.MalwareProtectionPlanSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.MalwareProtectionPlanSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.MalwareProtectionPlanSummary()
-        value.malwareProtectionPlanId = try reader["malwareProtectionPlanId"].readIfPresent()
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.MalwareScan {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.MalwareScan {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.MalwareScan()
-        value.resourceArn = try reader["resourceArn"].readIfPresent()
-        value.resourceType = try reader["resourceType"].readIfPresent()
-        value.scanId = try reader["scanId"].readIfPresent()
-        value.scanStatus = try reader["scanStatus"].readIfPresent()
-        value.scanResultStatus = try reader["scanResultStatus"].readIfPresent()
-        value.scanType = try reader["scanType"].readIfPresent()
-        value.scanStartedAt = try reader["scanStartedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.scanCompletedAt = try reader["scanCompletedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.AdminAccount {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.AdminAccount {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.AdminAccount()
-        value.adminAccountId = try reader["adminAccountId"].readIfPresent()
-        value.adminStatus = try reader["adminStatus"].readIfPresent()
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.Destination {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.Destination {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GuardDutyClientTypes.Destination()
-        value.destinationId = try reader["destinationId"].readIfPresent() ?? ""
-        value.destinationType = try reader["destinationType"].readIfPresent() ?? .sdkUnknown("")
-        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension GuardDutyClientTypes.DataSourceConfigurations {
-
-    static func write(value: GuardDutyClientTypes.DataSourceConfigurations?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["kubernetes"].write(value.kubernetes, with: GuardDutyClientTypes.KubernetesConfiguration.write(value:to:))
-        try writer["malwareProtection"].write(value.malwareProtection, with: GuardDutyClientTypes.MalwareProtectionConfiguration.write(value:to:))
-        try writer["s3Logs"].write(value.s3Logs, with: GuardDutyClientTypes.S3LogsConfiguration.write(value:to:))
-    }
-}
-
-extension GuardDutyClientTypes.MalwareProtectionConfiguration {
-
-    static func write(value: GuardDutyClientTypes.MalwareProtectionConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["scanEc2InstanceWithFindings"].write(value.scanEc2InstanceWithFindings, with: GuardDutyClientTypes.ScanEc2InstanceWithFindings.write(value:to:))
-    }
-}
-
-extension GuardDutyClientTypes.ScanEc2InstanceWithFindings {
-
-    static func write(value: GuardDutyClientTypes.ScanEc2InstanceWithFindings?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ebsVolumes"].write(value.ebsVolumes)
-    }
-}
-
-extension GuardDutyClientTypes.KubernetesConfiguration {
-
-    static func write(value: GuardDutyClientTypes.KubernetesConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["auditLogs"].write(value.auditLogs, with: GuardDutyClientTypes.KubernetesAuditLogsConfiguration.write(value:to:))
-    }
-}
-
-extension GuardDutyClientTypes.KubernetesAuditLogsConfiguration {
-
-    static func write(value: GuardDutyClientTypes.KubernetesAuditLogsConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["enable"].write(value.enable)
-    }
-}
-
-extension GuardDutyClientTypes.S3LogsConfiguration {
-
-    static func write(value: GuardDutyClientTypes.S3LogsConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["enable"].write(value.enable)
-    }
-}
-
-extension GuardDutyClientTypes.DetectorFeatureConfiguration {
-
-    static func write(value: GuardDutyClientTypes.DetectorFeatureConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["additionalConfiguration"].writeList(value.additionalConfiguration, memberWritingClosure: GuardDutyClientTypes.DetectorAdditionalConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["name"].write(value.name)
-        try writer["status"].write(value.status)
-    }
-}
-
-extension GuardDutyClientTypes.DetectorAdditionalConfiguration {
-
-    static func write(value: GuardDutyClientTypes.DetectorAdditionalConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["name"].write(value.name)
-        try writer["status"].write(value.status)
-    }
-}
-
-extension GuardDutyClientTypes.AccountDetail {
-
-    static func write(value: GuardDutyClientTypes.AccountDetail?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["accountId"].write(value.accountId)
-        try writer["email"].write(value.email)
-    }
-}
-
-extension GuardDutyClientTypes.FilterCriteria {
-
-    static func write(value: GuardDutyClientTypes.FilterCriteria?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["filterCriterion"].writeList(value.filterCriterion, memberWritingClosure: GuardDutyClientTypes.FilterCriterion.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension GuardDutyClientTypes.FilterCriterion {
-
-    static func write(value: GuardDutyClientTypes.FilterCriterion?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["criterionKey"].write(value.criterionKey)
-        try writer["filterCondition"].write(value.filterCondition, with: GuardDutyClientTypes.FilterCondition.write(value:to:))
-    }
-}
-
-extension GuardDutyClientTypes.FilterCondition {
-
-    static func write(value: GuardDutyClientTypes.FilterCondition?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["equalsValue"].write(value.equalsValue)
-        try writer["greaterThan"].write(value.greaterThan)
-        try writer["lessThan"].write(value.lessThan)
-    }
-}
-
-extension GuardDutyClientTypes.SortCriteria {
-
-    static func write(value: GuardDutyClientTypes.SortCriteria?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["attributeName"].write(value.attributeName)
-        try writer["orderBy"].write(value.orderBy)
-    }
-}
-
-extension GuardDutyClientTypes.CoverageFilterCriteria {
-
-    static func write(value: GuardDutyClientTypes.CoverageFilterCriteria?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["filterCriterion"].writeList(value.filterCriterion, memberWritingClosure: GuardDutyClientTypes.CoverageFilterCriterion.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension GuardDutyClientTypes.CoverageFilterCriterion {
-
-    static func write(value: GuardDutyClientTypes.CoverageFilterCriterion?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["criterionKey"].write(value.criterionKey)
-        try writer["filterCondition"].write(value.filterCondition, with: GuardDutyClientTypes.CoverageFilterCondition.write(value:to:))
-    }
-}
-
-extension GuardDutyClientTypes.CoverageFilterCondition {
-
-    static func write(value: GuardDutyClientTypes.CoverageFilterCondition?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["equals"].writeList(value.equals, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["notEquals"].writeList(value.notEquals, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension GuardDutyClientTypes.UsageCriteria {
-
-    static func write(value: GuardDutyClientTypes.UsageCriteria?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["accountIds"].writeList(value.accountIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["dataSources"].writeList(value.dataSources, memberWritingClosure: SmithyReadWrite.WritingClosureBox<GuardDutyClientTypes.DataSource>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["features"].writeList(value.features, memberWritingClosure: SmithyReadWrite.WritingClosureBox<GuardDutyClientTypes.UsageFeature>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["resources"].writeList(value.resources, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension GuardDutyClientTypes.CoverageSortCriteria {
-
-    static func write(value: GuardDutyClientTypes.CoverageSortCriteria?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["attributeName"].write(value.attributeName)
-        try writer["orderBy"].write(value.orderBy)
-    }
-}
-
-extension GuardDutyClientTypes.ListMalwareScansFilterCriteria {
-
-    static func write(value: GuardDutyClientTypes.ListMalwareScansFilterCriteria?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["filterCriterion"].writeList(value.listMalwareScansFilterCriterion, memberWritingClosure: GuardDutyClientTypes.ListMalwareScansFilterCriterion.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension GuardDutyClientTypes.ListMalwareScansFilterCriterion {
-
-    static func write(value: GuardDutyClientTypes.ListMalwareScansFilterCriterion?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["filterCondition"].write(value.filterCondition, with: GuardDutyClientTypes.FilterCondition.write(value:to:))
-        try writer["criterionKey"].write(value.listMalwareScansCriterionKey)
-    }
-}
-
-extension GuardDutyClientTypes.S3ObjectForSendObjectMalwareScan {
-
-    static func write(value: GuardDutyClientTypes.S3ObjectForSendObjectMalwareScan?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["bucket"].write(value.bucket)
-        try writer["key"].write(value.key)
-        try writer["versionId"].write(value.versionId)
-    }
-}
-
-extension GuardDutyClientTypes.StartMalwareScanConfiguration {
-
-    static func write(value: GuardDutyClientTypes.StartMalwareScanConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["incrementalScanDetails"].write(value.incrementalScanDetails, with: GuardDutyClientTypes.IncrementalScanDetails.write(value:to:))
-        try writer["recoveryPoint"].write(value.recoveryPoint, with: GuardDutyClientTypes.RecoveryPoint.write(value:to:))
-        try writer["role"].write(value.role)
-    }
-}
-
-extension GuardDutyClientTypes.RecoveryPoint {
-
-    static func write(value: GuardDutyClientTypes.RecoveryPoint?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["backupVaultName"].write(value.backupVaultName)
     }
 }
 
@@ -19614,99 +19554,159 @@ extension GuardDutyClientTypes.UpdateS3BucketResource {
     }
 }
 
-extension GuardDutyClientTypes.MemberFeaturesConfiguration {
+extension GuardDutyClientTypes.UsageAccountResult {
 
-    static func write(value: GuardDutyClientTypes.MemberFeaturesConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["additionalConfiguration"].writeList(value.additionalConfiguration, memberWritingClosure: GuardDutyClientTypes.MemberAdditionalConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["name"].write(value.name)
-        try writer["status"].write(value.status)
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.UsageAccountResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.UsageAccountResult()
+        value.accountId = try reader["accountId"].readIfPresent()
+        value.total = try reader["total"].readIfPresent(with: GuardDutyClientTypes.Total.read(from:))
+        return value
     }
 }
 
-extension GuardDutyClientTypes.MemberAdditionalConfiguration {
+extension GuardDutyClientTypes.UsageCriteria {
 
-    static func write(value: GuardDutyClientTypes.MemberAdditionalConfiguration?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: GuardDutyClientTypes.UsageCriteria?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["name"].write(value.name)
-        try writer["status"].write(value.status)
+        try writer["accountIds"].writeList(value.accountIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["dataSources"].writeList(value.dataSources, memberWritingClosure: SmithyReadWrite.WritingClosureBox<GuardDutyClientTypes.DataSource>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["features"].writeList(value.features, memberWritingClosure: SmithyReadWrite.WritingClosureBox<GuardDutyClientTypes.UsageFeature>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["resources"].writeList(value.resources, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
-extension GuardDutyClientTypes.OrganizationDataSourceConfigurations {
+extension GuardDutyClientTypes.UsageDataSourceResult {
 
-    static func write(value: GuardDutyClientTypes.OrganizationDataSourceConfigurations?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["kubernetes"].write(value.kubernetes, with: GuardDutyClientTypes.OrganizationKubernetesConfiguration.write(value:to:))
-        try writer["malwareProtection"].write(value.malwareProtection, with: GuardDutyClientTypes.OrganizationMalwareProtectionConfiguration.write(value:to:))
-        try writer["s3Logs"].write(value.s3Logs, with: GuardDutyClientTypes.OrganizationS3LogsConfiguration.write(value:to:))
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.UsageDataSourceResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.UsageDataSourceResult()
+        value.dataSource = try reader["dataSource"].readIfPresent()
+        value.total = try reader["total"].readIfPresent(with: GuardDutyClientTypes.Total.read(from:))
+        return value
     }
 }
 
-extension GuardDutyClientTypes.OrganizationMalwareProtectionConfiguration {
+extension GuardDutyClientTypes.UsageFeatureResult {
 
-    static func write(value: GuardDutyClientTypes.OrganizationMalwareProtectionConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["scanEc2InstanceWithFindings"].write(value.scanEc2InstanceWithFindings, with: GuardDutyClientTypes.OrganizationScanEc2InstanceWithFindings.write(value:to:))
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.UsageFeatureResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.UsageFeatureResult()
+        value.feature = try reader["feature"].readIfPresent()
+        value.total = try reader["total"].readIfPresent(with: GuardDutyClientTypes.Total.read(from:))
+        return value
     }
 }
 
-extension GuardDutyClientTypes.OrganizationScanEc2InstanceWithFindings {
+extension GuardDutyClientTypes.UsageResourceResult {
 
-    static func write(value: GuardDutyClientTypes.OrganizationScanEc2InstanceWithFindings?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ebsVolumes"].write(value.ebsVolumes, with: GuardDutyClientTypes.OrganizationEbsVolumes.write(value:to:))
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.UsageResourceResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.UsageResourceResult()
+        value.resource = try reader["resource"].readIfPresent()
+        value.total = try reader["total"].readIfPresent(with: GuardDutyClientTypes.Total.read(from:))
+        return value
     }
 }
 
-extension GuardDutyClientTypes.OrganizationEbsVolumes {
+extension GuardDutyClientTypes.UsageStatistics {
 
-    static func write(value: GuardDutyClientTypes.OrganizationEbsVolumes?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["autoEnable"].write(value.autoEnable)
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.UsageStatistics {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.UsageStatistics()
+        value.sumByAccount = try reader["sumByAccount"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.UsageAccountResult.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.topAccountsByFeature = try reader["topAccountsByFeature"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.UsageTopAccountsResult.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.sumByDataSource = try reader["sumByDataSource"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.UsageDataSourceResult.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.sumByResource = try reader["sumByResource"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.UsageResourceResult.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.topResources = try reader["topResources"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.UsageResourceResult.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.sumByFeature = try reader["sumByFeature"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.UsageFeatureResult.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
     }
 }
 
-extension GuardDutyClientTypes.OrganizationKubernetesConfiguration {
+extension GuardDutyClientTypes.UsageTopAccountResult {
 
-    static func write(value: GuardDutyClientTypes.OrganizationKubernetesConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["auditLogs"].write(value.auditLogs, with: GuardDutyClientTypes.OrganizationKubernetesAuditLogsConfiguration.write(value:to:))
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.UsageTopAccountResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.UsageTopAccountResult()
+        value.accountId = try reader["accountId"].readIfPresent()
+        value.total = try reader["total"].readIfPresent(with: GuardDutyClientTypes.Total.read(from:))
+        return value
     }
 }
 
-extension GuardDutyClientTypes.OrganizationKubernetesAuditLogsConfiguration {
+extension GuardDutyClientTypes.UsageTopAccountsResult {
 
-    static func write(value: GuardDutyClientTypes.OrganizationKubernetesAuditLogsConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["autoEnable"].write(value.autoEnable)
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.UsageTopAccountsResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.UsageTopAccountsResult()
+        value.feature = try reader["feature"].readIfPresent()
+        value.accounts = try reader["accounts"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.UsageTopAccountResult.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
     }
 }
 
-extension GuardDutyClientTypes.OrganizationS3LogsConfiguration {
+extension GuardDutyClientTypes.User {
 
-    static func write(value: GuardDutyClientTypes.OrganizationS3LogsConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["autoEnable"].write(value.autoEnable)
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.User {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.User()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.uid = try reader["uid"].readIfPresent() ?? ""
+        value.type = try reader["type"].readIfPresent() ?? ""
+        value.credentialUid = try reader["credentialUid"].readIfPresent()
+        value.account = try reader["account"].readIfPresent(with: GuardDutyClientTypes.Account.read(from:))
+        return value
     }
 }
 
-extension GuardDutyClientTypes.OrganizationFeatureConfiguration {
+extension GuardDutyClientTypes.Volume {
 
-    static func write(value: GuardDutyClientTypes.OrganizationFeatureConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["additionalConfiguration"].writeList(value.additionalConfiguration, memberWritingClosure: GuardDutyClientTypes.OrganizationAdditionalConfiguration.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["autoEnable"].write(value.autoEnable)
-        try writer["name"].write(value.name)
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.Volume {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.Volume()
+        value.name = try reader["name"].readIfPresent()
+        value.hostPath = try reader["hostPath"].readIfPresent(with: GuardDutyClientTypes.HostPath.read(from:))
+        return value
     }
 }
 
-extension GuardDutyClientTypes.OrganizationAdditionalConfiguration {
+extension GuardDutyClientTypes.VolumeDetail {
 
-    static func write(value: GuardDutyClientTypes.OrganizationAdditionalConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["autoEnable"].write(value.autoEnable)
-        try writer["name"].write(value.name)
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.VolumeDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.VolumeDetail()
+        value.volumeArn = try reader["volumeArn"].readIfPresent()
+        value.volumeType = try reader["volumeType"].readIfPresent()
+        value.deviceName = try reader["deviceName"].readIfPresent()
+        value.volumeSizeInGB = try reader["volumeSizeInGB"].readIfPresent()
+        value.encryptionType = try reader["encryptionType"].readIfPresent()
+        value.snapshotArn = try reader["snapshotArn"].readIfPresent()
+        value.kmsKeyArn = try reader["kmsKeyArn"].readIfPresent()
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.VolumeMount {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.VolumeMount {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.VolumeMount()
+        value.name = try reader["name"].readIfPresent()
+        value.mountPath = try reader["mountPath"].readIfPresent()
+        return value
+    }
+}
+
+extension GuardDutyClientTypes.VpcConfig {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GuardDutyClientTypes.VpcConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GuardDutyClientTypes.VpcConfig()
+        value.subnetIds = try reader["subnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.vpcId = try reader["vpcId"].readIfPresent()
+        value.securityGroups = try reader["securityGroups"].readListIfPresent(memberReadingClosure: GuardDutyClientTypes.SecurityGroup.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
     }
 }
 

@@ -458,19 +458,6 @@ enum BatchPutMetricsOutputError {
     }
 }
 
-extension SageMakerMetricsClientTypes.MetricQueryResult {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerMetricsClientTypes.MetricQueryResult {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SageMakerMetricsClientTypes.MetricQueryResult()
-        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
-        value.message = try reader["Message"].readIfPresent()
-        value.xAxisValues = try reader["XAxisValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.metricValues = try reader["MetricValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
 extension SageMakerMetricsClientTypes.BatchPutMetricsError {
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerMetricsClientTypes.BatchPutMetricsError {
@@ -493,6 +480,19 @@ extension SageMakerMetricsClientTypes.MetricQuery {
         try writer["ResourceArn"].write(value.resourceArn)
         try writer["Start"].write(value.start)
         try writer["XAxisType"].write(value.xAxisType)
+    }
+}
+
+extension SageMakerMetricsClientTypes.MetricQueryResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SageMakerMetricsClientTypes.MetricQueryResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SageMakerMetricsClientTypes.MetricQueryResult()
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.message = try reader["Message"].readIfPresent()
+        value.xAxisValues = try reader["XAxisValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.metricValues = try reader["MetricValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
     }
 }
 

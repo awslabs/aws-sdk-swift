@@ -2444,14 +2444,36 @@ extension ResourceNotFoundException {
     }
 }
 
-extension TrustedAdvisorClientTypes.UpdateRecommendationResourceExclusionError {
+extension TrustedAdvisorClientTypes.AccountRecommendationLifecycleSummary {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> TrustedAdvisorClientTypes.UpdateRecommendationResourceExclusionError {
+    static func read(from reader: SmithyJSON.Reader) throws -> TrustedAdvisorClientTypes.AccountRecommendationLifecycleSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TrustedAdvisorClientTypes.UpdateRecommendationResourceExclusionError()
-        value.arn = try reader["arn"].readIfPresent()
-        value.errorCode = try reader["errorCode"].readIfPresent()
-        value.errorMessage = try reader["errorMessage"].readIfPresent()
+        var value = TrustedAdvisorClientTypes.AccountRecommendationLifecycleSummary()
+        value.accountId = try reader["accountId"].readIfPresent()
+        value.accountRecommendationArn = try reader["accountRecommendationArn"].readIfPresent()
+        value.lifecycleStage = try reader["lifecycleStage"].readIfPresent()
+        value.updatedOnBehalfOf = try reader["updatedOnBehalfOf"].readIfPresent()
+        value.updatedOnBehalfOfJobTitle = try reader["updatedOnBehalfOfJobTitle"].readIfPresent()
+        value.updateReason = try reader["updateReason"].readIfPresent()
+        value.updateReasonCode = try reader["updateReasonCode"].readIfPresent()
+        value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
+extension TrustedAdvisorClientTypes.CheckSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TrustedAdvisorClientTypes.CheckSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TrustedAdvisorClientTypes.CheckSummary()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.description = try reader["description"].readIfPresent() ?? ""
+        value.pillars = try reader["pillars"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<TrustedAdvisorClientTypes.RecommendationPillar>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.awsServices = try reader["awsServices"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.source = try reader["source"].readIfPresent() ?? .sdkUnknown("")
+        value.metadata = try reader["metadata"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
         return value
     }
 }
@@ -2482,103 +2504,6 @@ extension TrustedAdvisorClientTypes.OrganizationRecommendation {
         value.updateReason = try reader["updateReason"].readIfPresent()
         value.updateReasonCode = try reader["updateReasonCode"].readIfPresent()
         value.resolvedAt = try reader["resolvedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        return value
-    }
-}
-
-extension TrustedAdvisorClientTypes.RecommendationPillarSpecificAggregates {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TrustedAdvisorClientTypes.RecommendationPillarSpecificAggregates {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TrustedAdvisorClientTypes.RecommendationPillarSpecificAggregates()
-        value.costOptimizing = try reader["costOptimizing"].readIfPresent(with: TrustedAdvisorClientTypes.RecommendationCostOptimizingAggregates.read(from:))
-        return value
-    }
-}
-
-extension TrustedAdvisorClientTypes.RecommendationCostOptimizingAggregates {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TrustedAdvisorClientTypes.RecommendationCostOptimizingAggregates {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TrustedAdvisorClientTypes.RecommendationCostOptimizingAggregates()
-        value.estimatedMonthlySavings = try reader["estimatedMonthlySavings"].readIfPresent() ?? 0.0
-        value.estimatedPercentMonthlySavings = try reader["estimatedPercentMonthlySavings"].readIfPresent() ?? 0.0
-        return value
-    }
-}
-
-extension TrustedAdvisorClientTypes.RecommendationResourcesAggregates {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TrustedAdvisorClientTypes.RecommendationResourcesAggregates {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TrustedAdvisorClientTypes.RecommendationResourcesAggregates()
-        value.okCount = try reader["okCount"].readIfPresent() ?? 0
-        value.warningCount = try reader["warningCount"].readIfPresent() ?? 0
-        value.errorCount = try reader["errorCount"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension TrustedAdvisorClientTypes.Recommendation {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TrustedAdvisorClientTypes.Recommendation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TrustedAdvisorClientTypes.Recommendation()
-        value.id = try reader["id"].readIfPresent() ?? ""
-        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
-        value.checkArn = try reader["checkArn"].readIfPresent()
-        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
-        value.lifecycleStage = try reader["lifecycleStage"].readIfPresent()
-        value.pillars = try reader["pillars"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<TrustedAdvisorClientTypes.RecommendationPillar>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.source = try reader["source"].readIfPresent() ?? .sdkUnknown("")
-        value.awsServices = try reader["awsServices"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.resourcesAggregates = try reader["resourcesAggregates"].readIfPresent(with: TrustedAdvisorClientTypes.RecommendationResourcesAggregates.read(from:))
-        value.pillarSpecificAggregates = try reader["pillarSpecificAggregates"].readIfPresent(with: TrustedAdvisorClientTypes.RecommendationPillarSpecificAggregates.read(from:))
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.arn = try reader["arn"].readIfPresent() ?? ""
-        value.description = try reader["description"].readIfPresent() ?? ""
-        value.createdBy = try reader["createdBy"].readIfPresent()
-        value.updatedOnBehalfOf = try reader["updatedOnBehalfOf"].readIfPresent()
-        value.updatedOnBehalfOfJobTitle = try reader["updatedOnBehalfOfJobTitle"].readIfPresent()
-        value.updateReason = try reader["updateReason"].readIfPresent()
-        value.updateReasonCode = try reader["updateReasonCode"].readIfPresent()
-        value.resolvedAt = try reader["resolvedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        return value
-    }
-}
-
-extension TrustedAdvisorClientTypes.CheckSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TrustedAdvisorClientTypes.CheckSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TrustedAdvisorClientTypes.CheckSummary()
-        value.id = try reader["id"].readIfPresent() ?? ""
-        value.arn = try reader["arn"].readIfPresent() ?? ""
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.description = try reader["description"].readIfPresent() ?? ""
-        value.pillars = try reader["pillars"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<TrustedAdvisorClientTypes.RecommendationPillar>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.awsServices = try reader["awsServices"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.source = try reader["source"].readIfPresent() ?? .sdkUnknown("")
-        value.metadata = try reader["metadata"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
-        return value
-    }
-}
-
-extension TrustedAdvisorClientTypes.AccountRecommendationLifecycleSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> TrustedAdvisorClientTypes.AccountRecommendationLifecycleSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = TrustedAdvisorClientTypes.AccountRecommendationLifecycleSummary()
-        value.accountId = try reader["accountId"].readIfPresent()
-        value.accountRecommendationArn = try reader["accountRecommendationArn"].readIfPresent()
-        value.lifecycleStage = try reader["lifecycleStage"].readIfPresent()
-        value.updatedOnBehalfOf = try reader["updatedOnBehalfOf"].readIfPresent()
-        value.updatedOnBehalfOfJobTitle = try reader["updatedOnBehalfOfJobTitle"].readIfPresent()
-        value.updateReason = try reader["updateReason"].readIfPresent()
-        value.updateReasonCode = try reader["updateReasonCode"].readIfPresent()
-        value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
     }
 }
@@ -2625,6 +2550,78 @@ extension TrustedAdvisorClientTypes.OrganizationRecommendationSummary {
     }
 }
 
+extension TrustedAdvisorClientTypes.Recommendation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TrustedAdvisorClientTypes.Recommendation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TrustedAdvisorClientTypes.Recommendation()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.checkArn = try reader["checkArn"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.lifecycleStage = try reader["lifecycleStage"].readIfPresent()
+        value.pillars = try reader["pillars"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<TrustedAdvisorClientTypes.RecommendationPillar>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.source = try reader["source"].readIfPresent() ?? .sdkUnknown("")
+        value.awsServices = try reader["awsServices"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.resourcesAggregates = try reader["resourcesAggregates"].readIfPresent(with: TrustedAdvisorClientTypes.RecommendationResourcesAggregates.read(from:))
+        value.pillarSpecificAggregates = try reader["pillarSpecificAggregates"].readIfPresent(with: TrustedAdvisorClientTypes.RecommendationPillarSpecificAggregates.read(from:))
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.description = try reader["description"].readIfPresent() ?? ""
+        value.createdBy = try reader["createdBy"].readIfPresent()
+        value.updatedOnBehalfOf = try reader["updatedOnBehalfOf"].readIfPresent()
+        value.updatedOnBehalfOfJobTitle = try reader["updatedOnBehalfOfJobTitle"].readIfPresent()
+        value.updateReason = try reader["updateReason"].readIfPresent()
+        value.updateReasonCode = try reader["updateReasonCode"].readIfPresent()
+        value.resolvedAt = try reader["resolvedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
+extension TrustedAdvisorClientTypes.RecommendationCostOptimizingAggregates {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TrustedAdvisorClientTypes.RecommendationCostOptimizingAggregates {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TrustedAdvisorClientTypes.RecommendationCostOptimizingAggregates()
+        value.estimatedMonthlySavings = try reader["estimatedMonthlySavings"].readIfPresent() ?? 0.0
+        value.estimatedPercentMonthlySavings = try reader["estimatedPercentMonthlySavings"].readIfPresent() ?? 0.0
+        return value
+    }
+}
+
+extension TrustedAdvisorClientTypes.RecommendationPillarSpecificAggregates {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TrustedAdvisorClientTypes.RecommendationPillarSpecificAggregates {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TrustedAdvisorClientTypes.RecommendationPillarSpecificAggregates()
+        value.costOptimizing = try reader["costOptimizing"].readIfPresent(with: TrustedAdvisorClientTypes.RecommendationCostOptimizingAggregates.read(from:))
+        return value
+    }
+}
+
+extension TrustedAdvisorClientTypes.RecommendationResourceExclusion {
+
+    static func write(value: TrustedAdvisorClientTypes.RecommendationResourceExclusion?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["arn"].write(value.arn)
+        try writer["isExcluded"].write(value.isExcluded)
+    }
+}
+
+extension TrustedAdvisorClientTypes.RecommendationResourcesAggregates {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> TrustedAdvisorClientTypes.RecommendationResourcesAggregates {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TrustedAdvisorClientTypes.RecommendationResourcesAggregates()
+        value.okCount = try reader["okCount"].readIfPresent() ?? 0
+        value.warningCount = try reader["warningCount"].readIfPresent() ?? 0
+        value.errorCount = try reader["errorCount"].readIfPresent() ?? 0
+        return value
+    }
+}
+
 extension TrustedAdvisorClientTypes.RecommendationResourceSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> TrustedAdvisorClientTypes.RecommendationResourceSummary {
@@ -2666,12 +2663,15 @@ extension TrustedAdvisorClientTypes.RecommendationSummary {
     }
 }
 
-extension TrustedAdvisorClientTypes.RecommendationResourceExclusion {
+extension TrustedAdvisorClientTypes.UpdateRecommendationResourceExclusionError {
 
-    static func write(value: TrustedAdvisorClientTypes.RecommendationResourceExclusion?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["isExcluded"].write(value.isExcluded)
+    static func read(from reader: SmithyJSON.Reader) throws -> TrustedAdvisorClientTypes.UpdateRecommendationResourceExclusionError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = TrustedAdvisorClientTypes.UpdateRecommendationResourceExclusionError()
+        value.arn = try reader["arn"].readIfPresent()
+        value.errorCode = try reader["errorCode"].readIfPresent()
+        value.errorMessage = try reader["errorMessage"].readIfPresent()
+        return value
     }
 }
 

@@ -11358,6 +11358,71 @@ extension ConflictingTypes {
     }
 }
 
+extension Route53ClientTypes.AccountLimit {
+
+    static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.AccountLimit {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Route53ClientTypes.AccountLimit()
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
+        value.value = try reader["Value"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension Route53ClientTypes.AlarmIdentifier {
+
+    static func write(value: Route53ClientTypes.AlarmIdentifier?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Name"].write(value.name)
+        try writer["Region"].write(value.region)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.AlarmIdentifier {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Route53ClientTypes.AlarmIdentifier()
+        value.region = try reader["Region"].readIfPresent() ?? .sdkUnknown("")
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension Route53ClientTypes.AliasTarget {
+
+    static func write(value: Route53ClientTypes.AliasTarget?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["DNSName"].write(value.dnsName)
+        try writer["EvaluateTargetHealth"].write(value.evaluateTargetHealth)
+        try writer["HostedZoneId"].write(value.hostedZoneId)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.AliasTarget {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Route53ClientTypes.AliasTarget()
+        value.hostedZoneId = try reader["HostedZoneId"].readIfPresent() ?? ""
+        value.dnsName = try reader["DNSName"].readIfPresent() ?? ""
+        value.evaluateTargetHealth = try reader["EvaluateTargetHealth"].readIfPresent() ?? false
+        return value
+    }
+}
+
+extension Route53ClientTypes.Change {
+
+    static func write(value: Route53ClientTypes.Change?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Action"].write(value.action)
+        try writer["ResourceRecordSet"].write(value.resourceRecordSet, with: Route53ClientTypes.ResourceRecordSet.write(value:to:))
+    }
+}
+
+extension Route53ClientTypes.ChangeBatch {
+
+    static func write(value: Route53ClientTypes.ChangeBatch?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Changes"].writeList(value.changes, memberWritingClosure: Route53ClientTypes.Change.write(value:to:), memberNodeInfo: "Change", isFlattened: false)
+        try writer["Comment"].write(value.comment)
+    }
+}
+
 extension Route53ClientTypes.ChangeInfo {
 
     static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.ChangeInfo {
@@ -11367,6 +11432,17 @@ extension Route53ClientTypes.ChangeInfo {
         value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
         value.submittedAt = try reader["SubmittedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.comment = try reader["Comment"].readIfPresent()
+        return value
+    }
+}
+
+extension Route53ClientTypes.CidrBlockSummary {
+
+    static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.CidrBlockSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Route53ClientTypes.CidrBlockSummary()
+        value.cidrBlock = try reader["CidrBlock"].readIfPresent()
+        value.locationName = try reader["LocationName"].readIfPresent()
         return value
     }
 }
@@ -11384,17 +11460,29 @@ extension Route53ClientTypes.CidrCollection {
     }
 }
 
-extension Route53ClientTypes.HealthCheck {
+extension Route53ClientTypes.CidrCollectionChange {
 
-    static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.HealthCheck {
+    static func write(value: Route53ClientTypes.CidrCollectionChange?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Action"].write(value.action)
+        try writer["CidrList"].writeList(value.cidrList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "Cidr", isFlattened: false)
+        try writer["LocationName"].write(value.locationName)
+    }
+}
+
+extension Route53ClientTypes.CidrRoutingConfig {
+
+    static func write(value: Route53ClientTypes.CidrRoutingConfig?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["CollectionId"].write(value.collectionId)
+        try writer["LocationName"].write(value.locationName)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.CidrRoutingConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Route53ClientTypes.HealthCheck()
-        value.id = try reader["Id"].readIfPresent() ?? ""
-        value.callerReference = try reader["CallerReference"].readIfPresent() ?? ""
-        value.linkedService = try reader["LinkedService"].readIfPresent(with: Route53ClientTypes.LinkedService.read(from:))
-        value.healthCheckConfig = try reader["HealthCheckConfig"].readIfPresent(with: Route53ClientTypes.HealthCheckConfig.read(from:))
-        value.healthCheckVersion = try reader["HealthCheckVersion"].readIfPresent() ?? 0
-        value.cloudWatchAlarmConfiguration = try reader["CloudWatchAlarmConfiguration"].readIfPresent(with: Route53ClientTypes.CloudWatchAlarmConfiguration.read(from:))
+        var value = Route53ClientTypes.CidrRoutingConfig()
+        value.collectionId = try reader["CollectionId"].readIfPresent() ?? ""
+        value.locationName = try reader["LocationName"].readIfPresent() ?? ""
         return value
     }
 }
@@ -11416,6 +11504,48 @@ extension Route53ClientTypes.CloudWatchAlarmConfiguration {
     }
 }
 
+extension Route53ClientTypes.CollectionSummary {
+
+    static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.CollectionSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Route53ClientTypes.CollectionSummary()
+        value.arn = try reader["Arn"].readIfPresent()
+        value.id = try reader["Id"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        value.version = try reader["Version"].readIfPresent()
+        return value
+    }
+}
+
+extension Route53ClientTypes.Coordinates {
+
+    static func write(value: Route53ClientTypes.Coordinates?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Latitude"].write(value.latitude)
+        try writer["Longitude"].write(value.longitude)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.Coordinates {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Route53ClientTypes.Coordinates()
+        value.latitude = try reader["Latitude"].readIfPresent() ?? ""
+        value.longitude = try reader["Longitude"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension Route53ClientTypes.DelegationSet {
+
+    static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.DelegationSet {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Route53ClientTypes.DelegationSet()
+        value.id = try reader["Id"].readIfPresent()
+        value.callerReference = try reader["CallerReference"].readIfPresent()
+        value.nameServers = try reader["NameServers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "NameServer", isFlattened: false) ?? []
+        return value
+    }
+}
+
 extension Route53ClientTypes.Dimension {
 
     static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.Dimension {
@@ -11423,6 +11553,87 @@ extension Route53ClientTypes.Dimension {
         var value = Route53ClientTypes.Dimension()
         value.name = try reader["Name"].readIfPresent() ?? ""
         value.value = try reader["Value"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension Route53ClientTypes.DNSSECStatus {
+
+    static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.DNSSECStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Route53ClientTypes.DNSSECStatus()
+        value.serveSignature = try reader["ServeSignature"].readIfPresent()
+        value.statusMessage = try reader["StatusMessage"].readIfPresent()
+        return value
+    }
+}
+
+extension Route53ClientTypes.GeoLocation {
+
+    static func write(value: Route53ClientTypes.GeoLocation?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["ContinentCode"].write(value.continentCode)
+        try writer["CountryCode"].write(value.countryCode)
+        try writer["SubdivisionCode"].write(value.subdivisionCode)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.GeoLocation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Route53ClientTypes.GeoLocation()
+        value.continentCode = try reader["ContinentCode"].readIfPresent()
+        value.countryCode = try reader["CountryCode"].readIfPresent()
+        value.subdivisionCode = try reader["SubdivisionCode"].readIfPresent()
+        return value
+    }
+}
+
+extension Route53ClientTypes.GeoLocationDetails {
+
+    static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.GeoLocationDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Route53ClientTypes.GeoLocationDetails()
+        value.continentCode = try reader["ContinentCode"].readIfPresent()
+        value.continentName = try reader["ContinentName"].readIfPresent()
+        value.countryCode = try reader["CountryCode"].readIfPresent()
+        value.countryName = try reader["CountryName"].readIfPresent()
+        value.subdivisionCode = try reader["SubdivisionCode"].readIfPresent()
+        value.subdivisionName = try reader["SubdivisionName"].readIfPresent()
+        return value
+    }
+}
+
+extension Route53ClientTypes.GeoProximityLocation {
+
+    static func write(value: Route53ClientTypes.GeoProximityLocation?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["AWSRegion"].write(value.awsRegion)
+        try writer["Bias"].write(value.bias)
+        try writer["Coordinates"].write(value.coordinates, with: Route53ClientTypes.Coordinates.write(value:to:))
+        try writer["LocalZoneGroup"].write(value.localZoneGroup)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.GeoProximityLocation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Route53ClientTypes.GeoProximityLocation()
+        value.awsRegion = try reader["AWSRegion"].readIfPresent()
+        value.localZoneGroup = try reader["LocalZoneGroup"].readIfPresent()
+        value.coordinates = try reader["Coordinates"].readIfPresent(with: Route53ClientTypes.Coordinates.read(from:))
+        value.bias = try reader["Bias"].readIfPresent()
+        return value
+    }
+}
+
+extension Route53ClientTypes.HealthCheck {
+
+    static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.HealthCheck {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Route53ClientTypes.HealthCheck()
+        value.id = try reader["Id"].readIfPresent() ?? ""
+        value.callerReference = try reader["CallerReference"].readIfPresent() ?? ""
+        value.linkedService = try reader["LinkedService"].readIfPresent(with: Route53ClientTypes.LinkedService.read(from:))
+        value.healthCheckConfig = try reader["HealthCheckConfig"].readIfPresent(with: Route53ClientTypes.HealthCheckConfig.read(from:))
+        value.healthCheckVersion = try reader["HealthCheckVersion"].readIfPresent() ?? 0
+        value.cloudWatchAlarmConfiguration = try reader["CloudWatchAlarmConfiguration"].readIfPresent(with: Route53ClientTypes.CloudWatchAlarmConfiguration.read(from:))
         return value
     }
 }
@@ -11476,30 +11687,14 @@ extension Route53ClientTypes.HealthCheckConfig {
     }
 }
 
-extension Route53ClientTypes.AlarmIdentifier {
+extension Route53ClientTypes.HealthCheckObservation {
 
-    static func write(value: Route53ClientTypes.AlarmIdentifier?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-        try writer["Region"].write(value.region)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.AlarmIdentifier {
+    static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.HealthCheckObservation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Route53ClientTypes.AlarmIdentifier()
-        value.region = try reader["Region"].readIfPresent() ?? .sdkUnknown("")
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension Route53ClientTypes.LinkedService {
-
-    static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.LinkedService {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Route53ClientTypes.LinkedService()
-        value.servicePrincipal = try reader["ServicePrincipal"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
+        var value = Route53ClientTypes.HealthCheckObservation()
+        value.region = try reader["Region"].readIfPresent()
+        value.ipAddress = try reader["IPAddress"].readIfPresent()
+        value.statusReport = try reader["StatusReport"].readIfPresent(with: Route53ClientTypes.StatusReport.read(from:))
         return value
     }
 }
@@ -11516,27 +11711,6 @@ extension Route53ClientTypes.HostedZone {
         value.resourceRecordSetCount = try reader["ResourceRecordSetCount"].readIfPresent()
         value.linkedService = try reader["LinkedService"].readIfPresent(with: Route53ClientTypes.LinkedService.read(from:))
         value.features = try reader["Features"].readIfPresent(with: Route53ClientTypes.HostedZoneFeatures.read(from:))
-        return value
-    }
-}
-
-extension Route53ClientTypes.HostedZoneFeatures {
-
-    static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.HostedZoneFeatures {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Route53ClientTypes.HostedZoneFeatures()
-        value.acceleratedRecoveryStatus = try reader["AcceleratedRecoveryStatus"].readIfPresent()
-        value.failureReasons = try reader["FailureReasons"].readIfPresent(with: Route53ClientTypes.HostedZoneFailureReasons.read(from:))
-        return value
-    }
-}
-
-extension Route53ClientTypes.HostedZoneFailureReasons {
-
-    static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.HostedZoneFailureReasons {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Route53ClientTypes.HostedZoneFailureReasons()
-        value.acceleratedRecovery = try reader["AcceleratedRecovery"].readIfPresent()
         return value
     }
 }
@@ -11558,31 +11732,57 @@ extension Route53ClientTypes.HostedZoneConfig {
     }
 }
 
-extension Route53ClientTypes.DelegationSet {
+extension Route53ClientTypes.HostedZoneFailureReasons {
 
-    static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.DelegationSet {
+    static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.HostedZoneFailureReasons {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Route53ClientTypes.DelegationSet()
-        value.id = try reader["Id"].readIfPresent()
-        value.callerReference = try reader["CallerReference"].readIfPresent()
-        value.nameServers = try reader["NameServers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "NameServer", isFlattened: false) ?? []
+        var value = Route53ClientTypes.HostedZoneFailureReasons()
+        value.acceleratedRecovery = try reader["AcceleratedRecovery"].readIfPresent()
         return value
     }
 }
 
-extension Route53ClientTypes.VPC {
+extension Route53ClientTypes.HostedZoneFeatures {
 
-    static func write(value: Route53ClientTypes.VPC?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["VPCId"].write(value.vpcId)
-        try writer["VPCRegion"].write(value.vpcRegion)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.VPC {
+    static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.HostedZoneFeatures {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Route53ClientTypes.VPC()
-        value.vpcRegion = try reader["VPCRegion"].readIfPresent()
-        value.vpcId = try reader["VPCId"].readIfPresent()
+        var value = Route53ClientTypes.HostedZoneFeatures()
+        value.acceleratedRecoveryStatus = try reader["AcceleratedRecoveryStatus"].readIfPresent()
+        value.failureReasons = try reader["FailureReasons"].readIfPresent(with: Route53ClientTypes.HostedZoneFailureReasons.read(from:))
+        return value
+    }
+}
+
+extension Route53ClientTypes.HostedZoneLimit {
+
+    static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.HostedZoneLimit {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Route53ClientTypes.HostedZoneLimit()
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
+        value.value = try reader["Value"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension Route53ClientTypes.HostedZoneOwner {
+
+    static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.HostedZoneOwner {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Route53ClientTypes.HostedZoneOwner()
+        value.owningAccount = try reader["OwningAccount"].readIfPresent()
+        value.owningService = try reader["OwningService"].readIfPresent()
+        return value
+    }
+}
+
+extension Route53ClientTypes.HostedZoneSummary {
+
+    static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.HostedZoneSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Route53ClientTypes.HostedZoneSummary()
+        value.hostedZoneId = try reader["HostedZoneId"].readIfPresent() ?? ""
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.owner = try reader["Owner"].readIfPresent(with: Route53ClientTypes.HostedZoneOwner.read(from:))
         return value
     }
 }
@@ -11612,153 +11812,13 @@ extension Route53ClientTypes.KeySigningKey {
     }
 }
 
-extension Route53ClientTypes.QueryLoggingConfig {
+extension Route53ClientTypes.LinkedService {
 
-    static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.QueryLoggingConfig {
+    static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.LinkedService {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Route53ClientTypes.QueryLoggingConfig()
-        value.id = try reader["Id"].readIfPresent() ?? ""
-        value.hostedZoneId = try reader["HostedZoneId"].readIfPresent() ?? ""
-        value.cloudWatchLogsLogGroupArn = try reader["CloudWatchLogsLogGroupArn"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension Route53ClientTypes.TrafficPolicy {
-
-    static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.TrafficPolicy {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Route53ClientTypes.TrafficPolicy()
-        value.id = try reader["Id"].readIfPresent() ?? ""
-        value.version = try reader["Version"].readIfPresent() ?? 0
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
-        value.document = try reader["Document"].readIfPresent() ?? ""
-        value.comment = try reader["Comment"].readIfPresent()
-        return value
-    }
-}
-
-extension Route53ClientTypes.TrafficPolicyInstance {
-
-    static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.TrafficPolicyInstance {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Route53ClientTypes.TrafficPolicyInstance()
-        value.id = try reader["Id"].readIfPresent() ?? ""
-        value.hostedZoneId = try reader["HostedZoneId"].readIfPresent() ?? ""
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.ttl = try reader["TTL"].readIfPresent() ?? 0
-        value.state = try reader["State"].readIfPresent() ?? ""
-        value.message = try reader["Message"].readIfPresent() ?? ""
-        value.trafficPolicyId = try reader["TrafficPolicyId"].readIfPresent() ?? ""
-        value.trafficPolicyVersion = try reader["TrafficPolicyVersion"].readIfPresent() ?? 0
-        value.trafficPolicyType = try reader["TrafficPolicyType"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension Route53ClientTypes.AccountLimit {
-
-    static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.AccountLimit {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Route53ClientTypes.AccountLimit()
-        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
-        value.value = try reader["Value"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension Route53ClientTypes.DNSSECStatus {
-
-    static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.DNSSECStatus {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Route53ClientTypes.DNSSECStatus()
-        value.serveSignature = try reader["ServeSignature"].readIfPresent()
-        value.statusMessage = try reader["StatusMessage"].readIfPresent()
-        return value
-    }
-}
-
-extension Route53ClientTypes.GeoLocationDetails {
-
-    static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.GeoLocationDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Route53ClientTypes.GeoLocationDetails()
-        value.continentCode = try reader["ContinentCode"].readIfPresent()
-        value.continentName = try reader["ContinentName"].readIfPresent()
-        value.countryCode = try reader["CountryCode"].readIfPresent()
-        value.countryName = try reader["CountryName"].readIfPresent()
-        value.subdivisionCode = try reader["SubdivisionCode"].readIfPresent()
-        value.subdivisionName = try reader["SubdivisionName"].readIfPresent()
-        return value
-    }
-}
-
-extension Route53ClientTypes.HealthCheckObservation {
-
-    static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.HealthCheckObservation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Route53ClientTypes.HealthCheckObservation()
-        value.region = try reader["Region"].readIfPresent()
-        value.ipAddress = try reader["IPAddress"].readIfPresent()
-        value.statusReport = try reader["StatusReport"].readIfPresent(with: Route53ClientTypes.StatusReport.read(from:))
-        return value
-    }
-}
-
-extension Route53ClientTypes.StatusReport {
-
-    static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.StatusReport {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Route53ClientTypes.StatusReport()
-        value.status = try reader["Status"].readIfPresent()
-        value.checkedTime = try reader["CheckedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        return value
-    }
-}
-
-extension Route53ClientTypes.HostedZoneLimit {
-
-    static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.HostedZoneLimit {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Route53ClientTypes.HostedZoneLimit()
-        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
-        value.value = try reader["Value"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension Route53ClientTypes.ReusableDelegationSetLimit {
-
-    static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.ReusableDelegationSetLimit {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Route53ClientTypes.ReusableDelegationSetLimit()
-        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
-        value.value = try reader["Value"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension Route53ClientTypes.CidrBlockSummary {
-
-    static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.CidrBlockSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Route53ClientTypes.CidrBlockSummary()
-        value.cidrBlock = try reader["CidrBlock"].readIfPresent()
-        value.locationName = try reader["LocationName"].readIfPresent()
-        return value
-    }
-}
-
-extension Route53ClientTypes.CollectionSummary {
-
-    static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.CollectionSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Route53ClientTypes.CollectionSummary()
-        value.arn = try reader["Arn"].readIfPresent()
-        value.id = try reader["Id"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
-        value.version = try reader["Version"].readIfPresent()
+        var value = Route53ClientTypes.LinkedService()
+        value.servicePrincipal = try reader["ServicePrincipal"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
         return value
     }
 }
@@ -11773,25 +11833,29 @@ extension Route53ClientTypes.LocationSummary {
     }
 }
 
-extension Route53ClientTypes.HostedZoneSummary {
+extension Route53ClientTypes.QueryLoggingConfig {
 
-    static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.HostedZoneSummary {
+    static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.QueryLoggingConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Route53ClientTypes.HostedZoneSummary()
+        var value = Route53ClientTypes.QueryLoggingConfig()
+        value.id = try reader["Id"].readIfPresent() ?? ""
         value.hostedZoneId = try reader["HostedZoneId"].readIfPresent() ?? ""
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.owner = try reader["Owner"].readIfPresent(with: Route53ClientTypes.HostedZoneOwner.read(from:))
+        value.cloudWatchLogsLogGroupArn = try reader["CloudWatchLogsLogGroupArn"].readIfPresent() ?? ""
         return value
     }
 }
 
-extension Route53ClientTypes.HostedZoneOwner {
+extension Route53ClientTypes.ResourceRecord {
 
-    static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.HostedZoneOwner {
+    static func write(value: Route53ClientTypes.ResourceRecord?, to writer: SmithyXML.Writer) throws {
+        guard let value else { return }
+        try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.ResourceRecord {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Route53ClientTypes.HostedZoneOwner()
-        value.owningAccount = try reader["OwningAccount"].readIfPresent()
-        value.owningService = try reader["OwningService"].readIfPresent()
+        var value = Route53ClientTypes.ResourceRecord()
+        value.value = try reader["Value"].readIfPresent() ?? ""
         return value
     }
 }
@@ -11839,114 +11903,6 @@ extension Route53ClientTypes.ResourceRecordSet {
     }
 }
 
-extension Route53ClientTypes.GeoProximityLocation {
-
-    static func write(value: Route53ClientTypes.GeoProximityLocation?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["AWSRegion"].write(value.awsRegion)
-        try writer["Bias"].write(value.bias)
-        try writer["Coordinates"].write(value.coordinates, with: Route53ClientTypes.Coordinates.write(value:to:))
-        try writer["LocalZoneGroup"].write(value.localZoneGroup)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.GeoProximityLocation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Route53ClientTypes.GeoProximityLocation()
-        value.awsRegion = try reader["AWSRegion"].readIfPresent()
-        value.localZoneGroup = try reader["LocalZoneGroup"].readIfPresent()
-        value.coordinates = try reader["Coordinates"].readIfPresent(with: Route53ClientTypes.Coordinates.read(from:))
-        value.bias = try reader["Bias"].readIfPresent()
-        return value
-    }
-}
-
-extension Route53ClientTypes.Coordinates {
-
-    static func write(value: Route53ClientTypes.Coordinates?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Latitude"].write(value.latitude)
-        try writer["Longitude"].write(value.longitude)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.Coordinates {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Route53ClientTypes.Coordinates()
-        value.latitude = try reader["Latitude"].readIfPresent() ?? ""
-        value.longitude = try reader["Longitude"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension Route53ClientTypes.CidrRoutingConfig {
-
-    static func write(value: Route53ClientTypes.CidrRoutingConfig?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["CollectionId"].write(value.collectionId)
-        try writer["LocationName"].write(value.locationName)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.CidrRoutingConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Route53ClientTypes.CidrRoutingConfig()
-        value.collectionId = try reader["CollectionId"].readIfPresent() ?? ""
-        value.locationName = try reader["LocationName"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension Route53ClientTypes.AliasTarget {
-
-    static func write(value: Route53ClientTypes.AliasTarget?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["DNSName"].write(value.dnsName)
-        try writer["EvaluateTargetHealth"].write(value.evaluateTargetHealth)
-        try writer["HostedZoneId"].write(value.hostedZoneId)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.AliasTarget {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Route53ClientTypes.AliasTarget()
-        value.hostedZoneId = try reader["HostedZoneId"].readIfPresent() ?? ""
-        value.dnsName = try reader["DNSName"].readIfPresent() ?? ""
-        value.evaluateTargetHealth = try reader["EvaluateTargetHealth"].readIfPresent() ?? false
-        return value
-    }
-}
-
-extension Route53ClientTypes.ResourceRecord {
-
-    static func write(value: Route53ClientTypes.ResourceRecord?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.ResourceRecord {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Route53ClientTypes.ResourceRecord()
-        value.value = try reader["Value"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension Route53ClientTypes.GeoLocation {
-
-    static func write(value: Route53ClientTypes.GeoLocation?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["ContinentCode"].write(value.continentCode)
-        try writer["CountryCode"].write(value.countryCode)
-        try writer["SubdivisionCode"].write(value.subdivisionCode)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.GeoLocation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Route53ClientTypes.GeoLocation()
-        value.continentCode = try reader["ContinentCode"].readIfPresent()
-        value.countryCode = try reader["CountryCode"].readIfPresent()
-        value.subdivisionCode = try reader["SubdivisionCode"].readIfPresent()
-        return value
-    }
-}
-
 extension Route53ClientTypes.ResourceTagSet {
 
     static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.ResourceTagSet {
@@ -11955,6 +11911,28 @@ extension Route53ClientTypes.ResourceTagSet {
         value.resourceType = try reader["ResourceType"].readIfPresent()
         value.resourceId = try reader["ResourceId"].readIfPresent()
         value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: Route53ClientTypes.Tag.read(from:), memberNodeInfo: "Tag", isFlattened: false)
+        return value
+    }
+}
+
+extension Route53ClientTypes.ReusableDelegationSetLimit {
+
+    static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.ReusableDelegationSetLimit {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Route53ClientTypes.ReusableDelegationSetLimit()
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
+        value.value = try reader["Value"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension Route53ClientTypes.StatusReport {
+
+    static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.StatusReport {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Route53ClientTypes.StatusReport()
+        value.status = try reader["Status"].readIfPresent()
+        value.checkedTime = try reader["CheckedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
     }
 }
@@ -11976,6 +11954,39 @@ extension Route53ClientTypes.Tag {
     }
 }
 
+extension Route53ClientTypes.TrafficPolicy {
+
+    static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.TrafficPolicy {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Route53ClientTypes.TrafficPolicy()
+        value.id = try reader["Id"].readIfPresent() ?? ""
+        value.version = try reader["Version"].readIfPresent() ?? 0
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
+        value.document = try reader["Document"].readIfPresent() ?? ""
+        value.comment = try reader["Comment"].readIfPresent()
+        return value
+    }
+}
+
+extension Route53ClientTypes.TrafficPolicyInstance {
+
+    static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.TrafficPolicyInstance {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Route53ClientTypes.TrafficPolicyInstance()
+        value.id = try reader["Id"].readIfPresent() ?? ""
+        value.hostedZoneId = try reader["HostedZoneId"].readIfPresent() ?? ""
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.ttl = try reader["TTL"].readIfPresent() ?? 0
+        value.state = try reader["State"].readIfPresent() ?? ""
+        value.message = try reader["Message"].readIfPresent() ?? ""
+        value.trafficPolicyId = try reader["TrafficPolicyId"].readIfPresent() ?? ""
+        value.trafficPolicyVersion = try reader["TrafficPolicyVersion"].readIfPresent() ?? 0
+        value.trafficPolicyType = try reader["TrafficPolicyType"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
 extension Route53ClientTypes.TrafficPolicySummary {
 
     static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.TrafficPolicySummary {
@@ -11990,31 +12001,20 @@ extension Route53ClientTypes.TrafficPolicySummary {
     }
 }
 
-extension Route53ClientTypes.CidrCollectionChange {
+extension Route53ClientTypes.VPC {
 
-    static func write(value: Route53ClientTypes.CidrCollectionChange?, to writer: SmithyXML.Writer) throws {
+    static func write(value: Route53ClientTypes.VPC?, to writer: SmithyXML.Writer) throws {
         guard let value else { return }
-        try writer["Action"].write(value.action)
-        try writer["CidrList"].writeList(value.cidrList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "Cidr", isFlattened: false)
-        try writer["LocationName"].write(value.locationName)
+        try writer["VPCId"].write(value.vpcId)
+        try writer["VPCRegion"].write(value.vpcRegion)
     }
-}
 
-extension Route53ClientTypes.ChangeBatch {
-
-    static func write(value: Route53ClientTypes.ChangeBatch?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Changes"].writeList(value.changes, memberWritingClosure: Route53ClientTypes.Change.write(value:to:), memberNodeInfo: "Change", isFlattened: false)
-        try writer["Comment"].write(value.comment)
-    }
-}
-
-extension Route53ClientTypes.Change {
-
-    static func write(value: Route53ClientTypes.Change?, to writer: SmithyXML.Writer) throws {
-        guard let value else { return }
-        try writer["Action"].write(value.action)
-        try writer["ResourceRecordSet"].write(value.resourceRecordSet, with: Route53ClientTypes.ResourceRecordSet.write(value:to:))
+    static func read(from reader: SmithyXML.Reader) throws -> Route53ClientTypes.VPC {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Route53ClientTypes.VPC()
+        value.vpcRegion = try reader["VPCRegion"].readIfPresent()
+        value.vpcId = try reader["VPCId"].readIfPresent()
+        return value
     }
 }
 

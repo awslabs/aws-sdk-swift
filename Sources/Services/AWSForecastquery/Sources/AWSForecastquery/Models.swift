@@ -424,16 +424,6 @@ extension ResourceNotFoundException {
     }
 }
 
-extension ForecastqueryClientTypes.Forecast {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ForecastqueryClientTypes.Forecast {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ForecastqueryClientTypes.Forecast()
-        value.predictions = try reader["Predictions"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: ForecastqueryClientTypes.DataPoint.read(from:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
-}
-
 extension ForecastqueryClientTypes.DataPoint {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ForecastqueryClientTypes.DataPoint {
@@ -441,6 +431,16 @@ extension ForecastqueryClientTypes.DataPoint {
         var value = ForecastqueryClientTypes.DataPoint()
         value.timestamp = try reader["Timestamp"].readIfPresent()
         value.value = try reader["Value"].readIfPresent()
+        return value
+    }
+}
+
+extension ForecastqueryClientTypes.Forecast {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ForecastqueryClientTypes.Forecast {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ForecastqueryClientTypes.Forecast()
+        value.predictions = try reader["Predictions"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: ForecastqueryClientTypes.DataPoint.read(from:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }

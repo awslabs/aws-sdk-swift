@@ -6979,16 +6979,6 @@ extension TooManyTagsException {
     }
 }
 
-extension IoTTwinMakerClientTypes.BatchPutPropertyErrorEntry {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTTwinMakerClientTypes.BatchPutPropertyErrorEntry {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTTwinMakerClientTypes.BatchPutPropertyErrorEntry()
-        value.errors = try reader["errors"].readListIfPresent(memberReadingClosure: IoTTwinMakerClientTypes.BatchPutPropertyError.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
 extension IoTTwinMakerClientTypes.BatchPutPropertyError {
 
     static func read(from reader: SmithyJSON.Reader) throws -> IoTTwinMakerClientTypes.BatchPutPropertyError {
@@ -7001,145 +6991,23 @@ extension IoTTwinMakerClientTypes.BatchPutPropertyError {
     }
 }
 
-extension IoTTwinMakerClientTypes.PropertyValueEntry {
+extension IoTTwinMakerClientTypes.BatchPutPropertyErrorEntry {
 
-    static func write(value: IoTTwinMakerClientTypes.PropertyValueEntry?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["entityPropertyReference"].write(value.entityPropertyReference, with: IoTTwinMakerClientTypes.EntityPropertyReference.write(value:to:))
-        try writer["propertyValues"].writeList(value.propertyValues, memberWritingClosure: IoTTwinMakerClientTypes.PropertyValue.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTTwinMakerClientTypes.PropertyValueEntry {
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTTwinMakerClientTypes.BatchPutPropertyErrorEntry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTTwinMakerClientTypes.PropertyValueEntry()
-        value.entityPropertyReference = try reader["entityPropertyReference"].readIfPresent(with: IoTTwinMakerClientTypes.EntityPropertyReference.read(from:))
-        value.propertyValues = try reader["propertyValues"].readListIfPresent(memberReadingClosure: IoTTwinMakerClientTypes.PropertyValue.read(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = IoTTwinMakerClientTypes.BatchPutPropertyErrorEntry()
+        value.errors = try reader["errors"].readListIfPresent(memberReadingClosure: IoTTwinMakerClientTypes.BatchPutPropertyError.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
 
-extension IoTTwinMakerClientTypes.PropertyValue {
+extension IoTTwinMakerClientTypes.BundleInformation {
 
-    static func write(value: IoTTwinMakerClientTypes.PropertyValue?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["time"].write(value.time)
-        try writer["timestamp"].writeTimestamp(value.timestamp, format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        try writer["value"].write(value.value, with: IoTTwinMakerClientTypes.DataValue.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTTwinMakerClientTypes.PropertyValue {
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTTwinMakerClientTypes.BundleInformation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTTwinMakerClientTypes.PropertyValue()
-        value.timestamp = try reader["timestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.value = try reader["value"].readIfPresent(with: IoTTwinMakerClientTypes.DataValue.read(from:))
-        value.time = try reader["time"].readIfPresent()
-        return value
-    }
-}
-
-extension IoTTwinMakerClientTypes.DataValue {
-
-    static func write(value: IoTTwinMakerClientTypes.DataValue?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["booleanValue"].write(value.booleanValue)
-        try writer["doubleValue"].write(value.doubleValue)
-        try writer["expression"].write(value.expression)
-        try writer["integerValue"].write(value.integerValue)
-        try writer["listValue"].writeList(value.listValue, memberWritingClosure: IoTTwinMakerClientTypes.DataValue.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["longValue"].write(value.longValue)
-        try writer["mapValue"].writeMap(value.mapValue, valueWritingClosure: IoTTwinMakerClientTypes.DataValue.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["relationshipValue"].write(value.relationshipValue, with: IoTTwinMakerClientTypes.RelationshipValue.write(value:to:))
-        try writer["stringValue"].write(value.stringValue)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTTwinMakerClientTypes.DataValue {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTTwinMakerClientTypes.DataValue()
-        value.booleanValue = try reader["booleanValue"].readIfPresent()
-        value.doubleValue = try reader["doubleValue"].readIfPresent()
-        value.integerValue = try reader["integerValue"].readIfPresent()
-        value.longValue = try reader["longValue"].readIfPresent()
-        value.stringValue = try reader["stringValue"].readIfPresent()
-        value.listValue = try reader["listValue"].readListIfPresent(memberReadingClosure: IoTTwinMakerClientTypes.DataValue.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.mapValue = try reader["mapValue"].readMapIfPresent(valueReadingClosure: IoTTwinMakerClientTypes.DataValue.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.relationshipValue = try reader["relationshipValue"].readIfPresent(with: IoTTwinMakerClientTypes.RelationshipValue.read(from:))
-        value.expression = try reader["expression"].readIfPresent()
-        return value
-    }
-}
-
-extension IoTTwinMakerClientTypes.RelationshipValue {
-
-    static func write(value: IoTTwinMakerClientTypes.RelationshipValue?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["targetComponentName"].write(value.targetComponentName)
-        try writer["targetEntityId"].write(value.targetEntityId)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTTwinMakerClientTypes.RelationshipValue {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTTwinMakerClientTypes.RelationshipValue()
-        value.targetEntityId = try reader["targetEntityId"].readIfPresent()
-        value.targetComponentName = try reader["targetComponentName"].readIfPresent()
-        return value
-    }
-}
-
-extension IoTTwinMakerClientTypes.EntityPropertyReference {
-
-    static func write(value: IoTTwinMakerClientTypes.EntityPropertyReference?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["componentName"].write(value.componentName)
-        try writer["componentPath"].write(value.componentPath)
-        try writer["entityId"].write(value.entityId)
-        try writer["externalIdProperty"].writeMap(value.externalIdProperty, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["propertyName"].write(value.propertyName)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTTwinMakerClientTypes.EntityPropertyReference {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTTwinMakerClientTypes.EntityPropertyReference()
-        value.componentName = try reader["componentName"].readIfPresent()
-        value.componentPath = try reader["componentPath"].readIfPresent()
-        value.externalIdProperty = try reader["externalIdProperty"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.entityId = try reader["entityId"].readIfPresent()
-        value.propertyName = try reader["propertyName"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension IoTTwinMakerClientTypes.MetadataTransferJobStatus {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTTwinMakerClientTypes.MetadataTransferJobStatus {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTTwinMakerClientTypes.MetadataTransferJobStatus()
-        value.state = try reader["state"].readIfPresent()
-        value.error = try reader["error"].readIfPresent(with: IoTTwinMakerClientTypes.ErrorDetails.read(from:))
-        value.queuedPosition = try reader["queuedPosition"].readIfPresent()
-        return value
-    }
-}
-
-extension IoTTwinMakerClientTypes.ErrorDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTTwinMakerClientTypes.ErrorDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTTwinMakerClientTypes.ErrorDetails()
-        value.code = try reader["code"].readIfPresent()
-        value.message = try reader["message"].readIfPresent()
-        return value
-    }
-}
-
-extension IoTTwinMakerClientTypes.MetadataTransferJobProgress {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTTwinMakerClientTypes.MetadataTransferJobProgress {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTTwinMakerClientTypes.MetadataTransferJobProgress()
-        value.totalCount = try reader["totalCount"].readIfPresent()
-        value.succeededCount = try reader["succeededCount"].readIfPresent()
-        value.skippedCount = try reader["skippedCount"].readIfPresent()
-        value.failedCount = try reader["failedCount"].readIfPresent()
+        var value = IoTTwinMakerClientTypes.BundleInformation()
+        value.bundleNames = try reader["bundleNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.pricingTier = try reader["pricingTier"].readIfPresent()
         return value
     }
 }
@@ -7155,137 +7023,21 @@ extension IoTTwinMakerClientTypes.ColumnDescription {
     }
 }
 
-extension IoTTwinMakerClientTypes.Row {
+extension IoTTwinMakerClientTypes.ComponentPropertyGroupRequest {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTTwinMakerClientTypes.Row {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTTwinMakerClientTypes.Row()
-        value.rowData = try reader["rowData"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDocument(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension IoTTwinMakerClientTypes.PropertyDefinitionResponse {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTTwinMakerClientTypes.PropertyDefinitionResponse {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTTwinMakerClientTypes.PropertyDefinitionResponse()
-        value.dataType = try reader["dataType"].readIfPresent(with: IoTTwinMakerClientTypes.DataType.read(from:))
-        value.isTimeSeries = try reader["isTimeSeries"].readIfPresent() ?? false
-        value.isRequiredInEntity = try reader["isRequiredInEntity"].readIfPresent() ?? false
-        value.isExternalId = try reader["isExternalId"].readIfPresent() ?? false
-        value.isStoredExternally = try reader["isStoredExternally"].readIfPresent() ?? false
-        value.isImported = try reader["isImported"].readIfPresent() ?? false
-        value.isFinal = try reader["isFinal"].readIfPresent() ?? false
-        value.isInherited = try reader["isInherited"].readIfPresent() ?? false
-        value.defaultValue = try reader["defaultValue"].readIfPresent(with: IoTTwinMakerClientTypes.DataValue.read(from:))
-        value.configuration = try reader["configuration"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.displayName = try reader["displayName"].readIfPresent()
-        return value
-    }
-}
-
-extension IoTTwinMakerClientTypes.DataType {
-
-    static func write(value: IoTTwinMakerClientTypes.DataType?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: IoTTwinMakerClientTypes.ComponentPropertyGroupRequest?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["allowedValues"].writeList(value.allowedValues, memberWritingClosure: IoTTwinMakerClientTypes.DataValue.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["nestedType"].write(value.nestedType, with: IoTTwinMakerClientTypes.DataType.write(value:to:))
-        try writer["relationship"].write(value.relationship, with: IoTTwinMakerClientTypes.Relationship.write(value:to:))
-        try writer["type"].write(value.type)
-        try writer["unitOfMeasure"].write(value.unitOfMeasure)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTTwinMakerClientTypes.DataType {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTTwinMakerClientTypes.DataType()
-        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
-        value.nestedType = try reader["nestedType"].readIfPresent(with: IoTTwinMakerClientTypes.DataType.read(from:))
-        value.allowedValues = try reader["allowedValues"].readListIfPresent(memberReadingClosure: IoTTwinMakerClientTypes.DataValue.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.unitOfMeasure = try reader["unitOfMeasure"].readIfPresent()
-        value.relationship = try reader["relationship"].readIfPresent(with: IoTTwinMakerClientTypes.Relationship.read(from:))
-        return value
+        try writer["groupType"].write(value.groupType)
+        try writer["propertyNames"].writeList(value.propertyNames, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["updateType"].write(value.updateType)
     }
 }
 
-extension IoTTwinMakerClientTypes.Relationship {
+extension IoTTwinMakerClientTypes.ComponentPropertyGroupResponse {
 
-    static func write(value: IoTTwinMakerClientTypes.Relationship?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["relationshipType"].write(value.relationshipType)
-        try writer["targetComponentTypeId"].write(value.targetComponentTypeId)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTTwinMakerClientTypes.Relationship {
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTTwinMakerClientTypes.ComponentPropertyGroupResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTTwinMakerClientTypes.Relationship()
-        value.targetComponentTypeId = try reader["targetComponentTypeId"].readIfPresent()
-        value.relationshipType = try reader["relationshipType"].readIfPresent()
-        return value
-    }
-}
-
-extension IoTTwinMakerClientTypes.FunctionResponse {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTTwinMakerClientTypes.FunctionResponse {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTTwinMakerClientTypes.FunctionResponse()
-        value.requiredProperties = try reader["requiredProperties"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.scope = try reader["scope"].readIfPresent()
-        value.implementedBy = try reader["implementedBy"].readIfPresent(with: IoTTwinMakerClientTypes.DataConnector.read(from:))
-        value.isInherited = try reader["isInherited"].readIfPresent()
-        return value
-    }
-}
-
-extension IoTTwinMakerClientTypes.DataConnector {
-
-    static func write(value: IoTTwinMakerClientTypes.DataConnector?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["isNative"].write(value.isNative)
-        try writer["lambda"].write(value.lambda, with: IoTTwinMakerClientTypes.LambdaFunction.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTTwinMakerClientTypes.DataConnector {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTTwinMakerClientTypes.DataConnector()
-        value.lambda = try reader["lambda"].readIfPresent(with: IoTTwinMakerClientTypes.LambdaFunction.read(from:))
-        value.isNative = try reader["isNative"].readIfPresent()
-        return value
-    }
-}
-
-extension IoTTwinMakerClientTypes.LambdaFunction {
-
-    static func write(value: IoTTwinMakerClientTypes.LambdaFunction?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTTwinMakerClientTypes.LambdaFunction {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTTwinMakerClientTypes.LambdaFunction()
-        value.arn = try reader["arn"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension IoTTwinMakerClientTypes.Status {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTTwinMakerClientTypes.Status {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTTwinMakerClientTypes.Status()
-        value.state = try reader["state"].readIfPresent()
-        value.error = try reader["error"].readIfPresent(with: IoTTwinMakerClientTypes.ErrorDetails.read(from:))
-        return value
-    }
-}
-
-extension IoTTwinMakerClientTypes.PropertyGroupResponse {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTTwinMakerClientTypes.PropertyGroupResponse {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTTwinMakerClientTypes.PropertyGroupResponse()
+        var value = IoTTwinMakerClientTypes.ComponentPropertyGroupResponse()
         value.groupType = try reader["groupType"].readIfPresent() ?? .sdkUnknown("")
         value.propertyNames = try reader["propertyNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.isInherited = try reader["isInherited"].readIfPresent() ?? false
@@ -7293,14 +7045,14 @@ extension IoTTwinMakerClientTypes.PropertyGroupResponse {
     }
 }
 
-extension IoTTwinMakerClientTypes.CompositeComponentTypeResponse {
+extension IoTTwinMakerClientTypes.ComponentRequest {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTTwinMakerClientTypes.CompositeComponentTypeResponse {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTTwinMakerClientTypes.CompositeComponentTypeResponse()
-        value.componentTypeId = try reader["componentTypeId"].readIfPresent()
-        value.isInherited = try reader["isInherited"].readIfPresent()
-        return value
+    static func write(value: IoTTwinMakerClientTypes.ComponentRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["componentTypeId"].write(value.componentTypeId)
+        try writer["description"].write(value.description)
+        try writer["properties"].writeMap(value.properties, valueWritingClosure: IoTTwinMakerClientTypes.PropertyRequest.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["propertyGroups"].writeMap(value.propertyGroups, valueWritingClosure: IoTTwinMakerClientTypes.ComponentPropertyGroupRequest.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 }
 
@@ -7341,47 +7093,374 @@ extension IoTTwinMakerClientTypes.ComponentSummary {
     }
 }
 
-extension IoTTwinMakerClientTypes.ComponentPropertyGroupResponse {
+extension IoTTwinMakerClientTypes.ComponentTypeSummary {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTTwinMakerClientTypes.ComponentPropertyGroupResponse {
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTTwinMakerClientTypes.ComponentTypeSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTTwinMakerClientTypes.ComponentPropertyGroupResponse()
-        value.groupType = try reader["groupType"].readIfPresent() ?? .sdkUnknown("")
-        value.propertyNames = try reader["propertyNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.isInherited = try reader["isInherited"].readIfPresent() ?? false
+        var value = IoTTwinMakerClientTypes.ComponentTypeSummary()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.componentTypeId = try reader["componentTypeId"].readIfPresent() ?? ""
+        value.creationDateTime = try reader["creationDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updateDateTime = try reader["updateDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.description = try reader["description"].readIfPresent()
+        value.status = try reader["status"].readIfPresent(with: IoTTwinMakerClientTypes.Status.read(from:))
+        value.componentTypeName = try reader["componentTypeName"].readIfPresent()
         return value
     }
 }
 
-extension IoTTwinMakerClientTypes.PropertyResponse {
+extension IoTTwinMakerClientTypes.ComponentUpdateRequest {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTTwinMakerClientTypes.PropertyResponse {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTTwinMakerClientTypes.PropertyResponse()
-        value.definition = try reader["definition"].readIfPresent(with: IoTTwinMakerClientTypes.PropertyDefinitionResponse.read(from:))
-        value.value = try reader["value"].readIfPresent(with: IoTTwinMakerClientTypes.DataValue.read(from:))
-        value.areAllPropertyValuesReturned = try reader["areAllPropertyValuesReturned"].readIfPresent()
-        return value
-    }
-}
-
-extension IoTTwinMakerClientTypes.SourceConfiguration {
-
-    static func write(value: IoTTwinMakerClientTypes.SourceConfiguration?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: IoTTwinMakerClientTypes.ComponentUpdateRequest?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["iotSiteWiseConfiguration"].write(value.iotSiteWiseConfiguration, with: IoTTwinMakerClientTypes.IotSiteWiseSourceConfiguration.write(value:to:))
-        try writer["iotTwinMakerConfiguration"].write(value.iotTwinMakerConfiguration, with: IoTTwinMakerClientTypes.IotTwinMakerSourceConfiguration.write(value:to:))
-        try writer["s3Configuration"].write(value.s3Configuration, with: IoTTwinMakerClientTypes.S3SourceConfiguration.write(value:to:))
+        try writer["componentTypeId"].write(value.componentTypeId)
+        try writer["description"].write(value.description)
+        try writer["propertyGroupUpdates"].writeMap(value.propertyGroupUpdates, valueWritingClosure: IoTTwinMakerClientTypes.ComponentPropertyGroupRequest.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["propertyUpdates"].writeMap(value.propertyUpdates, valueWritingClosure: IoTTwinMakerClientTypes.PropertyRequest.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["updateType"].write(value.updateType)
+    }
+}
+
+extension IoTTwinMakerClientTypes.CompositeComponentRequest {
+
+    static func write(value: IoTTwinMakerClientTypes.CompositeComponentRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["description"].write(value.description)
+        try writer["properties"].writeMap(value.properties, valueWritingClosure: IoTTwinMakerClientTypes.PropertyRequest.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["propertyGroups"].writeMap(value.propertyGroups, valueWritingClosure: IoTTwinMakerClientTypes.ComponentPropertyGroupRequest.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
+extension IoTTwinMakerClientTypes.CompositeComponentTypeRequest {
+
+    static func write(value: IoTTwinMakerClientTypes.CompositeComponentTypeRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["componentTypeId"].write(value.componentTypeId)
+    }
+}
+
+extension IoTTwinMakerClientTypes.CompositeComponentTypeResponse {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTTwinMakerClientTypes.CompositeComponentTypeResponse {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTTwinMakerClientTypes.CompositeComponentTypeResponse()
+        value.componentTypeId = try reader["componentTypeId"].readIfPresent()
+        value.isInherited = try reader["isInherited"].readIfPresent()
+        return value
+    }
+}
+
+extension IoTTwinMakerClientTypes.CompositeComponentUpdateRequest {
+
+    static func write(value: IoTTwinMakerClientTypes.CompositeComponentUpdateRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["description"].write(value.description)
+        try writer["propertyGroupUpdates"].writeMap(value.propertyGroupUpdates, valueWritingClosure: IoTTwinMakerClientTypes.ComponentPropertyGroupRequest.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["propertyUpdates"].writeMap(value.propertyUpdates, valueWritingClosure: IoTTwinMakerClientTypes.PropertyRequest.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["updateType"].write(value.updateType)
+    }
+}
+
+extension IoTTwinMakerClientTypes.DataConnector {
+
+    static func write(value: IoTTwinMakerClientTypes.DataConnector?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["isNative"].write(value.isNative)
+        try writer["lambda"].write(value.lambda, with: IoTTwinMakerClientTypes.LambdaFunction.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTTwinMakerClientTypes.DataConnector {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTTwinMakerClientTypes.DataConnector()
+        value.lambda = try reader["lambda"].readIfPresent(with: IoTTwinMakerClientTypes.LambdaFunction.read(from:))
+        value.isNative = try reader["isNative"].readIfPresent()
+        return value
+    }
+}
+
+extension IoTTwinMakerClientTypes.DataType {
+
+    static func write(value: IoTTwinMakerClientTypes.DataType?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["allowedValues"].writeList(value.allowedValues, memberWritingClosure: IoTTwinMakerClientTypes.DataValue.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["nestedType"].write(value.nestedType, with: IoTTwinMakerClientTypes.DataType.write(value:to:))
+        try writer["relationship"].write(value.relationship, with: IoTTwinMakerClientTypes.Relationship.write(value:to:))
+        try writer["type"].write(value.type)
+        try writer["unitOfMeasure"].write(value.unitOfMeasure)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTTwinMakerClientTypes.DataType {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTTwinMakerClientTypes.DataType()
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.nestedType = try reader["nestedType"].readIfPresent(with: IoTTwinMakerClientTypes.DataType.read(from:))
+        value.allowedValues = try reader["allowedValues"].readListIfPresent(memberReadingClosure: IoTTwinMakerClientTypes.DataValue.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.unitOfMeasure = try reader["unitOfMeasure"].readIfPresent()
+        value.relationship = try reader["relationship"].readIfPresent(with: IoTTwinMakerClientTypes.Relationship.read(from:))
+        return value
+    }
+}
+
+extension IoTTwinMakerClientTypes.DataValue {
+
+    static func write(value: IoTTwinMakerClientTypes.DataValue?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["booleanValue"].write(value.booleanValue)
+        try writer["doubleValue"].write(value.doubleValue)
+        try writer["expression"].write(value.expression)
+        try writer["integerValue"].write(value.integerValue)
+        try writer["listValue"].writeList(value.listValue, memberWritingClosure: IoTTwinMakerClientTypes.DataValue.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["longValue"].write(value.longValue)
+        try writer["mapValue"].writeMap(value.mapValue, valueWritingClosure: IoTTwinMakerClientTypes.DataValue.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["relationshipValue"].write(value.relationshipValue, with: IoTTwinMakerClientTypes.RelationshipValue.write(value:to:))
+        try writer["stringValue"].write(value.stringValue)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTTwinMakerClientTypes.DataValue {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTTwinMakerClientTypes.DataValue()
+        value.booleanValue = try reader["booleanValue"].readIfPresent()
+        value.doubleValue = try reader["doubleValue"].readIfPresent()
+        value.integerValue = try reader["integerValue"].readIfPresent()
+        value.longValue = try reader["longValue"].readIfPresent()
+        value.stringValue = try reader["stringValue"].readIfPresent()
+        value.listValue = try reader["listValue"].readListIfPresent(memberReadingClosure: IoTTwinMakerClientTypes.DataValue.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.mapValue = try reader["mapValue"].readMapIfPresent(valueReadingClosure: IoTTwinMakerClientTypes.DataValue.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.relationshipValue = try reader["relationshipValue"].readIfPresent(with: IoTTwinMakerClientTypes.RelationshipValue.read(from:))
+        value.expression = try reader["expression"].readIfPresent()
+        return value
+    }
+}
+
+extension IoTTwinMakerClientTypes.DestinationConfiguration {
+
+    static func write(value: IoTTwinMakerClientTypes.DestinationConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["iotTwinMakerConfiguration"].write(value.iotTwinMakerConfiguration, with: IoTTwinMakerClientTypes.IotTwinMakerDestinationConfiguration.write(value:to:))
+        try writer["s3Configuration"].write(value.s3Configuration, with: IoTTwinMakerClientTypes.S3DestinationConfiguration.write(value:to:))
         try writer["type"].write(value.type)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTTwinMakerClientTypes.SourceConfiguration {
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTTwinMakerClientTypes.DestinationConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTTwinMakerClientTypes.SourceConfiguration()
+        var value = IoTTwinMakerClientTypes.DestinationConfiguration()
         value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
-        value.s3Configuration = try reader["s3Configuration"].readIfPresent(with: IoTTwinMakerClientTypes.S3SourceConfiguration.read(from:))
-        value.iotSiteWiseConfiguration = try reader["iotSiteWiseConfiguration"].readIfPresent(with: IoTTwinMakerClientTypes.IotSiteWiseSourceConfiguration.read(from:))
-        value.iotTwinMakerConfiguration = try reader["iotTwinMakerConfiguration"].readIfPresent(with: IoTTwinMakerClientTypes.IotTwinMakerSourceConfiguration.read(from:))
+        value.s3Configuration = try reader["s3Configuration"].readIfPresent(with: IoTTwinMakerClientTypes.S3DestinationConfiguration.read(from:))
+        value.iotTwinMakerConfiguration = try reader["iotTwinMakerConfiguration"].readIfPresent(with: IoTTwinMakerClientTypes.IotTwinMakerDestinationConfiguration.read(from:))
+        return value
+    }
+}
+
+extension IoTTwinMakerClientTypes.EntityPropertyReference {
+
+    static func write(value: IoTTwinMakerClientTypes.EntityPropertyReference?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["componentName"].write(value.componentName)
+        try writer["componentPath"].write(value.componentPath)
+        try writer["entityId"].write(value.entityId)
+        try writer["externalIdProperty"].writeMap(value.externalIdProperty, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["propertyName"].write(value.propertyName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTTwinMakerClientTypes.EntityPropertyReference {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTTwinMakerClientTypes.EntityPropertyReference()
+        value.componentName = try reader["componentName"].readIfPresent()
+        value.componentPath = try reader["componentPath"].readIfPresent()
+        value.externalIdProperty = try reader["externalIdProperty"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.entityId = try reader["entityId"].readIfPresent()
+        value.propertyName = try reader["propertyName"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension IoTTwinMakerClientTypes.EntitySummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTTwinMakerClientTypes.EntitySummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTTwinMakerClientTypes.EntitySummary()
+        value.entityId = try reader["entityId"].readIfPresent() ?? ""
+        value.entityName = try reader["entityName"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.parentEntityId = try reader["parentEntityId"].readIfPresent()
+        value.status = try reader["status"].readIfPresent(with: IoTTwinMakerClientTypes.Status.read(from:))
+        value.description = try reader["description"].readIfPresent()
+        value.hasChildEntities = try reader["hasChildEntities"].readIfPresent()
+        value.creationDateTime = try reader["creationDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updateDateTime = try reader["updateDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension IoTTwinMakerClientTypes.ErrorDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTTwinMakerClientTypes.ErrorDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTTwinMakerClientTypes.ErrorDetails()
+        value.code = try reader["code"].readIfPresent()
+        value.message = try reader["message"].readIfPresent()
+        return value
+    }
+}
+
+extension IoTTwinMakerClientTypes.FilterByAsset {
+
+    static func write(value: IoTTwinMakerClientTypes.FilterByAsset?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["assetExternalId"].write(value.assetExternalId)
+        try writer["assetId"].write(value.assetId)
+        try writer["includeAssetModel"].write(value.includeAssetModel)
+        try writer["includeOffspring"].write(value.includeOffspring)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTTwinMakerClientTypes.FilterByAsset {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTTwinMakerClientTypes.FilterByAsset()
+        value.assetId = try reader["assetId"].readIfPresent()
+        value.assetExternalId = try reader["assetExternalId"].readIfPresent()
+        value.includeOffspring = try reader["includeOffspring"].readIfPresent()
+        value.includeAssetModel = try reader["includeAssetModel"].readIfPresent()
+        return value
+    }
+}
+
+extension IoTTwinMakerClientTypes.FilterByAssetModel {
+
+    static func write(value: IoTTwinMakerClientTypes.FilterByAssetModel?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["assetModelExternalId"].write(value.assetModelExternalId)
+        try writer["assetModelId"].write(value.assetModelId)
+        try writer["includeAssets"].write(value.includeAssets)
+        try writer["includeOffspring"].write(value.includeOffspring)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTTwinMakerClientTypes.FilterByAssetModel {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTTwinMakerClientTypes.FilterByAssetModel()
+        value.assetModelId = try reader["assetModelId"].readIfPresent()
+        value.assetModelExternalId = try reader["assetModelExternalId"].readIfPresent()
+        value.includeOffspring = try reader["includeOffspring"].readIfPresent()
+        value.includeAssets = try reader["includeAssets"].readIfPresent()
+        return value
+    }
+}
+
+extension IoTTwinMakerClientTypes.FilterByComponentType {
+
+    static func write(value: IoTTwinMakerClientTypes.FilterByComponentType?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["componentTypeId"].write(value.componentTypeId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTTwinMakerClientTypes.FilterByComponentType {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTTwinMakerClientTypes.FilterByComponentType()
+        value.componentTypeId = try reader["componentTypeId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension IoTTwinMakerClientTypes.FilterByEntity {
+
+    static func write(value: IoTTwinMakerClientTypes.FilterByEntity?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["entityId"].write(value.entityId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTTwinMakerClientTypes.FilterByEntity {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTTwinMakerClientTypes.FilterByEntity()
+        value.entityId = try reader["entityId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension IoTTwinMakerClientTypes.FunctionRequest {
+
+    static func write(value: IoTTwinMakerClientTypes.FunctionRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["implementedBy"].write(value.implementedBy, with: IoTTwinMakerClientTypes.DataConnector.write(value:to:))
+        try writer["requiredProperties"].writeList(value.requiredProperties, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["scope"].write(value.scope)
+    }
+}
+
+extension IoTTwinMakerClientTypes.FunctionResponse {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTTwinMakerClientTypes.FunctionResponse {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTTwinMakerClientTypes.FunctionResponse()
+        value.requiredProperties = try reader["requiredProperties"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.scope = try reader["scope"].readIfPresent()
+        value.implementedBy = try reader["implementedBy"].readIfPresent(with: IoTTwinMakerClientTypes.DataConnector.read(from:))
+        value.isInherited = try reader["isInherited"].readIfPresent()
+        return value
+    }
+}
+
+extension IoTTwinMakerClientTypes.InterpolationParameters {
+
+    static func write(value: IoTTwinMakerClientTypes.InterpolationParameters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["interpolationType"].write(value.interpolationType)
+        try writer["intervalInSeconds"].write(value.intervalInSeconds)
+    }
+}
+
+extension IoTTwinMakerClientTypes.IotSiteWiseSourceConfiguration {
+
+    static func write(value: IoTTwinMakerClientTypes.IotSiteWiseSourceConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["filters"].writeList(value.filters, memberWritingClosure: IoTTwinMakerClientTypes.IotSiteWiseSourceConfigurationFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTTwinMakerClientTypes.IotSiteWiseSourceConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTTwinMakerClientTypes.IotSiteWiseSourceConfiguration()
+        value.filters = try reader["filters"].readListIfPresent(memberReadingClosure: IoTTwinMakerClientTypes.IotSiteWiseSourceConfigurationFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension IoTTwinMakerClientTypes.IotSiteWiseSourceConfigurationFilter {
+
+    static func write(value: IoTTwinMakerClientTypes.IotSiteWiseSourceConfigurationFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .filterbyasset(filterbyasset):
+                try writer["filterByAsset"].write(filterbyasset, with: IoTTwinMakerClientTypes.FilterByAsset.write(value:to:))
+            case let .filterbyassetmodel(filterbyassetmodel):
+                try writer["filterByAssetModel"].write(filterbyassetmodel, with: IoTTwinMakerClientTypes.FilterByAssetModel.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTTwinMakerClientTypes.IotSiteWiseSourceConfigurationFilter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "filterByAssetModel":
+                return .filterbyassetmodel(try reader["filterByAssetModel"].read(with: IoTTwinMakerClientTypes.FilterByAssetModel.read(from:)))
+            case "filterByAsset":
+                return .filterbyasset(try reader["filterByAsset"].read(with: IoTTwinMakerClientTypes.FilterByAsset.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension IoTTwinMakerClientTypes.IotTwinMakerDestinationConfiguration {
+
+    static func write(value: IoTTwinMakerClientTypes.IotTwinMakerDestinationConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["workspace"].write(value.workspace)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTTwinMakerClientTypes.IotTwinMakerDestinationConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTTwinMakerClientTypes.IotTwinMakerDestinationConfiguration()
+        value.workspace = try reader["workspace"].readIfPresent() ?? ""
         return value
     }
 }
@@ -7431,504 +7510,18 @@ extension IoTTwinMakerClientTypes.IotTwinMakerSourceConfigurationFilter {
     }
 }
 
-extension IoTTwinMakerClientTypes.FilterByEntity {
+extension IoTTwinMakerClientTypes.LambdaFunction {
 
-    static func write(value: IoTTwinMakerClientTypes.FilterByEntity?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: IoTTwinMakerClientTypes.LambdaFunction?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["entityId"].write(value.entityId)
+        try writer["arn"].write(value.arn)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTTwinMakerClientTypes.FilterByEntity {
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTTwinMakerClientTypes.LambdaFunction {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTTwinMakerClientTypes.FilterByEntity()
-        value.entityId = try reader["entityId"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension IoTTwinMakerClientTypes.FilterByComponentType {
-
-    static func write(value: IoTTwinMakerClientTypes.FilterByComponentType?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["componentTypeId"].write(value.componentTypeId)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTTwinMakerClientTypes.FilterByComponentType {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTTwinMakerClientTypes.FilterByComponentType()
-        value.componentTypeId = try reader["componentTypeId"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension IoTTwinMakerClientTypes.IotSiteWiseSourceConfiguration {
-
-    static func write(value: IoTTwinMakerClientTypes.IotSiteWiseSourceConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["filters"].writeList(value.filters, memberWritingClosure: IoTTwinMakerClientTypes.IotSiteWiseSourceConfigurationFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTTwinMakerClientTypes.IotSiteWiseSourceConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTTwinMakerClientTypes.IotSiteWiseSourceConfiguration()
-        value.filters = try reader["filters"].readListIfPresent(memberReadingClosure: IoTTwinMakerClientTypes.IotSiteWiseSourceConfigurationFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension IoTTwinMakerClientTypes.IotSiteWiseSourceConfigurationFilter {
-
-    static func write(value: IoTTwinMakerClientTypes.IotSiteWiseSourceConfigurationFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .filterbyasset(filterbyasset):
-                try writer["filterByAsset"].write(filterbyasset, with: IoTTwinMakerClientTypes.FilterByAsset.write(value:to:))
-            case let .filterbyassetmodel(filterbyassetmodel):
-                try writer["filterByAssetModel"].write(filterbyassetmodel, with: IoTTwinMakerClientTypes.FilterByAssetModel.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTTwinMakerClientTypes.IotSiteWiseSourceConfigurationFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "filterByAssetModel":
-                return .filterbyassetmodel(try reader["filterByAssetModel"].read(with: IoTTwinMakerClientTypes.FilterByAssetModel.read(from:)))
-            case "filterByAsset":
-                return .filterbyasset(try reader["filterByAsset"].read(with: IoTTwinMakerClientTypes.FilterByAsset.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension IoTTwinMakerClientTypes.FilterByAsset {
-
-    static func write(value: IoTTwinMakerClientTypes.FilterByAsset?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["assetExternalId"].write(value.assetExternalId)
-        try writer["assetId"].write(value.assetId)
-        try writer["includeAssetModel"].write(value.includeAssetModel)
-        try writer["includeOffspring"].write(value.includeOffspring)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTTwinMakerClientTypes.FilterByAsset {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTTwinMakerClientTypes.FilterByAsset()
-        value.assetId = try reader["assetId"].readIfPresent()
-        value.assetExternalId = try reader["assetExternalId"].readIfPresent()
-        value.includeOffspring = try reader["includeOffspring"].readIfPresent()
-        value.includeAssetModel = try reader["includeAssetModel"].readIfPresent()
-        return value
-    }
-}
-
-extension IoTTwinMakerClientTypes.FilterByAssetModel {
-
-    static func write(value: IoTTwinMakerClientTypes.FilterByAssetModel?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["assetModelExternalId"].write(value.assetModelExternalId)
-        try writer["assetModelId"].write(value.assetModelId)
-        try writer["includeAssets"].write(value.includeAssets)
-        try writer["includeOffspring"].write(value.includeOffspring)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTTwinMakerClientTypes.FilterByAssetModel {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTTwinMakerClientTypes.FilterByAssetModel()
-        value.assetModelId = try reader["assetModelId"].readIfPresent()
-        value.assetModelExternalId = try reader["assetModelExternalId"].readIfPresent()
-        value.includeOffspring = try reader["includeOffspring"].readIfPresent()
-        value.includeAssets = try reader["includeAssets"].readIfPresent()
-        return value
-    }
-}
-
-extension IoTTwinMakerClientTypes.S3SourceConfiguration {
-
-    static func write(value: IoTTwinMakerClientTypes.S3SourceConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["location"].write(value.location)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTTwinMakerClientTypes.S3SourceConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTTwinMakerClientTypes.S3SourceConfiguration()
-        value.location = try reader["location"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension IoTTwinMakerClientTypes.DestinationConfiguration {
-
-    static func write(value: IoTTwinMakerClientTypes.DestinationConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["iotTwinMakerConfiguration"].write(value.iotTwinMakerConfiguration, with: IoTTwinMakerClientTypes.IotTwinMakerDestinationConfiguration.write(value:to:))
-        try writer["s3Configuration"].write(value.s3Configuration, with: IoTTwinMakerClientTypes.S3DestinationConfiguration.write(value:to:))
-        try writer["type"].write(value.type)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTTwinMakerClientTypes.DestinationConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTTwinMakerClientTypes.DestinationConfiguration()
-        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
-        value.s3Configuration = try reader["s3Configuration"].readIfPresent(with: IoTTwinMakerClientTypes.S3DestinationConfiguration.read(from:))
-        value.iotTwinMakerConfiguration = try reader["iotTwinMakerConfiguration"].readIfPresent(with: IoTTwinMakerClientTypes.IotTwinMakerDestinationConfiguration.read(from:))
-        return value
-    }
-}
-
-extension IoTTwinMakerClientTypes.IotTwinMakerDestinationConfiguration {
-
-    static func write(value: IoTTwinMakerClientTypes.IotTwinMakerDestinationConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["workspace"].write(value.workspace)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTTwinMakerClientTypes.IotTwinMakerDestinationConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTTwinMakerClientTypes.IotTwinMakerDestinationConfiguration()
-        value.workspace = try reader["workspace"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension IoTTwinMakerClientTypes.S3DestinationConfiguration {
-
-    static func write(value: IoTTwinMakerClientTypes.S3DestinationConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["location"].write(value.location)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTTwinMakerClientTypes.S3DestinationConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTTwinMakerClientTypes.S3DestinationConfiguration()
-        value.location = try reader["location"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension IoTTwinMakerClientTypes.PricingPlan {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTTwinMakerClientTypes.PricingPlan {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTTwinMakerClientTypes.PricingPlan()
-        value.billableEntityCount = try reader["billableEntityCount"].readIfPresent()
-        value.bundleInformation = try reader["bundleInformation"].readIfPresent(with: IoTTwinMakerClientTypes.BundleInformation.read(from:))
-        value.effectiveDateTime = try reader["effectiveDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.pricingMode = try reader["pricingMode"].readIfPresent() ?? .sdkUnknown("")
-        value.updateDateTime = try reader["updateDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.updateReason = try reader["updateReason"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension IoTTwinMakerClientTypes.BundleInformation {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTTwinMakerClientTypes.BundleInformation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTTwinMakerClientTypes.BundleInformation()
-        value.bundleNames = try reader["bundleNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.pricingTier = try reader["pricingTier"].readIfPresent()
-        return value
-    }
-}
-
-extension IoTTwinMakerClientTypes.PropertyLatestValue {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTTwinMakerClientTypes.PropertyLatestValue {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTTwinMakerClientTypes.PropertyLatestValue()
-        value.propertyReference = try reader["propertyReference"].readIfPresent(with: IoTTwinMakerClientTypes.EntityPropertyReference.read(from:))
-        value.propertyValue = try reader["propertyValue"].readIfPresent(with: IoTTwinMakerClientTypes.DataValue.read(from:))
-        return value
-    }
-}
-
-extension IoTTwinMakerClientTypes.PropertyValueHistory {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTTwinMakerClientTypes.PropertyValueHistory {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTTwinMakerClientTypes.PropertyValueHistory()
-        value.entityPropertyReference = try reader["entityPropertyReference"].readIfPresent(with: IoTTwinMakerClientTypes.EntityPropertyReference.read(from:))
-        value.values = try reader["values"].readListIfPresent(memberReadingClosure: IoTTwinMakerClientTypes.PropertyValue.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension IoTTwinMakerClientTypes.SceneError {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTTwinMakerClientTypes.SceneError {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTTwinMakerClientTypes.SceneError()
-        value.code = try reader["code"].readIfPresent()
-        value.message = try reader["message"].readIfPresent()
-        return value
-    }
-}
-
-extension IoTTwinMakerClientTypes.SyncJobStatus {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTTwinMakerClientTypes.SyncJobStatus {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTTwinMakerClientTypes.SyncJobStatus()
-        value.state = try reader["state"].readIfPresent()
-        value.error = try reader["error"].readIfPresent(with: IoTTwinMakerClientTypes.ErrorDetails.read(from:))
-        return value
-    }
-}
-
-extension IoTTwinMakerClientTypes.ComponentTypeSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTTwinMakerClientTypes.ComponentTypeSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTTwinMakerClientTypes.ComponentTypeSummary()
+        var value = IoTTwinMakerClientTypes.LambdaFunction()
         value.arn = try reader["arn"].readIfPresent() ?? ""
-        value.componentTypeId = try reader["componentTypeId"].readIfPresent() ?? ""
-        value.creationDateTime = try reader["creationDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.updateDateTime = try reader["updateDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.description = try reader["description"].readIfPresent()
-        value.status = try reader["status"].readIfPresent(with: IoTTwinMakerClientTypes.Status.read(from:))
-        value.componentTypeName = try reader["componentTypeName"].readIfPresent()
         return value
-    }
-}
-
-extension IoTTwinMakerClientTypes.EntitySummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTTwinMakerClientTypes.EntitySummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTTwinMakerClientTypes.EntitySummary()
-        value.entityId = try reader["entityId"].readIfPresent() ?? ""
-        value.entityName = try reader["entityName"].readIfPresent() ?? ""
-        value.arn = try reader["arn"].readIfPresent() ?? ""
-        value.parentEntityId = try reader["parentEntityId"].readIfPresent()
-        value.status = try reader["status"].readIfPresent(with: IoTTwinMakerClientTypes.Status.read(from:))
-        value.description = try reader["description"].readIfPresent()
-        value.hasChildEntities = try reader["hasChildEntities"].readIfPresent()
-        value.creationDateTime = try reader["creationDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.updateDateTime = try reader["updateDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        return value
-    }
-}
-
-extension IoTTwinMakerClientTypes.MetadataTransferJobSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTTwinMakerClientTypes.MetadataTransferJobSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTTwinMakerClientTypes.MetadataTransferJobSummary()
-        value.metadataTransferJobId = try reader["metadataTransferJobId"].readIfPresent() ?? ""
-        value.arn = try reader["arn"].readIfPresent() ?? ""
-        value.creationDateTime = try reader["creationDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.updateDateTime = try reader["updateDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.status = try reader["status"].readIfPresent(with: IoTTwinMakerClientTypes.MetadataTransferJobStatus.read(from:))
-        value.progress = try reader["progress"].readIfPresent(with: IoTTwinMakerClientTypes.MetadataTransferJobProgress.read(from:))
-        return value
-    }
-}
-
-extension IoTTwinMakerClientTypes.PropertySummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTTwinMakerClientTypes.PropertySummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTTwinMakerClientTypes.PropertySummary()
-        value.definition = try reader["definition"].readIfPresent(with: IoTTwinMakerClientTypes.PropertyDefinitionResponse.read(from:))
-        value.propertyName = try reader["propertyName"].readIfPresent() ?? ""
-        value.value = try reader["value"].readIfPresent(with: IoTTwinMakerClientTypes.DataValue.read(from:))
-        value.areAllPropertyValuesReturned = try reader["areAllPropertyValuesReturned"].readIfPresent()
-        return value
-    }
-}
-
-extension IoTTwinMakerClientTypes.SceneSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTTwinMakerClientTypes.SceneSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTTwinMakerClientTypes.SceneSummary()
-        value.sceneId = try reader["sceneId"].readIfPresent() ?? ""
-        value.contentLocation = try reader["contentLocation"].readIfPresent() ?? ""
-        value.arn = try reader["arn"].readIfPresent() ?? ""
-        value.creationDateTime = try reader["creationDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.updateDateTime = try reader["updateDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.description = try reader["description"].readIfPresent()
-        return value
-    }
-}
-
-extension IoTTwinMakerClientTypes.SyncJobSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTTwinMakerClientTypes.SyncJobSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTTwinMakerClientTypes.SyncJobSummary()
-        value.arn = try reader["arn"].readIfPresent()
-        value.workspaceId = try reader["workspaceId"].readIfPresent()
-        value.syncSource = try reader["syncSource"].readIfPresent()
-        value.status = try reader["status"].readIfPresent(with: IoTTwinMakerClientTypes.SyncJobStatus.read(from:))
-        value.creationDateTime = try reader["creationDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.updateDateTime = try reader["updateDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension IoTTwinMakerClientTypes.SyncResourceSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTTwinMakerClientTypes.SyncResourceSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTTwinMakerClientTypes.SyncResourceSummary()
-        value.resourceType = try reader["resourceType"].readIfPresent()
-        value.externalId = try reader["externalId"].readIfPresent()
-        value.resourceId = try reader["resourceId"].readIfPresent()
-        value.status = try reader["status"].readIfPresent(with: IoTTwinMakerClientTypes.SyncResourceStatus.read(from:))
-        value.updateDateTime = try reader["updateDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension IoTTwinMakerClientTypes.SyncResourceStatus {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTTwinMakerClientTypes.SyncResourceStatus {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTTwinMakerClientTypes.SyncResourceStatus()
-        value.state = try reader["state"].readIfPresent()
-        value.error = try reader["error"].readIfPresent(with: IoTTwinMakerClientTypes.ErrorDetails.read(from:))
-        return value
-    }
-}
-
-extension IoTTwinMakerClientTypes.WorkspaceSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IoTTwinMakerClientTypes.WorkspaceSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IoTTwinMakerClientTypes.WorkspaceSummary()
-        value.workspaceId = try reader["workspaceId"].readIfPresent() ?? ""
-        value.arn = try reader["arn"].readIfPresent() ?? ""
-        value.description = try reader["description"].readIfPresent()
-        value.linkedServices = try reader["linkedServices"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.creationDateTime = try reader["creationDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.updateDateTime = try reader["updateDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        return value
-    }
-}
-
-extension IoTTwinMakerClientTypes.PropertyDefinitionRequest {
-
-    static func write(value: IoTTwinMakerClientTypes.PropertyDefinitionRequest?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["configuration"].writeMap(value.configuration, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["dataType"].write(value.dataType, with: IoTTwinMakerClientTypes.DataType.write(value:to:))
-        try writer["defaultValue"].write(value.defaultValue, with: IoTTwinMakerClientTypes.DataValue.write(value:to:))
-        try writer["displayName"].write(value.displayName)
-        try writer["isExternalId"].write(value.isExternalId)
-        try writer["isRequiredInEntity"].write(value.isRequiredInEntity)
-        try writer["isStoredExternally"].write(value.isStoredExternally)
-        try writer["isTimeSeries"].write(value.isTimeSeries)
-    }
-}
-
-extension IoTTwinMakerClientTypes.FunctionRequest {
-
-    static func write(value: IoTTwinMakerClientTypes.FunctionRequest?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["implementedBy"].write(value.implementedBy, with: IoTTwinMakerClientTypes.DataConnector.write(value:to:))
-        try writer["requiredProperties"].writeList(value.requiredProperties, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["scope"].write(value.scope)
-    }
-}
-
-extension IoTTwinMakerClientTypes.PropertyGroupRequest {
-
-    static func write(value: IoTTwinMakerClientTypes.PropertyGroupRequest?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["groupType"].write(value.groupType)
-        try writer["propertyNames"].writeList(value.propertyNames, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension IoTTwinMakerClientTypes.CompositeComponentTypeRequest {
-
-    static func write(value: IoTTwinMakerClientTypes.CompositeComponentTypeRequest?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["componentTypeId"].write(value.componentTypeId)
-    }
-}
-
-extension IoTTwinMakerClientTypes.ComponentRequest {
-
-    static func write(value: IoTTwinMakerClientTypes.ComponentRequest?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["componentTypeId"].write(value.componentTypeId)
-        try writer["description"].write(value.description)
-        try writer["properties"].writeMap(value.properties, valueWritingClosure: IoTTwinMakerClientTypes.PropertyRequest.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["propertyGroups"].writeMap(value.propertyGroups, valueWritingClosure: IoTTwinMakerClientTypes.ComponentPropertyGroupRequest.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
-}
-
-extension IoTTwinMakerClientTypes.ComponentPropertyGroupRequest {
-
-    static func write(value: IoTTwinMakerClientTypes.ComponentPropertyGroupRequest?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["groupType"].write(value.groupType)
-        try writer["propertyNames"].writeList(value.propertyNames, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["updateType"].write(value.updateType)
-    }
-}
-
-extension IoTTwinMakerClientTypes.PropertyRequest {
-
-    static func write(value: IoTTwinMakerClientTypes.PropertyRequest?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["definition"].write(value.definition, with: IoTTwinMakerClientTypes.PropertyDefinitionRequest.write(value:to:))
-        try writer["updateType"].write(value.updateType)
-        try writer["value"].write(value.value, with: IoTTwinMakerClientTypes.DataValue.write(value:to:))
-    }
-}
-
-extension IoTTwinMakerClientTypes.CompositeComponentRequest {
-
-    static func write(value: IoTTwinMakerClientTypes.CompositeComponentRequest?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["description"].write(value.description)
-        try writer["properties"].writeMap(value.properties, valueWritingClosure: IoTTwinMakerClientTypes.PropertyRequest.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["propertyGroups"].writeMap(value.propertyGroups, valueWritingClosure: IoTTwinMakerClientTypes.ComponentPropertyGroupRequest.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
-}
-
-extension IoTTwinMakerClientTypes.TabularConditions {
-
-    static func write(value: IoTTwinMakerClientTypes.TabularConditions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["orderBy"].writeList(value.orderBy, memberWritingClosure: IoTTwinMakerClientTypes.OrderBy.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["propertyFilters"].writeList(value.propertyFilters, memberWritingClosure: IoTTwinMakerClientTypes.PropertyFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension IoTTwinMakerClientTypes.PropertyFilter {
-
-    static func write(value: IoTTwinMakerClientTypes.PropertyFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["operator"].write(value.`operator`)
-        try writer["propertyName"].write(value.propertyName)
-        try writer["value"].write(value.value, with: IoTTwinMakerClientTypes.DataValue.write(value:to:))
-    }
-}
-
-extension IoTTwinMakerClientTypes.OrderBy {
-
-    static func write(value: IoTTwinMakerClientTypes.OrderBy?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["order"].write(value.order)
-        try writer["propertyName"].write(value.propertyName)
-    }
-}
-
-extension IoTTwinMakerClientTypes.InterpolationParameters {
-
-    static func write(value: IoTTwinMakerClientTypes.InterpolationParameters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["interpolationType"].write(value.interpolationType)
-        try writer["intervalInSeconds"].write(value.intervalInSeconds)
     }
 }
 
@@ -7981,6 +7574,396 @@ extension IoTTwinMakerClientTypes.ListMetadataTransferJobsFilter {
     }
 }
 
+extension IoTTwinMakerClientTypes.MetadataTransferJobProgress {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTTwinMakerClientTypes.MetadataTransferJobProgress {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTTwinMakerClientTypes.MetadataTransferJobProgress()
+        value.totalCount = try reader["totalCount"].readIfPresent()
+        value.succeededCount = try reader["succeededCount"].readIfPresent()
+        value.skippedCount = try reader["skippedCount"].readIfPresent()
+        value.failedCount = try reader["failedCount"].readIfPresent()
+        return value
+    }
+}
+
+extension IoTTwinMakerClientTypes.MetadataTransferJobStatus {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTTwinMakerClientTypes.MetadataTransferJobStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTTwinMakerClientTypes.MetadataTransferJobStatus()
+        value.state = try reader["state"].readIfPresent()
+        value.error = try reader["error"].readIfPresent(with: IoTTwinMakerClientTypes.ErrorDetails.read(from:))
+        value.queuedPosition = try reader["queuedPosition"].readIfPresent()
+        return value
+    }
+}
+
+extension IoTTwinMakerClientTypes.MetadataTransferJobSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTTwinMakerClientTypes.MetadataTransferJobSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTTwinMakerClientTypes.MetadataTransferJobSummary()
+        value.metadataTransferJobId = try reader["metadataTransferJobId"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.creationDateTime = try reader["creationDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updateDateTime = try reader["updateDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.status = try reader["status"].readIfPresent(with: IoTTwinMakerClientTypes.MetadataTransferJobStatus.read(from:))
+        value.progress = try reader["progress"].readIfPresent(with: IoTTwinMakerClientTypes.MetadataTransferJobProgress.read(from:))
+        return value
+    }
+}
+
+extension IoTTwinMakerClientTypes.OrderBy {
+
+    static func write(value: IoTTwinMakerClientTypes.OrderBy?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["order"].write(value.order)
+        try writer["propertyName"].write(value.propertyName)
+    }
+}
+
+extension IoTTwinMakerClientTypes.ParentEntityUpdateRequest {
+
+    static func write(value: IoTTwinMakerClientTypes.ParentEntityUpdateRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["parentEntityId"].write(value.parentEntityId)
+        try writer["updateType"].write(value.updateType)
+    }
+}
+
+extension IoTTwinMakerClientTypes.PricingPlan {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTTwinMakerClientTypes.PricingPlan {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTTwinMakerClientTypes.PricingPlan()
+        value.billableEntityCount = try reader["billableEntityCount"].readIfPresent()
+        value.bundleInformation = try reader["bundleInformation"].readIfPresent(with: IoTTwinMakerClientTypes.BundleInformation.read(from:))
+        value.effectiveDateTime = try reader["effectiveDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.pricingMode = try reader["pricingMode"].readIfPresent() ?? .sdkUnknown("")
+        value.updateDateTime = try reader["updateDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updateReason = try reader["updateReason"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension IoTTwinMakerClientTypes.PropertyDefinitionRequest {
+
+    static func write(value: IoTTwinMakerClientTypes.PropertyDefinitionRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["configuration"].writeMap(value.configuration, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["dataType"].write(value.dataType, with: IoTTwinMakerClientTypes.DataType.write(value:to:))
+        try writer["defaultValue"].write(value.defaultValue, with: IoTTwinMakerClientTypes.DataValue.write(value:to:))
+        try writer["displayName"].write(value.displayName)
+        try writer["isExternalId"].write(value.isExternalId)
+        try writer["isRequiredInEntity"].write(value.isRequiredInEntity)
+        try writer["isStoredExternally"].write(value.isStoredExternally)
+        try writer["isTimeSeries"].write(value.isTimeSeries)
+    }
+}
+
+extension IoTTwinMakerClientTypes.PropertyDefinitionResponse {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTTwinMakerClientTypes.PropertyDefinitionResponse {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTTwinMakerClientTypes.PropertyDefinitionResponse()
+        value.dataType = try reader["dataType"].readIfPresent(with: IoTTwinMakerClientTypes.DataType.read(from:))
+        value.isTimeSeries = try reader["isTimeSeries"].readIfPresent() ?? false
+        value.isRequiredInEntity = try reader["isRequiredInEntity"].readIfPresent() ?? false
+        value.isExternalId = try reader["isExternalId"].readIfPresent() ?? false
+        value.isStoredExternally = try reader["isStoredExternally"].readIfPresent() ?? false
+        value.isImported = try reader["isImported"].readIfPresent() ?? false
+        value.isFinal = try reader["isFinal"].readIfPresent() ?? false
+        value.isInherited = try reader["isInherited"].readIfPresent() ?? false
+        value.defaultValue = try reader["defaultValue"].readIfPresent(with: IoTTwinMakerClientTypes.DataValue.read(from:))
+        value.configuration = try reader["configuration"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.displayName = try reader["displayName"].readIfPresent()
+        return value
+    }
+}
+
+extension IoTTwinMakerClientTypes.PropertyFilter {
+
+    static func write(value: IoTTwinMakerClientTypes.PropertyFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["operator"].write(value.`operator`)
+        try writer["propertyName"].write(value.propertyName)
+        try writer["value"].write(value.value, with: IoTTwinMakerClientTypes.DataValue.write(value:to:))
+    }
+}
+
+extension IoTTwinMakerClientTypes.PropertyGroupRequest {
+
+    static func write(value: IoTTwinMakerClientTypes.PropertyGroupRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["groupType"].write(value.groupType)
+        try writer["propertyNames"].writeList(value.propertyNames, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension IoTTwinMakerClientTypes.PropertyGroupResponse {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTTwinMakerClientTypes.PropertyGroupResponse {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTTwinMakerClientTypes.PropertyGroupResponse()
+        value.groupType = try reader["groupType"].readIfPresent() ?? .sdkUnknown("")
+        value.propertyNames = try reader["propertyNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.isInherited = try reader["isInherited"].readIfPresent() ?? false
+        return value
+    }
+}
+
+extension IoTTwinMakerClientTypes.PropertyLatestValue {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTTwinMakerClientTypes.PropertyLatestValue {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTTwinMakerClientTypes.PropertyLatestValue()
+        value.propertyReference = try reader["propertyReference"].readIfPresent(with: IoTTwinMakerClientTypes.EntityPropertyReference.read(from:))
+        value.propertyValue = try reader["propertyValue"].readIfPresent(with: IoTTwinMakerClientTypes.DataValue.read(from:))
+        return value
+    }
+}
+
+extension IoTTwinMakerClientTypes.PropertyRequest {
+
+    static func write(value: IoTTwinMakerClientTypes.PropertyRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["definition"].write(value.definition, with: IoTTwinMakerClientTypes.PropertyDefinitionRequest.write(value:to:))
+        try writer["updateType"].write(value.updateType)
+        try writer["value"].write(value.value, with: IoTTwinMakerClientTypes.DataValue.write(value:to:))
+    }
+}
+
+extension IoTTwinMakerClientTypes.PropertyResponse {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTTwinMakerClientTypes.PropertyResponse {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTTwinMakerClientTypes.PropertyResponse()
+        value.definition = try reader["definition"].readIfPresent(with: IoTTwinMakerClientTypes.PropertyDefinitionResponse.read(from:))
+        value.value = try reader["value"].readIfPresent(with: IoTTwinMakerClientTypes.DataValue.read(from:))
+        value.areAllPropertyValuesReturned = try reader["areAllPropertyValuesReturned"].readIfPresent()
+        return value
+    }
+}
+
+extension IoTTwinMakerClientTypes.PropertySummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTTwinMakerClientTypes.PropertySummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTTwinMakerClientTypes.PropertySummary()
+        value.definition = try reader["definition"].readIfPresent(with: IoTTwinMakerClientTypes.PropertyDefinitionResponse.read(from:))
+        value.propertyName = try reader["propertyName"].readIfPresent() ?? ""
+        value.value = try reader["value"].readIfPresent(with: IoTTwinMakerClientTypes.DataValue.read(from:))
+        value.areAllPropertyValuesReturned = try reader["areAllPropertyValuesReturned"].readIfPresent()
+        return value
+    }
+}
+
+extension IoTTwinMakerClientTypes.PropertyValue {
+
+    static func write(value: IoTTwinMakerClientTypes.PropertyValue?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["time"].write(value.time)
+        try writer["timestamp"].writeTimestamp(value.timestamp, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["value"].write(value.value, with: IoTTwinMakerClientTypes.DataValue.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTTwinMakerClientTypes.PropertyValue {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTTwinMakerClientTypes.PropertyValue()
+        value.timestamp = try reader["timestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.value = try reader["value"].readIfPresent(with: IoTTwinMakerClientTypes.DataValue.read(from:))
+        value.time = try reader["time"].readIfPresent()
+        return value
+    }
+}
+
+extension IoTTwinMakerClientTypes.PropertyValueEntry {
+
+    static func write(value: IoTTwinMakerClientTypes.PropertyValueEntry?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["entityPropertyReference"].write(value.entityPropertyReference, with: IoTTwinMakerClientTypes.EntityPropertyReference.write(value:to:))
+        try writer["propertyValues"].writeList(value.propertyValues, memberWritingClosure: IoTTwinMakerClientTypes.PropertyValue.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTTwinMakerClientTypes.PropertyValueEntry {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTTwinMakerClientTypes.PropertyValueEntry()
+        value.entityPropertyReference = try reader["entityPropertyReference"].readIfPresent(with: IoTTwinMakerClientTypes.EntityPropertyReference.read(from:))
+        value.propertyValues = try reader["propertyValues"].readListIfPresent(memberReadingClosure: IoTTwinMakerClientTypes.PropertyValue.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension IoTTwinMakerClientTypes.PropertyValueHistory {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTTwinMakerClientTypes.PropertyValueHistory {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTTwinMakerClientTypes.PropertyValueHistory()
+        value.entityPropertyReference = try reader["entityPropertyReference"].readIfPresent(with: IoTTwinMakerClientTypes.EntityPropertyReference.read(from:))
+        value.values = try reader["values"].readListIfPresent(memberReadingClosure: IoTTwinMakerClientTypes.PropertyValue.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension IoTTwinMakerClientTypes.Relationship {
+
+    static func write(value: IoTTwinMakerClientTypes.Relationship?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["relationshipType"].write(value.relationshipType)
+        try writer["targetComponentTypeId"].write(value.targetComponentTypeId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTTwinMakerClientTypes.Relationship {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTTwinMakerClientTypes.Relationship()
+        value.targetComponentTypeId = try reader["targetComponentTypeId"].readIfPresent()
+        value.relationshipType = try reader["relationshipType"].readIfPresent()
+        return value
+    }
+}
+
+extension IoTTwinMakerClientTypes.RelationshipValue {
+
+    static func write(value: IoTTwinMakerClientTypes.RelationshipValue?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["targetComponentName"].write(value.targetComponentName)
+        try writer["targetEntityId"].write(value.targetEntityId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTTwinMakerClientTypes.RelationshipValue {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTTwinMakerClientTypes.RelationshipValue()
+        value.targetEntityId = try reader["targetEntityId"].readIfPresent()
+        value.targetComponentName = try reader["targetComponentName"].readIfPresent()
+        return value
+    }
+}
+
+extension IoTTwinMakerClientTypes.Row {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTTwinMakerClientTypes.Row {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTTwinMakerClientTypes.Row()
+        value.rowData = try reader["rowData"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDocument(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension IoTTwinMakerClientTypes.S3DestinationConfiguration {
+
+    static func write(value: IoTTwinMakerClientTypes.S3DestinationConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["location"].write(value.location)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTTwinMakerClientTypes.S3DestinationConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTTwinMakerClientTypes.S3DestinationConfiguration()
+        value.location = try reader["location"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension IoTTwinMakerClientTypes.S3SourceConfiguration {
+
+    static func write(value: IoTTwinMakerClientTypes.S3SourceConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["location"].write(value.location)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTTwinMakerClientTypes.S3SourceConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTTwinMakerClientTypes.S3SourceConfiguration()
+        value.location = try reader["location"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension IoTTwinMakerClientTypes.SceneError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTTwinMakerClientTypes.SceneError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTTwinMakerClientTypes.SceneError()
+        value.code = try reader["code"].readIfPresent()
+        value.message = try reader["message"].readIfPresent()
+        return value
+    }
+}
+
+extension IoTTwinMakerClientTypes.SceneSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTTwinMakerClientTypes.SceneSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTTwinMakerClientTypes.SceneSummary()
+        value.sceneId = try reader["sceneId"].readIfPresent() ?? ""
+        value.contentLocation = try reader["contentLocation"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.creationDateTime = try reader["creationDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updateDateTime = try reader["updateDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.description = try reader["description"].readIfPresent()
+        return value
+    }
+}
+
+extension IoTTwinMakerClientTypes.SourceConfiguration {
+
+    static func write(value: IoTTwinMakerClientTypes.SourceConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["iotSiteWiseConfiguration"].write(value.iotSiteWiseConfiguration, with: IoTTwinMakerClientTypes.IotSiteWiseSourceConfiguration.write(value:to:))
+        try writer["iotTwinMakerConfiguration"].write(value.iotTwinMakerConfiguration, with: IoTTwinMakerClientTypes.IotTwinMakerSourceConfiguration.write(value:to:))
+        try writer["s3Configuration"].write(value.s3Configuration, with: IoTTwinMakerClientTypes.S3SourceConfiguration.write(value:to:))
+        try writer["type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTTwinMakerClientTypes.SourceConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTTwinMakerClientTypes.SourceConfiguration()
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.s3Configuration = try reader["s3Configuration"].readIfPresent(with: IoTTwinMakerClientTypes.S3SourceConfiguration.read(from:))
+        value.iotSiteWiseConfiguration = try reader["iotSiteWiseConfiguration"].readIfPresent(with: IoTTwinMakerClientTypes.IotSiteWiseSourceConfiguration.read(from:))
+        value.iotTwinMakerConfiguration = try reader["iotTwinMakerConfiguration"].readIfPresent(with: IoTTwinMakerClientTypes.IotTwinMakerSourceConfiguration.read(from:))
+        return value
+    }
+}
+
+extension IoTTwinMakerClientTypes.Status {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTTwinMakerClientTypes.Status {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTTwinMakerClientTypes.Status()
+        value.state = try reader["state"].readIfPresent()
+        value.error = try reader["error"].readIfPresent(with: IoTTwinMakerClientTypes.ErrorDetails.read(from:))
+        return value
+    }
+}
+
+extension IoTTwinMakerClientTypes.SyncJobStatus {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTTwinMakerClientTypes.SyncJobStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTTwinMakerClientTypes.SyncJobStatus()
+        value.state = try reader["state"].readIfPresent()
+        value.error = try reader["error"].readIfPresent(with: IoTTwinMakerClientTypes.ErrorDetails.read(from:))
+        return value
+    }
+}
+
+extension IoTTwinMakerClientTypes.SyncJobSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTTwinMakerClientTypes.SyncJobSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTTwinMakerClientTypes.SyncJobSummary()
+        value.arn = try reader["arn"].readIfPresent()
+        value.workspaceId = try reader["workspaceId"].readIfPresent()
+        value.syncSource = try reader["syncSource"].readIfPresent()
+        value.status = try reader["status"].readIfPresent(with: IoTTwinMakerClientTypes.SyncJobStatus.read(from:))
+        value.creationDateTime = try reader["creationDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.updateDateTime = try reader["updateDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
 extension IoTTwinMakerClientTypes.SyncResourceFilter {
 
     static func write(value: IoTTwinMakerClientTypes.SyncResourceFilter?, to writer: SmithyJSON.Writer) throws {
@@ -8000,35 +7983,52 @@ extension IoTTwinMakerClientTypes.SyncResourceFilter {
     }
 }
 
-extension IoTTwinMakerClientTypes.ComponentUpdateRequest {
+extension IoTTwinMakerClientTypes.SyncResourceStatus {
 
-    static func write(value: IoTTwinMakerClientTypes.ComponentUpdateRequest?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["componentTypeId"].write(value.componentTypeId)
-        try writer["description"].write(value.description)
-        try writer["propertyGroupUpdates"].writeMap(value.propertyGroupUpdates, valueWritingClosure: IoTTwinMakerClientTypes.ComponentPropertyGroupRequest.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["propertyUpdates"].writeMap(value.propertyUpdates, valueWritingClosure: IoTTwinMakerClientTypes.PropertyRequest.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["updateType"].write(value.updateType)
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTTwinMakerClientTypes.SyncResourceStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTTwinMakerClientTypes.SyncResourceStatus()
+        value.state = try reader["state"].readIfPresent()
+        value.error = try reader["error"].readIfPresent(with: IoTTwinMakerClientTypes.ErrorDetails.read(from:))
+        return value
     }
 }
 
-extension IoTTwinMakerClientTypes.CompositeComponentUpdateRequest {
+extension IoTTwinMakerClientTypes.SyncResourceSummary {
 
-    static func write(value: IoTTwinMakerClientTypes.CompositeComponentUpdateRequest?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["description"].write(value.description)
-        try writer["propertyGroupUpdates"].writeMap(value.propertyGroupUpdates, valueWritingClosure: IoTTwinMakerClientTypes.ComponentPropertyGroupRequest.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["propertyUpdates"].writeMap(value.propertyUpdates, valueWritingClosure: IoTTwinMakerClientTypes.PropertyRequest.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["updateType"].write(value.updateType)
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTTwinMakerClientTypes.SyncResourceSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTTwinMakerClientTypes.SyncResourceSummary()
+        value.resourceType = try reader["resourceType"].readIfPresent()
+        value.externalId = try reader["externalId"].readIfPresent()
+        value.resourceId = try reader["resourceId"].readIfPresent()
+        value.status = try reader["status"].readIfPresent(with: IoTTwinMakerClientTypes.SyncResourceStatus.read(from:))
+        value.updateDateTime = try reader["updateDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
     }
 }
 
-extension IoTTwinMakerClientTypes.ParentEntityUpdateRequest {
+extension IoTTwinMakerClientTypes.TabularConditions {
 
-    static func write(value: IoTTwinMakerClientTypes.ParentEntityUpdateRequest?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: IoTTwinMakerClientTypes.TabularConditions?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["parentEntityId"].write(value.parentEntityId)
-        try writer["updateType"].write(value.updateType)
+        try writer["orderBy"].writeList(value.orderBy, memberWritingClosure: IoTTwinMakerClientTypes.OrderBy.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["propertyFilters"].writeList(value.propertyFilters, memberWritingClosure: IoTTwinMakerClientTypes.PropertyFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension IoTTwinMakerClientTypes.WorkspaceSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IoTTwinMakerClientTypes.WorkspaceSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IoTTwinMakerClientTypes.WorkspaceSummary()
+        value.workspaceId = try reader["workspaceId"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.description = try reader["description"].readIfPresent()
+        value.linkedServices = try reader["linkedServices"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.creationDateTime = try reader["creationDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.updateDateTime = try reader["updateDateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
     }
 }
 

@@ -670,6 +670,17 @@ extension InvalidIdentityTokenException {
     }
 }
 
+extension STSClientTypes.AssumedRoleUser {
+
+    static func read(from reader: SmithyXML.Reader) throws -> STSClientTypes.AssumedRoleUser {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = STSClientTypes.AssumedRoleUser()
+        value.assumedRoleId = try reader["AssumedRoleId"].readIfPresent() ?? ""
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension STSClientTypes.Credentials {
 
     static func read(from reader: SmithyXML.Reader) throws -> STSClientTypes.Credentials {
@@ -683,31 +694,11 @@ extension STSClientTypes.Credentials {
     }
 }
 
-extension STSClientTypes.AssumedRoleUser {
-
-    static func read(from reader: SmithyXML.Reader) throws -> STSClientTypes.AssumedRoleUser {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = STSClientTypes.AssumedRoleUser()
-        value.assumedRoleId = try reader["AssumedRoleId"].readIfPresent() ?? ""
-        value.arn = try reader["Arn"].readIfPresent() ?? ""
-        return value
-    }
-}
-
 extension STSClientTypes.PolicyDescriptorType {
 
     static func write(value: STSClientTypes.PolicyDescriptorType?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
         try writer["arn"].write(value.arn)
-    }
-}
-
-extension STSClientTypes.Tag {
-
-    static func write(value: STSClientTypes.Tag?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Key"].write(value.key)
-        try writer["Value"].write(value.value)
     }
 }
 
@@ -717,6 +708,15 @@ extension STSClientTypes.ProvidedContext {
         guard let value else { return }
         try writer["ContextAssertion"].write(value.contextAssertion)
         try writer["ProviderArn"].write(value.providerArn)
+    }
+}
+
+extension STSClientTypes.Tag {
+
+    static func write(value: STSClientTypes.Tag?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["Key"].write(value.key)
+        try writer["Value"].write(value.value)
     }
 }
 

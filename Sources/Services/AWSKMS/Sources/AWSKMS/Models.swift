@@ -8776,6 +8776,84 @@ extension KMSInvalidMacException {
     }
 }
 
+extension KMSClientTypes.AliasListEntry {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KMSClientTypes.AliasListEntry {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KMSClientTypes.AliasListEntry()
+        value.aliasName = try reader["AliasName"].readIfPresent()
+        value.aliasArn = try reader["AliasArn"].readIfPresent()
+        value.targetKeyId = try reader["TargetKeyId"].readIfPresent()
+        value.creationDate = try reader["CreationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastUpdatedDate = try reader["LastUpdatedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension KMSClientTypes.CustomKeyStoresListEntry {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KMSClientTypes.CustomKeyStoresListEntry {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KMSClientTypes.CustomKeyStoresListEntry()
+        value.customKeyStoreId = try reader["CustomKeyStoreId"].readIfPresent()
+        value.customKeyStoreName = try reader["CustomKeyStoreName"].readIfPresent()
+        value.cloudHsmClusterId = try reader["CloudHsmClusterId"].readIfPresent()
+        value.trustAnchorCertificate = try reader["TrustAnchorCertificate"].readIfPresent()
+        value.connectionState = try reader["ConnectionState"].readIfPresent()
+        value.connectionErrorCode = try reader["ConnectionErrorCode"].readIfPresent()
+        value.creationDate = try reader["CreationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.customKeyStoreType = try reader["CustomKeyStoreType"].readIfPresent()
+        value.xksProxyConfiguration = try reader["XksProxyConfiguration"].readIfPresent(with: KMSClientTypes.XksProxyConfigurationType.read(from:))
+        return value
+    }
+}
+
+extension KMSClientTypes.GrantConstraints {
+
+    static func write(value: KMSClientTypes.GrantConstraints?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["EncryptionContextEquals"].writeMap(value.encryptionContextEquals, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["EncryptionContextSubset"].writeMap(value.encryptionContextSubset, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KMSClientTypes.GrantConstraints {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KMSClientTypes.GrantConstraints()
+        value.encryptionContextSubset = try reader["EncryptionContextSubset"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.encryptionContextEquals = try reader["EncryptionContextEquals"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension KMSClientTypes.GrantListEntry {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KMSClientTypes.GrantListEntry {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KMSClientTypes.GrantListEntry()
+        value.keyId = try reader["KeyId"].readIfPresent()
+        value.grantId = try reader["GrantId"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        value.creationDate = try reader["CreationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.granteePrincipal = try reader["GranteePrincipal"].readIfPresent()
+        value.retiringPrincipal = try reader["RetiringPrincipal"].readIfPresent()
+        value.issuingAccount = try reader["IssuingAccount"].readIfPresent()
+        value.operations = try reader["Operations"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<KMSClientTypes.GrantOperation>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.constraints = try reader["Constraints"].readIfPresent(with: KMSClientTypes.GrantConstraints.read(from:))
+        return value
+    }
+}
+
+extension KMSClientTypes.KeyListEntry {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KMSClientTypes.KeyListEntry {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KMSClientTypes.KeyListEntry()
+        value.keyId = try reader["KeyId"].readIfPresent()
+        value.keyArn = try reader["KeyArn"].readIfPresent()
+        return value
+    }
+}
+
 extension KMSClientTypes.KeyMetadata {
 
     static func read(from reader: SmithyJSON.Reader) throws -> KMSClientTypes.KeyMetadata {
@@ -8811,16 +8889,6 @@ extension KMSClientTypes.KeyMetadata {
     }
 }
 
-extension KMSClientTypes.XksKeyConfigurationType {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KMSClientTypes.XksKeyConfigurationType {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KMSClientTypes.XksKeyConfigurationType()
-        value.id = try reader["Id"].readIfPresent()
-        return value
-    }
-}
-
 extension KMSClientTypes.MultiRegionConfiguration {
 
     static func read(from reader: SmithyJSON.Reader) throws -> KMSClientTypes.MultiRegionConfiguration {
@@ -8844,85 +8912,12 @@ extension KMSClientTypes.MultiRegionKey {
     }
 }
 
-extension KMSClientTypes.CustomKeyStoresListEntry {
+extension KMSClientTypes.RecipientInfo {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> KMSClientTypes.CustomKeyStoresListEntry {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KMSClientTypes.CustomKeyStoresListEntry()
-        value.customKeyStoreId = try reader["CustomKeyStoreId"].readIfPresent()
-        value.customKeyStoreName = try reader["CustomKeyStoreName"].readIfPresent()
-        value.cloudHsmClusterId = try reader["CloudHsmClusterId"].readIfPresent()
-        value.trustAnchorCertificate = try reader["TrustAnchorCertificate"].readIfPresent()
-        value.connectionState = try reader["ConnectionState"].readIfPresent()
-        value.connectionErrorCode = try reader["ConnectionErrorCode"].readIfPresent()
-        value.creationDate = try reader["CreationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.customKeyStoreType = try reader["CustomKeyStoreType"].readIfPresent()
-        value.xksProxyConfiguration = try reader["XksProxyConfiguration"].readIfPresent(with: KMSClientTypes.XksProxyConfigurationType.read(from:))
-        return value
-    }
-}
-
-extension KMSClientTypes.XksProxyConfigurationType {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KMSClientTypes.XksProxyConfigurationType {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KMSClientTypes.XksProxyConfigurationType()
-        value.connectivity = try reader["Connectivity"].readIfPresent()
-        value.accessKeyId = try reader["AccessKeyId"].readIfPresent()
-        value.uriEndpoint = try reader["UriEndpoint"].readIfPresent()
-        value.uriPath = try reader["UriPath"].readIfPresent()
-        value.vpcEndpointServiceName = try reader["VpcEndpointServiceName"].readIfPresent()
-        value.vpcEndpointServiceOwner = try reader["VpcEndpointServiceOwner"].readIfPresent()
-        return value
-    }
-}
-
-extension KMSClientTypes.AliasListEntry {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KMSClientTypes.AliasListEntry {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KMSClientTypes.AliasListEntry()
-        value.aliasName = try reader["AliasName"].readIfPresent()
-        value.aliasArn = try reader["AliasArn"].readIfPresent()
-        value.targetKeyId = try reader["TargetKeyId"].readIfPresent()
-        value.creationDate = try reader["CreationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastUpdatedDate = try reader["LastUpdatedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension KMSClientTypes.GrantListEntry {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KMSClientTypes.GrantListEntry {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KMSClientTypes.GrantListEntry()
-        value.keyId = try reader["KeyId"].readIfPresent()
-        value.grantId = try reader["GrantId"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
-        value.creationDate = try reader["CreationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.granteePrincipal = try reader["GranteePrincipal"].readIfPresent()
-        value.retiringPrincipal = try reader["RetiringPrincipal"].readIfPresent()
-        value.issuingAccount = try reader["IssuingAccount"].readIfPresent()
-        value.operations = try reader["Operations"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<KMSClientTypes.GrantOperation>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.constraints = try reader["Constraints"].readIfPresent(with: KMSClientTypes.GrantConstraints.read(from:))
-        return value
-    }
-}
-
-extension KMSClientTypes.GrantConstraints {
-
-    static func write(value: KMSClientTypes.GrantConstraints?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: KMSClientTypes.RecipientInfo?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["EncryptionContextEquals"].writeMap(value.encryptionContextEquals, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["EncryptionContextSubset"].writeMap(value.encryptionContextSubset, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KMSClientTypes.GrantConstraints {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KMSClientTypes.GrantConstraints()
-        value.encryptionContextSubset = try reader["EncryptionContextSubset"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.encryptionContextEquals = try reader["EncryptionContextEquals"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
+        try writer["AttestationDocument"].write(value.attestationDocument)
+        try writer["KeyEncryptionAlgorithm"].write(value.keyEncryptionAlgorithm)
     }
 }
 
@@ -8944,17 +8939,6 @@ extension KMSClientTypes.RotationsListEntry {
     }
 }
 
-extension KMSClientTypes.KeyListEntry {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KMSClientTypes.KeyListEntry {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KMSClientTypes.KeyListEntry()
-        value.keyId = try reader["KeyId"].readIfPresent()
-        value.keyArn = try reader["KeyArn"].readIfPresent()
-        return value
-    }
-}
-
 extension KMSClientTypes.Tag {
 
     static func write(value: KMSClientTypes.Tag?, to writer: SmithyJSON.Writer) throws {
@@ -8972,6 +8956,16 @@ extension KMSClientTypes.Tag {
     }
 }
 
+extension KMSClientTypes.XksKeyConfigurationType {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KMSClientTypes.XksKeyConfigurationType {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KMSClientTypes.XksKeyConfigurationType()
+        value.id = try reader["Id"].readIfPresent()
+        return value
+    }
+}
+
 extension KMSClientTypes.XksProxyAuthenticationCredentialType {
 
     static func write(value: KMSClientTypes.XksProxyAuthenticationCredentialType?, to writer: SmithyJSON.Writer) throws {
@@ -8981,12 +8975,18 @@ extension KMSClientTypes.XksProxyAuthenticationCredentialType {
     }
 }
 
-extension KMSClientTypes.RecipientInfo {
+extension KMSClientTypes.XksProxyConfigurationType {
 
-    static func write(value: KMSClientTypes.RecipientInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AttestationDocument"].write(value.attestationDocument)
-        try writer["KeyEncryptionAlgorithm"].write(value.keyEncryptionAlgorithm)
+    static func read(from reader: SmithyJSON.Reader) throws -> KMSClientTypes.XksProxyConfigurationType {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KMSClientTypes.XksProxyConfigurationType()
+        value.connectivity = try reader["Connectivity"].readIfPresent()
+        value.accessKeyId = try reader["AccessKeyId"].readIfPresent()
+        value.uriEndpoint = try reader["UriEndpoint"].readIfPresent()
+        value.uriPath = try reader["UriPath"].readIfPresent()
+        value.vpcEndpointServiceName = try reader["VpcEndpointServiceName"].readIfPresent()
+        value.vpcEndpointServiceOwner = try reader["VpcEndpointServiceOwner"].readIfPresent()
+        return value
     }
 }
 

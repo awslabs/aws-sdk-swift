@@ -4648,6 +4648,14 @@ extension ServiceQuotaExceededException {
     }
 }
 
+extension GreengrassV2ClientTypes.AssociateClientDeviceWithCoreDeviceEntry {
+
+    static func write(value: GreengrassV2ClientTypes.AssociateClientDeviceWithCoreDeviceEntry?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["thingName"].write(value.thingName)
+    }
+}
+
 extension GreengrassV2ClientTypes.AssociateClientDeviceWithCoreDeviceErrorEntry {
 
     static func read(from reader: SmithyJSON.Reader) throws -> GreengrassV2ClientTypes.AssociateClientDeviceWithCoreDeviceErrorEntry {
@@ -4660,14 +4668,13 @@ extension GreengrassV2ClientTypes.AssociateClientDeviceWithCoreDeviceErrorEntry 
     }
 }
 
-extension GreengrassV2ClientTypes.DisassociateClientDeviceFromCoreDeviceErrorEntry {
+extension GreengrassV2ClientTypes.AssociatedClientDevice {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GreengrassV2ClientTypes.DisassociateClientDeviceFromCoreDeviceErrorEntry {
+    static func read(from reader: SmithyJSON.Reader) throws -> GreengrassV2ClientTypes.AssociatedClientDevice {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GreengrassV2ClientTypes.DisassociateClientDeviceFromCoreDeviceErrorEntry()
+        var value = GreengrassV2ClientTypes.AssociatedClientDevice()
         value.thingName = try reader["thingName"].readIfPresent()
-        value.code = try reader["code"].readIfPresent()
-        value.message = try reader["message"].readIfPresent()
+        value.associationTimestamp = try reader["associationTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }
@@ -4686,6 +4693,88 @@ extension GreengrassV2ClientTypes.CloudComponentStatus {
     }
 }
 
+extension GreengrassV2ClientTypes.Component {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GreengrassV2ClientTypes.Component {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GreengrassV2ClientTypes.Component()
+        value.arn = try reader["arn"].readIfPresent()
+        value.componentName = try reader["componentName"].readIfPresent()
+        value.latestVersion = try reader["latestVersion"].readIfPresent(with: GreengrassV2ClientTypes.ComponentLatestVersion.read(from:))
+        return value
+    }
+}
+
+extension GreengrassV2ClientTypes.ComponentCandidate {
+
+    static func write(value: GreengrassV2ClientTypes.ComponentCandidate?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["componentName"].write(value.componentName)
+        try writer["componentVersion"].write(value.componentVersion)
+        try writer["versionRequirements"].writeMap(value.versionRequirements, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
+extension GreengrassV2ClientTypes.ComponentConfigurationUpdate {
+
+    static func write(value: GreengrassV2ClientTypes.ComponentConfigurationUpdate?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["merge"].write(value.merge)
+        try writer["reset"].writeList(value.reset, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GreengrassV2ClientTypes.ComponentConfigurationUpdate {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GreengrassV2ClientTypes.ComponentConfigurationUpdate()
+        value.merge = try reader["merge"].readIfPresent()
+        value.reset = try reader["reset"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension GreengrassV2ClientTypes.ComponentDependencyRequirement {
+
+    static func write(value: GreengrassV2ClientTypes.ComponentDependencyRequirement?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["dependencyType"].write(value.dependencyType)
+        try writer["versionRequirement"].write(value.versionRequirement)
+    }
+}
+
+extension GreengrassV2ClientTypes.ComponentDeploymentSpecification {
+
+    static func write(value: GreengrassV2ClientTypes.ComponentDeploymentSpecification?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["componentVersion"].write(value.componentVersion)
+        try writer["configurationUpdate"].write(value.configurationUpdate, with: GreengrassV2ClientTypes.ComponentConfigurationUpdate.write(value:to:))
+        try writer["runWith"].write(value.runWith, with: GreengrassV2ClientTypes.ComponentRunWith.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GreengrassV2ClientTypes.ComponentDeploymentSpecification {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GreengrassV2ClientTypes.ComponentDeploymentSpecification()
+        value.componentVersion = try reader["componentVersion"].readIfPresent() ?? ""
+        value.configurationUpdate = try reader["configurationUpdate"].readIfPresent(with: GreengrassV2ClientTypes.ComponentConfigurationUpdate.read(from:))
+        value.runWith = try reader["runWith"].readIfPresent(with: GreengrassV2ClientTypes.ComponentRunWith.read(from:))
+        return value
+    }
+}
+
+extension GreengrassV2ClientTypes.ComponentLatestVersion {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GreengrassV2ClientTypes.ComponentLatestVersion {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GreengrassV2ClientTypes.ComponentLatestVersion()
+        value.arn = try reader["arn"].readIfPresent()
+        value.componentVersion = try reader["componentVersion"].readIfPresent()
+        value.creationTimestamp = try reader["creationTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.description = try reader["description"].readIfPresent()
+        value.publisher = try reader["publisher"].readIfPresent()
+        value.platforms = try reader["platforms"].readListIfPresent(memberReadingClosure: GreengrassV2ClientTypes.ComponentPlatform.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension GreengrassV2ClientTypes.ComponentPlatform {
 
     static func write(value: GreengrassV2ClientTypes.ComponentPlatform?, to writer: SmithyJSON.Writer) throws {
@@ -4699,6 +4788,37 @@ extension GreengrassV2ClientTypes.ComponentPlatform {
         var value = GreengrassV2ClientTypes.ComponentPlatform()
         value.name = try reader["name"].readIfPresent()
         value.attributes = try reader["attributes"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension GreengrassV2ClientTypes.ComponentRunWith {
+
+    static func write(value: GreengrassV2ClientTypes.ComponentRunWith?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["posixUser"].write(value.posixUser)
+        try writer["systemResourceLimits"].write(value.systemResourceLimits, with: GreengrassV2ClientTypes.SystemResourceLimits.write(value:to:))
+        try writer["windowsUser"].write(value.windowsUser)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GreengrassV2ClientTypes.ComponentRunWith {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GreengrassV2ClientTypes.ComponentRunWith()
+        value.posixUser = try reader["posixUser"].readIfPresent()
+        value.systemResourceLimits = try reader["systemResourceLimits"].readIfPresent(with: GreengrassV2ClientTypes.SystemResourceLimits.read(from:))
+        value.windowsUser = try reader["windowsUser"].readIfPresent()
+        return value
+    }
+}
+
+extension GreengrassV2ClientTypes.ComponentVersionListItem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GreengrassV2ClientTypes.ComponentVersionListItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GreengrassV2ClientTypes.ComponentVersionListItem()
+        value.componentName = try reader["componentName"].readIfPresent()
+        value.componentVersion = try reader["componentVersion"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent()
         return value
     }
 }
@@ -4724,108 +4844,34 @@ extension GreengrassV2ClientTypes.ConnectivityInfo {
     }
 }
 
-extension GreengrassV2ClientTypes.ComponentDeploymentSpecification {
+extension GreengrassV2ClientTypes.CoreDevice {
 
-    static func write(value: GreengrassV2ClientTypes.ComponentDeploymentSpecification?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["componentVersion"].write(value.componentVersion)
-        try writer["configurationUpdate"].write(value.configurationUpdate, with: GreengrassV2ClientTypes.ComponentConfigurationUpdate.write(value:to:))
-        try writer["runWith"].write(value.runWith, with: GreengrassV2ClientTypes.ComponentRunWith.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GreengrassV2ClientTypes.ComponentDeploymentSpecification {
+    static func read(from reader: SmithyJSON.Reader) throws -> GreengrassV2ClientTypes.CoreDevice {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GreengrassV2ClientTypes.ComponentDeploymentSpecification()
-        value.componentVersion = try reader["componentVersion"].readIfPresent() ?? ""
-        value.configurationUpdate = try reader["configurationUpdate"].readIfPresent(with: GreengrassV2ClientTypes.ComponentConfigurationUpdate.read(from:))
-        value.runWith = try reader["runWith"].readIfPresent(with: GreengrassV2ClientTypes.ComponentRunWith.read(from:))
+        var value = GreengrassV2ClientTypes.CoreDevice()
+        value.coreDeviceThingName = try reader["coreDeviceThingName"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.lastStatusUpdateTimestamp = try reader["lastStatusUpdateTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.platform = try reader["platform"].readIfPresent()
+        value.architecture = try reader["architecture"].readIfPresent()
+        value.runtime = try reader["runtime"].readIfPresent()
         return value
     }
 }
 
-extension GreengrassV2ClientTypes.ComponentRunWith {
+extension GreengrassV2ClientTypes.Deployment {
 
-    static func write(value: GreengrassV2ClientTypes.ComponentRunWith?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["posixUser"].write(value.posixUser)
-        try writer["systemResourceLimits"].write(value.systemResourceLimits, with: GreengrassV2ClientTypes.SystemResourceLimits.write(value:to:))
-        try writer["windowsUser"].write(value.windowsUser)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GreengrassV2ClientTypes.ComponentRunWith {
+    static func read(from reader: SmithyJSON.Reader) throws -> GreengrassV2ClientTypes.Deployment {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GreengrassV2ClientTypes.ComponentRunWith()
-        value.posixUser = try reader["posixUser"].readIfPresent()
-        value.systemResourceLimits = try reader["systemResourceLimits"].readIfPresent(with: GreengrassV2ClientTypes.SystemResourceLimits.read(from:))
-        value.windowsUser = try reader["windowsUser"].readIfPresent()
-        return value
-    }
-}
-
-extension GreengrassV2ClientTypes.SystemResourceLimits {
-
-    static func write(value: GreengrassV2ClientTypes.SystemResourceLimits?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["cpus"].write(value.cpus)
-        try writer["memory"].write(value.memory)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GreengrassV2ClientTypes.SystemResourceLimits {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GreengrassV2ClientTypes.SystemResourceLimits()
-        value.memory = try reader["memory"].readIfPresent() ?? 0
-        value.cpus = try reader["cpus"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension GreengrassV2ClientTypes.ComponentConfigurationUpdate {
-
-    static func write(value: GreengrassV2ClientTypes.ComponentConfigurationUpdate?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["merge"].write(value.merge)
-        try writer["reset"].writeList(value.reset, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GreengrassV2ClientTypes.ComponentConfigurationUpdate {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GreengrassV2ClientTypes.ComponentConfigurationUpdate()
-        value.merge = try reader["merge"].readIfPresent()
-        value.reset = try reader["reset"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension GreengrassV2ClientTypes.DeploymentPolicies {
-
-    static func write(value: GreengrassV2ClientTypes.DeploymentPolicies?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["componentUpdatePolicy"].write(value.componentUpdatePolicy, with: GreengrassV2ClientTypes.DeploymentComponentUpdatePolicy.write(value:to:))
-        try writer["configurationValidationPolicy"].write(value.configurationValidationPolicy, with: GreengrassV2ClientTypes.DeploymentConfigurationValidationPolicy.write(value:to:))
-        try writer["failureHandlingPolicy"].write(value.failureHandlingPolicy)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GreengrassV2ClientTypes.DeploymentPolicies {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GreengrassV2ClientTypes.DeploymentPolicies()
-        value.failureHandlingPolicy = try reader["failureHandlingPolicy"].readIfPresent()
-        value.componentUpdatePolicy = try reader["componentUpdatePolicy"].readIfPresent(with: GreengrassV2ClientTypes.DeploymentComponentUpdatePolicy.read(from:))
-        value.configurationValidationPolicy = try reader["configurationValidationPolicy"].readIfPresent(with: GreengrassV2ClientTypes.DeploymentConfigurationValidationPolicy.read(from:))
-        return value
-    }
-}
-
-extension GreengrassV2ClientTypes.DeploymentConfigurationValidationPolicy {
-
-    static func write(value: GreengrassV2ClientTypes.DeploymentConfigurationValidationPolicy?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["timeoutInSeconds"].write(value.timeoutInSeconds)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GreengrassV2ClientTypes.DeploymentConfigurationValidationPolicy {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GreengrassV2ClientTypes.DeploymentConfigurationValidationPolicy()
-        value.timeoutInSeconds = try reader["timeoutInSeconds"].readIfPresent()
+        var value = GreengrassV2ClientTypes.Deployment()
+        value.targetArn = try reader["targetArn"].readIfPresent()
+        value.revisionId = try reader["revisionId"].readIfPresent()
+        value.deploymentId = try reader["deploymentId"].readIfPresent()
+        value.deploymentName = try reader["deploymentName"].readIfPresent()
+        value.creationTimestamp = try reader["creationTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.deploymentStatus = try reader["deploymentStatus"].readIfPresent()
+        value.isLatestForTarget = try reader["isLatestForTarget"].readIfPresent() ?? false
+        value.parentTargetArn = try reader["parentTargetArn"].readIfPresent()
         return value
     }
 }
@@ -4843,6 +4889,21 @@ extension GreengrassV2ClientTypes.DeploymentComponentUpdatePolicy {
         var value = GreengrassV2ClientTypes.DeploymentComponentUpdatePolicy()
         value.timeoutInSeconds = try reader["timeoutInSeconds"].readIfPresent()
         value.action = try reader["action"].readIfPresent()
+        return value
+    }
+}
+
+extension GreengrassV2ClientTypes.DeploymentConfigurationValidationPolicy {
+
+    static func write(value: GreengrassV2ClientTypes.DeploymentConfigurationValidationPolicy?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["timeoutInSeconds"].write(value.timeoutInSeconds)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GreengrassV2ClientTypes.DeploymentConfigurationValidationPolicy {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GreengrassV2ClientTypes.DeploymentConfigurationValidationPolicy()
+        value.timeoutInSeconds = try reader["timeoutInSeconds"].readIfPresent()
         return value
     }
 }
@@ -4866,17 +4927,90 @@ extension GreengrassV2ClientTypes.DeploymentIoTJobConfiguration {
     }
 }
 
-extension GreengrassV2ClientTypes.IoTJobTimeoutConfig {
+extension GreengrassV2ClientTypes.DeploymentPolicies {
 
-    static func write(value: GreengrassV2ClientTypes.IoTJobTimeoutConfig?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: GreengrassV2ClientTypes.DeploymentPolicies?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["inProgressTimeoutInMinutes"].write(value.inProgressTimeoutInMinutes)
+        try writer["componentUpdatePolicy"].write(value.componentUpdatePolicy, with: GreengrassV2ClientTypes.DeploymentComponentUpdatePolicy.write(value:to:))
+        try writer["configurationValidationPolicy"].write(value.configurationValidationPolicy, with: GreengrassV2ClientTypes.DeploymentConfigurationValidationPolicy.write(value:to:))
+        try writer["failureHandlingPolicy"].write(value.failureHandlingPolicy)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GreengrassV2ClientTypes.IoTJobTimeoutConfig {
+    static func read(from reader: SmithyJSON.Reader) throws -> GreengrassV2ClientTypes.DeploymentPolicies {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GreengrassV2ClientTypes.IoTJobTimeoutConfig()
-        value.inProgressTimeoutInMinutes = try reader["inProgressTimeoutInMinutes"].readIfPresent()
+        var value = GreengrassV2ClientTypes.DeploymentPolicies()
+        value.failureHandlingPolicy = try reader["failureHandlingPolicy"].readIfPresent()
+        value.componentUpdatePolicy = try reader["componentUpdatePolicy"].readIfPresent(with: GreengrassV2ClientTypes.DeploymentComponentUpdatePolicy.read(from:))
+        value.configurationValidationPolicy = try reader["configurationValidationPolicy"].readIfPresent(with: GreengrassV2ClientTypes.DeploymentConfigurationValidationPolicy.read(from:))
+        return value
+    }
+}
+
+extension GreengrassV2ClientTypes.DisassociateClientDeviceFromCoreDeviceEntry {
+
+    static func write(value: GreengrassV2ClientTypes.DisassociateClientDeviceFromCoreDeviceEntry?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["thingName"].write(value.thingName)
+    }
+}
+
+extension GreengrassV2ClientTypes.DisassociateClientDeviceFromCoreDeviceErrorEntry {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GreengrassV2ClientTypes.DisassociateClientDeviceFromCoreDeviceErrorEntry {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GreengrassV2ClientTypes.DisassociateClientDeviceFromCoreDeviceErrorEntry()
+        value.thingName = try reader["thingName"].readIfPresent()
+        value.code = try reader["code"].readIfPresent()
+        value.message = try reader["message"].readIfPresent()
+        return value
+    }
+}
+
+extension GreengrassV2ClientTypes.EffectiveDeployment {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GreengrassV2ClientTypes.EffectiveDeployment {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GreengrassV2ClientTypes.EffectiveDeployment()
+        value.deploymentId = try reader["deploymentId"].readIfPresent() ?? ""
+        value.deploymentName = try reader["deploymentName"].readIfPresent() ?? ""
+        value.iotJobId = try reader["iotJobId"].readIfPresent()
+        value.iotJobArn = try reader["iotJobArn"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.targetArn = try reader["targetArn"].readIfPresent() ?? ""
+        value.coreDeviceExecutionStatus = try reader["coreDeviceExecutionStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.reason = try reader["reason"].readIfPresent()
+        value.creationTimestamp = try reader["creationTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.modifiedTimestamp = try reader["modifiedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.statusDetails = try reader["statusDetails"].readIfPresent(with: GreengrassV2ClientTypes.EffectiveDeploymentStatusDetails.read(from:))
+        return value
+    }
+}
+
+extension GreengrassV2ClientTypes.EffectiveDeploymentStatusDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GreengrassV2ClientTypes.EffectiveDeploymentStatusDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GreengrassV2ClientTypes.EffectiveDeploymentStatusDetails()
+        value.errorStack = try reader["errorStack"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.errorTypes = try reader["errorTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension GreengrassV2ClientTypes.InstalledComponent {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GreengrassV2ClientTypes.InstalledComponent {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GreengrassV2ClientTypes.InstalledComponent()
+        value.componentName = try reader["componentName"].readIfPresent()
+        value.componentVersion = try reader["componentVersion"].readIfPresent()
+        value.lifecycleState = try reader["lifecycleState"].readIfPresent()
+        value.lifecycleStateDetails = try reader["lifecycleStateDetails"].readIfPresent()
+        value.isRoot = try reader["isRoot"].readIfPresent() ?? false
+        value.lastStatusChangeTimestamp = try reader["lastStatusChangeTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastReportedTimestamp = try reader["lastReportedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastInstallationSource = try reader["lastInstallationSource"].readIfPresent()
+        value.lifecycleStatusCodes = try reader["lifecycleStatusCodes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -4970,216 +5104,18 @@ extension GreengrassV2ClientTypes.IoTJobRateIncreaseCriteria {
     }
 }
 
-extension GreengrassV2ClientTypes.AssociatedClientDevice {
+extension GreengrassV2ClientTypes.IoTJobTimeoutConfig {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GreengrassV2ClientTypes.AssociatedClientDevice {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GreengrassV2ClientTypes.AssociatedClientDevice()
-        value.thingName = try reader["thingName"].readIfPresent()
-        value.associationTimestamp = try reader["associationTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension GreengrassV2ClientTypes.Component {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GreengrassV2ClientTypes.Component {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GreengrassV2ClientTypes.Component()
-        value.arn = try reader["arn"].readIfPresent()
-        value.componentName = try reader["componentName"].readIfPresent()
-        value.latestVersion = try reader["latestVersion"].readIfPresent(with: GreengrassV2ClientTypes.ComponentLatestVersion.read(from:))
-        return value
-    }
-}
-
-extension GreengrassV2ClientTypes.ComponentLatestVersion {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GreengrassV2ClientTypes.ComponentLatestVersion {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GreengrassV2ClientTypes.ComponentLatestVersion()
-        value.arn = try reader["arn"].readIfPresent()
-        value.componentVersion = try reader["componentVersion"].readIfPresent()
-        value.creationTimestamp = try reader["creationTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.description = try reader["description"].readIfPresent()
-        value.publisher = try reader["publisher"].readIfPresent()
-        value.platforms = try reader["platforms"].readListIfPresent(memberReadingClosure: GreengrassV2ClientTypes.ComponentPlatform.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension GreengrassV2ClientTypes.ComponentVersionListItem {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GreengrassV2ClientTypes.ComponentVersionListItem {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GreengrassV2ClientTypes.ComponentVersionListItem()
-        value.componentName = try reader["componentName"].readIfPresent()
-        value.componentVersion = try reader["componentVersion"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
-        return value
-    }
-}
-
-extension GreengrassV2ClientTypes.CoreDevice {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GreengrassV2ClientTypes.CoreDevice {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GreengrassV2ClientTypes.CoreDevice()
-        value.coreDeviceThingName = try reader["coreDeviceThingName"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.lastStatusUpdateTimestamp = try reader["lastStatusUpdateTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.platform = try reader["platform"].readIfPresent()
-        value.architecture = try reader["architecture"].readIfPresent()
-        value.runtime = try reader["runtime"].readIfPresent()
-        return value
-    }
-}
-
-extension GreengrassV2ClientTypes.Deployment {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GreengrassV2ClientTypes.Deployment {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GreengrassV2ClientTypes.Deployment()
-        value.targetArn = try reader["targetArn"].readIfPresent()
-        value.revisionId = try reader["revisionId"].readIfPresent()
-        value.deploymentId = try reader["deploymentId"].readIfPresent()
-        value.deploymentName = try reader["deploymentName"].readIfPresent()
-        value.creationTimestamp = try reader["creationTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.deploymentStatus = try reader["deploymentStatus"].readIfPresent()
-        value.isLatestForTarget = try reader["isLatestForTarget"].readIfPresent() ?? false
-        value.parentTargetArn = try reader["parentTargetArn"].readIfPresent()
-        return value
-    }
-}
-
-extension GreengrassV2ClientTypes.EffectiveDeployment {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GreengrassV2ClientTypes.EffectiveDeployment {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GreengrassV2ClientTypes.EffectiveDeployment()
-        value.deploymentId = try reader["deploymentId"].readIfPresent() ?? ""
-        value.deploymentName = try reader["deploymentName"].readIfPresent() ?? ""
-        value.iotJobId = try reader["iotJobId"].readIfPresent()
-        value.iotJobArn = try reader["iotJobArn"].readIfPresent()
-        value.description = try reader["description"].readIfPresent()
-        value.targetArn = try reader["targetArn"].readIfPresent() ?? ""
-        value.coreDeviceExecutionStatus = try reader["coreDeviceExecutionStatus"].readIfPresent() ?? .sdkUnknown("")
-        value.reason = try reader["reason"].readIfPresent()
-        value.creationTimestamp = try reader["creationTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.modifiedTimestamp = try reader["modifiedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.statusDetails = try reader["statusDetails"].readIfPresent(with: GreengrassV2ClientTypes.EffectiveDeploymentStatusDetails.read(from:))
-        return value
-    }
-}
-
-extension GreengrassV2ClientTypes.EffectiveDeploymentStatusDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GreengrassV2ClientTypes.EffectiveDeploymentStatusDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GreengrassV2ClientTypes.EffectiveDeploymentStatusDetails()
-        value.errorStack = try reader["errorStack"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.errorTypes = try reader["errorTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension GreengrassV2ClientTypes.InstalledComponent {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GreengrassV2ClientTypes.InstalledComponent {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GreengrassV2ClientTypes.InstalledComponent()
-        value.componentName = try reader["componentName"].readIfPresent()
-        value.componentVersion = try reader["componentVersion"].readIfPresent()
-        value.lifecycleState = try reader["lifecycleState"].readIfPresent()
-        value.lifecycleStateDetails = try reader["lifecycleStateDetails"].readIfPresent()
-        value.isRoot = try reader["isRoot"].readIfPresent() ?? false
-        value.lastStatusChangeTimestamp = try reader["lastStatusChangeTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastReportedTimestamp = try reader["lastReportedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastInstallationSource = try reader["lastInstallationSource"].readIfPresent()
-        value.lifecycleStatusCodes = try reader["lifecycleStatusCodes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension GreengrassV2ClientTypes.ResolvedComponentVersion {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GreengrassV2ClientTypes.ResolvedComponentVersion {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GreengrassV2ClientTypes.ResolvedComponentVersion()
-        value.arn = try reader["arn"].readIfPresent()
-        value.componentName = try reader["componentName"].readIfPresent()
-        value.componentVersion = try reader["componentVersion"].readIfPresent()
-        value.recipe = try reader["recipe"].readIfPresent()
-        value.vendorGuidance = try reader["vendorGuidance"].readIfPresent()
-        value.message = try reader["message"].readIfPresent()
-        return value
-    }
-}
-
-extension GreengrassV2ClientTypes.ValidationExceptionField {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GreengrassV2ClientTypes.ValidationExceptionField {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GreengrassV2ClientTypes.ValidationExceptionField()
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.message = try reader["message"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension GreengrassV2ClientTypes.AssociateClientDeviceWithCoreDeviceEntry {
-
-    static func write(value: GreengrassV2ClientTypes.AssociateClientDeviceWithCoreDeviceEntry?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: GreengrassV2ClientTypes.IoTJobTimeoutConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["thingName"].write(value.thingName)
+        try writer["inProgressTimeoutInMinutes"].write(value.inProgressTimeoutInMinutes)
     }
-}
 
-extension GreengrassV2ClientTypes.DisassociateClientDeviceFromCoreDeviceEntry {
-
-    static func write(value: GreengrassV2ClientTypes.DisassociateClientDeviceFromCoreDeviceEntry?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["thingName"].write(value.thingName)
-    }
-}
-
-extension GreengrassV2ClientTypes.LambdaFunctionRecipeSource {
-
-    static func write(value: GreengrassV2ClientTypes.LambdaFunctionRecipeSource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["componentDependencies"].writeMap(value.componentDependencies, valueWritingClosure: GreengrassV2ClientTypes.ComponentDependencyRequirement.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["componentLambdaParameters"].write(value.componentLambdaParameters, with: GreengrassV2ClientTypes.LambdaExecutionParameters.write(value:to:))
-        try writer["componentName"].write(value.componentName)
-        try writer["componentPlatforms"].writeList(value.componentPlatforms, memberWritingClosure: GreengrassV2ClientTypes.ComponentPlatform.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["componentVersion"].write(value.componentVersion)
-        try writer["lambdaArn"].write(value.lambdaArn)
-    }
-}
-
-extension GreengrassV2ClientTypes.LambdaExecutionParameters {
-
-    static func write(value: GreengrassV2ClientTypes.LambdaExecutionParameters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["environmentVariables"].writeMap(value.environmentVariables, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["eventSources"].writeList(value.eventSources, memberWritingClosure: GreengrassV2ClientTypes.LambdaEventSource.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["execArgs"].writeList(value.execArgs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["inputPayloadEncodingType"].write(value.inputPayloadEncodingType)
-        try writer["linuxProcessParams"].write(value.linuxProcessParams, with: GreengrassV2ClientTypes.LambdaLinuxProcessParams.write(value:to:))
-        try writer["maxIdleTimeInSeconds"].write(value.maxIdleTimeInSeconds)
-        try writer["maxInstancesCount"].write(value.maxInstancesCount)
-        try writer["maxQueueSize"].write(value.maxQueueSize)
-        try writer["pinned"].write(value.pinned)
-        try writer["statusTimeoutInSeconds"].write(value.statusTimeoutInSeconds)
-        try writer["timeoutInSeconds"].write(value.timeoutInSeconds)
-    }
-}
-
-extension GreengrassV2ClientTypes.LambdaLinuxProcessParams {
-
-    static func write(value: GreengrassV2ClientTypes.LambdaLinuxProcessParams?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["containerParams"].write(value.containerParams, with: GreengrassV2ClientTypes.LambdaContainerParams.write(value:to:))
-        try writer["isolationMode"].write(value.isolationMode)
+    static func read(from reader: SmithyJSON.Reader) throws -> GreengrassV2ClientTypes.IoTJobTimeoutConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GreengrassV2ClientTypes.IoTJobTimeoutConfig()
+        value.inProgressTimeoutInMinutes = try reader["inProgressTimeoutInMinutes"].readIfPresent()
+        return value
     }
 }
 
@@ -5204,6 +5140,55 @@ extension GreengrassV2ClientTypes.LambdaDeviceMount {
     }
 }
 
+extension GreengrassV2ClientTypes.LambdaEventSource {
+
+    static func write(value: GreengrassV2ClientTypes.LambdaEventSource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["topic"].write(value.topic)
+        try writer["type"].write(value.type)
+    }
+}
+
+extension GreengrassV2ClientTypes.LambdaExecutionParameters {
+
+    static func write(value: GreengrassV2ClientTypes.LambdaExecutionParameters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["environmentVariables"].writeMap(value.environmentVariables, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["eventSources"].writeList(value.eventSources, memberWritingClosure: GreengrassV2ClientTypes.LambdaEventSource.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["execArgs"].writeList(value.execArgs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["inputPayloadEncodingType"].write(value.inputPayloadEncodingType)
+        try writer["linuxProcessParams"].write(value.linuxProcessParams, with: GreengrassV2ClientTypes.LambdaLinuxProcessParams.write(value:to:))
+        try writer["maxIdleTimeInSeconds"].write(value.maxIdleTimeInSeconds)
+        try writer["maxInstancesCount"].write(value.maxInstancesCount)
+        try writer["maxQueueSize"].write(value.maxQueueSize)
+        try writer["pinned"].write(value.pinned)
+        try writer["statusTimeoutInSeconds"].write(value.statusTimeoutInSeconds)
+        try writer["timeoutInSeconds"].write(value.timeoutInSeconds)
+    }
+}
+
+extension GreengrassV2ClientTypes.LambdaFunctionRecipeSource {
+
+    static func write(value: GreengrassV2ClientTypes.LambdaFunctionRecipeSource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["componentDependencies"].writeMap(value.componentDependencies, valueWritingClosure: GreengrassV2ClientTypes.ComponentDependencyRequirement.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["componentLambdaParameters"].write(value.componentLambdaParameters, with: GreengrassV2ClientTypes.LambdaExecutionParameters.write(value:to:))
+        try writer["componentName"].write(value.componentName)
+        try writer["componentPlatforms"].writeList(value.componentPlatforms, memberWritingClosure: GreengrassV2ClientTypes.ComponentPlatform.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["componentVersion"].write(value.componentVersion)
+        try writer["lambdaArn"].write(value.lambdaArn)
+    }
+}
+
+extension GreengrassV2ClientTypes.LambdaLinuxProcessParams {
+
+    static func write(value: GreengrassV2ClientTypes.LambdaLinuxProcessParams?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["containerParams"].write(value.containerParams, with: GreengrassV2ClientTypes.LambdaContainerParams.write(value:to:))
+        try writer["isolationMode"].write(value.isolationMode)
+    }
+}
+
 extension GreengrassV2ClientTypes.LambdaVolumeMount {
 
     static func write(value: GreengrassV2ClientTypes.LambdaVolumeMount?, to writer: SmithyJSON.Writer) throws {
@@ -5215,31 +5200,46 @@ extension GreengrassV2ClientTypes.LambdaVolumeMount {
     }
 }
 
-extension GreengrassV2ClientTypes.LambdaEventSource {
+extension GreengrassV2ClientTypes.ResolvedComponentVersion {
 
-    static func write(value: GreengrassV2ClientTypes.LambdaEventSource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["topic"].write(value.topic)
-        try writer["type"].write(value.type)
+    static func read(from reader: SmithyJSON.Reader) throws -> GreengrassV2ClientTypes.ResolvedComponentVersion {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GreengrassV2ClientTypes.ResolvedComponentVersion()
+        value.arn = try reader["arn"].readIfPresent()
+        value.componentName = try reader["componentName"].readIfPresent()
+        value.componentVersion = try reader["componentVersion"].readIfPresent()
+        value.recipe = try reader["recipe"].readIfPresent()
+        value.vendorGuidance = try reader["vendorGuidance"].readIfPresent()
+        value.message = try reader["message"].readIfPresent()
+        return value
     }
 }
 
-extension GreengrassV2ClientTypes.ComponentDependencyRequirement {
+extension GreengrassV2ClientTypes.SystemResourceLimits {
 
-    static func write(value: GreengrassV2ClientTypes.ComponentDependencyRequirement?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: GreengrassV2ClientTypes.SystemResourceLimits?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["dependencyType"].write(value.dependencyType)
-        try writer["versionRequirement"].write(value.versionRequirement)
+        try writer["cpus"].write(value.cpus)
+        try writer["memory"].write(value.memory)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GreengrassV2ClientTypes.SystemResourceLimits {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GreengrassV2ClientTypes.SystemResourceLimits()
+        value.memory = try reader["memory"].readIfPresent() ?? 0
+        value.cpus = try reader["cpus"].readIfPresent() ?? 0
+        return value
     }
 }
 
-extension GreengrassV2ClientTypes.ComponentCandidate {
+extension GreengrassV2ClientTypes.ValidationExceptionField {
 
-    static func write(value: GreengrassV2ClientTypes.ComponentCandidate?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["componentName"].write(value.componentName)
-        try writer["componentVersion"].write(value.componentVersion)
-        try writer["versionRequirements"].writeMap(value.versionRequirements, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    static func read(from reader: SmithyJSON.Reader) throws -> GreengrassV2ClientTypes.ValidationExceptionField {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GreengrassV2ClientTypes.ValidationExceptionField()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.message = try reader["message"].readIfPresent() ?? ""
+        return value
     }
 }
 

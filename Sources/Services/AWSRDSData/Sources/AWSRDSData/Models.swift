@@ -1479,64 +1479,6 @@ extension UnsupportedResultException {
     }
 }
 
-extension RDSDataClientTypes.UpdateResult {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RDSDataClientTypes.UpdateResult {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RDSDataClientTypes.UpdateResult()
-        value.generatedFields = try reader["generatedFields"].readListIfPresent(memberReadingClosure: RDSDataClientTypes.Field.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension RDSDataClientTypes.Field {
-
-    static func write(value: RDSDataClientTypes.Field?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .arrayvalue(arrayvalue):
-                try writer["arrayValue"].write(arrayvalue, with: RDSDataClientTypes.ArrayValue.write(value:to:))
-            case let .blobvalue(blobvalue):
-                try writer["blobValue"].write(blobvalue)
-            case let .booleanvalue(booleanvalue):
-                try writer["booleanValue"].write(booleanvalue)
-            case let .doublevalue(doublevalue):
-                try writer["doubleValue"].write(doublevalue)
-            case let .isnull(isnull):
-                try writer["isNull"].write(isnull)
-            case let .longvalue(longvalue):
-                try writer["longValue"].write(longvalue)
-            case let .stringvalue(stringvalue):
-                try writer["stringValue"].write(stringvalue)
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RDSDataClientTypes.Field {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "isNull":
-                return .isnull(try reader["isNull"].read())
-            case "booleanValue":
-                return .booleanvalue(try reader["booleanValue"].read())
-            case "longValue":
-                return .longvalue(try reader["longValue"].read())
-            case "doubleValue":
-                return .doublevalue(try reader["doubleValue"].read())
-            case "stringValue":
-                return .stringvalue(try reader["stringValue"].read())
-            case "blobValue":
-                return .blobvalue(try reader["blobValue"].read())
-            case "arrayValue":
-                return .arrayvalue(try reader["arrayValue"].read(with: RDSDataClientTypes.ArrayValue.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
 extension RDSDataClientTypes.ArrayValue {
 
     static func write(value: RDSDataClientTypes.ArrayValue?, to writer: SmithyJSON.Writer) throws {
@@ -1600,6 +1542,63 @@ extension RDSDataClientTypes.ColumnMetadata {
     }
 }
 
+extension RDSDataClientTypes.Field {
+
+    static func write(value: RDSDataClientTypes.Field?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .arrayvalue(arrayvalue):
+                try writer["arrayValue"].write(arrayvalue, with: RDSDataClientTypes.ArrayValue.write(value:to:))
+            case let .blobvalue(blobvalue):
+                try writer["blobValue"].write(blobvalue)
+            case let .booleanvalue(booleanvalue):
+                try writer["booleanValue"].write(booleanvalue)
+            case let .doublevalue(doublevalue):
+                try writer["doubleValue"].write(doublevalue)
+            case let .isnull(isnull):
+                try writer["isNull"].write(isnull)
+            case let .longvalue(longvalue):
+                try writer["longValue"].write(longvalue)
+            case let .stringvalue(stringvalue):
+                try writer["stringValue"].write(stringvalue)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RDSDataClientTypes.Field {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "isNull":
+                return .isnull(try reader["isNull"].read())
+            case "booleanValue":
+                return .booleanvalue(try reader["booleanValue"].read())
+            case "longValue":
+                return .longvalue(try reader["longValue"].read())
+            case "doubleValue":
+                return .doublevalue(try reader["doubleValue"].read())
+            case "stringValue":
+                return .stringvalue(try reader["stringValue"].read())
+            case "blobValue":
+                return .blobvalue(try reader["blobValue"].read())
+            case "arrayValue":
+                return .arrayvalue(try reader["arrayValue"].read(with: RDSDataClientTypes.ArrayValue.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension RDSDataClientTypes.ResultSetOptions {
+
+    static func write(value: RDSDataClientTypes.ResultSetOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["decimalReturnType"].write(value.decimalReturnType)
+        try writer["longReturnType"].write(value.longReturnType)
+    }
+}
+
 extension RDSDataClientTypes.SqlParameter {
 
     static func write(value: RDSDataClientTypes.SqlParameter?, to writer: SmithyJSON.Writer) throws {
@@ -1610,12 +1609,13 @@ extension RDSDataClientTypes.SqlParameter {
     }
 }
 
-extension RDSDataClientTypes.ResultSetOptions {
+extension RDSDataClientTypes.UpdateResult {
 
-    static func write(value: RDSDataClientTypes.ResultSetOptions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["decimalReturnType"].write(value.decimalReturnType)
-        try writer["longReturnType"].write(value.longReturnType)
+    static func read(from reader: SmithyJSON.Reader) throws -> RDSDataClientTypes.UpdateResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RDSDataClientTypes.UpdateResult()
+        value.generatedFields = try reader["generatedFields"].readListIfPresent(memberReadingClosure: RDSDataClientTypes.Field.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
     }
 }
 
