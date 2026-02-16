@@ -6764,291 +6764,19 @@ extension BadRequestException {
     }
 }
 
-extension MediaTailorClientTypes.AdsInteractionLog {
+extension MediaTailorClientTypes.AccessConfiguration {
 
-    static func write(value: MediaTailorClientTypes.AdsInteractionLog?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: MediaTailorClientTypes.AccessConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["ExcludeEventTypes"].writeList(value.excludeEventTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<MediaTailorClientTypes.AdsInteractionExcludeEventType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["PublishOptInEventTypes"].writeList(value.publishOptInEventTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<MediaTailorClientTypes.AdsInteractionPublishOptInEventType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["AccessType"].write(value.accessType)
+        try writer["SecretsManagerAccessTokenConfiguration"].write(value.secretsManagerAccessTokenConfiguration, with: MediaTailorClientTypes.SecretsManagerAccessTokenConfiguration.write(value:to:))
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.AdsInteractionLog {
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.AccessConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaTailorClientTypes.AdsInteractionLog()
-        value.publishOptInEventTypes = try reader["PublishOptInEventTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<MediaTailorClientTypes.AdsInteractionPublishOptInEventType>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.excludeEventTypes = try reader["ExcludeEventTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<MediaTailorClientTypes.AdsInteractionExcludeEventType>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension MediaTailorClientTypes.ManifestServiceInteractionLog {
-
-    static func write(value: MediaTailorClientTypes.ManifestServiceInteractionLog?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ExcludeEventTypes"].writeList(value.excludeEventTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<MediaTailorClientTypes.ManifestServiceExcludeEventType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.ManifestServiceInteractionLog {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaTailorClientTypes.ManifestServiceInteractionLog()
-        value.excludeEventTypes = try reader["ExcludeEventTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<MediaTailorClientTypes.ManifestServiceExcludeEventType>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension MediaTailorClientTypes.SlateSource {
-
-    static func write(value: MediaTailorClientTypes.SlateSource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["SourceLocationName"].write(value.sourceLocationName)
-        try writer["VodSourceName"].write(value.vodSourceName)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.SlateSource {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaTailorClientTypes.SlateSource()
-        value.sourceLocationName = try reader["SourceLocationName"].readIfPresent()
-        value.vodSourceName = try reader["VodSourceName"].readIfPresent()
-        return value
-    }
-}
-
-extension MediaTailorClientTypes.ResponseOutputItem {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.ResponseOutputItem {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaTailorClientTypes.ResponseOutputItem()
-        value.dashPlaylistSettings = try reader["DashPlaylistSettings"].readIfPresent(with: MediaTailorClientTypes.DashPlaylistSettings.read(from:))
-        value.hlsPlaylistSettings = try reader["HlsPlaylistSettings"].readIfPresent(with: MediaTailorClientTypes.HlsPlaylistSettings.read(from:))
-        value.manifestName = try reader["ManifestName"].readIfPresent() ?? ""
-        value.playbackUrl = try reader["PlaybackUrl"].readIfPresent() ?? ""
-        value.sourceGroup = try reader["SourceGroup"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension MediaTailorClientTypes.HlsPlaylistSettings {
-
-    static func write(value: MediaTailorClientTypes.HlsPlaylistSettings?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AdMarkupType"].writeList(value.adMarkupType, memberWritingClosure: SmithyReadWrite.WritingClosureBox<MediaTailorClientTypes.AdMarkupType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ManifestWindowSeconds"].write(value.manifestWindowSeconds)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.HlsPlaylistSettings {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaTailorClientTypes.HlsPlaylistSettings()
-        value.manifestWindowSeconds = try reader["ManifestWindowSeconds"].readIfPresent()
-        value.adMarkupType = try reader["AdMarkupType"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<MediaTailorClientTypes.AdMarkupType>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension MediaTailorClientTypes.DashPlaylistSettings {
-
-    static func write(value: MediaTailorClientTypes.DashPlaylistSettings?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ManifestWindowSeconds"].write(value.manifestWindowSeconds)
-        try writer["MinBufferTimeSeconds"].write(value.minBufferTimeSeconds)
-        try writer["MinUpdatePeriodSeconds"].write(value.minUpdatePeriodSeconds)
-        try writer["SuggestedPresentationDelaySeconds"].write(value.suggestedPresentationDelaySeconds)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.DashPlaylistSettings {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaTailorClientTypes.DashPlaylistSettings()
-        value.manifestWindowSeconds = try reader["ManifestWindowSeconds"].readIfPresent()
-        value.minBufferTimeSeconds = try reader["MinBufferTimeSeconds"].readIfPresent()
-        value.minUpdatePeriodSeconds = try reader["MinUpdatePeriodSeconds"].readIfPresent()
-        value.suggestedPresentationDelaySeconds = try reader["SuggestedPresentationDelaySeconds"].readIfPresent()
-        return value
-    }
-}
-
-extension MediaTailorClientTypes.TimeShiftConfiguration {
-
-    static func write(value: MediaTailorClientTypes.TimeShiftConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["MaxTimeDelaySeconds"].write(value.maxTimeDelaySeconds)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.TimeShiftConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaTailorClientTypes.TimeShiftConfiguration()
-        value.maxTimeDelaySeconds = try reader["MaxTimeDelaySeconds"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension MediaTailorClientTypes.HttpPackageConfiguration {
-
-    static func write(value: MediaTailorClientTypes.HttpPackageConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Path"].write(value.path)
-        try writer["SourceGroup"].write(value.sourceGroup)
-        try writer["Type"].write(value.type)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.HttpPackageConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaTailorClientTypes.HttpPackageConfiguration()
-        value.path = try reader["Path"].readIfPresent() ?? ""
-        value.sourceGroup = try reader["SourceGroup"].readIfPresent() ?? ""
-        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension MediaTailorClientTypes.PrefetchConsumption {
-
-    static func write(value: MediaTailorClientTypes.PrefetchConsumption?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AvailMatchingCriteria"].writeList(value.availMatchingCriteria, memberWritingClosure: MediaTailorClientTypes.AvailMatchingCriteria.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["EndTime"].writeTimestamp(value.endTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        try writer["StartTime"].writeTimestamp(value.startTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.PrefetchConsumption {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaTailorClientTypes.PrefetchConsumption()
-        value.availMatchingCriteria = try reader["AvailMatchingCriteria"].readListIfPresent(memberReadingClosure: MediaTailorClientTypes.AvailMatchingCriteria.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension MediaTailorClientTypes.AvailMatchingCriteria {
-
-    static func write(value: MediaTailorClientTypes.AvailMatchingCriteria?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DynamicVariable"].write(value.dynamicVariable)
-        try writer["Operator"].write(value.`operator`)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.AvailMatchingCriteria {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaTailorClientTypes.AvailMatchingCriteria()
-        value.dynamicVariable = try reader["DynamicVariable"].readIfPresent() ?? ""
-        value.`operator` = try reader["Operator"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension MediaTailorClientTypes.PrefetchRetrieval {
-
-    static func write(value: MediaTailorClientTypes.PrefetchRetrieval?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DynamicVariables"].writeMap(value.dynamicVariables, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["EndTime"].writeTimestamp(value.endTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        try writer["StartTime"].writeTimestamp(value.startTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        try writer["TrafficShapingRetrievalWindow"].write(value.trafficShapingRetrievalWindow, with: MediaTailorClientTypes.TrafficShapingRetrievalWindow.write(value:to:))
-        try writer["TrafficShapingTpsConfiguration"].write(value.trafficShapingTpsConfiguration, with: MediaTailorClientTypes.TrafficShapingTpsConfiguration.write(value:to:))
-        try writer["TrafficShapingType"].write(value.trafficShapingType)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.PrefetchRetrieval {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaTailorClientTypes.PrefetchRetrieval()
-        value.dynamicVariables = try reader["DynamicVariables"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.trafficShapingType = try reader["TrafficShapingType"].readIfPresent()
-        value.trafficShapingRetrievalWindow = try reader["TrafficShapingRetrievalWindow"].readIfPresent(with: MediaTailorClientTypes.TrafficShapingRetrievalWindow.read(from:))
-        value.trafficShapingTpsConfiguration = try reader["TrafficShapingTpsConfiguration"].readIfPresent(with: MediaTailorClientTypes.TrafficShapingTpsConfiguration.read(from:))
-        return value
-    }
-}
-
-extension MediaTailorClientTypes.TrafficShapingTpsConfiguration {
-
-    static func write(value: MediaTailorClientTypes.TrafficShapingTpsConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["PeakConcurrentUsers"].write(value.peakConcurrentUsers)
-        try writer["PeakTps"].write(value.peakTps)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.TrafficShapingTpsConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaTailorClientTypes.TrafficShapingTpsConfiguration()
-        value.peakTps = try reader["PeakTps"].readIfPresent()
-        value.peakConcurrentUsers = try reader["PeakConcurrentUsers"].readIfPresent()
-        return value
-    }
-}
-
-extension MediaTailorClientTypes.TrafficShapingRetrievalWindow {
-
-    static func write(value: MediaTailorClientTypes.TrafficShapingRetrievalWindow?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["RetrievalWindowDurationSeconds"].write(value.retrievalWindowDurationSeconds)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.TrafficShapingRetrievalWindow {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaTailorClientTypes.TrafficShapingRetrievalWindow()
-        value.retrievalWindowDurationSeconds = try reader["RetrievalWindowDurationSeconds"].readIfPresent()
-        return value
-    }
-}
-
-extension MediaTailorClientTypes.RecurringPrefetchConfiguration {
-
-    static func write(value: MediaTailorClientTypes.RecurringPrefetchConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["EndTime"].writeTimestamp(value.endTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        try writer["RecurringConsumption"].write(value.recurringConsumption, with: MediaTailorClientTypes.RecurringConsumption.write(value:to:))
-        try writer["RecurringRetrieval"].write(value.recurringRetrieval, with: MediaTailorClientTypes.RecurringRetrieval.write(value:to:))
-        try writer["StartTime"].writeTimestamp(value.startTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.RecurringPrefetchConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaTailorClientTypes.RecurringPrefetchConfiguration()
-        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.recurringConsumption = try reader["RecurringConsumption"].readIfPresent(with: MediaTailorClientTypes.RecurringConsumption.read(from:))
-        value.recurringRetrieval = try reader["RecurringRetrieval"].readIfPresent(with: MediaTailorClientTypes.RecurringRetrieval.read(from:))
-        return value
-    }
-}
-
-extension MediaTailorClientTypes.RecurringRetrieval {
-
-    static func write(value: MediaTailorClientTypes.RecurringRetrieval?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DelayAfterAvailEndSeconds"].write(value.delayAfterAvailEndSeconds)
-        try writer["DynamicVariables"].writeMap(value.dynamicVariables, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["TrafficShapingRetrievalWindow"].write(value.trafficShapingRetrievalWindow, with: MediaTailorClientTypes.TrafficShapingRetrievalWindow.write(value:to:))
-        try writer["TrafficShapingTpsConfiguration"].write(value.trafficShapingTpsConfiguration, with: MediaTailorClientTypes.TrafficShapingTpsConfiguration.write(value:to:))
-        try writer["TrafficShapingType"].write(value.trafficShapingType)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.RecurringRetrieval {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaTailorClientTypes.RecurringRetrieval()
-        value.dynamicVariables = try reader["DynamicVariables"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.delayAfterAvailEndSeconds = try reader["DelayAfterAvailEndSeconds"].readIfPresent()
-        value.trafficShapingType = try reader["TrafficShapingType"].readIfPresent()
-        value.trafficShapingRetrievalWindow = try reader["TrafficShapingRetrievalWindow"].readIfPresent(with: MediaTailorClientTypes.TrafficShapingRetrievalWindow.read(from:))
-        value.trafficShapingTpsConfiguration = try reader["TrafficShapingTpsConfiguration"].readIfPresent(with: MediaTailorClientTypes.TrafficShapingTpsConfiguration.read(from:))
-        return value
-    }
-}
-
-extension MediaTailorClientTypes.RecurringConsumption {
-
-    static func write(value: MediaTailorClientTypes.RecurringConsumption?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AvailMatchingCriteria"].writeList(value.availMatchingCriteria, memberWritingClosure: MediaTailorClientTypes.AvailMatchingCriteria.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["RetrievedAdExpirationSeconds"].write(value.retrievedAdExpirationSeconds)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.RecurringConsumption {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaTailorClientTypes.RecurringConsumption()
-        value.retrievedAdExpirationSeconds = try reader["RetrievedAdExpirationSeconds"].readIfPresent()
-        value.availMatchingCriteria = try reader["AvailMatchingCriteria"].readListIfPresent(memberReadingClosure: MediaTailorClientTypes.AvailMatchingCriteria.read(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = MediaTailorClientTypes.AccessConfiguration()
+        value.accessType = try reader["AccessType"].readIfPresent()
+        value.secretsManagerAccessTokenConfiguration = try reader["SecretsManagerAccessTokenConfiguration"].readIfPresent(with: MediaTailorClientTypes.SecretsManagerAccessTokenConfiguration.read(from:))
         return value
     }
 }
@@ -7078,118 +6806,89 @@ extension MediaTailorClientTypes.AdBreak {
     }
 }
 
-extension MediaTailorClientTypes.KeyValuePair {
+extension MediaTailorClientTypes.AdBreakOpportunity {
 
-    static func write(value: MediaTailorClientTypes.KeyValuePair?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Key"].write(value.key)
-        try writer["Value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.KeyValuePair {
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.AdBreakOpportunity {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaTailorClientTypes.KeyValuePair()
-        value.key = try reader["Key"].readIfPresent() ?? ""
-        value.value = try reader["Value"].readIfPresent() ?? ""
+        var value = MediaTailorClientTypes.AdBreakOpportunity()
+        value.offsetMillis = try reader["OffsetMillis"].readIfPresent() ?? 0
         return value
     }
 }
 
-extension MediaTailorClientTypes.TimeSignalMessage {
+extension MediaTailorClientTypes.AdConditioningConfiguration {
 
-    static func write(value: MediaTailorClientTypes.TimeSignalMessage?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: MediaTailorClientTypes.AdConditioningConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["SegmentationDescriptors"].writeList(value.segmentationDescriptors, memberWritingClosure: MediaTailorClientTypes.SegmentationDescriptor.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["StreamingMediaFileConditioning"].write(value.streamingMediaFileConditioning)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.TimeSignalMessage {
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.AdConditioningConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaTailorClientTypes.TimeSignalMessage()
-        value.segmentationDescriptors = try reader["SegmentationDescriptors"].readListIfPresent(memberReadingClosure: MediaTailorClientTypes.SegmentationDescriptor.read(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = MediaTailorClientTypes.AdConditioningConfiguration()
+        value.streamingMediaFileConditioning = try reader["StreamingMediaFileConditioning"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
 
-extension MediaTailorClientTypes.SegmentationDescriptor {
+extension MediaTailorClientTypes.AdDecisionServerConfiguration {
 
-    static func write(value: MediaTailorClientTypes.SegmentationDescriptor?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: MediaTailorClientTypes.AdDecisionServerConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["SegmentNum"].write(value.segmentNum)
-        try writer["SegmentationEventId"].write(value.segmentationEventId)
-        try writer["SegmentationTypeId"].write(value.segmentationTypeId)
-        try writer["SegmentationUpid"].write(value.segmentationUpid)
-        try writer["SegmentationUpidType"].write(value.segmentationUpidType)
-        try writer["SegmentsExpected"].write(value.segmentsExpected)
-        try writer["SubSegmentNum"].write(value.subSegmentNum)
-        try writer["SubSegmentsExpected"].write(value.subSegmentsExpected)
+        try writer["HttpRequest"].write(value.httpRequest, with: MediaTailorClientTypes.HttpRequest.write(value:to:))
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.SegmentationDescriptor {
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.AdDecisionServerConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaTailorClientTypes.SegmentationDescriptor()
-        value.segmentationEventId = try reader["SegmentationEventId"].readIfPresent()
-        value.segmentationUpidType = try reader["SegmentationUpidType"].readIfPresent()
-        value.segmentationUpid = try reader["SegmentationUpid"].readIfPresent()
-        value.segmentationTypeId = try reader["SegmentationTypeId"].readIfPresent()
-        value.segmentNum = try reader["SegmentNum"].readIfPresent()
-        value.segmentsExpected = try reader["SegmentsExpected"].readIfPresent()
-        value.subSegmentNum = try reader["SubSegmentNum"].readIfPresent()
-        value.subSegmentsExpected = try reader["SubSegmentsExpected"].readIfPresent()
+        var value = MediaTailorClientTypes.AdDecisionServerConfiguration()
+        value.httpRequest = try reader["HttpRequest"].readIfPresent(with: MediaTailorClientTypes.HttpRequest.read(from:))
         return value
     }
 }
 
-extension MediaTailorClientTypes.SpliceInsertMessage {
+extension MediaTailorClientTypes.AdMarkerPassthrough {
 
-    static func write(value: MediaTailorClientTypes.SpliceInsertMessage?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: MediaTailorClientTypes.AdMarkerPassthrough?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["AvailNum"].write(value.availNum)
-        try writer["AvailsExpected"].write(value.availsExpected)
-        try writer["SpliceEventId"].write(value.spliceEventId)
-        try writer["UniqueProgramId"].write(value.uniqueProgramId)
+        try writer["Enabled"].write(value.enabled)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.SpliceInsertMessage {
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.AdMarkerPassthrough {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaTailorClientTypes.SpliceInsertMessage()
-        value.availNum = try reader["AvailNum"].readIfPresent()
-        value.availsExpected = try reader["AvailsExpected"].readIfPresent()
-        value.spliceEventId = try reader["SpliceEventId"].readIfPresent()
-        value.uniqueProgramId = try reader["UniqueProgramId"].readIfPresent()
+        var value = MediaTailorClientTypes.AdMarkerPassthrough()
+        value.enabled = try reader["Enabled"].readIfPresent() ?? false
         return value
     }
 }
 
-extension MediaTailorClientTypes.ClipRange {
+extension MediaTailorClientTypes.AdsInteractionLog {
 
-    static func write(value: MediaTailorClientTypes.ClipRange?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: MediaTailorClientTypes.AdsInteractionLog?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["EndOffsetMillis"].write(value.endOffsetMillis)
-        try writer["StartOffsetMillis"].write(value.startOffsetMillis)
+        try writer["ExcludeEventTypes"].writeList(value.excludeEventTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<MediaTailorClientTypes.AdsInteractionExcludeEventType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["PublishOptInEventTypes"].writeList(value.publishOptInEventTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<MediaTailorClientTypes.AdsInteractionPublishOptInEventType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.ClipRange {
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.AdsInteractionLog {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaTailorClientTypes.ClipRange()
-        value.endOffsetMillis = try reader["EndOffsetMillis"].readIfPresent() ?? 0
-        value.startOffsetMillis = try reader["StartOffsetMillis"].readIfPresent()
+        var value = MediaTailorClientTypes.AdsInteractionLog()
+        value.publishOptInEventTypes = try reader["PublishOptInEventTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<MediaTailorClientTypes.AdsInteractionPublishOptInEventType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.excludeEventTypes = try reader["ExcludeEventTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<MediaTailorClientTypes.AdsInteractionExcludeEventType>().read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
 
-extension MediaTailorClientTypes.AudienceMedia {
+extension MediaTailorClientTypes.Alert {
 
-    static func write(value: MediaTailorClientTypes.AudienceMedia?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AlternateMedia"].writeList(value.alternateMedia, memberWritingClosure: MediaTailorClientTypes.AlternateMedia.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Audience"].write(value.audience)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.AudienceMedia {
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.Alert {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaTailorClientTypes.AudienceMedia()
-        value.audience = try reader["Audience"].readIfPresent()
-        value.alternateMedia = try reader["AlternateMedia"].readListIfPresent(memberReadingClosure: MediaTailorClientTypes.AlternateMedia.read(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = MediaTailorClientTypes.Alert()
+        value.alertCode = try reader["AlertCode"].readIfPresent() ?? ""
+        value.alertMessage = try reader["AlertMessage"].readIfPresent() ?? ""
+        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.relatedResourceArns = try reader["RelatedResourceArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.resourceArn = try reader["ResourceArn"].readIfPresent() ?? ""
+        value.category = try reader["Category"].readIfPresent()
         return value
     }
 }
@@ -7221,138 +6920,36 @@ extension MediaTailorClientTypes.AlternateMedia {
     }
 }
 
-extension MediaTailorClientTypes.AccessConfiguration {
+extension MediaTailorClientTypes.AudienceMedia {
 
-    static func write(value: MediaTailorClientTypes.AccessConfiguration?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: MediaTailorClientTypes.AudienceMedia?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["AccessType"].write(value.accessType)
-        try writer["SecretsManagerAccessTokenConfiguration"].write(value.secretsManagerAccessTokenConfiguration, with: MediaTailorClientTypes.SecretsManagerAccessTokenConfiguration.write(value:to:))
+        try writer["AlternateMedia"].writeList(value.alternateMedia, memberWritingClosure: MediaTailorClientTypes.AlternateMedia.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Audience"].write(value.audience)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.AccessConfiguration {
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.AudienceMedia {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaTailorClientTypes.AccessConfiguration()
-        value.accessType = try reader["AccessType"].readIfPresent()
-        value.secretsManagerAccessTokenConfiguration = try reader["SecretsManagerAccessTokenConfiguration"].readIfPresent(with: MediaTailorClientTypes.SecretsManagerAccessTokenConfiguration.read(from:))
+        var value = MediaTailorClientTypes.AudienceMedia()
+        value.audience = try reader["Audience"].readIfPresent()
+        value.alternateMedia = try reader["AlternateMedia"].readListIfPresent(memberReadingClosure: MediaTailorClientTypes.AlternateMedia.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
 
-extension MediaTailorClientTypes.SecretsManagerAccessTokenConfiguration {
+extension MediaTailorClientTypes.AvailMatchingCriteria {
 
-    static func write(value: MediaTailorClientTypes.SecretsManagerAccessTokenConfiguration?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: MediaTailorClientTypes.AvailMatchingCriteria?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["HeaderName"].write(value.headerName)
-        try writer["SecretArn"].write(value.secretArn)
-        try writer["SecretStringKey"].write(value.secretStringKey)
+        try writer["DynamicVariable"].write(value.dynamicVariable)
+        try writer["Operator"].write(value.`operator`)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.SecretsManagerAccessTokenConfiguration {
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.AvailMatchingCriteria {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaTailorClientTypes.SecretsManagerAccessTokenConfiguration()
-        value.headerName = try reader["HeaderName"].readIfPresent()
-        value.secretArn = try reader["SecretArn"].readIfPresent()
-        value.secretStringKey = try reader["SecretStringKey"].readIfPresent()
-        return value
-    }
-}
-
-extension MediaTailorClientTypes.DefaultSegmentDeliveryConfiguration {
-
-    static func write(value: MediaTailorClientTypes.DefaultSegmentDeliveryConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BaseUrl"].write(value.baseUrl)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.DefaultSegmentDeliveryConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaTailorClientTypes.DefaultSegmentDeliveryConfiguration()
-        value.baseUrl = try reader["BaseUrl"].readIfPresent()
-        return value
-    }
-}
-
-extension MediaTailorClientTypes.HttpConfiguration {
-
-    static func write(value: MediaTailorClientTypes.HttpConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BaseUrl"].write(value.baseUrl)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.HttpConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaTailorClientTypes.HttpConfiguration()
-        value.baseUrl = try reader["BaseUrl"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension MediaTailorClientTypes.SegmentDeliveryConfiguration {
-
-    static func write(value: MediaTailorClientTypes.SegmentDeliveryConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BaseUrl"].write(value.baseUrl)
-        try writer["Name"].write(value.name)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.SegmentDeliveryConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaTailorClientTypes.SegmentDeliveryConfiguration()
-        value.baseUrl = try reader["BaseUrl"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
-        return value
-    }
-}
-
-extension MediaTailorClientTypes.LogConfigurationForChannel {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.LogConfigurationForChannel {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaTailorClientTypes.LogConfigurationForChannel()
-        value.logTypes = try reader["LogTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<MediaTailorClientTypes.LogType>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension MediaTailorClientTypes.AdBreakOpportunity {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.AdBreakOpportunity {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaTailorClientTypes.AdBreakOpportunity()
-        value.offsetMillis = try reader["OffsetMillis"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension MediaTailorClientTypes.ScheduleEntry {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.ScheduleEntry {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaTailorClientTypes.ScheduleEntry()
-        value.approximateDurationSeconds = try reader["ApproximateDurationSeconds"].readIfPresent()
-        value.approximateStartTime = try reader["ApproximateStartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.arn = try reader["Arn"].readIfPresent() ?? ""
-        value.channelName = try reader["ChannelName"].readIfPresent() ?? ""
-        value.liveSourceName = try reader["LiveSourceName"].readIfPresent()
-        value.programName = try reader["ProgramName"].readIfPresent() ?? ""
-        value.scheduleAdBreaks = try reader["ScheduleAdBreaks"].readListIfPresent(memberReadingClosure: MediaTailorClientTypes.ScheduleAdBreak.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.scheduleEntryType = try reader["ScheduleEntryType"].readIfPresent()
-        value.sourceLocationName = try reader["SourceLocationName"].readIfPresent() ?? ""
-        value.vodSourceName = try reader["VodSourceName"].readIfPresent()
-        value.audiences = try reader["Audiences"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension MediaTailorClientTypes.ScheduleAdBreak {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.ScheduleAdBreak {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaTailorClientTypes.ScheduleAdBreak()
-        value.approximateDurationSeconds = try reader["ApproximateDurationSeconds"].readIfPresent()
-        value.approximateStartTime = try reader["ApproximateStartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.sourceLocationName = try reader["SourceLocationName"].readIfPresent()
-        value.vodSourceName = try reader["VodSourceName"].readIfPresent()
+        var value = MediaTailorClientTypes.AvailMatchingCriteria()
+        value.dynamicVariable = try reader["DynamicVariable"].readIfPresent() ?? ""
+        value.`operator` = try reader["Operator"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -7410,6 +7007,44 @@ extension MediaTailorClientTypes.CdnConfiguration {
     }
 }
 
+extension MediaTailorClientTypes.Channel {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.Channel {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaTailorClientTypes.Channel()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.channelName = try reader["ChannelName"].readIfPresent() ?? ""
+        value.channelState = try reader["ChannelState"].readIfPresent() ?? ""
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.fillerSlate = try reader["FillerSlate"].readIfPresent(with: MediaTailorClientTypes.SlateSource.read(from:))
+        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.outputs = try reader["Outputs"].readListIfPresent(memberReadingClosure: MediaTailorClientTypes.ResponseOutputItem.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.playbackMode = try reader["PlaybackMode"].readIfPresent() ?? ""
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.tier = try reader["Tier"].readIfPresent() ?? ""
+        value.logConfiguration = try reader["LogConfiguration"].readIfPresent(with: MediaTailorClientTypes.LogConfigurationForChannel.read(from:))
+        value.audiences = try reader["Audiences"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension MediaTailorClientTypes.ClipRange {
+
+    static func write(value: MediaTailorClientTypes.ClipRange?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["EndOffsetMillis"].write(value.endOffsetMillis)
+        try writer["StartOffsetMillis"].write(value.startOffsetMillis)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.ClipRange {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaTailorClientTypes.ClipRange()
+        value.endOffsetMillis = try reader["EndOffsetMillis"].readIfPresent() ?? 0
+        value.startOffsetMillis = try reader["StartOffsetMillis"].readIfPresent()
+        return value
+    }
+}
+
 extension MediaTailorClientTypes.DashConfiguration {
 
     static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.DashConfiguration {
@@ -7418,6 +7053,51 @@ extension MediaTailorClientTypes.DashConfiguration {
         value.manifestEndpointPrefix = try reader["ManifestEndpointPrefix"].readIfPresent()
         value.mpdLocation = try reader["MpdLocation"].readIfPresent()
         value.originManifestType = try reader["OriginManifestType"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaTailorClientTypes.DashConfigurationForPut {
+
+    static func write(value: MediaTailorClientTypes.DashConfigurationForPut?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MpdLocation"].write(value.mpdLocation)
+        try writer["OriginManifestType"].write(value.originManifestType)
+    }
+}
+
+extension MediaTailorClientTypes.DashPlaylistSettings {
+
+    static func write(value: MediaTailorClientTypes.DashPlaylistSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ManifestWindowSeconds"].write(value.manifestWindowSeconds)
+        try writer["MinBufferTimeSeconds"].write(value.minBufferTimeSeconds)
+        try writer["MinUpdatePeriodSeconds"].write(value.minUpdatePeriodSeconds)
+        try writer["SuggestedPresentationDelaySeconds"].write(value.suggestedPresentationDelaySeconds)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.DashPlaylistSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaTailorClientTypes.DashPlaylistSettings()
+        value.manifestWindowSeconds = try reader["ManifestWindowSeconds"].readIfPresent()
+        value.minBufferTimeSeconds = try reader["MinBufferTimeSeconds"].readIfPresent()
+        value.minUpdatePeriodSeconds = try reader["MinUpdatePeriodSeconds"].readIfPresent()
+        value.suggestedPresentationDelaySeconds = try reader["SuggestedPresentationDelaySeconds"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaTailorClientTypes.DefaultSegmentDeliveryConfiguration {
+
+    static func write(value: MediaTailorClientTypes.DefaultSegmentDeliveryConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["BaseUrl"].write(value.baseUrl)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.DefaultSegmentDeliveryConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaTailorClientTypes.DefaultSegmentDeliveryConfiguration()
+        value.baseUrl = try reader["BaseUrl"].readIfPresent()
         return value
     }
 }
@@ -7432,92 +7112,53 @@ extension MediaTailorClientTypes.HlsConfiguration {
     }
 }
 
-extension MediaTailorClientTypes.LivePreRollConfiguration {
+extension MediaTailorClientTypes.HlsPlaylistSettings {
 
-    static func write(value: MediaTailorClientTypes.LivePreRollConfiguration?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: MediaTailorClientTypes.HlsPlaylistSettings?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["AdDecisionServerUrl"].write(value.adDecisionServerUrl)
-        try writer["MaxDurationSeconds"].write(value.maxDurationSeconds)
+        try writer["AdMarkupType"].writeList(value.adMarkupType, memberWritingClosure: SmithyReadWrite.WritingClosureBox<MediaTailorClientTypes.AdMarkupType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ManifestWindowSeconds"].write(value.manifestWindowSeconds)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.LivePreRollConfiguration {
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.HlsPlaylistSettings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaTailorClientTypes.LivePreRollConfiguration()
-        value.adDecisionServerUrl = try reader["AdDecisionServerUrl"].readIfPresent()
-        value.maxDurationSeconds = try reader["MaxDurationSeconds"].readIfPresent()
+        var value = MediaTailorClientTypes.HlsPlaylistSettings()
+        value.manifestWindowSeconds = try reader["ManifestWindowSeconds"].readIfPresent()
+        value.adMarkupType = try reader["AdMarkupType"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<MediaTailorClientTypes.AdMarkupType>().read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
 
-extension MediaTailorClientTypes.LogConfiguration {
+extension MediaTailorClientTypes.HttpConfiguration {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.LogConfiguration {
+    static func write(value: MediaTailorClientTypes.HttpConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["BaseUrl"].write(value.baseUrl)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.HttpConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaTailorClientTypes.LogConfiguration()
-        value.percentEnabled = try reader["PercentEnabled"].readIfPresent() ?? 0
-        value.enabledLoggingStrategies = try reader["EnabledLoggingStrategies"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<MediaTailorClientTypes.LoggingStrategy>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.adsInteractionLog = try reader["AdsInteractionLog"].readIfPresent(with: MediaTailorClientTypes.AdsInteractionLog.read(from:))
-        value.manifestServiceInteractionLog = try reader["ManifestServiceInteractionLog"].readIfPresent(with: MediaTailorClientTypes.ManifestServiceInteractionLog.read(from:))
+        var value = MediaTailorClientTypes.HttpConfiguration()
+        value.baseUrl = try reader["BaseUrl"].readIfPresent() ?? ""
         return value
     }
 }
 
-extension MediaTailorClientTypes.ManifestProcessingRules {
+extension MediaTailorClientTypes.HttpPackageConfiguration {
 
-    static func write(value: MediaTailorClientTypes.ManifestProcessingRules?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: MediaTailorClientTypes.HttpPackageConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["AdMarkerPassthrough"].write(value.adMarkerPassthrough, with: MediaTailorClientTypes.AdMarkerPassthrough.write(value:to:))
+        try writer["Path"].write(value.path)
+        try writer["SourceGroup"].write(value.sourceGroup)
+        try writer["Type"].write(value.type)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.ManifestProcessingRules {
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.HttpPackageConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaTailorClientTypes.ManifestProcessingRules()
-        value.adMarkerPassthrough = try reader["AdMarkerPassthrough"].readIfPresent(with: MediaTailorClientTypes.AdMarkerPassthrough.read(from:))
-        return value
-    }
-}
-
-extension MediaTailorClientTypes.AdMarkerPassthrough {
-
-    static func write(value: MediaTailorClientTypes.AdMarkerPassthrough?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Enabled"].write(value.enabled)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.AdMarkerPassthrough {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaTailorClientTypes.AdMarkerPassthrough()
-        value.enabled = try reader["Enabled"].readIfPresent() ?? false
-        return value
-    }
-}
-
-extension MediaTailorClientTypes.AdConditioningConfiguration {
-
-    static func write(value: MediaTailorClientTypes.AdConditioningConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["StreamingMediaFileConditioning"].write(value.streamingMediaFileConditioning)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.AdConditioningConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaTailorClientTypes.AdConditioningConfiguration()
-        value.streamingMediaFileConditioning = try reader["StreamingMediaFileConditioning"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension MediaTailorClientTypes.AdDecisionServerConfiguration {
-
-    static func write(value: MediaTailorClientTypes.AdDecisionServerConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["HttpRequest"].write(value.httpRequest, with: MediaTailorClientTypes.HttpRequest.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.AdDecisionServerConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaTailorClientTypes.AdDecisionServerConfiguration()
-        value.httpRequest = try reader["HttpRequest"].readIfPresent(with: MediaTailorClientTypes.HttpRequest.read(from:))
+        var value = MediaTailorClientTypes.HttpPackageConfiguration()
+        value.path = try reader["Path"].readIfPresent() ?? ""
+        value.sourceGroup = try reader["SourceGroup"].readIfPresent() ?? ""
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -7543,38 +7184,36 @@ extension MediaTailorClientTypes.HttpRequest {
     }
 }
 
-extension MediaTailorClientTypes.Alert {
+extension MediaTailorClientTypes.KeyValuePair {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.Alert {
+    static func write(value: MediaTailorClientTypes.KeyValuePair?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Key"].write(value.key)
+        try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.KeyValuePair {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaTailorClientTypes.Alert()
-        value.alertCode = try reader["AlertCode"].readIfPresent() ?? ""
-        value.alertMessage = try reader["AlertMessage"].readIfPresent() ?? ""
-        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.relatedResourceArns = try reader["RelatedResourceArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.resourceArn = try reader["ResourceArn"].readIfPresent() ?? ""
-        value.category = try reader["Category"].readIfPresent()
+        var value = MediaTailorClientTypes.KeyValuePair()
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
         return value
     }
 }
 
-extension MediaTailorClientTypes.Channel {
+extension MediaTailorClientTypes.LivePreRollConfiguration {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.Channel {
+    static func write(value: MediaTailorClientTypes.LivePreRollConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AdDecisionServerUrl"].write(value.adDecisionServerUrl)
+        try writer["MaxDurationSeconds"].write(value.maxDurationSeconds)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.LivePreRollConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaTailorClientTypes.Channel()
-        value.arn = try reader["Arn"].readIfPresent() ?? ""
-        value.channelName = try reader["ChannelName"].readIfPresent() ?? ""
-        value.channelState = try reader["ChannelState"].readIfPresent() ?? ""
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.fillerSlate = try reader["FillerSlate"].readIfPresent(with: MediaTailorClientTypes.SlateSource.read(from:))
-        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.outputs = try reader["Outputs"].readListIfPresent(memberReadingClosure: MediaTailorClientTypes.ResponseOutputItem.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.playbackMode = try reader["PlaybackMode"].readIfPresent() ?? ""
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.tier = try reader["Tier"].readIfPresent() ?? ""
-        value.logConfiguration = try reader["LogConfiguration"].readIfPresent(with: MediaTailorClientTypes.LogConfigurationForChannel.read(from:))
-        value.audiences = try reader["Audiences"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = MediaTailorClientTypes.LivePreRollConfiguration()
+        value.adDecisionServerUrl = try reader["AdDecisionServerUrl"].readIfPresent()
+        value.maxDurationSeconds = try reader["MaxDurationSeconds"].readIfPresent()
         return value
     }
 }
@@ -7591,6 +7230,59 @@ extension MediaTailorClientTypes.LiveSource {
         value.liveSourceName = try reader["LiveSourceName"].readIfPresent() ?? ""
         value.sourceLocationName = try reader["SourceLocationName"].readIfPresent() ?? ""
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension MediaTailorClientTypes.LogConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.LogConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaTailorClientTypes.LogConfiguration()
+        value.percentEnabled = try reader["PercentEnabled"].readIfPresent() ?? 0
+        value.enabledLoggingStrategies = try reader["EnabledLoggingStrategies"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<MediaTailorClientTypes.LoggingStrategy>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.adsInteractionLog = try reader["AdsInteractionLog"].readIfPresent(with: MediaTailorClientTypes.AdsInteractionLog.read(from:))
+        value.manifestServiceInteractionLog = try reader["ManifestServiceInteractionLog"].readIfPresent(with: MediaTailorClientTypes.ManifestServiceInteractionLog.read(from:))
+        return value
+    }
+}
+
+extension MediaTailorClientTypes.LogConfigurationForChannel {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.LogConfigurationForChannel {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaTailorClientTypes.LogConfigurationForChannel()
+        value.logTypes = try reader["LogTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<MediaTailorClientTypes.LogType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension MediaTailorClientTypes.ManifestProcessingRules {
+
+    static func write(value: MediaTailorClientTypes.ManifestProcessingRules?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AdMarkerPassthrough"].write(value.adMarkerPassthrough, with: MediaTailorClientTypes.AdMarkerPassthrough.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.ManifestProcessingRules {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaTailorClientTypes.ManifestProcessingRules()
+        value.adMarkerPassthrough = try reader["AdMarkerPassthrough"].readIfPresent(with: MediaTailorClientTypes.AdMarkerPassthrough.read(from:))
+        return value
+    }
+}
+
+extension MediaTailorClientTypes.ManifestServiceInteractionLog {
+
+    static func write(value: MediaTailorClientTypes.ManifestServiceInteractionLog?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ExcludeEventTypes"].writeList(value.excludeEventTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<MediaTailorClientTypes.ManifestServiceExcludeEventType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.ManifestServiceInteractionLog {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaTailorClientTypes.ManifestServiceInteractionLog()
+        value.excludeEventTypes = try reader["ExcludeEventTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<MediaTailorClientTypes.ManifestServiceExcludeEventType>().read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -7626,6 +7318,50 @@ extension MediaTailorClientTypes.PlaybackConfiguration {
     }
 }
 
+extension MediaTailorClientTypes.PrefetchConsumption {
+
+    static func write(value: MediaTailorClientTypes.PrefetchConsumption?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AvailMatchingCriteria"].writeList(value.availMatchingCriteria, memberWritingClosure: MediaTailorClientTypes.AvailMatchingCriteria.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["EndTime"].writeTimestamp(value.endTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["StartTime"].writeTimestamp(value.startTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.PrefetchConsumption {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaTailorClientTypes.PrefetchConsumption()
+        value.availMatchingCriteria = try reader["AvailMatchingCriteria"].readListIfPresent(memberReadingClosure: MediaTailorClientTypes.AvailMatchingCriteria.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension MediaTailorClientTypes.PrefetchRetrieval {
+
+    static func write(value: MediaTailorClientTypes.PrefetchRetrieval?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DynamicVariables"].writeMap(value.dynamicVariables, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["EndTime"].writeTimestamp(value.endTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["StartTime"].writeTimestamp(value.startTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["TrafficShapingRetrievalWindow"].write(value.trafficShapingRetrievalWindow, with: MediaTailorClientTypes.TrafficShapingRetrievalWindow.write(value:to:))
+        try writer["TrafficShapingTpsConfiguration"].write(value.trafficShapingTpsConfiguration, with: MediaTailorClientTypes.TrafficShapingTpsConfiguration.write(value:to:))
+        try writer["TrafficShapingType"].write(value.trafficShapingType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.PrefetchRetrieval {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaTailorClientTypes.PrefetchRetrieval()
+        value.dynamicVariables = try reader["DynamicVariables"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.trafficShapingType = try reader["TrafficShapingType"].readIfPresent()
+        value.trafficShapingRetrievalWindow = try reader["TrafficShapingRetrievalWindow"].readIfPresent(with: MediaTailorClientTypes.TrafficShapingRetrievalWindow.read(from:))
+        value.trafficShapingTpsConfiguration = try reader["TrafficShapingTpsConfiguration"].readIfPresent(with: MediaTailorClientTypes.TrafficShapingTpsConfiguration.read(from:))
+        return value
+    }
+}
+
 extension MediaTailorClientTypes.PrefetchSchedule {
 
     static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.PrefetchSchedule {
@@ -7639,6 +7375,216 @@ extension MediaTailorClientTypes.PrefetchSchedule {
         value.scheduleType = try reader["ScheduleType"].readIfPresent()
         value.recurringPrefetchConfiguration = try reader["RecurringPrefetchConfiguration"].readIfPresent(with: MediaTailorClientTypes.RecurringPrefetchConfiguration.read(from:))
         value.streamId = try reader["StreamId"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaTailorClientTypes.RecurringConsumption {
+
+    static func write(value: MediaTailorClientTypes.RecurringConsumption?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AvailMatchingCriteria"].writeList(value.availMatchingCriteria, memberWritingClosure: MediaTailorClientTypes.AvailMatchingCriteria.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["RetrievedAdExpirationSeconds"].write(value.retrievedAdExpirationSeconds)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.RecurringConsumption {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaTailorClientTypes.RecurringConsumption()
+        value.retrievedAdExpirationSeconds = try reader["RetrievedAdExpirationSeconds"].readIfPresent()
+        value.availMatchingCriteria = try reader["AvailMatchingCriteria"].readListIfPresent(memberReadingClosure: MediaTailorClientTypes.AvailMatchingCriteria.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension MediaTailorClientTypes.RecurringPrefetchConfiguration {
+
+    static func write(value: MediaTailorClientTypes.RecurringPrefetchConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["EndTime"].writeTimestamp(value.endTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["RecurringConsumption"].write(value.recurringConsumption, with: MediaTailorClientTypes.RecurringConsumption.write(value:to:))
+        try writer["RecurringRetrieval"].write(value.recurringRetrieval, with: MediaTailorClientTypes.RecurringRetrieval.write(value:to:))
+        try writer["StartTime"].writeTimestamp(value.startTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.RecurringPrefetchConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaTailorClientTypes.RecurringPrefetchConfiguration()
+        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.recurringConsumption = try reader["RecurringConsumption"].readIfPresent(with: MediaTailorClientTypes.RecurringConsumption.read(from:))
+        value.recurringRetrieval = try reader["RecurringRetrieval"].readIfPresent(with: MediaTailorClientTypes.RecurringRetrieval.read(from:))
+        return value
+    }
+}
+
+extension MediaTailorClientTypes.RecurringRetrieval {
+
+    static func write(value: MediaTailorClientTypes.RecurringRetrieval?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DelayAfterAvailEndSeconds"].write(value.delayAfterAvailEndSeconds)
+        try writer["DynamicVariables"].writeMap(value.dynamicVariables, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["TrafficShapingRetrievalWindow"].write(value.trafficShapingRetrievalWindow, with: MediaTailorClientTypes.TrafficShapingRetrievalWindow.write(value:to:))
+        try writer["TrafficShapingTpsConfiguration"].write(value.trafficShapingTpsConfiguration, with: MediaTailorClientTypes.TrafficShapingTpsConfiguration.write(value:to:))
+        try writer["TrafficShapingType"].write(value.trafficShapingType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.RecurringRetrieval {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaTailorClientTypes.RecurringRetrieval()
+        value.dynamicVariables = try reader["DynamicVariables"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.delayAfterAvailEndSeconds = try reader["DelayAfterAvailEndSeconds"].readIfPresent()
+        value.trafficShapingType = try reader["TrafficShapingType"].readIfPresent()
+        value.trafficShapingRetrievalWindow = try reader["TrafficShapingRetrievalWindow"].readIfPresent(with: MediaTailorClientTypes.TrafficShapingRetrievalWindow.read(from:))
+        value.trafficShapingTpsConfiguration = try reader["TrafficShapingTpsConfiguration"].readIfPresent(with: MediaTailorClientTypes.TrafficShapingTpsConfiguration.read(from:))
+        return value
+    }
+}
+
+extension MediaTailorClientTypes.RequestOutputItem {
+
+    static func write(value: MediaTailorClientTypes.RequestOutputItem?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DashPlaylistSettings"].write(value.dashPlaylistSettings, with: MediaTailorClientTypes.DashPlaylistSettings.write(value:to:))
+        try writer["HlsPlaylistSettings"].write(value.hlsPlaylistSettings, with: MediaTailorClientTypes.HlsPlaylistSettings.write(value:to:))
+        try writer["ManifestName"].write(value.manifestName)
+        try writer["SourceGroup"].write(value.sourceGroup)
+    }
+}
+
+extension MediaTailorClientTypes.ResponseOutputItem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.ResponseOutputItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaTailorClientTypes.ResponseOutputItem()
+        value.dashPlaylistSettings = try reader["DashPlaylistSettings"].readIfPresent(with: MediaTailorClientTypes.DashPlaylistSettings.read(from:))
+        value.hlsPlaylistSettings = try reader["HlsPlaylistSettings"].readIfPresent(with: MediaTailorClientTypes.HlsPlaylistSettings.read(from:))
+        value.manifestName = try reader["ManifestName"].readIfPresent() ?? ""
+        value.playbackUrl = try reader["PlaybackUrl"].readIfPresent() ?? ""
+        value.sourceGroup = try reader["SourceGroup"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension MediaTailorClientTypes.ScheduleAdBreak {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.ScheduleAdBreak {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaTailorClientTypes.ScheduleAdBreak()
+        value.approximateDurationSeconds = try reader["ApproximateDurationSeconds"].readIfPresent()
+        value.approximateStartTime = try reader["ApproximateStartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.sourceLocationName = try reader["SourceLocationName"].readIfPresent()
+        value.vodSourceName = try reader["VodSourceName"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaTailorClientTypes.ScheduleConfiguration {
+
+    static func write(value: MediaTailorClientTypes.ScheduleConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ClipRange"].write(value.clipRange, with: MediaTailorClientTypes.ClipRange.write(value:to:))
+        try writer["Transition"].write(value.transition, with: MediaTailorClientTypes.Transition.write(value:to:))
+    }
+}
+
+extension MediaTailorClientTypes.ScheduleEntry {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.ScheduleEntry {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaTailorClientTypes.ScheduleEntry()
+        value.approximateDurationSeconds = try reader["ApproximateDurationSeconds"].readIfPresent()
+        value.approximateStartTime = try reader["ApproximateStartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.channelName = try reader["ChannelName"].readIfPresent() ?? ""
+        value.liveSourceName = try reader["LiveSourceName"].readIfPresent()
+        value.programName = try reader["ProgramName"].readIfPresent() ?? ""
+        value.scheduleAdBreaks = try reader["ScheduleAdBreaks"].readListIfPresent(memberReadingClosure: MediaTailorClientTypes.ScheduleAdBreak.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.scheduleEntryType = try reader["ScheduleEntryType"].readIfPresent()
+        value.sourceLocationName = try reader["SourceLocationName"].readIfPresent() ?? ""
+        value.vodSourceName = try reader["VodSourceName"].readIfPresent()
+        value.audiences = try reader["Audiences"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension MediaTailorClientTypes.SecretsManagerAccessTokenConfiguration {
+
+    static func write(value: MediaTailorClientTypes.SecretsManagerAccessTokenConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["HeaderName"].write(value.headerName)
+        try writer["SecretArn"].write(value.secretArn)
+        try writer["SecretStringKey"].write(value.secretStringKey)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.SecretsManagerAccessTokenConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaTailorClientTypes.SecretsManagerAccessTokenConfiguration()
+        value.headerName = try reader["HeaderName"].readIfPresent()
+        value.secretArn = try reader["SecretArn"].readIfPresent()
+        value.secretStringKey = try reader["SecretStringKey"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaTailorClientTypes.SegmentationDescriptor {
+
+    static func write(value: MediaTailorClientTypes.SegmentationDescriptor?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["SegmentNum"].write(value.segmentNum)
+        try writer["SegmentationEventId"].write(value.segmentationEventId)
+        try writer["SegmentationTypeId"].write(value.segmentationTypeId)
+        try writer["SegmentationUpid"].write(value.segmentationUpid)
+        try writer["SegmentationUpidType"].write(value.segmentationUpidType)
+        try writer["SegmentsExpected"].write(value.segmentsExpected)
+        try writer["SubSegmentNum"].write(value.subSegmentNum)
+        try writer["SubSegmentsExpected"].write(value.subSegmentsExpected)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.SegmentationDescriptor {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaTailorClientTypes.SegmentationDescriptor()
+        value.segmentationEventId = try reader["SegmentationEventId"].readIfPresent()
+        value.segmentationUpidType = try reader["SegmentationUpidType"].readIfPresent()
+        value.segmentationUpid = try reader["SegmentationUpid"].readIfPresent()
+        value.segmentationTypeId = try reader["SegmentationTypeId"].readIfPresent()
+        value.segmentNum = try reader["SegmentNum"].readIfPresent()
+        value.segmentsExpected = try reader["SegmentsExpected"].readIfPresent()
+        value.subSegmentNum = try reader["SubSegmentNum"].readIfPresent()
+        value.subSegmentsExpected = try reader["SubSegmentsExpected"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaTailorClientTypes.SegmentDeliveryConfiguration {
+
+    static func write(value: MediaTailorClientTypes.SegmentDeliveryConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["BaseUrl"].write(value.baseUrl)
+        try writer["Name"].write(value.name)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.SegmentDeliveryConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaTailorClientTypes.SegmentDeliveryConfiguration()
+        value.baseUrl = try reader["BaseUrl"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaTailorClientTypes.SlateSource {
+
+    static func write(value: MediaTailorClientTypes.SlateSource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["SourceLocationName"].write(value.sourceLocationName)
+        try writer["VodSourceName"].write(value.vodSourceName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.SlateSource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaTailorClientTypes.SlateSource()
+        value.sourceLocationName = try reader["SourceLocationName"].readIfPresent()
+        value.vodSourceName = try reader["VodSourceName"].readIfPresent()
         return value
     }
 }
@@ -7661,39 +7607,86 @@ extension MediaTailorClientTypes.SourceLocation {
     }
 }
 
-extension MediaTailorClientTypes.VodSource {
+extension MediaTailorClientTypes.SpliceInsertMessage {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.VodSource {
+    static func write(value: MediaTailorClientTypes.SpliceInsertMessage?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AvailNum"].write(value.availNum)
+        try writer["AvailsExpected"].write(value.availsExpected)
+        try writer["SpliceEventId"].write(value.spliceEventId)
+        try writer["UniqueProgramId"].write(value.uniqueProgramId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.SpliceInsertMessage {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MediaTailorClientTypes.VodSource()
-        value.arn = try reader["Arn"].readIfPresent() ?? ""
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.httpPackageConfigurations = try reader["HttpPackageConfigurations"].readListIfPresent(memberReadingClosure: MediaTailorClientTypes.HttpPackageConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.sourceLocationName = try reader["SourceLocationName"].readIfPresent() ?? ""
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.vodSourceName = try reader["VodSourceName"].readIfPresent() ?? ""
+        var value = MediaTailorClientTypes.SpliceInsertMessage()
+        value.availNum = try reader["AvailNum"].readIfPresent()
+        value.availsExpected = try reader["AvailsExpected"].readIfPresent()
+        value.spliceEventId = try reader["SpliceEventId"].readIfPresent()
+        value.uniqueProgramId = try reader["UniqueProgramId"].readIfPresent()
         return value
     }
 }
 
-extension MediaTailorClientTypes.RequestOutputItem {
+extension MediaTailorClientTypes.TimeShiftConfiguration {
 
-    static func write(value: MediaTailorClientTypes.RequestOutputItem?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: MediaTailorClientTypes.TimeShiftConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["DashPlaylistSettings"].write(value.dashPlaylistSettings, with: MediaTailorClientTypes.DashPlaylistSettings.write(value:to:))
-        try writer["HlsPlaylistSettings"].write(value.hlsPlaylistSettings, with: MediaTailorClientTypes.HlsPlaylistSettings.write(value:to:))
-        try writer["ManifestName"].write(value.manifestName)
-        try writer["SourceGroup"].write(value.sourceGroup)
+        try writer["MaxTimeDelaySeconds"].write(value.maxTimeDelaySeconds)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.TimeShiftConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaTailorClientTypes.TimeShiftConfiguration()
+        value.maxTimeDelaySeconds = try reader["MaxTimeDelaySeconds"].readIfPresent() ?? 0
+        return value
     }
 }
 
-extension MediaTailorClientTypes.ScheduleConfiguration {
+extension MediaTailorClientTypes.TimeSignalMessage {
 
-    static func write(value: MediaTailorClientTypes.ScheduleConfiguration?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: MediaTailorClientTypes.TimeSignalMessage?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["ClipRange"].write(value.clipRange, with: MediaTailorClientTypes.ClipRange.write(value:to:))
-        try writer["Transition"].write(value.transition, with: MediaTailorClientTypes.Transition.write(value:to:))
+        try writer["SegmentationDescriptors"].writeList(value.segmentationDescriptors, memberWritingClosure: MediaTailorClientTypes.SegmentationDescriptor.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.TimeSignalMessage {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaTailorClientTypes.TimeSignalMessage()
+        value.segmentationDescriptors = try reader["SegmentationDescriptors"].readListIfPresent(memberReadingClosure: MediaTailorClientTypes.SegmentationDescriptor.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension MediaTailorClientTypes.TrafficShapingRetrievalWindow {
+
+    static func write(value: MediaTailorClientTypes.TrafficShapingRetrievalWindow?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["RetrievalWindowDurationSeconds"].write(value.retrievalWindowDurationSeconds)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.TrafficShapingRetrievalWindow {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaTailorClientTypes.TrafficShapingRetrievalWindow()
+        value.retrievalWindowDurationSeconds = try reader["RetrievalWindowDurationSeconds"].readIfPresent()
+        return value
+    }
+}
+
+extension MediaTailorClientTypes.TrafficShapingTpsConfiguration {
+
+    static func write(value: MediaTailorClientTypes.TrafficShapingTpsConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["PeakConcurrentUsers"].write(value.peakConcurrentUsers)
+        try writer["PeakTps"].write(value.peakTps)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.TrafficShapingTpsConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaTailorClientTypes.TrafficShapingTpsConfiguration()
+        value.peakTps = try reader["PeakTps"].readIfPresent()
+        value.peakConcurrentUsers = try reader["PeakConcurrentUsers"].readIfPresent()
+        return value
     }
 }
 
@@ -7706,15 +7699,6 @@ extension MediaTailorClientTypes.Transition {
         try writer["RelativeProgram"].write(value.relativeProgram)
         try writer["ScheduledStartTimeMillis"].write(value.scheduledStartTimeMillis)
         try writer["Type"].write(value.type)
-    }
-}
-
-extension MediaTailorClientTypes.DashConfigurationForPut {
-
-    static func write(value: MediaTailorClientTypes.DashConfigurationForPut?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["MpdLocation"].write(value.mpdLocation)
-        try writer["OriginManifestType"].write(value.originManifestType)
     }
 }
 
@@ -7733,6 +7717,22 @@ extension MediaTailorClientTypes.UpdateProgramTransition {
         guard let value else { return }
         try writer["DurationMillis"].write(value.durationMillis)
         try writer["ScheduledStartTimeMillis"].write(value.scheduledStartTimeMillis)
+    }
+}
+
+extension MediaTailorClientTypes.VodSource {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MediaTailorClientTypes.VodSource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MediaTailorClientTypes.VodSource()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.httpPackageConfigurations = try reader["HttpPackageConfigurations"].readListIfPresent(memberReadingClosure: MediaTailorClientTypes.HttpPackageConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.lastModifiedTime = try reader["LastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.sourceLocationName = try reader["SourceLocationName"].readIfPresent() ?? ""
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.vodSourceName = try reader["VodSourceName"].readIfPresent() ?? ""
+        return value
     }
 }
 

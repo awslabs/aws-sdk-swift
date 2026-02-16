@@ -4660,6 +4660,19 @@ extension LimitExceededException {
     }
 }
 
+extension FinspacedataClientTypes.AwsCredentials {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FinspacedataClientTypes.AwsCredentials {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FinspacedataClientTypes.AwsCredentials()
+        value.accessKeyId = try reader["accessKeyId"].readIfPresent()
+        value.secretAccessKey = try reader["secretAccessKey"].readIfPresent()
+        value.sessionToken = try reader["sessionToken"].readIfPresent()
+        value.expiration = try reader["expiration"].readIfPresent() ?? 0
+        return value
+    }
+}
+
 extension FinspacedataClientTypes.ChangesetErrorInfo {
 
     static func read(from reader: SmithyJSON.Reader) throws -> FinspacedataClientTypes.ChangesetErrorInfo {
@@ -4671,34 +4684,24 @@ extension FinspacedataClientTypes.ChangesetErrorInfo {
     }
 }
 
-extension FinspacedataClientTypes.SchemaUnion {
+extension FinspacedataClientTypes.ChangesetSummary {
 
-    static func write(value: FinspacedataClientTypes.SchemaUnion?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["tabularSchemaConfig"].write(value.tabularSchemaConfig, with: FinspacedataClientTypes.SchemaDefinition.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FinspacedataClientTypes.SchemaUnion {
+    static func read(from reader: SmithyJSON.Reader) throws -> FinspacedataClientTypes.ChangesetSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FinspacedataClientTypes.SchemaUnion()
-        value.tabularSchemaConfig = try reader["tabularSchemaConfig"].readIfPresent(with: FinspacedataClientTypes.SchemaDefinition.read(from:))
-        return value
-    }
-}
-
-extension FinspacedataClientTypes.SchemaDefinition {
-
-    static func write(value: FinspacedataClientTypes.SchemaDefinition?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["columns"].writeList(value.columns, memberWritingClosure: FinspacedataClientTypes.ColumnDefinition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["primaryKeyColumns"].writeList(value.primaryKeyColumns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FinspacedataClientTypes.SchemaDefinition {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FinspacedataClientTypes.SchemaDefinition()
-        value.columns = try reader["columns"].readListIfPresent(memberReadingClosure: FinspacedataClientTypes.ColumnDefinition.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.primaryKeyColumns = try reader["primaryKeyColumns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = FinspacedataClientTypes.ChangesetSummary()
+        value.changesetId = try reader["changesetId"].readIfPresent()
+        value.changesetArn = try reader["changesetArn"].readIfPresent()
+        value.datasetId = try reader["datasetId"].readIfPresent()
+        value.changeType = try reader["changeType"].readIfPresent()
+        value.sourceParams = try reader["sourceParams"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.formatParams = try reader["formatParams"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.createTime = try reader["createTime"].readIfPresent() ?? 0
+        value.status = try reader["status"].readIfPresent()
+        value.errorInfo = try reader["errorInfo"].readIfPresent(with: FinspacedataClientTypes.ChangesetErrorInfo.read(from:))
+        value.activeUntilTimestamp = try reader["activeUntilTimestamp"].readIfPresent()
+        value.activeFromTimestamp = try reader["activeFromTimestamp"].readIfPresent()
+        value.updatesChangesetId = try reader["updatesChangesetId"].readIfPresent()
+        value.updatedByChangesetId = try reader["updatedByChangesetId"].readIfPresent()
         return value
     }
 }
@@ -4722,76 +4725,6 @@ extension FinspacedataClientTypes.ColumnDefinition {
     }
 }
 
-extension FinspacedataClientTypes.DataViewErrorInfo {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FinspacedataClientTypes.DataViewErrorInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FinspacedataClientTypes.DataViewErrorInfo()
-        value.errorMessage = try reader["errorMessage"].readIfPresent()
-        value.errorCategory = try reader["errorCategory"].readIfPresent()
-        return value
-    }
-}
-
-extension FinspacedataClientTypes.DataViewDestinationTypeParams {
-
-    static func write(value: FinspacedataClientTypes.DataViewDestinationTypeParams?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["destinationType"].write(value.destinationType)
-        try writer["s3DestinationExportFileFormat"].write(value.s3DestinationExportFileFormat)
-        try writer["s3DestinationExportFileFormatOptions"].writeMap(value.s3DestinationExportFileFormatOptions, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FinspacedataClientTypes.DataViewDestinationTypeParams {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FinspacedataClientTypes.DataViewDestinationTypeParams()
-        value.destinationType = try reader["destinationType"].readIfPresent() ?? ""
-        value.s3DestinationExportFileFormat = try reader["s3DestinationExportFileFormat"].readIfPresent()
-        value.s3DestinationExportFileFormatOptions = try reader["s3DestinationExportFileFormatOptions"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
-}
-
-extension FinspacedataClientTypes.AwsCredentials {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FinspacedataClientTypes.AwsCredentials {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FinspacedataClientTypes.AwsCredentials()
-        value.accessKeyId = try reader["accessKeyId"].readIfPresent()
-        value.secretAccessKey = try reader["secretAccessKey"].readIfPresent()
-        value.sessionToken = try reader["sessionToken"].readIfPresent()
-        value.expiration = try reader["expiration"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension FinspacedataClientTypes.S3Location {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FinspacedataClientTypes.S3Location {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FinspacedataClientTypes.S3Location()
-        value.bucket = try reader["bucket"].readIfPresent() ?? ""
-        value.key = try reader["key"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension FinspacedataClientTypes.PermissionGroup {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FinspacedataClientTypes.PermissionGroup {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FinspacedataClientTypes.PermissionGroup()
-        value.permissionGroupId = try reader["permissionGroupId"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.description = try reader["description"].readIfPresent()
-        value.applicationPermissions = try reader["applicationPermissions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<FinspacedataClientTypes.ApplicationPermission>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.createTime = try reader["createTime"].readIfPresent() ?? 0
-        value.lastModifiedTime = try reader["lastModifiedTime"].readIfPresent() ?? 0
-        value.membershipStatus = try reader["membershipStatus"].readIfPresent()
-        return value
-    }
-}
-
 extension FinspacedataClientTypes.Credentials {
 
     static func read(from reader: SmithyJSON.Reader) throws -> FinspacedataClientTypes.Credentials {
@@ -4800,28 +4733,6 @@ extension FinspacedataClientTypes.Credentials {
         value.accessKeyId = try reader["accessKeyId"].readIfPresent()
         value.secretAccessKey = try reader["secretAccessKey"].readIfPresent()
         value.sessionToken = try reader["sessionToken"].readIfPresent()
-        return value
-    }
-}
-
-extension FinspacedataClientTypes.ChangesetSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> FinspacedataClientTypes.ChangesetSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FinspacedataClientTypes.ChangesetSummary()
-        value.changesetId = try reader["changesetId"].readIfPresent()
-        value.changesetArn = try reader["changesetArn"].readIfPresent()
-        value.datasetId = try reader["datasetId"].readIfPresent()
-        value.changeType = try reader["changeType"].readIfPresent()
-        value.sourceParams = try reader["sourceParams"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.formatParams = try reader["formatParams"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.createTime = try reader["createTime"].readIfPresent() ?? 0
-        value.status = try reader["status"].readIfPresent()
-        value.errorInfo = try reader["errorInfo"].readIfPresent(with: FinspacedataClientTypes.ChangesetErrorInfo.read(from:))
-        value.activeUntilTimestamp = try reader["activeUntilTimestamp"].readIfPresent()
-        value.activeFromTimestamp = try reader["activeFromTimestamp"].readIfPresent()
-        value.updatesChangesetId = try reader["updatesChangesetId"].readIfPresent()
-        value.updatedByChangesetId = try reader["updatedByChangesetId"].readIfPresent()
         return value
     }
 }
@@ -4864,6 +4775,36 @@ extension FinspacedataClientTypes.DatasetOwnerInfo {
     }
 }
 
+extension FinspacedataClientTypes.DataViewDestinationTypeParams {
+
+    static func write(value: FinspacedataClientTypes.DataViewDestinationTypeParams?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["destinationType"].write(value.destinationType)
+        try writer["s3DestinationExportFileFormat"].write(value.s3DestinationExportFileFormat)
+        try writer["s3DestinationExportFileFormatOptions"].writeMap(value.s3DestinationExportFileFormatOptions, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FinspacedataClientTypes.DataViewDestinationTypeParams {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FinspacedataClientTypes.DataViewDestinationTypeParams()
+        value.destinationType = try reader["destinationType"].readIfPresent() ?? ""
+        value.s3DestinationExportFileFormat = try reader["s3DestinationExportFileFormat"].readIfPresent()
+        value.s3DestinationExportFileFormatOptions = try reader["s3DestinationExportFileFormatOptions"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension FinspacedataClientTypes.DataViewErrorInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FinspacedataClientTypes.DataViewErrorInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FinspacedataClientTypes.DataViewErrorInfo()
+        value.errorMessage = try reader["errorMessage"].readIfPresent()
+        value.errorCategory = try reader["errorCategory"].readIfPresent()
+        return value
+    }
+}
+
 extension FinspacedataClientTypes.DataViewSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> FinspacedataClientTypes.DataViewSummary {
@@ -4885,6 +4826,22 @@ extension FinspacedataClientTypes.DataViewSummary {
     }
 }
 
+extension FinspacedataClientTypes.PermissionGroup {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FinspacedataClientTypes.PermissionGroup {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FinspacedataClientTypes.PermissionGroup()
+        value.permissionGroupId = try reader["permissionGroupId"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.applicationPermissions = try reader["applicationPermissions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<FinspacedataClientTypes.ApplicationPermission>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.createTime = try reader["createTime"].readIfPresent() ?? 0
+        value.lastModifiedTime = try reader["lastModifiedTime"].readIfPresent() ?? 0
+        value.membershipStatus = try reader["membershipStatus"].readIfPresent()
+        return value
+    }
+}
+
 extension FinspacedataClientTypes.PermissionGroupByUser {
 
     static func read(from reader: SmithyJSON.Reader) throws -> FinspacedataClientTypes.PermissionGroupByUser {
@@ -4893,6 +4850,66 @@ extension FinspacedataClientTypes.PermissionGroupByUser {
         value.permissionGroupId = try reader["permissionGroupId"].readIfPresent()
         value.name = try reader["name"].readIfPresent()
         value.membershipStatus = try reader["membershipStatus"].readIfPresent()
+        return value
+    }
+}
+
+extension FinspacedataClientTypes.PermissionGroupParams {
+
+    static func write(value: FinspacedataClientTypes.PermissionGroupParams?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["datasetPermissions"].writeList(value.datasetPermissions, memberWritingClosure: FinspacedataClientTypes.ResourcePermission.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["permissionGroupId"].write(value.permissionGroupId)
+    }
+}
+
+extension FinspacedataClientTypes.ResourcePermission {
+
+    static func write(value: FinspacedataClientTypes.ResourcePermission?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["permission"].write(value.permission)
+    }
+}
+
+extension FinspacedataClientTypes.S3Location {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FinspacedataClientTypes.S3Location {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FinspacedataClientTypes.S3Location()
+        value.bucket = try reader["bucket"].readIfPresent() ?? ""
+        value.key = try reader["key"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension FinspacedataClientTypes.SchemaDefinition {
+
+    static func write(value: FinspacedataClientTypes.SchemaDefinition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["columns"].writeList(value.columns, memberWritingClosure: FinspacedataClientTypes.ColumnDefinition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["primaryKeyColumns"].writeList(value.primaryKeyColumns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FinspacedataClientTypes.SchemaDefinition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FinspacedataClientTypes.SchemaDefinition()
+        value.columns = try reader["columns"].readListIfPresent(memberReadingClosure: FinspacedataClientTypes.ColumnDefinition.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.primaryKeyColumns = try reader["primaryKeyColumns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension FinspacedataClientTypes.SchemaUnion {
+
+    static func write(value: FinspacedataClientTypes.SchemaUnion?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["tabularSchemaConfig"].write(value.tabularSchemaConfig, with: FinspacedataClientTypes.SchemaDefinition.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> FinspacedataClientTypes.SchemaUnion {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = FinspacedataClientTypes.SchemaUnion()
+        value.tabularSchemaConfig = try reader["tabularSchemaConfig"].readIfPresent(with: FinspacedataClientTypes.SchemaDefinition.read(from:))
         return value
     }
 }
@@ -4934,23 +4951,6 @@ extension FinspacedataClientTypes.UserByPermissionGroup {
         value.apiAccessPrincipalArn = try reader["apiAccessPrincipalArn"].readIfPresent()
         value.membershipStatus = try reader["membershipStatus"].readIfPresent()
         return value
-    }
-}
-
-extension FinspacedataClientTypes.PermissionGroupParams {
-
-    static func write(value: FinspacedataClientTypes.PermissionGroupParams?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["datasetPermissions"].writeList(value.datasetPermissions, memberWritingClosure: FinspacedataClientTypes.ResourcePermission.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["permissionGroupId"].write(value.permissionGroupId)
-    }
-}
-
-extension FinspacedataClientTypes.ResourcePermission {
-
-    static func write(value: FinspacedataClientTypes.ResourcePermission?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["permission"].write(value.permission)
     }
 }
 

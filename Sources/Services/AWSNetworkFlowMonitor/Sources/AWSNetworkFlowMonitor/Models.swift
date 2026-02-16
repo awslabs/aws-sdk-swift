@@ -3418,6 +3418,21 @@ extension ResourceNotFoundException {
     }
 }
 
+extension NetworkFlowMonitorClientTypes.KubernetesMetadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFlowMonitorClientTypes.KubernetesMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFlowMonitorClientTypes.KubernetesMetadata()
+        value.localServiceName = try reader["localServiceName"].readIfPresent()
+        value.localPodName = try reader["localPodName"].readIfPresent()
+        value.localPodNamespace = try reader["localPodNamespace"].readIfPresent()
+        value.remoteServiceName = try reader["remoteServiceName"].readIfPresent()
+        value.remotePodName = try reader["remotePodName"].readIfPresent()
+        value.remotePodNamespace = try reader["remotePodNamespace"].readIfPresent()
+        return value
+    }
+}
+
 extension NetworkFlowMonitorClientTypes.MonitorLocalResource {
 
     static func write(value: NetworkFlowMonitorClientTypes.MonitorLocalResource?, to writer: SmithyJSON.Writer) throws {
@@ -3448,6 +3463,18 @@ extension NetworkFlowMonitorClientTypes.MonitorRemoteResource {
         var value = NetworkFlowMonitorClientTypes.MonitorRemoteResource()
         value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
         value.identifier = try reader["identifier"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension NetworkFlowMonitorClientTypes.MonitorSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFlowMonitorClientTypes.MonitorSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFlowMonitorClientTypes.MonitorSummary()
+        value.monitorArn = try reader["monitorArn"].readIfPresent() ?? ""
+        value.monitorName = try reader["monitorName"].readIfPresent() ?? ""
+        value.monitorStatus = try reader["monitorStatus"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -3486,94 +3513,14 @@ extension NetworkFlowMonitorClientTypes.MonitorTopContributorsRow {
     }
 }
 
-extension NetworkFlowMonitorClientTypes.KubernetesMetadata {
+extension NetworkFlowMonitorClientTypes.ScopeSummary {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFlowMonitorClientTypes.KubernetesMetadata {
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFlowMonitorClientTypes.ScopeSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkFlowMonitorClientTypes.KubernetesMetadata()
-        value.localServiceName = try reader["localServiceName"].readIfPresent()
-        value.localPodName = try reader["localPodName"].readIfPresent()
-        value.localPodNamespace = try reader["localPodNamespace"].readIfPresent()
-        value.remoteServiceName = try reader["remoteServiceName"].readIfPresent()
-        value.remotePodName = try reader["remotePodName"].readIfPresent()
-        value.remotePodNamespace = try reader["remotePodNamespace"].readIfPresent()
-        return value
-    }
-}
-
-extension NetworkFlowMonitorClientTypes.TraversedComponent {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFlowMonitorClientTypes.TraversedComponent {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkFlowMonitorClientTypes.TraversedComponent()
-        value.componentId = try reader["componentId"].readIfPresent()
-        value.componentType = try reader["componentType"].readIfPresent()
-        value.componentArn = try reader["componentArn"].readIfPresent()
-        value.serviceName = try reader["serviceName"].readIfPresent()
-        return value
-    }
-}
-
-extension NetworkFlowMonitorClientTypes.WorkloadInsightsTopContributorsRow {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFlowMonitorClientTypes.WorkloadInsightsTopContributorsRow {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkFlowMonitorClientTypes.WorkloadInsightsTopContributorsRow()
-        value.accountId = try reader["accountId"].readIfPresent()
-        value.localSubnetId = try reader["localSubnetId"].readIfPresent()
-        value.localAz = try reader["localAz"].readIfPresent()
-        value.localVpcId = try reader["localVpcId"].readIfPresent()
-        value.localRegion = try reader["localRegion"].readIfPresent()
-        value.remoteIdentifier = try reader["remoteIdentifier"].readIfPresent()
-        value.value = try reader["value"].readIfPresent()
-        value.localSubnetArn = try reader["localSubnetArn"].readIfPresent()
-        value.localVpcArn = try reader["localVpcArn"].readIfPresent()
-        return value
-    }
-}
-
-extension NetworkFlowMonitorClientTypes.WorkloadInsightsTopContributorsDataPoint {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFlowMonitorClientTypes.WorkloadInsightsTopContributorsDataPoint {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkFlowMonitorClientTypes.WorkloadInsightsTopContributorsDataPoint()
-        value.timestamps = try reader["timestamps"].readListIfPresent(memberReadingClosure: SmithyReadWrite.timestampReadingClosure(format: SmithyTimestamps.TimestampFormat.dateTime), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.values = try reader["values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.label = try reader["label"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension NetworkFlowMonitorClientTypes.TargetResource {
-
-    static func write(value: NetworkFlowMonitorClientTypes.TargetResource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["region"].write(value.region)
-        try writer["targetIdentifier"].write(value.targetIdentifier, with: NetworkFlowMonitorClientTypes.TargetIdentifier.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFlowMonitorClientTypes.TargetResource {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkFlowMonitorClientTypes.TargetResource()
-        value.targetIdentifier = try reader["targetIdentifier"].readIfPresent(with: NetworkFlowMonitorClientTypes.TargetIdentifier.read(from:))
-        value.region = try reader["region"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension NetworkFlowMonitorClientTypes.TargetIdentifier {
-
-    static func write(value: NetworkFlowMonitorClientTypes.TargetIdentifier?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["targetId"].write(value.targetId, with: NetworkFlowMonitorClientTypes.TargetId.write(value:to:))
-        try writer["targetType"].write(value.targetType)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFlowMonitorClientTypes.TargetIdentifier {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkFlowMonitorClientTypes.TargetIdentifier()
-        value.targetId = try reader["targetId"].readIfPresent(with: NetworkFlowMonitorClientTypes.TargetId.read(from:))
-        value.targetType = try reader["targetType"].readIfPresent() ?? .sdkUnknown("")
+        var value = NetworkFlowMonitorClientTypes.ScopeSummary()
+        value.scopeId = try reader["scopeId"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.scopeArn = try reader["scopeArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -3602,26 +3549,79 @@ extension NetworkFlowMonitorClientTypes.TargetId {
     }
 }
 
-extension NetworkFlowMonitorClientTypes.MonitorSummary {
+extension NetworkFlowMonitorClientTypes.TargetIdentifier {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFlowMonitorClientTypes.MonitorSummary {
+    static func write(value: NetworkFlowMonitorClientTypes.TargetIdentifier?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["targetId"].write(value.targetId, with: NetworkFlowMonitorClientTypes.TargetId.write(value:to:))
+        try writer["targetType"].write(value.targetType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFlowMonitorClientTypes.TargetIdentifier {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkFlowMonitorClientTypes.MonitorSummary()
-        value.monitorArn = try reader["monitorArn"].readIfPresent() ?? ""
-        value.monitorName = try reader["monitorName"].readIfPresent() ?? ""
-        value.monitorStatus = try reader["monitorStatus"].readIfPresent() ?? .sdkUnknown("")
+        var value = NetworkFlowMonitorClientTypes.TargetIdentifier()
+        value.targetId = try reader["targetId"].readIfPresent(with: NetworkFlowMonitorClientTypes.TargetId.read(from:))
+        value.targetType = try reader["targetType"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
 
-extension NetworkFlowMonitorClientTypes.ScopeSummary {
+extension NetworkFlowMonitorClientTypes.TargetResource {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFlowMonitorClientTypes.ScopeSummary {
+    static func write(value: NetworkFlowMonitorClientTypes.TargetResource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["region"].write(value.region)
+        try writer["targetIdentifier"].write(value.targetIdentifier, with: NetworkFlowMonitorClientTypes.TargetIdentifier.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFlowMonitorClientTypes.TargetResource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NetworkFlowMonitorClientTypes.ScopeSummary()
-        value.scopeId = try reader["scopeId"].readIfPresent() ?? ""
-        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
-        value.scopeArn = try reader["scopeArn"].readIfPresent() ?? ""
+        var value = NetworkFlowMonitorClientTypes.TargetResource()
+        value.targetIdentifier = try reader["targetIdentifier"].readIfPresent(with: NetworkFlowMonitorClientTypes.TargetIdentifier.read(from:))
+        value.region = try reader["region"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension NetworkFlowMonitorClientTypes.TraversedComponent {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFlowMonitorClientTypes.TraversedComponent {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFlowMonitorClientTypes.TraversedComponent()
+        value.componentId = try reader["componentId"].readIfPresent()
+        value.componentType = try reader["componentType"].readIfPresent()
+        value.componentArn = try reader["componentArn"].readIfPresent()
+        value.serviceName = try reader["serviceName"].readIfPresent()
+        return value
+    }
+}
+
+extension NetworkFlowMonitorClientTypes.WorkloadInsightsTopContributorsDataPoint {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFlowMonitorClientTypes.WorkloadInsightsTopContributorsDataPoint {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFlowMonitorClientTypes.WorkloadInsightsTopContributorsDataPoint()
+        value.timestamps = try reader["timestamps"].readListIfPresent(memberReadingClosure: SmithyReadWrite.timestampReadingClosure(format: SmithyTimestamps.TimestampFormat.dateTime), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.values = try reader["values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.label = try reader["label"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension NetworkFlowMonitorClientTypes.WorkloadInsightsTopContributorsRow {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NetworkFlowMonitorClientTypes.WorkloadInsightsTopContributorsRow {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NetworkFlowMonitorClientTypes.WorkloadInsightsTopContributorsRow()
+        value.accountId = try reader["accountId"].readIfPresent()
+        value.localSubnetId = try reader["localSubnetId"].readIfPresent()
+        value.localAz = try reader["localAz"].readIfPresent()
+        value.localVpcId = try reader["localVpcId"].readIfPresent()
+        value.localRegion = try reader["localRegion"].readIfPresent()
+        value.remoteIdentifier = try reader["remoteIdentifier"].readIfPresent()
+        value.value = try reader["value"].readIfPresent()
+        value.localSubnetArn = try reader["localSubnetArn"].readIfPresent()
+        value.localVpcArn = try reader["localVpcArn"].readIfPresent()
         return value
     }
 }

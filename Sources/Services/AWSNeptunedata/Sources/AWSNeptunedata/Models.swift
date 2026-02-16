@@ -7146,6 +7146,25 @@ extension S3Exception {
     }
 }
 
+extension NeptunedataClientTypes.CustomModelTrainingParameters {
+
+    static func write(value: NeptunedataClientTypes.CustomModelTrainingParameters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["sourceS3DirectoryPath"].write(value.sourceS3DirectoryPath)
+        try writer["trainingEntryPointScript"].write(value.trainingEntryPointScript)
+        try writer["transformEntryPointScript"].write(value.transformEntryPointScript)
+    }
+}
+
+extension NeptunedataClientTypes.CustomModelTransformParameters {
+
+    static func write(value: NeptunedataClientTypes.CustomModelTransformParameters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["sourceS3DirectoryPath"].write(value.sourceS3DirectoryPath)
+        try writer["transformEntryPointScript"].write(value.transformEntryPointScript)
+    }
+}
+
 extension NeptunedataClientTypes.DeleteStatisticsValueMap {
 
     static func read(from reader: SmithyJSON.Reader) throws -> NeptunedataClientTypes.DeleteStatisticsValueMap {
@@ -7157,12 +7176,35 @@ extension NeptunedataClientTypes.DeleteStatisticsValueMap {
     }
 }
 
+extension NeptunedataClientTypes.EdgeStructure {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NeptunedataClientTypes.EdgeStructure {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NeptunedataClientTypes.EdgeStructure()
+        value.count = try reader["count"].readIfPresent()
+        value.edgeProperties = try reader["edgeProperties"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension NeptunedataClientTypes.FastResetToken {
 
     static func read(from reader: SmithyJSON.Reader) throws -> NeptunedataClientTypes.FastResetToken {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = NeptunedataClientTypes.FastResetToken()
         value.token = try reader["token"].readIfPresent()
+        return value
+    }
+}
+
+extension NeptunedataClientTypes.GremlinQueryStatus {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NeptunedataClientTypes.GremlinQueryStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NeptunedataClientTypes.GremlinQueryStatus()
+        value.queryId = try reader["queryId"].readIfPresent()
+        value.queryString = try reader["queryString"].readIfPresent()
+        value.queryEvalStats = try reader["queryEvalStats"].readIfPresent(with: NeptunedataClientTypes.QueryEvalStats.read(from:))
         return value
     }
 }
@@ -7179,25 +7221,23 @@ extension NeptunedataClientTypes.GremlinQueryStatusAttributes {
     }
 }
 
-extension NeptunedataClientTypes.QueryLanguageVersion {
+extension NeptunedataClientTypes.LoaderIdResult {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> NeptunedataClientTypes.QueryLanguageVersion {
+    static func read(from reader: SmithyJSON.Reader) throws -> NeptunedataClientTypes.LoaderIdResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NeptunedataClientTypes.QueryLanguageVersion()
-        value.version = try reader["version"].readIfPresent() ?? ""
+        var value = NeptunedataClientTypes.LoaderIdResult()
+        value.loadIds = try reader["loadIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
 
-extension NeptunedataClientTypes.QueryEvalStats {
+extension NeptunedataClientTypes.MlConfigDefinition {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> NeptunedataClientTypes.QueryEvalStats {
+    static func read(from reader: SmithyJSON.Reader) throws -> NeptunedataClientTypes.MlConfigDefinition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NeptunedataClientTypes.QueryEvalStats()
-        value.waited = try reader["waited"].readIfPresent()
-        value.elapsed = try reader["elapsed"].readIfPresent()
-        value.cancelled = try reader["cancelled"].readIfPresent()
-        value.subqueries = try reader["subqueries"].readIfPresent()
+        var value = NeptunedataClientTypes.MlConfigDefinition()
+        value.name = try reader["name"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent()
         return value
     }
 }
@@ -7217,13 +7257,163 @@ extension NeptunedataClientTypes.MlResourceDefinition {
     }
 }
 
-extension NeptunedataClientTypes.MlConfigDefinition {
+extension NeptunedataClientTypes.NodeStructure {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> NeptunedataClientTypes.MlConfigDefinition {
+    static func read(from reader: SmithyJSON.Reader) throws -> NeptunedataClientTypes.NodeStructure {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NeptunedataClientTypes.MlConfigDefinition()
-        value.name = try reader["name"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
+        var value = NeptunedataClientTypes.NodeStructure()
+        value.count = try reader["count"].readIfPresent()
+        value.nodeProperties = try reader["nodeProperties"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.distinctOutgoingEdgeLabels = try reader["distinctOutgoingEdgeLabels"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension NeptunedataClientTypes.PropertygraphData {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NeptunedataClientTypes.PropertygraphData {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NeptunedataClientTypes.PropertygraphData()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.type = try reader["type"].readIfPresent() ?? ""
+        value.key = try reader["key"].readIfPresent() ?? ""
+        value.value = try reader["value"].readIfPresent() ?? [:]
+        value.from = try reader["from"].readIfPresent()
+        value.to = try reader["to"].readIfPresent()
+        return value
+    }
+}
+
+extension NeptunedataClientTypes.PropertygraphRecord {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NeptunedataClientTypes.PropertygraphRecord {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NeptunedataClientTypes.PropertygraphRecord()
+        value.commitTimestampInMillis = try reader["commitTimestamp"].readIfPresent() ?? 0
+        value.eventId = try reader["eventId"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
+        value.data = try reader["data"].readIfPresent(with: NeptunedataClientTypes.PropertygraphData.read(from:))
+        value.op = try reader["op"].readIfPresent() ?? ""
+        value.isLastOp = try reader["isLastOp"].readIfPresent()
+        return value
+    }
+}
+
+extension NeptunedataClientTypes.PropertygraphSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NeptunedataClientTypes.PropertygraphSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NeptunedataClientTypes.PropertygraphSummary()
+        value.numNodes = try reader["numNodes"].readIfPresent()
+        value.numEdges = try reader["numEdges"].readIfPresent()
+        value.numNodeLabels = try reader["numNodeLabels"].readIfPresent()
+        value.numEdgeLabels = try reader["numEdgeLabels"].readIfPresent()
+        value.nodeLabels = try reader["nodeLabels"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.edgeLabels = try reader["edgeLabels"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.numNodeProperties = try reader["numNodeProperties"].readIfPresent()
+        value.numEdgeProperties = try reader["numEdgeProperties"].readIfPresent()
+        value.nodeProperties = try reader["nodeProperties"].readListIfPresent(memberReadingClosure: SmithyReadWrite.mapReadingClosure(valueReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
+        value.edgeProperties = try reader["edgeProperties"].readListIfPresent(memberReadingClosure: SmithyReadWrite.mapReadingClosure(valueReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
+        value.totalNodePropertyValues = try reader["totalNodePropertyValues"].readIfPresent()
+        value.totalEdgePropertyValues = try reader["totalEdgePropertyValues"].readIfPresent()
+        value.nodeStructures = try reader["nodeStructures"].readListIfPresent(memberReadingClosure: NeptunedataClientTypes.NodeStructure.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.edgeStructures = try reader["edgeStructures"].readListIfPresent(memberReadingClosure: NeptunedataClientTypes.EdgeStructure.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension NeptunedataClientTypes.PropertygraphSummaryValueMap {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NeptunedataClientTypes.PropertygraphSummaryValueMap {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NeptunedataClientTypes.PropertygraphSummaryValueMap()
+        value.version = try reader["version"].readIfPresent()
+        value.lastStatisticsComputationTime = try reader["lastStatisticsComputationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.graphSummary = try reader["graphSummary"].readIfPresent(with: NeptunedataClientTypes.PropertygraphSummary.read(from:))
+        return value
+    }
+}
+
+extension NeptunedataClientTypes.QueryEvalStats {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NeptunedataClientTypes.QueryEvalStats {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NeptunedataClientTypes.QueryEvalStats()
+        value.waited = try reader["waited"].readIfPresent()
+        value.elapsed = try reader["elapsed"].readIfPresent()
+        value.cancelled = try reader["cancelled"].readIfPresent()
+        value.subqueries = try reader["subqueries"].readIfPresent()
+        return value
+    }
+}
+
+extension NeptunedataClientTypes.QueryLanguageVersion {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NeptunedataClientTypes.QueryLanguageVersion {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NeptunedataClientTypes.QueryLanguageVersion()
+        value.version = try reader["version"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension NeptunedataClientTypes.RDFGraphSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NeptunedataClientTypes.RDFGraphSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NeptunedataClientTypes.RDFGraphSummary()
+        value.numDistinctSubjects = try reader["numDistinctSubjects"].readIfPresent()
+        value.numDistinctPredicates = try reader["numDistinctPredicates"].readIfPresent()
+        value.numQuads = try reader["numQuads"].readIfPresent()
+        value.numClasses = try reader["numClasses"].readIfPresent()
+        value.classes = try reader["classes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.predicates = try reader["predicates"].readListIfPresent(memberReadingClosure: SmithyReadWrite.mapReadingClosure(valueReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
+        value.subjectStructures = try reader["subjectStructures"].readListIfPresent(memberReadingClosure: NeptunedataClientTypes.SubjectStructure.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension NeptunedataClientTypes.RDFGraphSummaryValueMap {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NeptunedataClientTypes.RDFGraphSummaryValueMap {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NeptunedataClientTypes.RDFGraphSummaryValueMap()
+        value.version = try reader["version"].readIfPresent()
+        value.lastStatisticsComputationTime = try reader["lastStatisticsComputationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.graphSummary = try reader["graphSummary"].readIfPresent(with: NeptunedataClientTypes.RDFGraphSummary.read(from:))
+        return value
+    }
+}
+
+extension NeptunedataClientTypes.RefreshStatisticsIdMap {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NeptunedataClientTypes.RefreshStatisticsIdMap {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NeptunedataClientTypes.RefreshStatisticsIdMap()
+        value.statisticsId = try reader["statisticsId"].readIfPresent()
+        return value
+    }
+}
+
+extension NeptunedataClientTypes.SparqlData {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NeptunedataClientTypes.SparqlData {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NeptunedataClientTypes.SparqlData()
+        value.stmt = try reader["stmt"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension NeptunedataClientTypes.SparqlRecord {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NeptunedataClientTypes.SparqlRecord {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NeptunedataClientTypes.SparqlRecord()
+        value.commitTimestampInMillis = try reader["commitTimestamp"].readIfPresent() ?? 0
+        value.eventId = try reader["eventId"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
+        value.data = try reader["data"].readIfPresent(with: NeptunedataClientTypes.SparqlData.read(from:))
+        value.op = try reader["op"].readIfPresent() ?? ""
+        value.isLastOp = try reader["isLastOp"].readIfPresent()
         return value
     }
 }
@@ -7255,121 +7445,6 @@ extension NeptunedataClientTypes.StatisticsSummary {
     }
 }
 
-extension NeptunedataClientTypes.PropertygraphRecord {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NeptunedataClientTypes.PropertygraphRecord {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NeptunedataClientTypes.PropertygraphRecord()
-        value.commitTimestampInMillis = try reader["commitTimestamp"].readIfPresent() ?? 0
-        value.eventId = try reader["eventId"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
-        value.data = try reader["data"].readIfPresent(with: NeptunedataClientTypes.PropertygraphData.read(from:))
-        value.op = try reader["op"].readIfPresent() ?? ""
-        value.isLastOp = try reader["isLastOp"].readIfPresent()
-        return value
-    }
-}
-
-extension NeptunedataClientTypes.PropertygraphData {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NeptunedataClientTypes.PropertygraphData {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NeptunedataClientTypes.PropertygraphData()
-        value.id = try reader["id"].readIfPresent() ?? ""
-        value.type = try reader["type"].readIfPresent() ?? ""
-        value.key = try reader["key"].readIfPresent() ?? ""
-        value.value = try reader["value"].readIfPresent() ?? [:]
-        value.from = try reader["from"].readIfPresent()
-        value.to = try reader["to"].readIfPresent()
-        return value
-    }
-}
-
-extension NeptunedataClientTypes.PropertygraphSummaryValueMap {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NeptunedataClientTypes.PropertygraphSummaryValueMap {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NeptunedataClientTypes.PropertygraphSummaryValueMap()
-        value.version = try reader["version"].readIfPresent()
-        value.lastStatisticsComputationTime = try reader["lastStatisticsComputationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.graphSummary = try reader["graphSummary"].readIfPresent(with: NeptunedataClientTypes.PropertygraphSummary.read(from:))
-        return value
-    }
-}
-
-extension NeptunedataClientTypes.PropertygraphSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NeptunedataClientTypes.PropertygraphSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NeptunedataClientTypes.PropertygraphSummary()
-        value.numNodes = try reader["numNodes"].readIfPresent()
-        value.numEdges = try reader["numEdges"].readIfPresent()
-        value.numNodeLabels = try reader["numNodeLabels"].readIfPresent()
-        value.numEdgeLabels = try reader["numEdgeLabels"].readIfPresent()
-        value.nodeLabels = try reader["nodeLabels"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.edgeLabels = try reader["edgeLabels"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.numNodeProperties = try reader["numNodeProperties"].readIfPresent()
-        value.numEdgeProperties = try reader["numEdgeProperties"].readIfPresent()
-        value.nodeProperties = try reader["nodeProperties"].readListIfPresent(memberReadingClosure: SmithyReadWrite.mapReadingClosure(valueReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
-        value.edgeProperties = try reader["edgeProperties"].readListIfPresent(memberReadingClosure: SmithyReadWrite.mapReadingClosure(valueReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
-        value.totalNodePropertyValues = try reader["totalNodePropertyValues"].readIfPresent()
-        value.totalEdgePropertyValues = try reader["totalEdgePropertyValues"].readIfPresent()
-        value.nodeStructures = try reader["nodeStructures"].readListIfPresent(memberReadingClosure: NeptunedataClientTypes.NodeStructure.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.edgeStructures = try reader["edgeStructures"].readListIfPresent(memberReadingClosure: NeptunedataClientTypes.EdgeStructure.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension NeptunedataClientTypes.EdgeStructure {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NeptunedataClientTypes.EdgeStructure {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NeptunedataClientTypes.EdgeStructure()
-        value.count = try reader["count"].readIfPresent()
-        value.edgeProperties = try reader["edgeProperties"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension NeptunedataClientTypes.NodeStructure {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NeptunedataClientTypes.NodeStructure {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NeptunedataClientTypes.NodeStructure()
-        value.count = try reader["count"].readIfPresent()
-        value.nodeProperties = try reader["nodeProperties"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.distinctOutgoingEdgeLabels = try reader["distinctOutgoingEdgeLabels"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension NeptunedataClientTypes.RDFGraphSummaryValueMap {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NeptunedataClientTypes.RDFGraphSummaryValueMap {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NeptunedataClientTypes.RDFGraphSummaryValueMap()
-        value.version = try reader["version"].readIfPresent()
-        value.lastStatisticsComputationTime = try reader["lastStatisticsComputationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.graphSummary = try reader["graphSummary"].readIfPresent(with: NeptunedataClientTypes.RDFGraphSummary.read(from:))
-        return value
-    }
-}
-
-extension NeptunedataClientTypes.RDFGraphSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NeptunedataClientTypes.RDFGraphSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NeptunedataClientTypes.RDFGraphSummary()
-        value.numDistinctSubjects = try reader["numDistinctSubjects"].readIfPresent()
-        value.numDistinctPredicates = try reader["numDistinctPredicates"].readIfPresent()
-        value.numQuads = try reader["numQuads"].readIfPresent()
-        value.numClasses = try reader["numClasses"].readIfPresent()
-        value.classes = try reader["classes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.predicates = try reader["predicates"].readListIfPresent(memberReadingClosure: SmithyReadWrite.mapReadingClosure(valueReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
-        value.subjectStructures = try reader["subjectStructures"].readListIfPresent(memberReadingClosure: NeptunedataClientTypes.SubjectStructure.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
 extension NeptunedataClientTypes.SubjectStructure {
 
     static func read(from reader: SmithyJSON.Reader) throws -> NeptunedataClientTypes.SubjectStructure {
@@ -7378,81 +7453,6 @@ extension NeptunedataClientTypes.SubjectStructure {
         value.count = try reader["count"].readIfPresent()
         value.predicates = try reader["predicates"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
-    }
-}
-
-extension NeptunedataClientTypes.SparqlRecord {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NeptunedataClientTypes.SparqlRecord {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NeptunedataClientTypes.SparqlRecord()
-        value.commitTimestampInMillis = try reader["commitTimestamp"].readIfPresent() ?? 0
-        value.eventId = try reader["eventId"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
-        value.data = try reader["data"].readIfPresent(with: NeptunedataClientTypes.SparqlData.read(from:))
-        value.op = try reader["op"].readIfPresent() ?? ""
-        value.isLastOp = try reader["isLastOp"].readIfPresent()
-        return value
-    }
-}
-
-extension NeptunedataClientTypes.SparqlData {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NeptunedataClientTypes.SparqlData {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NeptunedataClientTypes.SparqlData()
-        value.stmt = try reader["stmt"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension NeptunedataClientTypes.GremlinQueryStatus {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NeptunedataClientTypes.GremlinQueryStatus {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NeptunedataClientTypes.GremlinQueryStatus()
-        value.queryId = try reader["queryId"].readIfPresent()
-        value.queryString = try reader["queryString"].readIfPresent()
-        value.queryEvalStats = try reader["queryEvalStats"].readIfPresent(with: NeptunedataClientTypes.QueryEvalStats.read(from:))
-        return value
-    }
-}
-
-extension NeptunedataClientTypes.LoaderIdResult {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NeptunedataClientTypes.LoaderIdResult {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NeptunedataClientTypes.LoaderIdResult()
-        value.loadIds = try reader["loadIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension NeptunedataClientTypes.RefreshStatisticsIdMap {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NeptunedataClientTypes.RefreshStatisticsIdMap {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NeptunedataClientTypes.RefreshStatisticsIdMap()
-        value.statisticsId = try reader["statisticsId"].readIfPresent()
-        return value
-    }
-}
-
-extension NeptunedataClientTypes.CustomModelTrainingParameters {
-
-    static func write(value: NeptunedataClientTypes.CustomModelTrainingParameters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["sourceS3DirectoryPath"].write(value.sourceS3DirectoryPath)
-        try writer["trainingEntryPointScript"].write(value.trainingEntryPointScript)
-        try writer["transformEntryPointScript"].write(value.transformEntryPointScript)
-    }
-}
-
-extension NeptunedataClientTypes.CustomModelTransformParameters {
-
-    static func write(value: NeptunedataClientTypes.CustomModelTransformParameters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["sourceS3DirectoryPath"].write(value.sourceS3DirectoryPath)
-        try writer["transformEntryPointScript"].write(value.transformEntryPointScript)
     }
 }
 

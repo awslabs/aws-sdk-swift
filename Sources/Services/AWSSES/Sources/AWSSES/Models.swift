@@ -8042,105 +8042,6 @@ extension MissingRenderingAttributeException {
     }
 }
 
-extension SESClientTypes.ReceiptRuleSetMetadata {
-
-    static func read(from reader: SmithyXML.Reader) throws -> SESClientTypes.ReceiptRuleSetMetadata {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SESClientTypes.ReceiptRuleSetMetadata()
-        value.name = try reader["Name"].readIfPresent()
-        value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        return value
-    }
-}
-
-extension SESClientTypes.ReceiptRule {
-
-    static func write(value: SESClientTypes.ReceiptRule?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Actions"].writeList(value.actions, memberWritingClosure: SESClientTypes.ReceiptAction.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Enabled"].write(value.enabled)
-        try writer["Name"].write(value.name)
-        try writer["Recipients"].writeList(value.recipients, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ScanEnabled"].write(value.scanEnabled)
-        try writer["TlsPolicy"].write(value.tlsPolicy)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> SESClientTypes.ReceiptRule {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SESClientTypes.ReceiptRule()
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.enabled = try reader["Enabled"].readIfPresent() ?? false
-        value.tlsPolicy = try reader["TlsPolicy"].readIfPresent()
-        value.recipients = try reader["Recipients"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.actions = try reader["Actions"].readListIfPresent(memberReadingClosure: SESClientTypes.ReceiptAction.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.scanEnabled = try reader["ScanEnabled"].readIfPresent() ?? false
-        return value
-    }
-}
-
-extension SESClientTypes.ReceiptAction {
-
-    static func write(value: SESClientTypes.ReceiptAction?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["AddHeaderAction"].write(value.addHeaderAction, with: SESClientTypes.AddHeaderAction.write(value:to:))
-        try writer["BounceAction"].write(value.bounceAction, with: SESClientTypes.BounceAction.write(value:to:))
-        try writer["ConnectAction"].write(value.connectAction, with: SESClientTypes.ConnectAction.write(value:to:))
-        try writer["LambdaAction"].write(value.lambdaAction, with: SESClientTypes.LambdaAction.write(value:to:))
-        try writer["S3Action"].write(value.s3Action, with: SESClientTypes.S3Action.write(value:to:))
-        try writer["SNSAction"].write(value.snsAction, with: SESClientTypes.SNSAction.write(value:to:))
-        try writer["StopAction"].write(value.stopAction, with: SESClientTypes.StopAction.write(value:to:))
-        try writer["WorkmailAction"].write(value.workmailAction, with: SESClientTypes.WorkmailAction.write(value:to:))
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> SESClientTypes.ReceiptAction {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SESClientTypes.ReceiptAction()
-        value.s3Action = try reader["S3Action"].readIfPresent(with: SESClientTypes.S3Action.read(from:))
-        value.bounceAction = try reader["BounceAction"].readIfPresent(with: SESClientTypes.BounceAction.read(from:))
-        value.workmailAction = try reader["WorkmailAction"].readIfPresent(with: SESClientTypes.WorkmailAction.read(from:))
-        value.lambdaAction = try reader["LambdaAction"].readIfPresent(with: SESClientTypes.LambdaAction.read(from:))
-        value.stopAction = try reader["StopAction"].readIfPresent(with: SESClientTypes.StopAction.read(from:))
-        value.addHeaderAction = try reader["AddHeaderAction"].readIfPresent(with: SESClientTypes.AddHeaderAction.read(from:))
-        value.snsAction = try reader["SNSAction"].readIfPresent(with: SESClientTypes.SNSAction.read(from:))
-        value.connectAction = try reader["ConnectAction"].readIfPresent(with: SESClientTypes.ConnectAction.read(from:))
-        return value
-    }
-}
-
-extension SESClientTypes.ConnectAction {
-
-    static func write(value: SESClientTypes.ConnectAction?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["IAMRoleARN"].write(value.iamRoleARN)
-        try writer["InstanceARN"].write(value.instanceARN)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> SESClientTypes.ConnectAction {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SESClientTypes.ConnectAction()
-        value.instanceARN = try reader["InstanceARN"].readIfPresent() ?? ""
-        value.iamRoleARN = try reader["IAMRoleARN"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension SESClientTypes.SNSAction {
-
-    static func write(value: SESClientTypes.SNSAction?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Encoding"].write(value.encoding)
-        try writer["TopicArn"].write(value.topicArn)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> SESClientTypes.SNSAction {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SESClientTypes.SNSAction()
-        value.topicArn = try reader["TopicArn"].readIfPresent() ?? ""
-        value.encoding = try reader["Encoding"].readIfPresent()
-        return value
-    }
-}
-
 extension SESClientTypes.AddHeaderAction {
 
     static func write(value: SESClientTypes.AddHeaderAction?, to writer: SmithyFormURL.Writer) throws {
@@ -8158,56 +8059,12 @@ extension SESClientTypes.AddHeaderAction {
     }
 }
 
-extension SESClientTypes.StopAction {
+extension SESClientTypes.Body {
 
-    static func write(value: SESClientTypes.StopAction?, to writer: SmithyFormURL.Writer) throws {
+    static func write(value: SESClientTypes.Body?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
-        try writer["Scope"].write(value.scope)
-        try writer["TopicArn"].write(value.topicArn)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> SESClientTypes.StopAction {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SESClientTypes.StopAction()
-        value.scope = try reader["Scope"].readIfPresent() ?? .sdkUnknown("")
-        value.topicArn = try reader["TopicArn"].readIfPresent()
-        return value
-    }
-}
-
-extension SESClientTypes.LambdaAction {
-
-    static func write(value: SESClientTypes.LambdaAction?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["FunctionArn"].write(value.functionArn)
-        try writer["InvocationType"].write(value.invocationType)
-        try writer["TopicArn"].write(value.topicArn)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> SESClientTypes.LambdaAction {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SESClientTypes.LambdaAction()
-        value.topicArn = try reader["TopicArn"].readIfPresent()
-        value.functionArn = try reader["FunctionArn"].readIfPresent() ?? ""
-        value.invocationType = try reader["InvocationType"].readIfPresent()
-        return value
-    }
-}
-
-extension SESClientTypes.WorkmailAction {
-
-    static func write(value: SESClientTypes.WorkmailAction?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["OrganizationArn"].write(value.organizationArn)
-        try writer["TopicArn"].write(value.topicArn)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> SESClientTypes.WorkmailAction {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SESClientTypes.WorkmailAction()
-        value.topicArn = try reader["TopicArn"].readIfPresent()
-        value.organizationArn = try reader["OrganizationArn"].readIfPresent() ?? ""
-        return value
+        try writer["Html"].write(value.html, with: SESClientTypes.Content.write(value:to:))
+        try writer["Text"].write(value.text, with: SESClientTypes.Content.write(value:to:))
     }
 }
 
@@ -8234,80 +8091,35 @@ extension SESClientTypes.BounceAction {
     }
 }
 
-extension SESClientTypes.S3Action {
+extension SESClientTypes.BouncedRecipientInfo {
 
-    static func write(value: SESClientTypes.S3Action?, to writer: SmithyFormURL.Writer) throws {
+    static func write(value: SESClientTypes.BouncedRecipientInfo?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
-        try writer["BucketName"].write(value.bucketName)
-        try writer["IamRoleArn"].write(value.iamRoleArn)
-        try writer["KmsKeyArn"].write(value.kmsKeyArn)
-        try writer["ObjectKeyPrefix"].write(value.objectKeyPrefix)
-        try writer["TopicArn"].write(value.topicArn)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> SESClientTypes.S3Action {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SESClientTypes.S3Action()
-        value.topicArn = try reader["TopicArn"].readIfPresent()
-        value.bucketName = try reader["BucketName"].readIfPresent() ?? ""
-        value.objectKeyPrefix = try reader["ObjectKeyPrefix"].readIfPresent()
-        value.kmsKeyArn = try reader["KmsKeyArn"].readIfPresent()
-        value.iamRoleArn = try reader["IamRoleArn"].readIfPresent()
-        return value
+        try writer["BounceType"].write(value.bounceType)
+        try writer["Recipient"].write(value.recipient)
+        try writer["RecipientArn"].write(value.recipientArn)
+        try writer["RecipientDsnFields"].write(value.recipientDsnFields, with: SESClientTypes.RecipientDsnFields.write(value:to:))
     }
 }
 
-extension SESClientTypes.ConfigurationSet {
+extension SESClientTypes.BulkEmailDestination {
 
-    static func write(value: SESClientTypes.ConfigurationSet?, to writer: SmithyFormURL.Writer) throws {
+    static func write(value: SESClientTypes.BulkEmailDestination?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
-        try writer["Name"].write(value.name)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> SESClientTypes.ConfigurationSet {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SESClientTypes.ConfigurationSet()
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        return value
+        try writer["Destination"].write(value.destination, with: SESClientTypes.Destination.write(value:to:))
+        try writer["ReplacementTags"].writeList(value.replacementTags, memberWritingClosure: SESClientTypes.MessageTag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ReplacementTemplateData"].write(value.replacementTemplateData)
     }
 }
 
-extension SESClientTypes.EventDestination {
+extension SESClientTypes.BulkEmailDestinationStatus {
 
-    static func write(value: SESClientTypes.EventDestination?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["CloudWatchDestination"].write(value.cloudWatchDestination, with: SESClientTypes.CloudWatchDestination.write(value:to:))
-        try writer["Enabled"].write(value.enabled)
-        try writer["KinesisFirehoseDestination"].write(value.kinesisFirehoseDestination, with: SESClientTypes.KinesisFirehoseDestination.write(value:to:))
-        try writer["MatchingEventTypes"].writeList(value.matchingEventTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<SESClientTypes.EventType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Name"].write(value.name)
-        try writer["SNSDestination"].write(value.snsDestination, with: SESClientTypes.SNSDestination.write(value:to:))
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> SESClientTypes.EventDestination {
+    static func read(from reader: SmithyXML.Reader) throws -> SESClientTypes.BulkEmailDestinationStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SESClientTypes.EventDestination()
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.enabled = try reader["Enabled"].readIfPresent() ?? false
-        value.matchingEventTypes = try reader["MatchingEventTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<SESClientTypes.EventType>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.kinesisFirehoseDestination = try reader["KinesisFirehoseDestination"].readIfPresent(with: SESClientTypes.KinesisFirehoseDestination.read(from:))
-        value.cloudWatchDestination = try reader["CloudWatchDestination"].readIfPresent(with: SESClientTypes.CloudWatchDestination.read(from:))
-        value.snsDestination = try reader["SNSDestination"].readIfPresent(with: SESClientTypes.SNSDestination.read(from:))
-        return value
-    }
-}
-
-extension SESClientTypes.SNSDestination {
-
-    static func write(value: SESClientTypes.SNSDestination?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["TopicARN"].write(value.topicARN)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> SESClientTypes.SNSDestination {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SESClientTypes.SNSDestination()
-        value.topicARN = try reader["TopicARN"].readIfPresent() ?? ""
+        var value = SESClientTypes.BulkEmailDestinationStatus()
+        value.status = try reader["Status"].readIfPresent()
+        value.error = try reader["Error"].readIfPresent()
+        value.messageId = try reader["MessageId"].readIfPresent()
         return value
     }
 }
@@ -8346,34 +8158,57 @@ extension SESClientTypes.CloudWatchDimensionConfiguration {
     }
 }
 
-extension SESClientTypes.KinesisFirehoseDestination {
+extension SESClientTypes.ConfigurationSet {
 
-    static func write(value: SESClientTypes.KinesisFirehoseDestination?, to writer: SmithyFormURL.Writer) throws {
+    static func write(value: SESClientTypes.ConfigurationSet?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
-        try writer["DeliveryStreamARN"].write(value.deliveryStreamARN)
-        try writer["IAMRoleARN"].write(value.iamRoleARN)
+        try writer["Name"].write(value.name)
     }
 
-    static func read(from reader: SmithyXML.Reader) throws -> SESClientTypes.KinesisFirehoseDestination {
+    static func read(from reader: SmithyXML.Reader) throws -> SESClientTypes.ConfigurationSet {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SESClientTypes.KinesisFirehoseDestination()
-        value.iamRoleARN = try reader["IAMRoleARN"].readIfPresent() ?? ""
-        value.deliveryStreamARN = try reader["DeliveryStreamARN"].readIfPresent() ?? ""
+        var value = SESClientTypes.ConfigurationSet()
+        value.name = try reader["Name"].readIfPresent() ?? ""
         return value
     }
 }
 
-extension SESClientTypes.TrackingOptions {
+extension SESClientTypes.ConnectAction {
 
-    static func write(value: SESClientTypes.TrackingOptions?, to writer: SmithyFormURL.Writer) throws {
+    static func write(value: SESClientTypes.ConnectAction?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
-        try writer["CustomRedirectDomain"].write(value.customRedirectDomain)
+        try writer["IAMRoleARN"].write(value.iamRoleARN)
+        try writer["InstanceARN"].write(value.instanceARN)
     }
 
-    static func read(from reader: SmithyXML.Reader) throws -> SESClientTypes.TrackingOptions {
+    static func read(from reader: SmithyXML.Reader) throws -> SESClientTypes.ConnectAction {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SESClientTypes.TrackingOptions()
-        value.customRedirectDomain = try reader["CustomRedirectDomain"].readIfPresent()
+        var value = SESClientTypes.ConnectAction()
+        value.instanceARN = try reader["InstanceARN"].readIfPresent() ?? ""
+        value.iamRoleARN = try reader["IAMRoleARN"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension SESClientTypes.Content {
+
+    static func write(value: SESClientTypes.Content?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["Charset"].write(value.charset)
+        try writer["Data"].write(value.data)
+    }
+}
+
+extension SESClientTypes.CustomVerificationEmailTemplate {
+
+    static func read(from reader: SmithyXML.Reader) throws -> SESClientTypes.CustomVerificationEmailTemplate {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SESClientTypes.CustomVerificationEmailTemplate()
+        value.templateName = try reader["TemplateName"].readIfPresent()
+        value.fromEmailAddress = try reader["FromEmailAddress"].readIfPresent()
+        value.templateSubject = try reader["TemplateSubject"].readIfPresent()
+        value.successRedirectionURL = try reader["SuccessRedirectionURL"].readIfPresent()
+        value.failureRedirectionURL = try reader["FailureRedirectionURL"].readIfPresent()
         return value
     }
 }
@@ -8393,15 +8228,47 @@ extension SESClientTypes.DeliveryOptions {
     }
 }
 
-extension SESClientTypes.ReputationOptions {
+extension SESClientTypes.Destination {
 
-    static func read(from reader: SmithyXML.Reader) throws -> SESClientTypes.ReputationOptions {
+    static func write(value: SESClientTypes.Destination?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["BccAddresses"].writeList(value.bccAddresses, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["CcAddresses"].writeList(value.ccAddresses, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ToAddresses"].writeList(value.toAddresses, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension SESClientTypes.EventDestination {
+
+    static func write(value: SESClientTypes.EventDestination?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["CloudWatchDestination"].write(value.cloudWatchDestination, with: SESClientTypes.CloudWatchDestination.write(value:to:))
+        try writer["Enabled"].write(value.enabled)
+        try writer["KinesisFirehoseDestination"].write(value.kinesisFirehoseDestination, with: SESClientTypes.KinesisFirehoseDestination.write(value:to:))
+        try writer["MatchingEventTypes"].writeList(value.matchingEventTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<SESClientTypes.EventType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Name"].write(value.name)
+        try writer["SNSDestination"].write(value.snsDestination, with: SESClientTypes.SNSDestination.write(value:to:))
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> SESClientTypes.EventDestination {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SESClientTypes.ReputationOptions()
-        value.sendingEnabled = try reader["SendingEnabled"].readIfPresent() ?? false
-        value.reputationMetricsEnabled = try reader["ReputationMetricsEnabled"].readIfPresent() ?? false
-        value.lastFreshStart = try reader["LastFreshStart"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        var value = SESClientTypes.EventDestination()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.enabled = try reader["Enabled"].readIfPresent() ?? false
+        value.matchingEventTypes = try reader["MatchingEventTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<SESClientTypes.EventType>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.kinesisFirehoseDestination = try reader["KinesisFirehoseDestination"].readIfPresent(with: SESClientTypes.KinesisFirehoseDestination.read(from:))
+        value.cloudWatchDestination = try reader["CloudWatchDestination"].readIfPresent(with: SESClientTypes.CloudWatchDestination.read(from:))
+        value.snsDestination = try reader["SNSDestination"].readIfPresent(with: SESClientTypes.SNSDestination.read(from:))
         return value
+    }
+}
+
+extension SESClientTypes.ExtensionField {
+
+    static func write(value: SESClientTypes.ExtensionField?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["Name"].write(value.name)
+        try writer["Value"].write(value.value)
     }
 }
 
@@ -8456,51 +8323,103 @@ extension SESClientTypes.IdentityVerificationAttributes {
     }
 }
 
-extension SESClientTypes.SendDataPoint {
+extension SESClientTypes.KinesisFirehoseDestination {
 
-    static func read(from reader: SmithyXML.Reader) throws -> SESClientTypes.SendDataPoint {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SESClientTypes.SendDataPoint()
-        value.timestamp = try reader["Timestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.deliveryAttempts = try reader["DeliveryAttempts"].readIfPresent() ?? 0
-        value.bounces = try reader["Bounces"].readIfPresent() ?? 0
-        value.complaints = try reader["Complaints"].readIfPresent() ?? 0
-        value.rejects = try reader["Rejects"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension SESClientTypes.Template {
-
-    static func write(value: SESClientTypes.Template?, to writer: SmithyFormURL.Writer) throws {
+    static func write(value: SESClientTypes.KinesisFirehoseDestination?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
-        try writer["HtmlPart"].write(value.htmlPart)
-        try writer["SubjectPart"].write(value.subjectPart)
-        try writer["TemplateName"].write(value.templateName)
-        try writer["TextPart"].write(value.textPart)
+        try writer["DeliveryStreamARN"].write(value.deliveryStreamARN)
+        try writer["IAMRoleARN"].write(value.iamRoleARN)
     }
 
-    static func read(from reader: SmithyXML.Reader) throws -> SESClientTypes.Template {
+    static func read(from reader: SmithyXML.Reader) throws -> SESClientTypes.KinesisFirehoseDestination {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SESClientTypes.Template()
-        value.templateName = try reader["TemplateName"].readIfPresent() ?? ""
-        value.subjectPart = try reader["SubjectPart"].readIfPresent()
-        value.textPart = try reader["TextPart"].readIfPresent()
-        value.htmlPart = try reader["HtmlPart"].readIfPresent()
+        var value = SESClientTypes.KinesisFirehoseDestination()
+        value.iamRoleARN = try reader["IAMRoleARN"].readIfPresent() ?? ""
+        value.deliveryStreamARN = try reader["DeliveryStreamARN"].readIfPresent() ?? ""
         return value
     }
 }
 
-extension SESClientTypes.CustomVerificationEmailTemplate {
+extension SESClientTypes.LambdaAction {
 
-    static func read(from reader: SmithyXML.Reader) throws -> SESClientTypes.CustomVerificationEmailTemplate {
+    static func write(value: SESClientTypes.LambdaAction?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["FunctionArn"].write(value.functionArn)
+        try writer["InvocationType"].write(value.invocationType)
+        try writer["TopicArn"].write(value.topicArn)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> SESClientTypes.LambdaAction {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SESClientTypes.CustomVerificationEmailTemplate()
-        value.templateName = try reader["TemplateName"].readIfPresent()
-        value.fromEmailAddress = try reader["FromEmailAddress"].readIfPresent()
-        value.templateSubject = try reader["TemplateSubject"].readIfPresent()
-        value.successRedirectionURL = try reader["SuccessRedirectionURL"].readIfPresent()
-        value.failureRedirectionURL = try reader["FailureRedirectionURL"].readIfPresent()
+        var value = SESClientTypes.LambdaAction()
+        value.topicArn = try reader["TopicArn"].readIfPresent()
+        value.functionArn = try reader["FunctionArn"].readIfPresent() ?? ""
+        value.invocationType = try reader["InvocationType"].readIfPresent()
+        return value
+    }
+}
+
+extension SESClientTypes.Message {
+
+    static func write(value: SESClientTypes.Message?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["Body"].write(value.body, with: SESClientTypes.Body.write(value:to:))
+        try writer["Subject"].write(value.subject, with: SESClientTypes.Content.write(value:to:))
+    }
+}
+
+extension SESClientTypes.MessageDsn {
+
+    static func write(value: SESClientTypes.MessageDsn?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["ArrivalDate"].writeTimestamp(value.arrivalDate, format: SmithyTimestamps.TimestampFormat.dateTime)
+        try writer["ExtensionFields"].writeList(value.extensionFields, memberWritingClosure: SESClientTypes.ExtensionField.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ReportingMta"].write(value.reportingMta)
+    }
+}
+
+extension SESClientTypes.MessageTag {
+
+    static func write(value: SESClientTypes.MessageTag?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["Name"].write(value.name)
+        try writer["Value"].write(value.value)
+    }
+}
+
+extension SESClientTypes.RawMessage {
+
+    static func write(value: SESClientTypes.RawMessage?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["Data"].write(value.data)
+    }
+}
+
+extension SESClientTypes.ReceiptAction {
+
+    static func write(value: SESClientTypes.ReceiptAction?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["AddHeaderAction"].write(value.addHeaderAction, with: SESClientTypes.AddHeaderAction.write(value:to:))
+        try writer["BounceAction"].write(value.bounceAction, with: SESClientTypes.BounceAction.write(value:to:))
+        try writer["ConnectAction"].write(value.connectAction, with: SESClientTypes.ConnectAction.write(value:to:))
+        try writer["LambdaAction"].write(value.lambdaAction, with: SESClientTypes.LambdaAction.write(value:to:))
+        try writer["S3Action"].write(value.s3Action, with: SESClientTypes.S3Action.write(value:to:))
+        try writer["SNSAction"].write(value.snsAction, with: SESClientTypes.SNSAction.write(value:to:))
+        try writer["StopAction"].write(value.stopAction, with: SESClientTypes.StopAction.write(value:to:))
+        try writer["WorkmailAction"].write(value.workmailAction, with: SESClientTypes.WorkmailAction.write(value:to:))
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> SESClientTypes.ReceiptAction {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SESClientTypes.ReceiptAction()
+        value.s3Action = try reader["S3Action"].readIfPresent(with: SESClientTypes.S3Action.read(from:))
+        value.bounceAction = try reader["BounceAction"].readIfPresent(with: SESClientTypes.BounceAction.read(from:))
+        value.workmailAction = try reader["WorkmailAction"].readIfPresent(with: SESClientTypes.WorkmailAction.read(from:))
+        value.lambdaAction = try reader["LambdaAction"].readIfPresent(with: SESClientTypes.LambdaAction.read(from:))
+        value.stopAction = try reader["StopAction"].readIfPresent(with: SESClientTypes.StopAction.read(from:))
+        value.addHeaderAction = try reader["AddHeaderAction"].readIfPresent(with: SESClientTypes.AddHeaderAction.read(from:))
+        value.snsAction = try reader["SNSAction"].readIfPresent(with: SESClientTypes.SNSAction.read(from:))
+        value.connectAction = try reader["ConnectAction"].readIfPresent(with: SESClientTypes.ConnectAction.read(from:))
         return value
     }
 }
@@ -8539,56 +8458,39 @@ extension SESClientTypes.ReceiptIpFilter {
     }
 }
 
-extension SESClientTypes.TemplateMetadata {
+extension SESClientTypes.ReceiptRule {
 
-    static func read(from reader: SmithyXML.Reader) throws -> SESClientTypes.TemplateMetadata {
+    static func write(value: SESClientTypes.ReceiptRule?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["Actions"].writeList(value.actions, memberWritingClosure: SESClientTypes.ReceiptAction.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Enabled"].write(value.enabled)
+        try writer["Name"].write(value.name)
+        try writer["Recipients"].writeList(value.recipients, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ScanEnabled"].write(value.scanEnabled)
+        try writer["TlsPolicy"].write(value.tlsPolicy)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> SESClientTypes.ReceiptRule {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SESClientTypes.TemplateMetadata()
+        var value = SESClientTypes.ReceiptRule()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.enabled = try reader["Enabled"].readIfPresent() ?? false
+        value.tlsPolicy = try reader["TlsPolicy"].readIfPresent()
+        value.recipients = try reader["Recipients"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.actions = try reader["Actions"].readListIfPresent(memberReadingClosure: SESClientTypes.ReceiptAction.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.scanEnabled = try reader["ScanEnabled"].readIfPresent() ?? false
+        return value
+    }
+}
+
+extension SESClientTypes.ReceiptRuleSetMetadata {
+
+    static func read(from reader: SmithyXML.Reader) throws -> SESClientTypes.ReceiptRuleSetMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SESClientTypes.ReceiptRuleSetMetadata()
         value.name = try reader["Name"].readIfPresent()
         value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
-    }
-}
-
-extension SESClientTypes.BulkEmailDestinationStatus {
-
-    static func read(from reader: SmithyXML.Reader) throws -> SESClientTypes.BulkEmailDestinationStatus {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SESClientTypes.BulkEmailDestinationStatus()
-        value.status = try reader["Status"].readIfPresent()
-        value.error = try reader["Error"].readIfPresent()
-        value.messageId = try reader["MessageId"].readIfPresent()
-        return value
-    }
-}
-
-extension SESClientTypes.MessageDsn {
-
-    static func write(value: SESClientTypes.MessageDsn?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["ArrivalDate"].writeTimestamp(value.arrivalDate, format: SmithyTimestamps.TimestampFormat.dateTime)
-        try writer["ExtensionFields"].writeList(value.extensionFields, memberWritingClosure: SESClientTypes.ExtensionField.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ReportingMta"].write(value.reportingMta)
-    }
-}
-
-extension SESClientTypes.ExtensionField {
-
-    static func write(value: SESClientTypes.ExtensionField?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-        try writer["Value"].write(value.value)
-    }
-}
-
-extension SESClientTypes.BouncedRecipientInfo {
-
-    static func write(value: SESClientTypes.BouncedRecipientInfo?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["BounceType"].write(value.bounceType)
-        try writer["Recipient"].write(value.recipient)
-        try writer["RecipientArn"].write(value.recipientArn)
-        try writer["RecipientDsnFields"].write(value.recipientDsnFields, with: SESClientTypes.RecipientDsnFields.write(value:to:))
     }
 }
 
@@ -8606,67 +8508,165 @@ extension SESClientTypes.RecipientDsnFields {
     }
 }
 
-extension SESClientTypes.MessageTag {
+extension SESClientTypes.ReputationOptions {
 
-    static func write(value: SESClientTypes.MessageTag?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-        try writer["Value"].write(value.value)
+    static func read(from reader: SmithyXML.Reader) throws -> SESClientTypes.ReputationOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SESClientTypes.ReputationOptions()
+        value.sendingEnabled = try reader["SendingEnabled"].readIfPresent() ?? false
+        value.reputationMetricsEnabled = try reader["ReputationMetricsEnabled"].readIfPresent() ?? false
+        value.lastFreshStart = try reader["LastFreshStart"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
     }
 }
 
-extension SESClientTypes.BulkEmailDestination {
+extension SESClientTypes.S3Action {
 
-    static func write(value: SESClientTypes.BulkEmailDestination?, to writer: SmithyFormURL.Writer) throws {
+    static func write(value: SESClientTypes.S3Action?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
-        try writer["Destination"].write(value.destination, with: SESClientTypes.Destination.write(value:to:))
-        try writer["ReplacementTags"].writeList(value.replacementTags, memberWritingClosure: SESClientTypes.MessageTag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ReplacementTemplateData"].write(value.replacementTemplateData)
+        try writer["BucketName"].write(value.bucketName)
+        try writer["IamRoleArn"].write(value.iamRoleArn)
+        try writer["KmsKeyArn"].write(value.kmsKeyArn)
+        try writer["ObjectKeyPrefix"].write(value.objectKeyPrefix)
+        try writer["TopicArn"].write(value.topicArn)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> SESClientTypes.S3Action {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SESClientTypes.S3Action()
+        value.topicArn = try reader["TopicArn"].readIfPresent()
+        value.bucketName = try reader["BucketName"].readIfPresent() ?? ""
+        value.objectKeyPrefix = try reader["ObjectKeyPrefix"].readIfPresent()
+        value.kmsKeyArn = try reader["KmsKeyArn"].readIfPresent()
+        value.iamRoleArn = try reader["IamRoleArn"].readIfPresent()
+        return value
     }
 }
 
-extension SESClientTypes.Destination {
+extension SESClientTypes.SendDataPoint {
 
-    static func write(value: SESClientTypes.Destination?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["BccAddresses"].writeList(value.bccAddresses, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["CcAddresses"].writeList(value.ccAddresses, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ToAddresses"].writeList(value.toAddresses, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    static func read(from reader: SmithyXML.Reader) throws -> SESClientTypes.SendDataPoint {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SESClientTypes.SendDataPoint()
+        value.timestamp = try reader["Timestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.deliveryAttempts = try reader["DeliveryAttempts"].readIfPresent() ?? 0
+        value.bounces = try reader["Bounces"].readIfPresent() ?? 0
+        value.complaints = try reader["Complaints"].readIfPresent() ?? 0
+        value.rejects = try reader["Rejects"].readIfPresent() ?? 0
+        return value
     }
 }
 
-extension SESClientTypes.Message {
+extension SESClientTypes.SNSAction {
 
-    static func write(value: SESClientTypes.Message?, to writer: SmithyFormURL.Writer) throws {
+    static func write(value: SESClientTypes.SNSAction?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
-        try writer["Body"].write(value.body, with: SESClientTypes.Body.write(value:to:))
-        try writer["Subject"].write(value.subject, with: SESClientTypes.Content.write(value:to:))
+        try writer["Encoding"].write(value.encoding)
+        try writer["TopicArn"].write(value.topicArn)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> SESClientTypes.SNSAction {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SESClientTypes.SNSAction()
+        value.topicArn = try reader["TopicArn"].readIfPresent() ?? ""
+        value.encoding = try reader["Encoding"].readIfPresent()
+        return value
     }
 }
 
-extension SESClientTypes.Body {
+extension SESClientTypes.SNSDestination {
 
-    static func write(value: SESClientTypes.Body?, to writer: SmithyFormURL.Writer) throws {
+    static func write(value: SESClientTypes.SNSDestination?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
-        try writer["Html"].write(value.html, with: SESClientTypes.Content.write(value:to:))
-        try writer["Text"].write(value.text, with: SESClientTypes.Content.write(value:to:))
+        try writer["TopicARN"].write(value.topicARN)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> SESClientTypes.SNSDestination {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SESClientTypes.SNSDestination()
+        value.topicARN = try reader["TopicARN"].readIfPresent() ?? ""
+        return value
     }
 }
 
-extension SESClientTypes.Content {
+extension SESClientTypes.StopAction {
 
-    static func write(value: SESClientTypes.Content?, to writer: SmithyFormURL.Writer) throws {
+    static func write(value: SESClientTypes.StopAction?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
-        try writer["Charset"].write(value.charset)
-        try writer["Data"].write(value.data)
+        try writer["Scope"].write(value.scope)
+        try writer["TopicArn"].write(value.topicArn)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> SESClientTypes.StopAction {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SESClientTypes.StopAction()
+        value.scope = try reader["Scope"].readIfPresent() ?? .sdkUnknown("")
+        value.topicArn = try reader["TopicArn"].readIfPresent()
+        return value
     }
 }
 
-extension SESClientTypes.RawMessage {
+extension SESClientTypes.Template {
 
-    static func write(value: SESClientTypes.RawMessage?, to writer: SmithyFormURL.Writer) throws {
+    static func write(value: SESClientTypes.Template?, to writer: SmithyFormURL.Writer) throws {
         guard let value else { return }
-        try writer["Data"].write(value.data)
+        try writer["HtmlPart"].write(value.htmlPart)
+        try writer["SubjectPart"].write(value.subjectPart)
+        try writer["TemplateName"].write(value.templateName)
+        try writer["TextPart"].write(value.textPart)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> SESClientTypes.Template {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SESClientTypes.Template()
+        value.templateName = try reader["TemplateName"].readIfPresent() ?? ""
+        value.subjectPart = try reader["SubjectPart"].readIfPresent()
+        value.textPart = try reader["TextPart"].readIfPresent()
+        value.htmlPart = try reader["HtmlPart"].readIfPresent()
+        return value
+    }
+}
+
+extension SESClientTypes.TemplateMetadata {
+
+    static func read(from reader: SmithyXML.Reader) throws -> SESClientTypes.TemplateMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SESClientTypes.TemplateMetadata()
+        value.name = try reader["Name"].readIfPresent()
+        value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
+extension SESClientTypes.TrackingOptions {
+
+    static func write(value: SESClientTypes.TrackingOptions?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["CustomRedirectDomain"].write(value.customRedirectDomain)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> SESClientTypes.TrackingOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SESClientTypes.TrackingOptions()
+        value.customRedirectDomain = try reader["CustomRedirectDomain"].readIfPresent()
+        return value
+    }
+}
+
+extension SESClientTypes.WorkmailAction {
+
+    static func write(value: SESClientTypes.WorkmailAction?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["OrganizationArn"].write(value.organizationArn)
+        try writer["TopicArn"].write(value.topicArn)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> SESClientTypes.WorkmailAction {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SESClientTypes.WorkmailAction()
+        value.topicArn = try reader["TopicArn"].readIfPresent()
+        value.organizationArn = try reader["OrganizationArn"].readIfPresent() ?? ""
+        return value
     }
 }
 

@@ -8255,114 +8255,6 @@ extension ServiceQuotaExceededException {
     }
 }
 
-extension AuditManagerClientTypes.AssessmentReportEvidenceError {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AuditManagerClientTypes.AssessmentReportEvidenceError {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AuditManagerClientTypes.AssessmentReportEvidenceError()
-        value.evidenceId = try reader["evidenceId"].readIfPresent()
-        value.errorCode = try reader["errorCode"].readIfPresent()
-        value.errorMessage = try reader["errorMessage"].readIfPresent()
-        return value
-    }
-}
-
-extension AuditManagerClientTypes.Delegation {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AuditManagerClientTypes.Delegation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AuditManagerClientTypes.Delegation()
-        value.id = try reader["id"].readIfPresent()
-        value.assessmentName = try reader["assessmentName"].readIfPresent()
-        value.assessmentId = try reader["assessmentId"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.roleArn = try reader["roleArn"].readIfPresent()
-        value.roleType = try reader["roleType"].readIfPresent()
-        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastUpdated = try reader["lastUpdated"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.controlSetId = try reader["controlSetId"].readIfPresent()
-        value.comment = try reader["comment"].readIfPresent()
-        value.createdBy = try reader["createdBy"].readIfPresent()
-        return value
-    }
-}
-
-extension AuditManagerClientTypes.BatchCreateDelegationByAssessmentError {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AuditManagerClientTypes.BatchCreateDelegationByAssessmentError {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AuditManagerClientTypes.BatchCreateDelegationByAssessmentError()
-        value.createDelegationRequest = try reader["createDelegationRequest"].readIfPresent(with: AuditManagerClientTypes.CreateDelegationRequest.read(from:))
-        value.errorCode = try reader["errorCode"].readIfPresent()
-        value.errorMessage = try reader["errorMessage"].readIfPresent()
-        return value
-    }
-}
-
-extension AuditManagerClientTypes.CreateDelegationRequest {
-
-    static func write(value: AuditManagerClientTypes.CreateDelegationRequest?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["comment"].write(value.comment)
-        try writer["controlSetId"].write(value.controlSetId)
-        try writer["roleArn"].write(value.roleArn)
-        try writer["roleType"].write(value.roleType)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AuditManagerClientTypes.CreateDelegationRequest {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AuditManagerClientTypes.CreateDelegationRequest()
-        value.comment = try reader["comment"].readIfPresent()
-        value.controlSetId = try reader["controlSetId"].readIfPresent()
-        value.roleArn = try reader["roleArn"].readIfPresent()
-        value.roleType = try reader["roleType"].readIfPresent()
-        return value
-    }
-}
-
-extension AuditManagerClientTypes.BatchDeleteDelegationByAssessmentError {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AuditManagerClientTypes.BatchDeleteDelegationByAssessmentError {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AuditManagerClientTypes.BatchDeleteDelegationByAssessmentError()
-        value.delegationId = try reader["delegationId"].readIfPresent()
-        value.errorCode = try reader["errorCode"].readIfPresent()
-        value.errorMessage = try reader["errorMessage"].readIfPresent()
-        return value
-    }
-}
-
-extension AuditManagerClientTypes.BatchImportEvidenceToAssessmentControlError {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AuditManagerClientTypes.BatchImportEvidenceToAssessmentControlError {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AuditManagerClientTypes.BatchImportEvidenceToAssessmentControlError()
-        value.manualEvidence = try reader["manualEvidence"].readIfPresent(with: AuditManagerClientTypes.ManualEvidence.read(from:))
-        value.errorCode = try reader["errorCode"].readIfPresent()
-        value.errorMessage = try reader["errorMessage"].readIfPresent()
-        return value
-    }
-}
-
-extension AuditManagerClientTypes.ManualEvidence {
-
-    static func write(value: AuditManagerClientTypes.ManualEvidence?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["evidenceFileName"].write(value.evidenceFileName)
-        try writer["s3ResourcePath"].write(value.s3ResourcePath)
-        try writer["textResponse"].write(value.textResponse)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AuditManagerClientTypes.ManualEvidence {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AuditManagerClientTypes.ManualEvidence()
-        value.s3ResourcePath = try reader["s3ResourcePath"].readIfPresent()
-        value.textResponse = try reader["textResponse"].readIfPresent()
-        value.evidenceFileName = try reader["evidenceFileName"].readIfPresent()
-        return value
-    }
-}
-
 extension AuditManagerClientTypes.Assessment {
 
     static func read(from reader: SmithyJSON.Reader) throws -> AuditManagerClientTypes.Assessment {
@@ -8373,36 +8265,6 @@ extension AuditManagerClientTypes.Assessment {
         value.metadata = try reader["metadata"].readIfPresent(with: AuditManagerClientTypes.AssessmentMetadata.read(from:))
         value.framework = try reader["framework"].readIfPresent(with: AuditManagerClientTypes.AssessmentFramework.read(from:))
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
-}
-
-extension AuditManagerClientTypes.AssessmentFramework {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AuditManagerClientTypes.AssessmentFramework {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AuditManagerClientTypes.AssessmentFramework()
-        value.id = try reader["id"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
-        value.metadata = try reader["metadata"].readIfPresent(with: AuditManagerClientTypes.FrameworkMetadata.read(from:))
-        value.controlSets = try reader["controlSets"].readListIfPresent(memberReadingClosure: AuditManagerClientTypes.AssessmentControlSet.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension AuditManagerClientTypes.AssessmentControlSet {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AuditManagerClientTypes.AssessmentControlSet {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AuditManagerClientTypes.AssessmentControlSet()
-        value.id = try reader["id"].readIfPresent()
-        value.description = try reader["description"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.roles = try reader["roles"].readListIfPresent(memberReadingClosure: AuditManagerClientTypes.Role.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.controls = try reader["controls"].readListIfPresent(memberReadingClosure: AuditManagerClientTypes.AssessmentControl.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.delegations = try reader["delegations"].readListIfPresent(memberReadingClosure: AuditManagerClientTypes.Delegation.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.systemEvidenceCount = try reader["systemEvidenceCount"].readIfPresent() ?? 0
-        value.manualEvidenceCount = try reader["manualEvidenceCount"].readIfPresent() ?? 0
         return value
     }
 }
@@ -8425,333 +8287,19 @@ extension AuditManagerClientTypes.AssessmentControl {
     }
 }
 
-extension AuditManagerClientTypes.ControlComment {
+extension AuditManagerClientTypes.AssessmentControlSet {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> AuditManagerClientTypes.ControlComment {
+    static func read(from reader: SmithyJSON.Reader) throws -> AuditManagerClientTypes.AssessmentControlSet {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AuditManagerClientTypes.ControlComment()
-        value.authorName = try reader["authorName"].readIfPresent()
-        value.commentBody = try reader["commentBody"].readIfPresent()
-        value.postedDate = try reader["postedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension AuditManagerClientTypes.Role {
-
-    static func write(value: AuditManagerClientTypes.Role?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["roleArn"].write(value.roleArn)
-        try writer["roleType"].write(value.roleType)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AuditManagerClientTypes.Role {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AuditManagerClientTypes.Role()
-        value.roleType = try reader["roleType"].readIfPresent() ?? .sdkUnknown("")
-        value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension AuditManagerClientTypes.FrameworkMetadata {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AuditManagerClientTypes.FrameworkMetadata {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AuditManagerClientTypes.FrameworkMetadata()
-        value.name = try reader["name"].readIfPresent()
-        value.description = try reader["description"].readIfPresent()
-        value.logo = try reader["logo"].readIfPresent()
-        value.complianceType = try reader["complianceType"].readIfPresent()
-        return value
-    }
-}
-
-extension AuditManagerClientTypes.AssessmentMetadata {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AuditManagerClientTypes.AssessmentMetadata {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AuditManagerClientTypes.AssessmentMetadata()
-        value.name = try reader["name"].readIfPresent()
+        var value = AuditManagerClientTypes.AssessmentControlSet()
         value.id = try reader["id"].readIfPresent()
         value.description = try reader["description"].readIfPresent()
-        value.complianceType = try reader["complianceType"].readIfPresent()
         value.status = try reader["status"].readIfPresent()
-        value.assessmentReportsDestination = try reader["assessmentReportsDestination"].readIfPresent(with: AuditManagerClientTypes.AssessmentReportsDestination.read(from:))
-        value.scope = try reader["scope"].readIfPresent(with: AuditManagerClientTypes.Scope.read(from:))
         value.roles = try reader["roles"].readListIfPresent(memberReadingClosure: AuditManagerClientTypes.Role.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.controls = try reader["controls"].readListIfPresent(memberReadingClosure: AuditManagerClientTypes.AssessmentControl.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.delegations = try reader["delegations"].readListIfPresent(memberReadingClosure: AuditManagerClientTypes.Delegation.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastUpdated = try reader["lastUpdated"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension AuditManagerClientTypes.Scope {
-
-    static func write(value: AuditManagerClientTypes.Scope?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["awsAccounts"].writeList(value.awsAccounts, memberWritingClosure: AuditManagerClientTypes.AWSAccount.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["awsServices"].writeList(value.awsServices, memberWritingClosure: AuditManagerClientTypes.AWSService.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AuditManagerClientTypes.Scope {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AuditManagerClientTypes.Scope()
-        value.awsAccounts = try reader["awsAccounts"].readListIfPresent(memberReadingClosure: AuditManagerClientTypes.AWSAccount.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.awsServices = try reader["awsServices"].readListIfPresent(memberReadingClosure: AuditManagerClientTypes.AWSService.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension AuditManagerClientTypes.AWSService {
-
-    static func write(value: AuditManagerClientTypes.AWSService?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["serviceName"].write(value.serviceName)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AuditManagerClientTypes.AWSService {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AuditManagerClientTypes.AWSService()
-        value.serviceName = try reader["serviceName"].readIfPresent()
-        return value
-    }
-}
-
-extension AuditManagerClientTypes.AWSAccount {
-
-    static func write(value: AuditManagerClientTypes.AWSAccount?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["emailAddress"].write(value.emailAddress)
-        try writer["id"].write(value.id)
-        try writer["name"].write(value.name)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AuditManagerClientTypes.AWSAccount {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AuditManagerClientTypes.AWSAccount()
-        value.id = try reader["id"].readIfPresent()
-        value.emailAddress = try reader["emailAddress"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        return value
-    }
-}
-
-extension AuditManagerClientTypes.AssessmentReportsDestination {
-
-    static func write(value: AuditManagerClientTypes.AssessmentReportsDestination?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["destination"].write(value.destination)
-        try writer["destinationType"].write(value.destinationType)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AuditManagerClientTypes.AssessmentReportsDestination {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AuditManagerClientTypes.AssessmentReportsDestination()
-        value.destinationType = try reader["destinationType"].readIfPresent()
-        value.destination = try reader["destination"].readIfPresent()
-        return value
-    }
-}
-
-extension AuditManagerClientTypes.Framework {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AuditManagerClientTypes.Framework {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AuditManagerClientTypes.Framework()
-        value.arn = try reader["arn"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.type = try reader["type"].readIfPresent()
-        value.complianceType = try reader["complianceType"].readIfPresent()
-        value.description = try reader["description"].readIfPresent()
-        value.logo = try reader["logo"].readIfPresent()
-        value.controlSources = try reader["controlSources"].readIfPresent()
-        value.controlSets = try reader["controlSets"].readListIfPresent(memberReadingClosure: AuditManagerClientTypes.ControlSet.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.createdBy = try reader["createdBy"].readIfPresent()
-        value.lastUpdatedBy = try reader["lastUpdatedBy"].readIfPresent()
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
-}
-
-extension AuditManagerClientTypes.ControlSet {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AuditManagerClientTypes.ControlSet {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AuditManagerClientTypes.ControlSet()
-        value.id = try reader["id"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.controls = try reader["controls"].readListIfPresent(memberReadingClosure: AuditManagerClientTypes.Control.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension AuditManagerClientTypes.Control {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AuditManagerClientTypes.Control {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AuditManagerClientTypes.Control()
-        value.arn = try reader["arn"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
-        value.type = try reader["type"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.description = try reader["description"].readIfPresent()
-        value.testingInformation = try reader["testingInformation"].readIfPresent()
-        value.actionPlanTitle = try reader["actionPlanTitle"].readIfPresent()
-        value.actionPlanInstructions = try reader["actionPlanInstructions"].readIfPresent()
-        value.controlSources = try reader["controlSources"].readIfPresent()
-        value.controlMappingSources = try reader["controlMappingSources"].readListIfPresent(memberReadingClosure: AuditManagerClientTypes.ControlMappingSource.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.createdBy = try reader["createdBy"].readIfPresent()
-        value.lastUpdatedBy = try reader["lastUpdatedBy"].readIfPresent()
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.state = try reader["state"].readIfPresent()
-        return value
-    }
-}
-
-extension AuditManagerClientTypes.ControlMappingSource {
-
-    static func write(value: AuditManagerClientTypes.ControlMappingSource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["sourceDescription"].write(value.sourceDescription)
-        try writer["sourceFrequency"].write(value.sourceFrequency)
-        try writer["sourceId"].write(value.sourceId)
-        try writer["sourceKeyword"].write(value.sourceKeyword, with: AuditManagerClientTypes.SourceKeyword.write(value:to:))
-        try writer["sourceName"].write(value.sourceName)
-        try writer["sourceSetUpOption"].write(value.sourceSetUpOption)
-        try writer["sourceType"].write(value.sourceType)
-        try writer["troubleshootingText"].write(value.troubleshootingText)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AuditManagerClientTypes.ControlMappingSource {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AuditManagerClientTypes.ControlMappingSource()
-        value.sourceId = try reader["sourceId"].readIfPresent()
-        value.sourceName = try reader["sourceName"].readIfPresent()
-        value.sourceDescription = try reader["sourceDescription"].readIfPresent()
-        value.sourceSetUpOption = try reader["sourceSetUpOption"].readIfPresent()
-        value.sourceType = try reader["sourceType"].readIfPresent()
-        value.sourceKeyword = try reader["sourceKeyword"].readIfPresent(with: AuditManagerClientTypes.SourceKeyword.read(from:))
-        value.sourceFrequency = try reader["sourceFrequency"].readIfPresent()
-        value.troubleshootingText = try reader["troubleshootingText"].readIfPresent()
-        return value
-    }
-}
-
-extension AuditManagerClientTypes.SourceKeyword {
-
-    static func write(value: AuditManagerClientTypes.SourceKeyword?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["keywordInputType"].write(value.keywordInputType)
-        try writer["keywordValue"].write(value.keywordValue)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AuditManagerClientTypes.SourceKeyword {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AuditManagerClientTypes.SourceKeyword()
-        value.keywordInputType = try reader["keywordInputType"].readIfPresent()
-        value.keywordValue = try reader["keywordValue"].readIfPresent()
-        return value
-    }
-}
-
-extension AuditManagerClientTypes.AssessmentReport {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AuditManagerClientTypes.AssessmentReport {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AuditManagerClientTypes.AssessmentReport()
-        value.id = try reader["id"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.description = try reader["description"].readIfPresent()
-        value.awsAccountId = try reader["awsAccountId"].readIfPresent()
-        value.assessmentId = try reader["assessmentId"].readIfPresent()
-        value.assessmentName = try reader["assessmentName"].readIfPresent()
-        value.author = try reader["author"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension AuditManagerClientTypes.URL {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AuditManagerClientTypes.URL {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AuditManagerClientTypes.URL()
-        value.hyperlinkName = try reader["hyperlinkName"].readIfPresent()
-        value.link = try reader["link"].readIfPresent()
-        return value
-    }
-}
-
-extension AuditManagerClientTypes.ChangeLog {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AuditManagerClientTypes.ChangeLog {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AuditManagerClientTypes.ChangeLog()
-        value.objectType = try reader["objectType"].readIfPresent()
-        value.objectName = try reader["objectName"].readIfPresent()
-        value.action = try reader["action"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.createdBy = try reader["createdBy"].readIfPresent()
-        return value
-    }
-}
-
-extension AuditManagerClientTypes.DelegationMetadata {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AuditManagerClientTypes.DelegationMetadata {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AuditManagerClientTypes.DelegationMetadata()
-        value.id = try reader["id"].readIfPresent()
-        value.assessmentName = try reader["assessmentName"].readIfPresent()
-        value.assessmentId = try reader["assessmentId"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.roleArn = try reader["roleArn"].readIfPresent()
-        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.controlSetName = try reader["controlSetName"].readIfPresent()
-        return value
-    }
-}
-
-extension AuditManagerClientTypes.Evidence {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AuditManagerClientTypes.Evidence {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AuditManagerClientTypes.Evidence()
-        value.dataSource = try reader["dataSource"].readIfPresent()
-        value.evidenceAwsAccountId = try reader["evidenceAwsAccountId"].readIfPresent()
-        value.time = try reader["time"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.eventSource = try reader["eventSource"].readIfPresent()
-        value.eventName = try reader["eventName"].readIfPresent()
-        value.evidenceByType = try reader["evidenceByType"].readIfPresent()
-        value.resourcesIncluded = try reader["resourcesIncluded"].readListIfPresent(memberReadingClosure: AuditManagerClientTypes.Resource.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.attributes = try reader["attributes"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.iamId = try reader["iamId"].readIfPresent()
-        value.complianceCheck = try reader["complianceCheck"].readIfPresent()
-        value.awsOrganization = try reader["awsOrganization"].readIfPresent()
-        value.awsAccountId = try reader["awsAccountId"].readIfPresent()
-        value.evidenceFolderId = try reader["evidenceFolderId"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
-        value.assessmentReportSelection = try reader["assessmentReportSelection"].readIfPresent()
-        return value
-    }
-}
-
-extension AuditManagerClientTypes.Resource {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AuditManagerClientTypes.Resource {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AuditManagerClientTypes.Resource()
-        value.arn = try reader["arn"].readIfPresent()
-        value.value = try reader["value"].readIfPresent()
-        value.complianceCheck = try reader["complianceCheck"].readIfPresent()
+        value.systemEvidenceCount = try reader["systemEvidenceCount"].readIfPresent() ?? 0
+        value.manualEvidenceCount = try reader["manualEvidenceCount"].readIfPresent() ?? 0
         return value
     }
 }
@@ -8783,134 +8331,15 @@ extension AuditManagerClientTypes.AssessmentEvidenceFolder {
     }
 }
 
-extension AuditManagerClientTypes.Insights {
+extension AuditManagerClientTypes.AssessmentFramework {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> AuditManagerClientTypes.Insights {
+    static func read(from reader: SmithyJSON.Reader) throws -> AuditManagerClientTypes.AssessmentFramework {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AuditManagerClientTypes.Insights()
-        value.activeAssessmentsCount = try reader["activeAssessmentsCount"].readIfPresent()
-        value.noncompliantEvidenceCount = try reader["noncompliantEvidenceCount"].readIfPresent()
-        value.compliantEvidenceCount = try reader["compliantEvidenceCount"].readIfPresent()
-        value.inconclusiveEvidenceCount = try reader["inconclusiveEvidenceCount"].readIfPresent()
-        value.assessmentControlsCountByNoncompliantEvidence = try reader["assessmentControlsCountByNoncompliantEvidence"].readIfPresent()
-        value.totalAssessmentControlsCount = try reader["totalAssessmentControlsCount"].readIfPresent()
-        value.lastUpdated = try reader["lastUpdated"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension AuditManagerClientTypes.InsightsByAssessment {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AuditManagerClientTypes.InsightsByAssessment {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AuditManagerClientTypes.InsightsByAssessment()
-        value.noncompliantEvidenceCount = try reader["noncompliantEvidenceCount"].readIfPresent()
-        value.compliantEvidenceCount = try reader["compliantEvidenceCount"].readIfPresent()
-        value.inconclusiveEvidenceCount = try reader["inconclusiveEvidenceCount"].readIfPresent()
-        value.assessmentControlsCountByNoncompliantEvidence = try reader["assessmentControlsCountByNoncompliantEvidence"].readIfPresent()
-        value.totalAssessmentControlsCount = try reader["totalAssessmentControlsCount"].readIfPresent()
-        value.lastUpdated = try reader["lastUpdated"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension AuditManagerClientTypes.ServiceMetadata {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AuditManagerClientTypes.ServiceMetadata {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AuditManagerClientTypes.ServiceMetadata()
-        value.name = try reader["name"].readIfPresent()
-        value.displayName = try reader["displayName"].readIfPresent()
-        value.description = try reader["description"].readIfPresent()
-        value.category = try reader["category"].readIfPresent()
-        return value
-    }
-}
-
-extension AuditManagerClientTypes.Settings {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AuditManagerClientTypes.Settings {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AuditManagerClientTypes.Settings()
-        value.isAwsOrgEnabled = try reader["isAwsOrgEnabled"].readIfPresent()
-        value.snsTopic = try reader["snsTopic"].readIfPresent()
-        value.defaultAssessmentReportsDestination = try reader["defaultAssessmentReportsDestination"].readIfPresent(with: AuditManagerClientTypes.AssessmentReportsDestination.read(from:))
-        value.defaultProcessOwners = try reader["defaultProcessOwners"].readListIfPresent(memberReadingClosure: AuditManagerClientTypes.Role.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.kmsKey = try reader["kmsKey"].readIfPresent()
-        value.evidenceFinderEnablement = try reader["evidenceFinderEnablement"].readIfPresent(with: AuditManagerClientTypes.EvidenceFinderEnablement.read(from:))
-        value.deregistrationPolicy = try reader["deregistrationPolicy"].readIfPresent(with: AuditManagerClientTypes.DeregistrationPolicy.read(from:))
-        value.defaultExportDestination = try reader["defaultExportDestination"].readIfPresent(with: AuditManagerClientTypes.DefaultExportDestination.read(from:))
-        return value
-    }
-}
-
-extension AuditManagerClientTypes.DefaultExportDestination {
-
-    static func write(value: AuditManagerClientTypes.DefaultExportDestination?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["destination"].write(value.destination)
-        try writer["destinationType"].write(value.destinationType)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AuditManagerClientTypes.DefaultExportDestination {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AuditManagerClientTypes.DefaultExportDestination()
-        value.destinationType = try reader["destinationType"].readIfPresent()
-        value.destination = try reader["destination"].readIfPresent()
-        return value
-    }
-}
-
-extension AuditManagerClientTypes.DeregistrationPolicy {
-
-    static func write(value: AuditManagerClientTypes.DeregistrationPolicy?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["deleteResources"].write(value.deleteResources)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AuditManagerClientTypes.DeregistrationPolicy {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AuditManagerClientTypes.DeregistrationPolicy()
-        value.deleteResources = try reader["deleteResources"].readIfPresent()
-        return value
-    }
-}
-
-extension AuditManagerClientTypes.EvidenceFinderEnablement {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AuditManagerClientTypes.EvidenceFinderEnablement {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AuditManagerClientTypes.EvidenceFinderEnablement()
-        value.eventDataStoreArn = try reader["eventDataStoreArn"].readIfPresent()
-        value.enablementStatus = try reader["enablementStatus"].readIfPresent()
-        value.backfillStatus = try reader["backfillStatus"].readIfPresent()
-        value.error = try reader["error"].readIfPresent()
-        return value
-    }
-}
-
-extension AuditManagerClientTypes.ControlInsightsMetadataByAssessmentItem {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AuditManagerClientTypes.ControlInsightsMetadataByAssessmentItem {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AuditManagerClientTypes.ControlInsightsMetadataByAssessmentItem()
-        value.name = try reader["name"].readIfPresent()
+        var value = AuditManagerClientTypes.AssessmentFramework()
         value.id = try reader["id"].readIfPresent()
-        value.evidenceInsights = try reader["evidenceInsights"].readIfPresent(with: AuditManagerClientTypes.EvidenceInsights.read(from:))
-        value.controlSetName = try reader["controlSetName"].readIfPresent()
-        value.lastUpdated = try reader["lastUpdated"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension AuditManagerClientTypes.EvidenceInsights {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AuditManagerClientTypes.EvidenceInsights {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AuditManagerClientTypes.EvidenceInsights()
-        value.noncompliantEvidenceCount = try reader["noncompliantEvidenceCount"].readIfPresent()
-        value.compliantEvidenceCount = try reader["compliantEvidenceCount"].readIfPresent()
-        value.inconclusiveEvidenceCount = try reader["inconclusiveEvidenceCount"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent()
+        value.metadata = try reader["metadata"].readIfPresent(with: AuditManagerClientTypes.FrameworkMetadata.read(from:))
+        value.controlSets = try reader["controlSets"].readListIfPresent(memberReadingClosure: AuditManagerClientTypes.AssessmentControlSet.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -8959,19 +8388,22 @@ extension AuditManagerClientTypes.AssessmentFrameworkShareRequest {
     }
 }
 
-extension AuditManagerClientTypes.AssessmentReportMetadata {
+extension AuditManagerClientTypes.AssessmentMetadata {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> AuditManagerClientTypes.AssessmentReportMetadata {
+    static func read(from reader: SmithyJSON.Reader) throws -> AuditManagerClientTypes.AssessmentMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AuditManagerClientTypes.AssessmentReportMetadata()
-        value.id = try reader["id"].readIfPresent()
+        var value = AuditManagerClientTypes.AssessmentMetadata()
         value.name = try reader["name"].readIfPresent()
+        value.id = try reader["id"].readIfPresent()
         value.description = try reader["description"].readIfPresent()
-        value.assessmentId = try reader["assessmentId"].readIfPresent()
-        value.assessmentName = try reader["assessmentName"].readIfPresent()
-        value.author = try reader["author"].readIfPresent()
+        value.complianceType = try reader["complianceType"].readIfPresent()
         value.status = try reader["status"].readIfPresent()
+        value.assessmentReportsDestination = try reader["assessmentReportsDestination"].readIfPresent(with: AuditManagerClientTypes.AssessmentReportsDestination.read(from:))
+        value.scope = try reader["scope"].readIfPresent(with: AuditManagerClientTypes.Scope.read(from:))
+        value.roles = try reader["roles"].readListIfPresent(memberReadingClosure: AuditManagerClientTypes.Role.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.delegations = try reader["delegations"].readListIfPresent(memberReadingClosure: AuditManagerClientTypes.Delegation.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastUpdated = try reader["lastUpdated"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }
@@ -8993,6 +8425,191 @@ extension AuditManagerClientTypes.AssessmentMetadataItem {
     }
 }
 
+extension AuditManagerClientTypes.AssessmentReport {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AuditManagerClientTypes.AssessmentReport {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AuditManagerClientTypes.AssessmentReport()
+        value.id = try reader["id"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.awsAccountId = try reader["awsAccountId"].readIfPresent()
+        value.assessmentId = try reader["assessmentId"].readIfPresent()
+        value.assessmentName = try reader["assessmentName"].readIfPresent()
+        value.author = try reader["author"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension AuditManagerClientTypes.AssessmentReportEvidenceError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AuditManagerClientTypes.AssessmentReportEvidenceError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AuditManagerClientTypes.AssessmentReportEvidenceError()
+        value.evidenceId = try reader["evidenceId"].readIfPresent()
+        value.errorCode = try reader["errorCode"].readIfPresent()
+        value.errorMessage = try reader["errorMessage"].readIfPresent()
+        return value
+    }
+}
+
+extension AuditManagerClientTypes.AssessmentReportMetadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AuditManagerClientTypes.AssessmentReportMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AuditManagerClientTypes.AssessmentReportMetadata()
+        value.id = try reader["id"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.assessmentId = try reader["assessmentId"].readIfPresent()
+        value.assessmentName = try reader["assessmentName"].readIfPresent()
+        value.author = try reader["author"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension AuditManagerClientTypes.AssessmentReportsDestination {
+
+    static func write(value: AuditManagerClientTypes.AssessmentReportsDestination?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["destination"].write(value.destination)
+        try writer["destinationType"].write(value.destinationType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AuditManagerClientTypes.AssessmentReportsDestination {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AuditManagerClientTypes.AssessmentReportsDestination()
+        value.destinationType = try reader["destinationType"].readIfPresent()
+        value.destination = try reader["destination"].readIfPresent()
+        return value
+    }
+}
+
+extension AuditManagerClientTypes.AWSAccount {
+
+    static func write(value: AuditManagerClientTypes.AWSAccount?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["emailAddress"].write(value.emailAddress)
+        try writer["id"].write(value.id)
+        try writer["name"].write(value.name)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AuditManagerClientTypes.AWSAccount {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AuditManagerClientTypes.AWSAccount()
+        value.id = try reader["id"].readIfPresent()
+        value.emailAddress = try reader["emailAddress"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        return value
+    }
+}
+
+extension AuditManagerClientTypes.AWSService {
+
+    static func write(value: AuditManagerClientTypes.AWSService?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["serviceName"].write(value.serviceName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AuditManagerClientTypes.AWSService {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AuditManagerClientTypes.AWSService()
+        value.serviceName = try reader["serviceName"].readIfPresent()
+        return value
+    }
+}
+
+extension AuditManagerClientTypes.BatchCreateDelegationByAssessmentError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AuditManagerClientTypes.BatchCreateDelegationByAssessmentError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AuditManagerClientTypes.BatchCreateDelegationByAssessmentError()
+        value.createDelegationRequest = try reader["createDelegationRequest"].readIfPresent(with: AuditManagerClientTypes.CreateDelegationRequest.read(from:))
+        value.errorCode = try reader["errorCode"].readIfPresent()
+        value.errorMessage = try reader["errorMessage"].readIfPresent()
+        return value
+    }
+}
+
+extension AuditManagerClientTypes.BatchDeleteDelegationByAssessmentError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AuditManagerClientTypes.BatchDeleteDelegationByAssessmentError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AuditManagerClientTypes.BatchDeleteDelegationByAssessmentError()
+        value.delegationId = try reader["delegationId"].readIfPresent()
+        value.errorCode = try reader["errorCode"].readIfPresent()
+        value.errorMessage = try reader["errorMessage"].readIfPresent()
+        return value
+    }
+}
+
+extension AuditManagerClientTypes.BatchImportEvidenceToAssessmentControlError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AuditManagerClientTypes.BatchImportEvidenceToAssessmentControlError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AuditManagerClientTypes.BatchImportEvidenceToAssessmentControlError()
+        value.manualEvidence = try reader["manualEvidence"].readIfPresent(with: AuditManagerClientTypes.ManualEvidence.read(from:))
+        value.errorCode = try reader["errorCode"].readIfPresent()
+        value.errorMessage = try reader["errorMessage"].readIfPresent()
+        return value
+    }
+}
+
+extension AuditManagerClientTypes.ChangeLog {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AuditManagerClientTypes.ChangeLog {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AuditManagerClientTypes.ChangeLog()
+        value.objectType = try reader["objectType"].readIfPresent()
+        value.objectName = try reader["objectName"].readIfPresent()
+        value.action = try reader["action"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.createdBy = try reader["createdBy"].readIfPresent()
+        return value
+    }
+}
+
+extension AuditManagerClientTypes.Control {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AuditManagerClientTypes.Control {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AuditManagerClientTypes.Control()
+        value.arn = try reader["arn"].readIfPresent()
+        value.id = try reader["id"].readIfPresent()
+        value.type = try reader["type"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.testingInformation = try reader["testingInformation"].readIfPresent()
+        value.actionPlanTitle = try reader["actionPlanTitle"].readIfPresent()
+        value.actionPlanInstructions = try reader["actionPlanInstructions"].readIfPresent()
+        value.controlSources = try reader["controlSources"].readIfPresent()
+        value.controlMappingSources = try reader["controlMappingSources"].readListIfPresent(memberReadingClosure: AuditManagerClientTypes.ControlMappingSource.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.createdBy = try reader["createdBy"].readIfPresent()
+        value.lastUpdatedBy = try reader["lastUpdatedBy"].readIfPresent()
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.state = try reader["state"].readIfPresent()
+        return value
+    }
+}
+
+extension AuditManagerClientTypes.ControlComment {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AuditManagerClientTypes.ControlComment {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AuditManagerClientTypes.ControlComment()
+        value.authorName = try reader["authorName"].readIfPresent()
+        value.commentBody = try reader["commentBody"].readIfPresent()
+        value.postedDate = try reader["postedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
 extension AuditManagerClientTypes.ControlDomainInsights {
 
     static func read(from reader: SmithyJSON.Reader) throws -> AuditManagerClientTypes.ControlDomainInsights {
@@ -9003,6 +8620,20 @@ extension AuditManagerClientTypes.ControlDomainInsights {
         value.controlsCountByNoncompliantEvidence = try reader["controlsCountByNoncompliantEvidence"].readIfPresent()
         value.totalControlsCount = try reader["totalControlsCount"].readIfPresent()
         value.evidenceInsights = try reader["evidenceInsights"].readIfPresent(with: AuditManagerClientTypes.EvidenceInsights.read(from:))
+        value.lastUpdated = try reader["lastUpdated"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension AuditManagerClientTypes.ControlInsightsMetadataByAssessmentItem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AuditManagerClientTypes.ControlInsightsMetadataByAssessmentItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AuditManagerClientTypes.ControlInsightsMetadataByAssessmentItem()
+        value.name = try reader["name"].readIfPresent()
+        value.id = try reader["id"].readIfPresent()
+        value.evidenceInsights = try reader["evidenceInsights"].readIfPresent(with: AuditManagerClientTypes.EvidenceInsights.read(from:))
+        value.controlSetName = try reader["controlSetName"].readIfPresent()
         value.lastUpdated = try reader["lastUpdated"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
@@ -9021,6 +8652,35 @@ extension AuditManagerClientTypes.ControlInsightsMetadataItem {
     }
 }
 
+extension AuditManagerClientTypes.ControlMappingSource {
+
+    static func write(value: AuditManagerClientTypes.ControlMappingSource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["sourceDescription"].write(value.sourceDescription)
+        try writer["sourceFrequency"].write(value.sourceFrequency)
+        try writer["sourceId"].write(value.sourceId)
+        try writer["sourceKeyword"].write(value.sourceKeyword, with: AuditManagerClientTypes.SourceKeyword.write(value:to:))
+        try writer["sourceName"].write(value.sourceName)
+        try writer["sourceSetUpOption"].write(value.sourceSetUpOption)
+        try writer["sourceType"].write(value.sourceType)
+        try writer["troubleshootingText"].write(value.troubleshootingText)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AuditManagerClientTypes.ControlMappingSource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AuditManagerClientTypes.ControlMappingSource()
+        value.sourceId = try reader["sourceId"].readIfPresent()
+        value.sourceName = try reader["sourceName"].readIfPresent()
+        value.sourceDescription = try reader["sourceDescription"].readIfPresent()
+        value.sourceSetUpOption = try reader["sourceSetUpOption"].readIfPresent()
+        value.sourceType = try reader["sourceType"].readIfPresent()
+        value.sourceKeyword = try reader["sourceKeyword"].readIfPresent(with: AuditManagerClientTypes.SourceKeyword.read(from:))
+        value.sourceFrequency = try reader["sourceFrequency"].readIfPresent()
+        value.troubleshootingText = try reader["troubleshootingText"].readIfPresent()
+        return value
+    }
+}
+
 extension AuditManagerClientTypes.ControlMetadata {
 
     static func read(from reader: SmithyJSON.Reader) throws -> AuditManagerClientTypes.ControlMetadata {
@@ -9032,6 +8692,273 @@ extension AuditManagerClientTypes.ControlMetadata {
         value.controlSources = try reader["controlSources"].readIfPresent()
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension AuditManagerClientTypes.ControlSet {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AuditManagerClientTypes.ControlSet {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AuditManagerClientTypes.ControlSet()
+        value.id = try reader["id"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        value.controls = try reader["controls"].readListIfPresent(memberReadingClosure: AuditManagerClientTypes.Control.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension AuditManagerClientTypes.CreateAssessmentFrameworkControl {
+
+    static func write(value: AuditManagerClientTypes.CreateAssessmentFrameworkControl?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["id"].write(value.id)
+    }
+}
+
+extension AuditManagerClientTypes.CreateAssessmentFrameworkControlSet {
+
+    static func write(value: AuditManagerClientTypes.CreateAssessmentFrameworkControlSet?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["controls"].writeList(value.controls, memberWritingClosure: AuditManagerClientTypes.CreateAssessmentFrameworkControl.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["name"].write(value.name)
+    }
+}
+
+extension AuditManagerClientTypes.CreateControlMappingSource {
+
+    static func write(value: AuditManagerClientTypes.CreateControlMappingSource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["sourceDescription"].write(value.sourceDescription)
+        try writer["sourceFrequency"].write(value.sourceFrequency)
+        try writer["sourceKeyword"].write(value.sourceKeyword, with: AuditManagerClientTypes.SourceKeyword.write(value:to:))
+        try writer["sourceName"].write(value.sourceName)
+        try writer["sourceSetUpOption"].write(value.sourceSetUpOption)
+        try writer["sourceType"].write(value.sourceType)
+        try writer["troubleshootingText"].write(value.troubleshootingText)
+    }
+}
+
+extension AuditManagerClientTypes.CreateDelegationRequest {
+
+    static func write(value: AuditManagerClientTypes.CreateDelegationRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["comment"].write(value.comment)
+        try writer["controlSetId"].write(value.controlSetId)
+        try writer["roleArn"].write(value.roleArn)
+        try writer["roleType"].write(value.roleType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AuditManagerClientTypes.CreateDelegationRequest {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AuditManagerClientTypes.CreateDelegationRequest()
+        value.comment = try reader["comment"].readIfPresent()
+        value.controlSetId = try reader["controlSetId"].readIfPresent()
+        value.roleArn = try reader["roleArn"].readIfPresent()
+        value.roleType = try reader["roleType"].readIfPresent()
+        return value
+    }
+}
+
+extension AuditManagerClientTypes.DefaultExportDestination {
+
+    static func write(value: AuditManagerClientTypes.DefaultExportDestination?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["destination"].write(value.destination)
+        try writer["destinationType"].write(value.destinationType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AuditManagerClientTypes.DefaultExportDestination {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AuditManagerClientTypes.DefaultExportDestination()
+        value.destinationType = try reader["destinationType"].readIfPresent()
+        value.destination = try reader["destination"].readIfPresent()
+        return value
+    }
+}
+
+extension AuditManagerClientTypes.Delegation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AuditManagerClientTypes.Delegation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AuditManagerClientTypes.Delegation()
+        value.id = try reader["id"].readIfPresent()
+        value.assessmentName = try reader["assessmentName"].readIfPresent()
+        value.assessmentId = try reader["assessmentId"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.roleArn = try reader["roleArn"].readIfPresent()
+        value.roleType = try reader["roleType"].readIfPresent()
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastUpdated = try reader["lastUpdated"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.controlSetId = try reader["controlSetId"].readIfPresent()
+        value.comment = try reader["comment"].readIfPresent()
+        value.createdBy = try reader["createdBy"].readIfPresent()
+        return value
+    }
+}
+
+extension AuditManagerClientTypes.DelegationMetadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AuditManagerClientTypes.DelegationMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AuditManagerClientTypes.DelegationMetadata()
+        value.id = try reader["id"].readIfPresent()
+        value.assessmentName = try reader["assessmentName"].readIfPresent()
+        value.assessmentId = try reader["assessmentId"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.roleArn = try reader["roleArn"].readIfPresent()
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.controlSetName = try reader["controlSetName"].readIfPresent()
+        return value
+    }
+}
+
+extension AuditManagerClientTypes.DeregistrationPolicy {
+
+    static func write(value: AuditManagerClientTypes.DeregistrationPolicy?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["deleteResources"].write(value.deleteResources)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AuditManagerClientTypes.DeregistrationPolicy {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AuditManagerClientTypes.DeregistrationPolicy()
+        value.deleteResources = try reader["deleteResources"].readIfPresent()
+        return value
+    }
+}
+
+extension AuditManagerClientTypes.Evidence {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AuditManagerClientTypes.Evidence {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AuditManagerClientTypes.Evidence()
+        value.dataSource = try reader["dataSource"].readIfPresent()
+        value.evidenceAwsAccountId = try reader["evidenceAwsAccountId"].readIfPresent()
+        value.time = try reader["time"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.eventSource = try reader["eventSource"].readIfPresent()
+        value.eventName = try reader["eventName"].readIfPresent()
+        value.evidenceByType = try reader["evidenceByType"].readIfPresent()
+        value.resourcesIncluded = try reader["resourcesIncluded"].readListIfPresent(memberReadingClosure: AuditManagerClientTypes.Resource.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.attributes = try reader["attributes"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.iamId = try reader["iamId"].readIfPresent()
+        value.complianceCheck = try reader["complianceCheck"].readIfPresent()
+        value.awsOrganization = try reader["awsOrganization"].readIfPresent()
+        value.awsAccountId = try reader["awsAccountId"].readIfPresent()
+        value.evidenceFolderId = try reader["evidenceFolderId"].readIfPresent()
+        value.id = try reader["id"].readIfPresent()
+        value.assessmentReportSelection = try reader["assessmentReportSelection"].readIfPresent()
+        return value
+    }
+}
+
+extension AuditManagerClientTypes.EvidenceFinderEnablement {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AuditManagerClientTypes.EvidenceFinderEnablement {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AuditManagerClientTypes.EvidenceFinderEnablement()
+        value.eventDataStoreArn = try reader["eventDataStoreArn"].readIfPresent()
+        value.enablementStatus = try reader["enablementStatus"].readIfPresent()
+        value.backfillStatus = try reader["backfillStatus"].readIfPresent()
+        value.error = try reader["error"].readIfPresent()
+        return value
+    }
+}
+
+extension AuditManagerClientTypes.EvidenceInsights {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AuditManagerClientTypes.EvidenceInsights {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AuditManagerClientTypes.EvidenceInsights()
+        value.noncompliantEvidenceCount = try reader["noncompliantEvidenceCount"].readIfPresent()
+        value.compliantEvidenceCount = try reader["compliantEvidenceCount"].readIfPresent()
+        value.inconclusiveEvidenceCount = try reader["inconclusiveEvidenceCount"].readIfPresent()
+        return value
+    }
+}
+
+extension AuditManagerClientTypes.Framework {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AuditManagerClientTypes.Framework {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AuditManagerClientTypes.Framework()
+        value.arn = try reader["arn"].readIfPresent()
+        value.id = try reader["id"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        value.type = try reader["type"].readIfPresent()
+        value.complianceType = try reader["complianceType"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.logo = try reader["logo"].readIfPresent()
+        value.controlSources = try reader["controlSources"].readIfPresent()
+        value.controlSets = try reader["controlSets"].readListIfPresent(memberReadingClosure: AuditManagerClientTypes.ControlSet.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.createdBy = try reader["createdBy"].readIfPresent()
+        value.lastUpdatedBy = try reader["lastUpdatedBy"].readIfPresent()
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension AuditManagerClientTypes.FrameworkMetadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AuditManagerClientTypes.FrameworkMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AuditManagerClientTypes.FrameworkMetadata()
+        value.name = try reader["name"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.logo = try reader["logo"].readIfPresent()
+        value.complianceType = try reader["complianceType"].readIfPresent()
+        return value
+    }
+}
+
+extension AuditManagerClientTypes.Insights {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AuditManagerClientTypes.Insights {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AuditManagerClientTypes.Insights()
+        value.activeAssessmentsCount = try reader["activeAssessmentsCount"].readIfPresent()
+        value.noncompliantEvidenceCount = try reader["noncompliantEvidenceCount"].readIfPresent()
+        value.compliantEvidenceCount = try reader["compliantEvidenceCount"].readIfPresent()
+        value.inconclusiveEvidenceCount = try reader["inconclusiveEvidenceCount"].readIfPresent()
+        value.assessmentControlsCountByNoncompliantEvidence = try reader["assessmentControlsCountByNoncompliantEvidence"].readIfPresent()
+        value.totalAssessmentControlsCount = try reader["totalAssessmentControlsCount"].readIfPresent()
+        value.lastUpdated = try reader["lastUpdated"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension AuditManagerClientTypes.InsightsByAssessment {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AuditManagerClientTypes.InsightsByAssessment {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AuditManagerClientTypes.InsightsByAssessment()
+        value.noncompliantEvidenceCount = try reader["noncompliantEvidenceCount"].readIfPresent()
+        value.compliantEvidenceCount = try reader["compliantEvidenceCount"].readIfPresent()
+        value.inconclusiveEvidenceCount = try reader["inconclusiveEvidenceCount"].readIfPresent()
+        value.assessmentControlsCountByNoncompliantEvidence = try reader["assessmentControlsCountByNoncompliantEvidence"].readIfPresent()
+        value.totalAssessmentControlsCount = try reader["totalAssessmentControlsCount"].readIfPresent()
+        value.lastUpdated = try reader["lastUpdated"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension AuditManagerClientTypes.ManualEvidence {
+
+    static func write(value: AuditManagerClientTypes.ManualEvidence?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["evidenceFileName"].write(value.evidenceFileName)
+        try writer["s3ResourcePath"].write(value.s3ResourcePath)
+        try writer["textResponse"].write(value.textResponse)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AuditManagerClientTypes.ManualEvidence {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AuditManagerClientTypes.ManualEvidence()
+        value.s3ResourcePath = try reader["s3ResourcePath"].readIfPresent()
+        value.textResponse = try reader["textResponse"].readIfPresent()
+        value.evidenceFileName = try reader["evidenceFileName"].readIfPresent()
         return value
     }
 }
@@ -9053,45 +8980,96 @@ extension AuditManagerClientTypes.Notification {
     }
 }
 
-extension AuditManagerClientTypes.ValidationExceptionField {
+extension AuditManagerClientTypes.Resource {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> AuditManagerClientTypes.ValidationExceptionField {
+    static func read(from reader: SmithyJSON.Reader) throws -> AuditManagerClientTypes.Resource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AuditManagerClientTypes.ValidationExceptionField()
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.message = try reader["message"].readIfPresent() ?? ""
+        var value = AuditManagerClientTypes.Resource()
+        value.arn = try reader["arn"].readIfPresent()
+        value.value = try reader["value"].readIfPresent()
+        value.complianceCheck = try reader["complianceCheck"].readIfPresent()
         return value
     }
 }
 
-extension AuditManagerClientTypes.CreateAssessmentFrameworkControlSet {
+extension AuditManagerClientTypes.Role {
 
-    static func write(value: AuditManagerClientTypes.CreateAssessmentFrameworkControlSet?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: AuditManagerClientTypes.Role?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["controls"].writeList(value.controls, memberWritingClosure: AuditManagerClientTypes.CreateAssessmentFrameworkControl.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["name"].write(value.name)
+        try writer["roleArn"].write(value.roleArn)
+        try writer["roleType"].write(value.roleType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AuditManagerClientTypes.Role {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AuditManagerClientTypes.Role()
+        value.roleType = try reader["roleType"].readIfPresent() ?? .sdkUnknown("")
+        value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
+        return value
     }
 }
 
-extension AuditManagerClientTypes.CreateAssessmentFrameworkControl {
+extension AuditManagerClientTypes.Scope {
 
-    static func write(value: AuditManagerClientTypes.CreateAssessmentFrameworkControl?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: AuditManagerClientTypes.Scope?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["id"].write(value.id)
+        try writer["awsAccounts"].writeList(value.awsAccounts, memberWritingClosure: AuditManagerClientTypes.AWSAccount.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["awsServices"].writeList(value.awsServices, memberWritingClosure: AuditManagerClientTypes.AWSService.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AuditManagerClientTypes.Scope {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AuditManagerClientTypes.Scope()
+        value.awsAccounts = try reader["awsAccounts"].readListIfPresent(memberReadingClosure: AuditManagerClientTypes.AWSAccount.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.awsServices = try reader["awsServices"].readListIfPresent(memberReadingClosure: AuditManagerClientTypes.AWSService.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
     }
 }
 
-extension AuditManagerClientTypes.CreateControlMappingSource {
+extension AuditManagerClientTypes.ServiceMetadata {
 
-    static func write(value: AuditManagerClientTypes.CreateControlMappingSource?, to writer: SmithyJSON.Writer) throws {
+    static func read(from reader: SmithyJSON.Reader) throws -> AuditManagerClientTypes.ServiceMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AuditManagerClientTypes.ServiceMetadata()
+        value.name = try reader["name"].readIfPresent()
+        value.displayName = try reader["displayName"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.category = try reader["category"].readIfPresent()
+        return value
+    }
+}
+
+extension AuditManagerClientTypes.Settings {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AuditManagerClientTypes.Settings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AuditManagerClientTypes.Settings()
+        value.isAwsOrgEnabled = try reader["isAwsOrgEnabled"].readIfPresent()
+        value.snsTopic = try reader["snsTopic"].readIfPresent()
+        value.defaultAssessmentReportsDestination = try reader["defaultAssessmentReportsDestination"].readIfPresent(with: AuditManagerClientTypes.AssessmentReportsDestination.read(from:))
+        value.defaultProcessOwners = try reader["defaultProcessOwners"].readListIfPresent(memberReadingClosure: AuditManagerClientTypes.Role.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.kmsKey = try reader["kmsKey"].readIfPresent()
+        value.evidenceFinderEnablement = try reader["evidenceFinderEnablement"].readIfPresent(with: AuditManagerClientTypes.EvidenceFinderEnablement.read(from:))
+        value.deregistrationPolicy = try reader["deregistrationPolicy"].readIfPresent(with: AuditManagerClientTypes.DeregistrationPolicy.read(from:))
+        value.defaultExportDestination = try reader["defaultExportDestination"].readIfPresent(with: AuditManagerClientTypes.DefaultExportDestination.read(from:))
+        return value
+    }
+}
+
+extension AuditManagerClientTypes.SourceKeyword {
+
+    static func write(value: AuditManagerClientTypes.SourceKeyword?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["sourceDescription"].write(value.sourceDescription)
-        try writer["sourceFrequency"].write(value.sourceFrequency)
-        try writer["sourceKeyword"].write(value.sourceKeyword, with: AuditManagerClientTypes.SourceKeyword.write(value:to:))
-        try writer["sourceName"].write(value.sourceName)
-        try writer["sourceSetUpOption"].write(value.sourceSetUpOption)
-        try writer["sourceType"].write(value.sourceType)
-        try writer["troubleshootingText"].write(value.troubleshootingText)
+        try writer["keywordInputType"].write(value.keywordInputType)
+        try writer["keywordValue"].write(value.keywordValue)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AuditManagerClientTypes.SourceKeyword {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AuditManagerClientTypes.SourceKeyword()
+        value.keywordInputType = try reader["keywordInputType"].readIfPresent()
+        value.keywordValue = try reader["keywordValue"].readIfPresent()
+        return value
     }
 }
 
@@ -9102,6 +9080,28 @@ extension AuditManagerClientTypes.UpdateAssessmentFrameworkControlSet {
         try writer["controls"].writeList(value.controls, memberWritingClosure: AuditManagerClientTypes.CreateAssessmentFrameworkControl.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["id"].write(value.id)
         try writer["name"].write(value.name)
+    }
+}
+
+extension AuditManagerClientTypes.URL {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AuditManagerClientTypes.URL {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AuditManagerClientTypes.URL()
+        value.hyperlinkName = try reader["hyperlinkName"].readIfPresent()
+        value.link = try reader["link"].readIfPresent()
+        return value
+    }
+}
+
+extension AuditManagerClientTypes.ValidationExceptionField {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AuditManagerClientTypes.ValidationExceptionField {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AuditManagerClientTypes.ValidationExceptionField()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.message = try reader["message"].readIfPresent() ?? ""
+        return value
     }
 }
 

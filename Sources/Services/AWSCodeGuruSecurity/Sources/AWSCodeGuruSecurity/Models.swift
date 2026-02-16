@@ -2184,6 +2184,84 @@ extension ResourceNotFoundException {
     }
 }
 
+extension CodeGuruSecurityClientTypes.AccountFindingsMetric {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruSecurityClientTypes.AccountFindingsMetric {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CodeGuruSecurityClientTypes.AccountFindingsMetric()
+        value.date = try reader["date"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.newFindings = try reader["newFindings"].readIfPresent(with: CodeGuruSecurityClientTypes.FindingMetricsValuePerSeverity.read(from:))
+        value.closedFindings = try reader["closedFindings"].readIfPresent(with: CodeGuruSecurityClientTypes.FindingMetricsValuePerSeverity.read(from:))
+        value.openFindings = try reader["openFindings"].readIfPresent(with: CodeGuruSecurityClientTypes.FindingMetricsValuePerSeverity.read(from:))
+        value.meanTimeToClose = try reader["meanTimeToClose"].readIfPresent(with: CodeGuruSecurityClientTypes.FindingMetricsValuePerSeverity.read(from:))
+        return value
+    }
+}
+
+extension CodeGuruSecurityClientTypes.BatchGetFindingsError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruSecurityClientTypes.BatchGetFindingsError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CodeGuruSecurityClientTypes.BatchGetFindingsError()
+        value.scanName = try reader["scanName"].readIfPresent() ?? ""
+        value.findingId = try reader["findingId"].readIfPresent() ?? ""
+        value.errorCode = try reader["errorCode"].readIfPresent() ?? .sdkUnknown("")
+        value.message = try reader["message"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension CodeGuruSecurityClientTypes.CategoryWithFindingNum {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruSecurityClientTypes.CategoryWithFindingNum {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CodeGuruSecurityClientTypes.CategoryWithFindingNum()
+        value.categoryName = try reader["categoryName"].readIfPresent()
+        value.findingNumber = try reader["findingNumber"].readIfPresent()
+        return value
+    }
+}
+
+extension CodeGuruSecurityClientTypes.CodeLine {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruSecurityClientTypes.CodeLine {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CodeGuruSecurityClientTypes.CodeLine()
+        value.number = try reader["number"].readIfPresent()
+        value.content = try reader["content"].readIfPresent()
+        return value
+    }
+}
+
+extension CodeGuruSecurityClientTypes.EncryptionConfig {
+
+    static func write(value: CodeGuruSecurityClientTypes.EncryptionConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["kmsKeyArn"].write(value.kmsKeyArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruSecurityClientTypes.EncryptionConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CodeGuruSecurityClientTypes.EncryptionConfig()
+        value.kmsKeyArn = try reader["kmsKeyArn"].readIfPresent()
+        return value
+    }
+}
+
+extension CodeGuruSecurityClientTypes.FilePath {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruSecurityClientTypes.FilePath {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CodeGuruSecurityClientTypes.FilePath()
+        value.name = try reader["name"].readIfPresent()
+        value.path = try reader["path"].readIfPresent()
+        value.startLine = try reader["startLine"].readIfPresent()
+        value.endLine = try reader["endLine"].readIfPresent()
+        value.codeSnippet = try reader["codeSnippet"].readListIfPresent(memberReadingClosure: CodeGuruSecurityClientTypes.CodeLine.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension CodeGuruSecurityClientTypes.Finding {
 
     static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruSecurityClientTypes.Finding {
@@ -2209,24 +2287,39 @@ extension CodeGuruSecurityClientTypes.Finding {
     }
 }
 
-extension CodeGuruSecurityClientTypes.Remediation {
+extension CodeGuruSecurityClientTypes.FindingIdentifier {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruSecurityClientTypes.Remediation {
+    static func write(value: CodeGuruSecurityClientTypes.FindingIdentifier?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["findingId"].write(value.findingId)
+        try writer["scanName"].write(value.scanName)
+    }
+}
+
+extension CodeGuruSecurityClientTypes.FindingMetricsValuePerSeverity {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruSecurityClientTypes.FindingMetricsValuePerSeverity {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeGuruSecurityClientTypes.Remediation()
-        value.recommendation = try reader["recommendation"].readIfPresent(with: CodeGuruSecurityClientTypes.Recommendation.read(from:))
-        value.suggestedFixes = try reader["suggestedFixes"].readListIfPresent(memberReadingClosure: CodeGuruSecurityClientTypes.SuggestedFix.read(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = CodeGuruSecurityClientTypes.FindingMetricsValuePerSeverity()
+        value.info = try reader["info"].readIfPresent()
+        value.low = try reader["low"].readIfPresent()
+        value.medium = try reader["medium"].readIfPresent()
+        value.high = try reader["high"].readIfPresent()
+        value.critical = try reader["critical"].readIfPresent()
         return value
     }
 }
 
-extension CodeGuruSecurityClientTypes.SuggestedFix {
+extension CodeGuruSecurityClientTypes.MetricsSummary {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruSecurityClientTypes.SuggestedFix {
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruSecurityClientTypes.MetricsSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeGuruSecurityClientTypes.SuggestedFix()
-        value.description = try reader["description"].readIfPresent()
-        value.code = try reader["code"].readIfPresent()
+        var value = CodeGuruSecurityClientTypes.MetricsSummary()
+        value.date = try reader["date"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.openFindings = try reader["openFindings"].readIfPresent(with: CodeGuruSecurityClientTypes.FindingMetricsValuePerSeverity.read(from:))
+        value.categoriesWithMostFindings = try reader["categoriesWithMostFindings"].readListIfPresent(memberReadingClosure: CodeGuruSecurityClientTypes.CategoryWithFindingNum.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.scansWithMostOpenFindings = try reader["scansWithMostOpenFindings"].readListIfPresent(memberReadingClosure: CodeGuruSecurityClientTypes.ScanNameWithFindingNum.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.scansWithMostOpenCriticalFindings = try reader["scansWithMostOpenCriticalFindings"].readListIfPresent(memberReadingClosure: CodeGuruSecurityClientTypes.ScanNameWithFindingNum.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -2242,41 +2335,13 @@ extension CodeGuruSecurityClientTypes.Recommendation {
     }
 }
 
-extension CodeGuruSecurityClientTypes.Vulnerability {
+extension CodeGuruSecurityClientTypes.Remediation {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruSecurityClientTypes.Vulnerability {
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruSecurityClientTypes.Remediation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeGuruSecurityClientTypes.Vulnerability()
-        value.referenceUrls = try reader["referenceUrls"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.relatedVulnerabilities = try reader["relatedVulnerabilities"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.id = try reader["id"].readIfPresent()
-        value.filePath = try reader["filePath"].readIfPresent(with: CodeGuruSecurityClientTypes.FilePath.read(from:))
-        value.itemCount = try reader["itemCount"].readIfPresent()
-        return value
-    }
-}
-
-extension CodeGuruSecurityClientTypes.FilePath {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruSecurityClientTypes.FilePath {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeGuruSecurityClientTypes.FilePath()
-        value.name = try reader["name"].readIfPresent()
-        value.path = try reader["path"].readIfPresent()
-        value.startLine = try reader["startLine"].readIfPresent()
-        value.endLine = try reader["endLine"].readIfPresent()
-        value.codeSnippet = try reader["codeSnippet"].readListIfPresent(memberReadingClosure: CodeGuruSecurityClientTypes.CodeLine.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension CodeGuruSecurityClientTypes.CodeLine {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruSecurityClientTypes.CodeLine {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeGuruSecurityClientTypes.CodeLine()
-        value.number = try reader["number"].readIfPresent()
-        value.content = try reader["content"].readIfPresent()
+        var value = CodeGuruSecurityClientTypes.Remediation()
+        value.recommendation = try reader["recommendation"].readIfPresent(with: CodeGuruSecurityClientTypes.Recommendation.read(from:))
+        value.suggestedFixes = try reader["suggestedFixes"].readListIfPresent(memberReadingClosure: CodeGuruSecurityClientTypes.SuggestedFix.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -2288,19 +2353,6 @@ extension CodeGuruSecurityClientTypes.Resource {
         var value = CodeGuruSecurityClientTypes.Resource()
         value.id = try reader["id"].readIfPresent()
         value.subResourceId = try reader["subResourceId"].readIfPresent()
-        return value
-    }
-}
-
-extension CodeGuruSecurityClientTypes.BatchGetFindingsError {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruSecurityClientTypes.BatchGetFindingsError {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeGuruSecurityClientTypes.BatchGetFindingsError()
-        value.scanName = try reader["scanName"].readIfPresent() ?? ""
-        value.findingId = try reader["findingId"].readIfPresent() ?? ""
-        value.errorCode = try reader["errorCode"].readIfPresent() ?? .sdkUnknown("")
-        value.message = try reader["message"].readIfPresent() ?? ""
         return value
     }
 }
@@ -2329,35 +2381,6 @@ extension CodeGuruSecurityClientTypes.ResourceId {
     }
 }
 
-extension CodeGuruSecurityClientTypes.EncryptionConfig {
-
-    static func write(value: CodeGuruSecurityClientTypes.EncryptionConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["kmsKeyArn"].write(value.kmsKeyArn)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruSecurityClientTypes.EncryptionConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeGuruSecurityClientTypes.EncryptionConfig()
-        value.kmsKeyArn = try reader["kmsKeyArn"].readIfPresent()
-        return value
-    }
-}
-
-extension CodeGuruSecurityClientTypes.MetricsSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruSecurityClientTypes.MetricsSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeGuruSecurityClientTypes.MetricsSummary()
-        value.date = try reader["date"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.openFindings = try reader["openFindings"].readIfPresent(with: CodeGuruSecurityClientTypes.FindingMetricsValuePerSeverity.read(from:))
-        value.categoriesWithMostFindings = try reader["categoriesWithMostFindings"].readListIfPresent(memberReadingClosure: CodeGuruSecurityClientTypes.CategoryWithFindingNum.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.scansWithMostOpenFindings = try reader["scansWithMostOpenFindings"].readListIfPresent(memberReadingClosure: CodeGuruSecurityClientTypes.ScanNameWithFindingNum.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.scansWithMostOpenCriticalFindings = try reader["scansWithMostOpenCriticalFindings"].readListIfPresent(memberReadingClosure: CodeGuruSecurityClientTypes.ScanNameWithFindingNum.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
 extension CodeGuruSecurityClientTypes.ScanNameWithFindingNum {
 
     static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruSecurityClientTypes.ScanNameWithFindingNum {
@@ -2365,45 +2388,6 @@ extension CodeGuruSecurityClientTypes.ScanNameWithFindingNum {
         var value = CodeGuruSecurityClientTypes.ScanNameWithFindingNum()
         value.scanName = try reader["scanName"].readIfPresent()
         value.findingNumber = try reader["findingNumber"].readIfPresent()
-        return value
-    }
-}
-
-extension CodeGuruSecurityClientTypes.CategoryWithFindingNum {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruSecurityClientTypes.CategoryWithFindingNum {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeGuruSecurityClientTypes.CategoryWithFindingNum()
-        value.categoryName = try reader["categoryName"].readIfPresent()
-        value.findingNumber = try reader["findingNumber"].readIfPresent()
-        return value
-    }
-}
-
-extension CodeGuruSecurityClientTypes.FindingMetricsValuePerSeverity {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruSecurityClientTypes.FindingMetricsValuePerSeverity {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeGuruSecurityClientTypes.FindingMetricsValuePerSeverity()
-        value.info = try reader["info"].readIfPresent()
-        value.low = try reader["low"].readIfPresent()
-        value.medium = try reader["medium"].readIfPresent()
-        value.high = try reader["high"].readIfPresent()
-        value.critical = try reader["critical"].readIfPresent()
-        return value
-    }
-}
-
-extension CodeGuruSecurityClientTypes.AccountFindingsMetric {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruSecurityClientTypes.AccountFindingsMetric {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeGuruSecurityClientTypes.AccountFindingsMetric()
-        value.date = try reader["date"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.newFindings = try reader["newFindings"].readIfPresent(with: CodeGuruSecurityClientTypes.FindingMetricsValuePerSeverity.read(from:))
-        value.closedFindings = try reader["closedFindings"].readIfPresent(with: CodeGuruSecurityClientTypes.FindingMetricsValuePerSeverity.read(from:))
-        value.openFindings = try reader["openFindings"].readIfPresent(with: CodeGuruSecurityClientTypes.FindingMetricsValuePerSeverity.read(from:))
-        value.meanTimeToClose = try reader["meanTimeToClose"].readIfPresent(with: CodeGuruSecurityClientTypes.FindingMetricsValuePerSeverity.read(from:))
         return value
     }
 }
@@ -2423,6 +2407,17 @@ extension CodeGuruSecurityClientTypes.ScanSummary {
     }
 }
 
+extension CodeGuruSecurityClientTypes.SuggestedFix {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruSecurityClientTypes.SuggestedFix {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CodeGuruSecurityClientTypes.SuggestedFix()
+        value.description = try reader["description"].readIfPresent()
+        value.code = try reader["code"].readIfPresent()
+        return value
+    }
+}
+
 extension CodeGuruSecurityClientTypes.ValidationExceptionField {
 
     static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruSecurityClientTypes.ValidationExceptionField {
@@ -2434,12 +2429,17 @@ extension CodeGuruSecurityClientTypes.ValidationExceptionField {
     }
 }
 
-extension CodeGuruSecurityClientTypes.FindingIdentifier {
+extension CodeGuruSecurityClientTypes.Vulnerability {
 
-    static func write(value: CodeGuruSecurityClientTypes.FindingIdentifier?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["findingId"].write(value.findingId)
-        try writer["scanName"].write(value.scanName)
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeGuruSecurityClientTypes.Vulnerability {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CodeGuruSecurityClientTypes.Vulnerability()
+        value.referenceUrls = try reader["referenceUrls"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.relatedVulnerabilities = try reader["relatedVulnerabilities"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.id = try reader["id"].readIfPresent()
+        value.filePath = try reader["filePath"].readIfPresent(with: CodeGuruSecurityClientTypes.FilePath.read(from:))
+        value.itemCount = try reader["itemCount"].readIfPresent()
+        return value
     }
 }
 

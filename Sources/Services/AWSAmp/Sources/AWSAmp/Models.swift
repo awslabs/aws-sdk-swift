@@ -5632,81 +5632,6 @@ extension ValidationException {
     }
 }
 
-extension AmpClientTypes.AlertManagerDefinitionStatus {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AmpClientTypes.AlertManagerDefinitionStatus {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AmpClientTypes.AlertManagerDefinitionStatus()
-        value.statusCode = try reader["statusCode"].readIfPresent() ?? .sdkUnknown("")
-        value.statusReason = try reader["statusReason"].readIfPresent()
-        return value
-    }
-}
-
-extension AmpClientTypes.AnomalyDetectorStatus {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AmpClientTypes.AnomalyDetectorStatus {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AmpClientTypes.AnomalyDetectorStatus()
-        value.statusCode = try reader["statusCode"].readIfPresent() ?? .sdkUnknown("")
-        value.statusReason = try reader["statusReason"].readIfPresent()
-        return value
-    }
-}
-
-extension AmpClientTypes.LoggingConfigurationStatus {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AmpClientTypes.LoggingConfigurationStatus {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AmpClientTypes.LoggingConfigurationStatus()
-        value.statusCode = try reader["statusCode"].readIfPresent() ?? .sdkUnknown("")
-        value.statusReason = try reader["statusReason"].readIfPresent()
-        return value
-    }
-}
-
-extension AmpClientTypes.QueryLoggingConfigurationStatus {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AmpClientTypes.QueryLoggingConfigurationStatus {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AmpClientTypes.QueryLoggingConfigurationStatus()
-        value.statusCode = try reader["statusCode"].readIfPresent() ?? .sdkUnknown("")
-        value.statusReason = try reader["statusReason"].readIfPresent()
-        return value
-    }
-}
-
-extension AmpClientTypes.RuleGroupsNamespaceStatus {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AmpClientTypes.RuleGroupsNamespaceStatus {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AmpClientTypes.RuleGroupsNamespaceStatus()
-        value.statusCode = try reader["statusCode"].readIfPresent() ?? .sdkUnknown("")
-        value.statusReason = try reader["statusReason"].readIfPresent()
-        return value
-    }
-}
-
-extension AmpClientTypes.ScraperStatus {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AmpClientTypes.ScraperStatus {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AmpClientTypes.ScraperStatus()
-        value.statusCode = try reader["statusCode"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension AmpClientTypes.WorkspaceStatus {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AmpClientTypes.WorkspaceStatus {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AmpClientTypes.WorkspaceStatus()
-        value.statusCode = try reader["statusCode"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
 extension AmpClientTypes.AlertManagerDefinitionDescription {
 
     static func read(from reader: SmithyJSON.Reader) throws -> AmpClientTypes.AlertManagerDefinitionDescription {
@@ -5720,22 +5645,28 @@ extension AmpClientTypes.AlertManagerDefinitionDescription {
     }
 }
 
-extension AmpClientTypes.AnomalyDetectorDescription {
+extension AmpClientTypes.AlertManagerDefinitionStatus {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> AmpClientTypes.AnomalyDetectorDescription {
+    static func read(from reader: SmithyJSON.Reader) throws -> AmpClientTypes.AlertManagerDefinitionStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AmpClientTypes.AnomalyDetectorDescription()
-        value.arn = try reader["arn"].readIfPresent() ?? ""
-        value.anomalyDetectorId = try reader["anomalyDetectorId"].readIfPresent() ?? ""
-        value.alias = try reader["alias"].readIfPresent() ?? ""
-        value.evaluationIntervalInSeconds = try reader["evaluationIntervalInSeconds"].readIfPresent()
-        value.missingDataAction = try reader["missingDataAction"].readIfPresent(with: AmpClientTypes.AnomalyDetectorMissingDataAction.read(from:))
-        value.configuration = try reader["configuration"].readIfPresent(with: AmpClientTypes.AnomalyDetectorConfiguration.read(from:))
-        value.labels = try reader["labels"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.status = try reader["status"].readIfPresent(with: AmpClientTypes.AnomalyDetectorStatus.read(from:))
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.modifiedAt = try reader["modifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        var value = AmpClientTypes.AlertManagerDefinitionStatus()
+        value.statusCode = try reader["statusCode"].readIfPresent() ?? .sdkUnknown("")
+        value.statusReason = try reader["statusReason"].readIfPresent()
+        return value
+    }
+}
+
+extension AmpClientTypes.AmpConfiguration {
+
+    static func write(value: AmpClientTypes.AmpConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["workspaceArn"].write(value.workspaceArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AmpClientTypes.AmpConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AmpClientTypes.AmpConfiguration()
+        value.workspaceArn = try reader["workspaceArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -5764,25 +5695,150 @@ extension AmpClientTypes.AnomalyDetectorConfiguration {
     }
 }
 
-extension AmpClientTypes.RandomCutForestConfiguration {
+extension AmpClientTypes.AnomalyDetectorDescription {
 
-    static func write(value: AmpClientTypes.RandomCutForestConfiguration?, to writer: SmithyJSON.Writer) throws {
+    static func read(from reader: SmithyJSON.Reader) throws -> AmpClientTypes.AnomalyDetectorDescription {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AmpClientTypes.AnomalyDetectorDescription()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.anomalyDetectorId = try reader["anomalyDetectorId"].readIfPresent() ?? ""
+        value.alias = try reader["alias"].readIfPresent() ?? ""
+        value.evaluationIntervalInSeconds = try reader["evaluationIntervalInSeconds"].readIfPresent()
+        value.missingDataAction = try reader["missingDataAction"].readIfPresent(with: AmpClientTypes.AnomalyDetectorMissingDataAction.read(from:))
+        value.configuration = try reader["configuration"].readIfPresent(with: AmpClientTypes.AnomalyDetectorConfiguration.read(from:))
+        value.labels = try reader["labels"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.status = try reader["status"].readIfPresent(with: AmpClientTypes.AnomalyDetectorStatus.read(from:))
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.modifiedAt = try reader["modifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension AmpClientTypes.AnomalyDetectorMissingDataAction {
+
+    static func write(value: AmpClientTypes.AnomalyDetectorMissingDataAction?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["ignoreNearExpectedFromAbove"].write(value.ignoreNearExpectedFromAbove, with: AmpClientTypes.IgnoreNearExpected.write(value:to:))
-        try writer["ignoreNearExpectedFromBelow"].write(value.ignoreNearExpectedFromBelow, with: AmpClientTypes.IgnoreNearExpected.write(value:to:))
-        try writer["query"].write(value.query)
-        try writer["sampleSize"].write(value.sampleSize)
-        try writer["shingleSize"].write(value.shingleSize)
+        switch value {
+            case let .markasanomaly(markasanomaly):
+                try writer["markAsAnomaly"].write(markasanomaly)
+            case let .skip(skip):
+                try writer["skip"].write(skip)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> AmpClientTypes.RandomCutForestConfiguration {
+    static func read(from reader: SmithyJSON.Reader) throws -> AmpClientTypes.AnomalyDetectorMissingDataAction {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AmpClientTypes.RandomCutForestConfiguration()
-        value.query = try reader["query"].readIfPresent() ?? ""
-        value.shingleSize = try reader["shingleSize"].readIfPresent() ?? 8
-        value.sampleSize = try reader["sampleSize"].readIfPresent() ?? 256
-        value.ignoreNearExpectedFromAbove = try reader["ignoreNearExpectedFromAbove"].readIfPresent(with: AmpClientTypes.IgnoreNearExpected.read(from:))
-        value.ignoreNearExpectedFromBelow = try reader["ignoreNearExpectedFromBelow"].readIfPresent(with: AmpClientTypes.IgnoreNearExpected.read(from:))
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "markAsAnomaly":
+                return .markasanomaly(try reader["markAsAnomaly"].read())
+            case "skip":
+                return .skip(try reader["skip"].read())
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension AmpClientTypes.AnomalyDetectorStatus {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AmpClientTypes.AnomalyDetectorStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AmpClientTypes.AnomalyDetectorStatus()
+        value.statusCode = try reader["statusCode"].readIfPresent() ?? .sdkUnknown("")
+        value.statusReason = try reader["statusReason"].readIfPresent()
+        return value
+    }
+}
+
+extension AmpClientTypes.AnomalyDetectorSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AmpClientTypes.AnomalyDetectorSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AmpClientTypes.AnomalyDetectorSummary()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.anomalyDetectorId = try reader["anomalyDetectorId"].readIfPresent() ?? ""
+        value.alias = try reader["alias"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent(with: AmpClientTypes.AnomalyDetectorStatus.read(from:))
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.modifiedAt = try reader["modifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension AmpClientTypes.CloudWatchLogDestination {
+
+    static func write(value: AmpClientTypes.CloudWatchLogDestination?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["logGroupArn"].write(value.logGroupArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AmpClientTypes.CloudWatchLogDestination {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AmpClientTypes.CloudWatchLogDestination()
+        value.logGroupArn = try reader["logGroupArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension AmpClientTypes.ComponentConfig {
+
+    static func write(value: AmpClientTypes.ComponentConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["options"].writeMap(value.options, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AmpClientTypes.ComponentConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AmpClientTypes.ComponentConfig()
+        value.options = try reader["options"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension AmpClientTypes.Destination {
+
+    static func write(value: AmpClientTypes.Destination?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .ampconfiguration(ampconfiguration):
+                try writer["ampConfiguration"].write(ampconfiguration, with: AmpClientTypes.AmpConfiguration.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AmpClientTypes.Destination {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "ampConfiguration":
+                return .ampconfiguration(try reader["ampConfiguration"].read(with: AmpClientTypes.AmpConfiguration.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension AmpClientTypes.EksConfiguration {
+
+    static func write(value: AmpClientTypes.EksConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clusterArn"].write(value.clusterArn)
+        try writer["securityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["subnetIds"].writeList(value.subnetIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AmpClientTypes.EksConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AmpClientTypes.EksConfiguration()
+        value.clusterArn = try reader["clusterArn"].readIfPresent() ?? ""
+        value.securityGroupIds = try reader["securityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.subnetIds = try reader["subnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -5815,31 +5871,35 @@ extension AmpClientTypes.IgnoreNearExpected {
     }
 }
 
-extension AmpClientTypes.AnomalyDetectorMissingDataAction {
+extension AmpClientTypes.LimitsPerLabelSet {
 
-    static func write(value: AmpClientTypes.AnomalyDetectorMissingDataAction?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: AmpClientTypes.LimitsPerLabelSet?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        switch value {
-            case let .markasanomaly(markasanomaly):
-                try writer["markAsAnomaly"].write(markasanomaly)
-            case let .skip(skip):
-                try writer["skip"].write(skip)
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
+        try writer["labelSet"].writeMap(value.labelSet, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["limits"].write(value.limits, with: AmpClientTypes.LimitsPerLabelSetEntry.write(value:to:))
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> AmpClientTypes.AnomalyDetectorMissingDataAction {
+    static func read(from reader: SmithyJSON.Reader) throws -> AmpClientTypes.LimitsPerLabelSet {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "markAsAnomaly":
-                return .markasanomaly(try reader["markAsAnomaly"].read())
-            case "skip":
-                return .skip(try reader["skip"].read())
-            default:
-                return .sdkUnknown(name ?? "")
-        }
+        var value = AmpClientTypes.LimitsPerLabelSet()
+        value.limits = try reader["limits"].readIfPresent(with: AmpClientTypes.LimitsPerLabelSetEntry.read(from:))
+        value.labelSet = try reader["labelSet"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
+        return value
+    }
+}
+
+extension AmpClientTypes.LimitsPerLabelSetEntry {
+
+    static func write(value: AmpClientTypes.LimitsPerLabelSetEntry?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["maxSeries"].write(value.maxSeries)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AmpClientTypes.LimitsPerLabelSetEntry {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AmpClientTypes.LimitsPerLabelSetEntry()
+        value.maxSeries = try reader["maxSeries"].readIfPresent()
+        return value
     }
 }
 
@@ -5857,16 +5917,13 @@ extension AmpClientTypes.LoggingConfigurationMetadata {
     }
 }
 
-extension AmpClientTypes.QueryLoggingConfigurationMetadata {
+extension AmpClientTypes.LoggingConfigurationStatus {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> AmpClientTypes.QueryLoggingConfigurationMetadata {
+    static func read(from reader: SmithyJSON.Reader) throws -> AmpClientTypes.LoggingConfigurationStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AmpClientTypes.QueryLoggingConfigurationMetadata()
-        value.status = try reader["status"].readIfPresent(with: AmpClientTypes.QueryLoggingConfigurationStatus.read(from:))
-        value.workspace = try reader["workspace"].readIfPresent() ?? ""
-        value.destinations = try reader["destinations"].readListIfPresent(memberReadingClosure: AmpClientTypes.LoggingDestination.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.modifiedAt = try reader["modifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        var value = AmpClientTypes.LoggingConfigurationStatus()
+        value.statusCode = try reader["statusCode"].readIfPresent() ?? .sdkUnknown("")
+        value.statusReason = try reader["statusReason"].readIfPresent()
         return value
     }
 }
@@ -5903,55 +5960,50 @@ extension AmpClientTypes.LoggingFilter {
     }
 }
 
-extension AmpClientTypes.CloudWatchLogDestination {
+extension AmpClientTypes.QueryLoggingConfigurationMetadata {
 
-    static func write(value: AmpClientTypes.CloudWatchLogDestination?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["logGroupArn"].write(value.logGroupArn)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AmpClientTypes.CloudWatchLogDestination {
+    static func read(from reader: SmithyJSON.Reader) throws -> AmpClientTypes.QueryLoggingConfigurationMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AmpClientTypes.CloudWatchLogDestination()
-        value.logGroupArn = try reader["logGroupArn"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension AmpClientTypes.RuleGroupsNamespaceDescription {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AmpClientTypes.RuleGroupsNamespaceDescription {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AmpClientTypes.RuleGroupsNamespaceDescription()
-        value.arn = try reader["arn"].readIfPresent() ?? ""
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.status = try reader["status"].readIfPresent(with: AmpClientTypes.RuleGroupsNamespaceStatus.read(from:))
-        value.data = try reader["data"].readIfPresent() ?? Foundation.Data(base64Encoded: "")
+        var value = AmpClientTypes.QueryLoggingConfigurationMetadata()
+        value.status = try reader["status"].readIfPresent(with: AmpClientTypes.QueryLoggingConfigurationStatus.read(from:))
+        value.workspace = try reader["workspace"].readIfPresent() ?? ""
+        value.destinations = try reader["destinations"].readListIfPresent(memberReadingClosure: AmpClientTypes.LoggingDestination.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.modifiedAt = try reader["modifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }
 
-extension AmpClientTypes.ScraperDescription {
+extension AmpClientTypes.QueryLoggingConfigurationStatus {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> AmpClientTypes.ScraperDescription {
+    static func read(from reader: SmithyJSON.Reader) throws -> AmpClientTypes.QueryLoggingConfigurationStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AmpClientTypes.ScraperDescription()
-        value.alias = try reader["alias"].readIfPresent()
-        value.scraperId = try reader["scraperId"].readIfPresent() ?? ""
-        value.arn = try reader["arn"].readIfPresent() ?? ""
-        value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
-        value.status = try reader["status"].readIfPresent(with: AmpClientTypes.ScraperStatus.read(from:))
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.lastModifiedAt = try reader["lastModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        var value = AmpClientTypes.QueryLoggingConfigurationStatus()
+        value.statusCode = try reader["statusCode"].readIfPresent() ?? .sdkUnknown("")
         value.statusReason = try reader["statusReason"].readIfPresent()
-        value.scrapeConfiguration = try reader["scrapeConfiguration"].readIfPresent(with: AmpClientTypes.ScrapeConfiguration.read(from:))
-        value.source = try reader["source"].readIfPresent(with: AmpClientTypes.Source.read(from:))
-        value.destination = try reader["destination"].readIfPresent(with: AmpClientTypes.Destination.read(from:))
-        value.roleConfiguration = try reader["roleConfiguration"].readIfPresent(with: AmpClientTypes.RoleConfiguration.read(from:))
+        return value
+    }
+}
+
+extension AmpClientTypes.RandomCutForestConfiguration {
+
+    static func write(value: AmpClientTypes.RandomCutForestConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ignoreNearExpectedFromAbove"].write(value.ignoreNearExpectedFromAbove, with: AmpClientTypes.IgnoreNearExpected.write(value:to:))
+        try writer["ignoreNearExpectedFromBelow"].write(value.ignoreNearExpectedFromBelow, with: AmpClientTypes.IgnoreNearExpected.write(value:to:))
+        try writer["query"].write(value.query)
+        try writer["sampleSize"].write(value.sampleSize)
+        try writer["shingleSize"].write(value.shingleSize)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AmpClientTypes.RandomCutForestConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AmpClientTypes.RandomCutForestConfiguration()
+        value.query = try reader["query"].readIfPresent() ?? ""
+        value.shingleSize = try reader["shingleSize"].readIfPresent() ?? 8
+        value.sampleSize = try reader["sampleSize"].readIfPresent() ?? 256
+        value.ignoreNearExpectedFromAbove = try reader["ignoreNearExpectedFromAbove"].readIfPresent(with: AmpClientTypes.IgnoreNearExpected.read(from:))
+        value.ignoreNearExpectedFromBelow = try reader["ignoreNearExpectedFromBelow"].readIfPresent(with: AmpClientTypes.IgnoreNearExpected.read(from:))
         return value
     }
 }
@@ -5973,105 +6025,44 @@ extension AmpClientTypes.RoleConfiguration {
     }
 }
 
-extension AmpClientTypes.Destination {
+extension AmpClientTypes.RuleGroupsNamespaceDescription {
 
-    static func write(value: AmpClientTypes.Destination?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .ampconfiguration(ampconfiguration):
-                try writer["ampConfiguration"].write(ampconfiguration, with: AmpClientTypes.AmpConfiguration.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AmpClientTypes.Destination {
+    static func read(from reader: SmithyJSON.Reader) throws -> AmpClientTypes.RuleGroupsNamespaceDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "ampConfiguration":
-                return .ampconfiguration(try reader["ampConfiguration"].read(with: AmpClientTypes.AmpConfiguration.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension AmpClientTypes.AmpConfiguration {
-
-    static func write(value: AmpClientTypes.AmpConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["workspaceArn"].write(value.workspaceArn)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AmpClientTypes.AmpConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AmpClientTypes.AmpConfiguration()
-        value.workspaceArn = try reader["workspaceArn"].readIfPresent() ?? ""
+        var value = AmpClientTypes.RuleGroupsNamespaceDescription()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent(with: AmpClientTypes.RuleGroupsNamespaceStatus.read(from:))
+        value.data = try reader["data"].readIfPresent() ?? Foundation.Data(base64Encoded: "")
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.modifiedAt = try reader["modifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }
 
-extension AmpClientTypes.Source {
+extension AmpClientTypes.RuleGroupsNamespaceStatus {
 
-    static func write(value: AmpClientTypes.Source?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .eksconfiguration(eksconfiguration):
-                try writer["eksConfiguration"].write(eksconfiguration, with: AmpClientTypes.EksConfiguration.write(value:to:))
-            case let .vpcconfiguration(vpcconfiguration):
-                try writer["vpcConfiguration"].write(vpcconfiguration, with: AmpClientTypes.VpcConfiguration.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AmpClientTypes.Source {
+    static func read(from reader: SmithyJSON.Reader) throws -> AmpClientTypes.RuleGroupsNamespaceStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "eksConfiguration":
-                return .eksconfiguration(try reader["eksConfiguration"].read(with: AmpClientTypes.EksConfiguration.read(from:)))
-            case "vpcConfiguration":
-                return .vpcconfiguration(try reader["vpcConfiguration"].read(with: AmpClientTypes.VpcConfiguration.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension AmpClientTypes.VpcConfiguration {
-
-    static func write(value: AmpClientTypes.VpcConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["securityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["subnetIds"].writeList(value.subnetIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AmpClientTypes.VpcConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AmpClientTypes.VpcConfiguration()
-        value.securityGroupIds = try reader["securityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.subnetIds = try reader["subnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        var value = AmpClientTypes.RuleGroupsNamespaceStatus()
+        value.statusCode = try reader["statusCode"].readIfPresent() ?? .sdkUnknown("")
+        value.statusReason = try reader["statusReason"].readIfPresent()
         return value
     }
 }
 
-extension AmpClientTypes.EksConfiguration {
+extension AmpClientTypes.RuleGroupsNamespaceSummary {
 
-    static func write(value: AmpClientTypes.EksConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["clusterArn"].write(value.clusterArn)
-        try writer["securityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["subnetIds"].writeList(value.subnetIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AmpClientTypes.EksConfiguration {
+    static func read(from reader: SmithyJSON.Reader) throws -> AmpClientTypes.RuleGroupsNamespaceSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AmpClientTypes.EksConfiguration()
-        value.clusterArn = try reader["clusterArn"].readIfPresent() ?? ""
-        value.securityGroupIds = try reader["securityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.subnetIds = try reader["subnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        var value = AmpClientTypes.RuleGroupsNamespaceSummary()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent(with: AmpClientTypes.RuleGroupsNamespaceStatus.read(from:))
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.modifiedAt = try reader["modifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }
@@ -6097,6 +6088,45 @@ extension AmpClientTypes.ScrapeConfiguration {
             default:
                 return .sdkUnknown(name ?? "")
         }
+    }
+}
+
+extension AmpClientTypes.ScraperComponent {
+
+    static func write(value: AmpClientTypes.ScraperComponent?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["config"].write(value.config, with: AmpClientTypes.ComponentConfig.write(value:to:))
+        try writer["type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AmpClientTypes.ScraperComponent {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AmpClientTypes.ScraperComponent()
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.config = try reader["config"].readIfPresent(with: AmpClientTypes.ComponentConfig.read(from:))
+        return value
+    }
+}
+
+extension AmpClientTypes.ScraperDescription {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AmpClientTypes.ScraperDescription {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AmpClientTypes.ScraperDescription()
+        value.alias = try reader["alias"].readIfPresent()
+        value.scraperId = try reader["scraperId"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.roleArn = try reader["roleArn"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent(with: AmpClientTypes.ScraperStatus.read(from:))
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastModifiedAt = try reader["lastModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.statusReason = try reader["statusReason"].readIfPresent()
+        value.scrapeConfiguration = try reader["scrapeConfiguration"].readIfPresent(with: AmpClientTypes.ScrapeConfiguration.read(from:))
+        value.source = try reader["source"].readIfPresent(with: AmpClientTypes.Source.read(from:))
+        value.destination = try reader["destination"].readIfPresent(with: AmpClientTypes.Destination.read(from:))
+        value.roleConfiguration = try reader["roleConfiguration"].readIfPresent(with: AmpClientTypes.RoleConfiguration.read(from:))
+        return value
     }
 }
 
@@ -6135,137 +6165,12 @@ extension AmpClientTypes.ScraperLoggingDestination {
     }
 }
 
-extension AmpClientTypes.ScraperComponent {
+extension AmpClientTypes.ScraperStatus {
 
-    static func write(value: AmpClientTypes.ScraperComponent?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["config"].write(value.config, with: AmpClientTypes.ComponentConfig.write(value:to:))
-        try writer["type"].write(value.type)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AmpClientTypes.ScraperComponent {
+    static func read(from reader: SmithyJSON.Reader) throws -> AmpClientTypes.ScraperStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AmpClientTypes.ScraperComponent()
-        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
-        value.config = try reader["config"].readIfPresent(with: AmpClientTypes.ComponentConfig.read(from:))
-        return value
-    }
-}
-
-extension AmpClientTypes.ComponentConfig {
-
-    static func write(value: AmpClientTypes.ComponentConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["options"].writeMap(value.options, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AmpClientTypes.ComponentConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AmpClientTypes.ComponentConfig()
-        value.options = try reader["options"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
-}
-
-extension AmpClientTypes.WorkspaceDescription {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AmpClientTypes.WorkspaceDescription {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AmpClientTypes.WorkspaceDescription()
-        value.workspaceId = try reader["workspaceId"].readIfPresent() ?? ""
-        value.alias = try reader["alias"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent() ?? ""
-        value.status = try reader["status"].readIfPresent(with: AmpClientTypes.WorkspaceStatus.read(from:))
-        value.prometheusEndpoint = try reader["prometheusEndpoint"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.kmsKeyArn = try reader["kmsKeyArn"].readIfPresent()
-        return value
-    }
-}
-
-extension AmpClientTypes.WorkspaceConfigurationDescription {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AmpClientTypes.WorkspaceConfigurationDescription {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AmpClientTypes.WorkspaceConfigurationDescription()
-        value.status = try reader["status"].readIfPresent(with: AmpClientTypes.WorkspaceConfigurationStatus.read(from:))
-        value.limitsPerLabelSet = try reader["limitsPerLabelSet"].readListIfPresent(memberReadingClosure: AmpClientTypes.LimitsPerLabelSet.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.retentionPeriodInDays = try reader["retentionPeriodInDays"].readIfPresent()
-        return value
-    }
-}
-
-extension AmpClientTypes.LimitsPerLabelSet {
-
-    static func write(value: AmpClientTypes.LimitsPerLabelSet?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["labelSet"].writeMap(value.labelSet, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["limits"].write(value.limits, with: AmpClientTypes.LimitsPerLabelSetEntry.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AmpClientTypes.LimitsPerLabelSet {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AmpClientTypes.LimitsPerLabelSet()
-        value.limits = try reader["limits"].readIfPresent(with: AmpClientTypes.LimitsPerLabelSetEntry.read(from:))
-        value.labelSet = try reader["labelSet"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
-        return value
-    }
-}
-
-extension AmpClientTypes.LimitsPerLabelSetEntry {
-
-    static func write(value: AmpClientTypes.LimitsPerLabelSetEntry?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["maxSeries"].write(value.maxSeries)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AmpClientTypes.LimitsPerLabelSetEntry {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AmpClientTypes.LimitsPerLabelSetEntry()
-        value.maxSeries = try reader["maxSeries"].readIfPresent()
-        return value
-    }
-}
-
-extension AmpClientTypes.WorkspaceConfigurationStatus {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AmpClientTypes.WorkspaceConfigurationStatus {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AmpClientTypes.WorkspaceConfigurationStatus()
+        var value = AmpClientTypes.ScraperStatus()
         value.statusCode = try reader["statusCode"].readIfPresent() ?? .sdkUnknown("")
-        value.statusReason = try reader["statusReason"].readIfPresent()
-        return value
-    }
-}
-
-extension AmpClientTypes.AnomalyDetectorSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AmpClientTypes.AnomalyDetectorSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AmpClientTypes.AnomalyDetectorSummary()
-        value.arn = try reader["arn"].readIfPresent() ?? ""
-        value.anomalyDetectorId = try reader["anomalyDetectorId"].readIfPresent() ?? ""
-        value.alias = try reader["alias"].readIfPresent() ?? ""
-        value.status = try reader["status"].readIfPresent(with: AmpClientTypes.AnomalyDetectorStatus.read(from:))
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.modifiedAt = try reader["modifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
-}
-
-extension AmpClientTypes.RuleGroupsNamespaceSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AmpClientTypes.RuleGroupsNamespaceSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AmpClientTypes.RuleGroupsNamespaceSummary()
-        value.arn = try reader["arn"].readIfPresent() ?? ""
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.status = try reader["status"].readIfPresent(with: AmpClientTypes.RuleGroupsNamespaceStatus.read(from:))
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.modifiedAt = try reader["modifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }
@@ -6291,6 +6196,112 @@ extension AmpClientTypes.ScraperSummary {
     }
 }
 
+extension AmpClientTypes.Source {
+
+    static func write(value: AmpClientTypes.Source?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .eksconfiguration(eksconfiguration):
+                try writer["eksConfiguration"].write(eksconfiguration, with: AmpClientTypes.EksConfiguration.write(value:to:))
+            case let .vpcconfiguration(vpcconfiguration):
+                try writer["vpcConfiguration"].write(vpcconfiguration, with: AmpClientTypes.VpcConfiguration.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AmpClientTypes.Source {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "eksConfiguration":
+                return .eksconfiguration(try reader["eksConfiguration"].read(with: AmpClientTypes.EksConfiguration.read(from:)))
+            case "vpcConfiguration":
+                return .vpcconfiguration(try reader["vpcConfiguration"].read(with: AmpClientTypes.VpcConfiguration.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension AmpClientTypes.ValidationExceptionField {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AmpClientTypes.ValidationExceptionField {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AmpClientTypes.ValidationExceptionField()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.message = try reader["message"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension AmpClientTypes.VpcConfiguration {
+
+    static func write(value: AmpClientTypes.VpcConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["securityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["subnetIds"].writeList(value.subnetIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AmpClientTypes.VpcConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AmpClientTypes.VpcConfiguration()
+        value.securityGroupIds = try reader["securityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.subnetIds = try reader["subnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension AmpClientTypes.WorkspaceConfigurationDescription {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AmpClientTypes.WorkspaceConfigurationDescription {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AmpClientTypes.WorkspaceConfigurationDescription()
+        value.status = try reader["status"].readIfPresent(with: AmpClientTypes.WorkspaceConfigurationStatus.read(from:))
+        value.limitsPerLabelSet = try reader["limitsPerLabelSet"].readListIfPresent(memberReadingClosure: AmpClientTypes.LimitsPerLabelSet.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.retentionPeriodInDays = try reader["retentionPeriodInDays"].readIfPresent()
+        return value
+    }
+}
+
+extension AmpClientTypes.WorkspaceConfigurationStatus {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AmpClientTypes.WorkspaceConfigurationStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AmpClientTypes.WorkspaceConfigurationStatus()
+        value.statusCode = try reader["statusCode"].readIfPresent() ?? .sdkUnknown("")
+        value.statusReason = try reader["statusReason"].readIfPresent()
+        return value
+    }
+}
+
+extension AmpClientTypes.WorkspaceDescription {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AmpClientTypes.WorkspaceDescription {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AmpClientTypes.WorkspaceDescription()
+        value.workspaceId = try reader["workspaceId"].readIfPresent() ?? ""
+        value.alias = try reader["alias"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent(with: AmpClientTypes.WorkspaceStatus.read(from:))
+        value.prometheusEndpoint = try reader["prometheusEndpoint"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.kmsKeyArn = try reader["kmsKeyArn"].readIfPresent()
+        return value
+    }
+}
+
+extension AmpClientTypes.WorkspaceStatus {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> AmpClientTypes.WorkspaceStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = AmpClientTypes.WorkspaceStatus()
+        value.statusCode = try reader["statusCode"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
 extension AmpClientTypes.WorkspaceSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> AmpClientTypes.WorkspaceSummary {
@@ -6303,17 +6314,6 @@ extension AmpClientTypes.WorkspaceSummary {
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.kmsKeyArn = try reader["kmsKeyArn"].readIfPresent()
-        return value
-    }
-}
-
-extension AmpClientTypes.ValidationExceptionField {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> AmpClientTypes.ValidationExceptionField {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = AmpClientTypes.ValidationExceptionField()
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.message = try reader["message"].readIfPresent() ?? ""
         return value
     }
 }

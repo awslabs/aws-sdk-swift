@@ -3409,6 +3409,26 @@ extension ResourceNotFoundException {
     }
 }
 
+extension PCSClientTypes.Accounting {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PCSClientTypes.Accounting {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PCSClientTypes.Accounting()
+        value.defaultPurgeTimeInDays = try reader["defaultPurgeTimeInDays"].readIfPresent()
+        value.mode = try reader["mode"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension PCSClientTypes.AccountingRequest {
+
+    static func write(value: PCSClientTypes.AccountingRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["defaultPurgeTimeInDays"].write(value.defaultPurgeTimeInDays)
+        try writer["mode"].write(value.mode)
+    }
+}
+
 extension PCSClientTypes.Cluster {
 
     static func read(from reader: SmithyJSON.Reader) throws -> PCSClientTypes.Cluster {
@@ -3430,43 +3450,6 @@ extension PCSClientTypes.Cluster {
     }
 }
 
-extension PCSClientTypes.ErrorInfo {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PCSClientTypes.ErrorInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PCSClientTypes.ErrorInfo()
-        value.code = try reader["code"].readIfPresent()
-        value.message = try reader["message"].readIfPresent()
-        return value
-    }
-}
-
-extension PCSClientTypes.Endpoint {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PCSClientTypes.Endpoint {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PCSClientTypes.Endpoint()
-        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
-        value.privateIpAddress = try reader["privateIpAddress"].readIfPresent() ?? ""
-        value.publicIpAddress = try reader["publicIpAddress"].readIfPresent()
-        value.ipv6Address = try reader["ipv6Address"].readIfPresent()
-        value.port = try reader["port"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension PCSClientTypes.Networking {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PCSClientTypes.Networking {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PCSClientTypes.Networking()
-        value.subnetIds = try reader["subnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.securityGroupIds = try reader["securityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.networkType = try reader["networkType"].readIfPresent()
-        return value
-    }
-}
-
 extension PCSClientTypes.ClusterSlurmConfiguration {
 
     static func read(from reader: SmithyJSON.Reader) throws -> PCSClientTypes.ClusterSlurmConfiguration {
@@ -3482,83 +3465,28 @@ extension PCSClientTypes.ClusterSlurmConfiguration {
     }
 }
 
-extension PCSClientTypes.SlurmRest {
+extension PCSClientTypes.ClusterSlurmConfigurationRequest {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> PCSClientTypes.SlurmRest {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PCSClientTypes.SlurmRest()
-        value.mode = try reader["mode"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension PCSClientTypes.Accounting {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PCSClientTypes.Accounting {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PCSClientTypes.Accounting()
-        value.defaultPurgeTimeInDays = try reader["defaultPurgeTimeInDays"].readIfPresent()
-        value.mode = try reader["mode"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension PCSClientTypes.JwtAuth {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PCSClientTypes.JwtAuth {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PCSClientTypes.JwtAuth()
-        value.jwtKey = try reader["jwtKey"].readIfPresent(with: PCSClientTypes.JwtKey.read(from:))
-        return value
-    }
-}
-
-extension PCSClientTypes.JwtKey {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PCSClientTypes.JwtKey {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PCSClientTypes.JwtKey()
-        value.secretArn = try reader["secretArn"].readIfPresent() ?? ""
-        value.secretVersion = try reader["secretVersion"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension PCSClientTypes.SlurmAuthKey {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PCSClientTypes.SlurmAuthKey {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PCSClientTypes.SlurmAuthKey()
-        value.secretArn = try reader["secretArn"].readIfPresent() ?? ""
-        value.secretVersion = try reader["secretVersion"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension PCSClientTypes.SlurmCustomSetting {
-
-    static func write(value: PCSClientTypes.SlurmCustomSetting?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: PCSClientTypes.ClusterSlurmConfigurationRequest?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["parameterName"].write(value.parameterName)
-        try writer["parameterValue"].write(value.parameterValue)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PCSClientTypes.SlurmCustomSetting {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PCSClientTypes.SlurmCustomSetting()
-        value.parameterName = try reader["parameterName"].readIfPresent() ?? ""
-        value.parameterValue = try reader["parameterValue"].readIfPresent() ?? ""
-        return value
+        try writer["accounting"].write(value.accounting, with: PCSClientTypes.AccountingRequest.write(value:to:))
+        try writer["scaleDownIdleTimeInSeconds"].write(value.scaleDownIdleTimeInSeconds)
+        try writer["slurmCustomSettings"].writeList(value.slurmCustomSettings, memberWritingClosure: PCSClientTypes.SlurmCustomSetting.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["slurmRest"].write(value.slurmRest, with: PCSClientTypes.SlurmRestRequest.write(value:to:))
     }
 }
 
-extension PCSClientTypes.Scheduler {
+extension PCSClientTypes.ClusterSummary {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> PCSClientTypes.Scheduler {
+    static func read(from reader: SmithyJSON.Reader) throws -> PCSClientTypes.ClusterSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PCSClientTypes.Scheduler()
-        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
-        value.version = try reader["version"].readIfPresent() ?? ""
+        var value = PCSClientTypes.ClusterSummary()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.modifiedAt = try reader["modifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -3589,6 +3517,21 @@ extension PCSClientTypes.ComputeNodeGroup {
     }
 }
 
+extension PCSClientTypes.ComputeNodeGroupConfiguration {
+
+    static func write(value: PCSClientTypes.ComputeNodeGroupConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["computeNodeGroupId"].write(value.computeNodeGroupId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PCSClientTypes.ComputeNodeGroupConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PCSClientTypes.ComputeNodeGroupConfiguration()
+        value.computeNodeGroupId = try reader["computeNodeGroupId"].readIfPresent()
+        return value
+    }
+}
+
 extension PCSClientTypes.ComputeNodeGroupSlurmConfiguration {
 
     static func read(from reader: SmithyJSON.Reader) throws -> PCSClientTypes.ComputeNodeGroupSlurmConfiguration {
@@ -3599,17 +3542,68 @@ extension PCSClientTypes.ComputeNodeGroupSlurmConfiguration {
     }
 }
 
-extension PCSClientTypes.SpotOptions {
+extension PCSClientTypes.ComputeNodeGroupSlurmConfigurationRequest {
 
-    static func write(value: PCSClientTypes.SpotOptions?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: PCSClientTypes.ComputeNodeGroupSlurmConfigurationRequest?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["allocationStrategy"].write(value.allocationStrategy)
+        try writer["slurmCustomSettings"].writeList(value.slurmCustomSettings, memberWritingClosure: PCSClientTypes.SlurmCustomSetting.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension PCSClientTypes.ComputeNodeGroupSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PCSClientTypes.ComputeNodeGroupSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PCSClientTypes.ComputeNodeGroupSummary()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.clusterId = try reader["clusterId"].readIfPresent() ?? ""
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.modifiedAt = try reader["modifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension PCSClientTypes.CustomLaunchTemplate {
+
+    static func write(value: PCSClientTypes.CustomLaunchTemplate?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["id"].write(value.id)
+        try writer["version"].write(value.version)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> PCSClientTypes.SpotOptions {
+    static func read(from reader: SmithyJSON.Reader) throws -> PCSClientTypes.CustomLaunchTemplate {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PCSClientTypes.SpotOptions()
-        value.allocationStrategy = try reader["allocationStrategy"].readIfPresent()
+        var value = PCSClientTypes.CustomLaunchTemplate()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.version = try reader["version"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension PCSClientTypes.Endpoint {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PCSClientTypes.Endpoint {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PCSClientTypes.Endpoint()
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.privateIpAddress = try reader["privateIpAddress"].readIfPresent() ?? ""
+        value.publicIpAddress = try reader["publicIpAddress"].readIfPresent()
+        value.ipv6Address = try reader["ipv6Address"].readIfPresent()
+        value.port = try reader["port"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension PCSClientTypes.ErrorInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PCSClientTypes.ErrorInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PCSClientTypes.ErrorInfo()
+        value.code = try reader["code"].readIfPresent()
+        value.message = try reader["message"].readIfPresent()
         return value
     }
 }
@@ -3629,31 +3623,46 @@ extension PCSClientTypes.InstanceConfig {
     }
 }
 
-extension PCSClientTypes.ScalingConfiguration {
+extension PCSClientTypes.JwtAuth {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> PCSClientTypes.ScalingConfiguration {
+    static func read(from reader: SmithyJSON.Reader) throws -> PCSClientTypes.JwtAuth {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PCSClientTypes.ScalingConfiguration()
-        value.minInstanceCount = try reader["minInstanceCount"].readIfPresent() ?? 0
-        value.maxInstanceCount = try reader["maxInstanceCount"].readIfPresent() ?? 0
+        var value = PCSClientTypes.JwtAuth()
+        value.jwtKey = try reader["jwtKey"].readIfPresent(with: PCSClientTypes.JwtKey.read(from:))
         return value
     }
 }
 
-extension PCSClientTypes.CustomLaunchTemplate {
+extension PCSClientTypes.JwtKey {
 
-    static func write(value: PCSClientTypes.CustomLaunchTemplate?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["id"].write(value.id)
-        try writer["version"].write(value.version)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PCSClientTypes.CustomLaunchTemplate {
+    static func read(from reader: SmithyJSON.Reader) throws -> PCSClientTypes.JwtKey {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PCSClientTypes.CustomLaunchTemplate()
-        value.id = try reader["id"].readIfPresent() ?? ""
-        value.version = try reader["version"].readIfPresent() ?? ""
+        var value = PCSClientTypes.JwtKey()
+        value.secretArn = try reader["secretArn"].readIfPresent() ?? ""
+        value.secretVersion = try reader["secretVersion"].readIfPresent() ?? ""
         return value
+    }
+}
+
+extension PCSClientTypes.Networking {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PCSClientTypes.Networking {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PCSClientTypes.Networking()
+        value.subnetIds = try reader["subnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.securityGroupIds = try reader["securityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.networkType = try reader["networkType"].readIfPresent()
+        return value
+    }
+}
+
+extension PCSClientTypes.NetworkingRequest {
+
+    static func write(value: PCSClientTypes.NetworkingRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["networkType"].write(value.networkType)
+        try writer["securityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["subnetIds"].writeList(value.subnetIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -3686,49 +3695,11 @@ extension PCSClientTypes.QueueSlurmConfiguration {
     }
 }
 
-extension PCSClientTypes.ComputeNodeGroupConfiguration {
+extension PCSClientTypes.QueueSlurmConfigurationRequest {
 
-    static func write(value: PCSClientTypes.ComputeNodeGroupConfiguration?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: PCSClientTypes.QueueSlurmConfigurationRequest?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["computeNodeGroupId"].write(value.computeNodeGroupId)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PCSClientTypes.ComputeNodeGroupConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PCSClientTypes.ComputeNodeGroupConfiguration()
-        value.computeNodeGroupId = try reader["computeNodeGroupId"].readIfPresent()
-        return value
-    }
-}
-
-extension PCSClientTypes.ClusterSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PCSClientTypes.ClusterSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PCSClientTypes.ClusterSummary()
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.id = try reader["id"].readIfPresent() ?? ""
-        value.arn = try reader["arn"].readIfPresent() ?? ""
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.modifiedAt = try reader["modifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension PCSClientTypes.ComputeNodeGroupSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PCSClientTypes.ComputeNodeGroupSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PCSClientTypes.ComputeNodeGroupSummary()
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.id = try reader["id"].readIfPresent() ?? ""
-        value.arn = try reader["arn"].readIfPresent() ?? ""
-        value.clusterId = try reader["clusterId"].readIfPresent() ?? ""
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.modifiedAt = try reader["modifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
-        return value
+        try writer["slurmCustomSettings"].writeList(value.slurmCustomSettings, memberWritingClosure: PCSClientTypes.SlurmCustomSetting.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -3748,13 +3719,33 @@ extension PCSClientTypes.QueueSummary {
     }
 }
 
-extension PCSClientTypes.ValidationExceptionField {
+extension PCSClientTypes.ScalingConfiguration {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> PCSClientTypes.ValidationExceptionField {
+    static func read(from reader: SmithyJSON.Reader) throws -> PCSClientTypes.ScalingConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PCSClientTypes.ValidationExceptionField()
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.message = try reader["message"].readIfPresent() ?? ""
+        var value = PCSClientTypes.ScalingConfiguration()
+        value.minInstanceCount = try reader["minInstanceCount"].readIfPresent() ?? 0
+        value.maxInstanceCount = try reader["maxInstanceCount"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension PCSClientTypes.ScalingConfigurationRequest {
+
+    static func write(value: PCSClientTypes.ScalingConfigurationRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["maxInstanceCount"].write(value.maxInstanceCount)
+        try writer["minInstanceCount"].write(value.minInstanceCount)
+    }
+}
+
+extension PCSClientTypes.Scheduler {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PCSClientTypes.Scheduler {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PCSClientTypes.Scheduler()
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.version = try reader["version"].readIfPresent() ?? ""
         return value
     }
 }
@@ -3768,24 +3759,41 @@ extension PCSClientTypes.SchedulerRequest {
     }
 }
 
-extension PCSClientTypes.NetworkingRequest {
+extension PCSClientTypes.SlurmAuthKey {
 
-    static func write(value: PCSClientTypes.NetworkingRequest?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["networkType"].write(value.networkType)
-        try writer["securityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["subnetIds"].writeList(value.subnetIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    static func read(from reader: SmithyJSON.Reader) throws -> PCSClientTypes.SlurmAuthKey {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PCSClientTypes.SlurmAuthKey()
+        value.secretArn = try reader["secretArn"].readIfPresent() ?? ""
+        value.secretVersion = try reader["secretVersion"].readIfPresent() ?? ""
+        return value
     }
 }
 
-extension PCSClientTypes.ClusterSlurmConfigurationRequest {
+extension PCSClientTypes.SlurmCustomSetting {
 
-    static func write(value: PCSClientTypes.ClusterSlurmConfigurationRequest?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: PCSClientTypes.SlurmCustomSetting?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["accounting"].write(value.accounting, with: PCSClientTypes.AccountingRequest.write(value:to:))
-        try writer["scaleDownIdleTimeInSeconds"].write(value.scaleDownIdleTimeInSeconds)
-        try writer["slurmCustomSettings"].writeList(value.slurmCustomSettings, memberWritingClosure: PCSClientTypes.SlurmCustomSetting.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["slurmRest"].write(value.slurmRest, with: PCSClientTypes.SlurmRestRequest.write(value:to:))
+        try writer["parameterName"].write(value.parameterName)
+        try writer["parameterValue"].write(value.parameterValue)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PCSClientTypes.SlurmCustomSetting {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PCSClientTypes.SlurmCustomSetting()
+        value.parameterName = try reader["parameterName"].readIfPresent() ?? ""
+        value.parameterValue = try reader["parameterValue"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension PCSClientTypes.SlurmRest {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PCSClientTypes.SlurmRest {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PCSClientTypes.SlurmRest()
+        value.mode = try reader["mode"].readIfPresent() ?? .sdkUnknown("")
+        return value
     }
 }
 
@@ -3797,37 +3805,27 @@ extension PCSClientTypes.SlurmRestRequest {
     }
 }
 
-extension PCSClientTypes.AccountingRequest {
+extension PCSClientTypes.SpotOptions {
 
-    static func write(value: PCSClientTypes.AccountingRequest?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: PCSClientTypes.SpotOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["allocationStrategy"].write(value.allocationStrategy)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PCSClientTypes.SpotOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PCSClientTypes.SpotOptions()
+        value.allocationStrategy = try reader["allocationStrategy"].readIfPresent()
+        return value
+    }
+}
+
+extension PCSClientTypes.UpdateAccountingRequest {
+
+    static func write(value: PCSClientTypes.UpdateAccountingRequest?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["defaultPurgeTimeInDays"].write(value.defaultPurgeTimeInDays)
         try writer["mode"].write(value.mode)
-    }
-}
-
-extension PCSClientTypes.ScalingConfigurationRequest {
-
-    static func write(value: PCSClientTypes.ScalingConfigurationRequest?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["maxInstanceCount"].write(value.maxInstanceCount)
-        try writer["minInstanceCount"].write(value.minInstanceCount)
-    }
-}
-
-extension PCSClientTypes.ComputeNodeGroupSlurmConfigurationRequest {
-
-    static func write(value: PCSClientTypes.ComputeNodeGroupSlurmConfigurationRequest?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["slurmCustomSettings"].writeList(value.slurmCustomSettings, memberWritingClosure: PCSClientTypes.SlurmCustomSetting.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension PCSClientTypes.QueueSlurmConfigurationRequest {
-
-    static func write(value: PCSClientTypes.QueueSlurmConfigurationRequest?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["slurmCustomSettings"].writeList(value.slurmCustomSettings, memberWritingClosure: PCSClientTypes.SlurmCustomSetting.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -3839,23 +3837,6 @@ extension PCSClientTypes.UpdateClusterSlurmConfigurationRequest {
         try writer["scaleDownIdleTimeInSeconds"].write(value.scaleDownIdleTimeInSeconds)
         try writer["slurmCustomSettings"].writeList(value.slurmCustomSettings, memberWritingClosure: PCSClientTypes.SlurmCustomSetting.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["slurmRest"].write(value.slurmRest, with: PCSClientTypes.UpdateSlurmRestRequest.write(value:to:))
-    }
-}
-
-extension PCSClientTypes.UpdateSlurmRestRequest {
-
-    static func write(value: PCSClientTypes.UpdateSlurmRestRequest?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["mode"].write(value.mode)
-    }
-}
-
-extension PCSClientTypes.UpdateAccountingRequest {
-
-    static func write(value: PCSClientTypes.UpdateAccountingRequest?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["defaultPurgeTimeInDays"].write(value.defaultPurgeTimeInDays)
-        try writer["mode"].write(value.mode)
     }
 }
 
@@ -3872,6 +3853,25 @@ extension PCSClientTypes.UpdateQueueSlurmConfigurationRequest {
     static func write(value: PCSClientTypes.UpdateQueueSlurmConfigurationRequest?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["slurmCustomSettings"].writeList(value.slurmCustomSettings, memberWritingClosure: PCSClientTypes.SlurmCustomSetting.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension PCSClientTypes.UpdateSlurmRestRequest {
+
+    static func write(value: PCSClientTypes.UpdateSlurmRestRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["mode"].write(value.mode)
+    }
+}
+
+extension PCSClientTypes.ValidationExceptionField {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PCSClientTypes.ValidationExceptionField {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PCSClientTypes.ValidationExceptionField()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.message = try reader["message"].readIfPresent() ?? ""
+        return value
     }
 }
 

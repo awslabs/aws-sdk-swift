@@ -2192,6 +2192,51 @@ extension ValidationException {
     }
 }
 
+extension ManagedBlockchainQueryClientTypes.AddressIdentifierFilter {
+
+    static func write(value: ManagedBlockchainQueryClientTypes.AddressIdentifierFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["transactionEventToAddress"].writeList(value.transactionEventToAddress, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension ManagedBlockchainQueryClientTypes.AssetContract {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ManagedBlockchainQueryClientTypes.AssetContract {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ManagedBlockchainQueryClientTypes.AssetContract()
+        value.contractIdentifier = try reader["contractIdentifier"].readIfPresent(with: ManagedBlockchainQueryClientTypes.ContractIdentifier.read(from:))
+        value.tokenStandard = try reader["tokenStandard"].readIfPresent() ?? .sdkUnknown("")
+        value.deployerAddress = try reader["deployerAddress"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension ManagedBlockchainQueryClientTypes.BatchGetTokenBalanceErrorItem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ManagedBlockchainQueryClientTypes.BatchGetTokenBalanceErrorItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ManagedBlockchainQueryClientTypes.BatchGetTokenBalanceErrorItem()
+        value.tokenIdentifier = try reader["tokenIdentifier"].readIfPresent(with: ManagedBlockchainQueryClientTypes.TokenIdentifier.read(from:))
+        value.ownerIdentifier = try reader["ownerIdentifier"].readIfPresent(with: ManagedBlockchainQueryClientTypes.OwnerIdentifier.read(from:))
+        value.atBlockchainInstant = try reader["atBlockchainInstant"].readIfPresent(with: ManagedBlockchainQueryClientTypes.BlockchainInstant.read(from:))
+        value.errorCode = try reader["errorCode"].readIfPresent() ?? ""
+        value.errorMessage = try reader["errorMessage"].readIfPresent() ?? ""
+        value.errorType = try reader["errorType"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension ManagedBlockchainQueryClientTypes.BatchGetTokenBalanceInputItem {
+
+    static func write(value: ManagedBlockchainQueryClientTypes.BatchGetTokenBalanceInputItem?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["atBlockchainInstant"].write(value.atBlockchainInstant, with: ManagedBlockchainQueryClientTypes.BlockchainInstant.write(value:to:))
+        try writer["ownerIdentifier"].write(value.ownerIdentifier, with: ManagedBlockchainQueryClientTypes.OwnerIdentifier.write(value:to:))
+        try writer["tokenIdentifier"].write(value.tokenIdentifier, with: ManagedBlockchainQueryClientTypes.TokenIdentifier.write(value:to:))
+    }
+}
+
 extension ManagedBlockchainQueryClientTypes.BatchGetTokenBalanceOutputItem {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ManagedBlockchainQueryClientTypes.BatchGetTokenBalanceOutputItem {
@@ -2221,52 +2266,21 @@ extension ManagedBlockchainQueryClientTypes.BlockchainInstant {
     }
 }
 
-extension ManagedBlockchainQueryClientTypes.TokenIdentifier {
+extension ManagedBlockchainQueryClientTypes.ConfirmationStatusFilter {
 
-    static func write(value: ManagedBlockchainQueryClientTypes.TokenIdentifier?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: ManagedBlockchainQueryClientTypes.ConfirmationStatusFilter?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["contractAddress"].write(value.contractAddress)
+        try writer["include"].writeList(value.include, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ManagedBlockchainQueryClientTypes.ConfirmationStatus>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension ManagedBlockchainQueryClientTypes.ContractFilter {
+
+    static func write(value: ManagedBlockchainQueryClientTypes.ContractFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["deployerAddress"].write(value.deployerAddress)
         try writer["network"].write(value.network)
-        try writer["tokenId"].write(value.tokenId)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ManagedBlockchainQueryClientTypes.TokenIdentifier {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ManagedBlockchainQueryClientTypes.TokenIdentifier()
-        value.network = try reader["network"].readIfPresent() ?? .sdkUnknown("")
-        value.contractAddress = try reader["contractAddress"].readIfPresent()
-        value.tokenId = try reader["tokenId"].readIfPresent()
-        return value
-    }
-}
-
-extension ManagedBlockchainQueryClientTypes.OwnerIdentifier {
-
-    static func write(value: ManagedBlockchainQueryClientTypes.OwnerIdentifier?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["address"].write(value.address)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ManagedBlockchainQueryClientTypes.OwnerIdentifier {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ManagedBlockchainQueryClientTypes.OwnerIdentifier()
-        value.address = try reader["address"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension ManagedBlockchainQueryClientTypes.BatchGetTokenBalanceErrorItem {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ManagedBlockchainQueryClientTypes.BatchGetTokenBalanceErrorItem {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ManagedBlockchainQueryClientTypes.BatchGetTokenBalanceErrorItem()
-        value.tokenIdentifier = try reader["tokenIdentifier"].readIfPresent(with: ManagedBlockchainQueryClientTypes.TokenIdentifier.read(from:))
-        value.ownerIdentifier = try reader["ownerIdentifier"].readIfPresent(with: ManagedBlockchainQueryClientTypes.OwnerIdentifier.read(from:))
-        value.atBlockchainInstant = try reader["atBlockchainInstant"].readIfPresent(with: ManagedBlockchainQueryClientTypes.BlockchainInstant.read(from:))
-        value.errorCode = try reader["errorCode"].readIfPresent() ?? ""
-        value.errorMessage = try reader["errorMessage"].readIfPresent() ?? ""
-        value.errorType = try reader["errorType"].readIfPresent() ?? .sdkUnknown("")
-        return value
+        try writer["tokenStandard"].write(value.tokenStandard)
     }
 }
 
@@ -2295,6 +2309,99 @@ extension ManagedBlockchainQueryClientTypes.ContractMetadata {
         value.name = try reader["name"].readIfPresent()
         value.symbol = try reader["symbol"].readIfPresent()
         value.decimals = try reader["decimals"].readIfPresent()
+        return value
+    }
+}
+
+extension ManagedBlockchainQueryClientTypes.ListFilteredTransactionEventsSort {
+
+    static func write(value: ManagedBlockchainQueryClientTypes.ListFilteredTransactionEventsSort?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["sortBy"].write(value.sortBy)
+        try writer["sortOrder"].write(value.sortOrder)
+    }
+}
+
+extension ManagedBlockchainQueryClientTypes.ListTransactionsSort {
+
+    static func write(value: ManagedBlockchainQueryClientTypes.ListTransactionsSort?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["sortBy"].write(value.sortBy)
+        try writer["sortOrder"].write(value.sortOrder)
+    }
+}
+
+extension ManagedBlockchainQueryClientTypes.OwnerFilter {
+
+    static func write(value: ManagedBlockchainQueryClientTypes.OwnerFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["address"].write(value.address)
+    }
+}
+
+extension ManagedBlockchainQueryClientTypes.OwnerIdentifier {
+
+    static func write(value: ManagedBlockchainQueryClientTypes.OwnerIdentifier?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["address"].write(value.address)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ManagedBlockchainQueryClientTypes.OwnerIdentifier {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ManagedBlockchainQueryClientTypes.OwnerIdentifier()
+        value.address = try reader["address"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension ManagedBlockchainQueryClientTypes.TimeFilter {
+
+    static func write(value: ManagedBlockchainQueryClientTypes.TimeFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["from"].write(value.from, with: ManagedBlockchainQueryClientTypes.BlockchainInstant.write(value:to:))
+        try writer["to"].write(value.to, with: ManagedBlockchainQueryClientTypes.BlockchainInstant.write(value:to:))
+    }
+}
+
+extension ManagedBlockchainQueryClientTypes.TokenBalance {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ManagedBlockchainQueryClientTypes.TokenBalance {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ManagedBlockchainQueryClientTypes.TokenBalance()
+        value.ownerIdentifier = try reader["ownerIdentifier"].readIfPresent(with: ManagedBlockchainQueryClientTypes.OwnerIdentifier.read(from:))
+        value.tokenIdentifier = try reader["tokenIdentifier"].readIfPresent(with: ManagedBlockchainQueryClientTypes.TokenIdentifier.read(from:))
+        value.balance = try reader["balance"].readIfPresent() ?? ""
+        value.atBlockchainInstant = try reader["atBlockchainInstant"].readIfPresent(with: ManagedBlockchainQueryClientTypes.BlockchainInstant.read(from:))
+        value.lastUpdatedTime = try reader["lastUpdatedTime"].readIfPresent(with: ManagedBlockchainQueryClientTypes.BlockchainInstant.read(from:))
+        return value
+    }
+}
+
+extension ManagedBlockchainQueryClientTypes.TokenFilter {
+
+    static func write(value: ManagedBlockchainQueryClientTypes.TokenFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["contractAddress"].write(value.contractAddress)
+        try writer["network"].write(value.network)
+        try writer["tokenId"].write(value.tokenId)
+    }
+}
+
+extension ManagedBlockchainQueryClientTypes.TokenIdentifier {
+
+    static func write(value: ManagedBlockchainQueryClientTypes.TokenIdentifier?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["contractAddress"].write(value.contractAddress)
+        try writer["network"].write(value.network)
+        try writer["tokenId"].write(value.tokenId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ManagedBlockchainQueryClientTypes.TokenIdentifier {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ManagedBlockchainQueryClientTypes.TokenIdentifier()
+        value.network = try reader["network"].readIfPresent() ?? .sdkUnknown("")
+        value.contractAddress = try reader["contractAddress"].readIfPresent()
+        value.tokenId = try reader["tokenId"].readIfPresent()
         return value
     }
 }
@@ -2328,18 +2435,6 @@ extension ManagedBlockchainQueryClientTypes.Transaction {
     }
 }
 
-extension ManagedBlockchainQueryClientTypes.AssetContract {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ManagedBlockchainQueryClientTypes.AssetContract {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ManagedBlockchainQueryClientTypes.AssetContract()
-        value.contractIdentifier = try reader["contractIdentifier"].readIfPresent(with: ManagedBlockchainQueryClientTypes.ContractIdentifier.read(from:))
-        value.tokenStandard = try reader["tokenStandard"].readIfPresent() ?? .sdkUnknown("")
-        value.deployerAddress = try reader["deployerAddress"].readIfPresent() ?? ""
-        return value
-    }
-}
-
 extension ManagedBlockchainQueryClientTypes.TransactionEvent {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ManagedBlockchainQueryClientTypes.TransactionEvent {
@@ -2361,20 +2456,6 @@ extension ManagedBlockchainQueryClientTypes.TransactionEvent {
         value.spentVoutIndex = try reader["spentVoutIndex"].readIfPresent()
         value.blockchainInstant = try reader["blockchainInstant"].readIfPresent(with: ManagedBlockchainQueryClientTypes.BlockchainInstant.read(from:))
         value.confirmationStatus = try reader["confirmationStatus"].readIfPresent()
-        return value
-    }
-}
-
-extension ManagedBlockchainQueryClientTypes.TokenBalance {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ManagedBlockchainQueryClientTypes.TokenBalance {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ManagedBlockchainQueryClientTypes.TokenBalance()
-        value.ownerIdentifier = try reader["ownerIdentifier"].readIfPresent(with: ManagedBlockchainQueryClientTypes.OwnerIdentifier.read(from:))
-        value.tokenIdentifier = try reader["tokenIdentifier"].readIfPresent(with: ManagedBlockchainQueryClientTypes.TokenIdentifier.read(from:))
-        value.balance = try reader["balance"].readIfPresent() ?? ""
-        value.atBlockchainInstant = try reader["atBlockchainInstant"].readIfPresent(with: ManagedBlockchainQueryClientTypes.BlockchainInstant.read(from:))
-        value.lastUpdatedTime = try reader["lastUpdatedTime"].readIfPresent(with: ManagedBlockchainQueryClientTypes.BlockchainInstant.read(from:))
         return value
     }
 }
@@ -2404,92 +2485,11 @@ extension ManagedBlockchainQueryClientTypes.ValidationExceptionField {
     }
 }
 
-extension ManagedBlockchainQueryClientTypes.BatchGetTokenBalanceInputItem {
-
-    static func write(value: ManagedBlockchainQueryClientTypes.BatchGetTokenBalanceInputItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["atBlockchainInstant"].write(value.atBlockchainInstant, with: ManagedBlockchainQueryClientTypes.BlockchainInstant.write(value:to:))
-        try writer["ownerIdentifier"].write(value.ownerIdentifier, with: ManagedBlockchainQueryClientTypes.OwnerIdentifier.write(value:to:))
-        try writer["tokenIdentifier"].write(value.tokenIdentifier, with: ManagedBlockchainQueryClientTypes.TokenIdentifier.write(value:to:))
-    }
-}
-
-extension ManagedBlockchainQueryClientTypes.ContractFilter {
-
-    static func write(value: ManagedBlockchainQueryClientTypes.ContractFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["deployerAddress"].write(value.deployerAddress)
-        try writer["network"].write(value.network)
-        try writer["tokenStandard"].write(value.tokenStandard)
-    }
-}
-
-extension ManagedBlockchainQueryClientTypes.AddressIdentifierFilter {
-
-    static func write(value: ManagedBlockchainQueryClientTypes.AddressIdentifierFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["transactionEventToAddress"].writeList(value.transactionEventToAddress, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension ManagedBlockchainQueryClientTypes.TimeFilter {
-
-    static func write(value: ManagedBlockchainQueryClientTypes.TimeFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["from"].write(value.from, with: ManagedBlockchainQueryClientTypes.BlockchainInstant.write(value:to:))
-        try writer["to"].write(value.to, with: ManagedBlockchainQueryClientTypes.BlockchainInstant.write(value:to:))
-    }
-}
-
 extension ManagedBlockchainQueryClientTypes.VoutFilter {
 
     static func write(value: ManagedBlockchainQueryClientTypes.VoutFilter?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["voutSpent"].write(value.voutSpent)
-    }
-}
-
-extension ManagedBlockchainQueryClientTypes.ConfirmationStatusFilter {
-
-    static func write(value: ManagedBlockchainQueryClientTypes.ConfirmationStatusFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["include"].writeList(value.include, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ManagedBlockchainQueryClientTypes.ConfirmationStatus>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension ManagedBlockchainQueryClientTypes.ListFilteredTransactionEventsSort {
-
-    static func write(value: ManagedBlockchainQueryClientTypes.ListFilteredTransactionEventsSort?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["sortBy"].write(value.sortBy)
-        try writer["sortOrder"].write(value.sortOrder)
-    }
-}
-
-extension ManagedBlockchainQueryClientTypes.OwnerFilter {
-
-    static func write(value: ManagedBlockchainQueryClientTypes.OwnerFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["address"].write(value.address)
-    }
-}
-
-extension ManagedBlockchainQueryClientTypes.TokenFilter {
-
-    static func write(value: ManagedBlockchainQueryClientTypes.TokenFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["contractAddress"].write(value.contractAddress)
-        try writer["network"].write(value.network)
-        try writer["tokenId"].write(value.tokenId)
-    }
-}
-
-extension ManagedBlockchainQueryClientTypes.ListTransactionsSort {
-
-    static func write(value: ManagedBlockchainQueryClientTypes.ListTransactionsSort?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["sortBy"].write(value.sortBy)
-        try writer["sortOrder"].write(value.sortOrder)
     }
 }
 

@@ -44318,47 +44318,480 @@ extension VersionMismatchException {
     }
 }
 
-extension GlueClientTypes.PartitionError {
+extension GlueClientTypes.Action {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.PartitionError {
+    static func write(value: GlueClientTypes.Action?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Arguments"].writeMap(value.arguments, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["CrawlerName"].write(value.crawlerName)
+        try writer["JobName"].write(value.jobName)
+        try writer["NotificationProperty"].write(value.notificationProperty, with: GlueClientTypes.NotificationProperty.write(value:to:))
+        try writer["SecurityConfiguration"].write(value.securityConfiguration)
+        try writer["Timeout"].write(value.timeout)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.Action {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.PartitionError()
-        value.partitionValues = try reader["PartitionValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = GlueClientTypes.Action()
+        value.jobName = try reader["JobName"].readIfPresent()
+        value.arguments = try reader["Arguments"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.timeout = try reader["Timeout"].readIfPresent()
+        value.securityConfiguration = try reader["SecurityConfiguration"].readIfPresent()
+        value.notificationProperty = try reader["NotificationProperty"].readIfPresent(with: GlueClientTypes.NotificationProperty.read(from:))
+        value.crawlerName = try reader["CrawlerName"].readIfPresent()
+        return value
+    }
+}
+
+extension GlueClientTypes.Aggregate {
+
+    static func write(value: GlueClientTypes.Aggregate?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Aggs"].writeList(value.aggs, memberWritingClosure: GlueClientTypes.AggregateOperation.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Groups"].writeList(value.groups, memberWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
+        try writer["Inputs"].writeList(value.inputs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Name"].write(value.name)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.Aggregate {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.Aggregate()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.inputs = try reader["Inputs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.groups = try reader["Groups"].readListIfPresent(memberReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.aggs = try reader["Aggs"].readListIfPresent(memberReadingClosure: GlueClientTypes.AggregateOperation.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension GlueClientTypes.AggregateOperation {
+
+    static func write(value: GlueClientTypes.AggregateOperation?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AggFunc"].write(value.aggFunc)
+        try writer["Column"].writeList(value.column, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.AggregateOperation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.AggregateOperation()
+        value.column = try reader["Column"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.aggFunc = try reader["AggFunc"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension GlueClientTypes.AllowedValue {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.AllowedValue {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.AllowedValue()
+        value.description = try reader["Description"].readIfPresent()
+        value.value = try reader["Value"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension GlueClientTypes.AmazonRedshiftAdvancedOption {
+
+    static func write(value: GlueClientTypes.AmazonRedshiftAdvancedOption?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Key"].write(value.key)
+        try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.AmazonRedshiftAdvancedOption {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.AmazonRedshiftAdvancedOption()
+        value.key = try reader["Key"].readIfPresent()
+        value.value = try reader["Value"].readIfPresent()
+        return value
+    }
+}
+
+extension GlueClientTypes.AmazonRedshiftNodeData {
+
+    static func write(value: GlueClientTypes.AmazonRedshiftNodeData?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AccessType"].write(value.accessType)
+        try writer["Action"].write(value.action)
+        try writer["AdvancedOptions"].writeList(value.advancedOptions, memberWritingClosure: GlueClientTypes.AmazonRedshiftAdvancedOption.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["CatalogDatabase"].write(value.catalogDatabase, with: GlueClientTypes.Option.write(value:to:))
+        try writer["CatalogRedshiftSchema"].write(value.catalogRedshiftSchema)
+        try writer["CatalogRedshiftTable"].write(value.catalogRedshiftTable)
+        try writer["CatalogTable"].write(value.catalogTable, with: GlueClientTypes.Option.write(value:to:))
+        try writer["Connection"].write(value.connection, with: GlueClientTypes.Option.write(value:to:))
+        try writer["CrawlerConnection"].write(value.crawlerConnection)
+        try writer["IamRole"].write(value.iamRole, with: GlueClientTypes.Option.write(value:to:))
+        try writer["MergeAction"].write(value.mergeAction)
+        try writer["MergeClause"].write(value.mergeClause)
+        try writer["MergeWhenMatched"].write(value.mergeWhenMatched)
+        try writer["MergeWhenNotMatched"].write(value.mergeWhenNotMatched)
+        try writer["PostAction"].write(value.postAction)
+        try writer["PreAction"].write(value.preAction)
+        try writer["SampleQuery"].write(value.sampleQuery)
+        try writer["Schema"].write(value.schema, with: GlueClientTypes.Option.write(value:to:))
+        try writer["SelectedColumns"].writeList(value.selectedColumns, memberWritingClosure: GlueClientTypes.Option.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["SourceType"].write(value.sourceType)
+        try writer["StagingTable"].write(value.stagingTable)
+        try writer["Table"].write(value.table, with: GlueClientTypes.Option.write(value:to:))
+        try writer["TablePrefix"].write(value.tablePrefix)
+        try writer["TableSchema"].writeList(value.tableSchema, memberWritingClosure: GlueClientTypes.Option.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["TempDir"].write(value.tempDir)
+        try writer["Upsert"].write(value.upsert)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.AmazonRedshiftNodeData {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.AmazonRedshiftNodeData()
+        value.accessType = try reader["AccessType"].readIfPresent()
+        value.sourceType = try reader["SourceType"].readIfPresent()
+        value.connection = try reader["Connection"].readIfPresent(with: GlueClientTypes.Option.read(from:))
+        value.schema = try reader["Schema"].readIfPresent(with: GlueClientTypes.Option.read(from:))
+        value.table = try reader["Table"].readIfPresent(with: GlueClientTypes.Option.read(from:))
+        value.catalogDatabase = try reader["CatalogDatabase"].readIfPresent(with: GlueClientTypes.Option.read(from:))
+        value.catalogTable = try reader["CatalogTable"].readIfPresent(with: GlueClientTypes.Option.read(from:))
+        value.catalogRedshiftSchema = try reader["CatalogRedshiftSchema"].readIfPresent()
+        value.catalogRedshiftTable = try reader["CatalogRedshiftTable"].readIfPresent()
+        value.tempDir = try reader["TempDir"].readIfPresent()
+        value.iamRole = try reader["IamRole"].readIfPresent(with: GlueClientTypes.Option.read(from:))
+        value.advancedOptions = try reader["AdvancedOptions"].readListIfPresent(memberReadingClosure: GlueClientTypes.AmazonRedshiftAdvancedOption.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.sampleQuery = try reader["SampleQuery"].readIfPresent()
+        value.preAction = try reader["PreAction"].readIfPresent()
+        value.postAction = try reader["PostAction"].readIfPresent()
+        value.action = try reader["Action"].readIfPresent()
+        value.tablePrefix = try reader["TablePrefix"].readIfPresent()
+        value.upsert = try reader["Upsert"].readIfPresent() ?? false
+        value.mergeAction = try reader["MergeAction"].readIfPresent()
+        value.mergeWhenMatched = try reader["MergeWhenMatched"].readIfPresent()
+        value.mergeWhenNotMatched = try reader["MergeWhenNotMatched"].readIfPresent()
+        value.mergeClause = try reader["MergeClause"].readIfPresent()
+        value.crawlerConnection = try reader["CrawlerConnection"].readIfPresent()
+        value.tableSchema = try reader["TableSchema"].readListIfPresent(memberReadingClosure: GlueClientTypes.Option.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.stagingTable = try reader["StagingTable"].readIfPresent()
+        value.selectedColumns = try reader["SelectedColumns"].readListIfPresent(memberReadingClosure: GlueClientTypes.Option.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension GlueClientTypes.AmazonRedshiftSource {
+
+    static func write(value: GlueClientTypes.AmazonRedshiftSource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Data"].write(value.data, with: GlueClientTypes.AmazonRedshiftNodeData.write(value:to:))
+        try writer["Name"].write(value.name)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.AmazonRedshiftSource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.AmazonRedshiftSource()
+        value.name = try reader["Name"].readIfPresent()
+        value.data = try reader["Data"].readIfPresent(with: GlueClientTypes.AmazonRedshiftNodeData.read(from:))
+        return value
+    }
+}
+
+extension GlueClientTypes.AmazonRedshiftTarget {
+
+    static func write(value: GlueClientTypes.AmazonRedshiftTarget?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Data"].write(value.data, with: GlueClientTypes.AmazonRedshiftNodeData.write(value:to:))
+        try writer["Inputs"].writeList(value.inputs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Name"].write(value.name)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.AmazonRedshiftTarget {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.AmazonRedshiftTarget()
+        value.name = try reader["Name"].readIfPresent()
+        value.data = try reader["Data"].readIfPresent(with: GlueClientTypes.AmazonRedshiftNodeData.read(from:))
+        value.inputs = try reader["Inputs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension GlueClientTypes.AnnotationError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.AnnotationError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.AnnotationError()
+        value.profileId = try reader["ProfileId"].readIfPresent()
+        value.statisticId = try reader["StatisticId"].readIfPresent()
+        value.failureReason = try reader["FailureReason"].readIfPresent()
+        return value
+    }
+}
+
+extension GlueClientTypes.ApplyMapping {
+
+    static func write(value: GlueClientTypes.ApplyMapping?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Inputs"].writeList(value.inputs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Mapping"].writeList(value.mapping, memberWritingClosure: GlueClientTypes.Mapping.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Name"].write(value.name)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.ApplyMapping {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.ApplyMapping()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.inputs = try reader["Inputs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.mapping = try reader["Mapping"].readListIfPresent(memberReadingClosure: GlueClientTypes.Mapping.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension GlueClientTypes.AthenaConnectorSource {
+
+    static func write(value: GlueClientTypes.AthenaConnectorSource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ConnectionName"].write(value.connectionName)
+        try writer["ConnectionTable"].write(value.connectionTable)
+        try writer["ConnectionType"].write(value.connectionType)
+        try writer["ConnectorName"].write(value.connectorName)
+        try writer["Name"].write(value.name)
+        try writer["OutputSchemas"].writeList(value.outputSchemas, memberWritingClosure: GlueClientTypes.GlueSchema.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["SchemaName"].write(value.schemaName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.AthenaConnectorSource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.AthenaConnectorSource()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.connectionName = try reader["ConnectionName"].readIfPresent() ?? ""
+        value.connectorName = try reader["ConnectorName"].readIfPresent() ?? ""
+        value.connectionType = try reader["ConnectionType"].readIfPresent() ?? ""
+        value.connectionTable = try reader["ConnectionTable"].readIfPresent()
+        value.schemaName = try reader["SchemaName"].readIfPresent() ?? ""
+        value.outputSchemas = try reader["OutputSchemas"].readListIfPresent(memberReadingClosure: GlueClientTypes.GlueSchema.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension GlueClientTypes.AuditContext {
+
+    static func write(value: GlueClientTypes.AuditContext?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AdditionalAuditContext"].write(value.additionalAuditContext)
+        try writer["AllColumnsRequested"].write(value.allColumnsRequested)
+        try writer["RequestedColumns"].writeList(value.requestedColumns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension GlueClientTypes.AuthConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.AuthConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.AuthConfiguration()
+        value.authenticationType = try reader["AuthenticationType"].readIfPresent(with: GlueClientTypes.Property.read(from:))
+        value.secretArn = try reader["SecretArn"].readIfPresent(with: GlueClientTypes.Property.read(from:))
+        value.oAuth2Properties = try reader["OAuth2Properties"].readMapIfPresent(valueReadingClosure: GlueClientTypes.Property.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.basicAuthenticationProperties = try reader["BasicAuthenticationProperties"].readMapIfPresent(valueReadingClosure: GlueClientTypes.Property.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.customAuthenticationProperties = try reader["CustomAuthenticationProperties"].readMapIfPresent(valueReadingClosure: GlueClientTypes.Property.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension GlueClientTypes.AuthenticationConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.AuthenticationConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.AuthenticationConfiguration()
+        value.authenticationType = try reader["AuthenticationType"].readIfPresent()
+        value.secretArn = try reader["SecretArn"].readIfPresent()
+        value.kmsKeyArn = try reader["KmsKeyArn"].readIfPresent()
+        value.oAuth2Properties = try reader["OAuth2Properties"].readIfPresent(with: GlueClientTypes.OAuth2Properties.read(from:))
+        return value
+    }
+}
+
+extension GlueClientTypes.AuthenticationConfigurationInput {
+
+    static func write(value: GlueClientTypes.AuthenticationConfigurationInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AuthenticationType"].write(value.authenticationType)
+        try writer["BasicAuthenticationCredentials"].write(value.basicAuthenticationCredentials, with: GlueClientTypes.BasicAuthenticationCredentials.write(value:to:))
+        try writer["CustomAuthenticationCredentials"].writeMap(value.customAuthenticationCredentials, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["KmsKeyArn"].write(value.kmsKeyArn)
+        try writer["OAuth2Properties"].write(value.oAuth2Properties, with: GlueClientTypes.OAuth2PropertiesInput.write(value:to:))
+        try writer["SecretArn"].write(value.secretArn)
+    }
+}
+
+extension GlueClientTypes.AuthorizationCodeProperties {
+
+    static func write(value: GlueClientTypes.AuthorizationCodeProperties?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AuthorizationCode"].write(value.authorizationCode)
+        try writer["RedirectUri"].write(value.redirectUri)
+    }
+}
+
+extension GlueClientTypes.AutoDataQuality {
+
+    static func write(value: GlueClientTypes.AutoDataQuality?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["EvaluationContext"].write(value.evaluationContext)
+        try writer["IsEnabled"].write(value.isEnabled)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.AutoDataQuality {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.AutoDataQuality()
+        value.isEnabled = try reader["IsEnabled"].readIfPresent() ?? false
+        value.evaluationContext = try reader["EvaluationContext"].readIfPresent()
+        return value
+    }
+}
+
+extension GlueClientTypes.BackfillError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.BackfillError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.BackfillError()
+        value.code = try reader["Code"].readIfPresent()
+        value.partitions = try reader["Partitions"].readListIfPresent(memberReadingClosure: GlueClientTypes.PartitionValueList.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension GlueClientTypes.BasicAuthenticationCredentials {
+
+    static func write(value: GlueClientTypes.BasicAuthenticationCredentials?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Password"].write(value.password)
+        try writer["Username"].write(value.username)
+    }
+}
+
+extension GlueClientTypes.BasicAuthenticationProperties {
+
+    static func write(value: GlueClientTypes.BasicAuthenticationProperties?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Password"].write(value.password, with: GlueClientTypes.ConnectorProperty.write(value:to:))
+        try writer["Username"].write(value.username, with: GlueClientTypes.ConnectorProperty.write(value:to:))
+    }
+}
+
+extension GlueClientTypes.BasicCatalogTarget {
+
+    static func write(value: GlueClientTypes.BasicCatalogTarget?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Database"].write(value.database)
+        try writer["Inputs"].writeList(value.inputs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Name"].write(value.name)
+        try writer["PartitionKeys"].writeList(value.partitionKeys, memberWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
+        try writer["Table"].write(value.table)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.BasicCatalogTarget {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.BasicCatalogTarget()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.inputs = try reader["Inputs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.partitionKeys = try reader["PartitionKeys"].readListIfPresent(memberReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
+        value.database = try reader["Database"].readIfPresent() ?? ""
+        value.table = try reader["Table"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension GlueClientTypes.BatchGetTableOptimizerEntry {
+
+    static func write(value: GlueClientTypes.BatchGetTableOptimizerEntry?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["catalogId"].write(value.catalogId)
+        try writer["databaseName"].write(value.databaseName)
+        try writer["tableName"].write(value.tableName)
+        try writer["type"].write(value.type)
+    }
+}
+
+extension GlueClientTypes.BatchGetTableOptimizerError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.BatchGetTableOptimizerError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.BatchGetTableOptimizerError()
+        value.error = try reader["error"].readIfPresent(with: GlueClientTypes.ErrorDetail.read(from:))
+        value.catalogId = try reader["catalogId"].readIfPresent()
+        value.databaseName = try reader["databaseName"].readIfPresent()
+        value.tableName = try reader["tableName"].readIfPresent()
+        value.type = try reader["type"].readIfPresent()
+        return value
+    }
+}
+
+extension GlueClientTypes.BatchStopJobRunError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.BatchStopJobRunError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.BatchStopJobRunError()
+        value.jobName = try reader["JobName"].readIfPresent()
+        value.jobRunId = try reader["JobRunId"].readIfPresent()
         value.errorDetail = try reader["ErrorDetail"].readIfPresent(with: GlueClientTypes.ErrorDetail.read(from:))
         return value
     }
 }
 
-extension GlueClientTypes.ErrorDetail {
+extension GlueClientTypes.BatchStopJobRunSuccessfulSubmission {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.ErrorDetail {
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.BatchStopJobRunSuccessfulSubmission {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.ErrorDetail()
-        value.errorCode = try reader["ErrorCode"].readIfPresent()
-        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
+        var value = GlueClientTypes.BatchStopJobRunSuccessfulSubmission()
+        value.jobName = try reader["JobName"].readIfPresent()
+        value.jobRunId = try reader["JobRunId"].readIfPresent()
         return value
     }
 }
 
-extension GlueClientTypes.TableError {
+extension GlueClientTypes.BatchTableOptimizer {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.TableError {
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.BatchTableOptimizer {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.TableError()
-        value.tableName = try reader["TableName"].readIfPresent()
+        var value = GlueClientTypes.BatchTableOptimizer()
+        value.catalogId = try reader["catalogId"].readIfPresent()
+        value.databaseName = try reader["databaseName"].readIfPresent()
+        value.tableName = try reader["tableName"].readIfPresent()
+        value.tableOptimizer = try reader["tableOptimizer"].readIfPresent(with: GlueClientTypes.TableOptimizer.read(from:))
+        return value
+    }
+}
+
+extension GlueClientTypes.BatchUpdatePartitionFailureEntry {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.BatchUpdatePartitionFailureEntry {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.BatchUpdatePartitionFailureEntry()
+        value.partitionValueList = try reader["PartitionValueList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.errorDetail = try reader["ErrorDetail"].readIfPresent(with: GlueClientTypes.ErrorDetail.read(from:))
         return value
     }
 }
 
-extension GlueClientTypes.TableVersionError {
+extension GlueClientTypes.BatchUpdatePartitionRequestEntry {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.TableVersionError {
+    static func write(value: GlueClientTypes.BatchUpdatePartitionRequestEntry?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["PartitionInput"].write(value.partitionInput, with: GlueClientTypes.PartitionInput.write(value:to:))
+        try writer["PartitionValueList"].writeList(value.partitionValueList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension GlueClientTypes.BinaryColumnStatisticsData {
+
+    static func write(value: GlueClientTypes.BinaryColumnStatisticsData?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AverageLength"].write(value.averageLength)
+        try writer["MaximumLength"].write(value.maximumLength)
+        try writer["NumberOfNulls"].write(value.numberOfNulls)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.BinaryColumnStatisticsData {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.TableVersionError()
-        value.tableName = try reader["TableName"].readIfPresent()
-        value.versionId = try reader["VersionId"].readIfPresent()
-        value.errorDetail = try reader["ErrorDetail"].readIfPresent(with: GlueClientTypes.ErrorDetail.read(from:))
+        var value = GlueClientTypes.BinaryColumnStatisticsData()
+        value.maximumLength = try reader["MaximumLength"].readIfPresent() ?? 0
+        value.averageLength = try reader["AverageLength"].readIfPresent() ?? 0
+        value.numberOfNulls = try reader["NumberOfNulls"].readIfPresent() ?? 0
         return value
     }
 }
@@ -44382,227 +44815,306 @@ extension GlueClientTypes.Blueprint {
     }
 }
 
-extension GlueClientTypes.LastActiveDefinition {
+extension GlueClientTypes.BlueprintDetails {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.LastActiveDefinition {
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.BlueprintDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.LastActiveDefinition()
-        value.description = try reader["Description"].readIfPresent()
-        value.lastModifiedOn = try reader["LastModifiedOn"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.parameterSpec = try reader["ParameterSpec"].readIfPresent()
-        value.blueprintLocation = try reader["BlueprintLocation"].readIfPresent()
-        value.blueprintServiceLocation = try reader["BlueprintServiceLocation"].readIfPresent()
+        var value = GlueClientTypes.BlueprintDetails()
+        value.blueprintName = try reader["BlueprintName"].readIfPresent()
+        value.runId = try reader["RunId"].readIfPresent()
         return value
     }
 }
 
-extension GlueClientTypes.Crawler {
+extension GlueClientTypes.BlueprintRun {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.Crawler {
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.BlueprintRun {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.Crawler()
-        value.name = try reader["Name"].readIfPresent()
-        value.role = try reader["Role"].readIfPresent()
-        value.targets = try reader["Targets"].readIfPresent(with: GlueClientTypes.CrawlerTargets.read(from:))
-        value.databaseName = try reader["DatabaseName"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        value.classifiers = try reader["Classifiers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.recrawlPolicy = try reader["RecrawlPolicy"].readIfPresent(with: GlueClientTypes.RecrawlPolicy.read(from:))
-        value.schemaChangePolicy = try reader["SchemaChangePolicy"].readIfPresent(with: GlueClientTypes.SchemaChangePolicy.read(from:))
-        value.lineageConfiguration = try reader["LineageConfiguration"].readIfPresent(with: GlueClientTypes.LineageConfiguration.read(from:))
+        var value = GlueClientTypes.BlueprintRun()
+        value.blueprintName = try reader["BlueprintName"].readIfPresent()
+        value.runId = try reader["RunId"].readIfPresent()
+        value.workflowName = try reader["WorkflowName"].readIfPresent()
         value.state = try reader["State"].readIfPresent()
-        value.tablePrefix = try reader["TablePrefix"].readIfPresent()
-        value.schedule = try reader["Schedule"].readIfPresent(with: GlueClientTypes.Schedule.read(from:))
-        value.crawlElapsedTime = try reader["CrawlElapsedTime"].readIfPresent() ?? 0
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastUpdated = try reader["LastUpdated"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastCrawl = try reader["LastCrawl"].readIfPresent(with: GlueClientTypes.LastCrawlInfo.read(from:))
-        value.version = try reader["Version"].readIfPresent() ?? 0
-        value.configuration = try reader["Configuration"].readIfPresent()
-        value.crawlerSecurityConfiguration = try reader["CrawlerSecurityConfiguration"].readIfPresent()
-        value.lakeFormationConfiguration = try reader["LakeFormationConfiguration"].readIfPresent(with: GlueClientTypes.LakeFormationConfiguration.read(from:))
-        return value
-    }
-}
-
-extension GlueClientTypes.LakeFormationConfiguration {
-
-    static func write(value: GlueClientTypes.LakeFormationConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AccountId"].write(value.accountId)
-        try writer["UseLakeFormationCredentials"].write(value.useLakeFormationCredentials)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.LakeFormationConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.LakeFormationConfiguration()
-        value.useLakeFormationCredentials = try reader["UseLakeFormationCredentials"].readIfPresent()
-        value.accountId = try reader["AccountId"].readIfPresent()
-        return value
-    }
-}
-
-extension GlueClientTypes.LastCrawlInfo {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.LastCrawlInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.LastCrawlInfo()
-        value.status = try reader["Status"].readIfPresent()
+        value.startedOn = try reader["StartedOn"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.completedOn = try reader["CompletedOn"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.errorMessage = try reader["ErrorMessage"].readIfPresent()
-        value.logGroup = try reader["LogGroup"].readIfPresent()
-        value.logStream = try reader["LogStream"].readIfPresent()
-        value.messagePrefix = try reader["MessagePrefix"].readIfPresent()
-        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.rollbackErrorMessage = try reader["RollbackErrorMessage"].readIfPresent()
+        value.parameters = try reader["Parameters"].readIfPresent()
+        value.roleArn = try reader["RoleArn"].readIfPresent()
         return value
     }
 }
 
-extension GlueClientTypes.Schedule {
+extension GlueClientTypes.BooleanColumnStatisticsData {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.Schedule {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.Schedule()
-        value.scheduleExpression = try reader["ScheduleExpression"].readIfPresent()
-        value.state = try reader["State"].readIfPresent()
-        return value
-    }
-}
-
-extension GlueClientTypes.LineageConfiguration {
-
-    static func write(value: GlueClientTypes.LineageConfiguration?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: GlueClientTypes.BooleanColumnStatisticsData?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["CrawlerLineageSettings"].write(value.crawlerLineageSettings)
+        try writer["NumberOfFalses"].write(value.numberOfFalses)
+        try writer["NumberOfNulls"].write(value.numberOfNulls)
+        try writer["NumberOfTrues"].write(value.numberOfTrues)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.LineageConfiguration {
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.BooleanColumnStatisticsData {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.LineageConfiguration()
-        value.crawlerLineageSettings = try reader["CrawlerLineageSettings"].readIfPresent()
+        var value = GlueClientTypes.BooleanColumnStatisticsData()
+        value.numberOfTrues = try reader["NumberOfTrues"].readIfPresent() ?? 0
+        value.numberOfFalses = try reader["NumberOfFalses"].readIfPresent() ?? 0
+        value.numberOfNulls = try reader["NumberOfNulls"].readIfPresent() ?? 0
         return value
     }
 }
 
-extension GlueClientTypes.SchemaChangePolicy {
+extension GlueClientTypes.Capabilities {
 
-    static func write(value: GlueClientTypes.SchemaChangePolicy?, to writer: SmithyJSON.Writer) throws {
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.Capabilities {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.Capabilities()
+        value.supportedAuthenticationTypes = try reader["SupportedAuthenticationTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<GlueClientTypes.AuthenticationType>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.supportedDataOperations = try reader["SupportedDataOperations"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<GlueClientTypes.DataOperation>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.supportedComputeEnvironments = try reader["SupportedComputeEnvironments"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<GlueClientTypes.ComputeEnvironment>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension GlueClientTypes.Catalog {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.Catalog {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.Catalog()
+        value.catalogId = try reader["CatalogId"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.resourceArn = try reader["ResourceArn"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.parameters = try reader["Parameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.updateTime = try reader["UpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.targetRedshiftCatalog = try reader["TargetRedshiftCatalog"].readIfPresent(with: GlueClientTypes.TargetRedshiftCatalog.read(from:))
+        value.federatedCatalog = try reader["FederatedCatalog"].readIfPresent(with: GlueClientTypes.FederatedCatalog.read(from:))
+        value.catalogProperties = try reader["CatalogProperties"].readIfPresent(with: GlueClientTypes.CatalogPropertiesOutput.read(from:))
+        value.createTableDefaultPermissions = try reader["CreateTableDefaultPermissions"].readListIfPresent(memberReadingClosure: GlueClientTypes.PrincipalPermissions.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.createDatabaseDefaultPermissions = try reader["CreateDatabaseDefaultPermissions"].readListIfPresent(memberReadingClosure: GlueClientTypes.PrincipalPermissions.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.allowFullTableExternalDataAccess = try reader["AllowFullTableExternalDataAccess"].readIfPresent()
+        return value
+    }
+}
+
+extension GlueClientTypes.CatalogDeltaSource {
+
+    static func write(value: GlueClientTypes.CatalogDeltaSource?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["DeleteBehavior"].write(value.deleteBehavior)
+        try writer["AdditionalDeltaOptions"].writeMap(value.additionalDeltaOptions, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["Database"].write(value.database)
+        try writer["Name"].write(value.name)
+        try writer["OutputSchemas"].writeList(value.outputSchemas, memberWritingClosure: GlueClientTypes.GlueSchema.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Table"].write(value.table)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.CatalogDeltaSource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.CatalogDeltaSource()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.database = try reader["Database"].readIfPresent() ?? ""
+        value.table = try reader["Table"].readIfPresent() ?? ""
+        value.additionalDeltaOptions = try reader["AdditionalDeltaOptions"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.outputSchemas = try reader["OutputSchemas"].readListIfPresent(memberReadingClosure: GlueClientTypes.GlueSchema.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension GlueClientTypes.CatalogEntry {
+
+    static func write(value: GlueClientTypes.CatalogEntry?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DatabaseName"].write(value.databaseName)
+        try writer["TableName"].write(value.tableName)
+    }
+}
+
+extension GlueClientTypes.CatalogHudiSource {
+
+    static func write(value: GlueClientTypes.CatalogHudiSource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AdditionalHudiOptions"].writeMap(value.additionalHudiOptions, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["Database"].write(value.database)
+        try writer["Name"].write(value.name)
+        try writer["OutputSchemas"].writeList(value.outputSchemas, memberWritingClosure: GlueClientTypes.GlueSchema.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Table"].write(value.table)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.CatalogHudiSource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.CatalogHudiSource()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.database = try reader["Database"].readIfPresent() ?? ""
+        value.table = try reader["Table"].readIfPresent() ?? ""
+        value.additionalHudiOptions = try reader["AdditionalHudiOptions"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.outputSchemas = try reader["OutputSchemas"].readListIfPresent(memberReadingClosure: GlueClientTypes.GlueSchema.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension GlueClientTypes.CatalogIcebergSource {
+
+    static func write(value: GlueClientTypes.CatalogIcebergSource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AdditionalIcebergOptions"].writeMap(value.additionalIcebergOptions, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["Database"].write(value.database)
+        try writer["Name"].write(value.name)
+        try writer["OutputSchemas"].writeList(value.outputSchemas, memberWritingClosure: GlueClientTypes.GlueSchema.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Table"].write(value.table)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.CatalogIcebergSource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.CatalogIcebergSource()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.database = try reader["Database"].readIfPresent() ?? ""
+        value.table = try reader["Table"].readIfPresent() ?? ""
+        value.additionalIcebergOptions = try reader["AdditionalIcebergOptions"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.outputSchemas = try reader["OutputSchemas"].readListIfPresent(memberReadingClosure: GlueClientTypes.GlueSchema.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension GlueClientTypes.CatalogImportStatus {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.CatalogImportStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.CatalogImportStatus()
+        value.importCompleted = try reader["ImportCompleted"].readIfPresent() ?? false
+        value.importTime = try reader["ImportTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.importedBy = try reader["ImportedBy"].readIfPresent()
+        return value
+    }
+}
+
+extension GlueClientTypes.CatalogInput {
+
+    static func write(value: GlueClientTypes.CatalogInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AllowFullTableExternalDataAccess"].write(value.allowFullTableExternalDataAccess)
+        try writer["CatalogProperties"].write(value.catalogProperties, with: GlueClientTypes.CatalogProperties.write(value:to:))
+        try writer["CreateDatabaseDefaultPermissions"].writeList(value.createDatabaseDefaultPermissions, memberWritingClosure: GlueClientTypes.PrincipalPermissions.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["CreateTableDefaultPermissions"].writeList(value.createTableDefaultPermissions, memberWritingClosure: GlueClientTypes.PrincipalPermissions.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Description"].write(value.description)
+        try writer["FederatedCatalog"].write(value.federatedCatalog, with: GlueClientTypes.FederatedCatalog.write(value:to:))
+        try writer["Parameters"].writeMap(value.parameters, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["TargetRedshiftCatalog"].write(value.targetRedshiftCatalog, with: GlueClientTypes.TargetRedshiftCatalog.write(value:to:))
+    }
+}
+
+extension GlueClientTypes.CatalogKafkaSource {
+
+    static func write(value: GlueClientTypes.CatalogKafkaSource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DataPreviewOptions"].write(value.dataPreviewOptions, with: GlueClientTypes.StreamingDataPreviewOptions.write(value:to:))
+        try writer["Database"].write(value.database)
+        try writer["DetectSchema"].write(value.detectSchema)
+        try writer["Name"].write(value.name)
+        try writer["StreamingOptions"].write(value.streamingOptions, with: GlueClientTypes.KafkaStreamingSourceOptions.write(value:to:))
+        try writer["Table"].write(value.table)
+        try writer["WindowSize"].write(value.windowSize)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.CatalogKafkaSource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.CatalogKafkaSource()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.windowSize = try reader["WindowSize"].readIfPresent()
+        value.detectSchema = try reader["DetectSchema"].readIfPresent()
+        value.table = try reader["Table"].readIfPresent() ?? ""
+        value.database = try reader["Database"].readIfPresent() ?? ""
+        value.streamingOptions = try reader["StreamingOptions"].readIfPresent(with: GlueClientTypes.KafkaStreamingSourceOptions.read(from:))
+        value.dataPreviewOptions = try reader["DataPreviewOptions"].readIfPresent(with: GlueClientTypes.StreamingDataPreviewOptions.read(from:))
+        return value
+    }
+}
+
+extension GlueClientTypes.CatalogKinesisSource {
+
+    static func write(value: GlueClientTypes.CatalogKinesisSource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DataPreviewOptions"].write(value.dataPreviewOptions, with: GlueClientTypes.StreamingDataPreviewOptions.write(value:to:))
+        try writer["Database"].write(value.database)
+        try writer["DetectSchema"].write(value.detectSchema)
+        try writer["Name"].write(value.name)
+        try writer["StreamingOptions"].write(value.streamingOptions, with: GlueClientTypes.KinesisStreamingSourceOptions.write(value:to:))
+        try writer["Table"].write(value.table)
+        try writer["WindowSize"].write(value.windowSize)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.CatalogKinesisSource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.CatalogKinesisSource()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.windowSize = try reader["WindowSize"].readIfPresent()
+        value.detectSchema = try reader["DetectSchema"].readIfPresent()
+        value.table = try reader["Table"].readIfPresent() ?? ""
+        value.database = try reader["Database"].readIfPresent() ?? ""
+        value.streamingOptions = try reader["StreamingOptions"].readIfPresent(with: GlueClientTypes.KinesisStreamingSourceOptions.read(from:))
+        value.dataPreviewOptions = try reader["DataPreviewOptions"].readIfPresent(with: GlueClientTypes.StreamingDataPreviewOptions.read(from:))
+        return value
+    }
+}
+
+extension GlueClientTypes.CatalogProperties {
+
+    static func write(value: GlueClientTypes.CatalogProperties?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CustomProperties"].writeMap(value.customProperties, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["DataLakeAccessProperties"].write(value.dataLakeAccessProperties, with: GlueClientTypes.DataLakeAccessProperties.write(value:to:))
+        try writer["IcebergOptimizationProperties"].write(value.icebergOptimizationProperties, with: GlueClientTypes.IcebergOptimizationProperties.write(value:to:))
+    }
+}
+
+extension GlueClientTypes.CatalogPropertiesOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.CatalogPropertiesOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.CatalogPropertiesOutput()
+        value.dataLakeAccessProperties = try reader["DataLakeAccessProperties"].readIfPresent(with: GlueClientTypes.DataLakeAccessPropertiesOutput.read(from:))
+        value.icebergOptimizationProperties = try reader["IcebergOptimizationProperties"].readIfPresent(with: GlueClientTypes.IcebergOptimizationPropertiesOutput.read(from:))
+        value.customProperties = try reader["CustomProperties"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension GlueClientTypes.CatalogSchemaChangePolicy {
+
+    static func write(value: GlueClientTypes.CatalogSchemaChangePolicy?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["EnableUpdateCatalog"].write(value.enableUpdateCatalog)
         try writer["UpdateBehavior"].write(value.updateBehavior)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.SchemaChangePolicy {
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.CatalogSchemaChangePolicy {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.SchemaChangePolicy()
+        var value = GlueClientTypes.CatalogSchemaChangePolicy()
+        value.enableUpdateCatalog = try reader["EnableUpdateCatalog"].readIfPresent()
         value.updateBehavior = try reader["UpdateBehavior"].readIfPresent()
-        value.deleteBehavior = try reader["DeleteBehavior"].readIfPresent()
         return value
     }
 }
 
-extension GlueClientTypes.RecrawlPolicy {
+extension GlueClientTypes.CatalogSource {
 
-    static func write(value: GlueClientTypes.RecrawlPolicy?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: GlueClientTypes.CatalogSource?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["RecrawlBehavior"].write(value.recrawlBehavior)
+        try writer["Database"].write(value.database)
+        try writer["Name"].write(value.name)
+        try writer["OutputSchemas"].writeList(value.outputSchemas, memberWritingClosure: GlueClientTypes.GlueSchema.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["PartitionPredicate"].write(value.partitionPredicate)
+        try writer["Table"].write(value.table)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.RecrawlPolicy {
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.CatalogSource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.RecrawlPolicy()
-        value.recrawlBehavior = try reader["RecrawlBehavior"].readIfPresent()
-        return value
-    }
-}
-
-extension GlueClientTypes.CrawlerTargets {
-
-    static func write(value: GlueClientTypes.CrawlerTargets?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CatalogTargets"].writeList(value.catalogTargets, memberWritingClosure: GlueClientTypes.CatalogTarget.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["DeltaTargets"].writeList(value.deltaTargets, memberWritingClosure: GlueClientTypes.DeltaTarget.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["DynamoDBTargets"].writeList(value.dynamoDBTargets, memberWritingClosure: GlueClientTypes.DynamoDBTarget.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["HudiTargets"].writeList(value.hudiTargets, memberWritingClosure: GlueClientTypes.HudiTarget.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["IcebergTargets"].writeList(value.icebergTargets, memberWritingClosure: GlueClientTypes.IcebergTarget.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["JdbcTargets"].writeList(value.jdbcTargets, memberWritingClosure: GlueClientTypes.JdbcTarget.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["MongoDBTargets"].writeList(value.mongoDBTargets, memberWritingClosure: GlueClientTypes.MongoDBTarget.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["S3Targets"].writeList(value.s3Targets, memberWritingClosure: GlueClientTypes.S3Target.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.CrawlerTargets {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.CrawlerTargets()
-        value.s3Targets = try reader["S3Targets"].readListIfPresent(memberReadingClosure: GlueClientTypes.S3Target.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.jdbcTargets = try reader["JdbcTargets"].readListIfPresent(memberReadingClosure: GlueClientTypes.JdbcTarget.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.mongoDBTargets = try reader["MongoDBTargets"].readListIfPresent(memberReadingClosure: GlueClientTypes.MongoDBTarget.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.dynamoDBTargets = try reader["DynamoDBTargets"].readListIfPresent(memberReadingClosure: GlueClientTypes.DynamoDBTarget.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.catalogTargets = try reader["CatalogTargets"].readListIfPresent(memberReadingClosure: GlueClientTypes.CatalogTarget.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.deltaTargets = try reader["DeltaTargets"].readListIfPresent(memberReadingClosure: GlueClientTypes.DeltaTarget.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.icebergTargets = try reader["IcebergTargets"].readListIfPresent(memberReadingClosure: GlueClientTypes.IcebergTarget.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.hudiTargets = try reader["HudiTargets"].readListIfPresent(memberReadingClosure: GlueClientTypes.HudiTarget.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension GlueClientTypes.HudiTarget {
-
-    static func write(value: GlueClientTypes.HudiTarget?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ConnectionName"].write(value.connectionName)
-        try writer["Exclusions"].writeList(value.exclusions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["MaximumTraversalDepth"].write(value.maximumTraversalDepth)
-        try writer["Paths"].writeList(value.paths, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.HudiTarget {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.HudiTarget()
-        value.paths = try reader["Paths"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.connectionName = try reader["ConnectionName"].readIfPresent()
-        value.exclusions = try reader["Exclusions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.maximumTraversalDepth = try reader["MaximumTraversalDepth"].readIfPresent()
-        return value
-    }
-}
-
-extension GlueClientTypes.IcebergTarget {
-
-    static func write(value: GlueClientTypes.IcebergTarget?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ConnectionName"].write(value.connectionName)
-        try writer["Exclusions"].writeList(value.exclusions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["MaximumTraversalDepth"].write(value.maximumTraversalDepth)
-        try writer["Paths"].writeList(value.paths, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.IcebergTarget {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.IcebergTarget()
-        value.paths = try reader["Paths"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.connectionName = try reader["ConnectionName"].readIfPresent()
-        value.exclusions = try reader["Exclusions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.maximumTraversalDepth = try reader["MaximumTraversalDepth"].readIfPresent()
-        return value
-    }
-}
-
-extension GlueClientTypes.DeltaTarget {
-
-    static func write(value: GlueClientTypes.DeltaTarget?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ConnectionName"].write(value.connectionName)
-        try writer["CreateNativeDeltaTable"].write(value.createNativeDeltaTable)
-        try writer["DeltaTables"].writeList(value.deltaTables, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["WriteManifest"].write(value.writeManifest)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.DeltaTarget {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.DeltaTarget()
-        value.deltaTables = try reader["DeltaTables"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.connectionName = try reader["ConnectionName"].readIfPresent()
-        value.writeManifest = try reader["WriteManifest"].readIfPresent()
-        value.createNativeDeltaTable = try reader["CreateNativeDeltaTable"].readIfPresent()
+        var value = GlueClientTypes.CatalogSource()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.database = try reader["Database"].readIfPresent() ?? ""
+        value.table = try reader["Table"].readIfPresent() ?? ""
+        value.partitionPredicate = try reader["PartitionPredicate"].readIfPresent()
+        value.outputSchemas = try reader["OutputSchemas"].readListIfPresent(memberReadingClosure: GlueClientTypes.GlueSchema.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -44630,368 +45142,46 @@ extension GlueClientTypes.CatalogTarget {
     }
 }
 
-extension GlueClientTypes.DynamoDBTarget {
+extension GlueClientTypes.Classifier {
 
-    static func write(value: GlueClientTypes.DynamoDBTarget?, to writer: SmithyJSON.Writer) throws {
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.Classifier {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.Classifier()
+        value.grokClassifier = try reader["GrokClassifier"].readIfPresent(with: GlueClientTypes.GrokClassifier.read(from:))
+        value.xmlClassifier = try reader["XMLClassifier"].readIfPresent(with: GlueClientTypes.XMLClassifier.read(from:))
+        value.jsonClassifier = try reader["JsonClassifier"].readIfPresent(with: GlueClientTypes.JsonClassifier.read(from:))
+        value.csvClassifier = try reader["CsvClassifier"].readIfPresent(with: GlueClientTypes.CsvClassifier.read(from:))
+        return value
+    }
+}
+
+extension GlueClientTypes.ClientCredentialsProperties {
+
+    static func write(value: GlueClientTypes.ClientCredentialsProperties?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["Path"].write(value.path)
-        try writer["scanAll"].write(value.scanAll)
-        try writer["scanRate"].write(value.scanRate)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.DynamoDBTarget {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.DynamoDBTarget()
-        value.path = try reader["Path"].readIfPresent()
-        value.scanAll = try reader["scanAll"].readIfPresent()
-        value.scanRate = try reader["scanRate"].readIfPresent()
-        return value
+        try writer["ClientId"].write(value.clientId, with: GlueClientTypes.ConnectorProperty.write(value:to:))
+        try writer["ClientSecret"].write(value.clientSecret, with: GlueClientTypes.ConnectorProperty.write(value:to:))
+        try writer["ContentType"].write(value.contentType)
+        try writer["RequestMethod"].write(value.requestMethod)
+        try writer["Scope"].write(value.scope, with: GlueClientTypes.ConnectorProperty.write(value:to:))
+        try writer["TokenUrl"].write(value.tokenUrl, with: GlueClientTypes.ConnectorProperty.write(value:to:))
+        try writer["TokenUrlParameters"].writeList(value.tokenUrlParameters, memberWritingClosure: GlueClientTypes.ConnectorProperty.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
-extension GlueClientTypes.MongoDBTarget {
+extension GlueClientTypes.CloudWatchEncryption {
 
-    static func write(value: GlueClientTypes.MongoDBTarget?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: GlueClientTypes.CloudWatchEncryption?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["ConnectionName"].write(value.connectionName)
-        try writer["Path"].write(value.path)
-        try writer["ScanAll"].write(value.scanAll)
+        try writer["CloudWatchEncryptionMode"].write(value.cloudWatchEncryptionMode)
+        try writer["KmsKeyArn"].write(value.kmsKeyArn)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.MongoDBTarget {
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.CloudWatchEncryption {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.MongoDBTarget()
-        value.connectionName = try reader["ConnectionName"].readIfPresent()
-        value.path = try reader["Path"].readIfPresent()
-        value.scanAll = try reader["ScanAll"].readIfPresent()
-        return value
-    }
-}
-
-extension GlueClientTypes.JdbcTarget {
-
-    static func write(value: GlueClientTypes.JdbcTarget?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ConnectionName"].write(value.connectionName)
-        try writer["EnableAdditionalMetadata"].writeList(value.enableAdditionalMetadata, memberWritingClosure: SmithyReadWrite.WritingClosureBox<GlueClientTypes.JdbcMetadataEntry>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Exclusions"].writeList(value.exclusions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Path"].write(value.path)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.JdbcTarget {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.JdbcTarget()
-        value.connectionName = try reader["ConnectionName"].readIfPresent()
-        value.path = try reader["Path"].readIfPresent()
-        value.exclusions = try reader["Exclusions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.enableAdditionalMetadata = try reader["EnableAdditionalMetadata"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<GlueClientTypes.JdbcMetadataEntry>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension GlueClientTypes.S3Target {
-
-    static func write(value: GlueClientTypes.S3Target?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ConnectionName"].write(value.connectionName)
-        try writer["DlqEventQueueArn"].write(value.dlqEventQueueArn)
-        try writer["EventQueueArn"].write(value.eventQueueArn)
-        try writer["Exclusions"].writeList(value.exclusions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Path"].write(value.path)
-        try writer["SampleSize"].write(value.sampleSize)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.S3Target {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.S3Target()
-        value.path = try reader["Path"].readIfPresent()
-        value.exclusions = try reader["Exclusions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.connectionName = try reader["ConnectionName"].readIfPresent()
-        value.sampleSize = try reader["SampleSize"].readIfPresent()
-        value.eventQueueArn = try reader["EventQueueArn"].readIfPresent()
-        value.dlqEventQueueArn = try reader["DlqEventQueueArn"].readIfPresent()
-        return value
-    }
-}
-
-extension GlueClientTypes.CustomEntityType {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.CustomEntityType {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.CustomEntityType()
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.regexString = try reader["RegexString"].readIfPresent() ?? ""
-        value.contextWords = try reader["ContextWords"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension GlueClientTypes.DataQualityResult {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.DataQualityResult {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.DataQualityResult()
-        value.resultId = try reader["ResultId"].readIfPresent()
-        value.profileId = try reader["ProfileId"].readIfPresent()
-        value.score = try reader["Score"].readIfPresent()
-        value.dataSource = try reader["DataSource"].readIfPresent(with: GlueClientTypes.DataSource.read(from:))
-        value.rulesetName = try reader["RulesetName"].readIfPresent()
-        value.evaluationContext = try reader["EvaluationContext"].readIfPresent()
-        value.startedOn = try reader["StartedOn"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.completedOn = try reader["CompletedOn"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.jobName = try reader["JobName"].readIfPresent()
-        value.jobRunId = try reader["JobRunId"].readIfPresent()
-        value.rulesetEvaluationRunId = try reader["RulesetEvaluationRunId"].readIfPresent()
-        value.ruleResults = try reader["RuleResults"].readListIfPresent(memberReadingClosure: GlueClientTypes.DataQualityRuleResult.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.analyzerResults = try reader["AnalyzerResults"].readListIfPresent(memberReadingClosure: GlueClientTypes.DataQualityAnalyzerResult.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.observations = try reader["Observations"].readListIfPresent(memberReadingClosure: GlueClientTypes.DataQualityObservation.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.aggregatedMetrics = try reader["AggregatedMetrics"].readIfPresent(with: GlueClientTypes.DataQualityAggregatedMetrics.read(from:))
-        return value
-    }
-}
-
-extension GlueClientTypes.DataQualityAggregatedMetrics {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.DataQualityAggregatedMetrics {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.DataQualityAggregatedMetrics()
-        value.totalRowsProcessed = try reader["TotalRowsProcessed"].readIfPresent()
-        value.totalRowsPassed = try reader["TotalRowsPassed"].readIfPresent()
-        value.totalRowsFailed = try reader["TotalRowsFailed"].readIfPresent()
-        value.totalRulesProcessed = try reader["TotalRulesProcessed"].readIfPresent()
-        value.totalRulesPassed = try reader["TotalRulesPassed"].readIfPresent()
-        value.totalRulesFailed = try reader["TotalRulesFailed"].readIfPresent()
-        return value
-    }
-}
-
-extension GlueClientTypes.DataQualityObservation {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.DataQualityObservation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.DataQualityObservation()
-        value.description = try reader["Description"].readIfPresent()
-        value.metricBasedObservation = try reader["MetricBasedObservation"].readIfPresent(with: GlueClientTypes.MetricBasedObservation.read(from:))
-        return value
-    }
-}
-
-extension GlueClientTypes.MetricBasedObservation {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.MetricBasedObservation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.MetricBasedObservation()
-        value.metricName = try reader["MetricName"].readIfPresent()
-        value.statisticId = try reader["StatisticId"].readIfPresent()
-        value.metricValues = try reader["MetricValues"].readIfPresent(with: GlueClientTypes.DataQualityMetricValues.read(from:))
-        value.newRules = try reader["NewRules"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension GlueClientTypes.DataQualityMetricValues {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.DataQualityMetricValues {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.DataQualityMetricValues()
-        value.actualValue = try reader["ActualValue"].readIfPresent()
-        value.expectedValue = try reader["ExpectedValue"].readIfPresent()
-        value.lowerLimit = try reader["LowerLimit"].readIfPresent()
-        value.upperLimit = try reader["UpperLimit"].readIfPresent()
-        return value
-    }
-}
-
-extension GlueClientTypes.DataQualityAnalyzerResult {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.DataQualityAnalyzerResult {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.DataQualityAnalyzerResult()
-        value.name = try reader["Name"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        value.evaluationMessage = try reader["EvaluationMessage"].readIfPresent()
-        value.evaluatedMetrics = try reader["EvaluatedMetrics"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
-}
-
-extension GlueClientTypes.DataQualityRuleResult {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.DataQualityRuleResult {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.DataQualityRuleResult()
-        value.name = try reader["Name"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        value.evaluationMessage = try reader["EvaluationMessage"].readIfPresent()
-        value.result = try reader["Result"].readIfPresent()
-        value.evaluatedMetrics = try reader["EvaluatedMetrics"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.evaluatedRule = try reader["EvaluatedRule"].readIfPresent()
-        value.ruleMetrics = try reader["RuleMetrics"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.labels = try reader["Labels"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
-}
-
-extension GlueClientTypes.DataSource {
-
-    static func write(value: GlueClientTypes.DataSource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DataQualityGlueTable"].write(value.dataQualityGlueTable, with: GlueClientTypes.DataQualityGlueTable.write(value:to:))
-        try writer["GlueTable"].write(value.glueTable, with: GlueClientTypes.GlueTable.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.DataSource {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.DataSource()
-        value.glueTable = try reader["GlueTable"].readIfPresent(with: GlueClientTypes.GlueTable.read(from:))
-        value.dataQualityGlueTable = try reader["DataQualityGlueTable"].readIfPresent(with: GlueClientTypes.DataQualityGlueTable.read(from:))
-        return value
-    }
-}
-
-extension GlueClientTypes.DataQualityGlueTable {
-
-    static func write(value: GlueClientTypes.DataQualityGlueTable?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AdditionalOptions"].writeMap(value.additionalOptions, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["CatalogId"].write(value.catalogId)
-        try writer["ConnectionName"].write(value.connectionName)
-        try writer["DatabaseName"].write(value.databaseName)
-        try writer["PreProcessingQuery"].write(value.preProcessingQuery)
-        try writer["TableName"].write(value.tableName)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.DataQualityGlueTable {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.DataQualityGlueTable()
-        value.databaseName = try reader["DatabaseName"].readIfPresent() ?? ""
-        value.tableName = try reader["TableName"].readIfPresent() ?? ""
-        value.catalogId = try reader["CatalogId"].readIfPresent()
-        value.connectionName = try reader["ConnectionName"].readIfPresent()
-        value.additionalOptions = try reader["AdditionalOptions"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.preProcessingQuery = try reader["PreProcessingQuery"].readIfPresent()
-        return value
-    }
-}
-
-extension GlueClientTypes.GlueTable {
-
-    static func write(value: GlueClientTypes.GlueTable?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AdditionalOptions"].writeMap(value.additionalOptions, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["CatalogId"].write(value.catalogId)
-        try writer["ConnectionName"].write(value.connectionName)
-        try writer["DatabaseName"].write(value.databaseName)
-        try writer["TableName"].write(value.tableName)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.GlueTable {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.GlueTable()
-        value.databaseName = try reader["DatabaseName"].readIfPresent() ?? ""
-        value.tableName = try reader["TableName"].readIfPresent() ?? ""
-        value.catalogId = try reader["CatalogId"].readIfPresent()
-        value.connectionName = try reader["ConnectionName"].readIfPresent()
-        value.additionalOptions = try reader["AdditionalOptions"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
-}
-
-extension GlueClientTypes.DevEndpoint {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.DevEndpoint {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.DevEndpoint()
-        value.endpointName = try reader["EndpointName"].readIfPresent()
-        value.roleArn = try reader["RoleArn"].readIfPresent()
-        value.securityGroupIds = try reader["SecurityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.subnetId = try reader["SubnetId"].readIfPresent()
-        value.yarnEndpointAddress = try reader["YarnEndpointAddress"].readIfPresent()
-        value.privateAddress = try reader["PrivateAddress"].readIfPresent()
-        value.zeppelinRemoteSparkInterpreterPort = try reader["ZeppelinRemoteSparkInterpreterPort"].readIfPresent() ?? 0
-        value.publicAddress = try reader["PublicAddress"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.workerType = try reader["WorkerType"].readIfPresent()
-        value.glueVersion = try reader["GlueVersion"].readIfPresent()
-        value.numberOfWorkers = try reader["NumberOfWorkers"].readIfPresent()
-        value.numberOfNodes = try reader["NumberOfNodes"].readIfPresent() ?? 0
-        value.availabilityZone = try reader["AvailabilityZone"].readIfPresent()
-        value.vpcId = try reader["VpcId"].readIfPresent()
-        value.extraPythonLibsS3Path = try reader["ExtraPythonLibsS3Path"].readIfPresent()
-        value.extraJarsS3Path = try reader["ExtraJarsS3Path"].readIfPresent()
-        value.failureReason = try reader["FailureReason"].readIfPresent()
-        value.lastUpdateStatus = try reader["LastUpdateStatus"].readIfPresent()
-        value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastModifiedTimestamp = try reader["LastModifiedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.publicKey = try reader["PublicKey"].readIfPresent()
-        value.publicKeys = try reader["PublicKeys"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.securityConfiguration = try reader["SecurityConfiguration"].readIfPresent()
-        value.arguments = try reader["Arguments"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
-}
-
-extension GlueClientTypes.Job {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.Job {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.Job()
-        value.name = try reader["Name"].readIfPresent()
-        value.jobMode = try reader["JobMode"].readIfPresent()
-        value.jobRunQueuingEnabled = try reader["JobRunQueuingEnabled"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        value.logUri = try reader["LogUri"].readIfPresent()
-        value.role = try reader["Role"].readIfPresent()
-        value.createdOn = try reader["CreatedOn"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastModifiedOn = try reader["LastModifiedOn"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.executionProperty = try reader["ExecutionProperty"].readIfPresent(with: GlueClientTypes.ExecutionProperty.read(from:))
-        value.command = try reader["Command"].readIfPresent(with: GlueClientTypes.JobCommand.read(from:))
-        value.defaultArguments = try reader["DefaultArguments"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.nonOverridableArguments = try reader["NonOverridableArguments"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.connections = try reader["Connections"].readIfPresent(with: GlueClientTypes.ConnectionsList.read(from:))
-        value.maxRetries = try reader["MaxRetries"].readIfPresent() ?? 0
-        value.allocatedCapacity = try reader["AllocatedCapacity"].readIfPresent() ?? 0
-        value.timeout = try reader["Timeout"].readIfPresent()
-        value.maxCapacity = try reader["MaxCapacity"].readIfPresent()
-        value.workerType = try reader["WorkerType"].readIfPresent()
-        value.numberOfWorkers = try reader["NumberOfWorkers"].readIfPresent()
-        value.securityConfiguration = try reader["SecurityConfiguration"].readIfPresent()
-        value.notificationProperty = try reader["NotificationProperty"].readIfPresent(with: GlueClientTypes.NotificationProperty.read(from:))
-        value.glueVersion = try reader["GlueVersion"].readIfPresent()
-        value.codeGenConfigurationNodes = try reader["CodeGenConfigurationNodes"].readMapIfPresent(valueReadingClosure: GlueClientTypes.CodeGenConfigurationNode.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.executionClass = try reader["ExecutionClass"].readIfPresent()
-        value.sourceControlDetails = try reader["SourceControlDetails"].readIfPresent(with: GlueClientTypes.SourceControlDetails.read(from:))
-        value.maintenanceWindow = try reader["MaintenanceWindow"].readIfPresent()
-        value.profileName = try reader["ProfileName"].readIfPresent()
-        return value
-    }
-}
-
-extension GlueClientTypes.SourceControlDetails {
-
-    static func write(value: GlueClientTypes.SourceControlDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AuthStrategy"].write(value.authStrategy)
-        try writer["AuthToken"].write(value.authToken)
-        try writer["Branch"].write(value.branch)
-        try writer["Folder"].write(value.folder)
-        try writer["LastCommitId"].write(value.lastCommitId)
-        try writer["Owner"].write(value.owner)
-        try writer["Provider"].write(value.provider)
-        try writer["Repository"].write(value.repository)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.SourceControlDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.SourceControlDetails()
-        value.provider = try reader["Provider"].readIfPresent()
-        value.repository = try reader["Repository"].readIfPresent()
-        value.owner = try reader["Owner"].readIfPresent()
-        value.branch = try reader["Branch"].readIfPresent()
-        value.folder = try reader["Folder"].readIfPresent()
-        value.lastCommitId = try reader["LastCommitId"].readIfPresent()
-        value.authStrategy = try reader["AuthStrategy"].readIfPresent()
-        value.authToken = try reader["AuthToken"].readIfPresent()
+        var value = GlueClientTypes.CloudWatchEncryption()
+        value.cloudWatchEncryptionMode = try reader["CloudWatchEncryptionMode"].readIfPresent()
+        value.kmsKeyArn = try reader["KmsKeyArn"].readIfPresent()
         return value
     }
 }
@@ -45167,55 +45357,1307 @@ extension GlueClientTypes.CodeGenConfigurationNode {
     }
 }
 
-extension GlueClientTypes.DynamoDBELTConnectorSource {
+extension GlueClientTypes.CodeGenEdge {
 
-    static func write(value: GlueClientTypes.DynamoDBELTConnectorSource?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: GlueClientTypes.CodeGenEdge?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["ConnectionOptions"].write(value.connectionOptions, with: GlueClientTypes.DDBELTConnectionOptions.write(value:to:))
+        try writer["Source"].write(value.source)
+        try writer["Target"].write(value.target)
+        try writer["TargetParameter"].write(value.targetParameter)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.CodeGenEdge {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.CodeGenEdge()
+        value.source = try reader["Source"].readIfPresent() ?? ""
+        value.target = try reader["Target"].readIfPresent() ?? ""
+        value.targetParameter = try reader["TargetParameter"].readIfPresent()
+        return value
+    }
+}
+
+extension GlueClientTypes.CodeGenNode {
+
+    static func write(value: GlueClientTypes.CodeGenNode?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Args"].writeList(value.args, memberWritingClosure: GlueClientTypes.CodeGenNodeArg.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Id"].write(value.id)
+        try writer["LineNumber"].write(value.lineNumber)
+        try writer["NodeType"].write(value.nodeType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.CodeGenNode {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.CodeGenNode()
+        value.id = try reader["Id"].readIfPresent() ?? ""
+        value.nodeType = try reader["NodeType"].readIfPresent() ?? ""
+        value.args = try reader["Args"].readListIfPresent(memberReadingClosure: GlueClientTypes.CodeGenNodeArg.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.lineNumber = try reader["LineNumber"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension GlueClientTypes.CodeGenNodeArg {
+
+    static func write(value: GlueClientTypes.CodeGenNodeArg?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Name"].write(value.name)
+        try writer["Param"].write(value.param)
+        try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.CodeGenNodeArg {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.CodeGenNodeArg()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
+        value.param = try reader["Param"].readIfPresent() ?? false
+        return value
+    }
+}
+
+extension GlueClientTypes.Column {
+
+    static func write(value: GlueClientTypes.Column?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Comment"].write(value.comment)
+        try writer["Name"].write(value.name)
+        try writer["Parameters"].writeMap(value.parameters, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["Type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.Column {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.Column()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.type = try reader["Type"].readIfPresent()
+        value.comment = try reader["Comment"].readIfPresent()
+        value.parameters = try reader["Parameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension GlueClientTypes.ColumnError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.ColumnError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.ColumnError()
+        value.columnName = try reader["ColumnName"].readIfPresent()
+        value.error = try reader["Error"].readIfPresent(with: GlueClientTypes.ErrorDetail.read(from:))
+        return value
+    }
+}
+
+extension GlueClientTypes.ColumnImportance {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.ColumnImportance {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.ColumnImportance()
+        value.columnName = try reader["ColumnName"].readIfPresent()
+        value.importance = try reader["Importance"].readIfPresent()
+        return value
+    }
+}
+
+extension GlueClientTypes.ColumnRowFilter {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.ColumnRowFilter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.ColumnRowFilter()
+        value.columnName = try reader["ColumnName"].readIfPresent()
+        value.rowFilterExpression = try reader["RowFilterExpression"].readIfPresent()
+        return value
+    }
+}
+
+extension GlueClientTypes.ColumnStatistics {
+
+    static func write(value: GlueClientTypes.ColumnStatistics?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AnalyzedTime"].writeTimestamp(value.analyzedTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["ColumnName"].write(value.columnName)
+        try writer["ColumnType"].write(value.columnType)
+        try writer["StatisticsData"].write(value.statisticsData, with: GlueClientTypes.ColumnStatisticsData.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.ColumnStatistics {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.ColumnStatistics()
+        value.columnName = try reader["ColumnName"].readIfPresent() ?? ""
+        value.columnType = try reader["ColumnType"].readIfPresent() ?? ""
+        value.analyzedTime = try reader["AnalyzedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.statisticsData = try reader["StatisticsData"].readIfPresent(with: GlueClientTypes.ColumnStatisticsData.read(from:))
+        return value
+    }
+}
+
+extension GlueClientTypes.ColumnStatisticsData {
+
+    static func write(value: GlueClientTypes.ColumnStatisticsData?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["BinaryColumnStatisticsData"].write(value.binaryColumnStatisticsData, with: GlueClientTypes.BinaryColumnStatisticsData.write(value:to:))
+        try writer["BooleanColumnStatisticsData"].write(value.booleanColumnStatisticsData, with: GlueClientTypes.BooleanColumnStatisticsData.write(value:to:))
+        try writer["DateColumnStatisticsData"].write(value.dateColumnStatisticsData, with: GlueClientTypes.DateColumnStatisticsData.write(value:to:))
+        try writer["DecimalColumnStatisticsData"].write(value.decimalColumnStatisticsData, with: GlueClientTypes.DecimalColumnStatisticsData.write(value:to:))
+        try writer["DoubleColumnStatisticsData"].write(value.doubleColumnStatisticsData, with: GlueClientTypes.DoubleColumnStatisticsData.write(value:to:))
+        try writer["LongColumnStatisticsData"].write(value.longColumnStatisticsData, with: GlueClientTypes.LongColumnStatisticsData.write(value:to:))
+        try writer["StringColumnStatisticsData"].write(value.stringColumnStatisticsData, with: GlueClientTypes.StringColumnStatisticsData.write(value:to:))
+        try writer["Type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.ColumnStatisticsData {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.ColumnStatisticsData()
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
+        value.booleanColumnStatisticsData = try reader["BooleanColumnStatisticsData"].readIfPresent(with: GlueClientTypes.BooleanColumnStatisticsData.read(from:))
+        value.dateColumnStatisticsData = try reader["DateColumnStatisticsData"].readIfPresent(with: GlueClientTypes.DateColumnStatisticsData.read(from:))
+        value.decimalColumnStatisticsData = try reader["DecimalColumnStatisticsData"].readIfPresent(with: GlueClientTypes.DecimalColumnStatisticsData.read(from:))
+        value.doubleColumnStatisticsData = try reader["DoubleColumnStatisticsData"].readIfPresent(with: GlueClientTypes.DoubleColumnStatisticsData.read(from:))
+        value.longColumnStatisticsData = try reader["LongColumnStatisticsData"].readIfPresent(with: GlueClientTypes.LongColumnStatisticsData.read(from:))
+        value.stringColumnStatisticsData = try reader["StringColumnStatisticsData"].readIfPresent(with: GlueClientTypes.StringColumnStatisticsData.read(from:))
+        value.binaryColumnStatisticsData = try reader["BinaryColumnStatisticsData"].readIfPresent(with: GlueClientTypes.BinaryColumnStatisticsData.read(from:))
+        return value
+    }
+}
+
+extension GlueClientTypes.ColumnStatisticsError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.ColumnStatisticsError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.ColumnStatisticsError()
+        value.columnStatistics = try reader["ColumnStatistics"].readIfPresent(with: GlueClientTypes.ColumnStatistics.read(from:))
+        value.error = try reader["Error"].readIfPresent(with: GlueClientTypes.ErrorDetail.read(from:))
+        return value
+    }
+}
+
+extension GlueClientTypes.ColumnStatisticsTaskRun {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.ColumnStatisticsTaskRun {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.ColumnStatisticsTaskRun()
+        value.customerId = try reader["CustomerId"].readIfPresent()
+        value.columnStatisticsTaskRunId = try reader["ColumnStatisticsTaskRunId"].readIfPresent()
+        value.databaseName = try reader["DatabaseName"].readIfPresent()
+        value.tableName = try reader["TableName"].readIfPresent()
+        value.columnNameList = try reader["ColumnNameList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.catalogID = try reader["CatalogID"].readIfPresent()
+        value.role = try reader["Role"].readIfPresent()
+        value.sampleSize = try reader["SampleSize"].readIfPresent() ?? 0
+        value.securityConfiguration = try reader["SecurityConfiguration"].readIfPresent()
+        value.numberOfWorkers = try reader["NumberOfWorkers"].readIfPresent() ?? 0
+        value.workerType = try reader["WorkerType"].readIfPresent()
+        value.computationType = try reader["ComputationType"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastUpdated = try reader["LastUpdated"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
+        value.dpuSeconds = try reader["DPUSeconds"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension GlueClientTypes.ColumnStatisticsTaskSettings {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.ColumnStatisticsTaskSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.ColumnStatisticsTaskSettings()
+        value.databaseName = try reader["DatabaseName"].readIfPresent()
+        value.tableName = try reader["TableName"].readIfPresent()
+        value.schedule = try reader["Schedule"].readIfPresent(with: GlueClientTypes.Schedule.read(from:))
+        value.columnNameList = try reader["ColumnNameList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.catalogID = try reader["CatalogID"].readIfPresent()
+        value.role = try reader["Role"].readIfPresent()
+        value.sampleSize = try reader["SampleSize"].readIfPresent() ?? 0
+        value.securityConfiguration = try reader["SecurityConfiguration"].readIfPresent()
+        value.scheduleType = try reader["ScheduleType"].readIfPresent()
+        value.settingSource = try reader["SettingSource"].readIfPresent()
+        value.lastExecutionAttempt = try reader["LastExecutionAttempt"].readIfPresent(with: GlueClientTypes.ExecutionAttempt.read(from:))
+        return value
+    }
+}
+
+extension GlueClientTypes.CompactionConfiguration {
+
+    static func write(value: GlueClientTypes.CompactionConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["icebergConfiguration"].write(value.icebergConfiguration, with: GlueClientTypes.IcebergCompactionConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.CompactionConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.CompactionConfiguration()
+        value.icebergConfiguration = try reader["icebergConfiguration"].readIfPresent(with: GlueClientTypes.IcebergCompactionConfiguration.read(from:))
+        return value
+    }
+}
+
+extension GlueClientTypes.CompactionMetrics {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.CompactionMetrics {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.CompactionMetrics()
+        value.icebergMetrics = try reader["IcebergMetrics"].readIfPresent(with: GlueClientTypes.IcebergCompactionMetrics.read(from:))
+        return value
+    }
+}
+
+extension GlueClientTypes.ComputeEnvironmentConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.ComputeEnvironmentConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.ComputeEnvironmentConfiguration()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.description = try reader["Description"].readIfPresent() ?? ""
+        value.computeEnvironment = try reader["ComputeEnvironment"].readIfPresent() ?? .sdkUnknown("")
+        value.supportedAuthenticationTypes = try reader["SupportedAuthenticationTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<GlueClientTypes.AuthenticationType>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.connectionOptions = try reader["ConnectionOptions"].readMapIfPresent(valueReadingClosure: GlueClientTypes.Property.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
+        value.connectionPropertyNameOverrides = try reader["ConnectionPropertyNameOverrides"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
+        value.connectionOptionNameOverrides = try reader["ConnectionOptionNameOverrides"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
+        value.connectionPropertiesRequiredOverrides = try reader["ConnectionPropertiesRequiredOverrides"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.physicalConnectionPropertiesRequired = try reader["PhysicalConnectionPropertiesRequired"].readIfPresent()
+        return value
+    }
+}
+
+extension GlueClientTypes.Condition {
+
+    static func write(value: GlueClientTypes.Condition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CrawlState"].write(value.crawlState)
+        try writer["CrawlerName"].write(value.crawlerName)
+        try writer["JobName"].write(value.jobName)
+        try writer["LogicalOperator"].write(value.logicalOperator)
+        try writer["State"].write(value.state)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.Condition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.Condition()
+        value.logicalOperator = try reader["LogicalOperator"].readIfPresent()
+        value.jobName = try reader["JobName"].readIfPresent()
+        value.state = try reader["State"].readIfPresent()
+        value.crawlerName = try reader["CrawlerName"].readIfPresent()
+        value.crawlState = try reader["CrawlState"].readIfPresent()
+        return value
+    }
+}
+
+extension GlueClientTypes.ConditionExpression {
+
+    static func write(value: GlueClientTypes.ConditionExpression?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Condition"].write(value.condition)
+        try writer["TargetColumn"].write(value.targetColumn)
+        try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.ConditionExpression {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.ConditionExpression()
+        value.condition = try reader["Condition"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent()
+        value.targetColumn = try reader["TargetColumn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension GlueClientTypes.ConfigurationObject {
+
+    static func write(value: GlueClientTypes.ConfigurationObject?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AllowedValues"].writeList(value.allowedValues, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["DefaultValue"].write(value.defaultValue)
+        try writer["MaxValue"].write(value.maxValue)
+        try writer["MinValue"].write(value.minValue)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.ConfigurationObject {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.ConfigurationObject()
+        value.defaultValue = try reader["DefaultValue"].readIfPresent()
+        value.allowedValues = try reader["AllowedValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.minValue = try reader["MinValue"].readIfPresent()
+        value.maxValue = try reader["MaxValue"].readIfPresent()
+        return value
+    }
+}
+
+extension GlueClientTypes.ConfusionMatrix {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.ConfusionMatrix {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.ConfusionMatrix()
+        value.numTruePositives = try reader["NumTruePositives"].readIfPresent()
+        value.numFalsePositives = try reader["NumFalsePositives"].readIfPresent()
+        value.numTrueNegatives = try reader["NumTrueNegatives"].readIfPresent()
+        value.numFalseNegatives = try reader["NumFalseNegatives"].readIfPresent()
+        return value
+    }
+}
+
+extension GlueClientTypes.Connection {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.Connection {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.Connection()
+        value.name = try reader["Name"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.connectionType = try reader["ConnectionType"].readIfPresent()
+        value.matchCriteria = try reader["MatchCriteria"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.connectionProperties = try reader["ConnectionProperties"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.sparkProperties = try reader["SparkProperties"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.athenaProperties = try reader["AthenaProperties"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.pythonProperties = try reader["PythonProperties"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.physicalConnectionRequirements = try reader["PhysicalConnectionRequirements"].readIfPresent(with: GlueClientTypes.PhysicalConnectionRequirements.read(from:))
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastUpdatedTime = try reader["LastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastUpdatedBy = try reader["LastUpdatedBy"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.statusReason = try reader["StatusReason"].readIfPresent()
+        value.lastConnectionValidationTime = try reader["LastConnectionValidationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.authenticationConfiguration = try reader["AuthenticationConfiguration"].readIfPresent(with: GlueClientTypes.AuthenticationConfiguration.read(from:))
+        value.connectionSchemaVersion = try reader["ConnectionSchemaVersion"].readIfPresent()
+        value.compatibleComputeEnvironments = try reader["CompatibleComputeEnvironments"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<GlueClientTypes.ComputeEnvironment>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension GlueClientTypes.ConnectionInput {
+
+    static func write(value: GlueClientTypes.ConnectionInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AthenaProperties"].writeMap(value.athenaProperties, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["AuthenticationConfiguration"].write(value.authenticationConfiguration, with: GlueClientTypes.AuthenticationConfigurationInput.write(value:to:))
+        try writer["ConnectionProperties"].writeMap(value.connectionProperties, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["ConnectionType"].write(value.connectionType)
+        try writer["Description"].write(value.description)
+        try writer["MatchCriteria"].writeList(value.matchCriteria, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Name"].write(value.name)
+        try writer["PhysicalConnectionRequirements"].write(value.physicalConnectionRequirements, with: GlueClientTypes.PhysicalConnectionRequirements.write(value:to:))
+        try writer["PythonProperties"].writeMap(value.pythonProperties, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["SparkProperties"].writeMap(value.sparkProperties, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["ValidateCredentials"].write(value.validateCredentials)
+        try writer["ValidateForComputeEnvironments"].writeList(value.validateForComputeEnvironments, memberWritingClosure: SmithyReadWrite.WritingClosureBox<GlueClientTypes.ComputeEnvironment>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension GlueClientTypes.ConnectionPasswordEncryption {
+
+    static func write(value: GlueClientTypes.ConnectionPasswordEncryption?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AwsKmsKeyId"].write(value.awsKmsKeyId)
+        try writer["ReturnConnectionPasswordEncrypted"].write(value.returnConnectionPasswordEncrypted)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.ConnectionPasswordEncryption {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.ConnectionPasswordEncryption()
+        value.returnConnectionPasswordEncrypted = try reader["ReturnConnectionPasswordEncrypted"].readIfPresent() ?? false
+        value.awsKmsKeyId = try reader["AwsKmsKeyId"].readIfPresent()
+        return value
+    }
+}
+
+extension GlueClientTypes.ConnectionPropertiesConfiguration {
+
+    static func write(value: GlueClientTypes.ConnectionPropertiesConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AdditionalRequestParameters"].writeList(value.additionalRequestParameters, memberWritingClosure: GlueClientTypes.ConnectorProperty.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Url"].write(value.url, with: GlueClientTypes.ConnectorProperty.write(value:to:))
+    }
+}
+
+extension GlueClientTypes.ConnectionsList {
+
+    static func write(value: GlueClientTypes.ConnectionsList?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Connections"].writeList(value.connections, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.ConnectionsList {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.ConnectionsList()
+        value.connections = try reader["Connections"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension GlueClientTypes.ConnectionTypeBrief {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.ConnectionTypeBrief {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.ConnectionTypeBrief()
+        value.connectionType = try reader["ConnectionType"].readIfPresent()
+        value.displayName = try reader["DisplayName"].readIfPresent()
+        value.vendor = try reader["Vendor"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.categories = try reader["Categories"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.capabilities = try reader["Capabilities"].readIfPresent(with: GlueClientTypes.Capabilities.read(from:))
+        value.logoUrl = try reader["LogoUrl"].readIfPresent()
+        value.connectionTypeVariants = try reader["ConnectionTypeVariants"].readListIfPresent(memberReadingClosure: GlueClientTypes.ConnectionTypeVariant.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension GlueClientTypes.ConnectionTypeVariant {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.ConnectionTypeVariant {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.ConnectionTypeVariant()
+        value.connectionTypeVariantName = try reader["ConnectionTypeVariantName"].readIfPresent()
+        value.displayName = try reader["DisplayName"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.logoUrl = try reader["LogoUrl"].readIfPresent()
+        return value
+    }
+}
+
+extension GlueClientTypes.ConnectorAuthenticationConfiguration {
+
+    static func write(value: GlueClientTypes.ConnectorAuthenticationConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AuthenticationTypes"].writeList(value.authenticationTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<GlueClientTypes.AuthenticationType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["BasicAuthenticationProperties"].write(value.basicAuthenticationProperties, with: GlueClientTypes.BasicAuthenticationProperties.write(value:to:))
+        try writer["CustomAuthenticationProperties"].write(value.customAuthenticationProperties, with: GlueClientTypes.CustomAuthenticationProperties.write(value:to:))
+        try writer["OAuth2Properties"].write(value.oAuth2Properties, with: GlueClientTypes.ConnectorOAuth2Properties.write(value:to:))
+    }
+}
+
+extension GlueClientTypes.ConnectorAuthorizationCodeProperties {
+
+    static func write(value: GlueClientTypes.ConnectorAuthorizationCodeProperties?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AuthorizationCode"].write(value.authorizationCode, with: GlueClientTypes.ConnectorProperty.write(value:to:))
+        try writer["AuthorizationCodeUrl"].write(value.authorizationCodeUrl, with: GlueClientTypes.ConnectorProperty.write(value:to:))
+        try writer["ClientId"].write(value.clientId, with: GlueClientTypes.ConnectorProperty.write(value:to:))
+        try writer["ClientSecret"].write(value.clientSecret, with: GlueClientTypes.ConnectorProperty.write(value:to:))
+        try writer["ContentType"].write(value.contentType)
+        try writer["Prompt"].write(value.prompt, with: GlueClientTypes.ConnectorProperty.write(value:to:))
+        try writer["RedirectUri"].write(value.redirectUri, with: GlueClientTypes.ConnectorProperty.write(value:to:))
+        try writer["RequestMethod"].write(value.requestMethod)
+        try writer["Scope"].write(value.scope, with: GlueClientTypes.ConnectorProperty.write(value:to:))
+        try writer["TokenUrl"].write(value.tokenUrl, with: GlueClientTypes.ConnectorProperty.write(value:to:))
+        try writer["TokenUrlParameters"].writeList(value.tokenUrlParameters, memberWritingClosure: GlueClientTypes.ConnectorProperty.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension GlueClientTypes.ConnectorDataSource {
+
+    static func write(value: GlueClientTypes.ConnectorDataSource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ConnectionType"].write(value.connectionType)
+        try writer["Data"].writeMap(value.data, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["Name"].write(value.name)
         try writer["OutputSchemas"].writeList(value.outputSchemas, memberWritingClosure: GlueClientTypes.GlueSchema.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.DynamoDBELTConnectorSource {
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.ConnectorDataSource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.DynamoDBELTConnectorSource()
+        var value = GlueClientTypes.ConnectorDataSource()
         value.name = try reader["Name"].readIfPresent() ?? ""
-        value.connectionOptions = try reader["ConnectionOptions"].readIfPresent(with: GlueClientTypes.DDBELTConnectionOptions.read(from:))
+        value.connectionType = try reader["ConnectionType"].readIfPresent() ?? ""
+        value.data = try reader["Data"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
         value.outputSchemas = try reader["OutputSchemas"].readListIfPresent(memberReadingClosure: GlueClientTypes.GlueSchema.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
 
-extension GlueClientTypes.GlueSchema {
+extension GlueClientTypes.ConnectorDataTarget {
 
-    static func write(value: GlueClientTypes.GlueSchema?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: GlueClientTypes.ConnectorDataTarget?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["Columns"].writeList(value.columns, memberWritingClosure: GlueClientTypes.GlueStudioSchemaColumn.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ConnectionType"].write(value.connectionType)
+        try writer["Data"].writeMap(value.data, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["Inputs"].writeList(value.inputs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Name"].write(value.name)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.GlueSchema {
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.ConnectorDataTarget {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.GlueSchema()
-        value.columns = try reader["Columns"].readListIfPresent(memberReadingClosure: GlueClientTypes.GlueStudioSchemaColumn.read(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = GlueClientTypes.ConnectorDataTarget()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.connectionType = try reader["ConnectionType"].readIfPresent() ?? ""
+        value.data = try reader["Data"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
+        value.inputs = try reader["Inputs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
 
-extension GlueClientTypes.GlueStudioSchemaColumn {
+extension GlueClientTypes.ConnectorOAuth2Properties {
 
-    static func write(value: GlueClientTypes.GlueStudioSchemaColumn?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: GlueClientTypes.ConnectorOAuth2Properties?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["GlueStudioType"].write(value.glueStudioType)
+        try writer["AuthorizationCodeProperties"].write(value.authorizationCodeProperties, with: GlueClientTypes.ConnectorAuthorizationCodeProperties.write(value:to:))
+        try writer["ClientCredentialsProperties"].write(value.clientCredentialsProperties, with: GlueClientTypes.ClientCredentialsProperties.write(value:to:))
+        try writer["JWTBearerProperties"].write(value.jwtBearerProperties, with: GlueClientTypes.JWTBearerProperties.write(value:to:))
+        try writer["OAuth2GrantType"].write(value.oAuth2GrantType)
+    }
+}
+
+extension GlueClientTypes.ConnectorProperty {
+
+    static func write(value: GlueClientTypes.ConnectorProperty?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AllowedValues"].writeList(value.allowedValues, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["DefaultValue"].write(value.defaultValue)
+        try writer["KeyOverride"].write(value.keyOverride)
         try writer["Name"].write(value.name)
-        try writer["Type"].write(value.type)
+        try writer["PropertyLocation"].write(value.propertyLocation)
+        try writer["PropertyType"].write(value.propertyType)
+        try writer["Required"].write(value.`required`)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.GlueStudioSchemaColumn {
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.ConnectorProperty {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.GlueStudioSchemaColumn()
+        var value = GlueClientTypes.ConnectorProperty()
         value.name = try reader["Name"].readIfPresent() ?? ""
-        value.type = try reader["Type"].readIfPresent()
-        value.glueStudioType = try reader["GlueStudioType"].readIfPresent()
+        value.keyOverride = try reader["KeyOverride"].readIfPresent()
+        value.`required` = try reader["Required"].readIfPresent() ?? false
+        value.defaultValue = try reader["DefaultValue"].readIfPresent()
+        value.allowedValues = try reader["AllowedValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.propertyLocation = try reader["PropertyLocation"].readIfPresent()
+        value.propertyType = try reader["PropertyType"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension GlueClientTypes.Crawl {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.Crawl {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.Crawl()
+        value.state = try reader["State"].readIfPresent()
+        value.startedOn = try reader["StartedOn"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.completedOn = try reader["CompletedOn"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
+        value.logGroup = try reader["LogGroup"].readIfPresent()
+        value.logStream = try reader["LogStream"].readIfPresent()
+        return value
+    }
+}
+
+extension GlueClientTypes.Crawler {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.Crawler {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.Crawler()
+        value.name = try reader["Name"].readIfPresent()
+        value.role = try reader["Role"].readIfPresent()
+        value.targets = try reader["Targets"].readIfPresent(with: GlueClientTypes.CrawlerTargets.read(from:))
+        value.databaseName = try reader["DatabaseName"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.classifiers = try reader["Classifiers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.recrawlPolicy = try reader["RecrawlPolicy"].readIfPresent(with: GlueClientTypes.RecrawlPolicy.read(from:))
+        value.schemaChangePolicy = try reader["SchemaChangePolicy"].readIfPresent(with: GlueClientTypes.SchemaChangePolicy.read(from:))
+        value.lineageConfiguration = try reader["LineageConfiguration"].readIfPresent(with: GlueClientTypes.LineageConfiguration.read(from:))
+        value.state = try reader["State"].readIfPresent()
+        value.tablePrefix = try reader["TablePrefix"].readIfPresent()
+        value.schedule = try reader["Schedule"].readIfPresent(with: GlueClientTypes.Schedule.read(from:))
+        value.crawlElapsedTime = try reader["CrawlElapsedTime"].readIfPresent() ?? 0
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastUpdated = try reader["LastUpdated"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastCrawl = try reader["LastCrawl"].readIfPresent(with: GlueClientTypes.LastCrawlInfo.read(from:))
+        value.version = try reader["Version"].readIfPresent() ?? 0
+        value.configuration = try reader["Configuration"].readIfPresent()
+        value.crawlerSecurityConfiguration = try reader["CrawlerSecurityConfiguration"].readIfPresent()
+        value.lakeFormationConfiguration = try reader["LakeFormationConfiguration"].readIfPresent(with: GlueClientTypes.LakeFormationConfiguration.read(from:))
+        return value
+    }
+}
+
+extension GlueClientTypes.CrawlerHistory {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.CrawlerHistory {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.CrawlerHistory()
+        value.crawlId = try reader["CrawlId"].readIfPresent()
+        value.state = try reader["State"].readIfPresent()
+        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.summary = try reader["Summary"].readIfPresent()
+        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
+        value.logGroup = try reader["LogGroup"].readIfPresent()
+        value.logStream = try reader["LogStream"].readIfPresent()
+        value.messagePrefix = try reader["MessagePrefix"].readIfPresent()
+        value.dpuHour = try reader["DPUHour"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension GlueClientTypes.CrawlerMetrics {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.CrawlerMetrics {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.CrawlerMetrics()
+        value.crawlerName = try reader["CrawlerName"].readIfPresent()
+        value.timeLeftSeconds = try reader["TimeLeftSeconds"].readIfPresent() ?? 0
+        value.stillEstimating = try reader["StillEstimating"].readIfPresent() ?? false
+        value.lastRuntimeSeconds = try reader["LastRuntimeSeconds"].readIfPresent() ?? 0
+        value.medianRuntimeSeconds = try reader["MedianRuntimeSeconds"].readIfPresent() ?? 0
+        value.tablesCreated = try reader["TablesCreated"].readIfPresent() ?? 0
+        value.tablesUpdated = try reader["TablesUpdated"].readIfPresent() ?? 0
+        value.tablesDeleted = try reader["TablesDeleted"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension GlueClientTypes.CrawlerNodeDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.CrawlerNodeDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.CrawlerNodeDetails()
+        value.crawls = try reader["Crawls"].readListIfPresent(memberReadingClosure: GlueClientTypes.Crawl.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension GlueClientTypes.CrawlerTargets {
+
+    static func write(value: GlueClientTypes.CrawlerTargets?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CatalogTargets"].writeList(value.catalogTargets, memberWritingClosure: GlueClientTypes.CatalogTarget.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["DeltaTargets"].writeList(value.deltaTargets, memberWritingClosure: GlueClientTypes.DeltaTarget.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["DynamoDBTargets"].writeList(value.dynamoDBTargets, memberWritingClosure: GlueClientTypes.DynamoDBTarget.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["HudiTargets"].writeList(value.hudiTargets, memberWritingClosure: GlueClientTypes.HudiTarget.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["IcebergTargets"].writeList(value.icebergTargets, memberWritingClosure: GlueClientTypes.IcebergTarget.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["JdbcTargets"].writeList(value.jdbcTargets, memberWritingClosure: GlueClientTypes.JdbcTarget.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["MongoDBTargets"].writeList(value.mongoDBTargets, memberWritingClosure: GlueClientTypes.MongoDBTarget.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["S3Targets"].writeList(value.s3Targets, memberWritingClosure: GlueClientTypes.S3Target.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.CrawlerTargets {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.CrawlerTargets()
+        value.s3Targets = try reader["S3Targets"].readListIfPresent(memberReadingClosure: GlueClientTypes.S3Target.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.jdbcTargets = try reader["JdbcTargets"].readListIfPresent(memberReadingClosure: GlueClientTypes.JdbcTarget.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.mongoDBTargets = try reader["MongoDBTargets"].readListIfPresent(memberReadingClosure: GlueClientTypes.MongoDBTarget.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.dynamoDBTargets = try reader["DynamoDBTargets"].readListIfPresent(memberReadingClosure: GlueClientTypes.DynamoDBTarget.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.catalogTargets = try reader["CatalogTargets"].readListIfPresent(memberReadingClosure: GlueClientTypes.CatalogTarget.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.deltaTargets = try reader["DeltaTargets"].readListIfPresent(memberReadingClosure: GlueClientTypes.DeltaTarget.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.icebergTargets = try reader["IcebergTargets"].readListIfPresent(memberReadingClosure: GlueClientTypes.IcebergTarget.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.hudiTargets = try reader["HudiTargets"].readListIfPresent(memberReadingClosure: GlueClientTypes.HudiTarget.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension GlueClientTypes.CrawlsFilter {
+
+    static func write(value: GlueClientTypes.CrawlsFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FieldName"].write(value.fieldName)
+        try writer["FieldValue"].write(value.fieldValue)
+        try writer["FilterOperator"].write(value.filterOperator)
+    }
+}
+
+extension GlueClientTypes.CreateCsvClassifierRequest {
+
+    static func write(value: GlueClientTypes.CreateCsvClassifierRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AllowSingleColumn"].write(value.allowSingleColumn)
+        try writer["ContainsHeader"].write(value.containsHeader)
+        try writer["CustomDatatypeConfigured"].write(value.customDatatypeConfigured)
+        try writer["CustomDatatypes"].writeList(value.customDatatypes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Delimiter"].write(value.delimiter)
+        try writer["DisableValueTrimming"].write(value.disableValueTrimming)
+        try writer["Header"].writeList(value.header, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Name"].write(value.name)
+        try writer["QuoteSymbol"].write(value.quoteSymbol)
+        try writer["Serde"].write(value.serde)
+    }
+}
+
+extension GlueClientTypes.CreateGrokClassifierRequest {
+
+    static func write(value: GlueClientTypes.CreateGrokClassifierRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Classification"].write(value.classification)
+        try writer["CustomPatterns"].write(value.customPatterns)
+        try writer["GrokPattern"].write(value.grokPattern)
+        try writer["Name"].write(value.name)
+    }
+}
+
+extension GlueClientTypes.CreateIcebergTableInput {
+
+    static func write(value: GlueClientTypes.CreateIcebergTableInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Location"].write(value.location)
+        try writer["PartitionSpec"].write(value.partitionSpec, with: GlueClientTypes.IcebergPartitionSpec.write(value:to:))
+        try writer["Properties"].writeMap(value.properties, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["Schema"].write(value.schema, with: GlueClientTypes.IcebergSchema.write(value:to:))
+        try writer["WriteOrder"].write(value.writeOrder, with: GlueClientTypes.IcebergSortOrder.write(value:to:))
+    }
+}
+
+extension GlueClientTypes.CreateJsonClassifierRequest {
+
+    static func write(value: GlueClientTypes.CreateJsonClassifierRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["JsonPath"].write(value.jsonPath)
+        try writer["Name"].write(value.name)
+    }
+}
+
+extension GlueClientTypes.CreateXMLClassifierRequest {
+
+    static func write(value: GlueClientTypes.CreateXMLClassifierRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Classification"].write(value.classification)
+        try writer["Name"].write(value.name)
+        try writer["RowTag"].write(value.rowTag)
+    }
+}
+
+extension GlueClientTypes.CsvClassifier {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.CsvClassifier {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.CsvClassifier()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastUpdated = try reader["LastUpdated"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.version = try reader["Version"].readIfPresent() ?? 0
+        value.delimiter = try reader["Delimiter"].readIfPresent()
+        value.quoteSymbol = try reader["QuoteSymbol"].readIfPresent()
+        value.containsHeader = try reader["ContainsHeader"].readIfPresent()
+        value.header = try reader["Header"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.disableValueTrimming = try reader["DisableValueTrimming"].readIfPresent()
+        value.allowSingleColumn = try reader["AllowSingleColumn"].readIfPresent()
+        value.customDatatypeConfigured = try reader["CustomDatatypeConfigured"].readIfPresent()
+        value.customDatatypes = try reader["CustomDatatypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.serde = try reader["Serde"].readIfPresent()
+        return value
+    }
+}
+
+extension GlueClientTypes.CursorConfiguration {
+
+    static func write(value: GlueClientTypes.CursorConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["LimitParameter"].write(value.limitParameter, with: GlueClientTypes.ExtractedParameter.write(value:to:))
+        try writer["NextPage"].write(value.nextPage, with: GlueClientTypes.ExtractedParameter.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.CursorConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.CursorConfiguration()
+        value.nextPage = try reader["NextPage"].readIfPresent(with: GlueClientTypes.ExtractedParameter.read(from:))
+        value.limitParameter = try reader["LimitParameter"].readIfPresent(with: GlueClientTypes.ExtractedParameter.read(from:))
+        return value
+    }
+}
+
+extension GlueClientTypes.CustomAuthenticationProperties {
+
+    static func write(value: GlueClientTypes.CustomAuthenticationProperties?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AuthenticationParameters"].writeList(value.authenticationParameters, memberWritingClosure: GlueClientTypes.ConnectorProperty.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension GlueClientTypes.CustomCode {
+
+    static func write(value: GlueClientTypes.CustomCode?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ClassName"].write(value.className)
+        try writer["Code"].write(value.code)
+        try writer["Inputs"].writeList(value.inputs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Name"].write(value.name)
+        try writer["OutputSchemas"].writeList(value.outputSchemas, memberWritingClosure: GlueClientTypes.GlueSchema.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.CustomCode {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.CustomCode()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.inputs = try reader["Inputs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.code = try reader["Code"].readIfPresent() ?? ""
+        value.className = try reader["ClassName"].readIfPresent() ?? ""
+        value.outputSchemas = try reader["OutputSchemas"].readListIfPresent(memberReadingClosure: GlueClientTypes.GlueSchema.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension GlueClientTypes.CustomEntityType {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.CustomEntityType {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.CustomEntityType()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.regexString = try reader["RegexString"].readIfPresent() ?? ""
+        value.contextWords = try reader["ContextWords"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension GlueClientTypes.Database {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.Database {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.Database()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.description = try reader["Description"].readIfPresent()
+        value.locationUri = try reader["LocationUri"].readIfPresent()
+        value.parameters = try reader["Parameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.createTableDefaultPermissions = try reader["CreateTableDefaultPermissions"].readListIfPresent(memberReadingClosure: GlueClientTypes.PrincipalPermissions.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.targetDatabase = try reader["TargetDatabase"].readIfPresent(with: GlueClientTypes.DatabaseIdentifier.read(from:))
+        value.catalogId = try reader["CatalogId"].readIfPresent()
+        value.federatedDatabase = try reader["FederatedDatabase"].readIfPresent(with: GlueClientTypes.FederatedDatabase.read(from:))
+        return value
+    }
+}
+
+extension GlueClientTypes.DatabaseIdentifier {
+
+    static func write(value: GlueClientTypes.DatabaseIdentifier?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CatalogId"].write(value.catalogId)
+        try writer["DatabaseName"].write(value.databaseName)
+        try writer["Region"].write(value.region)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.DatabaseIdentifier {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.DatabaseIdentifier()
+        value.catalogId = try reader["CatalogId"].readIfPresent()
+        value.databaseName = try reader["DatabaseName"].readIfPresent()
+        value.region = try reader["Region"].readIfPresent()
+        return value
+    }
+}
+
+extension GlueClientTypes.DatabaseInput {
+
+    static func write(value: GlueClientTypes.DatabaseInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CreateTableDefaultPermissions"].writeList(value.createTableDefaultPermissions, memberWritingClosure: GlueClientTypes.PrincipalPermissions.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Description"].write(value.description)
+        try writer["FederatedDatabase"].write(value.federatedDatabase, with: GlueClientTypes.FederatedDatabase.write(value:to:))
+        try writer["LocationUri"].write(value.locationUri)
+        try writer["Name"].write(value.name)
+        try writer["Parameters"].writeMap(value.parameters, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["TargetDatabase"].write(value.targetDatabase, with: GlueClientTypes.DatabaseIdentifier.write(value:to:))
+    }
+}
+
+extension GlueClientTypes.DataCatalogEncryptionSettings {
+
+    static func write(value: GlueClientTypes.DataCatalogEncryptionSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ConnectionPasswordEncryption"].write(value.connectionPasswordEncryption, with: GlueClientTypes.ConnectionPasswordEncryption.write(value:to:))
+        try writer["EncryptionAtRest"].write(value.encryptionAtRest, with: GlueClientTypes.EncryptionAtRest.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.DataCatalogEncryptionSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.DataCatalogEncryptionSettings()
+        value.encryptionAtRest = try reader["EncryptionAtRest"].readIfPresent(with: GlueClientTypes.EncryptionAtRest.read(from:))
+        value.connectionPasswordEncryption = try reader["ConnectionPasswordEncryption"].readIfPresent(with: GlueClientTypes.ConnectionPasswordEncryption.read(from:))
+        return value
+    }
+}
+
+extension GlueClientTypes.DataLakeAccessProperties {
+
+    static func write(value: GlueClientTypes.DataLakeAccessProperties?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CatalogType"].write(value.catalogType)
+        try writer["DataLakeAccess"].write(value.dataLakeAccess)
+        try writer["DataTransferRole"].write(value.dataTransferRole)
+        try writer["KmsKey"].write(value.kmsKey)
+    }
+}
+
+extension GlueClientTypes.DataLakeAccessPropertiesOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.DataLakeAccessPropertiesOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.DataLakeAccessPropertiesOutput()
+        value.dataLakeAccess = try reader["DataLakeAccess"].readIfPresent() ?? false
+        value.dataTransferRole = try reader["DataTransferRole"].readIfPresent()
+        value.kmsKey = try reader["KmsKey"].readIfPresent()
+        value.managedWorkgroupName = try reader["ManagedWorkgroupName"].readIfPresent()
+        value.managedWorkgroupStatus = try reader["ManagedWorkgroupStatus"].readIfPresent()
+        value.redshiftDatabaseName = try reader["RedshiftDatabaseName"].readIfPresent()
+        value.statusMessage = try reader["StatusMessage"].readIfPresent()
+        value.catalogType = try reader["CatalogType"].readIfPresent()
+        return value
+    }
+}
+
+extension GlueClientTypes.DataLakePrincipal {
+
+    static func write(value: GlueClientTypes.DataLakePrincipal?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DataLakePrincipalIdentifier"].write(value.dataLakePrincipalIdentifier)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.DataLakePrincipal {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.DataLakePrincipal()
+        value.dataLakePrincipalIdentifier = try reader["DataLakePrincipalIdentifier"].readIfPresent()
+        return value
+    }
+}
+
+extension GlueClientTypes.DatapointInclusionAnnotation {
+
+    static func write(value: GlueClientTypes.DatapointInclusionAnnotation?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["InclusionAnnotation"].write(value.inclusionAnnotation)
+        try writer["ProfileId"].write(value.profileId)
+        try writer["StatisticId"].write(value.statisticId)
+    }
+}
+
+extension GlueClientTypes.DataQualityAggregatedMetrics {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.DataQualityAggregatedMetrics {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.DataQualityAggregatedMetrics()
+        value.totalRowsProcessed = try reader["TotalRowsProcessed"].readIfPresent()
+        value.totalRowsPassed = try reader["TotalRowsPassed"].readIfPresent()
+        value.totalRowsFailed = try reader["TotalRowsFailed"].readIfPresent()
+        value.totalRulesProcessed = try reader["TotalRulesProcessed"].readIfPresent()
+        value.totalRulesPassed = try reader["TotalRulesPassed"].readIfPresent()
+        value.totalRulesFailed = try reader["TotalRulesFailed"].readIfPresent()
+        return value
+    }
+}
+
+extension GlueClientTypes.DataQualityAnalyzerResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.DataQualityAnalyzerResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.DataQualityAnalyzerResult()
+        value.name = try reader["Name"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.evaluationMessage = try reader["EvaluationMessage"].readIfPresent()
+        value.evaluatedMetrics = try reader["EvaluatedMetrics"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension GlueClientTypes.DataQualityEncryption {
+
+    static func write(value: GlueClientTypes.DataQualityEncryption?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DataQualityEncryptionMode"].write(value.dataQualityEncryptionMode)
+        try writer["KmsKeyArn"].write(value.kmsKeyArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.DataQualityEncryption {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.DataQualityEncryption()
+        value.dataQualityEncryptionMode = try reader["DataQualityEncryptionMode"].readIfPresent()
+        value.kmsKeyArn = try reader["KmsKeyArn"].readIfPresent()
+        return value
+    }
+}
+
+extension GlueClientTypes.DataQualityEvaluationRunAdditionalRunOptions {
+
+    static func write(value: GlueClientTypes.DataQualityEvaluationRunAdditionalRunOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CloudWatchMetricsEnabled"].write(value.cloudWatchMetricsEnabled)
+        try writer["CompositeRuleEvaluationMethod"].write(value.compositeRuleEvaluationMethod)
+        try writer["ResultsS3Prefix"].write(value.resultsS3Prefix)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.DataQualityEvaluationRunAdditionalRunOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.DataQualityEvaluationRunAdditionalRunOptions()
+        value.cloudWatchMetricsEnabled = try reader["CloudWatchMetricsEnabled"].readIfPresent()
+        value.resultsS3Prefix = try reader["ResultsS3Prefix"].readIfPresent()
+        value.compositeRuleEvaluationMethod = try reader["CompositeRuleEvaluationMethod"].readIfPresent()
+        return value
+    }
+}
+
+extension GlueClientTypes.DataQualityGlueTable {
+
+    static func write(value: GlueClientTypes.DataQualityGlueTable?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AdditionalOptions"].writeMap(value.additionalOptions, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["CatalogId"].write(value.catalogId)
+        try writer["ConnectionName"].write(value.connectionName)
+        try writer["DatabaseName"].write(value.databaseName)
+        try writer["PreProcessingQuery"].write(value.preProcessingQuery)
+        try writer["TableName"].write(value.tableName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.DataQualityGlueTable {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.DataQualityGlueTable()
+        value.databaseName = try reader["DatabaseName"].readIfPresent() ?? ""
+        value.tableName = try reader["TableName"].readIfPresent() ?? ""
+        value.catalogId = try reader["CatalogId"].readIfPresent()
+        value.connectionName = try reader["ConnectionName"].readIfPresent()
+        value.additionalOptions = try reader["AdditionalOptions"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.preProcessingQuery = try reader["PreProcessingQuery"].readIfPresent()
+        return value
+    }
+}
+
+extension GlueClientTypes.DataQualityMetricValues {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.DataQualityMetricValues {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.DataQualityMetricValues()
+        value.actualValue = try reader["ActualValue"].readIfPresent()
+        value.expectedValue = try reader["ExpectedValue"].readIfPresent()
+        value.lowerLimit = try reader["LowerLimit"].readIfPresent()
+        value.upperLimit = try reader["UpperLimit"].readIfPresent()
+        return value
+    }
+}
+
+extension GlueClientTypes.DataQualityObservation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.DataQualityObservation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.DataQualityObservation()
+        value.description = try reader["Description"].readIfPresent()
+        value.metricBasedObservation = try reader["MetricBasedObservation"].readIfPresent(with: GlueClientTypes.MetricBasedObservation.read(from:))
+        return value
+    }
+}
+
+extension GlueClientTypes.DataQualityResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.DataQualityResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.DataQualityResult()
+        value.resultId = try reader["ResultId"].readIfPresent()
+        value.profileId = try reader["ProfileId"].readIfPresent()
+        value.score = try reader["Score"].readIfPresent()
+        value.dataSource = try reader["DataSource"].readIfPresent(with: GlueClientTypes.DataSource.read(from:))
+        value.rulesetName = try reader["RulesetName"].readIfPresent()
+        value.evaluationContext = try reader["EvaluationContext"].readIfPresent()
+        value.startedOn = try reader["StartedOn"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.completedOn = try reader["CompletedOn"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.jobName = try reader["JobName"].readIfPresent()
+        value.jobRunId = try reader["JobRunId"].readIfPresent()
+        value.rulesetEvaluationRunId = try reader["RulesetEvaluationRunId"].readIfPresent()
+        value.ruleResults = try reader["RuleResults"].readListIfPresent(memberReadingClosure: GlueClientTypes.DataQualityRuleResult.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.analyzerResults = try reader["AnalyzerResults"].readListIfPresent(memberReadingClosure: GlueClientTypes.DataQualityAnalyzerResult.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.observations = try reader["Observations"].readListIfPresent(memberReadingClosure: GlueClientTypes.DataQualityObservation.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.aggregatedMetrics = try reader["AggregatedMetrics"].readIfPresent(with: GlueClientTypes.DataQualityAggregatedMetrics.read(from:))
+        return value
+    }
+}
+
+extension GlueClientTypes.DataQualityResultDescription {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.DataQualityResultDescription {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.DataQualityResultDescription()
+        value.resultId = try reader["ResultId"].readIfPresent()
+        value.dataSource = try reader["DataSource"].readIfPresent(with: GlueClientTypes.DataSource.read(from:))
+        value.jobName = try reader["JobName"].readIfPresent()
+        value.jobRunId = try reader["JobRunId"].readIfPresent()
+        value.startedOn = try reader["StartedOn"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension GlueClientTypes.DataQualityResultFilterCriteria {
+
+    static func write(value: GlueClientTypes.DataQualityResultFilterCriteria?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DataSource"].write(value.dataSource, with: GlueClientTypes.DataSource.write(value:to:))
+        try writer["JobName"].write(value.jobName)
+        try writer["JobRunId"].write(value.jobRunId)
+        try writer["StartedAfter"].writeTimestamp(value.startedAfter, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["StartedBefore"].writeTimestamp(value.startedBefore, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+    }
+}
+
+extension GlueClientTypes.DataQualityRuleRecommendationRunDescription {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.DataQualityRuleRecommendationRunDescription {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.DataQualityRuleRecommendationRunDescription()
+        value.runId = try reader["RunId"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.startedOn = try reader["StartedOn"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.dataSource = try reader["DataSource"].readIfPresent(with: GlueClientTypes.DataSource.read(from:))
+        return value
+    }
+}
+
+extension GlueClientTypes.DataQualityRuleRecommendationRunFilter {
+
+    static func write(value: GlueClientTypes.DataQualityRuleRecommendationRunFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DataSource"].write(value.dataSource, with: GlueClientTypes.DataSource.write(value:to:))
+        try writer["StartedAfter"].writeTimestamp(value.startedAfter, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["StartedBefore"].writeTimestamp(value.startedBefore, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+    }
+}
+
+extension GlueClientTypes.DataQualityRuleResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.DataQualityRuleResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.DataQualityRuleResult()
+        value.name = try reader["Name"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.evaluationMessage = try reader["EvaluationMessage"].readIfPresent()
+        value.result = try reader["Result"].readIfPresent()
+        value.evaluatedMetrics = try reader["EvaluatedMetrics"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.evaluatedRule = try reader["EvaluatedRule"].readIfPresent()
+        value.ruleMetrics = try reader["RuleMetrics"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.labels = try reader["Labels"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension GlueClientTypes.DataQualityRulesetEvaluationRunDescription {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.DataQualityRulesetEvaluationRunDescription {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.DataQualityRulesetEvaluationRunDescription()
+        value.runId = try reader["RunId"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.startedOn = try reader["StartedOn"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.dataSource = try reader["DataSource"].readIfPresent(with: GlueClientTypes.DataSource.read(from:))
+        return value
+    }
+}
+
+extension GlueClientTypes.DataQualityRulesetEvaluationRunFilter {
+
+    static func write(value: GlueClientTypes.DataQualityRulesetEvaluationRunFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DataSource"].write(value.dataSource, with: GlueClientTypes.DataSource.write(value:to:))
+        try writer["StartedAfter"].writeTimestamp(value.startedAfter, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["StartedBefore"].writeTimestamp(value.startedBefore, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+    }
+}
+
+extension GlueClientTypes.DataQualityRulesetFilterCriteria {
+
+    static func write(value: GlueClientTypes.DataQualityRulesetFilterCriteria?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CreatedAfter"].writeTimestamp(value.createdAfter, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["CreatedBefore"].writeTimestamp(value.createdBefore, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["Description"].write(value.description)
+        try writer["LastModifiedAfter"].writeTimestamp(value.lastModifiedAfter, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["LastModifiedBefore"].writeTimestamp(value.lastModifiedBefore, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["Name"].write(value.name)
+        try writer["TargetTable"].write(value.targetTable, with: GlueClientTypes.DataQualityTargetTable.write(value:to:))
+    }
+}
+
+extension GlueClientTypes.DataQualityRulesetListDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.DataQualityRulesetListDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.DataQualityRulesetListDetails()
+        value.name = try reader["Name"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.createdOn = try reader["CreatedOn"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastModifiedOn = try reader["LastModifiedOn"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.targetTable = try reader["TargetTable"].readIfPresent(with: GlueClientTypes.DataQualityTargetTable.read(from:))
+        value.recommendationRunId = try reader["RecommendationRunId"].readIfPresent()
+        value.ruleCount = try reader["RuleCount"].readIfPresent()
+        return value
+    }
+}
+
+extension GlueClientTypes.DataQualityTargetTable {
+
+    static func write(value: GlueClientTypes.DataQualityTargetTable?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CatalogId"].write(value.catalogId)
+        try writer["DatabaseName"].write(value.databaseName)
+        try writer["TableName"].write(value.tableName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.DataQualityTargetTable {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.DataQualityTargetTable()
+        value.tableName = try reader["TableName"].readIfPresent() ?? ""
+        value.databaseName = try reader["DatabaseName"].readIfPresent() ?? ""
+        value.catalogId = try reader["CatalogId"].readIfPresent()
+        return value
+    }
+}
+
+extension GlueClientTypes.DataSource {
+
+    static func write(value: GlueClientTypes.DataSource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DataQualityGlueTable"].write(value.dataQualityGlueTable, with: GlueClientTypes.DataQualityGlueTable.write(value:to:))
+        try writer["GlueTable"].write(value.glueTable, with: GlueClientTypes.GlueTable.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.DataSource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.DataSource()
+        value.glueTable = try reader["GlueTable"].readIfPresent(with: GlueClientTypes.GlueTable.read(from:))
+        value.dataQualityGlueTable = try reader["DataQualityGlueTable"].readIfPresent(with: GlueClientTypes.DataQualityGlueTable.read(from:))
+        return value
+    }
+}
+
+extension GlueClientTypes.Datatype {
+
+    static func write(value: GlueClientTypes.Datatype?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Id"].write(value.id)
+        try writer["Label"].write(value.label)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.Datatype {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.Datatype()
+        value.id = try reader["Id"].readIfPresent() ?? ""
+        value.label = try reader["Label"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension GlueClientTypes.DateColumnStatisticsData {
+
+    static func write(value: GlueClientTypes.DateColumnStatisticsData?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MaximumValue"].writeTimestamp(value.maximumValue, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["MinimumValue"].writeTimestamp(value.minimumValue, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["NumberOfDistinctValues"].write(value.numberOfDistinctValues)
+        try writer["NumberOfNulls"].write(value.numberOfNulls)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.DateColumnStatisticsData {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.DateColumnStatisticsData()
+        value.minimumValue = try reader["MinimumValue"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.maximumValue = try reader["MaximumValue"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.numberOfNulls = try reader["NumberOfNulls"].readIfPresent() ?? 0
+        value.numberOfDistinctValues = try reader["NumberOfDistinctValues"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension GlueClientTypes.DDBELTCatalogAdditionalOptions {
+
+    static func write(value: GlueClientTypes.DDBELTCatalogAdditionalOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DynamodbExport"].write(value.dynamodbExport)
+        try writer["DynamodbUnnestDDBJson"].write(value.dynamodbUnnestDDBJson)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.DDBELTCatalogAdditionalOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.DDBELTCatalogAdditionalOptions()
+        value.dynamodbExport = try reader["DynamodbExport"].readIfPresent()
+        value.dynamodbUnnestDDBJson = try reader["DynamodbUnnestDDBJson"].readIfPresent() ?? false
         return value
     }
 }
@@ -45247,818 +46689,105 @@ extension GlueClientTypes.DDBELTConnectionOptions {
     }
 }
 
-extension GlueClientTypes.S3HyperDirectTarget {
+extension GlueClientTypes.DecimalColumnStatisticsData {
 
-    static func write(value: GlueClientTypes.S3HyperDirectTarget?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: GlueClientTypes.DecimalColumnStatisticsData?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["AutoDataQuality"].write(value.autoDataQuality, with: GlueClientTypes.AutoDataQuality.write(value:to:))
-        try writer["Compression"].write(value.compression)
-        try writer["Format"].write(value.format)
-        try writer["Inputs"].writeList(value.inputs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Name"].write(value.name)
-        try writer["OutputSchemas"].writeList(value.outputSchemas, memberWritingClosure: GlueClientTypes.GlueSchema.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["PartitionKeys"].writeList(value.partitionKeys, memberWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
-        try writer["Path"].write(value.path)
-        try writer["SchemaChangePolicy"].write(value.schemaChangePolicy, with: GlueClientTypes.DirectSchemaChangePolicy.write(value:to:))
+        try writer["MaximumValue"].write(value.maximumValue, with: GlueClientTypes.DecimalNumber.write(value:to:))
+        try writer["MinimumValue"].write(value.minimumValue, with: GlueClientTypes.DecimalNumber.write(value:to:))
+        try writer["NumberOfDistinctValues"].write(value.numberOfDistinctValues)
+        try writer["NumberOfNulls"].write(value.numberOfNulls)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.S3HyperDirectTarget {
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.DecimalColumnStatisticsData {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.S3HyperDirectTarget()
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.inputs = try reader["Inputs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.format = try reader["Format"].readIfPresent()
-        value.partitionKeys = try reader["PartitionKeys"].readListIfPresent(memberReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
-        value.path = try reader["Path"].readIfPresent() ?? ""
-        value.compression = try reader["Compression"].readIfPresent()
-        value.schemaChangePolicy = try reader["SchemaChangePolicy"].readIfPresent(with: GlueClientTypes.DirectSchemaChangePolicy.read(from:))
-        value.autoDataQuality = try reader["AutoDataQuality"].readIfPresent(with: GlueClientTypes.AutoDataQuality.read(from:))
-        value.outputSchemas = try reader["OutputSchemas"].readListIfPresent(memberReadingClosure: GlueClientTypes.GlueSchema.read(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = GlueClientTypes.DecimalColumnStatisticsData()
+        value.minimumValue = try reader["MinimumValue"].readIfPresent(with: GlueClientTypes.DecimalNumber.read(from:))
+        value.maximumValue = try reader["MaximumValue"].readIfPresent(with: GlueClientTypes.DecimalNumber.read(from:))
+        value.numberOfNulls = try reader["NumberOfNulls"].readIfPresent() ?? 0
+        value.numberOfDistinctValues = try reader["NumberOfDistinctValues"].readIfPresent() ?? 0
         return value
     }
 }
 
-extension GlueClientTypes.AutoDataQuality {
+extension GlueClientTypes.DecimalNumber {
 
-    static func write(value: GlueClientTypes.AutoDataQuality?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: GlueClientTypes.DecimalNumber?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["EvaluationContext"].write(value.evaluationContext)
-        try writer["IsEnabled"].write(value.isEnabled)
+        try writer["Scale"].write(value.scale)
+        try writer["UnscaledValue"].write(value.unscaledValue)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.AutoDataQuality {
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.DecimalNumber {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.AutoDataQuality()
-        value.isEnabled = try reader["IsEnabled"].readIfPresent() ?? false
-        value.evaluationContext = try reader["EvaluationContext"].readIfPresent()
+        var value = GlueClientTypes.DecimalNumber()
+        value.unscaledValue = try reader["UnscaledValue"].readIfPresent() ?? Foundation.Data(base64Encoded: "")
+        value.scale = try reader["Scale"].readIfPresent() ?? 0
         return value
     }
 }
 
-extension GlueClientTypes.DirectSchemaChangePolicy {
+extension GlueClientTypes.DeltaTarget {
 
-    static func write(value: GlueClientTypes.DirectSchemaChangePolicy?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: GlueClientTypes.DeltaTarget?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["Database"].write(value.database)
-        try writer["EnableUpdateCatalog"].write(value.enableUpdateCatalog)
-        try writer["Table"].write(value.table)
-        try writer["UpdateBehavior"].write(value.updateBehavior)
+        try writer["ConnectionName"].write(value.connectionName)
+        try writer["CreateNativeDeltaTable"].write(value.createNativeDeltaTable)
+        try writer["DeltaTables"].writeList(value.deltaTables, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["WriteManifest"].write(value.writeManifest)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.DirectSchemaChangePolicy {
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.DeltaTarget {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.DirectSchemaChangePolicy()
-        value.enableUpdateCatalog = try reader["EnableUpdateCatalog"].readIfPresent()
-        value.updateBehavior = try reader["UpdateBehavior"].readIfPresent()
-        value.table = try reader["Table"].readIfPresent()
-        value.database = try reader["Database"].readIfPresent()
+        var value = GlueClientTypes.DeltaTarget()
+        value.deltaTables = try reader["DeltaTables"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.connectionName = try reader["ConnectionName"].readIfPresent()
+        value.writeManifest = try reader["WriteManifest"].readIfPresent()
+        value.createNativeDeltaTable = try reader["CreateNativeDeltaTable"].readIfPresent()
         return value
     }
 }
 
-extension GlueClientTypes.S3ExcelSource {
+extension GlueClientTypes.DevEndpoint {
 
-    static func write(value: GlueClientTypes.S3ExcelSource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AdditionalOptions"].write(value.additionalOptions, with: GlueClientTypes.S3DirectSourceAdditionalOptions.write(value:to:))
-        try writer["CompressionType"].write(value.compressionType)
-        try writer["Exclusions"].writeList(value.exclusions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["GroupFiles"].write(value.groupFiles)
-        try writer["GroupSize"].write(value.groupSize)
-        try writer["MaxBand"].write(value.maxBand)
-        try writer["MaxFilesInBand"].write(value.maxFilesInBand)
-        try writer["Name"].write(value.name)
-        try writer["NumberRows"].write(value.numberRows)
-        try writer["OutputSchemas"].writeList(value.outputSchemas, memberWritingClosure: GlueClientTypes.GlueSchema.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Paths"].writeList(value.paths, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Recurse"].write(value.recurse)
-        try writer["SkipFooter"].write(value.skipFooter)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.S3ExcelSource {
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.DevEndpoint {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.S3ExcelSource()
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.paths = try reader["Paths"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.compressionType = try reader["CompressionType"].readIfPresent()
-        value.exclusions = try reader["Exclusions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.groupSize = try reader["GroupSize"].readIfPresent()
-        value.groupFiles = try reader["GroupFiles"].readIfPresent()
-        value.recurse = try reader["Recurse"].readIfPresent()
-        value.maxBand = try reader["MaxBand"].readIfPresent()
-        value.maxFilesInBand = try reader["MaxFilesInBand"].readIfPresent()
-        value.additionalOptions = try reader["AdditionalOptions"].readIfPresent(with: GlueClientTypes.S3DirectSourceAdditionalOptions.read(from:))
-        value.numberRows = try reader["NumberRows"].readIfPresent()
-        value.skipFooter = try reader["SkipFooter"].readIfPresent()
-        value.outputSchemas = try reader["OutputSchemas"].readListIfPresent(memberReadingClosure: GlueClientTypes.GlueSchema.read(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = GlueClientTypes.DevEndpoint()
+        value.endpointName = try reader["EndpointName"].readIfPresent()
+        value.roleArn = try reader["RoleArn"].readIfPresent()
+        value.securityGroupIds = try reader["SecurityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.subnetId = try reader["SubnetId"].readIfPresent()
+        value.yarnEndpointAddress = try reader["YarnEndpointAddress"].readIfPresent()
+        value.privateAddress = try reader["PrivateAddress"].readIfPresent()
+        value.zeppelinRemoteSparkInterpreterPort = try reader["ZeppelinRemoteSparkInterpreterPort"].readIfPresent() ?? 0
+        value.publicAddress = try reader["PublicAddress"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.workerType = try reader["WorkerType"].readIfPresent()
+        value.glueVersion = try reader["GlueVersion"].readIfPresent()
+        value.numberOfWorkers = try reader["NumberOfWorkers"].readIfPresent()
+        value.numberOfNodes = try reader["NumberOfNodes"].readIfPresent() ?? 0
+        value.availabilityZone = try reader["AvailabilityZone"].readIfPresent()
+        value.vpcId = try reader["VpcId"].readIfPresent()
+        value.extraPythonLibsS3Path = try reader["ExtraPythonLibsS3Path"].readIfPresent()
+        value.extraJarsS3Path = try reader["ExtraJarsS3Path"].readIfPresent()
+        value.failureReason = try reader["FailureReason"].readIfPresent()
+        value.lastUpdateStatus = try reader["LastUpdateStatus"].readIfPresent()
+        value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastModifiedTimestamp = try reader["LastModifiedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.publicKey = try reader["PublicKey"].readIfPresent()
+        value.publicKeys = try reader["PublicKeys"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.securityConfiguration = try reader["SecurityConfiguration"].readIfPresent()
+        value.arguments = try reader["Arguments"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }
 
-extension GlueClientTypes.S3DirectSourceAdditionalOptions {
+extension GlueClientTypes.DevEndpointCustomLibraries {
 
-    static func write(value: GlueClientTypes.S3DirectSourceAdditionalOptions?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: GlueClientTypes.DevEndpointCustomLibraries?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["BoundedFiles"].write(value.boundedFiles)
-        try writer["BoundedSize"].write(value.boundedSize)
-        try writer["EnableSamplePath"].write(value.enableSamplePath)
-        try writer["SamplePath"].write(value.samplePath)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.S3DirectSourceAdditionalOptions {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.S3DirectSourceAdditionalOptions()
-        value.boundedSize = try reader["BoundedSize"].readIfPresent()
-        value.boundedFiles = try reader["BoundedFiles"].readIfPresent()
-        value.enableSamplePath = try reader["EnableSamplePath"].readIfPresent()
-        value.samplePath = try reader["SamplePath"].readIfPresent()
-        return value
-    }
-}
-
-extension GlueClientTypes.S3IcebergDirectTarget {
-
-    static func write(value: GlueClientTypes.S3IcebergDirectTarget?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AdditionalOptions"].writeMap(value.additionalOptions, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["AutoDataQuality"].write(value.autoDataQuality, with: GlueClientTypes.AutoDataQuality.write(value:to:))
-        try writer["Compression"].write(value.compression)
-        try writer["Format"].write(value.format)
-        try writer["Inputs"].writeList(value.inputs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Name"].write(value.name)
-        try writer["NumberTargetPartitions"].write(value.numberTargetPartitions)
-        try writer["OutputSchemas"].writeList(value.outputSchemas, memberWritingClosure: GlueClientTypes.GlueSchema.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["PartitionKeys"].writeList(value.partitionKeys, memberWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
-        try writer["Path"].write(value.path)
-        try writer["SchemaChangePolicy"].write(value.schemaChangePolicy, with: GlueClientTypes.DirectSchemaChangePolicy.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.S3IcebergDirectTarget {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.S3IcebergDirectTarget()
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.inputs = try reader["Inputs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.partitionKeys = try reader["PartitionKeys"].readListIfPresent(memberReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
-        value.path = try reader["Path"].readIfPresent() ?? ""
-        value.format = try reader["Format"].readIfPresent() ?? .sdkUnknown("")
-        value.additionalOptions = try reader["AdditionalOptions"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.schemaChangePolicy = try reader["SchemaChangePolicy"].readIfPresent(with: GlueClientTypes.DirectSchemaChangePolicy.read(from:))
-        value.autoDataQuality = try reader["AutoDataQuality"].readIfPresent(with: GlueClientTypes.AutoDataQuality.read(from:))
-        value.compression = try reader["Compression"].readIfPresent() ?? .sdkUnknown("")
-        value.numberTargetPartitions = try reader["NumberTargetPartitions"].readIfPresent()
-        value.outputSchemas = try reader["OutputSchemas"].readListIfPresent(memberReadingClosure: GlueClientTypes.GlueSchema.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension GlueClientTypes.S3IcebergCatalogTarget {
-
-    static func write(value: GlueClientTypes.S3IcebergCatalogTarget?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AdditionalOptions"].writeMap(value.additionalOptions, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["AutoDataQuality"].write(value.autoDataQuality, with: GlueClientTypes.AutoDataQuality.write(value:to:))
-        try writer["Database"].write(value.database)
-        try writer["Inputs"].writeList(value.inputs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Name"].write(value.name)
-        try writer["PartitionKeys"].writeList(value.partitionKeys, memberWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
-        try writer["SchemaChangePolicy"].write(value.schemaChangePolicy, with: GlueClientTypes.CatalogSchemaChangePolicy.write(value:to:))
-        try writer["Table"].write(value.table)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.S3IcebergCatalogTarget {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.S3IcebergCatalogTarget()
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.inputs = try reader["Inputs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.partitionKeys = try reader["PartitionKeys"].readListIfPresent(memberReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
-        value.table = try reader["Table"].readIfPresent() ?? ""
-        value.database = try reader["Database"].readIfPresent() ?? ""
-        value.additionalOptions = try reader["AdditionalOptions"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.schemaChangePolicy = try reader["SchemaChangePolicy"].readIfPresent(with: GlueClientTypes.CatalogSchemaChangePolicy.read(from:))
-        value.autoDataQuality = try reader["AutoDataQuality"].readIfPresent(with: GlueClientTypes.AutoDataQuality.read(from:))
-        return value
-    }
-}
-
-extension GlueClientTypes.CatalogSchemaChangePolicy {
-
-    static func write(value: GlueClientTypes.CatalogSchemaChangePolicy?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["EnableUpdateCatalog"].write(value.enableUpdateCatalog)
-        try writer["UpdateBehavior"].write(value.updateBehavior)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.CatalogSchemaChangePolicy {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.CatalogSchemaChangePolicy()
-        value.enableUpdateCatalog = try reader["EnableUpdateCatalog"].readIfPresent()
-        value.updateBehavior = try reader["UpdateBehavior"].readIfPresent()
-        return value
-    }
-}
-
-extension GlueClientTypes.CatalogIcebergSource {
-
-    static func write(value: GlueClientTypes.CatalogIcebergSource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AdditionalIcebergOptions"].writeMap(value.additionalIcebergOptions, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["Database"].write(value.database)
-        try writer["Name"].write(value.name)
-        try writer["OutputSchemas"].writeList(value.outputSchemas, memberWritingClosure: GlueClientTypes.GlueSchema.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Table"].write(value.table)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.CatalogIcebergSource {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.CatalogIcebergSource()
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.database = try reader["Database"].readIfPresent() ?? ""
-        value.table = try reader["Table"].readIfPresent() ?? ""
-        value.additionalIcebergOptions = try reader["AdditionalIcebergOptions"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.outputSchemas = try reader["OutputSchemas"].readListIfPresent(memberReadingClosure: GlueClientTypes.GlueSchema.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension GlueClientTypes.S3CatalogIcebergSource {
-
-    static func write(value: GlueClientTypes.S3CatalogIcebergSource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AdditionalIcebergOptions"].writeMap(value.additionalIcebergOptions, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["Database"].write(value.database)
-        try writer["Name"].write(value.name)
-        try writer["OutputSchemas"].writeList(value.outputSchemas, memberWritingClosure: GlueClientTypes.GlueSchema.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Table"].write(value.table)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.S3CatalogIcebergSource {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.S3CatalogIcebergSource()
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.database = try reader["Database"].readIfPresent() ?? ""
-        value.table = try reader["Table"].readIfPresent() ?? ""
-        value.additionalIcebergOptions = try reader["AdditionalIcebergOptions"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.outputSchemas = try reader["OutputSchemas"].readListIfPresent(memberReadingClosure: GlueClientTypes.GlueSchema.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension GlueClientTypes.ConnectorDataTarget {
-
-    static func write(value: GlueClientTypes.ConnectorDataTarget?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ConnectionType"].write(value.connectionType)
-        try writer["Data"].writeMap(value.data, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["Inputs"].writeList(value.inputs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Name"].write(value.name)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.ConnectorDataTarget {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.ConnectorDataTarget()
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.connectionType = try reader["ConnectionType"].readIfPresent() ?? ""
-        value.data = try reader["Data"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
-        value.inputs = try reader["Inputs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension GlueClientTypes.ConnectorDataSource {
-
-    static func write(value: GlueClientTypes.ConnectorDataSource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ConnectionType"].write(value.connectionType)
-        try writer["Data"].writeMap(value.data, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["Name"].write(value.name)
-        try writer["OutputSchemas"].writeList(value.outputSchemas, memberWritingClosure: GlueClientTypes.GlueSchema.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.ConnectorDataSource {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.ConnectorDataSource()
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.connectionType = try reader["ConnectionType"].readIfPresent() ?? ""
-        value.data = try reader["Data"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
-        value.outputSchemas = try reader["OutputSchemas"].readListIfPresent(memberReadingClosure: GlueClientTypes.GlueSchema.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension GlueClientTypes.SnowflakeTarget {
-
-    static func write(value: GlueClientTypes.SnowflakeTarget?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Data"].write(value.data, with: GlueClientTypes.SnowflakeNodeData.write(value:to:))
-        try writer["Inputs"].writeList(value.inputs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Name"].write(value.name)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.SnowflakeTarget {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.SnowflakeTarget()
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.data = try reader["Data"].readIfPresent(with: GlueClientTypes.SnowflakeNodeData.read(from:))
-        value.inputs = try reader["Inputs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension GlueClientTypes.SnowflakeNodeData {
-
-    static func write(value: GlueClientTypes.SnowflakeNodeData?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Action"].write(value.action)
-        try writer["AdditionalOptions"].writeMap(value.additionalOptions, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["AutoPushdown"].write(value.autoPushdown)
-        try writer["Connection"].write(value.connection, with: GlueClientTypes.Option.write(value:to:))
-        try writer["Database"].write(value.database)
-        try writer["IamRole"].write(value.iamRole, with: GlueClientTypes.Option.write(value:to:))
-        try writer["MergeAction"].write(value.mergeAction)
-        try writer["MergeClause"].write(value.mergeClause)
-        try writer["MergeWhenMatched"].write(value.mergeWhenMatched)
-        try writer["MergeWhenNotMatched"].write(value.mergeWhenNotMatched)
-        try writer["PostAction"].write(value.postAction)
-        try writer["PreAction"].write(value.preAction)
-        try writer["SampleQuery"].write(value.sampleQuery)
-        try writer["Schema"].write(value.schema)
-        try writer["SelectedColumns"].writeList(value.selectedColumns, memberWritingClosure: GlueClientTypes.Option.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["SourceType"].write(value.sourceType)
-        try writer["StagingTable"].write(value.stagingTable)
-        try writer["Table"].write(value.table)
-        try writer["TableSchema"].writeList(value.tableSchema, memberWritingClosure: GlueClientTypes.Option.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["TempDir"].write(value.tempDir)
-        try writer["Upsert"].write(value.upsert)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.SnowflakeNodeData {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.SnowflakeNodeData()
-        value.sourceType = try reader["SourceType"].readIfPresent()
-        value.connection = try reader["Connection"].readIfPresent(with: GlueClientTypes.Option.read(from:))
-        value.schema = try reader["Schema"].readIfPresent()
-        value.table = try reader["Table"].readIfPresent()
-        value.database = try reader["Database"].readIfPresent()
-        value.tempDir = try reader["TempDir"].readIfPresent()
-        value.iamRole = try reader["IamRole"].readIfPresent(with: GlueClientTypes.Option.read(from:))
-        value.additionalOptions = try reader["AdditionalOptions"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.sampleQuery = try reader["SampleQuery"].readIfPresent()
-        value.preAction = try reader["PreAction"].readIfPresent()
-        value.postAction = try reader["PostAction"].readIfPresent()
-        value.action = try reader["Action"].readIfPresent()
-        value.upsert = try reader["Upsert"].readIfPresent() ?? false
-        value.mergeAction = try reader["MergeAction"].readIfPresent()
-        value.mergeWhenMatched = try reader["MergeWhenMatched"].readIfPresent()
-        value.mergeWhenNotMatched = try reader["MergeWhenNotMatched"].readIfPresent()
-        value.mergeClause = try reader["MergeClause"].readIfPresent()
-        value.stagingTable = try reader["StagingTable"].readIfPresent()
-        value.selectedColumns = try reader["SelectedColumns"].readListIfPresent(memberReadingClosure: GlueClientTypes.Option.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.autoPushdown = try reader["AutoPushdown"].readIfPresent() ?? false
-        value.tableSchema = try reader["TableSchema"].readListIfPresent(memberReadingClosure: GlueClientTypes.Option.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension GlueClientTypes.Option {
-
-    static func write(value: GlueClientTypes.Option?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Description"].write(value.description)
-        try writer["Label"].write(value.label)
-        try writer["Value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.Option {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.Option()
-        value.value = try reader["Value"].readIfPresent()
-        value.label = try reader["Label"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        return value
-    }
-}
-
-extension GlueClientTypes.SnowflakeSource {
-
-    static func write(value: GlueClientTypes.SnowflakeSource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Data"].write(value.data, with: GlueClientTypes.SnowflakeNodeData.write(value:to:))
-        try writer["Name"].write(value.name)
-        try writer["OutputSchemas"].writeList(value.outputSchemas, memberWritingClosure: GlueClientTypes.GlueSchema.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.SnowflakeSource {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.SnowflakeSource()
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.data = try reader["Data"].readIfPresent(with: GlueClientTypes.SnowflakeNodeData.read(from:))
-        value.outputSchemas = try reader["OutputSchemas"].readListIfPresent(memberReadingClosure: GlueClientTypes.GlueSchema.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension GlueClientTypes.Recipe {
-
-    static func write(value: GlueClientTypes.Recipe?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Inputs"].writeList(value.inputs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Name"].write(value.name)
-        try writer["RecipeReference"].write(value.recipeReference, with: GlueClientTypes.RecipeReference.write(value:to:))
-        try writer["RecipeSteps"].writeList(value.recipeSteps, memberWritingClosure: GlueClientTypes.RecipeStep.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.Recipe {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.Recipe()
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.inputs = try reader["Inputs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.recipeReference = try reader["RecipeReference"].readIfPresent(with: GlueClientTypes.RecipeReference.read(from:))
-        value.recipeSteps = try reader["RecipeSteps"].readListIfPresent(memberReadingClosure: GlueClientTypes.RecipeStep.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension GlueClientTypes.RecipeStep {
-
-    static func write(value: GlueClientTypes.RecipeStep?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Action"].write(value.action, with: GlueClientTypes.RecipeAction.write(value:to:))
-        try writer["ConditionExpressions"].writeList(value.conditionExpressions, memberWritingClosure: GlueClientTypes.ConditionExpression.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.RecipeStep {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.RecipeStep()
-        value.action = try reader["Action"].readIfPresent(with: GlueClientTypes.RecipeAction.read(from:))
-        value.conditionExpressions = try reader["ConditionExpressions"].readListIfPresent(memberReadingClosure: GlueClientTypes.ConditionExpression.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension GlueClientTypes.ConditionExpression {
-
-    static func write(value: GlueClientTypes.ConditionExpression?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Condition"].write(value.condition)
-        try writer["TargetColumn"].write(value.targetColumn)
-        try writer["Value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.ConditionExpression {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.ConditionExpression()
-        value.condition = try reader["Condition"].readIfPresent() ?? ""
-        value.value = try reader["Value"].readIfPresent()
-        value.targetColumn = try reader["TargetColumn"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension GlueClientTypes.RecipeAction {
-
-    static func write(value: GlueClientTypes.RecipeAction?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Operation"].write(value.operation)
-        try writer["Parameters"].writeMap(value.parameters, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.RecipeAction {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.RecipeAction()
-        value.operation = try reader["Operation"].readIfPresent() ?? ""
-        value.parameters = try reader["Parameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
-}
-
-extension GlueClientTypes.RecipeReference {
-
-    static func write(value: GlueClientTypes.RecipeReference?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["RecipeArn"].write(value.recipeArn)
-        try writer["RecipeVersion"].write(value.recipeVersion)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.RecipeReference {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.RecipeReference()
-        value.recipeArn = try reader["RecipeArn"].readIfPresent() ?? ""
-        value.recipeVersion = try reader["RecipeVersion"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension GlueClientTypes.EvaluateDataQualityMultiFrame {
-
-    static func write(value: GlueClientTypes.EvaluateDataQualityMultiFrame?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AdditionalDataSources"].writeMap(value.additionalDataSources, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["AdditionalOptions"].writeMap(value.additionalOptions, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["Inputs"].writeList(value.inputs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Name"].write(value.name)
-        try writer["PublishingOptions"].write(value.publishingOptions, with: GlueClientTypes.DQResultsPublishingOptions.write(value:to:))
-        try writer["Ruleset"].write(value.ruleset)
-        try writer["StopJobOnFailureOptions"].write(value.stopJobOnFailureOptions, with: GlueClientTypes.DQStopJobOnFailureOptions.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.EvaluateDataQualityMultiFrame {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.EvaluateDataQualityMultiFrame()
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.inputs = try reader["Inputs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.additionalDataSources = try reader["AdditionalDataSources"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.ruleset = try reader["Ruleset"].readIfPresent() ?? ""
-        value.publishingOptions = try reader["PublishingOptions"].readIfPresent(with: GlueClientTypes.DQResultsPublishingOptions.read(from:))
-        value.additionalOptions = try reader["AdditionalOptions"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.stopJobOnFailureOptions = try reader["StopJobOnFailureOptions"].readIfPresent(with: GlueClientTypes.DQStopJobOnFailureOptions.read(from:))
-        return value
-    }
-}
-
-extension GlueClientTypes.DQStopJobOnFailureOptions {
-
-    static func write(value: GlueClientTypes.DQStopJobOnFailureOptions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["StopJobOnFailureTiming"].write(value.stopJobOnFailureTiming)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.DQStopJobOnFailureOptions {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.DQStopJobOnFailureOptions()
-        value.stopJobOnFailureTiming = try reader["StopJobOnFailureTiming"].readIfPresent()
-        return value
-    }
-}
-
-extension GlueClientTypes.DQResultsPublishingOptions {
-
-    static func write(value: GlueClientTypes.DQResultsPublishingOptions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CloudWatchMetricsEnabled"].write(value.cloudWatchMetricsEnabled)
-        try writer["EvaluationContext"].write(value.evaluationContext)
-        try writer["ResultsPublishingEnabled"].write(value.resultsPublishingEnabled)
-        try writer["ResultsS3Prefix"].write(value.resultsS3Prefix)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.DQResultsPublishingOptions {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.DQResultsPublishingOptions()
-        value.evaluationContext = try reader["EvaluationContext"].readIfPresent()
-        value.resultsS3Prefix = try reader["ResultsS3Prefix"].readIfPresent()
-        value.cloudWatchMetricsEnabled = try reader["CloudWatchMetricsEnabled"].readIfPresent()
-        value.resultsPublishingEnabled = try reader["ResultsPublishingEnabled"].readIfPresent()
-        return value
-    }
-}
-
-extension GlueClientTypes.AmazonRedshiftTarget {
-
-    static func write(value: GlueClientTypes.AmazonRedshiftTarget?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Data"].write(value.data, with: GlueClientTypes.AmazonRedshiftNodeData.write(value:to:))
-        try writer["Inputs"].writeList(value.inputs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Name"].write(value.name)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.AmazonRedshiftTarget {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.AmazonRedshiftTarget()
-        value.name = try reader["Name"].readIfPresent()
-        value.data = try reader["Data"].readIfPresent(with: GlueClientTypes.AmazonRedshiftNodeData.read(from:))
-        value.inputs = try reader["Inputs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension GlueClientTypes.AmazonRedshiftNodeData {
-
-    static func write(value: GlueClientTypes.AmazonRedshiftNodeData?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AccessType"].write(value.accessType)
-        try writer["Action"].write(value.action)
-        try writer["AdvancedOptions"].writeList(value.advancedOptions, memberWritingClosure: GlueClientTypes.AmazonRedshiftAdvancedOption.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["CatalogDatabase"].write(value.catalogDatabase, with: GlueClientTypes.Option.write(value:to:))
-        try writer["CatalogRedshiftSchema"].write(value.catalogRedshiftSchema)
-        try writer["CatalogRedshiftTable"].write(value.catalogRedshiftTable)
-        try writer["CatalogTable"].write(value.catalogTable, with: GlueClientTypes.Option.write(value:to:))
-        try writer["Connection"].write(value.connection, with: GlueClientTypes.Option.write(value:to:))
-        try writer["CrawlerConnection"].write(value.crawlerConnection)
-        try writer["IamRole"].write(value.iamRole, with: GlueClientTypes.Option.write(value:to:))
-        try writer["MergeAction"].write(value.mergeAction)
-        try writer["MergeClause"].write(value.mergeClause)
-        try writer["MergeWhenMatched"].write(value.mergeWhenMatched)
-        try writer["MergeWhenNotMatched"].write(value.mergeWhenNotMatched)
-        try writer["PostAction"].write(value.postAction)
-        try writer["PreAction"].write(value.preAction)
-        try writer["SampleQuery"].write(value.sampleQuery)
-        try writer["Schema"].write(value.schema, with: GlueClientTypes.Option.write(value:to:))
-        try writer["SelectedColumns"].writeList(value.selectedColumns, memberWritingClosure: GlueClientTypes.Option.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["SourceType"].write(value.sourceType)
-        try writer["StagingTable"].write(value.stagingTable)
-        try writer["Table"].write(value.table, with: GlueClientTypes.Option.write(value:to:))
-        try writer["TablePrefix"].write(value.tablePrefix)
-        try writer["TableSchema"].writeList(value.tableSchema, memberWritingClosure: GlueClientTypes.Option.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["TempDir"].write(value.tempDir)
-        try writer["Upsert"].write(value.upsert)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.AmazonRedshiftNodeData {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.AmazonRedshiftNodeData()
-        value.accessType = try reader["AccessType"].readIfPresent()
-        value.sourceType = try reader["SourceType"].readIfPresent()
-        value.connection = try reader["Connection"].readIfPresent(with: GlueClientTypes.Option.read(from:))
-        value.schema = try reader["Schema"].readIfPresent(with: GlueClientTypes.Option.read(from:))
-        value.table = try reader["Table"].readIfPresent(with: GlueClientTypes.Option.read(from:))
-        value.catalogDatabase = try reader["CatalogDatabase"].readIfPresent(with: GlueClientTypes.Option.read(from:))
-        value.catalogTable = try reader["CatalogTable"].readIfPresent(with: GlueClientTypes.Option.read(from:))
-        value.catalogRedshiftSchema = try reader["CatalogRedshiftSchema"].readIfPresent()
-        value.catalogRedshiftTable = try reader["CatalogRedshiftTable"].readIfPresent()
-        value.tempDir = try reader["TempDir"].readIfPresent()
-        value.iamRole = try reader["IamRole"].readIfPresent(with: GlueClientTypes.Option.read(from:))
-        value.advancedOptions = try reader["AdvancedOptions"].readListIfPresent(memberReadingClosure: GlueClientTypes.AmazonRedshiftAdvancedOption.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.sampleQuery = try reader["SampleQuery"].readIfPresent()
-        value.preAction = try reader["PreAction"].readIfPresent()
-        value.postAction = try reader["PostAction"].readIfPresent()
-        value.action = try reader["Action"].readIfPresent()
-        value.tablePrefix = try reader["TablePrefix"].readIfPresent()
-        value.upsert = try reader["Upsert"].readIfPresent() ?? false
-        value.mergeAction = try reader["MergeAction"].readIfPresent()
-        value.mergeWhenMatched = try reader["MergeWhenMatched"].readIfPresent()
-        value.mergeWhenNotMatched = try reader["MergeWhenNotMatched"].readIfPresent()
-        value.mergeClause = try reader["MergeClause"].readIfPresent()
-        value.crawlerConnection = try reader["CrawlerConnection"].readIfPresent()
-        value.tableSchema = try reader["TableSchema"].readListIfPresent(memberReadingClosure: GlueClientTypes.Option.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.stagingTable = try reader["StagingTable"].readIfPresent()
-        value.selectedColumns = try reader["SelectedColumns"].readListIfPresent(memberReadingClosure: GlueClientTypes.Option.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension GlueClientTypes.AmazonRedshiftAdvancedOption {
-
-    static func write(value: GlueClientTypes.AmazonRedshiftAdvancedOption?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Key"].write(value.key)
-        try writer["Value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.AmazonRedshiftAdvancedOption {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.AmazonRedshiftAdvancedOption()
-        value.key = try reader["Key"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
-        return value
-    }
-}
-
-extension GlueClientTypes.AmazonRedshiftSource {
-
-    static func write(value: GlueClientTypes.AmazonRedshiftSource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Data"].write(value.data, with: GlueClientTypes.AmazonRedshiftNodeData.write(value:to:))
-        try writer["Name"].write(value.name)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.AmazonRedshiftSource {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.AmazonRedshiftSource()
-        value.name = try reader["Name"].readIfPresent()
-        value.data = try reader["Data"].readIfPresent(with: GlueClientTypes.AmazonRedshiftNodeData.read(from:))
-        return value
-    }
-}
-
-extension GlueClientTypes.S3DeltaDirectTarget {
-
-    static func write(value: GlueClientTypes.S3DeltaDirectTarget?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AdditionalOptions"].writeMap(value.additionalOptions, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["AutoDataQuality"].write(value.autoDataQuality, with: GlueClientTypes.AutoDataQuality.write(value:to:))
-        try writer["Compression"].write(value.compression)
-        try writer["Format"].write(value.format)
-        try writer["Inputs"].writeList(value.inputs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Name"].write(value.name)
-        try writer["NumberTargetPartitions"].write(value.numberTargetPartitions)
-        try writer["PartitionKeys"].writeList(value.partitionKeys, memberWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
-        try writer["Path"].write(value.path)
-        try writer["SchemaChangePolicy"].write(value.schemaChangePolicy, with: GlueClientTypes.DirectSchemaChangePolicy.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.S3DeltaDirectTarget {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.S3DeltaDirectTarget()
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.inputs = try reader["Inputs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.partitionKeys = try reader["PartitionKeys"].readListIfPresent(memberReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
-        value.path = try reader["Path"].readIfPresent() ?? ""
-        value.compression = try reader["Compression"].readIfPresent() ?? .sdkUnknown("")
-        value.numberTargetPartitions = try reader["NumberTargetPartitions"].readIfPresent()
-        value.format = try reader["Format"].readIfPresent() ?? .sdkUnknown("")
-        value.additionalOptions = try reader["AdditionalOptions"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.schemaChangePolicy = try reader["SchemaChangePolicy"].readIfPresent(with: GlueClientTypes.DirectSchemaChangePolicy.read(from:))
-        value.autoDataQuality = try reader["AutoDataQuality"].readIfPresent(with: GlueClientTypes.AutoDataQuality.read(from:))
-        return value
-    }
-}
-
-extension GlueClientTypes.S3DeltaCatalogTarget {
-
-    static func write(value: GlueClientTypes.S3DeltaCatalogTarget?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AdditionalOptions"].writeMap(value.additionalOptions, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["AutoDataQuality"].write(value.autoDataQuality, with: GlueClientTypes.AutoDataQuality.write(value:to:))
-        try writer["Database"].write(value.database)
-        try writer["Inputs"].writeList(value.inputs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Name"].write(value.name)
-        try writer["OutputSchemas"].writeList(value.outputSchemas, memberWritingClosure: GlueClientTypes.GlueSchema.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["PartitionKeys"].writeList(value.partitionKeys, memberWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
-        try writer["SchemaChangePolicy"].write(value.schemaChangePolicy, with: GlueClientTypes.CatalogSchemaChangePolicy.write(value:to:))
-        try writer["Table"].write(value.table)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.S3DeltaCatalogTarget {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.S3DeltaCatalogTarget()
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.inputs = try reader["Inputs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.partitionKeys = try reader["PartitionKeys"].readListIfPresent(memberReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
-        value.table = try reader["Table"].readIfPresent() ?? ""
-        value.database = try reader["Database"].readIfPresent() ?? ""
-        value.additionalOptions = try reader["AdditionalOptions"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.schemaChangePolicy = try reader["SchemaChangePolicy"].readIfPresent(with: GlueClientTypes.CatalogSchemaChangePolicy.read(from:))
-        value.autoDataQuality = try reader["AutoDataQuality"].readIfPresent(with: GlueClientTypes.AutoDataQuality.read(from:))
-        value.outputSchemas = try reader["OutputSchemas"].readListIfPresent(memberReadingClosure: GlueClientTypes.GlueSchema.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension GlueClientTypes.S3DeltaSource {
-
-    static func write(value: GlueClientTypes.S3DeltaSource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AdditionalDeltaOptions"].writeMap(value.additionalDeltaOptions, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["AdditionalOptions"].write(value.additionalOptions, with: GlueClientTypes.S3DirectSourceAdditionalOptions.write(value:to:))
-        try writer["Name"].write(value.name)
-        try writer["OutputSchemas"].writeList(value.outputSchemas, memberWritingClosure: GlueClientTypes.GlueSchema.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Paths"].writeList(value.paths, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.S3DeltaSource {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.S3DeltaSource()
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.paths = try reader["Paths"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.additionalDeltaOptions = try reader["AdditionalDeltaOptions"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.additionalOptions = try reader["AdditionalOptions"].readIfPresent(with: GlueClientTypes.S3DirectSourceAdditionalOptions.read(from:))
-        value.outputSchemas = try reader["OutputSchemas"].readListIfPresent(memberReadingClosure: GlueClientTypes.GlueSchema.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension GlueClientTypes.CatalogDeltaSource {
-
-    static func write(value: GlueClientTypes.CatalogDeltaSource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AdditionalDeltaOptions"].writeMap(value.additionalDeltaOptions, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["Database"].write(value.database)
-        try writer["Name"].write(value.name)
-        try writer["OutputSchemas"].writeList(value.outputSchemas, memberWritingClosure: GlueClientTypes.GlueSchema.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Table"].write(value.table)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.CatalogDeltaSource {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.CatalogDeltaSource()
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.database = try reader["Database"].readIfPresent() ?? ""
-        value.table = try reader["Table"].readIfPresent() ?? ""
-        value.additionalDeltaOptions = try reader["AdditionalDeltaOptions"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.outputSchemas = try reader["OutputSchemas"].readListIfPresent(memberReadingClosure: GlueClientTypes.GlueSchema.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension GlueClientTypes.S3CatalogDeltaSource {
-
-    static func write(value: GlueClientTypes.S3CatalogDeltaSource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AdditionalDeltaOptions"].writeMap(value.additionalDeltaOptions, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["Database"].write(value.database)
-        try writer["Name"].write(value.name)
-        try writer["OutputSchemas"].writeList(value.outputSchemas, memberWritingClosure: GlueClientTypes.GlueSchema.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Table"].write(value.table)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.S3CatalogDeltaSource {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.S3CatalogDeltaSource()
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.database = try reader["Database"].readIfPresent() ?? ""
-        value.table = try reader["Table"].readIfPresent() ?? ""
-        value.additionalDeltaOptions = try reader["AdditionalDeltaOptions"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.outputSchemas = try reader["OutputSchemas"].readListIfPresent(memberReadingClosure: GlueClientTypes.GlueSchema.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
+        try writer["ExtraJarsS3Path"].write(value.extraJarsS3Path)
+        try writer["ExtraPythonLibsS3Path"].write(value.extraPythonLibsS3Path)
     }
 }
 
@@ -46089,160 +46818,185 @@ extension GlueClientTypes.DirectJDBCSource {
     }
 }
 
-extension GlueClientTypes.S3HudiDirectTarget {
+extension GlueClientTypes.DirectKafkaSource {
 
-    static func write(value: GlueClientTypes.S3HudiDirectTarget?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: GlueClientTypes.DirectKafkaSource?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["AdditionalOptions"].writeMap(value.additionalOptions, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["AutoDataQuality"].write(value.autoDataQuality, with: GlueClientTypes.AutoDataQuality.write(value:to:))
-        try writer["Compression"].write(value.compression)
-        try writer["Format"].write(value.format)
+        try writer["DataPreviewOptions"].write(value.dataPreviewOptions, with: GlueClientTypes.StreamingDataPreviewOptions.write(value:to:))
+        try writer["DetectSchema"].write(value.detectSchema)
+        try writer["Name"].write(value.name)
+        try writer["StreamingOptions"].write(value.streamingOptions, with: GlueClientTypes.KafkaStreamingSourceOptions.write(value:to:))
+        try writer["WindowSize"].write(value.windowSize)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.DirectKafkaSource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.DirectKafkaSource()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.streamingOptions = try reader["StreamingOptions"].readIfPresent(with: GlueClientTypes.KafkaStreamingSourceOptions.read(from:))
+        value.windowSize = try reader["WindowSize"].readIfPresent()
+        value.detectSchema = try reader["DetectSchema"].readIfPresent()
+        value.dataPreviewOptions = try reader["DataPreviewOptions"].readIfPresent(with: GlueClientTypes.StreamingDataPreviewOptions.read(from:))
+        return value
+    }
+}
+
+extension GlueClientTypes.DirectKinesisSource {
+
+    static func write(value: GlueClientTypes.DirectKinesisSource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DataPreviewOptions"].write(value.dataPreviewOptions, with: GlueClientTypes.StreamingDataPreviewOptions.write(value:to:))
+        try writer["DetectSchema"].write(value.detectSchema)
+        try writer["Name"].write(value.name)
+        try writer["StreamingOptions"].write(value.streamingOptions, with: GlueClientTypes.KinesisStreamingSourceOptions.write(value:to:))
+        try writer["WindowSize"].write(value.windowSize)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.DirectKinesisSource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.DirectKinesisSource()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.windowSize = try reader["WindowSize"].readIfPresent()
+        value.detectSchema = try reader["DetectSchema"].readIfPresent()
+        value.streamingOptions = try reader["StreamingOptions"].readIfPresent(with: GlueClientTypes.KinesisStreamingSourceOptions.read(from:))
+        value.dataPreviewOptions = try reader["DataPreviewOptions"].readIfPresent(with: GlueClientTypes.StreamingDataPreviewOptions.read(from:))
+        return value
+    }
+}
+
+extension GlueClientTypes.DirectSchemaChangePolicy {
+
+    static func write(value: GlueClientTypes.DirectSchemaChangePolicy?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Database"].write(value.database)
+        try writer["EnableUpdateCatalog"].write(value.enableUpdateCatalog)
+        try writer["Table"].write(value.table)
+        try writer["UpdateBehavior"].write(value.updateBehavior)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.DirectSchemaChangePolicy {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.DirectSchemaChangePolicy()
+        value.enableUpdateCatalog = try reader["EnableUpdateCatalog"].readIfPresent()
+        value.updateBehavior = try reader["UpdateBehavior"].readIfPresent()
+        value.table = try reader["Table"].readIfPresent()
+        value.database = try reader["Database"].readIfPresent()
+        return value
+    }
+}
+
+extension GlueClientTypes.DoubleColumnStatisticsData {
+
+    static func write(value: GlueClientTypes.DoubleColumnStatisticsData?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MaximumValue"].write(value.maximumValue)
+        try writer["MinimumValue"].write(value.minimumValue)
+        try writer["NumberOfDistinctValues"].write(value.numberOfDistinctValues)
+        try writer["NumberOfNulls"].write(value.numberOfNulls)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.DoubleColumnStatisticsData {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.DoubleColumnStatisticsData()
+        value.minimumValue = try reader["MinimumValue"].readIfPresent() ?? 0
+        value.maximumValue = try reader["MaximumValue"].readIfPresent() ?? 0
+        value.numberOfNulls = try reader["NumberOfNulls"].readIfPresent() ?? 0
+        value.numberOfDistinctValues = try reader["NumberOfDistinctValues"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension GlueClientTypes.DQResultsPublishingOptions {
+
+    static func write(value: GlueClientTypes.DQResultsPublishingOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CloudWatchMetricsEnabled"].write(value.cloudWatchMetricsEnabled)
+        try writer["EvaluationContext"].write(value.evaluationContext)
+        try writer["ResultsPublishingEnabled"].write(value.resultsPublishingEnabled)
+        try writer["ResultsS3Prefix"].write(value.resultsS3Prefix)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.DQResultsPublishingOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.DQResultsPublishingOptions()
+        value.evaluationContext = try reader["EvaluationContext"].readIfPresent()
+        value.resultsS3Prefix = try reader["ResultsS3Prefix"].readIfPresent()
+        value.cloudWatchMetricsEnabled = try reader["CloudWatchMetricsEnabled"].readIfPresent()
+        value.resultsPublishingEnabled = try reader["ResultsPublishingEnabled"].readIfPresent()
+        return value
+    }
+}
+
+extension GlueClientTypes.DQStopJobOnFailureOptions {
+
+    static func write(value: GlueClientTypes.DQStopJobOnFailureOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["StopJobOnFailureTiming"].write(value.stopJobOnFailureTiming)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.DQStopJobOnFailureOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.DQStopJobOnFailureOptions()
+        value.stopJobOnFailureTiming = try reader["StopJobOnFailureTiming"].readIfPresent()
+        return value
+    }
+}
+
+extension GlueClientTypes.DropDuplicates {
+
+    static func write(value: GlueClientTypes.DropDuplicates?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Columns"].writeList(value.columns, memberWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
         try writer["Inputs"].writeList(value.inputs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Name"].write(value.name)
-        try writer["NumberTargetPartitions"].write(value.numberTargetPartitions)
-        try writer["PartitionKeys"].writeList(value.partitionKeys, memberWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
-        try writer["Path"].write(value.path)
-        try writer["SchemaChangePolicy"].write(value.schemaChangePolicy, with: GlueClientTypes.DirectSchemaChangePolicy.write(value:to:))
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.S3HudiDirectTarget {
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.DropDuplicates {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.S3HudiDirectTarget()
+        var value = GlueClientTypes.DropDuplicates()
         value.name = try reader["Name"].readIfPresent() ?? ""
         value.inputs = try reader["Inputs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.path = try reader["Path"].readIfPresent() ?? ""
-        value.compression = try reader["Compression"].readIfPresent() ?? .sdkUnknown("")
-        value.numberTargetPartitions = try reader["NumberTargetPartitions"].readIfPresent()
-        value.partitionKeys = try reader["PartitionKeys"].readListIfPresent(memberReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
-        value.format = try reader["Format"].readIfPresent() ?? .sdkUnknown("")
-        value.additionalOptions = try reader["AdditionalOptions"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
-        value.schemaChangePolicy = try reader["SchemaChangePolicy"].readIfPresent(with: GlueClientTypes.DirectSchemaChangePolicy.read(from:))
-        value.autoDataQuality = try reader["AutoDataQuality"].readIfPresent(with: GlueClientTypes.AutoDataQuality.read(from:))
+        value.columns = try reader["Columns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
 
-extension GlueClientTypes.S3HudiCatalogTarget {
+extension GlueClientTypes.DropFields {
 
-    static func write(value: GlueClientTypes.S3HudiCatalogTarget?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AdditionalOptions"].writeMap(value.additionalOptions, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["AutoDataQuality"].write(value.autoDataQuality, with: GlueClientTypes.AutoDataQuality.write(value:to:))
-        try writer["Database"].write(value.database)
-        try writer["Inputs"].writeList(value.inputs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Name"].write(value.name)
-        try writer["OutputSchemas"].writeList(value.outputSchemas, memberWritingClosure: GlueClientTypes.GlueSchema.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["PartitionKeys"].writeList(value.partitionKeys, memberWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
-        try writer["SchemaChangePolicy"].write(value.schemaChangePolicy, with: GlueClientTypes.CatalogSchemaChangePolicy.write(value:to:))
-        try writer["Table"].write(value.table)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.S3HudiCatalogTarget {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.S3HudiCatalogTarget()
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.inputs = try reader["Inputs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.partitionKeys = try reader["PartitionKeys"].readListIfPresent(memberReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
-        value.table = try reader["Table"].readIfPresent() ?? ""
-        value.database = try reader["Database"].readIfPresent() ?? ""
-        value.additionalOptions = try reader["AdditionalOptions"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
-        value.schemaChangePolicy = try reader["SchemaChangePolicy"].readIfPresent(with: GlueClientTypes.CatalogSchemaChangePolicy.read(from:))
-        value.autoDataQuality = try reader["AutoDataQuality"].readIfPresent(with: GlueClientTypes.AutoDataQuality.read(from:))
-        value.outputSchemas = try reader["OutputSchemas"].readListIfPresent(memberReadingClosure: GlueClientTypes.GlueSchema.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension GlueClientTypes.S3HudiSource {
-
-    static func write(value: GlueClientTypes.S3HudiSource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AdditionalHudiOptions"].writeMap(value.additionalHudiOptions, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["AdditionalOptions"].write(value.additionalOptions, with: GlueClientTypes.S3DirectSourceAdditionalOptions.write(value:to:))
-        try writer["Name"].write(value.name)
-        try writer["OutputSchemas"].writeList(value.outputSchemas, memberWritingClosure: GlueClientTypes.GlueSchema.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Paths"].writeList(value.paths, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.S3HudiSource {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.S3HudiSource()
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.paths = try reader["Paths"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.additionalHudiOptions = try reader["AdditionalHudiOptions"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.additionalOptions = try reader["AdditionalOptions"].readIfPresent(with: GlueClientTypes.S3DirectSourceAdditionalOptions.read(from:))
-        value.outputSchemas = try reader["OutputSchemas"].readListIfPresent(memberReadingClosure: GlueClientTypes.GlueSchema.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension GlueClientTypes.CatalogHudiSource {
-
-    static func write(value: GlueClientTypes.CatalogHudiSource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AdditionalHudiOptions"].writeMap(value.additionalHudiOptions, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["Database"].write(value.database)
-        try writer["Name"].write(value.name)
-        try writer["OutputSchemas"].writeList(value.outputSchemas, memberWritingClosure: GlueClientTypes.GlueSchema.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Table"].write(value.table)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.CatalogHudiSource {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.CatalogHudiSource()
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.database = try reader["Database"].readIfPresent() ?? ""
-        value.table = try reader["Table"].readIfPresent() ?? ""
-        value.additionalHudiOptions = try reader["AdditionalHudiOptions"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.outputSchemas = try reader["OutputSchemas"].readListIfPresent(memberReadingClosure: GlueClientTypes.GlueSchema.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension GlueClientTypes.S3CatalogHudiSource {
-
-    static func write(value: GlueClientTypes.S3CatalogHudiSource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AdditionalHudiOptions"].writeMap(value.additionalHudiOptions, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["Database"].write(value.database)
-        try writer["Name"].write(value.name)
-        try writer["OutputSchemas"].writeList(value.outputSchemas, memberWritingClosure: GlueClientTypes.GlueSchema.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Table"].write(value.table)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.S3CatalogHudiSource {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.S3CatalogHudiSource()
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.database = try reader["Database"].readIfPresent() ?? ""
-        value.table = try reader["Table"].readIfPresent() ?? ""
-        value.additionalHudiOptions = try reader["AdditionalHudiOptions"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.outputSchemas = try reader["OutputSchemas"].readListIfPresent(memberReadingClosure: GlueClientTypes.GlueSchema.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension GlueClientTypes.EvaluateDataQuality {
-
-    static func write(value: GlueClientTypes.EvaluateDataQuality?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: GlueClientTypes.DropFields?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Inputs"].writeList(value.inputs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Name"].write(value.name)
-        try writer["Output"].write(value.output)
-        try writer["PublishingOptions"].write(value.publishingOptions, with: GlueClientTypes.DQResultsPublishingOptions.write(value:to:))
-        try writer["Ruleset"].write(value.ruleset)
-        try writer["StopJobOnFailureOptions"].write(value.stopJobOnFailureOptions, with: GlueClientTypes.DQStopJobOnFailureOptions.write(value:to:))
+        try writer["Paths"].writeList(value.paths, memberWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.EvaluateDataQuality {
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.DropFields {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.EvaluateDataQuality()
+        var value = GlueClientTypes.DropFields()
         value.name = try reader["Name"].readIfPresent() ?? ""
         value.inputs = try reader["Inputs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.ruleset = try reader["Ruleset"].readIfPresent() ?? ""
-        value.output = try reader["Output"].readIfPresent()
-        value.publishingOptions = try reader["PublishingOptions"].readIfPresent(with: GlueClientTypes.DQResultsPublishingOptions.read(from:))
-        value.stopJobOnFailureOptions = try reader["StopJobOnFailureOptions"].readIfPresent(with: GlueClientTypes.DQStopJobOnFailureOptions.read(from:))
+        value.paths = try reader["Paths"].readListIfPresent(memberReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension GlueClientTypes.DropNullFields {
+
+    static func write(value: GlueClientTypes.DropNullFields?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Inputs"].writeList(value.inputs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Name"].write(value.name)
+        try writer["NullCheckBoxList"].write(value.nullCheckBoxList, with: GlueClientTypes.NullCheckBoxList.write(value:to:))
+        try writer["NullTextList"].writeList(value.nullTextList, memberWritingClosure: GlueClientTypes.NullValueField.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.DropNullFields {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.DropNullFields()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.inputs = try reader["Inputs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.nullCheckBoxList = try reader["NullCheckBoxList"].readIfPresent(with: GlueClientTypes.NullCheckBoxList.read(from:))
+        value.nullTextList = try reader["NullTextList"].readListIfPresent(memberReadingClosure: GlueClientTypes.NullValueField.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -46276,67 +47030,444 @@ extension GlueClientTypes.DynamicTransform {
     }
 }
 
-extension GlueClientTypes.TransformConfigParameter {
+extension GlueClientTypes.DynamoDBCatalogSource {
 
-    static func write(value: GlueClientTypes.TransformConfigParameter?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: GlueClientTypes.DynamoDBCatalogSource?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["IsOptional"].write(value.isOptional)
-        try writer["ListType"].write(value.listType)
+        try writer["AdditionalOptions"].write(value.additionalOptions, with: GlueClientTypes.DDBELTCatalogAdditionalOptions.write(value:to:))
+        try writer["Database"].write(value.database)
         try writer["Name"].write(value.name)
-        try writer["Type"].write(value.type)
-        try writer["ValidationMessage"].write(value.validationMessage)
-        try writer["ValidationRule"].write(value.validationRule)
-        try writer["Value"].writeList(value.value, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["PitrEnabled"].write(value.pitrEnabled)
+        try writer["Table"].write(value.table)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.TransformConfigParameter {
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.DynamoDBCatalogSource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.TransformConfigParameter()
+        var value = GlueClientTypes.DynamoDBCatalogSource()
         value.name = try reader["Name"].readIfPresent() ?? ""
-        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
-        value.validationRule = try reader["ValidationRule"].readIfPresent()
-        value.validationMessage = try reader["ValidationMessage"].readIfPresent()
-        value.value = try reader["Value"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.listType = try reader["ListType"].readIfPresent()
-        value.isOptional = try reader["IsOptional"].readIfPresent()
+        value.database = try reader["Database"].readIfPresent() ?? ""
+        value.table = try reader["Table"].readIfPresent() ?? ""
+        value.pitrEnabled = try reader["PitrEnabled"].readIfPresent()
+        value.additionalOptions = try reader["AdditionalOptions"].readIfPresent(with: GlueClientTypes.DDBELTCatalogAdditionalOptions.read(from:))
         return value
     }
 }
 
-extension GlueClientTypes.Route {
+extension GlueClientTypes.DynamoDBELTConnectorSource {
 
-    static func write(value: GlueClientTypes.Route?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: GlueClientTypes.DynamoDBELTConnectorSource?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["GroupFiltersList"].writeList(value.groupFiltersList, memberWritingClosure: GlueClientTypes.GroupFilters.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ConnectionOptions"].write(value.connectionOptions, with: GlueClientTypes.DDBELTConnectionOptions.write(value:to:))
+        try writer["Name"].write(value.name)
+        try writer["OutputSchemas"].writeList(value.outputSchemas, memberWritingClosure: GlueClientTypes.GlueSchema.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.DynamoDBELTConnectorSource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.DynamoDBELTConnectorSource()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.connectionOptions = try reader["ConnectionOptions"].readIfPresent(with: GlueClientTypes.DDBELTConnectionOptions.read(from:))
+        value.outputSchemas = try reader["OutputSchemas"].readListIfPresent(memberReadingClosure: GlueClientTypes.GlueSchema.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension GlueClientTypes.DynamoDBTarget {
+
+    static func write(value: GlueClientTypes.DynamoDBTarget?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Path"].write(value.path)
+        try writer["scanAll"].write(value.scanAll)
+        try writer["scanRate"].write(value.scanRate)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.DynamoDBTarget {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.DynamoDBTarget()
+        value.path = try reader["Path"].readIfPresent()
+        value.scanAll = try reader["scanAll"].readIfPresent()
+        value.scanRate = try reader["scanRate"].readIfPresent()
+        return value
+    }
+}
+
+extension GlueClientTypes.Edge {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.Edge {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.Edge()
+        value.sourceId = try reader["SourceId"].readIfPresent()
+        value.destinationId = try reader["DestinationId"].readIfPresent()
+        return value
+    }
+}
+
+extension GlueClientTypes.EncryptionAtRest {
+
+    static func write(value: GlueClientTypes.EncryptionAtRest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CatalogEncryptionMode"].write(value.catalogEncryptionMode)
+        try writer["CatalogEncryptionServiceRole"].write(value.catalogEncryptionServiceRole)
+        try writer["SseAwsKmsKeyId"].write(value.sseAwsKmsKeyId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.EncryptionAtRest {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.EncryptionAtRest()
+        value.catalogEncryptionMode = try reader["CatalogEncryptionMode"].readIfPresent() ?? .sdkUnknown("")
+        value.sseAwsKmsKeyId = try reader["SseAwsKmsKeyId"].readIfPresent()
+        value.catalogEncryptionServiceRole = try reader["CatalogEncryptionServiceRole"].readIfPresent()
+        return value
+    }
+}
+
+extension GlueClientTypes.EncryptionConfiguration {
+
+    static func write(value: GlueClientTypes.EncryptionConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CloudWatchEncryption"].write(value.cloudWatchEncryption, with: GlueClientTypes.CloudWatchEncryption.write(value:to:))
+        try writer["DataQualityEncryption"].write(value.dataQualityEncryption, with: GlueClientTypes.DataQualityEncryption.write(value:to:))
+        try writer["JobBookmarksEncryption"].write(value.jobBookmarksEncryption, with: GlueClientTypes.JobBookmarksEncryption.write(value:to:))
+        try writer["S3Encryption"].writeList(value.s3Encryption, memberWritingClosure: GlueClientTypes.S3Encryption.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.EncryptionConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.EncryptionConfiguration()
+        value.s3Encryption = try reader["S3Encryption"].readListIfPresent(memberReadingClosure: GlueClientTypes.S3Encryption.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.cloudWatchEncryption = try reader["CloudWatchEncryption"].readIfPresent(with: GlueClientTypes.CloudWatchEncryption.read(from:))
+        value.jobBookmarksEncryption = try reader["JobBookmarksEncryption"].readIfPresent(with: GlueClientTypes.JobBookmarksEncryption.read(from:))
+        value.dataQualityEncryption = try reader["DataQualityEncryption"].readIfPresent(with: GlueClientTypes.DataQualityEncryption.read(from:))
+        return value
+    }
+}
+
+extension GlueClientTypes.Entity {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.Entity {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.Entity()
+        value.entityName = try reader["EntityName"].readIfPresent()
+        value.label = try reader["Label"].readIfPresent()
+        value.isParentEntity = try reader["IsParentEntity"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.category = try reader["Category"].readIfPresent()
+        value.customProperties = try reader["CustomProperties"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension GlueClientTypes.EntityConfiguration {
+
+    static func write(value: GlueClientTypes.EntityConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Schema"].writeMap(value.schema, valueWritingClosure: GlueClientTypes.FieldDefinition.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["SourceConfiguration"].write(value.sourceConfiguration, with: GlueClientTypes.SourceConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.EntityConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.EntityConfiguration()
+        value.sourceConfiguration = try reader["SourceConfiguration"].readIfPresent(with: GlueClientTypes.SourceConfiguration.read(from:))
+        value.schema = try reader["Schema"].readMapIfPresent(valueReadingClosure: GlueClientTypes.FieldDefinition.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension GlueClientTypes.ErrorDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.ErrorDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.ErrorDetail()
+        value.errorCode = try reader["ErrorCode"].readIfPresent()
+        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
+        return value
+    }
+}
+
+extension GlueClientTypes.ErrorDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.ErrorDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.ErrorDetails()
+        value.errorCode = try reader["ErrorCode"].readIfPresent()
+        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
+        return value
+    }
+}
+
+extension GlueClientTypes.EvaluateDataQuality {
+
+    static func write(value: GlueClientTypes.EvaluateDataQuality?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Inputs"].writeList(value.inputs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Name"].write(value.name)
+        try writer["Output"].write(value.output)
+        try writer["PublishingOptions"].write(value.publishingOptions, with: GlueClientTypes.DQResultsPublishingOptions.write(value:to:))
+        try writer["Ruleset"].write(value.ruleset)
+        try writer["StopJobOnFailureOptions"].write(value.stopJobOnFailureOptions, with: GlueClientTypes.DQStopJobOnFailureOptions.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.EvaluateDataQuality {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.EvaluateDataQuality()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.inputs = try reader["Inputs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.ruleset = try reader["Ruleset"].readIfPresent() ?? ""
+        value.output = try reader["Output"].readIfPresent()
+        value.publishingOptions = try reader["PublishingOptions"].readIfPresent(with: GlueClientTypes.DQResultsPublishingOptions.read(from:))
+        value.stopJobOnFailureOptions = try reader["StopJobOnFailureOptions"].readIfPresent(with: GlueClientTypes.DQStopJobOnFailureOptions.read(from:))
+        return value
+    }
+}
+
+extension GlueClientTypes.EvaluateDataQualityMultiFrame {
+
+    static func write(value: GlueClientTypes.EvaluateDataQualityMultiFrame?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AdditionalDataSources"].writeMap(value.additionalDataSources, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["AdditionalOptions"].writeMap(value.additionalOptions, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["Inputs"].writeList(value.inputs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Name"].write(value.name)
+        try writer["PublishingOptions"].write(value.publishingOptions, with: GlueClientTypes.DQResultsPublishingOptions.write(value:to:))
+        try writer["Ruleset"].write(value.ruleset)
+        try writer["StopJobOnFailureOptions"].write(value.stopJobOnFailureOptions, with: GlueClientTypes.DQStopJobOnFailureOptions.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.EvaluateDataQualityMultiFrame {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.EvaluateDataQualityMultiFrame()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.inputs = try reader["Inputs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.additionalDataSources = try reader["AdditionalDataSources"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.ruleset = try reader["Ruleset"].readIfPresent() ?? ""
+        value.publishingOptions = try reader["PublishingOptions"].readIfPresent(with: GlueClientTypes.DQResultsPublishingOptions.read(from:))
+        value.additionalOptions = try reader["AdditionalOptions"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.stopJobOnFailureOptions = try reader["StopJobOnFailureOptions"].readIfPresent(with: GlueClientTypes.DQStopJobOnFailureOptions.read(from:))
+        return value
+    }
+}
+
+extension GlueClientTypes.EvaluationMetrics {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.EvaluationMetrics {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.EvaluationMetrics()
+        value.transformType = try reader["TransformType"].readIfPresent() ?? .sdkUnknown("")
+        value.findMatchesMetrics = try reader["FindMatchesMetrics"].readIfPresent(with: GlueClientTypes.FindMatchesMetrics.read(from:))
+        return value
+    }
+}
+
+extension GlueClientTypes.EventBatchingCondition {
+
+    static func write(value: GlueClientTypes.EventBatchingCondition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["BatchSize"].write(value.batchSize)
+        try writer["BatchWindow"].write(value.batchWindow)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.EventBatchingCondition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.EventBatchingCondition()
+        value.batchSize = try reader["BatchSize"].readIfPresent() ?? 0
+        value.batchWindow = try reader["BatchWindow"].readIfPresent()
+        return value
+    }
+}
+
+extension GlueClientTypes.ExecutionAttempt {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.ExecutionAttempt {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.ExecutionAttempt()
+        value.status = try reader["Status"].readIfPresent()
+        value.columnStatisticsTaskRunId = try reader["ColumnStatisticsTaskRunId"].readIfPresent()
+        value.executionTimestamp = try reader["ExecutionTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
+        return value
+    }
+}
+
+extension GlueClientTypes.ExecutionProperty {
+
+    static func write(value: GlueClientTypes.ExecutionProperty?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MaxConcurrentRuns"].write(value.maxConcurrentRuns)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.ExecutionProperty {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.ExecutionProperty()
+        value.maxConcurrentRuns = try reader["MaxConcurrentRuns"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension GlueClientTypes.ExportLabelsTaskRunProperties {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.ExportLabelsTaskRunProperties {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.ExportLabelsTaskRunProperties()
+        value.outputS3Path = try reader["OutputS3Path"].readIfPresent()
+        return value
+    }
+}
+
+extension GlueClientTypes.ExtractedParameter {
+
+    static func write(value: GlueClientTypes.ExtractedParameter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DefaultValue"].write(value.defaultValue)
+        try writer["Key"].write(value.key)
+        try writer["PropertyLocation"].write(value.propertyLocation)
+        try writer["Value"].write(value.value, with: GlueClientTypes.ResponseExtractionMapping.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.ExtractedParameter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.ExtractedParameter()
+        value.key = try reader["Key"].readIfPresent()
+        value.defaultValue = try reader["DefaultValue"].readIfPresent()
+        value.propertyLocation = try reader["PropertyLocation"].readIfPresent()
+        value.value = try reader["Value"].readIfPresent(with: GlueClientTypes.ResponseExtractionMapping.read(from:))
+        return value
+    }
+}
+
+extension GlueClientTypes.FederatedCatalog {
+
+    static func write(value: GlueClientTypes.FederatedCatalog?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ConnectionName"].write(value.connectionName)
+        try writer["ConnectionType"].write(value.connectionType)
+        try writer["Identifier"].write(value.identifier)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.FederatedCatalog {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.FederatedCatalog()
+        value.identifier = try reader["Identifier"].readIfPresent()
+        value.connectionName = try reader["ConnectionName"].readIfPresent()
+        value.connectionType = try reader["ConnectionType"].readIfPresent()
+        return value
+    }
+}
+
+extension GlueClientTypes.FederatedDatabase {
+
+    static func write(value: GlueClientTypes.FederatedDatabase?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ConnectionName"].write(value.connectionName)
+        try writer["ConnectionType"].write(value.connectionType)
+        try writer["Identifier"].write(value.identifier)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.FederatedDatabase {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.FederatedDatabase()
+        value.identifier = try reader["Identifier"].readIfPresent()
+        value.connectionName = try reader["ConnectionName"].readIfPresent()
+        value.connectionType = try reader["ConnectionType"].readIfPresent()
+        return value
+    }
+}
+
+extension GlueClientTypes.FederatedTable {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.FederatedTable {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.FederatedTable()
+        value.identifier = try reader["Identifier"].readIfPresent()
+        value.databaseIdentifier = try reader["DatabaseIdentifier"].readIfPresent()
+        value.connectionName = try reader["ConnectionName"].readIfPresent()
+        value.connectionType = try reader["ConnectionType"].readIfPresent()
+        return value
+    }
+}
+
+extension GlueClientTypes.Field {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.Field {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.Field()
+        value.fieldName = try reader["FieldName"].readIfPresent()
+        value.label = try reader["Label"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.fieldType = try reader["FieldType"].readIfPresent()
+        value.isPrimaryKey = try reader["IsPrimaryKey"].readIfPresent()
+        value.isNullable = try reader["IsNullable"].readIfPresent()
+        value.isRetrievable = try reader["IsRetrievable"].readIfPresent()
+        value.isFilterable = try reader["IsFilterable"].readIfPresent()
+        value.isPartitionable = try reader["IsPartitionable"].readIfPresent()
+        value.isCreateable = try reader["IsCreateable"].readIfPresent()
+        value.isUpdateable = try reader["IsUpdateable"].readIfPresent()
+        value.isUpsertable = try reader["IsUpsertable"].readIfPresent()
+        value.isDefaultOnCreate = try reader["IsDefaultOnCreate"].readIfPresent()
+        value.supportedValues = try reader["SupportedValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.supportedFilterOperators = try reader["SupportedFilterOperators"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<GlueClientTypes.FieldFilterOperator>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.parentField = try reader["ParentField"].readIfPresent()
+        value.nativeDataType = try reader["NativeDataType"].readIfPresent()
+        value.customProperties = try reader["CustomProperties"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension GlueClientTypes.FieldDefinition {
+
+    static func write(value: GlueClientTypes.FieldDefinition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FieldDataType"].write(value.fieldDataType)
+        try writer["Name"].write(value.name)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.FieldDefinition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.FieldDefinition()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.fieldDataType = try reader["FieldDataType"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension GlueClientTypes.FillMissingValues {
+
+    static func write(value: GlueClientTypes.FillMissingValues?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FilledPath"].write(value.filledPath)
+        try writer["ImputedPath"].write(value.imputedPath)
         try writer["Inputs"].writeList(value.inputs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Name"].write(value.name)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.Route {
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.FillMissingValues {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.Route()
+        var value = GlueClientTypes.FillMissingValues()
         value.name = try reader["Name"].readIfPresent() ?? ""
         value.inputs = try reader["Inputs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.groupFiltersList = try reader["GroupFiltersList"].readListIfPresent(memberReadingClosure: GlueClientTypes.GroupFilters.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.imputedPath = try reader["ImputedPath"].readIfPresent() ?? ""
+        value.filledPath = try reader["FilledPath"].readIfPresent()
         return value
     }
 }
 
-extension GlueClientTypes.GroupFilters {
+extension GlueClientTypes.Filter {
 
-    static func write(value: GlueClientTypes.GroupFilters?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: GlueClientTypes.Filter?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Filters"].writeList(value.filters, memberWritingClosure: GlueClientTypes.FilterExpression.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["GroupName"].write(value.groupName)
+        try writer["Inputs"].writeList(value.inputs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["LogicalOperator"].write(value.logicalOperator)
+        try writer["Name"].write(value.name)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.GroupFilters {
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.Filter {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.GroupFilters()
-        value.groupName = try reader["GroupName"].readIfPresent() ?? ""
-        value.filters = try reader["Filters"].readListIfPresent(memberReadingClosure: GlueClientTypes.FilterExpression.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        var value = GlueClientTypes.Filter()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.inputs = try reader["Inputs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.logicalOperator = try reader["LogicalOperator"].readIfPresent() ?? .sdkUnknown("")
+        value.filters = try reader["Filters"].readListIfPresent(memberReadingClosure: GlueClientTypes.FilterExpression.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -46377,162 +47508,130 @@ extension GlueClientTypes.FilterValue {
     }
 }
 
-extension GlueClientTypes.PostgreSQLCatalogTarget {
+extension GlueClientTypes.FindMatchesMetrics {
 
-    static func write(value: GlueClientTypes.PostgreSQLCatalogTarget?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Database"].write(value.database)
-        try writer["Inputs"].writeList(value.inputs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Name"].write(value.name)
-        try writer["Table"].write(value.table)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.PostgreSQLCatalogTarget {
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.FindMatchesMetrics {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.PostgreSQLCatalogTarget()
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.inputs = try reader["Inputs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.database = try reader["Database"].readIfPresent() ?? ""
-        value.table = try reader["Table"].readIfPresent() ?? ""
+        var value = GlueClientTypes.FindMatchesMetrics()
+        value.areaUnderPRCurve = try reader["AreaUnderPRCurve"].readIfPresent()
+        value.precision = try reader["Precision"].readIfPresent()
+        value.recall = try reader["Recall"].readIfPresent()
+        value.f1 = try reader["F1"].readIfPresent()
+        value.confusionMatrix = try reader["ConfusionMatrix"].readIfPresent(with: GlueClientTypes.ConfusionMatrix.read(from:))
+        value.columnImportances = try reader["ColumnImportances"].readListIfPresent(memberReadingClosure: GlueClientTypes.ColumnImportance.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
 
-extension GlueClientTypes.OracleSQLCatalogTarget {
+extension GlueClientTypes.FindMatchesParameters {
 
-    static func write(value: GlueClientTypes.OracleSQLCatalogTarget?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: GlueClientTypes.FindMatchesParameters?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["Database"].write(value.database)
-        try writer["Inputs"].writeList(value.inputs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Name"].write(value.name)
-        try writer["Table"].write(value.table)
+        try writer["AccuracyCostTradeoff"].write(value.accuracyCostTradeoff)
+        try writer["EnforceProvidedLabels"].write(value.enforceProvidedLabels)
+        try writer["PrecisionRecallTradeoff"].write(value.precisionRecallTradeoff)
+        try writer["PrimaryKeyColumnName"].write(value.primaryKeyColumnName)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.OracleSQLCatalogTarget {
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.FindMatchesParameters {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.OracleSQLCatalogTarget()
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.inputs = try reader["Inputs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.database = try reader["Database"].readIfPresent() ?? ""
-        value.table = try reader["Table"].readIfPresent() ?? ""
+        var value = GlueClientTypes.FindMatchesParameters()
+        value.primaryKeyColumnName = try reader["PrimaryKeyColumnName"].readIfPresent()
+        value.precisionRecallTradeoff = try reader["PrecisionRecallTradeoff"].readIfPresent()
+        value.accuracyCostTradeoff = try reader["AccuracyCostTradeoff"].readIfPresent()
+        value.enforceProvidedLabels = try reader["EnforceProvidedLabels"].readIfPresent()
         return value
     }
 }
 
-extension GlueClientTypes.MySQLCatalogTarget {
+extension GlueClientTypes.FindMatchesTaskRunProperties {
 
-    static func write(value: GlueClientTypes.MySQLCatalogTarget?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Database"].write(value.database)
-        try writer["Inputs"].writeList(value.inputs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Name"].write(value.name)
-        try writer["Table"].write(value.table)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.MySQLCatalogTarget {
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.FindMatchesTaskRunProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.MySQLCatalogTarget()
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.inputs = try reader["Inputs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.database = try reader["Database"].readIfPresent() ?? ""
-        value.table = try reader["Table"].readIfPresent() ?? ""
+        var value = GlueClientTypes.FindMatchesTaskRunProperties()
+        value.jobId = try reader["JobId"].readIfPresent()
+        value.jobName = try reader["JobName"].readIfPresent()
+        value.jobRunId = try reader["JobRunId"].readIfPresent()
         return value
     }
 }
 
-extension GlueClientTypes.MicrosoftSQLServerCatalogTarget {
+extension GlueClientTypes.GetConnectionsFilter {
 
-    static func write(value: GlueClientTypes.MicrosoftSQLServerCatalogTarget?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: GlueClientTypes.GetConnectionsFilter?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["Database"].write(value.database)
-        try writer["Inputs"].writeList(value.inputs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Name"].write(value.name)
-        try writer["Table"].write(value.table)
+        try writer["ConnectionSchemaVersion"].write(value.connectionSchemaVersion)
+        try writer["ConnectionType"].write(value.connectionType)
+        try writer["MatchCriteria"].writeList(value.matchCriteria, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
+}
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.MicrosoftSQLServerCatalogTarget {
+extension GlueClientTypes.GluePolicy {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.GluePolicy {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.MicrosoftSQLServerCatalogTarget()
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.inputs = try reader["Inputs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.database = try reader["Database"].readIfPresent() ?? ""
-        value.table = try reader["Table"].readIfPresent() ?? ""
+        var value = GlueClientTypes.GluePolicy()
+        value.policyInJson = try reader["PolicyInJson"].readIfPresent()
+        value.policyHash = try reader["PolicyHash"].readIfPresent()
+        value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.updateTime = try reader["UpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }
 
-extension GlueClientTypes.PostgreSQLCatalogSource {
+extension GlueClientTypes.GlueSchema {
 
-    static func write(value: GlueClientTypes.PostgreSQLCatalogSource?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: GlueClientTypes.GlueSchema?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["Database"].write(value.database)
-        try writer["Name"].write(value.name)
-        try writer["Table"].write(value.table)
+        try writer["Columns"].writeList(value.columns, memberWritingClosure: GlueClientTypes.GlueStudioSchemaColumn.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.PostgreSQLCatalogSource {
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.GlueSchema {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.PostgreSQLCatalogSource()
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.database = try reader["Database"].readIfPresent() ?? ""
-        value.table = try reader["Table"].readIfPresent() ?? ""
+        var value = GlueClientTypes.GlueSchema()
+        value.columns = try reader["Columns"].readListIfPresent(memberReadingClosure: GlueClientTypes.GlueStudioSchemaColumn.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
 
-extension GlueClientTypes.OracleSQLCatalogSource {
+extension GlueClientTypes.GlueStudioSchemaColumn {
 
-    static func write(value: GlueClientTypes.OracleSQLCatalogSource?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: GlueClientTypes.GlueStudioSchemaColumn?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["Database"].write(value.database)
+        try writer["GlueStudioType"].write(value.glueStudioType)
         try writer["Name"].write(value.name)
-        try writer["Table"].write(value.table)
+        try writer["Type"].write(value.type)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.OracleSQLCatalogSource {
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.GlueStudioSchemaColumn {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.OracleSQLCatalogSource()
+        var value = GlueClientTypes.GlueStudioSchemaColumn()
         value.name = try reader["Name"].readIfPresent() ?? ""
-        value.database = try reader["Database"].readIfPresent() ?? ""
-        value.table = try reader["Table"].readIfPresent() ?? ""
+        value.type = try reader["Type"].readIfPresent()
+        value.glueStudioType = try reader["GlueStudioType"].readIfPresent()
         return value
     }
 }
 
-extension GlueClientTypes.MySQLCatalogSource {
+extension GlueClientTypes.GlueTable {
 
-    static func write(value: GlueClientTypes.MySQLCatalogSource?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: GlueClientTypes.GlueTable?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["Database"].write(value.database)
-        try writer["Name"].write(value.name)
-        try writer["Table"].write(value.table)
+        try writer["AdditionalOptions"].writeMap(value.additionalOptions, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["CatalogId"].write(value.catalogId)
+        try writer["ConnectionName"].write(value.connectionName)
+        try writer["DatabaseName"].write(value.databaseName)
+        try writer["TableName"].write(value.tableName)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.MySQLCatalogSource {
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.GlueTable {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.MySQLCatalogSource()
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.database = try reader["Database"].readIfPresent() ?? ""
-        value.table = try reader["Table"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension GlueClientTypes.MicrosoftSQLServerCatalogSource {
-
-    static func write(value: GlueClientTypes.MicrosoftSQLServerCatalogSource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Database"].write(value.database)
-        try writer["Name"].write(value.name)
-        try writer["Table"].write(value.table)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.MicrosoftSQLServerCatalogSource {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.MicrosoftSQLServerCatalogSource()
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.database = try reader["Database"].readIfPresent() ?? ""
-        value.table = try reader["Table"].readIfPresent() ?? ""
+        var value = GlueClientTypes.GlueTable()
+        value.databaseName = try reader["DatabaseName"].readIfPresent() ?? ""
+        value.tableName = try reader["TableName"].readIfPresent() ?? ""
+        value.catalogId = try reader["CatalogId"].readIfPresent()
+        value.connectionName = try reader["ConnectionName"].readIfPresent()
+        value.additionalOptions = try reader["AdditionalOptions"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }
@@ -46556,23 +47655,6 @@ extension GlueClientTypes.GovernedCatalogSource {
         value.table = try reader["Table"].readIfPresent() ?? ""
         value.partitionPredicate = try reader["PartitionPredicate"].readIfPresent()
         value.additionalOptions = try reader["AdditionalOptions"].readIfPresent(with: GlueClientTypes.S3SourceAdditionalOptions.read(from:))
-        return value
-    }
-}
-
-extension GlueClientTypes.S3SourceAdditionalOptions {
-
-    static func write(value: GlueClientTypes.S3SourceAdditionalOptions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BoundedFiles"].write(value.boundedFiles)
-        try writer["BoundedSize"].write(value.boundedSize)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.S3SourceAdditionalOptions {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.S3SourceAdditionalOptions()
-        value.boundedSize = try reader["BoundedSize"].readIfPresent()
-        value.boundedFiles = try reader["BoundedFiles"].readIfPresent()
         return value
     }
 }
@@ -46602,261 +47684,777 @@ extension GlueClientTypes.GovernedCatalogTarget {
     }
 }
 
-extension GlueClientTypes.DropDuplicates {
+extension GlueClientTypes.GrokClassifier {
 
-    static func write(value: GlueClientTypes.DropDuplicates?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Columns"].writeList(value.columns, memberWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
-        try writer["Inputs"].writeList(value.inputs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Name"].write(value.name)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.DropDuplicates {
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.GrokClassifier {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.DropDuplicates()
+        var value = GlueClientTypes.GrokClassifier()
         value.name = try reader["Name"].readIfPresent() ?? ""
-        value.inputs = try reader["Inputs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.columns = try reader["Columns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
+        value.classification = try reader["Classification"].readIfPresent() ?? ""
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastUpdated = try reader["LastUpdated"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.version = try reader["Version"].readIfPresent() ?? 0
+        value.grokPattern = try reader["GrokPattern"].readIfPresent() ?? ""
+        value.customPatterns = try reader["CustomPatterns"].readIfPresent()
         return value
     }
 }
 
-extension GlueClientTypes.Aggregate {
+extension GlueClientTypes.GroupFilters {
 
-    static func write(value: GlueClientTypes.Aggregate?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: GlueClientTypes.GroupFilters?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["Aggs"].writeList(value.aggs, memberWritingClosure: GlueClientTypes.AggregateOperation.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Groups"].writeList(value.groups, memberWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
-        try writer["Inputs"].writeList(value.inputs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Filters"].writeList(value.filters, memberWritingClosure: GlueClientTypes.FilterExpression.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["GroupName"].write(value.groupName)
+        try writer["LogicalOperator"].write(value.logicalOperator)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.GroupFilters {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.GroupFilters()
+        value.groupName = try reader["GroupName"].readIfPresent() ?? ""
+        value.filters = try reader["Filters"].readListIfPresent(memberReadingClosure: GlueClientTypes.FilterExpression.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.logicalOperator = try reader["LogicalOperator"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension GlueClientTypes.HudiTarget {
+
+    static func write(value: GlueClientTypes.HudiTarget?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ConnectionName"].write(value.connectionName)
+        try writer["Exclusions"].writeList(value.exclusions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["MaximumTraversalDepth"].write(value.maximumTraversalDepth)
+        try writer["Paths"].writeList(value.paths, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.HudiTarget {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.HudiTarget()
+        value.paths = try reader["Paths"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.connectionName = try reader["ConnectionName"].readIfPresent()
+        value.exclusions = try reader["Exclusions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.maximumTraversalDepth = try reader["MaximumTraversalDepth"].readIfPresent()
+        return value
+    }
+}
+
+extension GlueClientTypes.IcebergCompactionConfiguration {
+
+    static func write(value: GlueClientTypes.IcebergCompactionConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["deleteFileThreshold"].write(value.deleteFileThreshold)
+        try writer["minInputFiles"].write(value.minInputFiles)
+        try writer["strategy"].write(value.strategy)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.IcebergCompactionConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.IcebergCompactionConfiguration()
+        value.strategy = try reader["strategy"].readIfPresent()
+        value.minInputFiles = try reader["minInputFiles"].readIfPresent()
+        value.deleteFileThreshold = try reader["deleteFileThreshold"].readIfPresent()
+        return value
+    }
+}
+
+extension GlueClientTypes.IcebergCompactionMetrics {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.IcebergCompactionMetrics {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.IcebergCompactionMetrics()
+        value.numberOfBytesCompacted = try reader["NumberOfBytesCompacted"].readIfPresent() ?? 0
+        value.numberOfFilesCompacted = try reader["NumberOfFilesCompacted"].readIfPresent() ?? 0
+        value.dpuHours = try reader["DpuHours"].readIfPresent() ?? 0
+        value.numberOfDpus = try reader["NumberOfDpus"].readIfPresent() ?? 0
+        value.jobDurationInHour = try reader["JobDurationInHour"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension GlueClientTypes.IcebergEncryptedKey {
+
+    static func write(value: GlueClientTypes.IcebergEncryptedKey?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["EncryptedById"].write(value.encryptedById)
+        try writer["EncryptedKeyMetadata"].write(value.encryptedKeyMetadata)
+        try writer["KeyId"].write(value.keyId)
+        try writer["Properties"].writeMap(value.properties, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
+extension GlueClientTypes.IcebergInput {
+
+    static func write(value: GlueClientTypes.IcebergInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CreateIcebergTableInput"].write(value.createIcebergTableInput, with: GlueClientTypes.CreateIcebergTableInput.write(value:to:))
+        try writer["MetadataOperation"].write(value.metadataOperation)
+        try writer["Version"].write(value.version)
+    }
+}
+
+extension GlueClientTypes.IcebergOptimizationProperties {
+
+    static func write(value: GlueClientTypes.IcebergOptimizationProperties?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Compaction"].writeMap(value.compaction, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["OrphanFileDeletion"].writeMap(value.orphanFileDeletion, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["Retention"].writeMap(value.retention, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["RoleArn"].write(value.roleArn)
+    }
+}
+
+extension GlueClientTypes.IcebergOptimizationPropertiesOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.IcebergOptimizationPropertiesOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.IcebergOptimizationPropertiesOutput()
+        value.roleArn = try reader["RoleArn"].readIfPresent()
+        value.compaction = try reader["Compaction"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.retention = try reader["Retention"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.orphanFileDeletion = try reader["OrphanFileDeletion"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.lastUpdatedTime = try reader["LastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension GlueClientTypes.IcebergOrphanFileDeletionConfiguration {
+
+    static func write(value: GlueClientTypes.IcebergOrphanFileDeletionConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["location"].write(value.location)
+        try writer["orphanFileRetentionPeriodInDays"].write(value.orphanFileRetentionPeriodInDays)
+        try writer["runRateInHours"].write(value.runRateInHours)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.IcebergOrphanFileDeletionConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.IcebergOrphanFileDeletionConfiguration()
+        value.orphanFileRetentionPeriodInDays = try reader["orphanFileRetentionPeriodInDays"].readIfPresent()
+        value.location = try reader["location"].readIfPresent()
+        value.runRateInHours = try reader["runRateInHours"].readIfPresent()
+        return value
+    }
+}
+
+extension GlueClientTypes.IcebergOrphanFileDeletionMetrics {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.IcebergOrphanFileDeletionMetrics {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.IcebergOrphanFileDeletionMetrics()
+        value.numberOfOrphanFilesDeleted = try reader["NumberOfOrphanFilesDeleted"].readIfPresent() ?? 0
+        value.dpuHours = try reader["DpuHours"].readIfPresent() ?? 0
+        value.numberOfDpus = try reader["NumberOfDpus"].readIfPresent() ?? 0
+        value.jobDurationInHour = try reader["JobDurationInHour"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension GlueClientTypes.IcebergPartitionField {
+
+    static func write(value: GlueClientTypes.IcebergPartitionField?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FieldId"].write(value.fieldId)
         try writer["Name"].write(value.name)
+        try writer["SourceId"].write(value.sourceId)
+        try writer["Transform"].write(value.transform)
+    }
+}
+
+extension GlueClientTypes.IcebergPartitionSpec {
+
+    static func write(value: GlueClientTypes.IcebergPartitionSpec?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Fields"].writeList(value.fields, memberWritingClosure: GlueClientTypes.IcebergPartitionField.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["SpecId"].write(value.specId)
+    }
+}
+
+extension GlueClientTypes.IcebergRetentionConfiguration {
+
+    static func write(value: GlueClientTypes.IcebergRetentionConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["cleanExpiredFiles"].write(value.cleanExpiredFiles)
+        try writer["numberOfSnapshotsToRetain"].write(value.numberOfSnapshotsToRetain)
+        try writer["runRateInHours"].write(value.runRateInHours)
+        try writer["snapshotRetentionPeriodInDays"].write(value.snapshotRetentionPeriodInDays)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.Aggregate {
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.IcebergRetentionConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.Aggregate()
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.inputs = try reader["Inputs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.groups = try reader["Groups"].readListIfPresent(memberReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.aggs = try reader["Aggs"].readListIfPresent(memberReadingClosure: GlueClientTypes.AggregateOperation.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        var value = GlueClientTypes.IcebergRetentionConfiguration()
+        value.snapshotRetentionPeriodInDays = try reader["snapshotRetentionPeriodInDays"].readIfPresent()
+        value.numberOfSnapshotsToRetain = try reader["numberOfSnapshotsToRetain"].readIfPresent()
+        value.cleanExpiredFiles = try reader["cleanExpiredFiles"].readIfPresent()
+        value.runRateInHours = try reader["runRateInHours"].readIfPresent()
         return value
     }
 }
 
-extension GlueClientTypes.AggregateOperation {
+extension GlueClientTypes.IcebergRetentionMetrics {
 
-    static func write(value: GlueClientTypes.AggregateOperation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AggFunc"].write(value.aggFunc)
-        try writer["Column"].writeList(value.column, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.AggregateOperation {
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.IcebergRetentionMetrics {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.AggregateOperation()
-        value.column = try reader["Column"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.aggFunc = try reader["AggFunc"].readIfPresent() ?? .sdkUnknown("")
+        var value = GlueClientTypes.IcebergRetentionMetrics()
+        value.numberOfDataFilesDeleted = try reader["NumberOfDataFilesDeleted"].readIfPresent() ?? 0
+        value.numberOfManifestFilesDeleted = try reader["NumberOfManifestFilesDeleted"].readIfPresent() ?? 0
+        value.numberOfManifestListsDeleted = try reader["NumberOfManifestListsDeleted"].readIfPresent() ?? 0
+        value.dpuHours = try reader["DpuHours"].readIfPresent() ?? 0
+        value.numberOfDpus = try reader["NumberOfDpus"].readIfPresent() ?? 0
+        value.jobDurationInHour = try reader["JobDurationInHour"].readIfPresent() ?? 0
         return value
     }
 }
 
-extension GlueClientTypes.PIIDetection {
+extension GlueClientTypes.IcebergSchema {
 
-    static func write(value: GlueClientTypes.PIIDetection?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: GlueClientTypes.IcebergSchema?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["DetectionParameters"].write(value.detectionParameters)
-        try writer["DetectionSensitivity"].write(value.detectionSensitivity)
-        try writer["EntityTypesToDetect"].writeList(value.entityTypesToDetect, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Inputs"].writeList(value.inputs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["MaskValue"].write(value.maskValue)
-        try writer["MatchPattern"].write(value.matchPattern)
-        try writer["Name"].write(value.name)
-        try writer["NumLeftCharsToExclude"].write(value.numLeftCharsToExclude)
-        try writer["NumRightCharsToExclude"].write(value.numRightCharsToExclude)
-        try writer["OutputColumnName"].write(value.outputColumnName)
-        try writer["PiiType"].write(value.piiType)
-        try writer["RedactChar"].write(value.redactChar)
-        try writer["RedactText"].write(value.redactText)
-        try writer["SampleFraction"].write(value.sampleFraction)
-        try writer["ThresholdFraction"].write(value.thresholdFraction)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.PIIDetection {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.PIIDetection()
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.inputs = try reader["Inputs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.piiType = try reader["PiiType"].readIfPresent() ?? .sdkUnknown("")
-        value.entityTypesToDetect = try reader["EntityTypesToDetect"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.outputColumnName = try reader["OutputColumnName"].readIfPresent()
-        value.sampleFraction = try reader["SampleFraction"].readIfPresent()
-        value.thresholdFraction = try reader["ThresholdFraction"].readIfPresent()
-        value.maskValue = try reader["MaskValue"].readIfPresent()
-        value.redactText = try reader["RedactText"].readIfPresent()
-        value.redactChar = try reader["RedactChar"].readIfPresent()
-        value.matchPattern = try reader["MatchPattern"].readIfPresent()
-        value.numLeftCharsToExclude = try reader["NumLeftCharsToExclude"].readIfPresent()
-        value.numRightCharsToExclude = try reader["NumRightCharsToExclude"].readIfPresent()
-        value.detectionParameters = try reader["DetectionParameters"].readIfPresent()
-        value.detectionSensitivity = try reader["DetectionSensitivity"].readIfPresent()
-        return value
+        try writer["Fields"].writeList(value.fields, memberWritingClosure: GlueClientTypes.IcebergStructField.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["IdentifierFieldIds"].writeList(value.identifierFieldIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeInt(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["SchemaId"].write(value.schemaId)
+        try writer["Type"].write(value.type)
     }
 }
 
-extension GlueClientTypes.Union {
+extension GlueClientTypes.IcebergSortField {
 
-    static func write(value: GlueClientTypes.Union?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: GlueClientTypes.IcebergSortField?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["Inputs"].writeList(value.inputs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Name"].write(value.name)
-        try writer["UnionType"].write(value.unionType)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.Union {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.Union()
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.inputs = try reader["Inputs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.unionType = try reader["UnionType"].readIfPresent() ?? .sdkUnknown("")
-        return value
+        try writer["Direction"].write(value.direction)
+        try writer["NullOrder"].write(value.nullOrder)
+        try writer["SourceId"].write(value.sourceId)
+        try writer["Transform"].write(value.transform)
     }
 }
 
-extension GlueClientTypes.Merge {
+extension GlueClientTypes.IcebergSortOrder {
 
-    static func write(value: GlueClientTypes.Merge?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: GlueClientTypes.IcebergSortOrder?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["Inputs"].writeList(value.inputs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Name"].write(value.name)
-        try writer["PrimaryKeys"].writeList(value.primaryKeys, memberWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
-        try writer["Source"].write(value.source)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.Merge {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.Merge()
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.inputs = try reader["Inputs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.source = try reader["Source"].readIfPresent() ?? ""
-        value.primaryKeys = try reader["PrimaryKeys"].readListIfPresent(memberReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
+        try writer["Fields"].writeList(value.fields, memberWritingClosure: GlueClientTypes.IcebergSortField.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["OrderId"].write(value.orderId)
     }
 }
 
-extension GlueClientTypes.DropNullFields {
+extension GlueClientTypes.IcebergStructField {
 
-    static func write(value: GlueClientTypes.DropNullFields?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: GlueClientTypes.IcebergStructField?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["Inputs"].writeList(value.inputs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Name"].write(value.name)
-        try writer["NullCheckBoxList"].write(value.nullCheckBoxList, with: GlueClientTypes.NullCheckBoxList.write(value:to:))
-        try writer["NullTextList"].writeList(value.nullTextList, memberWritingClosure: GlueClientTypes.NullValueField.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.DropNullFields {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.DropNullFields()
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.inputs = try reader["Inputs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.nullCheckBoxList = try reader["NullCheckBoxList"].readIfPresent(with: GlueClientTypes.NullCheckBoxList.read(from:))
-        value.nullTextList = try reader["NullTextList"].readListIfPresent(memberReadingClosure: GlueClientTypes.NullValueField.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension GlueClientTypes.NullValueField {
-
-    static func write(value: GlueClientTypes.NullValueField?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Datatype"].write(value.datatype, with: GlueClientTypes.Datatype.write(value:to:))
-        try writer["Value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.NullValueField {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.NullValueField()
-        value.value = try reader["Value"].readIfPresent() ?? ""
-        value.datatype = try reader["Datatype"].readIfPresent(with: GlueClientTypes.Datatype.read(from:))
-        return value
-    }
-}
-
-extension GlueClientTypes.Datatype {
-
-    static func write(value: GlueClientTypes.Datatype?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
+        try writer["Doc"].write(value.doc)
         try writer["Id"].write(value.id)
-        try writer["Label"].write(value.label)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.Datatype {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.Datatype()
-        value.id = try reader["Id"].readIfPresent() ?? ""
-        value.label = try reader["Label"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension GlueClientTypes.NullCheckBoxList {
-
-    static func write(value: GlueClientTypes.NullCheckBoxList?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["IsEmpty"].write(value.isEmpty)
-        try writer["IsNegOne"].write(value.isNegOne)
-        try writer["IsNullString"].write(value.isNullString)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.NullCheckBoxList {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.NullCheckBoxList()
-        value.isEmpty = try reader["IsEmpty"].readIfPresent()
-        value.isNullString = try reader["IsNullString"].readIfPresent()
-        value.isNegOne = try reader["IsNegOne"].readIfPresent()
-        return value
-    }
-}
-
-extension GlueClientTypes.CatalogKafkaSource {
-
-    static func write(value: GlueClientTypes.CatalogKafkaSource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DataPreviewOptions"].write(value.dataPreviewOptions, with: GlueClientTypes.StreamingDataPreviewOptions.write(value:to:))
-        try writer["Database"].write(value.database)
-        try writer["DetectSchema"].write(value.detectSchema)
+        try writer["InitialDefault"].write(value.initialDefault)
         try writer["Name"].write(value.name)
-        try writer["StreamingOptions"].write(value.streamingOptions, with: GlueClientTypes.KafkaStreamingSourceOptions.write(value:to:))
-        try writer["Table"].write(value.table)
-        try writer["WindowSize"].write(value.windowSize)
+        try writer["Required"].write(value.`required`)
+        try writer["Type"].write(value.type)
+        try writer["WriteDefault"].write(value.writeDefault)
+    }
+}
+
+extension GlueClientTypes.IcebergTableUpdate {
+
+    static func write(value: GlueClientTypes.IcebergTableUpdate?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Action"].write(value.action)
+        try writer["EncryptionKey"].write(value.encryptionKey, with: GlueClientTypes.IcebergEncryptedKey.write(value:to:))
+        try writer["KeyId"].write(value.keyId)
+        try writer["Location"].write(value.location)
+        try writer["PartitionSpec"].write(value.partitionSpec, with: GlueClientTypes.IcebergPartitionSpec.write(value:to:))
+        try writer["Properties"].writeMap(value.properties, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["Schema"].write(value.schema, with: GlueClientTypes.IcebergSchema.write(value:to:))
+        try writer["SortOrder"].write(value.sortOrder, with: GlueClientTypes.IcebergSortOrder.write(value:to:))
+    }
+}
+
+extension GlueClientTypes.IcebergTarget {
+
+    static func write(value: GlueClientTypes.IcebergTarget?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ConnectionName"].write(value.connectionName)
+        try writer["Exclusions"].writeList(value.exclusions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["MaximumTraversalDepth"].write(value.maximumTraversalDepth)
+        try writer["Paths"].writeList(value.paths, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.CatalogKafkaSource {
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.IcebergTarget {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.CatalogKafkaSource()
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.windowSize = try reader["WindowSize"].readIfPresent()
-        value.detectSchema = try reader["DetectSchema"].readIfPresent()
-        value.table = try reader["Table"].readIfPresent() ?? ""
-        value.database = try reader["Database"].readIfPresent() ?? ""
-        value.streamingOptions = try reader["StreamingOptions"].readIfPresent(with: GlueClientTypes.KafkaStreamingSourceOptions.read(from:))
-        value.dataPreviewOptions = try reader["DataPreviewOptions"].readIfPresent(with: GlueClientTypes.StreamingDataPreviewOptions.read(from:))
+        var value = GlueClientTypes.IcebergTarget()
+        value.paths = try reader["Paths"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.connectionName = try reader["ConnectionName"].readIfPresent()
+        value.exclusions = try reader["Exclusions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.maximumTraversalDepth = try reader["MaximumTraversalDepth"].readIfPresent()
         return value
     }
 }
 
-extension GlueClientTypes.StreamingDataPreviewOptions {
+extension GlueClientTypes.ImportLabelsTaskRunProperties {
 
-    static func write(value: GlueClientTypes.StreamingDataPreviewOptions?, to writer: SmithyJSON.Writer) throws {
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.ImportLabelsTaskRunProperties {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.ImportLabelsTaskRunProperties()
+        value.inputS3Path = try reader["InputS3Path"].readIfPresent()
+        value.replace = try reader["Replace"].readIfPresent() ?? false
+        return value
+    }
+}
+
+extension GlueClientTypes.InboundIntegration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.InboundIntegration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.InboundIntegration()
+        value.sourceArn = try reader["SourceArn"].readIfPresent() ?? ""
+        value.targetArn = try reader["TargetArn"].readIfPresent() ?? ""
+        value.integrationArn = try reader["IntegrationArn"].readIfPresent() ?? ""
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.integrationConfig = try reader["IntegrationConfig"].readIfPresent(with: GlueClientTypes.IntegrationConfig.read(from:))
+        value.errors = try reader["Errors"].readListIfPresent(memberReadingClosure: GlueClientTypes.IntegrationError.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension GlueClientTypes.Integration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.Integration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.Integration()
+        value.sourceArn = try reader["SourceArn"].readIfPresent() ?? ""
+        value.targetArn = try reader["TargetArn"].readIfPresent() ?? ""
+        value.description = try reader["Description"].readIfPresent()
+        value.integrationName = try reader["IntegrationName"].readIfPresent() ?? ""
+        value.integrationArn = try reader["IntegrationArn"].readIfPresent() ?? ""
+        value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
+        value.additionalEncryptionContext = try reader["AdditionalEncryptionContext"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: GlueClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.integrationConfig = try reader["IntegrationConfig"].readIfPresent(with: GlueClientTypes.IntegrationConfig.read(from:))
+        value.errors = try reader["Errors"].readListIfPresent(memberReadingClosure: GlueClientTypes.IntegrationError.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.dataFilter = try reader["DataFilter"].readIfPresent()
+        return value
+    }
+}
+
+extension GlueClientTypes.IntegrationConfig {
+
+    static func write(value: GlueClientTypes.IntegrationConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["PollingTime"].write(value.pollingTime)
-        try writer["RecordPollingLimit"].write(value.recordPollingLimit)
+        try writer["ContinuousSync"].write(value.continuousSync)
+        try writer["RefreshInterval"].write(value.refreshInterval)
+        try writer["SourceProperties"].writeMap(value.sourceProperties, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.StreamingDataPreviewOptions {
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.IntegrationConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.StreamingDataPreviewOptions()
-        value.pollingTime = try reader["PollingTime"].readIfPresent()
-        value.recordPollingLimit = try reader["RecordPollingLimit"].readIfPresent()
+        var value = GlueClientTypes.IntegrationConfig()
+        value.refreshInterval = try reader["RefreshInterval"].readIfPresent()
+        value.sourceProperties = try reader["SourceProperties"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.continuousSync = try reader["ContinuousSync"].readIfPresent()
         return value
+    }
+}
+
+extension GlueClientTypes.IntegrationError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.IntegrationError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.IntegrationError()
+        value.errorCode = try reader["ErrorCode"].readIfPresent()
+        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
+        return value
+    }
+}
+
+extension GlueClientTypes.IntegrationFilter {
+
+    static func write(value: GlueClientTypes.IntegrationFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Name"].write(value.name)
+        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension GlueClientTypes.IntegrationPartition {
+
+    static func write(value: GlueClientTypes.IntegrationPartition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ConversionSpec"].write(value.conversionSpec)
+        try writer["FieldName"].write(value.fieldName)
+        try writer["FunctionSpec"].write(value.functionSpec)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.IntegrationPartition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.IntegrationPartition()
+        value.fieldName = try reader["FieldName"].readIfPresent()
+        value.functionSpec = try reader["FunctionSpec"].readIfPresent()
+        value.conversionSpec = try reader["ConversionSpec"].readIfPresent()
+        return value
+    }
+}
+
+extension GlueClientTypes.IntegrationResourceProperty {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.IntegrationResourceProperty {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.IntegrationResourceProperty()
+        value.resourceArn = try reader["ResourceArn"].readIfPresent() ?? ""
+        value.resourcePropertyArn = try reader["ResourcePropertyArn"].readIfPresent()
+        value.sourceProcessingProperties = try reader["SourceProcessingProperties"].readIfPresent(with: GlueClientTypes.SourceProcessingProperties.read(from:))
+        value.targetProcessingProperties = try reader["TargetProcessingProperties"].readIfPresent(with: GlueClientTypes.TargetProcessingProperties.read(from:))
+        return value
+    }
+}
+
+extension GlueClientTypes.IntegrationResourcePropertyFilter {
+
+    static func write(value: GlueClientTypes.IntegrationResourcePropertyFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Name"].write(value.name)
+        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension GlueClientTypes.JDBCConnectorOptions {
+
+    static func write(value: GlueClientTypes.JDBCConnectorOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DataTypeMapping"].writeMap(value.dataTypeMapping, valueWritingClosure: SmithyReadWrite.WritingClosureBox<GlueClientTypes.GlueRecordType>().write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["FilterPredicate"].write(value.filterPredicate)
+        try writer["JobBookmarkKeys"].writeList(value.jobBookmarkKeys, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["JobBookmarkKeysSortOrder"].write(value.jobBookmarkKeysSortOrder)
+        try writer["LowerBound"].write(value.lowerBound)
+        try writer["NumPartitions"].write(value.numPartitions)
+        try writer["PartitionColumn"].write(value.partitionColumn)
+        try writer["UpperBound"].write(value.upperBound)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.JDBCConnectorOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.JDBCConnectorOptions()
+        value.filterPredicate = try reader["FilterPredicate"].readIfPresent()
+        value.partitionColumn = try reader["PartitionColumn"].readIfPresent()
+        value.lowerBound = try reader["LowerBound"].readIfPresent()
+        value.upperBound = try reader["UpperBound"].readIfPresent()
+        value.numPartitions = try reader["NumPartitions"].readIfPresent()
+        value.jobBookmarkKeys = try reader["JobBookmarkKeys"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.jobBookmarkKeysSortOrder = try reader["JobBookmarkKeysSortOrder"].readIfPresent()
+        value.dataTypeMapping = try reader["DataTypeMapping"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosureBox<GlueClientTypes.GlueRecordType>().read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension GlueClientTypes.JDBCConnectorSource {
+
+    static func write(value: GlueClientTypes.JDBCConnectorSource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AdditionalOptions"].write(value.additionalOptions, with: GlueClientTypes.JDBCConnectorOptions.write(value:to:))
+        try writer["ConnectionName"].write(value.connectionName)
+        try writer["ConnectionTable"].write(value.connectionTable)
+        try writer["ConnectionType"].write(value.connectionType)
+        try writer["ConnectorName"].write(value.connectorName)
+        try writer["Name"].write(value.name)
+        try writer["OutputSchemas"].writeList(value.outputSchemas, memberWritingClosure: GlueClientTypes.GlueSchema.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Query"].write(value.query)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.JDBCConnectorSource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.JDBCConnectorSource()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.connectionName = try reader["ConnectionName"].readIfPresent() ?? ""
+        value.connectorName = try reader["ConnectorName"].readIfPresent() ?? ""
+        value.connectionType = try reader["ConnectionType"].readIfPresent() ?? ""
+        value.additionalOptions = try reader["AdditionalOptions"].readIfPresent(with: GlueClientTypes.JDBCConnectorOptions.read(from:))
+        value.connectionTable = try reader["ConnectionTable"].readIfPresent()
+        value.query = try reader["Query"].readIfPresent()
+        value.outputSchemas = try reader["OutputSchemas"].readListIfPresent(memberReadingClosure: GlueClientTypes.GlueSchema.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension GlueClientTypes.JDBCConnectorTarget {
+
+    static func write(value: GlueClientTypes.JDBCConnectorTarget?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AdditionalOptions"].writeMap(value.additionalOptions, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["ConnectionName"].write(value.connectionName)
+        try writer["ConnectionTable"].write(value.connectionTable)
+        try writer["ConnectionType"].write(value.connectionType)
+        try writer["ConnectorName"].write(value.connectorName)
+        try writer["Inputs"].writeList(value.inputs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Name"].write(value.name)
+        try writer["OutputSchemas"].writeList(value.outputSchemas, memberWritingClosure: GlueClientTypes.GlueSchema.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.JDBCConnectorTarget {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.JDBCConnectorTarget()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.inputs = try reader["Inputs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.connectionName = try reader["ConnectionName"].readIfPresent() ?? ""
+        value.connectionTable = try reader["ConnectionTable"].readIfPresent() ?? ""
+        value.connectorName = try reader["ConnectorName"].readIfPresent() ?? ""
+        value.connectionType = try reader["ConnectionType"].readIfPresent() ?? ""
+        value.additionalOptions = try reader["AdditionalOptions"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.outputSchemas = try reader["OutputSchemas"].readListIfPresent(memberReadingClosure: GlueClientTypes.GlueSchema.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension GlueClientTypes.JdbcTarget {
+
+    static func write(value: GlueClientTypes.JdbcTarget?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ConnectionName"].write(value.connectionName)
+        try writer["EnableAdditionalMetadata"].writeList(value.enableAdditionalMetadata, memberWritingClosure: SmithyReadWrite.WritingClosureBox<GlueClientTypes.JdbcMetadataEntry>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Exclusions"].writeList(value.exclusions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Path"].write(value.path)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.JdbcTarget {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.JdbcTarget()
+        value.connectionName = try reader["ConnectionName"].readIfPresent()
+        value.path = try reader["Path"].readIfPresent()
+        value.exclusions = try reader["Exclusions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.enableAdditionalMetadata = try reader["EnableAdditionalMetadata"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<GlueClientTypes.JdbcMetadataEntry>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension GlueClientTypes.Job {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.Job {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.Job()
+        value.name = try reader["Name"].readIfPresent()
+        value.jobMode = try reader["JobMode"].readIfPresent()
+        value.jobRunQueuingEnabled = try reader["JobRunQueuingEnabled"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.logUri = try reader["LogUri"].readIfPresent()
+        value.role = try reader["Role"].readIfPresent()
+        value.createdOn = try reader["CreatedOn"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastModifiedOn = try reader["LastModifiedOn"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.executionProperty = try reader["ExecutionProperty"].readIfPresent(with: GlueClientTypes.ExecutionProperty.read(from:))
+        value.command = try reader["Command"].readIfPresent(with: GlueClientTypes.JobCommand.read(from:))
+        value.defaultArguments = try reader["DefaultArguments"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.nonOverridableArguments = try reader["NonOverridableArguments"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.connections = try reader["Connections"].readIfPresent(with: GlueClientTypes.ConnectionsList.read(from:))
+        value.maxRetries = try reader["MaxRetries"].readIfPresent() ?? 0
+        value.allocatedCapacity = try reader["AllocatedCapacity"].readIfPresent() ?? 0
+        value.timeout = try reader["Timeout"].readIfPresent()
+        value.maxCapacity = try reader["MaxCapacity"].readIfPresent()
+        value.workerType = try reader["WorkerType"].readIfPresent()
+        value.numberOfWorkers = try reader["NumberOfWorkers"].readIfPresent()
+        value.securityConfiguration = try reader["SecurityConfiguration"].readIfPresent()
+        value.notificationProperty = try reader["NotificationProperty"].readIfPresent(with: GlueClientTypes.NotificationProperty.read(from:))
+        value.glueVersion = try reader["GlueVersion"].readIfPresent()
+        value.codeGenConfigurationNodes = try reader["CodeGenConfigurationNodes"].readMapIfPresent(valueReadingClosure: GlueClientTypes.CodeGenConfigurationNode.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.executionClass = try reader["ExecutionClass"].readIfPresent()
+        value.sourceControlDetails = try reader["SourceControlDetails"].readIfPresent(with: GlueClientTypes.SourceControlDetails.read(from:))
+        value.maintenanceWindow = try reader["MaintenanceWindow"].readIfPresent()
+        value.profileName = try reader["ProfileName"].readIfPresent()
+        return value
+    }
+}
+
+extension GlueClientTypes.JobBookmarkEntry {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.JobBookmarkEntry {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.JobBookmarkEntry()
+        value.jobName = try reader["JobName"].readIfPresent()
+        value.version = try reader["Version"].readIfPresent() ?? 0
+        value.run = try reader["Run"].readIfPresent() ?? 0
+        value.attempt = try reader["Attempt"].readIfPresent() ?? 0
+        value.previousRunId = try reader["PreviousRunId"].readIfPresent()
+        value.runId = try reader["RunId"].readIfPresent()
+        value.jobBookmark = try reader["JobBookmark"].readIfPresent()
+        return value
+    }
+}
+
+extension GlueClientTypes.JobBookmarksEncryption {
+
+    static func write(value: GlueClientTypes.JobBookmarksEncryption?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["JobBookmarksEncryptionMode"].write(value.jobBookmarksEncryptionMode)
+        try writer["KmsKeyArn"].write(value.kmsKeyArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.JobBookmarksEncryption {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.JobBookmarksEncryption()
+        value.jobBookmarksEncryptionMode = try reader["JobBookmarksEncryptionMode"].readIfPresent()
+        value.kmsKeyArn = try reader["KmsKeyArn"].readIfPresent()
+        return value
+    }
+}
+
+extension GlueClientTypes.JobCommand {
+
+    static func write(value: GlueClientTypes.JobCommand?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Name"].write(value.name)
+        try writer["PythonVersion"].write(value.pythonVersion)
+        try writer["Runtime"].write(value.runtime)
+        try writer["ScriptLocation"].write(value.scriptLocation)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.JobCommand {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.JobCommand()
+        value.name = try reader["Name"].readIfPresent()
+        value.scriptLocation = try reader["ScriptLocation"].readIfPresent()
+        value.pythonVersion = try reader["PythonVersion"].readIfPresent()
+        value.runtime = try reader["Runtime"].readIfPresent()
+        return value
+    }
+}
+
+extension GlueClientTypes.JobNodeDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.JobNodeDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.JobNodeDetails()
+        value.jobRuns = try reader["JobRuns"].readListIfPresent(memberReadingClosure: GlueClientTypes.JobRun.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension GlueClientTypes.JobRun {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.JobRun {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.JobRun()
+        value.id = try reader["Id"].readIfPresent()
+        value.attempt = try reader["Attempt"].readIfPresent() ?? 0
+        value.previousRunId = try reader["PreviousRunId"].readIfPresent()
+        value.triggerName = try reader["TriggerName"].readIfPresent()
+        value.jobName = try reader["JobName"].readIfPresent()
+        value.jobMode = try reader["JobMode"].readIfPresent()
+        value.jobRunQueuingEnabled = try reader["JobRunQueuingEnabled"].readIfPresent()
+        value.startedOn = try reader["StartedOn"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastModifiedOn = try reader["LastModifiedOn"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.completedOn = try reader["CompletedOn"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.jobRunState = try reader["JobRunState"].readIfPresent()
+        value.arguments = try reader["Arguments"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
+        value.predecessorRuns = try reader["PredecessorRuns"].readListIfPresent(memberReadingClosure: GlueClientTypes.Predecessor.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.allocatedCapacity = try reader["AllocatedCapacity"].readIfPresent() ?? 0
+        value.executionTime = try reader["ExecutionTime"].readIfPresent() ?? 0
+        value.timeout = try reader["Timeout"].readIfPresent()
+        value.maxCapacity = try reader["MaxCapacity"].readIfPresent()
+        value.workerType = try reader["WorkerType"].readIfPresent()
+        value.numberOfWorkers = try reader["NumberOfWorkers"].readIfPresent()
+        value.securityConfiguration = try reader["SecurityConfiguration"].readIfPresent()
+        value.logGroupName = try reader["LogGroupName"].readIfPresent()
+        value.notificationProperty = try reader["NotificationProperty"].readIfPresent(with: GlueClientTypes.NotificationProperty.read(from:))
+        value.glueVersion = try reader["GlueVersion"].readIfPresent()
+        value.dpuSeconds = try reader["DPUSeconds"].readIfPresent()
+        value.executionClass = try reader["ExecutionClass"].readIfPresent()
+        value.maintenanceWindow = try reader["MaintenanceWindow"].readIfPresent()
+        value.profileName = try reader["ProfileName"].readIfPresent()
+        value.stateDetail = try reader["StateDetail"].readIfPresent()
+        value.executionRoleSessionPolicy = try reader["ExecutionRoleSessionPolicy"].readIfPresent()
+        return value
+    }
+}
+
+extension GlueClientTypes.JobUpdate {
+
+    static func write(value: GlueClientTypes.JobUpdate?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AllocatedCapacity"].write(value.allocatedCapacity)
+        try writer["CodeGenConfigurationNodes"].writeMap(value.codeGenConfigurationNodes, valueWritingClosure: GlueClientTypes.CodeGenConfigurationNode.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["Command"].write(value.command, with: GlueClientTypes.JobCommand.write(value:to:))
+        try writer["Connections"].write(value.connections, with: GlueClientTypes.ConnectionsList.write(value:to:))
+        try writer["DefaultArguments"].writeMap(value.defaultArguments, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["Description"].write(value.description)
+        try writer["ExecutionClass"].write(value.executionClass)
+        try writer["ExecutionProperty"].write(value.executionProperty, with: GlueClientTypes.ExecutionProperty.write(value:to:))
+        try writer["GlueVersion"].write(value.glueVersion)
+        try writer["JobMode"].write(value.jobMode)
+        try writer["JobRunQueuingEnabled"].write(value.jobRunQueuingEnabled)
+        try writer["LogUri"].write(value.logUri)
+        try writer["MaintenanceWindow"].write(value.maintenanceWindow)
+        try writer["MaxCapacity"].write(value.maxCapacity)
+        try writer["MaxRetries"].write(value.maxRetries)
+        try writer["NonOverridableArguments"].writeMap(value.nonOverridableArguments, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["NotificationProperty"].write(value.notificationProperty, with: GlueClientTypes.NotificationProperty.write(value:to:))
+        try writer["NumberOfWorkers"].write(value.numberOfWorkers)
+        try writer["Role"].write(value.role)
+        try writer["SecurityConfiguration"].write(value.securityConfiguration)
+        try writer["SourceControlDetails"].write(value.sourceControlDetails, with: GlueClientTypes.SourceControlDetails.write(value:to:))
+        try writer["Timeout"].write(value.timeout)
+        try writer["WorkerType"].write(value.workerType)
+    }
+}
+
+extension GlueClientTypes.Join {
+
+    static func write(value: GlueClientTypes.Join?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Columns"].writeList(value.columns, memberWritingClosure: GlueClientTypes.JoinColumn.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Inputs"].writeList(value.inputs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["JoinType"].write(value.joinType)
+        try writer["Name"].write(value.name)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.Join {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.Join()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.inputs = try reader["Inputs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.joinType = try reader["JoinType"].readIfPresent() ?? .sdkUnknown("")
+        value.columns = try reader["Columns"].readListIfPresent(memberReadingClosure: GlueClientTypes.JoinColumn.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension GlueClientTypes.JoinColumn {
+
+    static func write(value: GlueClientTypes.JoinColumn?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["From"].write(value.from)
+        try writer["Keys"].writeList(value.keys, memberWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.JoinColumn {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.JoinColumn()
+        value.from = try reader["From"].readIfPresent() ?? ""
+        value.keys = try reader["Keys"].readListIfPresent(memberReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension GlueClientTypes.JsonClassifier {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.JsonClassifier {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.JsonClassifier()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastUpdated = try reader["LastUpdated"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.version = try reader["Version"].readIfPresent() ?? 0
+        value.jsonPath = try reader["JsonPath"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension GlueClientTypes.JWTBearerProperties {
+
+    static func write(value: GlueClientTypes.JWTBearerProperties?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ContentType"].write(value.contentType)
+        try writer["JwtToken"].write(value.jwtToken, with: GlueClientTypes.ConnectorProperty.write(value:to:))
+        try writer["RequestMethod"].write(value.requestMethod)
+        try writer["TokenUrl"].write(value.tokenUrl, with: GlueClientTypes.ConnectorProperty.write(value:to:))
+        try writer["TokenUrlParameters"].writeList(value.tokenUrlParameters, memberWritingClosure: GlueClientTypes.ConnectorProperty.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -46911,29 +48509,13 @@ extension GlueClientTypes.KafkaStreamingSourceOptions {
     }
 }
 
-extension GlueClientTypes.CatalogKinesisSource {
+extension GlueClientTypes.KeySchemaElement {
 
-    static func write(value: GlueClientTypes.CatalogKinesisSource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DataPreviewOptions"].write(value.dataPreviewOptions, with: GlueClientTypes.StreamingDataPreviewOptions.write(value:to:))
-        try writer["Database"].write(value.database)
-        try writer["DetectSchema"].write(value.detectSchema)
-        try writer["Name"].write(value.name)
-        try writer["StreamingOptions"].write(value.streamingOptions, with: GlueClientTypes.KinesisStreamingSourceOptions.write(value:to:))
-        try writer["Table"].write(value.table)
-        try writer["WindowSize"].write(value.windowSize)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.CatalogKinesisSource {
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.KeySchemaElement {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.CatalogKinesisSource()
+        var value = GlueClientTypes.KeySchemaElement()
         value.name = try reader["Name"].readIfPresent() ?? ""
-        value.windowSize = try reader["WindowSize"].readIfPresent()
-        value.detectSchema = try reader["DetectSchema"].readIfPresent()
-        value.table = try reader["Table"].readIfPresent() ?? ""
-        value.database = try reader["Database"].readIfPresent() ?? ""
-        value.streamingOptions = try reader["StreamingOptions"].readIfPresent(with: GlueClientTypes.KinesisStreamingSourceOptions.read(from:))
-        value.dataPreviewOptions = try reader["DataPreviewOptions"].readIfPresent(with: GlueClientTypes.StreamingDataPreviewOptions.read(from:))
+        value.type = try reader["Type"].readIfPresent() ?? ""
         return value
     }
 }
@@ -46995,330 +48577,104 @@ extension GlueClientTypes.KinesisStreamingSourceOptions {
     }
 }
 
-extension GlueClientTypes.DirectKafkaSource {
+extension GlueClientTypes.LabelingSetGenerationTaskRunProperties {
 
-    static func write(value: GlueClientTypes.DirectKafkaSource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DataPreviewOptions"].write(value.dataPreviewOptions, with: GlueClientTypes.StreamingDataPreviewOptions.write(value:to:))
-        try writer["DetectSchema"].write(value.detectSchema)
-        try writer["Name"].write(value.name)
-        try writer["StreamingOptions"].write(value.streamingOptions, with: GlueClientTypes.KafkaStreamingSourceOptions.write(value:to:))
-        try writer["WindowSize"].write(value.windowSize)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.DirectKafkaSource {
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.LabelingSetGenerationTaskRunProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.DirectKafkaSource()
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.streamingOptions = try reader["StreamingOptions"].readIfPresent(with: GlueClientTypes.KafkaStreamingSourceOptions.read(from:))
-        value.windowSize = try reader["WindowSize"].readIfPresent()
-        value.detectSchema = try reader["DetectSchema"].readIfPresent()
-        value.dataPreviewOptions = try reader["DataPreviewOptions"].readIfPresent(with: GlueClientTypes.StreamingDataPreviewOptions.read(from:))
+        var value = GlueClientTypes.LabelingSetGenerationTaskRunProperties()
+        value.outputS3Path = try reader["OutputS3Path"].readIfPresent()
         return value
     }
 }
 
-extension GlueClientTypes.DirectKinesisSource {
+extension GlueClientTypes.LakeFormationConfiguration {
 
-    static func write(value: GlueClientTypes.DirectKinesisSource?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: GlueClientTypes.LakeFormationConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["DataPreviewOptions"].write(value.dataPreviewOptions, with: GlueClientTypes.StreamingDataPreviewOptions.write(value:to:))
-        try writer["DetectSchema"].write(value.detectSchema)
-        try writer["Name"].write(value.name)
-        try writer["StreamingOptions"].write(value.streamingOptions, with: GlueClientTypes.KinesisStreamingSourceOptions.write(value:to:))
-        try writer["WindowSize"].write(value.windowSize)
+        try writer["AccountId"].write(value.accountId)
+        try writer["UseLakeFormationCredentials"].write(value.useLakeFormationCredentials)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.DirectKinesisSource {
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.LakeFormationConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.DirectKinesisSource()
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.windowSize = try reader["WindowSize"].readIfPresent()
-        value.detectSchema = try reader["DetectSchema"].readIfPresent()
-        value.streamingOptions = try reader["StreamingOptions"].readIfPresent(with: GlueClientTypes.KinesisStreamingSourceOptions.read(from:))
-        value.dataPreviewOptions = try reader["DataPreviewOptions"].readIfPresent(with: GlueClientTypes.StreamingDataPreviewOptions.read(from:))
+        var value = GlueClientTypes.LakeFormationConfiguration()
+        value.useLakeFormationCredentials = try reader["UseLakeFormationCredentials"].readIfPresent()
+        value.accountId = try reader["AccountId"].readIfPresent()
         return value
     }
 }
 
-extension GlueClientTypes.SparkSQL {
+extension GlueClientTypes.LastActiveDefinition {
 
-    static func write(value: GlueClientTypes.SparkSQL?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Inputs"].writeList(value.inputs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Name"].write(value.name)
-        try writer["OutputSchemas"].writeList(value.outputSchemas, memberWritingClosure: GlueClientTypes.GlueSchema.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["SqlAliases"].writeList(value.sqlAliases, memberWritingClosure: GlueClientTypes.SqlAlias.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["SqlQuery"].write(value.sqlQuery)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.SparkSQL {
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.LastActiveDefinition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.SparkSQL()
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.inputs = try reader["Inputs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.sqlQuery = try reader["SqlQuery"].readIfPresent() ?? ""
-        value.sqlAliases = try reader["SqlAliases"].readListIfPresent(memberReadingClosure: GlueClientTypes.SqlAlias.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.outputSchemas = try reader["OutputSchemas"].readListIfPresent(memberReadingClosure: GlueClientTypes.GlueSchema.read(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = GlueClientTypes.LastActiveDefinition()
+        value.description = try reader["Description"].readIfPresent()
+        value.lastModifiedOn = try reader["LastModifiedOn"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.parameterSpec = try reader["ParameterSpec"].readIfPresent()
+        value.blueprintLocation = try reader["BlueprintLocation"].readIfPresent()
+        value.blueprintServiceLocation = try reader["BlueprintServiceLocation"].readIfPresent()
         return value
     }
 }
 
-extension GlueClientTypes.SqlAlias {
+extension GlueClientTypes.LastCrawlInfo {
 
-    static func write(value: GlueClientTypes.SqlAlias?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Alias"].write(value.alias)
-        try writer["From"].write(value.from)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.SqlAlias {
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.LastCrawlInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.SqlAlias()
-        value.from = try reader["From"].readIfPresent() ?? ""
-        value.alias = try reader["Alias"].readIfPresent() ?? ""
+        var value = GlueClientTypes.LastCrawlInfo()
+        value.status = try reader["Status"].readIfPresent()
+        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
+        value.logGroup = try reader["LogGroup"].readIfPresent()
+        value.logStream = try reader["LogStream"].readIfPresent()
+        value.messagePrefix = try reader["MessagePrefix"].readIfPresent()
+        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }
 
-extension GlueClientTypes.CustomCode {
+extension GlueClientTypes.LineageConfiguration {
 
-    static func write(value: GlueClientTypes.CustomCode?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: GlueClientTypes.LineageConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["ClassName"].write(value.className)
-        try writer["Code"].write(value.code)
-        try writer["Inputs"].writeList(value.inputs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Name"].write(value.name)
-        try writer["OutputSchemas"].writeList(value.outputSchemas, memberWritingClosure: GlueClientTypes.GlueSchema.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["CrawlerLineageSettings"].write(value.crawlerLineageSettings)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.CustomCode {
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.LineageConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.CustomCode()
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.inputs = try reader["Inputs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.code = try reader["Code"].readIfPresent() ?? ""
-        value.className = try reader["ClassName"].readIfPresent() ?? ""
-        value.outputSchemas = try reader["OutputSchemas"].readListIfPresent(memberReadingClosure: GlueClientTypes.GlueSchema.read(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = GlueClientTypes.LineageConfiguration()
+        value.crawlerLineageSettings = try reader["CrawlerLineageSettings"].readIfPresent()
         return value
     }
 }
 
-extension GlueClientTypes.Filter {
+extension GlueClientTypes.Location {
 
-    static func write(value: GlueClientTypes.Filter?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: GlueClientTypes.Location?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["Filters"].writeList(value.filters, memberWritingClosure: GlueClientTypes.FilterExpression.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Inputs"].writeList(value.inputs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["LogicalOperator"].write(value.logicalOperator)
-        try writer["Name"].write(value.name)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.Filter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.Filter()
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.inputs = try reader["Inputs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.logicalOperator = try reader["LogicalOperator"].readIfPresent() ?? .sdkUnknown("")
-        value.filters = try reader["Filters"].readListIfPresent(memberReadingClosure: GlueClientTypes.FilterExpression.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
+        try writer["DynamoDB"].writeList(value.dynamoDB, memberWritingClosure: GlueClientTypes.CodeGenNodeArg.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Jdbc"].writeList(value.jdbc, memberWritingClosure: GlueClientTypes.CodeGenNodeArg.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["S3"].writeList(value.s3, memberWritingClosure: GlueClientTypes.CodeGenNodeArg.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
-extension GlueClientTypes.FillMissingValues {
+extension GlueClientTypes.LongColumnStatisticsData {
 
-    static func write(value: GlueClientTypes.FillMissingValues?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: GlueClientTypes.LongColumnStatisticsData?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["FilledPath"].write(value.filledPath)
-        try writer["ImputedPath"].write(value.imputedPath)
-        try writer["Inputs"].writeList(value.inputs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Name"].write(value.name)
+        try writer["MaximumValue"].write(value.maximumValue)
+        try writer["MinimumValue"].write(value.minimumValue)
+        try writer["NumberOfDistinctValues"].write(value.numberOfDistinctValues)
+        try writer["NumberOfNulls"].write(value.numberOfNulls)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.FillMissingValues {
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.LongColumnStatisticsData {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.FillMissingValues()
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.inputs = try reader["Inputs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.imputedPath = try reader["ImputedPath"].readIfPresent() ?? ""
-        value.filledPath = try reader["FilledPath"].readIfPresent()
-        return value
-    }
-}
-
-extension GlueClientTypes.SelectFromCollection {
-
-    static func write(value: GlueClientTypes.SelectFromCollection?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Index"].write(value.index)
-        try writer["Inputs"].writeList(value.inputs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Name"].write(value.name)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.SelectFromCollection {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.SelectFromCollection()
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.inputs = try reader["Inputs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.index = try reader["Index"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension GlueClientTypes.SplitFields {
-
-    static func write(value: GlueClientTypes.SplitFields?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Inputs"].writeList(value.inputs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Name"].write(value.name)
-        try writer["Paths"].writeList(value.paths, memberWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.SplitFields {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.SplitFields()
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.inputs = try reader["Inputs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.paths = try reader["Paths"].readListIfPresent(memberReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension GlueClientTypes.Join {
-
-    static func write(value: GlueClientTypes.Join?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Columns"].writeList(value.columns, memberWritingClosure: GlueClientTypes.JoinColumn.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Inputs"].writeList(value.inputs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["JoinType"].write(value.joinType)
-        try writer["Name"].write(value.name)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.Join {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.Join()
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.inputs = try reader["Inputs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.joinType = try reader["JoinType"].readIfPresent() ?? .sdkUnknown("")
-        value.columns = try reader["Columns"].readListIfPresent(memberReadingClosure: GlueClientTypes.JoinColumn.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension GlueClientTypes.JoinColumn {
-
-    static func write(value: GlueClientTypes.JoinColumn?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["From"].write(value.from)
-        try writer["Keys"].writeList(value.keys, memberWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.JoinColumn {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.JoinColumn()
-        value.from = try reader["From"].readIfPresent() ?? ""
-        value.keys = try reader["Keys"].readListIfPresent(memberReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension GlueClientTypes.Spigot {
-
-    static func write(value: GlueClientTypes.Spigot?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Inputs"].writeList(value.inputs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Name"].write(value.name)
-        try writer["Path"].write(value.path)
-        try writer["Prob"].write(value.prob)
-        try writer["Topk"].write(value.topk)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.Spigot {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.Spigot()
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.inputs = try reader["Inputs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.path = try reader["Path"].readIfPresent() ?? ""
-        value.topk = try reader["Topk"].readIfPresent()
-        value.prob = try reader["Prob"].readIfPresent()
-        return value
-    }
-}
-
-extension GlueClientTypes.RenameField {
-
-    static func write(value: GlueClientTypes.RenameField?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Inputs"].writeList(value.inputs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Name"].write(value.name)
-        try writer["SourcePath"].writeList(value.sourcePath, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["TargetPath"].writeList(value.targetPath, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.RenameField {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.RenameField()
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.inputs = try reader["Inputs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.sourcePath = try reader["SourcePath"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.targetPath = try reader["TargetPath"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension GlueClientTypes.DropFields {
-
-    static func write(value: GlueClientTypes.DropFields?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Inputs"].writeList(value.inputs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Name"].write(value.name)
-        try writer["Paths"].writeList(value.paths, memberWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.DropFields {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.DropFields()
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.inputs = try reader["Inputs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.paths = try reader["Paths"].readListIfPresent(memberReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension GlueClientTypes.SelectFields {
-
-    static func write(value: GlueClientTypes.SelectFields?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Inputs"].writeList(value.inputs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Name"].write(value.name)
-        try writer["Paths"].writeList(value.paths, memberWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.SelectFields {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.SelectFields()
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.inputs = try reader["Inputs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.paths = try reader["Paths"].readListIfPresent(memberReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension GlueClientTypes.ApplyMapping {
-
-    static func write(value: GlueClientTypes.ApplyMapping?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Inputs"].writeList(value.inputs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Mapping"].writeList(value.mapping, memberWritingClosure: GlueClientTypes.Mapping.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Name"].write(value.name)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.ApplyMapping {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.ApplyMapping()
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.inputs = try reader["Inputs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.mapping = try reader["Mapping"].readListIfPresent(memberReadingClosure: GlueClientTypes.Mapping.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        var value = GlueClientTypes.LongColumnStatisticsData()
+        value.minimumValue = try reader["MinimumValue"].readIfPresent() ?? 0
+        value.maximumValue = try reader["MaximumValue"].readIfPresent() ?? 0
+        value.numberOfNulls = try reader["NumberOfNulls"].readIfPresent() ?? 0
+        value.numberOfDistinctValues = try reader["NumberOfDistinctValues"].readIfPresent() ?? 0
         return value
     }
 }
@@ -47348,91 +48704,916 @@ extension GlueClientTypes.Mapping {
     }
 }
 
-extension GlueClientTypes.S3DirectTarget {
+extension GlueClientTypes.MappingEntry {
 
-    static func write(value: GlueClientTypes.S3DirectTarget?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: GlueClientTypes.MappingEntry?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["AutoDataQuality"].write(value.autoDataQuality, with: GlueClientTypes.AutoDataQuality.write(value:to:))
-        try writer["Compression"].write(value.compression)
-        try writer["Format"].write(value.format)
-        try writer["Inputs"].writeList(value.inputs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Name"].write(value.name)
-        try writer["NumberTargetPartitions"].write(value.numberTargetPartitions)
-        try writer["OutputSchemas"].writeList(value.outputSchemas, memberWritingClosure: GlueClientTypes.GlueSchema.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["PartitionKeys"].writeList(value.partitionKeys, memberWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
-        try writer["Path"].write(value.path)
-        try writer["SchemaChangePolicy"].write(value.schemaChangePolicy, with: GlueClientTypes.DirectSchemaChangePolicy.write(value:to:))
+        try writer["SourcePath"].write(value.sourcePath)
+        try writer["SourceTable"].write(value.sourceTable)
+        try writer["SourceType"].write(value.sourceType)
+        try writer["TargetPath"].write(value.targetPath)
+        try writer["TargetTable"].write(value.targetTable)
+        try writer["TargetType"].write(value.targetType)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.S3DirectTarget {
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.MappingEntry {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.S3DirectTarget()
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.inputs = try reader["Inputs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.partitionKeys = try reader["PartitionKeys"].readListIfPresent(memberReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
-        value.path = try reader["Path"].readIfPresent() ?? ""
-        value.compression = try reader["Compression"].readIfPresent()
-        value.numberTargetPartitions = try reader["NumberTargetPartitions"].readIfPresent()
-        value.format = try reader["Format"].readIfPresent() ?? .sdkUnknown("")
-        value.schemaChangePolicy = try reader["SchemaChangePolicy"].readIfPresent(with: GlueClientTypes.DirectSchemaChangePolicy.read(from:))
-        value.autoDataQuality = try reader["AutoDataQuality"].readIfPresent(with: GlueClientTypes.AutoDataQuality.read(from:))
-        value.outputSchemas = try reader["OutputSchemas"].readListIfPresent(memberReadingClosure: GlueClientTypes.GlueSchema.read(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = GlueClientTypes.MappingEntry()
+        value.sourceTable = try reader["SourceTable"].readIfPresent()
+        value.sourcePath = try reader["SourcePath"].readIfPresent()
+        value.sourceType = try reader["SourceType"].readIfPresent()
+        value.targetTable = try reader["TargetTable"].readIfPresent()
+        value.targetPath = try reader["TargetPath"].readIfPresent()
+        value.targetType = try reader["TargetType"].readIfPresent()
         return value
     }
 }
 
-extension GlueClientTypes.S3GlueParquetTarget {
+extension GlueClientTypes.MaterializedViewRefreshTaskRun {
 
-    static func write(value: GlueClientTypes.S3GlueParquetTarget?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AutoDataQuality"].write(value.autoDataQuality, with: GlueClientTypes.AutoDataQuality.write(value:to:))
-        try writer["Compression"].write(value.compression)
-        try writer["Inputs"].writeList(value.inputs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Name"].write(value.name)
-        try writer["NumberTargetPartitions"].write(value.numberTargetPartitions)
-        try writer["PartitionKeys"].writeList(value.partitionKeys, memberWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
-        try writer["Path"].write(value.path)
-        try writer["SchemaChangePolicy"].write(value.schemaChangePolicy, with: GlueClientTypes.DirectSchemaChangePolicy.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.S3GlueParquetTarget {
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.MaterializedViewRefreshTaskRun {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.S3GlueParquetTarget()
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.inputs = try reader["Inputs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.partitionKeys = try reader["PartitionKeys"].readListIfPresent(memberReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
-        value.path = try reader["Path"].readIfPresent() ?? ""
-        value.compression = try reader["Compression"].readIfPresent()
-        value.numberTargetPartitions = try reader["NumberTargetPartitions"].readIfPresent()
-        value.schemaChangePolicy = try reader["SchemaChangePolicy"].readIfPresent(with: GlueClientTypes.DirectSchemaChangePolicy.read(from:))
-        value.autoDataQuality = try reader["AutoDataQuality"].readIfPresent(with: GlueClientTypes.AutoDataQuality.read(from:))
+        var value = GlueClientTypes.MaterializedViewRefreshTaskRun()
+        value.customerId = try reader["CustomerId"].readIfPresent()
+        value.materializedViewRefreshTaskRunId = try reader["MaterializedViewRefreshTaskRunId"].readIfPresent()
+        value.databaseName = try reader["DatabaseName"].readIfPresent()
+        value.tableName = try reader["TableName"].readIfPresent()
+        value.catalogId = try reader["CatalogId"].readIfPresent()
+        value.role = try reader["Role"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastUpdated = try reader["LastUpdated"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
+        value.dpuSeconds = try reader["DPUSeconds"].readIfPresent() ?? 0
+        value.refreshType = try reader["RefreshType"].readIfPresent()
+        value.processedBytes = try reader["ProcessedBytes"].readIfPresent()
         return value
     }
 }
 
-extension GlueClientTypes.S3CatalogTarget {
+extension GlueClientTypes.Merge {
 
-    static func write(value: GlueClientTypes.S3CatalogTarget?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: GlueClientTypes.Merge?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["AutoDataQuality"].write(value.autoDataQuality, with: GlueClientTypes.AutoDataQuality.write(value:to:))
+        try writer["Inputs"].writeList(value.inputs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Name"].write(value.name)
+        try writer["PrimaryKeys"].writeList(value.primaryKeys, memberWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
+        try writer["Source"].write(value.source)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.Merge {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.Merge()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.inputs = try reader["Inputs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.source = try reader["Source"].readIfPresent() ?? ""
+        value.primaryKeys = try reader["PrimaryKeys"].readListIfPresent(memberReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension GlueClientTypes.MetadataInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.MetadataInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.MetadataInfo()
+        value.metadataValue = try reader["MetadataValue"].readIfPresent()
+        value.createdTime = try reader["CreatedTime"].readIfPresent()
+        value.otherMetadataValueList = try reader["OtherMetadataValueList"].readListIfPresent(memberReadingClosure: GlueClientTypes.OtherMetadataValueListItem.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension GlueClientTypes.MetadataKeyValuePair {
+
+    static func write(value: GlueClientTypes.MetadataKeyValuePair?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MetadataKey"].write(value.metadataKey)
+        try writer["MetadataValue"].write(value.metadataValue)
+    }
+}
+
+extension GlueClientTypes.MetricBasedObservation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.MetricBasedObservation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.MetricBasedObservation()
+        value.metricName = try reader["MetricName"].readIfPresent()
+        value.statisticId = try reader["StatisticId"].readIfPresent()
+        value.metricValues = try reader["MetricValues"].readIfPresent(with: GlueClientTypes.DataQualityMetricValues.read(from:))
+        value.newRules = try reader["NewRules"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension GlueClientTypes.MicrosoftSQLServerCatalogSource {
+
+    static func write(value: GlueClientTypes.MicrosoftSQLServerCatalogSource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
         try writer["Database"].write(value.database)
-        try writer["Inputs"].writeList(value.inputs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Name"].write(value.name)
-        try writer["PartitionKeys"].writeList(value.partitionKeys, memberWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
-        try writer["SchemaChangePolicy"].write(value.schemaChangePolicy, with: GlueClientTypes.CatalogSchemaChangePolicy.write(value:to:))
         try writer["Table"].write(value.table)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.S3CatalogTarget {
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.MicrosoftSQLServerCatalogSource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.S3CatalogTarget()
+        var value = GlueClientTypes.MicrosoftSQLServerCatalogSource()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.database = try reader["Database"].readIfPresent() ?? ""
+        value.table = try reader["Table"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension GlueClientTypes.MicrosoftSQLServerCatalogTarget {
+
+    static func write(value: GlueClientTypes.MicrosoftSQLServerCatalogTarget?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Database"].write(value.database)
+        try writer["Inputs"].writeList(value.inputs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Name"].write(value.name)
+        try writer["Table"].write(value.table)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.MicrosoftSQLServerCatalogTarget {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.MicrosoftSQLServerCatalogTarget()
         value.name = try reader["Name"].readIfPresent() ?? ""
         value.inputs = try reader["Inputs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.partitionKeys = try reader["PartitionKeys"].readListIfPresent(memberReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
-        value.table = try reader["Table"].readIfPresent() ?? ""
         value.database = try reader["Database"].readIfPresent() ?? ""
-        value.schemaChangePolicy = try reader["SchemaChangePolicy"].readIfPresent(with: GlueClientTypes.CatalogSchemaChangePolicy.read(from:))
-        value.autoDataQuality = try reader["AutoDataQuality"].readIfPresent(with: GlueClientTypes.AutoDataQuality.read(from:))
+        value.table = try reader["Table"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension GlueClientTypes.MLTransform {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.MLTransform {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.MLTransform()
+        value.transformId = try reader["TransformId"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.createdOn = try reader["CreatedOn"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastModifiedOn = try reader["LastModifiedOn"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.inputRecordTables = try reader["InputRecordTables"].readListIfPresent(memberReadingClosure: GlueClientTypes.GlueTable.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.parameters = try reader["Parameters"].readIfPresent(with: GlueClientTypes.TransformParameters.read(from:))
+        value.evaluationMetrics = try reader["EvaluationMetrics"].readIfPresent(with: GlueClientTypes.EvaluationMetrics.read(from:))
+        value.labelCount = try reader["LabelCount"].readIfPresent() ?? 0
+        value.schema = try reader["Schema"].readListIfPresent(memberReadingClosure: GlueClientTypes.SchemaColumn.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.role = try reader["Role"].readIfPresent()
+        value.glueVersion = try reader["GlueVersion"].readIfPresent()
+        value.maxCapacity = try reader["MaxCapacity"].readIfPresent()
+        value.workerType = try reader["WorkerType"].readIfPresent()
+        value.numberOfWorkers = try reader["NumberOfWorkers"].readIfPresent()
+        value.timeout = try reader["Timeout"].readIfPresent()
+        value.maxRetries = try reader["MaxRetries"].readIfPresent()
+        value.transformEncryption = try reader["TransformEncryption"].readIfPresent(with: GlueClientTypes.TransformEncryption.read(from:))
+        return value
+    }
+}
+
+extension GlueClientTypes.MLUserDataEncryption {
+
+    static func write(value: GlueClientTypes.MLUserDataEncryption?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["KmsKeyId"].write(value.kmsKeyId)
+        try writer["MlUserDataEncryptionMode"].write(value.mlUserDataEncryptionMode)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.MLUserDataEncryption {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.MLUserDataEncryption()
+        value.mlUserDataEncryptionMode = try reader["MlUserDataEncryptionMode"].readIfPresent() ?? .sdkUnknown("")
+        value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
+        return value
+    }
+}
+
+extension GlueClientTypes.MongoDBTarget {
+
+    static func write(value: GlueClientTypes.MongoDBTarget?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ConnectionName"].write(value.connectionName)
+        try writer["Path"].write(value.path)
+        try writer["ScanAll"].write(value.scanAll)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.MongoDBTarget {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.MongoDBTarget()
+        value.connectionName = try reader["ConnectionName"].readIfPresent()
+        value.path = try reader["Path"].readIfPresent()
+        value.scanAll = try reader["ScanAll"].readIfPresent()
+        return value
+    }
+}
+
+extension GlueClientTypes.MySQLCatalogSource {
+
+    static func write(value: GlueClientTypes.MySQLCatalogSource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Database"].write(value.database)
+        try writer["Name"].write(value.name)
+        try writer["Table"].write(value.table)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.MySQLCatalogSource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.MySQLCatalogSource()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.database = try reader["Database"].readIfPresent() ?? ""
+        value.table = try reader["Table"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension GlueClientTypes.MySQLCatalogTarget {
+
+    static func write(value: GlueClientTypes.MySQLCatalogTarget?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Database"].write(value.database)
+        try writer["Inputs"].writeList(value.inputs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Name"].write(value.name)
+        try writer["Table"].write(value.table)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.MySQLCatalogTarget {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.MySQLCatalogTarget()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.inputs = try reader["Inputs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.database = try reader["Database"].readIfPresent() ?? ""
+        value.table = try reader["Table"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension GlueClientTypes.Node {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.Node {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.Node()
+        value.type = try reader["Type"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        value.uniqueId = try reader["UniqueId"].readIfPresent()
+        value.triggerDetails = try reader["TriggerDetails"].readIfPresent(with: GlueClientTypes.TriggerNodeDetails.read(from:))
+        value.jobDetails = try reader["JobDetails"].readIfPresent(with: GlueClientTypes.JobNodeDetails.read(from:))
+        value.crawlerDetails = try reader["CrawlerDetails"].readIfPresent(with: GlueClientTypes.CrawlerNodeDetails.read(from:))
+        return value
+    }
+}
+
+extension GlueClientTypes.NotificationProperty {
+
+    static func write(value: GlueClientTypes.NotificationProperty?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["NotifyDelayAfter"].write(value.notifyDelayAfter)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.NotificationProperty {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.NotificationProperty()
+        value.notifyDelayAfter = try reader["NotifyDelayAfter"].readIfPresent()
+        return value
+    }
+}
+
+extension GlueClientTypes.NullCheckBoxList {
+
+    static func write(value: GlueClientTypes.NullCheckBoxList?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["IsEmpty"].write(value.isEmpty)
+        try writer["IsNegOne"].write(value.isNegOne)
+        try writer["IsNullString"].write(value.isNullString)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.NullCheckBoxList {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.NullCheckBoxList()
+        value.isEmpty = try reader["IsEmpty"].readIfPresent()
+        value.isNullString = try reader["IsNullString"].readIfPresent()
+        value.isNegOne = try reader["IsNegOne"].readIfPresent()
+        return value
+    }
+}
+
+extension GlueClientTypes.NullValueField {
+
+    static func write(value: GlueClientTypes.NullValueField?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Datatype"].write(value.datatype, with: GlueClientTypes.Datatype.write(value:to:))
+        try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.NullValueField {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.NullValueField()
+        value.value = try reader["Value"].readIfPresent() ?? ""
+        value.datatype = try reader["Datatype"].readIfPresent(with: GlueClientTypes.Datatype.read(from:))
+        return value
+    }
+}
+
+extension GlueClientTypes.OAuth2ClientApplication {
+
+    static func write(value: GlueClientTypes.OAuth2ClientApplication?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AWSManagedClientApplicationReference"].write(value.awsManagedClientApplicationReference)
+        try writer["UserManagedClientApplicationClientId"].write(value.userManagedClientApplicationClientId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.OAuth2ClientApplication {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.OAuth2ClientApplication()
+        value.userManagedClientApplicationClientId = try reader["UserManagedClientApplicationClientId"].readIfPresent()
+        value.awsManagedClientApplicationReference = try reader["AWSManagedClientApplicationReference"].readIfPresent()
+        return value
+    }
+}
+
+extension GlueClientTypes.OAuth2Credentials {
+
+    static func write(value: GlueClientTypes.OAuth2Credentials?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AccessToken"].write(value.accessToken)
+        try writer["JwtToken"].write(value.jwtToken)
+        try writer["RefreshToken"].write(value.refreshToken)
+        try writer["UserManagedClientApplicationClientSecret"].write(value.userManagedClientApplicationClientSecret)
+    }
+}
+
+extension GlueClientTypes.OAuth2Properties {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.OAuth2Properties {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.OAuth2Properties()
+        value.oAuth2GrantType = try reader["OAuth2GrantType"].readIfPresent()
+        value.oAuth2ClientApplication = try reader["OAuth2ClientApplication"].readIfPresent(with: GlueClientTypes.OAuth2ClientApplication.read(from:))
+        value.tokenUrl = try reader["TokenUrl"].readIfPresent()
+        value.tokenUrlParametersMap = try reader["TokenUrlParametersMap"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension GlueClientTypes.OAuth2PropertiesInput {
+
+    static func write(value: GlueClientTypes.OAuth2PropertiesInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AuthorizationCodeProperties"].write(value.authorizationCodeProperties, with: GlueClientTypes.AuthorizationCodeProperties.write(value:to:))
+        try writer["OAuth2ClientApplication"].write(value.oAuth2ClientApplication, with: GlueClientTypes.OAuth2ClientApplication.write(value:to:))
+        try writer["OAuth2Credentials"].write(value.oAuth2Credentials, with: GlueClientTypes.OAuth2Credentials.write(value:to:))
+        try writer["OAuth2GrantType"].write(value.oAuth2GrantType)
+        try writer["TokenUrl"].write(value.tokenUrl)
+        try writer["TokenUrlParametersMap"].writeMap(value.tokenUrlParametersMap, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
+extension GlueClientTypes.OffsetConfiguration {
+
+    static func write(value: GlueClientTypes.OffsetConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["LimitParameter"].write(value.limitParameter, with: GlueClientTypes.ExtractedParameter.write(value:to:))
+        try writer["OffsetParameter"].write(value.offsetParameter, with: GlueClientTypes.ExtractedParameter.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.OffsetConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.OffsetConfiguration()
+        value.offsetParameter = try reader["OffsetParameter"].readIfPresent(with: GlueClientTypes.ExtractedParameter.read(from:))
+        value.limitParameter = try reader["LimitParameter"].readIfPresent(with: GlueClientTypes.ExtractedParameter.read(from:))
+        return value
+    }
+}
+
+extension GlueClientTypes.OpenTableFormatInput {
+
+    static func write(value: GlueClientTypes.OpenTableFormatInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["IcebergInput"].write(value.icebergInput, with: GlueClientTypes.IcebergInput.write(value:to:))
+    }
+}
+
+extension GlueClientTypes.Option {
+
+    static func write(value: GlueClientTypes.Option?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Description"].write(value.description)
+        try writer["Label"].write(value.label)
+        try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.Option {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.Option()
+        value.value = try reader["Value"].readIfPresent()
+        value.label = try reader["Label"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        return value
+    }
+}
+
+extension GlueClientTypes.OracleSQLCatalogSource {
+
+    static func write(value: GlueClientTypes.OracleSQLCatalogSource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Database"].write(value.database)
+        try writer["Name"].write(value.name)
+        try writer["Table"].write(value.table)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.OracleSQLCatalogSource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.OracleSQLCatalogSource()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.database = try reader["Database"].readIfPresent() ?? ""
+        value.table = try reader["Table"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension GlueClientTypes.OracleSQLCatalogTarget {
+
+    static func write(value: GlueClientTypes.OracleSQLCatalogTarget?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Database"].write(value.database)
+        try writer["Inputs"].writeList(value.inputs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Name"].write(value.name)
+        try writer["Table"].write(value.table)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.OracleSQLCatalogTarget {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.OracleSQLCatalogTarget()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.inputs = try reader["Inputs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.database = try reader["Database"].readIfPresent() ?? ""
+        value.table = try reader["Table"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension GlueClientTypes.Order {
+
+    static func write(value: GlueClientTypes.Order?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Column"].write(value.column)
+        try writer["SortOrder"].write(value.sortOrder)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.Order {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.Order()
+        value.column = try reader["Column"].readIfPresent() ?? ""
+        value.sortOrder = try reader["SortOrder"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension GlueClientTypes.OrphanFileDeletionConfiguration {
+
+    static func write(value: GlueClientTypes.OrphanFileDeletionConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["icebergConfiguration"].write(value.icebergConfiguration, with: GlueClientTypes.IcebergOrphanFileDeletionConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.OrphanFileDeletionConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.OrphanFileDeletionConfiguration()
+        value.icebergConfiguration = try reader["icebergConfiguration"].readIfPresent(with: GlueClientTypes.IcebergOrphanFileDeletionConfiguration.read(from:))
+        return value
+    }
+}
+
+extension GlueClientTypes.OrphanFileDeletionMetrics {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.OrphanFileDeletionMetrics {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.OrphanFileDeletionMetrics()
+        value.icebergMetrics = try reader["IcebergMetrics"].readIfPresent(with: GlueClientTypes.IcebergOrphanFileDeletionMetrics.read(from:))
+        return value
+    }
+}
+
+extension GlueClientTypes.OtherMetadataValueListItem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.OtherMetadataValueListItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.OtherMetadataValueListItem()
+        value.metadataValue = try reader["MetadataValue"].readIfPresent()
+        value.createdTime = try reader["CreatedTime"].readIfPresent()
+        return value
+    }
+}
+
+extension GlueClientTypes.PaginationConfiguration {
+
+    static func write(value: GlueClientTypes.PaginationConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CursorConfiguration"].write(value.cursorConfiguration, with: GlueClientTypes.CursorConfiguration.write(value:to:))
+        try writer["OffsetConfiguration"].write(value.offsetConfiguration, with: GlueClientTypes.OffsetConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.PaginationConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.PaginationConfiguration()
+        value.cursorConfiguration = try reader["CursorConfiguration"].readIfPresent(with: GlueClientTypes.CursorConfiguration.read(from:))
+        value.offsetConfiguration = try reader["OffsetConfiguration"].readIfPresent(with: GlueClientTypes.OffsetConfiguration.read(from:))
+        return value
+    }
+}
+
+extension GlueClientTypes.Partition {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.Partition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.Partition()
+        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.databaseName = try reader["DatabaseName"].readIfPresent()
+        value.tableName = try reader["TableName"].readIfPresent()
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastAccessTime = try reader["LastAccessTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.storageDescriptor = try reader["StorageDescriptor"].readIfPresent(with: GlueClientTypes.StorageDescriptor.read(from:))
+        value.parameters = try reader["Parameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.lastAnalyzedTime = try reader["LastAnalyzedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.catalogId = try reader["CatalogId"].readIfPresent()
+        return value
+    }
+}
+
+extension GlueClientTypes.PartitionError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.PartitionError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.PartitionError()
+        value.partitionValues = try reader["PartitionValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.errorDetail = try reader["ErrorDetail"].readIfPresent(with: GlueClientTypes.ErrorDetail.read(from:))
+        return value
+    }
+}
+
+extension GlueClientTypes.PartitionIndex {
+
+    static func write(value: GlueClientTypes.PartitionIndex?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["IndexName"].write(value.indexName)
+        try writer["Keys"].writeList(value.keys, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension GlueClientTypes.PartitionIndexDescriptor {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.PartitionIndexDescriptor {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.PartitionIndexDescriptor()
+        value.indexName = try reader["IndexName"].readIfPresent() ?? ""
+        value.keys = try reader["Keys"].readListIfPresent(memberReadingClosure: GlueClientTypes.KeySchemaElement.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.indexStatus = try reader["IndexStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.backfillErrors = try reader["BackfillErrors"].readListIfPresent(memberReadingClosure: GlueClientTypes.BackfillError.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension GlueClientTypes.PartitionInput {
+
+    static func write(value: GlueClientTypes.PartitionInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["LastAccessTime"].writeTimestamp(value.lastAccessTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["LastAnalyzedTime"].writeTimestamp(value.lastAnalyzedTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["Parameters"].writeMap(value.parameters, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["StorageDescriptor"].write(value.storageDescriptor, with: GlueClientTypes.StorageDescriptor.write(value:to:))
+        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension GlueClientTypes.PartitionValueList {
+
+    static func write(value: GlueClientTypes.PartitionValueList?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.PartitionValueList {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.PartitionValueList()
+        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension GlueClientTypes.PhysicalConnectionRequirements {
+
+    static func write(value: GlueClientTypes.PhysicalConnectionRequirements?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AvailabilityZone"].write(value.availabilityZone)
+        try writer["SecurityGroupIdList"].writeList(value.securityGroupIdList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["SubnetId"].write(value.subnetId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.PhysicalConnectionRequirements {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.PhysicalConnectionRequirements()
+        value.subnetId = try reader["SubnetId"].readIfPresent()
+        value.securityGroupIdList = try reader["SecurityGroupIdList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.availabilityZone = try reader["AvailabilityZone"].readIfPresent()
+        return value
+    }
+}
+
+extension GlueClientTypes.PIIDetection {
+
+    static func write(value: GlueClientTypes.PIIDetection?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DetectionParameters"].write(value.detectionParameters)
+        try writer["DetectionSensitivity"].write(value.detectionSensitivity)
+        try writer["EntityTypesToDetect"].writeList(value.entityTypesToDetect, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Inputs"].writeList(value.inputs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["MaskValue"].write(value.maskValue)
+        try writer["MatchPattern"].write(value.matchPattern)
+        try writer["Name"].write(value.name)
+        try writer["NumLeftCharsToExclude"].write(value.numLeftCharsToExclude)
+        try writer["NumRightCharsToExclude"].write(value.numRightCharsToExclude)
+        try writer["OutputColumnName"].write(value.outputColumnName)
+        try writer["PiiType"].write(value.piiType)
+        try writer["RedactChar"].write(value.redactChar)
+        try writer["RedactText"].write(value.redactText)
+        try writer["SampleFraction"].write(value.sampleFraction)
+        try writer["ThresholdFraction"].write(value.thresholdFraction)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.PIIDetection {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.PIIDetection()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.inputs = try reader["Inputs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.piiType = try reader["PiiType"].readIfPresent() ?? .sdkUnknown("")
+        value.entityTypesToDetect = try reader["EntityTypesToDetect"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.outputColumnName = try reader["OutputColumnName"].readIfPresent()
+        value.sampleFraction = try reader["SampleFraction"].readIfPresent()
+        value.thresholdFraction = try reader["ThresholdFraction"].readIfPresent()
+        value.maskValue = try reader["MaskValue"].readIfPresent()
+        value.redactText = try reader["RedactText"].readIfPresent()
+        value.redactChar = try reader["RedactChar"].readIfPresent()
+        value.matchPattern = try reader["MatchPattern"].readIfPresent()
+        value.numLeftCharsToExclude = try reader["NumLeftCharsToExclude"].readIfPresent()
+        value.numRightCharsToExclude = try reader["NumRightCharsToExclude"].readIfPresent()
+        value.detectionParameters = try reader["DetectionParameters"].readIfPresent()
+        value.detectionSensitivity = try reader["DetectionSensitivity"].readIfPresent()
+        return value
+    }
+}
+
+extension GlueClientTypes.PostgreSQLCatalogSource {
+
+    static func write(value: GlueClientTypes.PostgreSQLCatalogSource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Database"].write(value.database)
+        try writer["Name"].write(value.name)
+        try writer["Table"].write(value.table)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.PostgreSQLCatalogSource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.PostgreSQLCatalogSource()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.database = try reader["Database"].readIfPresent() ?? ""
+        value.table = try reader["Table"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension GlueClientTypes.PostgreSQLCatalogTarget {
+
+    static func write(value: GlueClientTypes.PostgreSQLCatalogTarget?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Database"].write(value.database)
+        try writer["Inputs"].writeList(value.inputs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Name"].write(value.name)
+        try writer["Table"].write(value.table)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.PostgreSQLCatalogTarget {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.PostgreSQLCatalogTarget()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.inputs = try reader["Inputs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.database = try reader["Database"].readIfPresent() ?? ""
+        value.table = try reader["Table"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension GlueClientTypes.Predecessor {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.Predecessor {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.Predecessor()
+        value.jobName = try reader["JobName"].readIfPresent()
+        value.runId = try reader["RunId"].readIfPresent()
+        return value
+    }
+}
+
+extension GlueClientTypes.Predicate {
+
+    static func write(value: GlueClientTypes.Predicate?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Conditions"].writeList(value.conditions, memberWritingClosure: GlueClientTypes.Condition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Logical"].write(value.logical)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.Predicate {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.Predicate()
+        value.logical = try reader["Logical"].readIfPresent()
+        value.conditions = try reader["Conditions"].readListIfPresent(memberReadingClosure: GlueClientTypes.Condition.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension GlueClientTypes.PrincipalPermissions {
+
+    static func write(value: GlueClientTypes.PrincipalPermissions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Permissions"].writeList(value.permissions, memberWritingClosure: SmithyReadWrite.WritingClosureBox<GlueClientTypes.Permission>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Principal"].write(value.principal, with: GlueClientTypes.DataLakePrincipal.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.PrincipalPermissions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.PrincipalPermissions()
+        value.principal = try reader["Principal"].readIfPresent(with: GlueClientTypes.DataLakePrincipal.read(from:))
+        value.permissions = try reader["Permissions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<GlueClientTypes.Permission>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension GlueClientTypes.ProfileConfiguration {
+
+    static func write(value: GlueClientTypes.ProfileConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["JobConfiguration"].writeMap(value.jobConfiguration, valueWritingClosure: GlueClientTypes.ConfigurationObject.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["SessionConfiguration"].writeMap(value.sessionConfiguration, valueWritingClosure: GlueClientTypes.ConfigurationObject.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.ProfileConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.ProfileConfiguration()
+        value.sessionConfiguration = try reader["SessionConfiguration"].readMapIfPresent(valueReadingClosure: GlueClientTypes.ConfigurationObject.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.jobConfiguration = try reader["JobConfiguration"].readMapIfPresent(valueReadingClosure: GlueClientTypes.ConfigurationObject.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension GlueClientTypes.Property {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.Property {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.Property()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.description = try reader["Description"].readIfPresent() ?? ""
+        value.`required` = try reader["Required"].readIfPresent() ?? false
+        value.defaultValue = try reader["DefaultValue"].readIfPresent()
+        value.propertyTypes = try reader["PropertyTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<GlueClientTypes.PropertyType>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.allowedValues = try reader["AllowedValues"].readListIfPresent(memberReadingClosure: GlueClientTypes.AllowedValue.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.dataOperationScopes = try reader["DataOperationScopes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<GlueClientTypes.DataOperation>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.keyOverride = try reader["KeyOverride"].readIfPresent()
+        value.propertyLocation = try reader["PropertyLocation"].readIfPresent()
+        return value
+    }
+}
+
+extension GlueClientTypes.PropertyPredicate {
+
+    static func write(value: GlueClientTypes.PropertyPredicate?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Comparator"].write(value.comparator)
+        try writer["Key"].write(value.key)
+        try writer["Value"].write(value.value)
+    }
+}
+
+extension GlueClientTypes.QuerySessionContext {
+
+    static func write(value: GlueClientTypes.QuerySessionContext?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AdditionalContext"].writeMap(value.additionalContext, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["ClusterId"].write(value.clusterId)
+        try writer["QueryAuthorizationId"].write(value.queryAuthorizationId)
+        try writer["QueryId"].write(value.queryId)
+        try writer["QueryStartTime"].writeTimestamp(value.queryStartTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+    }
+}
+
+extension GlueClientTypes.Recipe {
+
+    static func write(value: GlueClientTypes.Recipe?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Inputs"].writeList(value.inputs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Name"].write(value.name)
+        try writer["RecipeReference"].write(value.recipeReference, with: GlueClientTypes.RecipeReference.write(value:to:))
+        try writer["RecipeSteps"].writeList(value.recipeSteps, memberWritingClosure: GlueClientTypes.RecipeStep.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.Recipe {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.Recipe()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.inputs = try reader["Inputs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.recipeReference = try reader["RecipeReference"].readIfPresent(with: GlueClientTypes.RecipeReference.read(from:))
+        value.recipeSteps = try reader["RecipeSteps"].readListIfPresent(memberReadingClosure: GlueClientTypes.RecipeStep.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension GlueClientTypes.RecipeAction {
+
+    static func write(value: GlueClientTypes.RecipeAction?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Operation"].write(value.operation)
+        try writer["Parameters"].writeMap(value.parameters, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.RecipeAction {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.RecipeAction()
+        value.operation = try reader["Operation"].readIfPresent() ?? ""
+        value.parameters = try reader["Parameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension GlueClientTypes.RecipeReference {
+
+    static func write(value: GlueClientTypes.RecipeReference?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["RecipeArn"].write(value.recipeArn)
+        try writer["RecipeVersion"].write(value.recipeVersion)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.RecipeReference {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.RecipeReference()
+        value.recipeArn = try reader["RecipeArn"].readIfPresent() ?? ""
+        value.recipeVersion = try reader["RecipeVersion"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension GlueClientTypes.RecipeStep {
+
+    static func write(value: GlueClientTypes.RecipeStep?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Action"].write(value.action, with: GlueClientTypes.RecipeAction.write(value:to:))
+        try writer["ConditionExpressions"].writeList(value.conditionExpressions, memberWritingClosure: GlueClientTypes.ConditionExpression.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.RecipeStep {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.RecipeStep()
+        value.action = try reader["Action"].readIfPresent(with: GlueClientTypes.RecipeAction.read(from:))
+        value.conditionExpressions = try reader["ConditionExpressions"].readListIfPresent(memberReadingClosure: GlueClientTypes.ConditionExpression.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension GlueClientTypes.RecrawlPolicy {
+
+    static func write(value: GlueClientTypes.RecrawlPolicy?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["RecrawlBehavior"].write(value.recrawlBehavior)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.RecrawlPolicy {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.RecrawlPolicy()
+        value.recrawlBehavior = try reader["RecrawlBehavior"].readIfPresent()
+        return value
+    }
+}
+
+extension GlueClientTypes.RedshiftSource {
+
+    static func write(value: GlueClientTypes.RedshiftSource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Database"].write(value.database)
+        try writer["Name"].write(value.name)
+        try writer["RedshiftTmpDir"].write(value.redshiftTmpDir)
+        try writer["Table"].write(value.table)
+        try writer["TmpDirIAMRole"].write(value.tmpDirIAMRole)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.RedshiftSource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.RedshiftSource()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.database = try reader["Database"].readIfPresent() ?? ""
+        value.table = try reader["Table"].readIfPresent() ?? ""
+        value.redshiftTmpDir = try reader["RedshiftTmpDir"].readIfPresent()
+        value.tmpDirIAMRole = try reader["TmpDirIAMRole"].readIfPresent()
         return value
     }
 }
@@ -47464,140 +49645,26 @@ extension GlueClientTypes.RedshiftTarget {
     }
 }
 
-extension GlueClientTypes.UpsertRedshiftTargetOptions {
+extension GlueClientTypes.RegistryId {
 
-    static func write(value: GlueClientTypes.UpsertRedshiftTargetOptions?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: GlueClientTypes.RegistryId?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["ConnectionName"].write(value.connectionName)
-        try writer["TableLocation"].write(value.tableLocation)
-        try writer["UpsertKeys"].writeList(value.upsertKeys, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.UpsertRedshiftTargetOptions {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.UpsertRedshiftTargetOptions()
-        value.tableLocation = try reader["TableLocation"].readIfPresent()
-        value.connectionName = try reader["ConnectionName"].readIfPresent()
-        value.upsertKeys = try reader["UpsertKeys"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
+        try writer["RegistryArn"].write(value.registryArn)
+        try writer["RegistryName"].write(value.registryName)
     }
 }
 
-extension GlueClientTypes.BasicCatalogTarget {
+extension GlueClientTypes.RegistryListItem {
 
-    static func write(value: GlueClientTypes.BasicCatalogTarget?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Database"].write(value.database)
-        try writer["Inputs"].writeList(value.inputs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Name"].write(value.name)
-        try writer["PartitionKeys"].writeList(value.partitionKeys, memberWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
-        try writer["Table"].write(value.table)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.BasicCatalogTarget {
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.RegistryListItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.BasicCatalogTarget()
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.inputs = try reader["Inputs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.partitionKeys = try reader["PartitionKeys"].readListIfPresent(memberReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
-        value.database = try reader["Database"].readIfPresent() ?? ""
-        value.table = try reader["Table"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension GlueClientTypes.SparkConnectorTarget {
-
-    static func write(value: GlueClientTypes.SparkConnectorTarget?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AdditionalOptions"].writeMap(value.additionalOptions, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["ConnectionName"].write(value.connectionName)
-        try writer["ConnectionType"].write(value.connectionType)
-        try writer["ConnectorName"].write(value.connectorName)
-        try writer["Inputs"].writeList(value.inputs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Name"].write(value.name)
-        try writer["OutputSchemas"].writeList(value.outputSchemas, memberWritingClosure: GlueClientTypes.GlueSchema.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.SparkConnectorTarget {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.SparkConnectorTarget()
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.inputs = try reader["Inputs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.connectionName = try reader["ConnectionName"].readIfPresent() ?? ""
-        value.connectorName = try reader["ConnectorName"].readIfPresent() ?? ""
-        value.connectionType = try reader["ConnectionType"].readIfPresent() ?? ""
-        value.additionalOptions = try reader["AdditionalOptions"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.outputSchemas = try reader["OutputSchemas"].readListIfPresent(memberReadingClosure: GlueClientTypes.GlueSchema.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension GlueClientTypes.JDBCConnectorTarget {
-
-    static func write(value: GlueClientTypes.JDBCConnectorTarget?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AdditionalOptions"].writeMap(value.additionalOptions, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["ConnectionName"].write(value.connectionName)
-        try writer["ConnectionTable"].write(value.connectionTable)
-        try writer["ConnectionType"].write(value.connectionType)
-        try writer["ConnectorName"].write(value.connectorName)
-        try writer["Inputs"].writeList(value.inputs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Name"].write(value.name)
-        try writer["OutputSchemas"].writeList(value.outputSchemas, memberWritingClosure: GlueClientTypes.GlueSchema.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.JDBCConnectorTarget {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.JDBCConnectorTarget()
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.inputs = try reader["Inputs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.connectionName = try reader["ConnectionName"].readIfPresent() ?? ""
-        value.connectionTable = try reader["ConnectionTable"].readIfPresent() ?? ""
-        value.connectorName = try reader["ConnectorName"].readIfPresent() ?? ""
-        value.connectionType = try reader["ConnectionType"].readIfPresent() ?? ""
-        value.additionalOptions = try reader["AdditionalOptions"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.outputSchemas = try reader["OutputSchemas"].readListIfPresent(memberReadingClosure: GlueClientTypes.GlueSchema.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension GlueClientTypes.DynamoDBCatalogSource {
-
-    static func write(value: GlueClientTypes.DynamoDBCatalogSource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AdditionalOptions"].write(value.additionalOptions, with: GlueClientTypes.DDBELTCatalogAdditionalOptions.write(value:to:))
-        try writer["Database"].write(value.database)
-        try writer["Name"].write(value.name)
-        try writer["PitrEnabled"].write(value.pitrEnabled)
-        try writer["Table"].write(value.table)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.DynamoDBCatalogSource {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.DynamoDBCatalogSource()
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.database = try reader["Database"].readIfPresent() ?? ""
-        value.table = try reader["Table"].readIfPresent() ?? ""
-        value.pitrEnabled = try reader["PitrEnabled"].readIfPresent()
-        value.additionalOptions = try reader["AdditionalOptions"].readIfPresent(with: GlueClientTypes.DDBELTCatalogAdditionalOptions.read(from:))
-        return value
-    }
-}
-
-extension GlueClientTypes.DDBELTCatalogAdditionalOptions {
-
-    static func write(value: GlueClientTypes.DDBELTCatalogAdditionalOptions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DynamodbExport"].write(value.dynamodbExport)
-        try writer["DynamodbUnnestDDBJson"].write(value.dynamodbUnnestDDBJson)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.DDBELTCatalogAdditionalOptions {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.DDBELTCatalogAdditionalOptions()
-        value.dynamodbExport = try reader["DynamodbExport"].readIfPresent()
-        value.dynamodbUnnestDDBJson = try reader["DynamodbUnnestDDBJson"].readIfPresent() ?? false
+        var value = GlueClientTypes.RegistryListItem()
+        value.registryName = try reader["RegistryName"].readIfPresent()
+        value.registryArn = try reader["RegistryArn"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.createdTime = try reader["CreatedTime"].readIfPresent()
+        value.updatedTime = try reader["UpdatedTime"].readIfPresent()
         return value
     }
 }
@@ -47621,76 +49688,280 @@ extension GlueClientTypes.RelationalCatalogSource {
     }
 }
 
-extension GlueClientTypes.S3ParquetSource {
+extension GlueClientTypes.RenameField {
 
-    static func write(value: GlueClientTypes.S3ParquetSource?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: GlueClientTypes.RenameField?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["AdditionalOptions"].write(value.additionalOptions, with: GlueClientTypes.S3DirectSourceAdditionalOptions.write(value:to:))
-        try writer["CompressionType"].write(value.compressionType)
-        try writer["Exclusions"].writeList(value.exclusions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["GroupFiles"].write(value.groupFiles)
-        try writer["GroupSize"].write(value.groupSize)
-        try writer["MaxBand"].write(value.maxBand)
-        try writer["MaxFilesInBand"].write(value.maxFilesInBand)
+        try writer["Inputs"].writeList(value.inputs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Name"].write(value.name)
-        try writer["OutputSchemas"].writeList(value.outputSchemas, memberWritingClosure: GlueClientTypes.GlueSchema.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Paths"].writeList(value.paths, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Recurse"].write(value.recurse)
+        try writer["SourcePath"].writeList(value.sourcePath, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["TargetPath"].writeList(value.targetPath, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.S3ParquetSource {
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.RenameField {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.S3ParquetSource()
+        var value = GlueClientTypes.RenameField()
         value.name = try reader["Name"].readIfPresent() ?? ""
-        value.paths = try reader["Paths"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.compressionType = try reader["CompressionType"].readIfPresent()
-        value.exclusions = try reader["Exclusions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.groupSize = try reader["GroupSize"].readIfPresent()
-        value.groupFiles = try reader["GroupFiles"].readIfPresent()
-        value.recurse = try reader["Recurse"].readIfPresent()
-        value.maxBand = try reader["MaxBand"].readIfPresent()
-        value.maxFilesInBand = try reader["MaxFilesInBand"].readIfPresent()
-        value.additionalOptions = try reader["AdditionalOptions"].readIfPresent(with: GlueClientTypes.S3DirectSourceAdditionalOptions.read(from:))
+        value.inputs = try reader["Inputs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.sourcePath = try reader["SourcePath"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.targetPath = try reader["TargetPath"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension GlueClientTypes.ResourceUri {
+
+    static func write(value: GlueClientTypes.ResourceUri?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ResourceType"].write(value.resourceType)
+        try writer["Uri"].write(value.uri)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.ResourceUri {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.ResourceUri()
+        value.resourceType = try reader["ResourceType"].readIfPresent()
+        value.uri = try reader["Uri"].readIfPresent()
+        return value
+    }
+}
+
+extension GlueClientTypes.ResponseConfiguration {
+
+    static func write(value: GlueClientTypes.ResponseConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ErrorPath"].write(value.errorPath)
+        try writer["ResultPath"].write(value.resultPath)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.ResponseConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.ResponseConfiguration()
+        value.resultPath = try reader["ResultPath"].readIfPresent() ?? ""
+        value.errorPath = try reader["ErrorPath"].readIfPresent()
+        return value
+    }
+}
+
+extension GlueClientTypes.ResponseExtractionMapping {
+
+    static func write(value: GlueClientTypes.ResponseExtractionMapping?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ContentPath"].write(value.contentPath)
+        try writer["HeaderKey"].write(value.headerKey)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.ResponseExtractionMapping {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.ResponseExtractionMapping()
+        value.contentPath = try reader["ContentPath"].readIfPresent()
+        value.headerKey = try reader["HeaderKey"].readIfPresent()
+        return value
+    }
+}
+
+extension GlueClientTypes.RestConfiguration {
+
+    static func write(value: GlueClientTypes.RestConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["EntityConfigurations"].writeMap(value.entityConfigurations, valueWritingClosure: GlueClientTypes.EntityConfiguration.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["GlobalSourceConfiguration"].write(value.globalSourceConfiguration, with: GlueClientTypes.SourceConfiguration.write(value:to:))
+        try writer["ValidationEndpointConfiguration"].write(value.validationEndpointConfiguration, with: GlueClientTypes.SourceConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.RestConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.RestConfiguration()
+        value.globalSourceConfiguration = try reader["GlobalSourceConfiguration"].readIfPresent(with: GlueClientTypes.SourceConfiguration.read(from:))
+        value.validationEndpointConfiguration = try reader["ValidationEndpointConfiguration"].readIfPresent(with: GlueClientTypes.SourceConfiguration.read(from:))
+        value.entityConfigurations = try reader["EntityConfigurations"].readMapIfPresent(valueReadingClosure: GlueClientTypes.EntityConfiguration.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension GlueClientTypes.RetentionConfiguration {
+
+    static func write(value: GlueClientTypes.RetentionConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["icebergConfiguration"].write(value.icebergConfiguration, with: GlueClientTypes.IcebergRetentionConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.RetentionConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.RetentionConfiguration()
+        value.icebergConfiguration = try reader["icebergConfiguration"].readIfPresent(with: GlueClientTypes.IcebergRetentionConfiguration.read(from:))
+        return value
+    }
+}
+
+extension GlueClientTypes.RetentionMetrics {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.RetentionMetrics {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.RetentionMetrics()
+        value.icebergMetrics = try reader["IcebergMetrics"].readIfPresent(with: GlueClientTypes.IcebergRetentionMetrics.read(from:))
+        return value
+    }
+}
+
+extension GlueClientTypes.Route {
+
+    static func write(value: GlueClientTypes.Route?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["GroupFiltersList"].writeList(value.groupFiltersList, memberWritingClosure: GlueClientTypes.GroupFilters.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Inputs"].writeList(value.inputs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Name"].write(value.name)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.Route {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.Route()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.inputs = try reader["Inputs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.groupFiltersList = try reader["GroupFiltersList"].readListIfPresent(memberReadingClosure: GlueClientTypes.GroupFilters.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension GlueClientTypes.RunIdentifier {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.RunIdentifier {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.RunIdentifier()
+        value.runId = try reader["RunId"].readIfPresent()
+        value.jobRunId = try reader["JobRunId"].readIfPresent()
+        return value
+    }
+}
+
+extension GlueClientTypes.RunMetrics {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.RunMetrics {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.RunMetrics()
+        value.numberOfBytesCompacted = try reader["NumberOfBytesCompacted"].readIfPresent()
+        value.numberOfFilesCompacted = try reader["NumberOfFilesCompacted"].readIfPresent()
+        value.numberOfDpus = try reader["NumberOfDpus"].readIfPresent()
+        value.jobDurationInHour = try reader["JobDurationInHour"].readIfPresent()
+        return value
+    }
+}
+
+extension GlueClientTypes.S3CatalogDeltaSource {
+
+    static func write(value: GlueClientTypes.S3CatalogDeltaSource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AdditionalDeltaOptions"].writeMap(value.additionalDeltaOptions, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["Database"].write(value.database)
+        try writer["Name"].write(value.name)
+        try writer["OutputSchemas"].writeList(value.outputSchemas, memberWritingClosure: GlueClientTypes.GlueSchema.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Table"].write(value.table)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.S3CatalogDeltaSource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.S3CatalogDeltaSource()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.database = try reader["Database"].readIfPresent() ?? ""
+        value.table = try reader["Table"].readIfPresent() ?? ""
+        value.additionalDeltaOptions = try reader["AdditionalDeltaOptions"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.outputSchemas = try reader["OutputSchemas"].readListIfPresent(memberReadingClosure: GlueClientTypes.GlueSchema.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
 
-extension GlueClientTypes.S3JsonSource {
+extension GlueClientTypes.S3CatalogHudiSource {
 
-    static func write(value: GlueClientTypes.S3JsonSource?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: GlueClientTypes.S3CatalogHudiSource?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["AdditionalOptions"].write(value.additionalOptions, with: GlueClientTypes.S3DirectSourceAdditionalOptions.write(value:to:))
-        try writer["CompressionType"].write(value.compressionType)
-        try writer["Exclusions"].writeList(value.exclusions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["GroupFiles"].write(value.groupFiles)
-        try writer["GroupSize"].write(value.groupSize)
-        try writer["JsonPath"].write(value.jsonPath)
-        try writer["MaxBand"].write(value.maxBand)
-        try writer["MaxFilesInBand"].write(value.maxFilesInBand)
-        try writer["Multiline"].write(value.multiline)
+        try writer["AdditionalHudiOptions"].writeMap(value.additionalHudiOptions, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["Database"].write(value.database)
         try writer["Name"].write(value.name)
         try writer["OutputSchemas"].writeList(value.outputSchemas, memberWritingClosure: GlueClientTypes.GlueSchema.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Paths"].writeList(value.paths, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Recurse"].write(value.recurse)
+        try writer["Table"].write(value.table)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.S3JsonSource {
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.S3CatalogHudiSource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.S3JsonSource()
+        var value = GlueClientTypes.S3CatalogHudiSource()
         value.name = try reader["Name"].readIfPresent() ?? ""
-        value.paths = try reader["Paths"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.compressionType = try reader["CompressionType"].readIfPresent()
-        value.exclusions = try reader["Exclusions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.groupSize = try reader["GroupSize"].readIfPresent()
-        value.groupFiles = try reader["GroupFiles"].readIfPresent()
-        value.recurse = try reader["Recurse"].readIfPresent()
-        value.maxBand = try reader["MaxBand"].readIfPresent()
-        value.maxFilesInBand = try reader["MaxFilesInBand"].readIfPresent()
-        value.additionalOptions = try reader["AdditionalOptions"].readIfPresent(with: GlueClientTypes.S3DirectSourceAdditionalOptions.read(from:))
-        value.jsonPath = try reader["JsonPath"].readIfPresent()
-        value.multiline = try reader["Multiline"].readIfPresent()
+        value.database = try reader["Database"].readIfPresent() ?? ""
+        value.table = try reader["Table"].readIfPresent() ?? ""
+        value.additionalHudiOptions = try reader["AdditionalHudiOptions"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         value.outputSchemas = try reader["OutputSchemas"].readListIfPresent(memberReadingClosure: GlueClientTypes.GlueSchema.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension GlueClientTypes.S3CatalogIcebergSource {
+
+    static func write(value: GlueClientTypes.S3CatalogIcebergSource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AdditionalIcebergOptions"].writeMap(value.additionalIcebergOptions, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["Database"].write(value.database)
+        try writer["Name"].write(value.name)
+        try writer["OutputSchemas"].writeList(value.outputSchemas, memberWritingClosure: GlueClientTypes.GlueSchema.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Table"].write(value.table)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.S3CatalogIcebergSource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.S3CatalogIcebergSource()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.database = try reader["Database"].readIfPresent() ?? ""
+        value.table = try reader["Table"].readIfPresent() ?? ""
+        value.additionalIcebergOptions = try reader["AdditionalIcebergOptions"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.outputSchemas = try reader["OutputSchemas"].readListIfPresent(memberReadingClosure: GlueClientTypes.GlueSchema.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension GlueClientTypes.S3CatalogSource {
+
+    static func write(value: GlueClientTypes.S3CatalogSource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AdditionalOptions"].write(value.additionalOptions, with: GlueClientTypes.S3SourceAdditionalOptions.write(value:to:))
+        try writer["Database"].write(value.database)
+        try writer["Name"].write(value.name)
+        try writer["PartitionPredicate"].write(value.partitionPredicate)
+        try writer["Table"].write(value.table)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.S3CatalogSource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.S3CatalogSource()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.database = try reader["Database"].readIfPresent() ?? ""
+        value.table = try reader["Table"].readIfPresent() ?? ""
+        value.partitionPredicate = try reader["PartitionPredicate"].readIfPresent()
+        value.additionalOptions = try reader["AdditionalOptions"].readIfPresent(with: GlueClientTypes.S3SourceAdditionalOptions.read(from:))
+        return value
+    }
+}
+
+extension GlueClientTypes.S3CatalogTarget {
+
+    static func write(value: GlueClientTypes.S3CatalogTarget?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AutoDataQuality"].write(value.autoDataQuality, with: GlueClientTypes.AutoDataQuality.write(value:to:))
+        try writer["Database"].write(value.database)
+        try writer["Inputs"].writeList(value.inputs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Name"].write(value.name)
+        try writer["PartitionKeys"].writeList(value.partitionKeys, memberWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
+        try writer["SchemaChangePolicy"].write(value.schemaChangePolicy, with: GlueClientTypes.CatalogSchemaChangePolicy.write(value:to:))
+        try writer["Table"].write(value.table)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.S3CatalogTarget {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.S3CatalogTarget()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.inputs = try reader["Inputs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.partitionKeys = try reader["PartitionKeys"].readListIfPresent(memberReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
+        value.table = try reader["Table"].readIfPresent() ?? ""
+        value.database = try reader["Database"].readIfPresent() ?? ""
+        value.schemaChangePolicy = try reader["SchemaChangePolicy"].readIfPresent(with: GlueClientTypes.CatalogSchemaChangePolicy.read(from:))
+        value.autoDataQuality = try reader["AutoDataQuality"].readIfPresent(with: GlueClientTypes.AutoDataQuality.read(from:))
         return value
     }
 }
@@ -47746,325 +50017,571 @@ extension GlueClientTypes.S3CsvSource {
     }
 }
 
-extension GlueClientTypes.S3CatalogSource {
+extension GlueClientTypes.S3DeltaCatalogTarget {
 
-    static func write(value: GlueClientTypes.S3CatalogSource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AdditionalOptions"].write(value.additionalOptions, with: GlueClientTypes.S3SourceAdditionalOptions.write(value:to:))
-        try writer["Database"].write(value.database)
-        try writer["Name"].write(value.name)
-        try writer["PartitionPredicate"].write(value.partitionPredicate)
-        try writer["Table"].write(value.table)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.S3CatalogSource {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.S3CatalogSource()
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.database = try reader["Database"].readIfPresent() ?? ""
-        value.table = try reader["Table"].readIfPresent() ?? ""
-        value.partitionPredicate = try reader["PartitionPredicate"].readIfPresent()
-        value.additionalOptions = try reader["AdditionalOptions"].readIfPresent(with: GlueClientTypes.S3SourceAdditionalOptions.read(from:))
-        return value
-    }
-}
-
-extension GlueClientTypes.RedshiftSource {
-
-    static func write(value: GlueClientTypes.RedshiftSource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Database"].write(value.database)
-        try writer["Name"].write(value.name)
-        try writer["RedshiftTmpDir"].write(value.redshiftTmpDir)
-        try writer["Table"].write(value.table)
-        try writer["TmpDirIAMRole"].write(value.tmpDirIAMRole)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.RedshiftSource {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.RedshiftSource()
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.database = try reader["Database"].readIfPresent() ?? ""
-        value.table = try reader["Table"].readIfPresent() ?? ""
-        value.redshiftTmpDir = try reader["RedshiftTmpDir"].readIfPresent()
-        value.tmpDirIAMRole = try reader["TmpDirIAMRole"].readIfPresent()
-        return value
-    }
-}
-
-extension GlueClientTypes.CatalogSource {
-
-    static func write(value: GlueClientTypes.CatalogSource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Database"].write(value.database)
-        try writer["Name"].write(value.name)
-        try writer["OutputSchemas"].writeList(value.outputSchemas, memberWritingClosure: GlueClientTypes.GlueSchema.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["PartitionPredicate"].write(value.partitionPredicate)
-        try writer["Table"].write(value.table)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.CatalogSource {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.CatalogSource()
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.database = try reader["Database"].readIfPresent() ?? ""
-        value.table = try reader["Table"].readIfPresent() ?? ""
-        value.partitionPredicate = try reader["PartitionPredicate"].readIfPresent()
-        value.outputSchemas = try reader["OutputSchemas"].readListIfPresent(memberReadingClosure: GlueClientTypes.GlueSchema.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension GlueClientTypes.SparkConnectorSource {
-
-    static func write(value: GlueClientTypes.SparkConnectorSource?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: GlueClientTypes.S3DeltaCatalogTarget?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["AdditionalOptions"].writeMap(value.additionalOptions, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["ConnectionName"].write(value.connectionName)
-        try writer["ConnectionType"].write(value.connectionType)
-        try writer["ConnectorName"].write(value.connectorName)
+        try writer["AutoDataQuality"].write(value.autoDataQuality, with: GlueClientTypes.AutoDataQuality.write(value:to:))
+        try writer["Database"].write(value.database)
+        try writer["Inputs"].writeList(value.inputs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Name"].write(value.name)
         try writer["OutputSchemas"].writeList(value.outputSchemas, memberWritingClosure: GlueClientTypes.GlueSchema.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["PartitionKeys"].writeList(value.partitionKeys, memberWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
+        try writer["SchemaChangePolicy"].write(value.schemaChangePolicy, with: GlueClientTypes.CatalogSchemaChangePolicy.write(value:to:))
+        try writer["Table"].write(value.table)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.SparkConnectorSource {
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.S3DeltaCatalogTarget {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.SparkConnectorSource()
+        var value = GlueClientTypes.S3DeltaCatalogTarget()
         value.name = try reader["Name"].readIfPresent() ?? ""
-        value.connectionName = try reader["ConnectionName"].readIfPresent() ?? ""
-        value.connectorName = try reader["ConnectorName"].readIfPresent() ?? ""
-        value.connectionType = try reader["ConnectionType"].readIfPresent() ?? ""
+        value.inputs = try reader["Inputs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.partitionKeys = try reader["PartitionKeys"].readListIfPresent(memberReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
+        value.table = try reader["Table"].readIfPresent() ?? ""
+        value.database = try reader["Database"].readIfPresent() ?? ""
         value.additionalOptions = try reader["AdditionalOptions"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.schemaChangePolicy = try reader["SchemaChangePolicy"].readIfPresent(with: GlueClientTypes.CatalogSchemaChangePolicy.read(from:))
+        value.autoDataQuality = try reader["AutoDataQuality"].readIfPresent(with: GlueClientTypes.AutoDataQuality.read(from:))
         value.outputSchemas = try reader["OutputSchemas"].readListIfPresent(memberReadingClosure: GlueClientTypes.GlueSchema.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
 
-extension GlueClientTypes.JDBCConnectorSource {
+extension GlueClientTypes.S3DeltaDirectTarget {
 
-    static func write(value: GlueClientTypes.JDBCConnectorSource?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: GlueClientTypes.S3DeltaDirectTarget?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["AdditionalOptions"].write(value.additionalOptions, with: GlueClientTypes.JDBCConnectorOptions.write(value:to:))
-        try writer["ConnectionName"].write(value.connectionName)
-        try writer["ConnectionTable"].write(value.connectionTable)
-        try writer["ConnectionType"].write(value.connectionType)
-        try writer["ConnectorName"].write(value.connectorName)
+        try writer["AdditionalOptions"].writeMap(value.additionalOptions, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["AutoDataQuality"].write(value.autoDataQuality, with: GlueClientTypes.AutoDataQuality.write(value:to:))
+        try writer["Compression"].write(value.compression)
+        try writer["Format"].write(value.format)
+        try writer["Inputs"].writeList(value.inputs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Name"].write(value.name)
+        try writer["NumberTargetPartitions"].write(value.numberTargetPartitions)
+        try writer["PartitionKeys"].writeList(value.partitionKeys, memberWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
+        try writer["Path"].write(value.path)
+        try writer["SchemaChangePolicy"].write(value.schemaChangePolicy, with: GlueClientTypes.DirectSchemaChangePolicy.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.S3DeltaDirectTarget {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.S3DeltaDirectTarget()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.inputs = try reader["Inputs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.partitionKeys = try reader["PartitionKeys"].readListIfPresent(memberReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
+        value.path = try reader["Path"].readIfPresent() ?? ""
+        value.compression = try reader["Compression"].readIfPresent() ?? .sdkUnknown("")
+        value.numberTargetPartitions = try reader["NumberTargetPartitions"].readIfPresent()
+        value.format = try reader["Format"].readIfPresent() ?? .sdkUnknown("")
+        value.additionalOptions = try reader["AdditionalOptions"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.schemaChangePolicy = try reader["SchemaChangePolicy"].readIfPresent(with: GlueClientTypes.DirectSchemaChangePolicy.read(from:))
+        value.autoDataQuality = try reader["AutoDataQuality"].readIfPresent(with: GlueClientTypes.AutoDataQuality.read(from:))
+        return value
+    }
+}
+
+extension GlueClientTypes.S3DeltaSource {
+
+    static func write(value: GlueClientTypes.S3DeltaSource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AdditionalDeltaOptions"].writeMap(value.additionalDeltaOptions, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["AdditionalOptions"].write(value.additionalOptions, with: GlueClientTypes.S3DirectSourceAdditionalOptions.write(value:to:))
         try writer["Name"].write(value.name)
         try writer["OutputSchemas"].writeList(value.outputSchemas, memberWritingClosure: GlueClientTypes.GlueSchema.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Query"].write(value.query)
+        try writer["Paths"].writeList(value.paths, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.JDBCConnectorSource {
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.S3DeltaSource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.JDBCConnectorSource()
+        var value = GlueClientTypes.S3DeltaSource()
         value.name = try reader["Name"].readIfPresent() ?? ""
-        value.connectionName = try reader["ConnectionName"].readIfPresent() ?? ""
-        value.connectorName = try reader["ConnectorName"].readIfPresent() ?? ""
-        value.connectionType = try reader["ConnectionType"].readIfPresent() ?? ""
-        value.additionalOptions = try reader["AdditionalOptions"].readIfPresent(with: GlueClientTypes.JDBCConnectorOptions.read(from:))
-        value.connectionTable = try reader["ConnectionTable"].readIfPresent()
-        value.query = try reader["Query"].readIfPresent()
+        value.paths = try reader["Paths"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.additionalDeltaOptions = try reader["AdditionalDeltaOptions"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.additionalOptions = try reader["AdditionalOptions"].readIfPresent(with: GlueClientTypes.S3DirectSourceAdditionalOptions.read(from:))
         value.outputSchemas = try reader["OutputSchemas"].readListIfPresent(memberReadingClosure: GlueClientTypes.GlueSchema.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
 
-extension GlueClientTypes.JDBCConnectorOptions {
+extension GlueClientTypes.S3DirectSourceAdditionalOptions {
 
-    static func write(value: GlueClientTypes.JDBCConnectorOptions?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: GlueClientTypes.S3DirectSourceAdditionalOptions?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["DataTypeMapping"].writeMap(value.dataTypeMapping, valueWritingClosure: SmithyReadWrite.WritingClosureBox<GlueClientTypes.GlueRecordType>().write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["FilterPredicate"].write(value.filterPredicate)
-        try writer["JobBookmarkKeys"].writeList(value.jobBookmarkKeys, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["JobBookmarkKeysSortOrder"].write(value.jobBookmarkKeysSortOrder)
-        try writer["LowerBound"].write(value.lowerBound)
-        try writer["NumPartitions"].write(value.numPartitions)
-        try writer["PartitionColumn"].write(value.partitionColumn)
-        try writer["UpperBound"].write(value.upperBound)
+        try writer["BoundedFiles"].write(value.boundedFiles)
+        try writer["BoundedSize"].write(value.boundedSize)
+        try writer["EnableSamplePath"].write(value.enableSamplePath)
+        try writer["SamplePath"].write(value.samplePath)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.JDBCConnectorOptions {
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.S3DirectSourceAdditionalOptions {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.JDBCConnectorOptions()
-        value.filterPredicate = try reader["FilterPredicate"].readIfPresent()
-        value.partitionColumn = try reader["PartitionColumn"].readIfPresent()
-        value.lowerBound = try reader["LowerBound"].readIfPresent()
-        value.upperBound = try reader["UpperBound"].readIfPresent()
-        value.numPartitions = try reader["NumPartitions"].readIfPresent()
-        value.jobBookmarkKeys = try reader["JobBookmarkKeys"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.jobBookmarkKeysSortOrder = try reader["JobBookmarkKeysSortOrder"].readIfPresent()
-        value.dataTypeMapping = try reader["DataTypeMapping"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosureBox<GlueClientTypes.GlueRecordType>().read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        var value = GlueClientTypes.S3DirectSourceAdditionalOptions()
+        value.boundedSize = try reader["BoundedSize"].readIfPresent()
+        value.boundedFiles = try reader["BoundedFiles"].readIfPresent()
+        value.enableSamplePath = try reader["EnableSamplePath"].readIfPresent()
+        value.samplePath = try reader["SamplePath"].readIfPresent()
         return value
     }
 }
 
-extension GlueClientTypes.AthenaConnectorSource {
+extension GlueClientTypes.S3DirectTarget {
 
-    static func write(value: GlueClientTypes.AthenaConnectorSource?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: GlueClientTypes.S3DirectTarget?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["ConnectionName"].write(value.connectionName)
-        try writer["ConnectionTable"].write(value.connectionTable)
-        try writer["ConnectionType"].write(value.connectionType)
-        try writer["ConnectorName"].write(value.connectorName)
+        try writer["AutoDataQuality"].write(value.autoDataQuality, with: GlueClientTypes.AutoDataQuality.write(value:to:))
+        try writer["Compression"].write(value.compression)
+        try writer["Format"].write(value.format)
+        try writer["Inputs"].writeList(value.inputs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Name"].write(value.name)
+        try writer["NumberTargetPartitions"].write(value.numberTargetPartitions)
+        try writer["OutputSchemas"].writeList(value.outputSchemas, memberWritingClosure: GlueClientTypes.GlueSchema.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["PartitionKeys"].writeList(value.partitionKeys, memberWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
+        try writer["Path"].write(value.path)
+        try writer["SchemaChangePolicy"].write(value.schemaChangePolicy, with: GlueClientTypes.DirectSchemaChangePolicy.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.S3DirectTarget {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.S3DirectTarget()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.inputs = try reader["Inputs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.partitionKeys = try reader["PartitionKeys"].readListIfPresent(memberReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
+        value.path = try reader["Path"].readIfPresent() ?? ""
+        value.compression = try reader["Compression"].readIfPresent()
+        value.numberTargetPartitions = try reader["NumberTargetPartitions"].readIfPresent()
+        value.format = try reader["Format"].readIfPresent() ?? .sdkUnknown("")
+        value.schemaChangePolicy = try reader["SchemaChangePolicy"].readIfPresent(with: GlueClientTypes.DirectSchemaChangePolicy.read(from:))
+        value.autoDataQuality = try reader["AutoDataQuality"].readIfPresent(with: GlueClientTypes.AutoDataQuality.read(from:))
+        value.outputSchemas = try reader["OutputSchemas"].readListIfPresent(memberReadingClosure: GlueClientTypes.GlueSchema.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension GlueClientTypes.S3Encryption {
+
+    static func write(value: GlueClientTypes.S3Encryption?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["KmsKeyArn"].write(value.kmsKeyArn)
+        try writer["S3EncryptionMode"].write(value.s3EncryptionMode)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.S3Encryption {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.S3Encryption()
+        value.s3EncryptionMode = try reader["S3EncryptionMode"].readIfPresent()
+        value.kmsKeyArn = try reader["KmsKeyArn"].readIfPresent()
+        return value
+    }
+}
+
+extension GlueClientTypes.S3ExcelSource {
+
+    static func write(value: GlueClientTypes.S3ExcelSource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AdditionalOptions"].write(value.additionalOptions, with: GlueClientTypes.S3DirectSourceAdditionalOptions.write(value:to:))
+        try writer["CompressionType"].write(value.compressionType)
+        try writer["Exclusions"].writeList(value.exclusions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["GroupFiles"].write(value.groupFiles)
+        try writer["GroupSize"].write(value.groupSize)
+        try writer["MaxBand"].write(value.maxBand)
+        try writer["MaxFilesInBand"].write(value.maxFilesInBand)
+        try writer["Name"].write(value.name)
+        try writer["NumberRows"].write(value.numberRows)
+        try writer["OutputSchemas"].writeList(value.outputSchemas, memberWritingClosure: GlueClientTypes.GlueSchema.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Paths"].writeList(value.paths, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Recurse"].write(value.recurse)
+        try writer["SkipFooter"].write(value.skipFooter)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.S3ExcelSource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.S3ExcelSource()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.paths = try reader["Paths"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.compressionType = try reader["CompressionType"].readIfPresent()
+        value.exclusions = try reader["Exclusions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.groupSize = try reader["GroupSize"].readIfPresent()
+        value.groupFiles = try reader["GroupFiles"].readIfPresent()
+        value.recurse = try reader["Recurse"].readIfPresent()
+        value.maxBand = try reader["MaxBand"].readIfPresent()
+        value.maxFilesInBand = try reader["MaxFilesInBand"].readIfPresent()
+        value.additionalOptions = try reader["AdditionalOptions"].readIfPresent(with: GlueClientTypes.S3DirectSourceAdditionalOptions.read(from:))
+        value.numberRows = try reader["NumberRows"].readIfPresent()
+        value.skipFooter = try reader["SkipFooter"].readIfPresent()
+        value.outputSchemas = try reader["OutputSchemas"].readListIfPresent(memberReadingClosure: GlueClientTypes.GlueSchema.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension GlueClientTypes.S3GlueParquetTarget {
+
+    static func write(value: GlueClientTypes.S3GlueParquetTarget?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AutoDataQuality"].write(value.autoDataQuality, with: GlueClientTypes.AutoDataQuality.write(value:to:))
+        try writer["Compression"].write(value.compression)
+        try writer["Inputs"].writeList(value.inputs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Name"].write(value.name)
+        try writer["NumberTargetPartitions"].write(value.numberTargetPartitions)
+        try writer["PartitionKeys"].writeList(value.partitionKeys, memberWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
+        try writer["Path"].write(value.path)
+        try writer["SchemaChangePolicy"].write(value.schemaChangePolicy, with: GlueClientTypes.DirectSchemaChangePolicy.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.S3GlueParquetTarget {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.S3GlueParquetTarget()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.inputs = try reader["Inputs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.partitionKeys = try reader["PartitionKeys"].readListIfPresent(memberReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
+        value.path = try reader["Path"].readIfPresent() ?? ""
+        value.compression = try reader["Compression"].readIfPresent()
+        value.numberTargetPartitions = try reader["NumberTargetPartitions"].readIfPresent()
+        value.schemaChangePolicy = try reader["SchemaChangePolicy"].readIfPresent(with: GlueClientTypes.DirectSchemaChangePolicy.read(from:))
+        value.autoDataQuality = try reader["AutoDataQuality"].readIfPresent(with: GlueClientTypes.AutoDataQuality.read(from:))
+        return value
+    }
+}
+
+extension GlueClientTypes.S3HudiCatalogTarget {
+
+    static func write(value: GlueClientTypes.S3HudiCatalogTarget?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AdditionalOptions"].writeMap(value.additionalOptions, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["AutoDataQuality"].write(value.autoDataQuality, with: GlueClientTypes.AutoDataQuality.write(value:to:))
+        try writer["Database"].write(value.database)
+        try writer["Inputs"].writeList(value.inputs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Name"].write(value.name)
         try writer["OutputSchemas"].writeList(value.outputSchemas, memberWritingClosure: GlueClientTypes.GlueSchema.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["SchemaName"].write(value.schemaName)
+        try writer["PartitionKeys"].writeList(value.partitionKeys, memberWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
+        try writer["SchemaChangePolicy"].write(value.schemaChangePolicy, with: GlueClientTypes.CatalogSchemaChangePolicy.write(value:to:))
+        try writer["Table"].write(value.table)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.AthenaConnectorSource {
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.S3HudiCatalogTarget {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.AthenaConnectorSource()
+        var value = GlueClientTypes.S3HudiCatalogTarget()
         value.name = try reader["Name"].readIfPresent() ?? ""
-        value.connectionName = try reader["ConnectionName"].readIfPresent() ?? ""
-        value.connectorName = try reader["ConnectorName"].readIfPresent() ?? ""
-        value.connectionType = try reader["ConnectionType"].readIfPresent() ?? ""
-        value.connectionTable = try reader["ConnectionTable"].readIfPresent()
-        value.schemaName = try reader["SchemaName"].readIfPresent() ?? ""
+        value.inputs = try reader["Inputs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.partitionKeys = try reader["PartitionKeys"].readListIfPresent(memberReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
+        value.table = try reader["Table"].readIfPresent() ?? ""
+        value.database = try reader["Database"].readIfPresent() ?? ""
+        value.additionalOptions = try reader["AdditionalOptions"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
+        value.schemaChangePolicy = try reader["SchemaChangePolicy"].readIfPresent(with: GlueClientTypes.CatalogSchemaChangePolicy.read(from:))
+        value.autoDataQuality = try reader["AutoDataQuality"].readIfPresent(with: GlueClientTypes.AutoDataQuality.read(from:))
         value.outputSchemas = try reader["OutputSchemas"].readListIfPresent(memberReadingClosure: GlueClientTypes.GlueSchema.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
 
-extension GlueClientTypes.NotificationProperty {
+extension GlueClientTypes.S3HudiDirectTarget {
 
-    static func write(value: GlueClientTypes.NotificationProperty?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: GlueClientTypes.S3HudiDirectTarget?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["NotifyDelayAfter"].write(value.notifyDelayAfter)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.NotificationProperty {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.NotificationProperty()
-        value.notifyDelayAfter = try reader["NotifyDelayAfter"].readIfPresent()
-        return value
-    }
-}
-
-extension GlueClientTypes.ConnectionsList {
-
-    static func write(value: GlueClientTypes.ConnectionsList?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Connections"].writeList(value.connections, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.ConnectionsList {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.ConnectionsList()
-        value.connections = try reader["Connections"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension GlueClientTypes.JobCommand {
-
-    static func write(value: GlueClientTypes.JobCommand?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
+        try writer["AdditionalOptions"].writeMap(value.additionalOptions, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["AutoDataQuality"].write(value.autoDataQuality, with: GlueClientTypes.AutoDataQuality.write(value:to:))
+        try writer["Compression"].write(value.compression)
+        try writer["Format"].write(value.format)
+        try writer["Inputs"].writeList(value.inputs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Name"].write(value.name)
-        try writer["PythonVersion"].write(value.pythonVersion)
-        try writer["Runtime"].write(value.runtime)
-        try writer["ScriptLocation"].write(value.scriptLocation)
+        try writer["NumberTargetPartitions"].write(value.numberTargetPartitions)
+        try writer["PartitionKeys"].writeList(value.partitionKeys, memberWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
+        try writer["Path"].write(value.path)
+        try writer["SchemaChangePolicy"].write(value.schemaChangePolicy, with: GlueClientTypes.DirectSchemaChangePolicy.write(value:to:))
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.JobCommand {
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.S3HudiDirectTarget {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.JobCommand()
+        var value = GlueClientTypes.S3HudiDirectTarget()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.inputs = try reader["Inputs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.path = try reader["Path"].readIfPresent() ?? ""
+        value.compression = try reader["Compression"].readIfPresent() ?? .sdkUnknown("")
+        value.numberTargetPartitions = try reader["NumberTargetPartitions"].readIfPresent()
+        value.partitionKeys = try reader["PartitionKeys"].readListIfPresent(memberReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
+        value.format = try reader["Format"].readIfPresent() ?? .sdkUnknown("")
+        value.additionalOptions = try reader["AdditionalOptions"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
+        value.schemaChangePolicy = try reader["SchemaChangePolicy"].readIfPresent(with: GlueClientTypes.DirectSchemaChangePolicy.read(from:))
+        value.autoDataQuality = try reader["AutoDataQuality"].readIfPresent(with: GlueClientTypes.AutoDataQuality.read(from:))
+        return value
+    }
+}
+
+extension GlueClientTypes.S3HudiSource {
+
+    static func write(value: GlueClientTypes.S3HudiSource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AdditionalHudiOptions"].writeMap(value.additionalHudiOptions, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["AdditionalOptions"].write(value.additionalOptions, with: GlueClientTypes.S3DirectSourceAdditionalOptions.write(value:to:))
+        try writer["Name"].write(value.name)
+        try writer["OutputSchemas"].writeList(value.outputSchemas, memberWritingClosure: GlueClientTypes.GlueSchema.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Paths"].writeList(value.paths, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.S3HudiSource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.S3HudiSource()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.paths = try reader["Paths"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.additionalHudiOptions = try reader["AdditionalHudiOptions"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.additionalOptions = try reader["AdditionalOptions"].readIfPresent(with: GlueClientTypes.S3DirectSourceAdditionalOptions.read(from:))
+        value.outputSchemas = try reader["OutputSchemas"].readListIfPresent(memberReadingClosure: GlueClientTypes.GlueSchema.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension GlueClientTypes.S3HyperDirectTarget {
+
+    static func write(value: GlueClientTypes.S3HyperDirectTarget?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AutoDataQuality"].write(value.autoDataQuality, with: GlueClientTypes.AutoDataQuality.write(value:to:))
+        try writer["Compression"].write(value.compression)
+        try writer["Format"].write(value.format)
+        try writer["Inputs"].writeList(value.inputs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Name"].write(value.name)
+        try writer["OutputSchemas"].writeList(value.outputSchemas, memberWritingClosure: GlueClientTypes.GlueSchema.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["PartitionKeys"].writeList(value.partitionKeys, memberWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
+        try writer["Path"].write(value.path)
+        try writer["SchemaChangePolicy"].write(value.schemaChangePolicy, with: GlueClientTypes.DirectSchemaChangePolicy.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.S3HyperDirectTarget {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.S3HyperDirectTarget()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.inputs = try reader["Inputs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.format = try reader["Format"].readIfPresent()
+        value.partitionKeys = try reader["PartitionKeys"].readListIfPresent(memberReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
+        value.path = try reader["Path"].readIfPresent() ?? ""
+        value.compression = try reader["Compression"].readIfPresent()
+        value.schemaChangePolicy = try reader["SchemaChangePolicy"].readIfPresent(with: GlueClientTypes.DirectSchemaChangePolicy.read(from:))
+        value.autoDataQuality = try reader["AutoDataQuality"].readIfPresent(with: GlueClientTypes.AutoDataQuality.read(from:))
+        value.outputSchemas = try reader["OutputSchemas"].readListIfPresent(memberReadingClosure: GlueClientTypes.GlueSchema.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension GlueClientTypes.S3IcebergCatalogTarget {
+
+    static func write(value: GlueClientTypes.S3IcebergCatalogTarget?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AdditionalOptions"].writeMap(value.additionalOptions, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["AutoDataQuality"].write(value.autoDataQuality, with: GlueClientTypes.AutoDataQuality.write(value:to:))
+        try writer["Database"].write(value.database)
+        try writer["Inputs"].writeList(value.inputs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Name"].write(value.name)
+        try writer["PartitionKeys"].writeList(value.partitionKeys, memberWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
+        try writer["SchemaChangePolicy"].write(value.schemaChangePolicy, with: GlueClientTypes.CatalogSchemaChangePolicy.write(value:to:))
+        try writer["Table"].write(value.table)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.S3IcebergCatalogTarget {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.S3IcebergCatalogTarget()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.inputs = try reader["Inputs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.partitionKeys = try reader["PartitionKeys"].readListIfPresent(memberReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
+        value.table = try reader["Table"].readIfPresent() ?? ""
+        value.database = try reader["Database"].readIfPresent() ?? ""
+        value.additionalOptions = try reader["AdditionalOptions"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.schemaChangePolicy = try reader["SchemaChangePolicy"].readIfPresent(with: GlueClientTypes.CatalogSchemaChangePolicy.read(from:))
+        value.autoDataQuality = try reader["AutoDataQuality"].readIfPresent(with: GlueClientTypes.AutoDataQuality.read(from:))
+        return value
+    }
+}
+
+extension GlueClientTypes.S3IcebergDirectTarget {
+
+    static func write(value: GlueClientTypes.S3IcebergDirectTarget?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AdditionalOptions"].writeMap(value.additionalOptions, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["AutoDataQuality"].write(value.autoDataQuality, with: GlueClientTypes.AutoDataQuality.write(value:to:))
+        try writer["Compression"].write(value.compression)
+        try writer["Format"].write(value.format)
+        try writer["Inputs"].writeList(value.inputs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Name"].write(value.name)
+        try writer["NumberTargetPartitions"].write(value.numberTargetPartitions)
+        try writer["OutputSchemas"].writeList(value.outputSchemas, memberWritingClosure: GlueClientTypes.GlueSchema.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["PartitionKeys"].writeList(value.partitionKeys, memberWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
+        try writer["Path"].write(value.path)
+        try writer["SchemaChangePolicy"].write(value.schemaChangePolicy, with: GlueClientTypes.DirectSchemaChangePolicy.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.S3IcebergDirectTarget {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.S3IcebergDirectTarget()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.inputs = try reader["Inputs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.partitionKeys = try reader["PartitionKeys"].readListIfPresent(memberReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
+        value.path = try reader["Path"].readIfPresent() ?? ""
+        value.format = try reader["Format"].readIfPresent() ?? .sdkUnknown("")
+        value.additionalOptions = try reader["AdditionalOptions"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.schemaChangePolicy = try reader["SchemaChangePolicy"].readIfPresent(with: GlueClientTypes.DirectSchemaChangePolicy.read(from:))
+        value.autoDataQuality = try reader["AutoDataQuality"].readIfPresent(with: GlueClientTypes.AutoDataQuality.read(from:))
+        value.compression = try reader["Compression"].readIfPresent() ?? .sdkUnknown("")
+        value.numberTargetPartitions = try reader["NumberTargetPartitions"].readIfPresent()
+        value.outputSchemas = try reader["OutputSchemas"].readListIfPresent(memberReadingClosure: GlueClientTypes.GlueSchema.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension GlueClientTypes.S3JsonSource {
+
+    static func write(value: GlueClientTypes.S3JsonSource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AdditionalOptions"].write(value.additionalOptions, with: GlueClientTypes.S3DirectSourceAdditionalOptions.write(value:to:))
+        try writer["CompressionType"].write(value.compressionType)
+        try writer["Exclusions"].writeList(value.exclusions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["GroupFiles"].write(value.groupFiles)
+        try writer["GroupSize"].write(value.groupSize)
+        try writer["JsonPath"].write(value.jsonPath)
+        try writer["MaxBand"].write(value.maxBand)
+        try writer["MaxFilesInBand"].write(value.maxFilesInBand)
+        try writer["Multiline"].write(value.multiline)
+        try writer["Name"].write(value.name)
+        try writer["OutputSchemas"].writeList(value.outputSchemas, memberWritingClosure: GlueClientTypes.GlueSchema.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Paths"].writeList(value.paths, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Recurse"].write(value.recurse)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.S3JsonSource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.S3JsonSource()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.paths = try reader["Paths"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.compressionType = try reader["CompressionType"].readIfPresent()
+        value.exclusions = try reader["Exclusions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.groupSize = try reader["GroupSize"].readIfPresent()
+        value.groupFiles = try reader["GroupFiles"].readIfPresent()
+        value.recurse = try reader["Recurse"].readIfPresent()
+        value.maxBand = try reader["MaxBand"].readIfPresent()
+        value.maxFilesInBand = try reader["MaxFilesInBand"].readIfPresent()
+        value.additionalOptions = try reader["AdditionalOptions"].readIfPresent(with: GlueClientTypes.S3DirectSourceAdditionalOptions.read(from:))
+        value.jsonPath = try reader["JsonPath"].readIfPresent()
+        value.multiline = try reader["Multiline"].readIfPresent()
+        value.outputSchemas = try reader["OutputSchemas"].readListIfPresent(memberReadingClosure: GlueClientTypes.GlueSchema.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension GlueClientTypes.S3ParquetSource {
+
+    static func write(value: GlueClientTypes.S3ParquetSource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AdditionalOptions"].write(value.additionalOptions, with: GlueClientTypes.S3DirectSourceAdditionalOptions.write(value:to:))
+        try writer["CompressionType"].write(value.compressionType)
+        try writer["Exclusions"].writeList(value.exclusions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["GroupFiles"].write(value.groupFiles)
+        try writer["GroupSize"].write(value.groupSize)
+        try writer["MaxBand"].write(value.maxBand)
+        try writer["MaxFilesInBand"].write(value.maxFilesInBand)
+        try writer["Name"].write(value.name)
+        try writer["OutputSchemas"].writeList(value.outputSchemas, memberWritingClosure: GlueClientTypes.GlueSchema.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Paths"].writeList(value.paths, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Recurse"].write(value.recurse)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.S3ParquetSource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.S3ParquetSource()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.paths = try reader["Paths"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.compressionType = try reader["CompressionType"].readIfPresent()
+        value.exclusions = try reader["Exclusions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.groupSize = try reader["GroupSize"].readIfPresent()
+        value.groupFiles = try reader["GroupFiles"].readIfPresent()
+        value.recurse = try reader["Recurse"].readIfPresent()
+        value.maxBand = try reader["MaxBand"].readIfPresent()
+        value.maxFilesInBand = try reader["MaxFilesInBand"].readIfPresent()
+        value.additionalOptions = try reader["AdditionalOptions"].readIfPresent(with: GlueClientTypes.S3DirectSourceAdditionalOptions.read(from:))
+        value.outputSchemas = try reader["OutputSchemas"].readListIfPresent(memberReadingClosure: GlueClientTypes.GlueSchema.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension GlueClientTypes.S3SourceAdditionalOptions {
+
+    static func write(value: GlueClientTypes.S3SourceAdditionalOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["BoundedFiles"].write(value.boundedFiles)
+        try writer["BoundedSize"].write(value.boundedSize)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.S3SourceAdditionalOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.S3SourceAdditionalOptions()
+        value.boundedSize = try reader["BoundedSize"].readIfPresent()
+        value.boundedFiles = try reader["BoundedFiles"].readIfPresent()
+        return value
+    }
+}
+
+extension GlueClientTypes.S3Target {
+
+    static func write(value: GlueClientTypes.S3Target?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ConnectionName"].write(value.connectionName)
+        try writer["DlqEventQueueArn"].write(value.dlqEventQueueArn)
+        try writer["EventQueueArn"].write(value.eventQueueArn)
+        try writer["Exclusions"].writeList(value.exclusions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Path"].write(value.path)
+        try writer["SampleSize"].write(value.sampleSize)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.S3Target {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.S3Target()
+        value.path = try reader["Path"].readIfPresent()
+        value.exclusions = try reader["Exclusions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.connectionName = try reader["ConnectionName"].readIfPresent()
+        value.sampleSize = try reader["SampleSize"].readIfPresent()
+        value.eventQueueArn = try reader["EventQueueArn"].readIfPresent()
+        value.dlqEventQueueArn = try reader["DlqEventQueueArn"].readIfPresent()
+        return value
+    }
+}
+
+extension GlueClientTypes.Schedule {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.Schedule {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.Schedule()
+        value.scheduleExpression = try reader["ScheduleExpression"].readIfPresent()
+        value.state = try reader["State"].readIfPresent()
+        return value
+    }
+}
+
+extension GlueClientTypes.SchemaChangePolicy {
+
+    static func write(value: GlueClientTypes.SchemaChangePolicy?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DeleteBehavior"].write(value.deleteBehavior)
+        try writer["UpdateBehavior"].write(value.updateBehavior)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.SchemaChangePolicy {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.SchemaChangePolicy()
+        value.updateBehavior = try reader["UpdateBehavior"].readIfPresent()
+        value.deleteBehavior = try reader["DeleteBehavior"].readIfPresent()
+        return value
+    }
+}
+
+extension GlueClientTypes.SchemaColumn {
+
+    static func write(value: GlueClientTypes.SchemaColumn?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DataType"].write(value.dataType)
+        try writer["Name"].write(value.name)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.SchemaColumn {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.SchemaColumn()
         value.name = try reader["Name"].readIfPresent()
-        value.scriptLocation = try reader["ScriptLocation"].readIfPresent()
-        value.pythonVersion = try reader["PythonVersion"].readIfPresent()
-        value.runtime = try reader["Runtime"].readIfPresent()
-        return value
-    }
-}
-
-extension GlueClientTypes.ExecutionProperty {
-
-    static func write(value: GlueClientTypes.ExecutionProperty?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["MaxConcurrentRuns"].write(value.maxConcurrentRuns)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.ExecutionProperty {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.ExecutionProperty()
-        value.maxConcurrentRuns = try reader["MaxConcurrentRuns"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension GlueClientTypes.Partition {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.Partition {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.Partition()
-        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.databaseName = try reader["DatabaseName"].readIfPresent()
-        value.tableName = try reader["TableName"].readIfPresent()
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastAccessTime = try reader["LastAccessTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.storageDescriptor = try reader["StorageDescriptor"].readIfPresent(with: GlueClientTypes.StorageDescriptor.read(from:))
-        value.parameters = try reader["Parameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.lastAnalyzedTime = try reader["LastAnalyzedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.catalogId = try reader["CatalogId"].readIfPresent()
-        return value
-    }
-}
-
-extension GlueClientTypes.StorageDescriptor {
-
-    static func write(value: GlueClientTypes.StorageDescriptor?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AdditionalLocations"].writeList(value.additionalLocations, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["BucketColumns"].writeList(value.bucketColumns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Columns"].writeList(value.columns, memberWritingClosure: GlueClientTypes.Column.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Compressed"].write(value.compressed)
-        try writer["InputFormat"].write(value.inputFormat)
-        try writer["Location"].write(value.location)
-        try writer["NumberOfBuckets"].write(value.numberOfBuckets)
-        try writer["OutputFormat"].write(value.outputFormat)
-        try writer["Parameters"].writeMap(value.parameters, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["SchemaReference"].write(value.schemaReference, with: GlueClientTypes.SchemaReference.write(value:to:))
-        try writer["SerdeInfo"].write(value.serdeInfo, with: GlueClientTypes.SerDeInfo.write(value:to:))
-        try writer["SkewedInfo"].write(value.skewedInfo, with: GlueClientTypes.SkewedInfo.write(value:to:))
-        try writer["SortColumns"].writeList(value.sortColumns, memberWritingClosure: GlueClientTypes.Order.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["StoredAsSubDirectories"].write(value.storedAsSubDirectories)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.StorageDescriptor {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.StorageDescriptor()
-        value.columns = try reader["Columns"].readListIfPresent(memberReadingClosure: GlueClientTypes.Column.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.location = try reader["Location"].readIfPresent()
-        value.additionalLocations = try reader["AdditionalLocations"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.inputFormat = try reader["InputFormat"].readIfPresent()
-        value.outputFormat = try reader["OutputFormat"].readIfPresent()
-        value.compressed = try reader["Compressed"].readIfPresent() ?? false
-        value.numberOfBuckets = try reader["NumberOfBuckets"].readIfPresent() ?? 0
-        value.serdeInfo = try reader["SerdeInfo"].readIfPresent(with: GlueClientTypes.SerDeInfo.read(from:))
-        value.bucketColumns = try reader["BucketColumns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.sortColumns = try reader["SortColumns"].readListIfPresent(memberReadingClosure: GlueClientTypes.Order.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.parameters = try reader["Parameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.skewedInfo = try reader["SkewedInfo"].readIfPresent(with: GlueClientTypes.SkewedInfo.read(from:))
-        value.storedAsSubDirectories = try reader["StoredAsSubDirectories"].readIfPresent() ?? false
-        value.schemaReference = try reader["SchemaReference"].readIfPresent(with: GlueClientTypes.SchemaReference.read(from:))
-        return value
-    }
-}
-
-extension GlueClientTypes.SchemaReference {
-
-    static func write(value: GlueClientTypes.SchemaReference?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["SchemaId"].write(value.schemaId, with: GlueClientTypes.SchemaId.write(value:to:))
-        try writer["SchemaVersionId"].write(value.schemaVersionId)
-        try writer["SchemaVersionNumber"].write(value.schemaVersionNumber)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.SchemaReference {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.SchemaReference()
-        value.schemaId = try reader["SchemaId"].readIfPresent(with: GlueClientTypes.SchemaId.read(from:))
-        value.schemaVersionId = try reader["SchemaVersionId"].readIfPresent()
-        value.schemaVersionNumber = try reader["SchemaVersionNumber"].readIfPresent()
+        value.dataType = try reader["DataType"].readIfPresent()
         return value
     }
 }
@@ -48088,38 +50605,130 @@ extension GlueClientTypes.SchemaId {
     }
 }
 
-extension GlueClientTypes.SkewedInfo {
+extension GlueClientTypes.SchemaListItem {
 
-    static func write(value: GlueClientTypes.SkewedInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["SkewedColumnNames"].writeList(value.skewedColumnNames, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["SkewedColumnValueLocationMaps"].writeMap(value.skewedColumnValueLocationMaps, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["SkewedColumnValues"].writeList(value.skewedColumnValues, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.SkewedInfo {
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.SchemaListItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.SkewedInfo()
-        value.skewedColumnNames = try reader["SkewedColumnNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.skewedColumnValues = try reader["SkewedColumnValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.skewedColumnValueLocationMaps = try reader["SkewedColumnValueLocationMaps"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        var value = GlueClientTypes.SchemaListItem()
+        value.registryName = try reader["RegistryName"].readIfPresent()
+        value.schemaName = try reader["SchemaName"].readIfPresent()
+        value.schemaArn = try reader["SchemaArn"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.schemaStatus = try reader["SchemaStatus"].readIfPresent()
+        value.createdTime = try reader["CreatedTime"].readIfPresent()
+        value.updatedTime = try reader["UpdatedTime"].readIfPresent()
         return value
     }
 }
 
-extension GlueClientTypes.Order {
+extension GlueClientTypes.SchemaReference {
 
-    static func write(value: GlueClientTypes.Order?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: GlueClientTypes.SchemaReference?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["Column"].write(value.column)
-        try writer["SortOrder"].write(value.sortOrder)
+        try writer["SchemaId"].write(value.schemaId, with: GlueClientTypes.SchemaId.write(value:to:))
+        try writer["SchemaVersionId"].write(value.schemaVersionId)
+        try writer["SchemaVersionNumber"].write(value.schemaVersionNumber)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.Order {
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.SchemaReference {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.Order()
-        value.column = try reader["Column"].readIfPresent() ?? ""
-        value.sortOrder = try reader["SortOrder"].readIfPresent() ?? 0
+        var value = GlueClientTypes.SchemaReference()
+        value.schemaId = try reader["SchemaId"].readIfPresent(with: GlueClientTypes.SchemaId.read(from:))
+        value.schemaVersionId = try reader["SchemaVersionId"].readIfPresent()
+        value.schemaVersionNumber = try reader["SchemaVersionNumber"].readIfPresent()
+        return value
+    }
+}
+
+extension GlueClientTypes.SchemaVersionErrorItem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.SchemaVersionErrorItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.SchemaVersionErrorItem()
+        value.versionNumber = try reader["VersionNumber"].readIfPresent()
+        value.errorDetails = try reader["ErrorDetails"].readIfPresent(with: GlueClientTypes.ErrorDetails.read(from:))
+        return value
+    }
+}
+
+extension GlueClientTypes.SchemaVersionListItem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.SchemaVersionListItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.SchemaVersionListItem()
+        value.schemaArn = try reader["SchemaArn"].readIfPresent()
+        value.schemaVersionId = try reader["SchemaVersionId"].readIfPresent()
+        value.versionNumber = try reader["VersionNumber"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.createdTime = try reader["CreatedTime"].readIfPresent()
+        return value
+    }
+}
+
+extension GlueClientTypes.SchemaVersionNumber {
+
+    static func write(value: GlueClientTypes.SchemaVersionNumber?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["LatestVersion"].write(value.latestVersion)
+        try writer["VersionNumber"].write(value.versionNumber)
+    }
+}
+
+extension GlueClientTypes.SecurityConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.SecurityConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.SecurityConfiguration()
+        value.name = try reader["Name"].readIfPresent()
+        value.createdTimeStamp = try reader["CreatedTimeStamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.encryptionConfiguration = try reader["EncryptionConfiguration"].readIfPresent(with: GlueClientTypes.EncryptionConfiguration.read(from:))
+        return value
+    }
+}
+
+extension GlueClientTypes.Segment {
+
+    static func write(value: GlueClientTypes.Segment?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["SegmentNumber"].write(value.segmentNumber)
+        try writer["TotalSegments"].write(value.totalSegments)
+    }
+}
+
+extension GlueClientTypes.SelectFields {
+
+    static func write(value: GlueClientTypes.SelectFields?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Inputs"].writeList(value.inputs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Name"].write(value.name)
+        try writer["Paths"].writeList(value.paths, memberWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.SelectFields {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.SelectFields()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.inputs = try reader["Inputs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.paths = try reader["Paths"].readListIfPresent(memberReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension GlueClientTypes.SelectFromCollection {
+
+    static func write(value: GlueClientTypes.SelectFromCollection?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Index"].write(value.index)
+        try writer["Inputs"].writeList(value.inputs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Name"].write(value.name)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.SelectFromCollection {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.SelectFromCollection()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.inputs = try reader["Inputs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.index = try reader["Index"].readIfPresent() ?? 0
         return value
     }
 }
@@ -48139,777 +50748,6 @@ extension GlueClientTypes.SerDeInfo {
         value.name = try reader["Name"].readIfPresent()
         value.serializationLibrary = try reader["SerializationLibrary"].readIfPresent()
         value.parameters = try reader["Parameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
-}
-
-extension GlueClientTypes.Column {
-
-    static func write(value: GlueClientTypes.Column?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Comment"].write(value.comment)
-        try writer["Name"].write(value.name)
-        try writer["Parameters"].writeMap(value.parameters, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["Type"].write(value.type)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.Column {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.Column()
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.type = try reader["Type"].readIfPresent()
-        value.comment = try reader["Comment"].readIfPresent()
-        value.parameters = try reader["Parameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
-}
-
-extension GlueClientTypes.PartitionValueList {
-
-    static func write(value: GlueClientTypes.PartitionValueList?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.PartitionValueList {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.PartitionValueList()
-        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension GlueClientTypes.BatchTableOptimizer {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.BatchTableOptimizer {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.BatchTableOptimizer()
-        value.catalogId = try reader["catalogId"].readIfPresent()
-        value.databaseName = try reader["databaseName"].readIfPresent()
-        value.tableName = try reader["tableName"].readIfPresent()
-        value.tableOptimizer = try reader["tableOptimizer"].readIfPresent(with: GlueClientTypes.TableOptimizer.read(from:))
-        return value
-    }
-}
-
-extension GlueClientTypes.TableOptimizer {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.TableOptimizer {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.TableOptimizer()
-        value.type = try reader["type"].readIfPresent()
-        value.configuration = try reader["configuration"].readIfPresent(with: GlueClientTypes.TableOptimizerConfiguration.read(from:))
-        value.lastRun = try reader["lastRun"].readIfPresent(with: GlueClientTypes.TableOptimizerRun.read(from:))
-        value.configurationSource = try reader["configurationSource"].readIfPresent()
-        return value
-    }
-}
-
-extension GlueClientTypes.TableOptimizerRun {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.TableOptimizerRun {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.TableOptimizerRun()
-        value.eventType = try reader["eventType"].readIfPresent()
-        value.startTimestamp = try reader["startTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.endTimestamp = try reader["endTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.metrics = try reader["metrics"].readIfPresent(with: GlueClientTypes.RunMetrics.read(from:))
-        value.error = try reader["error"].readIfPresent()
-        value.compactionMetrics = try reader["compactionMetrics"].readIfPresent(with: GlueClientTypes.CompactionMetrics.read(from:))
-        value.compactionStrategy = try reader["compactionStrategy"].readIfPresent()
-        value.retentionMetrics = try reader["retentionMetrics"].readIfPresent(with: GlueClientTypes.RetentionMetrics.read(from:))
-        value.orphanFileDeletionMetrics = try reader["orphanFileDeletionMetrics"].readIfPresent(with: GlueClientTypes.OrphanFileDeletionMetrics.read(from:))
-        return value
-    }
-}
-
-extension GlueClientTypes.OrphanFileDeletionMetrics {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.OrphanFileDeletionMetrics {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.OrphanFileDeletionMetrics()
-        value.icebergMetrics = try reader["IcebergMetrics"].readIfPresent(with: GlueClientTypes.IcebergOrphanFileDeletionMetrics.read(from:))
-        return value
-    }
-}
-
-extension GlueClientTypes.IcebergOrphanFileDeletionMetrics {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.IcebergOrphanFileDeletionMetrics {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.IcebergOrphanFileDeletionMetrics()
-        value.numberOfOrphanFilesDeleted = try reader["NumberOfOrphanFilesDeleted"].readIfPresent() ?? 0
-        value.dpuHours = try reader["DpuHours"].readIfPresent() ?? 0
-        value.numberOfDpus = try reader["NumberOfDpus"].readIfPresent() ?? 0
-        value.jobDurationInHour = try reader["JobDurationInHour"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension GlueClientTypes.RetentionMetrics {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.RetentionMetrics {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.RetentionMetrics()
-        value.icebergMetrics = try reader["IcebergMetrics"].readIfPresent(with: GlueClientTypes.IcebergRetentionMetrics.read(from:))
-        return value
-    }
-}
-
-extension GlueClientTypes.IcebergRetentionMetrics {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.IcebergRetentionMetrics {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.IcebergRetentionMetrics()
-        value.numberOfDataFilesDeleted = try reader["NumberOfDataFilesDeleted"].readIfPresent() ?? 0
-        value.numberOfManifestFilesDeleted = try reader["NumberOfManifestFilesDeleted"].readIfPresent() ?? 0
-        value.numberOfManifestListsDeleted = try reader["NumberOfManifestListsDeleted"].readIfPresent() ?? 0
-        value.dpuHours = try reader["DpuHours"].readIfPresent() ?? 0
-        value.numberOfDpus = try reader["NumberOfDpus"].readIfPresent() ?? 0
-        value.jobDurationInHour = try reader["JobDurationInHour"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension GlueClientTypes.CompactionMetrics {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.CompactionMetrics {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.CompactionMetrics()
-        value.icebergMetrics = try reader["IcebergMetrics"].readIfPresent(with: GlueClientTypes.IcebergCompactionMetrics.read(from:))
-        return value
-    }
-}
-
-extension GlueClientTypes.IcebergCompactionMetrics {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.IcebergCompactionMetrics {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.IcebergCompactionMetrics()
-        value.numberOfBytesCompacted = try reader["NumberOfBytesCompacted"].readIfPresent() ?? 0
-        value.numberOfFilesCompacted = try reader["NumberOfFilesCompacted"].readIfPresent() ?? 0
-        value.dpuHours = try reader["DpuHours"].readIfPresent() ?? 0
-        value.numberOfDpus = try reader["NumberOfDpus"].readIfPresent() ?? 0
-        value.jobDurationInHour = try reader["JobDurationInHour"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension GlueClientTypes.RunMetrics {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.RunMetrics {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.RunMetrics()
-        value.numberOfBytesCompacted = try reader["NumberOfBytesCompacted"].readIfPresent()
-        value.numberOfFilesCompacted = try reader["NumberOfFilesCompacted"].readIfPresent()
-        value.numberOfDpus = try reader["NumberOfDpus"].readIfPresent()
-        value.jobDurationInHour = try reader["JobDurationInHour"].readIfPresent()
-        return value
-    }
-}
-
-extension GlueClientTypes.TableOptimizerConfiguration {
-
-    static func write(value: GlueClientTypes.TableOptimizerConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["compactionConfiguration"].write(value.compactionConfiguration, with: GlueClientTypes.CompactionConfiguration.write(value:to:))
-        try writer["enabled"].write(value.enabled)
-        try writer["orphanFileDeletionConfiguration"].write(value.orphanFileDeletionConfiguration, with: GlueClientTypes.OrphanFileDeletionConfiguration.write(value:to:))
-        try writer["retentionConfiguration"].write(value.retentionConfiguration, with: GlueClientTypes.RetentionConfiguration.write(value:to:))
-        try writer["roleArn"].write(value.roleArn)
-        try writer["vpcConfiguration"].write(value.vpcConfiguration, with: GlueClientTypes.TableOptimizerVpcConfiguration.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.TableOptimizerConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.TableOptimizerConfiguration()
-        value.roleArn = try reader["roleArn"].readIfPresent()
-        value.enabled = try reader["enabled"].readIfPresent()
-        value.vpcConfiguration = try reader["vpcConfiguration"].readIfPresent(with: GlueClientTypes.TableOptimizerVpcConfiguration.read(from:))
-        value.compactionConfiguration = try reader["compactionConfiguration"].readIfPresent(with: GlueClientTypes.CompactionConfiguration.read(from:))
-        value.retentionConfiguration = try reader["retentionConfiguration"].readIfPresent(with: GlueClientTypes.RetentionConfiguration.read(from:))
-        value.orphanFileDeletionConfiguration = try reader["orphanFileDeletionConfiguration"].readIfPresent(with: GlueClientTypes.OrphanFileDeletionConfiguration.read(from:))
-        return value
-    }
-}
-
-extension GlueClientTypes.OrphanFileDeletionConfiguration {
-
-    static func write(value: GlueClientTypes.OrphanFileDeletionConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["icebergConfiguration"].write(value.icebergConfiguration, with: GlueClientTypes.IcebergOrphanFileDeletionConfiguration.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.OrphanFileDeletionConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.OrphanFileDeletionConfiguration()
-        value.icebergConfiguration = try reader["icebergConfiguration"].readIfPresent(with: GlueClientTypes.IcebergOrphanFileDeletionConfiguration.read(from:))
-        return value
-    }
-}
-
-extension GlueClientTypes.IcebergOrphanFileDeletionConfiguration {
-
-    static func write(value: GlueClientTypes.IcebergOrphanFileDeletionConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["location"].write(value.location)
-        try writer["orphanFileRetentionPeriodInDays"].write(value.orphanFileRetentionPeriodInDays)
-        try writer["runRateInHours"].write(value.runRateInHours)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.IcebergOrphanFileDeletionConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.IcebergOrphanFileDeletionConfiguration()
-        value.orphanFileRetentionPeriodInDays = try reader["orphanFileRetentionPeriodInDays"].readIfPresent()
-        value.location = try reader["location"].readIfPresent()
-        value.runRateInHours = try reader["runRateInHours"].readIfPresent()
-        return value
-    }
-}
-
-extension GlueClientTypes.RetentionConfiguration {
-
-    static func write(value: GlueClientTypes.RetentionConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["icebergConfiguration"].write(value.icebergConfiguration, with: GlueClientTypes.IcebergRetentionConfiguration.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.RetentionConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.RetentionConfiguration()
-        value.icebergConfiguration = try reader["icebergConfiguration"].readIfPresent(with: GlueClientTypes.IcebergRetentionConfiguration.read(from:))
-        return value
-    }
-}
-
-extension GlueClientTypes.IcebergRetentionConfiguration {
-
-    static func write(value: GlueClientTypes.IcebergRetentionConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["cleanExpiredFiles"].write(value.cleanExpiredFiles)
-        try writer["numberOfSnapshotsToRetain"].write(value.numberOfSnapshotsToRetain)
-        try writer["runRateInHours"].write(value.runRateInHours)
-        try writer["snapshotRetentionPeriodInDays"].write(value.snapshotRetentionPeriodInDays)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.IcebergRetentionConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.IcebergRetentionConfiguration()
-        value.snapshotRetentionPeriodInDays = try reader["snapshotRetentionPeriodInDays"].readIfPresent()
-        value.numberOfSnapshotsToRetain = try reader["numberOfSnapshotsToRetain"].readIfPresent()
-        value.cleanExpiredFiles = try reader["cleanExpiredFiles"].readIfPresent()
-        value.runRateInHours = try reader["runRateInHours"].readIfPresent()
-        return value
-    }
-}
-
-extension GlueClientTypes.CompactionConfiguration {
-
-    static func write(value: GlueClientTypes.CompactionConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["icebergConfiguration"].write(value.icebergConfiguration, with: GlueClientTypes.IcebergCompactionConfiguration.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.CompactionConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.CompactionConfiguration()
-        value.icebergConfiguration = try reader["icebergConfiguration"].readIfPresent(with: GlueClientTypes.IcebergCompactionConfiguration.read(from:))
-        return value
-    }
-}
-
-extension GlueClientTypes.IcebergCompactionConfiguration {
-
-    static func write(value: GlueClientTypes.IcebergCompactionConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["deleteFileThreshold"].write(value.deleteFileThreshold)
-        try writer["minInputFiles"].write(value.minInputFiles)
-        try writer["strategy"].write(value.strategy)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.IcebergCompactionConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.IcebergCompactionConfiguration()
-        value.strategy = try reader["strategy"].readIfPresent()
-        value.minInputFiles = try reader["minInputFiles"].readIfPresent()
-        value.deleteFileThreshold = try reader["deleteFileThreshold"].readIfPresent()
-        return value
-    }
-}
-
-extension GlueClientTypes.TableOptimizerVpcConfiguration {
-
-    static func write(value: GlueClientTypes.TableOptimizerVpcConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .glueconnectionname(glueconnectionname):
-                try writer["glueConnectionName"].write(glueconnectionname)
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.TableOptimizerVpcConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "glueConnectionName":
-                return .glueconnectionname(try reader["glueConnectionName"].read())
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension GlueClientTypes.BatchGetTableOptimizerError {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.BatchGetTableOptimizerError {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.BatchGetTableOptimizerError()
-        value.error = try reader["error"].readIfPresent(with: GlueClientTypes.ErrorDetail.read(from:))
-        value.catalogId = try reader["catalogId"].readIfPresent()
-        value.databaseName = try reader["databaseName"].readIfPresent()
-        value.tableName = try reader["tableName"].readIfPresent()
-        value.type = try reader["type"].readIfPresent()
-        return value
-    }
-}
-
-extension GlueClientTypes.Trigger {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.Trigger {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.Trigger()
-        value.name = try reader["Name"].readIfPresent()
-        value.workflowName = try reader["WorkflowName"].readIfPresent()
-        value.id = try reader["Id"].readIfPresent()
-        value.type = try reader["Type"].readIfPresent()
-        value.state = try reader["State"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        value.schedule = try reader["Schedule"].readIfPresent()
-        value.actions = try reader["Actions"].readListIfPresent(memberReadingClosure: GlueClientTypes.Action.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.predicate = try reader["Predicate"].readIfPresent(with: GlueClientTypes.Predicate.read(from:))
-        value.eventBatchingCondition = try reader["EventBatchingCondition"].readIfPresent(with: GlueClientTypes.EventBatchingCondition.read(from:))
-        return value
-    }
-}
-
-extension GlueClientTypes.EventBatchingCondition {
-
-    static func write(value: GlueClientTypes.EventBatchingCondition?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BatchSize"].write(value.batchSize)
-        try writer["BatchWindow"].write(value.batchWindow)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.EventBatchingCondition {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.EventBatchingCondition()
-        value.batchSize = try reader["BatchSize"].readIfPresent() ?? 0
-        value.batchWindow = try reader["BatchWindow"].readIfPresent()
-        return value
-    }
-}
-
-extension GlueClientTypes.Predicate {
-
-    static func write(value: GlueClientTypes.Predicate?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Conditions"].writeList(value.conditions, memberWritingClosure: GlueClientTypes.Condition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Logical"].write(value.logical)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.Predicate {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.Predicate()
-        value.logical = try reader["Logical"].readIfPresent()
-        value.conditions = try reader["Conditions"].readListIfPresent(memberReadingClosure: GlueClientTypes.Condition.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension GlueClientTypes.Condition {
-
-    static func write(value: GlueClientTypes.Condition?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CrawlState"].write(value.crawlState)
-        try writer["CrawlerName"].write(value.crawlerName)
-        try writer["JobName"].write(value.jobName)
-        try writer["LogicalOperator"].write(value.logicalOperator)
-        try writer["State"].write(value.state)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.Condition {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.Condition()
-        value.logicalOperator = try reader["LogicalOperator"].readIfPresent()
-        value.jobName = try reader["JobName"].readIfPresent()
-        value.state = try reader["State"].readIfPresent()
-        value.crawlerName = try reader["CrawlerName"].readIfPresent()
-        value.crawlState = try reader["CrawlState"].readIfPresent()
-        return value
-    }
-}
-
-extension GlueClientTypes.Action {
-
-    static func write(value: GlueClientTypes.Action?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arguments"].writeMap(value.arguments, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["CrawlerName"].write(value.crawlerName)
-        try writer["JobName"].write(value.jobName)
-        try writer["NotificationProperty"].write(value.notificationProperty, with: GlueClientTypes.NotificationProperty.write(value:to:))
-        try writer["SecurityConfiguration"].write(value.securityConfiguration)
-        try writer["Timeout"].write(value.timeout)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.Action {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.Action()
-        value.jobName = try reader["JobName"].readIfPresent()
-        value.arguments = try reader["Arguments"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.timeout = try reader["Timeout"].readIfPresent()
-        value.securityConfiguration = try reader["SecurityConfiguration"].readIfPresent()
-        value.notificationProperty = try reader["NotificationProperty"].readIfPresent(with: GlueClientTypes.NotificationProperty.read(from:))
-        value.crawlerName = try reader["CrawlerName"].readIfPresent()
-        return value
-    }
-}
-
-extension GlueClientTypes.Workflow {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.Workflow {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.Workflow()
-        value.name = try reader["Name"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        value.defaultRunProperties = try reader["DefaultRunProperties"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.createdOn = try reader["CreatedOn"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastModifiedOn = try reader["LastModifiedOn"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastRun = try reader["LastRun"].readIfPresent(with: GlueClientTypes.WorkflowRun.read(from:))
-        value.graph = try reader["Graph"].readIfPresent(with: GlueClientTypes.WorkflowGraph.read(from:))
-        value.maxConcurrentRuns = try reader["MaxConcurrentRuns"].readIfPresent()
-        value.blueprintDetails = try reader["BlueprintDetails"].readIfPresent(with: GlueClientTypes.BlueprintDetails.read(from:))
-        return value
-    }
-}
-
-extension GlueClientTypes.BlueprintDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.BlueprintDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.BlueprintDetails()
-        value.blueprintName = try reader["BlueprintName"].readIfPresent()
-        value.runId = try reader["RunId"].readIfPresent()
-        return value
-    }
-}
-
-extension GlueClientTypes.WorkflowGraph {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.WorkflowGraph {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.WorkflowGraph()
-        value.nodes = try reader["Nodes"].readListIfPresent(memberReadingClosure: GlueClientTypes.Node.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.edges = try reader["Edges"].readListIfPresent(memberReadingClosure: GlueClientTypes.Edge.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension GlueClientTypes.Edge {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.Edge {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.Edge()
-        value.sourceId = try reader["SourceId"].readIfPresent()
-        value.destinationId = try reader["DestinationId"].readIfPresent()
-        return value
-    }
-}
-
-extension GlueClientTypes.Node {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.Node {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.Node()
-        value.type = try reader["Type"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
-        value.uniqueId = try reader["UniqueId"].readIfPresent()
-        value.triggerDetails = try reader["TriggerDetails"].readIfPresent(with: GlueClientTypes.TriggerNodeDetails.read(from:))
-        value.jobDetails = try reader["JobDetails"].readIfPresent(with: GlueClientTypes.JobNodeDetails.read(from:))
-        value.crawlerDetails = try reader["CrawlerDetails"].readIfPresent(with: GlueClientTypes.CrawlerNodeDetails.read(from:))
-        return value
-    }
-}
-
-extension GlueClientTypes.CrawlerNodeDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.CrawlerNodeDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.CrawlerNodeDetails()
-        value.crawls = try reader["Crawls"].readListIfPresent(memberReadingClosure: GlueClientTypes.Crawl.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension GlueClientTypes.Crawl {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.Crawl {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.Crawl()
-        value.state = try reader["State"].readIfPresent()
-        value.startedOn = try reader["StartedOn"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.completedOn = try reader["CompletedOn"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
-        value.logGroup = try reader["LogGroup"].readIfPresent()
-        value.logStream = try reader["LogStream"].readIfPresent()
-        return value
-    }
-}
-
-extension GlueClientTypes.JobNodeDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.JobNodeDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.JobNodeDetails()
-        value.jobRuns = try reader["JobRuns"].readListIfPresent(memberReadingClosure: GlueClientTypes.JobRun.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension GlueClientTypes.JobRun {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.JobRun {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.JobRun()
-        value.id = try reader["Id"].readIfPresent()
-        value.attempt = try reader["Attempt"].readIfPresent() ?? 0
-        value.previousRunId = try reader["PreviousRunId"].readIfPresent()
-        value.triggerName = try reader["TriggerName"].readIfPresent()
-        value.jobName = try reader["JobName"].readIfPresent()
-        value.jobMode = try reader["JobMode"].readIfPresent()
-        value.jobRunQueuingEnabled = try reader["JobRunQueuingEnabled"].readIfPresent()
-        value.startedOn = try reader["StartedOn"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastModifiedOn = try reader["LastModifiedOn"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.completedOn = try reader["CompletedOn"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.jobRunState = try reader["JobRunState"].readIfPresent()
-        value.arguments = try reader["Arguments"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
-        value.predecessorRuns = try reader["PredecessorRuns"].readListIfPresent(memberReadingClosure: GlueClientTypes.Predecessor.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.allocatedCapacity = try reader["AllocatedCapacity"].readIfPresent() ?? 0
-        value.executionTime = try reader["ExecutionTime"].readIfPresent() ?? 0
-        value.timeout = try reader["Timeout"].readIfPresent()
-        value.maxCapacity = try reader["MaxCapacity"].readIfPresent()
-        value.workerType = try reader["WorkerType"].readIfPresent()
-        value.numberOfWorkers = try reader["NumberOfWorkers"].readIfPresent()
-        value.securityConfiguration = try reader["SecurityConfiguration"].readIfPresent()
-        value.logGroupName = try reader["LogGroupName"].readIfPresent()
-        value.notificationProperty = try reader["NotificationProperty"].readIfPresent(with: GlueClientTypes.NotificationProperty.read(from:))
-        value.glueVersion = try reader["GlueVersion"].readIfPresent()
-        value.dpuSeconds = try reader["DPUSeconds"].readIfPresent()
-        value.executionClass = try reader["ExecutionClass"].readIfPresent()
-        value.maintenanceWindow = try reader["MaintenanceWindow"].readIfPresent()
-        value.profileName = try reader["ProfileName"].readIfPresent()
-        value.stateDetail = try reader["StateDetail"].readIfPresent()
-        value.executionRoleSessionPolicy = try reader["ExecutionRoleSessionPolicy"].readIfPresent()
-        return value
-    }
-}
-
-extension GlueClientTypes.Predecessor {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.Predecessor {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.Predecessor()
-        value.jobName = try reader["JobName"].readIfPresent()
-        value.runId = try reader["RunId"].readIfPresent()
-        return value
-    }
-}
-
-extension GlueClientTypes.TriggerNodeDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.TriggerNodeDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.TriggerNodeDetails()
-        value.trigger = try reader["Trigger"].readIfPresent(with: GlueClientTypes.Trigger.read(from:))
-        return value
-    }
-}
-
-extension GlueClientTypes.WorkflowRun {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.WorkflowRun {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.WorkflowRun()
-        value.name = try reader["Name"].readIfPresent()
-        value.workflowRunId = try reader["WorkflowRunId"].readIfPresent()
-        value.previousRunId = try reader["PreviousRunId"].readIfPresent()
-        value.workflowRunProperties = try reader["WorkflowRunProperties"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.startedOn = try reader["StartedOn"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.completedOn = try reader["CompletedOn"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.status = try reader["Status"].readIfPresent()
-        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
-        value.statistics = try reader["Statistics"].readIfPresent(with: GlueClientTypes.WorkflowRunStatistics.read(from:))
-        value.graph = try reader["Graph"].readIfPresent(with: GlueClientTypes.WorkflowGraph.read(from:))
-        value.startingEventBatchCondition = try reader["StartingEventBatchCondition"].readIfPresent(with: GlueClientTypes.StartingEventBatchCondition.read(from:))
-        return value
-    }
-}
-
-extension GlueClientTypes.StartingEventBatchCondition {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.StartingEventBatchCondition {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.StartingEventBatchCondition()
-        value.batchSize = try reader["BatchSize"].readIfPresent()
-        value.batchWindow = try reader["BatchWindow"].readIfPresent()
-        return value
-    }
-}
-
-extension GlueClientTypes.WorkflowRunStatistics {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.WorkflowRunStatistics {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.WorkflowRunStatistics()
-        value.totalActions = try reader["TotalActions"].readIfPresent() ?? 0
-        value.timeoutActions = try reader["TimeoutActions"].readIfPresent() ?? 0
-        value.failedActions = try reader["FailedActions"].readIfPresent() ?? 0
-        value.stoppedActions = try reader["StoppedActions"].readIfPresent() ?? 0
-        value.succeededActions = try reader["SucceededActions"].readIfPresent() ?? 0
-        value.runningActions = try reader["RunningActions"].readIfPresent() ?? 0
-        value.erroredActions = try reader["ErroredActions"].readIfPresent() ?? 0
-        value.waitingActions = try reader["WaitingActions"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension GlueClientTypes.AnnotationError {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.AnnotationError {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.AnnotationError()
-        value.profileId = try reader["ProfileId"].readIfPresent()
-        value.statisticId = try reader["StatisticId"].readIfPresent()
-        value.failureReason = try reader["FailureReason"].readIfPresent()
-        return value
-    }
-}
-
-extension GlueClientTypes.BatchStopJobRunSuccessfulSubmission {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.BatchStopJobRunSuccessfulSubmission {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.BatchStopJobRunSuccessfulSubmission()
-        value.jobName = try reader["JobName"].readIfPresent()
-        value.jobRunId = try reader["JobRunId"].readIfPresent()
-        return value
-    }
-}
-
-extension GlueClientTypes.BatchStopJobRunError {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.BatchStopJobRunError {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.BatchStopJobRunError()
-        value.jobName = try reader["JobName"].readIfPresent()
-        value.jobRunId = try reader["JobRunId"].readIfPresent()
-        value.errorDetail = try reader["ErrorDetail"].readIfPresent(with: GlueClientTypes.ErrorDetail.read(from:))
-        return value
-    }
-}
-
-extension GlueClientTypes.BatchUpdatePartitionFailureEntry {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.BatchUpdatePartitionFailureEntry {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.BatchUpdatePartitionFailureEntry()
-        value.partitionValueList = try reader["PartitionValueList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.errorDetail = try reader["ErrorDetail"].readIfPresent(with: GlueClientTypes.ErrorDetail.read(from:))
-        return value
-    }
-}
-
-extension GlueClientTypes.Tag {
-
-    static func write(value: GlueClientTypes.Tag?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["key"].write(value.key)
-        try writer["value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.Tag {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.Tag()
-        value.key = try reader["key"].readIfPresent()
-        value.value = try reader["value"].readIfPresent()
-        return value
-    }
-}
-
-extension GlueClientTypes.IntegrationError {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.IntegrationError {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.IntegrationError()
-        value.errorCode = try reader["ErrorCode"].readIfPresent()
-        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
-        return value
-    }
-}
-
-extension GlueClientTypes.IntegrationConfig {
-
-    static func write(value: GlueClientTypes.IntegrationConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ContinuousSync"].write(value.continuousSync)
-        try writer["RefreshInterval"].write(value.refreshInterval)
-        try writer["SourceProperties"].writeMap(value.sourceProperties, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.IntegrationConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.IntegrationConfig()
-        value.refreshInterval = try reader["RefreshInterval"].readIfPresent()
-        value.sourceProperties = try reader["SourceProperties"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.continuousSync = try reader["ContinuousSync"].readIfPresent()
-        return value
-    }
-}
-
-extension GlueClientTypes.SourceProcessingProperties {
-
-    static func write(value: GlueClientTypes.SourceProcessingProperties?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["RoleArn"].write(value.roleArn)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.SourceProcessingProperties {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.SourceProcessingProperties()
-        value.roleArn = try reader["RoleArn"].readIfPresent()
-        return value
-    }
-}
-
-extension GlueClientTypes.TargetProcessingProperties {
-
-    static func write(value: GlueClientTypes.TargetProcessingProperties?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ConnectionName"].write(value.connectionName)
-        try writer["EventBusArn"].write(value.eventBusArn)
-        try writer["KmsArn"].write(value.kmsArn)
-        try writer["RoleArn"].write(value.roleArn)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.TargetProcessingProperties {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.TargetProcessingProperties()
-        value.roleArn = try reader["RoleArn"].readIfPresent()
-        value.kmsArn = try reader["KmsArn"].readIfPresent()
-        value.connectionName = try reader["ConnectionName"].readIfPresent()
-        value.eventBusArn = try reader["EventBusArn"].readIfPresent()
         return value
     }
 }
@@ -48960,151 +50798,124 @@ extension GlueClientTypes.SessionCommand {
     }
 }
 
-extension GlueClientTypes.SchemaVersionErrorItem {
+extension GlueClientTypes.SkewedInfo {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.SchemaVersionErrorItem {
+    static func write(value: GlueClientTypes.SkewedInfo?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["SkewedColumnNames"].writeList(value.skewedColumnNames, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["SkewedColumnValueLocationMaps"].writeMap(value.skewedColumnValueLocationMaps, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["SkewedColumnValues"].writeList(value.skewedColumnValues, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.SkewedInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.SchemaVersionErrorItem()
-        value.versionNumber = try reader["VersionNumber"].readIfPresent()
-        value.errorDetails = try reader["ErrorDetails"].readIfPresent(with: GlueClientTypes.ErrorDetails.read(from:))
+        var value = GlueClientTypes.SkewedInfo()
+        value.skewedColumnNames = try reader["SkewedColumnNames"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.skewedColumnValues = try reader["SkewedColumnValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.skewedColumnValueLocationMaps = try reader["SkewedColumnValueLocationMaps"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }
 
-extension GlueClientTypes.ErrorDetails {
+extension GlueClientTypes.SnowflakeNodeData {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.ErrorDetails {
+    static func write(value: GlueClientTypes.SnowflakeNodeData?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Action"].write(value.action)
+        try writer["AdditionalOptions"].writeMap(value.additionalOptions, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["AutoPushdown"].write(value.autoPushdown)
+        try writer["Connection"].write(value.connection, with: GlueClientTypes.Option.write(value:to:))
+        try writer["Database"].write(value.database)
+        try writer["IamRole"].write(value.iamRole, with: GlueClientTypes.Option.write(value:to:))
+        try writer["MergeAction"].write(value.mergeAction)
+        try writer["MergeClause"].write(value.mergeClause)
+        try writer["MergeWhenMatched"].write(value.mergeWhenMatched)
+        try writer["MergeWhenNotMatched"].write(value.mergeWhenNotMatched)
+        try writer["PostAction"].write(value.postAction)
+        try writer["PreAction"].write(value.preAction)
+        try writer["SampleQuery"].write(value.sampleQuery)
+        try writer["Schema"].write(value.schema)
+        try writer["SelectedColumns"].writeList(value.selectedColumns, memberWritingClosure: GlueClientTypes.Option.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["SourceType"].write(value.sourceType)
+        try writer["StagingTable"].write(value.stagingTable)
+        try writer["Table"].write(value.table)
+        try writer["TableSchema"].writeList(value.tableSchema, memberWritingClosure: GlueClientTypes.Option.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["TempDir"].write(value.tempDir)
+        try writer["Upsert"].write(value.upsert)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.SnowflakeNodeData {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.ErrorDetails()
-        value.errorCode = try reader["ErrorCode"].readIfPresent()
-        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
+        var value = GlueClientTypes.SnowflakeNodeData()
+        value.sourceType = try reader["SourceType"].readIfPresent()
+        value.connection = try reader["Connection"].readIfPresent(with: GlueClientTypes.Option.read(from:))
+        value.schema = try reader["Schema"].readIfPresent()
+        value.table = try reader["Table"].readIfPresent()
+        value.database = try reader["Database"].readIfPresent()
+        value.tempDir = try reader["TempDir"].readIfPresent()
+        value.iamRole = try reader["IamRole"].readIfPresent(with: GlueClientTypes.Option.read(from:))
+        value.additionalOptions = try reader["AdditionalOptions"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.sampleQuery = try reader["SampleQuery"].readIfPresent()
+        value.preAction = try reader["PreAction"].readIfPresent()
+        value.postAction = try reader["PostAction"].readIfPresent()
+        value.action = try reader["Action"].readIfPresent()
+        value.upsert = try reader["Upsert"].readIfPresent() ?? false
+        value.mergeAction = try reader["MergeAction"].readIfPresent()
+        value.mergeWhenMatched = try reader["MergeWhenMatched"].readIfPresent()
+        value.mergeWhenNotMatched = try reader["MergeWhenNotMatched"].readIfPresent()
+        value.mergeClause = try reader["MergeClause"].readIfPresent()
+        value.stagingTable = try reader["StagingTable"].readIfPresent()
+        value.selectedColumns = try reader["SelectedColumns"].readListIfPresent(memberReadingClosure: GlueClientTypes.Option.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.autoPushdown = try reader["AutoPushdown"].readIfPresent() ?? false
+        value.tableSchema = try reader["TableSchema"].readListIfPresent(memberReadingClosure: GlueClientTypes.Option.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
 
-extension GlueClientTypes.Capabilities {
+extension GlueClientTypes.SnowflakeSource {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.Capabilities {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.Capabilities()
-        value.supportedAuthenticationTypes = try reader["SupportedAuthenticationTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<GlueClientTypes.AuthenticationType>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.supportedDataOperations = try reader["SupportedDataOperations"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<GlueClientTypes.DataOperation>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.supportedComputeEnvironments = try reader["SupportedComputeEnvironments"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<GlueClientTypes.ComputeEnvironment>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
+    static func write(value: GlueClientTypes.SnowflakeSource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Data"].write(value.data, with: GlueClientTypes.SnowflakeNodeData.write(value:to:))
+        try writer["Name"].write(value.name)
+        try writer["OutputSchemas"].writeList(value.outputSchemas, memberWritingClosure: GlueClientTypes.GlueSchema.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
-}
 
-extension GlueClientTypes.Property {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.Property {
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.SnowflakeSource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.Property()
+        var value = GlueClientTypes.SnowflakeSource()
         value.name = try reader["Name"].readIfPresent() ?? ""
-        value.description = try reader["Description"].readIfPresent() ?? ""
-        value.`required` = try reader["Required"].readIfPresent() ?? false
-        value.defaultValue = try reader["DefaultValue"].readIfPresent()
-        value.propertyTypes = try reader["PropertyTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<GlueClientTypes.PropertyType>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.allowedValues = try reader["AllowedValues"].readListIfPresent(memberReadingClosure: GlueClientTypes.AllowedValue.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.dataOperationScopes = try reader["DataOperationScopes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<GlueClientTypes.DataOperation>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.keyOverride = try reader["KeyOverride"].readIfPresent()
-        value.propertyLocation = try reader["PropertyLocation"].readIfPresent()
+        value.data = try reader["Data"].readIfPresent(with: GlueClientTypes.SnowflakeNodeData.read(from:))
+        value.outputSchemas = try reader["OutputSchemas"].readListIfPresent(memberReadingClosure: GlueClientTypes.GlueSchema.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
 
-extension GlueClientTypes.AllowedValue {
+extension GlueClientTypes.SnowflakeTarget {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.AllowedValue {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.AllowedValue()
-        value.description = try reader["Description"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension GlueClientTypes.AuthConfiguration {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.AuthConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.AuthConfiguration()
-        value.authenticationType = try reader["AuthenticationType"].readIfPresent(with: GlueClientTypes.Property.read(from:))
-        value.secretArn = try reader["SecretArn"].readIfPresent(with: GlueClientTypes.Property.read(from:))
-        value.oAuth2Properties = try reader["OAuth2Properties"].readMapIfPresent(valueReadingClosure: GlueClientTypes.Property.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.basicAuthenticationProperties = try reader["BasicAuthenticationProperties"].readMapIfPresent(valueReadingClosure: GlueClientTypes.Property.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.customAuthenticationProperties = try reader["CustomAuthenticationProperties"].readMapIfPresent(valueReadingClosure: GlueClientTypes.Property.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
-}
-
-extension GlueClientTypes.ComputeEnvironmentConfiguration {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.ComputeEnvironmentConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.ComputeEnvironmentConfiguration()
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.description = try reader["Description"].readIfPresent() ?? ""
-        value.computeEnvironment = try reader["ComputeEnvironment"].readIfPresent() ?? .sdkUnknown("")
-        value.supportedAuthenticationTypes = try reader["SupportedAuthenticationTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<GlueClientTypes.AuthenticationType>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.connectionOptions = try reader["ConnectionOptions"].readMapIfPresent(valueReadingClosure: GlueClientTypes.Property.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
-        value.connectionPropertyNameOverrides = try reader["ConnectionPropertyNameOverrides"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
-        value.connectionOptionNameOverrides = try reader["ConnectionOptionNameOverrides"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
-        value.connectionPropertiesRequiredOverrides = try reader["ConnectionPropertiesRequiredOverrides"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.physicalConnectionPropertiesRequired = try reader["PhysicalConnectionPropertiesRequired"].readIfPresent()
-        return value
-    }
-}
-
-extension GlueClientTypes.RestConfiguration {
-
-    static func write(value: GlueClientTypes.RestConfiguration?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: GlueClientTypes.SnowflakeTarget?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["EntityConfigurations"].writeMap(value.entityConfigurations, valueWritingClosure: GlueClientTypes.EntityConfiguration.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["GlobalSourceConfiguration"].write(value.globalSourceConfiguration, with: GlueClientTypes.SourceConfiguration.write(value:to:))
-        try writer["ValidationEndpointConfiguration"].write(value.validationEndpointConfiguration, with: GlueClientTypes.SourceConfiguration.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.RestConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.RestConfiguration()
-        value.globalSourceConfiguration = try reader["GlobalSourceConfiguration"].readIfPresent(with: GlueClientTypes.SourceConfiguration.read(from:))
-        value.validationEndpointConfiguration = try reader["ValidationEndpointConfiguration"].readIfPresent(with: GlueClientTypes.SourceConfiguration.read(from:))
-        value.entityConfigurations = try reader["EntityConfigurations"].readMapIfPresent(valueReadingClosure: GlueClientTypes.EntityConfiguration.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
-}
-
-extension GlueClientTypes.EntityConfiguration {
-
-    static func write(value: GlueClientTypes.EntityConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Schema"].writeMap(value.schema, valueWritingClosure: GlueClientTypes.FieldDefinition.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["SourceConfiguration"].write(value.sourceConfiguration, with: GlueClientTypes.SourceConfiguration.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.EntityConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.EntityConfiguration()
-        value.sourceConfiguration = try reader["SourceConfiguration"].readIfPresent(with: GlueClientTypes.SourceConfiguration.read(from:))
-        value.schema = try reader["Schema"].readMapIfPresent(valueReadingClosure: GlueClientTypes.FieldDefinition.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
-}
-
-extension GlueClientTypes.FieldDefinition {
-
-    static func write(value: GlueClientTypes.FieldDefinition?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["FieldDataType"].write(value.fieldDataType)
+        try writer["Data"].write(value.data, with: GlueClientTypes.SnowflakeNodeData.write(value:to:))
+        try writer["Inputs"].writeList(value.inputs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["Name"].write(value.name)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.FieldDefinition {
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.SnowflakeTarget {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.FieldDefinition()
+        var value = GlueClientTypes.SnowflakeTarget()
         value.name = try reader["Name"].readIfPresent() ?? ""
-        value.fieldDataType = try reader["FieldDataType"].readIfPresent() ?? .sdkUnknown("")
+        value.data = try reader["Data"].readIfPresent(with: GlueClientTypes.SnowflakeNodeData.read(from:))
+        value.inputs = try reader["Inputs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
+    }
+}
+
+extension GlueClientTypes.SortCriterion {
+
+    static func write(value: GlueClientTypes.SortCriterion?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FieldName"].write(value.fieldName)
+        try writer["Sort"].write(value.sort)
     }
 }
 
@@ -49131,1051 +50942,46 @@ extension GlueClientTypes.SourceConfiguration {
     }
 }
 
-extension GlueClientTypes.PaginationConfiguration {
+extension GlueClientTypes.SourceControlDetails {
 
-    static func write(value: GlueClientTypes.PaginationConfiguration?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: GlueClientTypes.SourceControlDetails?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["CursorConfiguration"].write(value.cursorConfiguration, with: GlueClientTypes.CursorConfiguration.write(value:to:))
-        try writer["OffsetConfiguration"].write(value.offsetConfiguration, with: GlueClientTypes.OffsetConfiguration.write(value:to:))
+        try writer["AuthStrategy"].write(value.authStrategy)
+        try writer["AuthToken"].write(value.authToken)
+        try writer["Branch"].write(value.branch)
+        try writer["Folder"].write(value.folder)
+        try writer["LastCommitId"].write(value.lastCommitId)
+        try writer["Owner"].write(value.owner)
+        try writer["Provider"].write(value.provider)
+        try writer["Repository"].write(value.repository)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.PaginationConfiguration {
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.SourceControlDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.PaginationConfiguration()
-        value.cursorConfiguration = try reader["CursorConfiguration"].readIfPresent(with: GlueClientTypes.CursorConfiguration.read(from:))
-        value.offsetConfiguration = try reader["OffsetConfiguration"].readIfPresent(with: GlueClientTypes.OffsetConfiguration.read(from:))
+        var value = GlueClientTypes.SourceControlDetails()
+        value.provider = try reader["Provider"].readIfPresent()
+        value.repository = try reader["Repository"].readIfPresent()
+        value.owner = try reader["Owner"].readIfPresent()
+        value.branch = try reader["Branch"].readIfPresent()
+        value.folder = try reader["Folder"].readIfPresent()
+        value.lastCommitId = try reader["LastCommitId"].readIfPresent()
+        value.authStrategy = try reader["AuthStrategy"].readIfPresent()
+        value.authToken = try reader["AuthToken"].readIfPresent()
         return value
     }
 }
 
-extension GlueClientTypes.OffsetConfiguration {
+extension GlueClientTypes.SourceProcessingProperties {
 
-    static func write(value: GlueClientTypes.OffsetConfiguration?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: GlueClientTypes.SourceProcessingProperties?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["LimitParameter"].write(value.limitParameter, with: GlueClientTypes.ExtractedParameter.write(value:to:))
-        try writer["OffsetParameter"].write(value.offsetParameter, with: GlueClientTypes.ExtractedParameter.write(value:to:))
+        try writer["RoleArn"].write(value.roleArn)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.OffsetConfiguration {
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.SourceProcessingProperties {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.OffsetConfiguration()
-        value.offsetParameter = try reader["OffsetParameter"].readIfPresent(with: GlueClientTypes.ExtractedParameter.read(from:))
-        value.limitParameter = try reader["LimitParameter"].readIfPresent(with: GlueClientTypes.ExtractedParameter.read(from:))
-        return value
-    }
-}
-
-extension GlueClientTypes.ExtractedParameter {
-
-    static func write(value: GlueClientTypes.ExtractedParameter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DefaultValue"].write(value.defaultValue)
-        try writer["Key"].write(value.key)
-        try writer["PropertyLocation"].write(value.propertyLocation)
-        try writer["Value"].write(value.value, with: GlueClientTypes.ResponseExtractionMapping.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.ExtractedParameter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.ExtractedParameter()
-        value.key = try reader["Key"].readIfPresent()
-        value.defaultValue = try reader["DefaultValue"].readIfPresent()
-        value.propertyLocation = try reader["PropertyLocation"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent(with: GlueClientTypes.ResponseExtractionMapping.read(from:))
-        return value
-    }
-}
-
-extension GlueClientTypes.ResponseExtractionMapping {
-
-    static func write(value: GlueClientTypes.ResponseExtractionMapping?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ContentPath"].write(value.contentPath)
-        try writer["HeaderKey"].write(value.headerKey)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.ResponseExtractionMapping {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.ResponseExtractionMapping()
-        value.contentPath = try reader["ContentPath"].readIfPresent()
-        value.headerKey = try reader["HeaderKey"].readIfPresent()
-        return value
-    }
-}
-
-extension GlueClientTypes.CursorConfiguration {
-
-    static func write(value: GlueClientTypes.CursorConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["LimitParameter"].write(value.limitParameter, with: GlueClientTypes.ExtractedParameter.write(value:to:))
-        try writer["NextPage"].write(value.nextPage, with: GlueClientTypes.ExtractedParameter.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.CursorConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.CursorConfiguration()
-        value.nextPage = try reader["NextPage"].readIfPresent(with: GlueClientTypes.ExtractedParameter.read(from:))
-        value.limitParameter = try reader["LimitParameter"].readIfPresent(with: GlueClientTypes.ExtractedParameter.read(from:))
-        return value
-    }
-}
-
-extension GlueClientTypes.ResponseConfiguration {
-
-    static func write(value: GlueClientTypes.ResponseConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ErrorPath"].write(value.errorPath)
-        try writer["ResultPath"].write(value.resultPath)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.ResponseConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.ResponseConfiguration()
-        value.resultPath = try reader["ResultPath"].readIfPresent() ?? ""
-        value.errorPath = try reader["ErrorPath"].readIfPresent()
-        return value
-    }
-}
-
-extension GlueClientTypes.ConnectorProperty {
-
-    static func write(value: GlueClientTypes.ConnectorProperty?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AllowedValues"].writeList(value.allowedValues, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["DefaultValue"].write(value.defaultValue)
-        try writer["KeyOverride"].write(value.keyOverride)
-        try writer["Name"].write(value.name)
-        try writer["PropertyLocation"].write(value.propertyLocation)
-        try writer["PropertyType"].write(value.propertyType)
-        try writer["Required"].write(value.`required`)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.ConnectorProperty {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.ConnectorProperty()
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.keyOverride = try reader["KeyOverride"].readIfPresent()
-        value.`required` = try reader["Required"].readIfPresent() ?? false
-        value.defaultValue = try reader["DefaultValue"].readIfPresent()
-        value.allowedValues = try reader["AllowedValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.propertyLocation = try reader["PropertyLocation"].readIfPresent()
-        value.propertyType = try reader["PropertyType"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension GlueClientTypes.Field {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.Field {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.Field()
-        value.fieldName = try reader["FieldName"].readIfPresent()
-        value.label = try reader["Label"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        value.fieldType = try reader["FieldType"].readIfPresent()
-        value.isPrimaryKey = try reader["IsPrimaryKey"].readIfPresent()
-        value.isNullable = try reader["IsNullable"].readIfPresent()
-        value.isRetrievable = try reader["IsRetrievable"].readIfPresent()
-        value.isFilterable = try reader["IsFilterable"].readIfPresent()
-        value.isPartitionable = try reader["IsPartitionable"].readIfPresent()
-        value.isCreateable = try reader["IsCreateable"].readIfPresent()
-        value.isUpdateable = try reader["IsUpdateable"].readIfPresent()
-        value.isUpsertable = try reader["IsUpsertable"].readIfPresent()
-        value.isDefaultOnCreate = try reader["IsDefaultOnCreate"].readIfPresent()
-        value.supportedValues = try reader["SupportedValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.supportedFilterOperators = try reader["SupportedFilterOperators"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<GlueClientTypes.FieldFilterOperator>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.parentField = try reader["ParentField"].readIfPresent()
-        value.nativeDataType = try reader["NativeDataType"].readIfPresent()
-        value.customProperties = try reader["CustomProperties"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
-}
-
-extension GlueClientTypes.InboundIntegration {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.InboundIntegration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.InboundIntegration()
-        value.sourceArn = try reader["SourceArn"].readIfPresent() ?? ""
-        value.targetArn = try reader["TargetArn"].readIfPresent() ?? ""
-        value.integrationArn = try reader["IntegrationArn"].readIfPresent() ?? ""
-        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
-        value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.integrationConfig = try reader["IntegrationConfig"].readIfPresent(with: GlueClientTypes.IntegrationConfig.read(from:))
-        value.errors = try reader["Errors"].readListIfPresent(memberReadingClosure: GlueClientTypes.IntegrationError.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension GlueClientTypes.Integration {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.Integration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.Integration()
-        value.sourceArn = try reader["SourceArn"].readIfPresent() ?? ""
-        value.targetArn = try reader["TargetArn"].readIfPresent() ?? ""
-        value.description = try reader["Description"].readIfPresent()
-        value.integrationName = try reader["IntegrationName"].readIfPresent() ?? ""
-        value.integrationArn = try reader["IntegrationArn"].readIfPresent() ?? ""
-        value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
-        value.additionalEncryptionContext = try reader["AdditionalEncryptionContext"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: GlueClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
-        value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.integrationConfig = try reader["IntegrationConfig"].readIfPresent(with: GlueClientTypes.IntegrationConfig.read(from:))
-        value.errors = try reader["Errors"].readListIfPresent(memberReadingClosure: GlueClientTypes.IntegrationError.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.dataFilter = try reader["DataFilter"].readIfPresent()
-        return value
-    }
-}
-
-extension GlueClientTypes.BlueprintRun {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.BlueprintRun {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.BlueprintRun()
-        value.blueprintName = try reader["BlueprintName"].readIfPresent()
-        value.runId = try reader["RunId"].readIfPresent()
-        value.workflowName = try reader["WorkflowName"].readIfPresent()
-        value.state = try reader["State"].readIfPresent()
-        value.startedOn = try reader["StartedOn"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.completedOn = try reader["CompletedOn"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
-        value.rollbackErrorMessage = try reader["RollbackErrorMessage"].readIfPresent()
-        value.parameters = try reader["Parameters"].readIfPresent()
+        var value = GlueClientTypes.SourceProcessingProperties()
         value.roleArn = try reader["RoleArn"].readIfPresent()
-        return value
-    }
-}
-
-extension GlueClientTypes.Catalog {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.Catalog {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.Catalog()
-        value.catalogId = try reader["CatalogId"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.resourceArn = try reader["ResourceArn"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        value.parameters = try reader["Parameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.updateTime = try reader["UpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.targetRedshiftCatalog = try reader["TargetRedshiftCatalog"].readIfPresent(with: GlueClientTypes.TargetRedshiftCatalog.read(from:))
-        value.federatedCatalog = try reader["FederatedCatalog"].readIfPresent(with: GlueClientTypes.FederatedCatalog.read(from:))
-        value.catalogProperties = try reader["CatalogProperties"].readIfPresent(with: GlueClientTypes.CatalogPropertiesOutput.read(from:))
-        value.createTableDefaultPermissions = try reader["CreateTableDefaultPermissions"].readListIfPresent(memberReadingClosure: GlueClientTypes.PrincipalPermissions.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.createDatabaseDefaultPermissions = try reader["CreateDatabaseDefaultPermissions"].readListIfPresent(memberReadingClosure: GlueClientTypes.PrincipalPermissions.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.allowFullTableExternalDataAccess = try reader["AllowFullTableExternalDataAccess"].readIfPresent()
-        return value
-    }
-}
-
-extension GlueClientTypes.PrincipalPermissions {
-
-    static func write(value: GlueClientTypes.PrincipalPermissions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Permissions"].writeList(value.permissions, memberWritingClosure: SmithyReadWrite.WritingClosureBox<GlueClientTypes.Permission>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Principal"].write(value.principal, with: GlueClientTypes.DataLakePrincipal.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.PrincipalPermissions {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.PrincipalPermissions()
-        value.principal = try reader["Principal"].readIfPresent(with: GlueClientTypes.DataLakePrincipal.read(from:))
-        value.permissions = try reader["Permissions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<GlueClientTypes.Permission>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension GlueClientTypes.DataLakePrincipal {
-
-    static func write(value: GlueClientTypes.DataLakePrincipal?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DataLakePrincipalIdentifier"].write(value.dataLakePrincipalIdentifier)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.DataLakePrincipal {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.DataLakePrincipal()
-        value.dataLakePrincipalIdentifier = try reader["DataLakePrincipalIdentifier"].readIfPresent()
-        return value
-    }
-}
-
-extension GlueClientTypes.CatalogPropertiesOutput {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.CatalogPropertiesOutput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.CatalogPropertiesOutput()
-        value.dataLakeAccessProperties = try reader["DataLakeAccessProperties"].readIfPresent(with: GlueClientTypes.DataLakeAccessPropertiesOutput.read(from:))
-        value.icebergOptimizationProperties = try reader["IcebergOptimizationProperties"].readIfPresent(with: GlueClientTypes.IcebergOptimizationPropertiesOutput.read(from:))
-        value.customProperties = try reader["CustomProperties"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
-}
-
-extension GlueClientTypes.IcebergOptimizationPropertiesOutput {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.IcebergOptimizationPropertiesOutput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.IcebergOptimizationPropertiesOutput()
-        value.roleArn = try reader["RoleArn"].readIfPresent()
-        value.compaction = try reader["Compaction"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.retention = try reader["Retention"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.orphanFileDeletion = try reader["OrphanFileDeletion"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.lastUpdatedTime = try reader["LastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension GlueClientTypes.DataLakeAccessPropertiesOutput {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.DataLakeAccessPropertiesOutput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.DataLakeAccessPropertiesOutput()
-        value.dataLakeAccess = try reader["DataLakeAccess"].readIfPresent() ?? false
-        value.dataTransferRole = try reader["DataTransferRole"].readIfPresent()
-        value.kmsKey = try reader["KmsKey"].readIfPresent()
-        value.managedWorkgroupName = try reader["ManagedWorkgroupName"].readIfPresent()
-        value.managedWorkgroupStatus = try reader["ManagedWorkgroupStatus"].readIfPresent()
-        value.redshiftDatabaseName = try reader["RedshiftDatabaseName"].readIfPresent()
-        value.statusMessage = try reader["StatusMessage"].readIfPresent()
-        value.catalogType = try reader["CatalogType"].readIfPresent()
-        return value
-    }
-}
-
-extension GlueClientTypes.FederatedCatalog {
-
-    static func write(value: GlueClientTypes.FederatedCatalog?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ConnectionName"].write(value.connectionName)
-        try writer["ConnectionType"].write(value.connectionType)
-        try writer["Identifier"].write(value.identifier)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.FederatedCatalog {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.FederatedCatalog()
-        value.identifier = try reader["Identifier"].readIfPresent()
-        value.connectionName = try reader["ConnectionName"].readIfPresent()
-        value.connectionType = try reader["ConnectionType"].readIfPresent()
-        return value
-    }
-}
-
-extension GlueClientTypes.TargetRedshiftCatalog {
-
-    static func write(value: GlueClientTypes.TargetRedshiftCatalog?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CatalogArn"].write(value.catalogArn)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.TargetRedshiftCatalog {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.TargetRedshiftCatalog()
-        value.catalogArn = try reader["CatalogArn"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension GlueClientTypes.CatalogImportStatus {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.CatalogImportStatus {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.CatalogImportStatus()
-        value.importCompleted = try reader["ImportCompleted"].readIfPresent() ?? false
-        value.importTime = try reader["ImportTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.importedBy = try reader["ImportedBy"].readIfPresent()
-        return value
-    }
-}
-
-extension GlueClientTypes.Classifier {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.Classifier {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.Classifier()
-        value.grokClassifier = try reader["GrokClassifier"].readIfPresent(with: GlueClientTypes.GrokClassifier.read(from:))
-        value.xmlClassifier = try reader["XMLClassifier"].readIfPresent(with: GlueClientTypes.XMLClassifier.read(from:))
-        value.jsonClassifier = try reader["JsonClassifier"].readIfPresent(with: GlueClientTypes.JsonClassifier.read(from:))
-        value.csvClassifier = try reader["CsvClassifier"].readIfPresent(with: GlueClientTypes.CsvClassifier.read(from:))
-        return value
-    }
-}
-
-extension GlueClientTypes.CsvClassifier {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.CsvClassifier {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.CsvClassifier()
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastUpdated = try reader["LastUpdated"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.version = try reader["Version"].readIfPresent() ?? 0
-        value.delimiter = try reader["Delimiter"].readIfPresent()
-        value.quoteSymbol = try reader["QuoteSymbol"].readIfPresent()
-        value.containsHeader = try reader["ContainsHeader"].readIfPresent()
-        value.header = try reader["Header"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.disableValueTrimming = try reader["DisableValueTrimming"].readIfPresent()
-        value.allowSingleColumn = try reader["AllowSingleColumn"].readIfPresent()
-        value.customDatatypeConfigured = try reader["CustomDatatypeConfigured"].readIfPresent()
-        value.customDatatypes = try reader["CustomDatatypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.serde = try reader["Serde"].readIfPresent()
-        return value
-    }
-}
-
-extension GlueClientTypes.JsonClassifier {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.JsonClassifier {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.JsonClassifier()
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastUpdated = try reader["LastUpdated"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.version = try reader["Version"].readIfPresent() ?? 0
-        value.jsonPath = try reader["JsonPath"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension GlueClientTypes.XMLClassifier {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.XMLClassifier {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.XMLClassifier()
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.classification = try reader["Classification"].readIfPresent() ?? ""
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastUpdated = try reader["LastUpdated"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.version = try reader["Version"].readIfPresent() ?? 0
-        value.rowTag = try reader["RowTag"].readIfPresent()
-        return value
-    }
-}
-
-extension GlueClientTypes.GrokClassifier {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.GrokClassifier {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.GrokClassifier()
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.classification = try reader["Classification"].readIfPresent() ?? ""
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastUpdated = try reader["LastUpdated"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.version = try reader["Version"].readIfPresent() ?? 0
-        value.grokPattern = try reader["GrokPattern"].readIfPresent() ?? ""
-        value.customPatterns = try reader["CustomPatterns"].readIfPresent()
-        return value
-    }
-}
-
-extension GlueClientTypes.ColumnStatistics {
-
-    static func write(value: GlueClientTypes.ColumnStatistics?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AnalyzedTime"].writeTimestamp(value.analyzedTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        try writer["ColumnName"].write(value.columnName)
-        try writer["ColumnType"].write(value.columnType)
-        try writer["StatisticsData"].write(value.statisticsData, with: GlueClientTypes.ColumnStatisticsData.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.ColumnStatistics {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.ColumnStatistics()
-        value.columnName = try reader["ColumnName"].readIfPresent() ?? ""
-        value.columnType = try reader["ColumnType"].readIfPresent() ?? ""
-        value.analyzedTime = try reader["AnalyzedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.statisticsData = try reader["StatisticsData"].readIfPresent(with: GlueClientTypes.ColumnStatisticsData.read(from:))
-        return value
-    }
-}
-
-extension GlueClientTypes.ColumnStatisticsData {
-
-    static func write(value: GlueClientTypes.ColumnStatisticsData?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BinaryColumnStatisticsData"].write(value.binaryColumnStatisticsData, with: GlueClientTypes.BinaryColumnStatisticsData.write(value:to:))
-        try writer["BooleanColumnStatisticsData"].write(value.booleanColumnStatisticsData, with: GlueClientTypes.BooleanColumnStatisticsData.write(value:to:))
-        try writer["DateColumnStatisticsData"].write(value.dateColumnStatisticsData, with: GlueClientTypes.DateColumnStatisticsData.write(value:to:))
-        try writer["DecimalColumnStatisticsData"].write(value.decimalColumnStatisticsData, with: GlueClientTypes.DecimalColumnStatisticsData.write(value:to:))
-        try writer["DoubleColumnStatisticsData"].write(value.doubleColumnStatisticsData, with: GlueClientTypes.DoubleColumnStatisticsData.write(value:to:))
-        try writer["LongColumnStatisticsData"].write(value.longColumnStatisticsData, with: GlueClientTypes.LongColumnStatisticsData.write(value:to:))
-        try writer["StringColumnStatisticsData"].write(value.stringColumnStatisticsData, with: GlueClientTypes.StringColumnStatisticsData.write(value:to:))
-        try writer["Type"].write(value.type)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.ColumnStatisticsData {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.ColumnStatisticsData()
-        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
-        value.booleanColumnStatisticsData = try reader["BooleanColumnStatisticsData"].readIfPresent(with: GlueClientTypes.BooleanColumnStatisticsData.read(from:))
-        value.dateColumnStatisticsData = try reader["DateColumnStatisticsData"].readIfPresent(with: GlueClientTypes.DateColumnStatisticsData.read(from:))
-        value.decimalColumnStatisticsData = try reader["DecimalColumnStatisticsData"].readIfPresent(with: GlueClientTypes.DecimalColumnStatisticsData.read(from:))
-        value.doubleColumnStatisticsData = try reader["DoubleColumnStatisticsData"].readIfPresent(with: GlueClientTypes.DoubleColumnStatisticsData.read(from:))
-        value.longColumnStatisticsData = try reader["LongColumnStatisticsData"].readIfPresent(with: GlueClientTypes.LongColumnStatisticsData.read(from:))
-        value.stringColumnStatisticsData = try reader["StringColumnStatisticsData"].readIfPresent(with: GlueClientTypes.StringColumnStatisticsData.read(from:))
-        value.binaryColumnStatisticsData = try reader["BinaryColumnStatisticsData"].readIfPresent(with: GlueClientTypes.BinaryColumnStatisticsData.read(from:))
-        return value
-    }
-}
-
-extension GlueClientTypes.BinaryColumnStatisticsData {
-
-    static func write(value: GlueClientTypes.BinaryColumnStatisticsData?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AverageLength"].write(value.averageLength)
-        try writer["MaximumLength"].write(value.maximumLength)
-        try writer["NumberOfNulls"].write(value.numberOfNulls)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.BinaryColumnStatisticsData {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.BinaryColumnStatisticsData()
-        value.maximumLength = try reader["MaximumLength"].readIfPresent() ?? 0
-        value.averageLength = try reader["AverageLength"].readIfPresent() ?? 0
-        value.numberOfNulls = try reader["NumberOfNulls"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension GlueClientTypes.StringColumnStatisticsData {
-
-    static func write(value: GlueClientTypes.StringColumnStatisticsData?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AverageLength"].write(value.averageLength)
-        try writer["MaximumLength"].write(value.maximumLength)
-        try writer["NumberOfDistinctValues"].write(value.numberOfDistinctValues)
-        try writer["NumberOfNulls"].write(value.numberOfNulls)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.StringColumnStatisticsData {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.StringColumnStatisticsData()
-        value.maximumLength = try reader["MaximumLength"].readIfPresent() ?? 0
-        value.averageLength = try reader["AverageLength"].readIfPresent() ?? 0
-        value.numberOfNulls = try reader["NumberOfNulls"].readIfPresent() ?? 0
-        value.numberOfDistinctValues = try reader["NumberOfDistinctValues"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension GlueClientTypes.LongColumnStatisticsData {
-
-    static func write(value: GlueClientTypes.LongColumnStatisticsData?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["MaximumValue"].write(value.maximumValue)
-        try writer["MinimumValue"].write(value.minimumValue)
-        try writer["NumberOfDistinctValues"].write(value.numberOfDistinctValues)
-        try writer["NumberOfNulls"].write(value.numberOfNulls)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.LongColumnStatisticsData {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.LongColumnStatisticsData()
-        value.minimumValue = try reader["MinimumValue"].readIfPresent() ?? 0
-        value.maximumValue = try reader["MaximumValue"].readIfPresent() ?? 0
-        value.numberOfNulls = try reader["NumberOfNulls"].readIfPresent() ?? 0
-        value.numberOfDistinctValues = try reader["NumberOfDistinctValues"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension GlueClientTypes.DoubleColumnStatisticsData {
-
-    static func write(value: GlueClientTypes.DoubleColumnStatisticsData?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["MaximumValue"].write(value.maximumValue)
-        try writer["MinimumValue"].write(value.minimumValue)
-        try writer["NumberOfDistinctValues"].write(value.numberOfDistinctValues)
-        try writer["NumberOfNulls"].write(value.numberOfNulls)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.DoubleColumnStatisticsData {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.DoubleColumnStatisticsData()
-        value.minimumValue = try reader["MinimumValue"].readIfPresent() ?? 0
-        value.maximumValue = try reader["MaximumValue"].readIfPresent() ?? 0
-        value.numberOfNulls = try reader["NumberOfNulls"].readIfPresent() ?? 0
-        value.numberOfDistinctValues = try reader["NumberOfDistinctValues"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension GlueClientTypes.DecimalColumnStatisticsData {
-
-    static func write(value: GlueClientTypes.DecimalColumnStatisticsData?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["MaximumValue"].write(value.maximumValue, with: GlueClientTypes.DecimalNumber.write(value:to:))
-        try writer["MinimumValue"].write(value.minimumValue, with: GlueClientTypes.DecimalNumber.write(value:to:))
-        try writer["NumberOfDistinctValues"].write(value.numberOfDistinctValues)
-        try writer["NumberOfNulls"].write(value.numberOfNulls)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.DecimalColumnStatisticsData {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.DecimalColumnStatisticsData()
-        value.minimumValue = try reader["MinimumValue"].readIfPresent(with: GlueClientTypes.DecimalNumber.read(from:))
-        value.maximumValue = try reader["MaximumValue"].readIfPresent(with: GlueClientTypes.DecimalNumber.read(from:))
-        value.numberOfNulls = try reader["NumberOfNulls"].readIfPresent() ?? 0
-        value.numberOfDistinctValues = try reader["NumberOfDistinctValues"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension GlueClientTypes.DecimalNumber {
-
-    static func write(value: GlueClientTypes.DecimalNumber?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Scale"].write(value.scale)
-        try writer["UnscaledValue"].write(value.unscaledValue)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.DecimalNumber {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.DecimalNumber()
-        value.unscaledValue = try reader["UnscaledValue"].readIfPresent() ?? Foundation.Data(base64Encoded: "")
-        value.scale = try reader["Scale"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension GlueClientTypes.DateColumnStatisticsData {
-
-    static func write(value: GlueClientTypes.DateColumnStatisticsData?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["MaximumValue"].writeTimestamp(value.maximumValue, format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        try writer["MinimumValue"].writeTimestamp(value.minimumValue, format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        try writer["NumberOfDistinctValues"].write(value.numberOfDistinctValues)
-        try writer["NumberOfNulls"].write(value.numberOfNulls)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.DateColumnStatisticsData {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.DateColumnStatisticsData()
-        value.minimumValue = try reader["MinimumValue"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.maximumValue = try reader["MaximumValue"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.numberOfNulls = try reader["NumberOfNulls"].readIfPresent() ?? 0
-        value.numberOfDistinctValues = try reader["NumberOfDistinctValues"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension GlueClientTypes.BooleanColumnStatisticsData {
-
-    static func write(value: GlueClientTypes.BooleanColumnStatisticsData?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["NumberOfFalses"].write(value.numberOfFalses)
-        try writer["NumberOfNulls"].write(value.numberOfNulls)
-        try writer["NumberOfTrues"].write(value.numberOfTrues)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.BooleanColumnStatisticsData {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.BooleanColumnStatisticsData()
-        value.numberOfTrues = try reader["NumberOfTrues"].readIfPresent() ?? 0
-        value.numberOfFalses = try reader["NumberOfFalses"].readIfPresent() ?? 0
-        value.numberOfNulls = try reader["NumberOfNulls"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension GlueClientTypes.ColumnError {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.ColumnError {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.ColumnError()
-        value.columnName = try reader["ColumnName"].readIfPresent()
-        value.error = try reader["Error"].readIfPresent(with: GlueClientTypes.ErrorDetail.read(from:))
-        return value
-    }
-}
-
-extension GlueClientTypes.ColumnStatisticsTaskRun {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.ColumnStatisticsTaskRun {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.ColumnStatisticsTaskRun()
-        value.customerId = try reader["CustomerId"].readIfPresent()
-        value.columnStatisticsTaskRunId = try reader["ColumnStatisticsTaskRunId"].readIfPresent()
-        value.databaseName = try reader["DatabaseName"].readIfPresent()
-        value.tableName = try reader["TableName"].readIfPresent()
-        value.columnNameList = try reader["ColumnNameList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.catalogID = try reader["CatalogID"].readIfPresent()
-        value.role = try reader["Role"].readIfPresent()
-        value.sampleSize = try reader["SampleSize"].readIfPresent() ?? 0
-        value.securityConfiguration = try reader["SecurityConfiguration"].readIfPresent()
-        value.numberOfWorkers = try reader["NumberOfWorkers"].readIfPresent() ?? 0
-        value.workerType = try reader["WorkerType"].readIfPresent()
-        value.computationType = try reader["ComputationType"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastUpdated = try reader["LastUpdated"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
-        value.dpuSeconds = try reader["DPUSeconds"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension GlueClientTypes.ColumnStatisticsTaskSettings {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.ColumnStatisticsTaskSettings {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.ColumnStatisticsTaskSettings()
-        value.databaseName = try reader["DatabaseName"].readIfPresent()
-        value.tableName = try reader["TableName"].readIfPresent()
-        value.schedule = try reader["Schedule"].readIfPresent(with: GlueClientTypes.Schedule.read(from:))
-        value.columnNameList = try reader["ColumnNameList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.catalogID = try reader["CatalogID"].readIfPresent()
-        value.role = try reader["Role"].readIfPresent()
-        value.sampleSize = try reader["SampleSize"].readIfPresent() ?? 0
-        value.securityConfiguration = try reader["SecurityConfiguration"].readIfPresent()
-        value.scheduleType = try reader["ScheduleType"].readIfPresent()
-        value.settingSource = try reader["SettingSource"].readIfPresent()
-        value.lastExecutionAttempt = try reader["LastExecutionAttempt"].readIfPresent(with: GlueClientTypes.ExecutionAttempt.read(from:))
-        return value
-    }
-}
-
-extension GlueClientTypes.ExecutionAttempt {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.ExecutionAttempt {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.ExecutionAttempt()
-        value.status = try reader["Status"].readIfPresent()
-        value.columnStatisticsTaskRunId = try reader["ColumnStatisticsTaskRunId"].readIfPresent()
-        value.executionTimestamp = try reader["ExecutionTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
-        return value
-    }
-}
-
-extension GlueClientTypes.Connection {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.Connection {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.Connection()
-        value.name = try reader["Name"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        value.connectionType = try reader["ConnectionType"].readIfPresent()
-        value.matchCriteria = try reader["MatchCriteria"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.connectionProperties = try reader["ConnectionProperties"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.sparkProperties = try reader["SparkProperties"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.athenaProperties = try reader["AthenaProperties"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.pythonProperties = try reader["PythonProperties"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.physicalConnectionRequirements = try reader["PhysicalConnectionRequirements"].readIfPresent(with: GlueClientTypes.PhysicalConnectionRequirements.read(from:))
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastUpdatedTime = try reader["LastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastUpdatedBy = try reader["LastUpdatedBy"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.statusReason = try reader["StatusReason"].readIfPresent()
-        value.lastConnectionValidationTime = try reader["LastConnectionValidationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.authenticationConfiguration = try reader["AuthenticationConfiguration"].readIfPresent(with: GlueClientTypes.AuthenticationConfiguration.read(from:))
-        value.connectionSchemaVersion = try reader["ConnectionSchemaVersion"].readIfPresent()
-        value.compatibleComputeEnvironments = try reader["CompatibleComputeEnvironments"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<GlueClientTypes.ComputeEnvironment>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension GlueClientTypes.AuthenticationConfiguration {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.AuthenticationConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.AuthenticationConfiguration()
-        value.authenticationType = try reader["AuthenticationType"].readIfPresent()
-        value.secretArn = try reader["SecretArn"].readIfPresent()
-        value.kmsKeyArn = try reader["KmsKeyArn"].readIfPresent()
-        value.oAuth2Properties = try reader["OAuth2Properties"].readIfPresent(with: GlueClientTypes.OAuth2Properties.read(from:))
-        return value
-    }
-}
-
-extension GlueClientTypes.OAuth2Properties {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.OAuth2Properties {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.OAuth2Properties()
-        value.oAuth2GrantType = try reader["OAuth2GrantType"].readIfPresent()
-        value.oAuth2ClientApplication = try reader["OAuth2ClientApplication"].readIfPresent(with: GlueClientTypes.OAuth2ClientApplication.read(from:))
-        value.tokenUrl = try reader["TokenUrl"].readIfPresent()
-        value.tokenUrlParametersMap = try reader["TokenUrlParametersMap"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
-}
-
-extension GlueClientTypes.OAuth2ClientApplication {
-
-    static func write(value: GlueClientTypes.OAuth2ClientApplication?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AWSManagedClientApplicationReference"].write(value.awsManagedClientApplicationReference)
-        try writer["UserManagedClientApplicationClientId"].write(value.userManagedClientApplicationClientId)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.OAuth2ClientApplication {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.OAuth2ClientApplication()
-        value.userManagedClientApplicationClientId = try reader["UserManagedClientApplicationClientId"].readIfPresent()
-        value.awsManagedClientApplicationReference = try reader["AWSManagedClientApplicationReference"].readIfPresent()
-        return value
-    }
-}
-
-extension GlueClientTypes.PhysicalConnectionRequirements {
-
-    static func write(value: GlueClientTypes.PhysicalConnectionRequirements?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AvailabilityZone"].write(value.availabilityZone)
-        try writer["SecurityGroupIdList"].writeList(value.securityGroupIdList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["SubnetId"].write(value.subnetId)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.PhysicalConnectionRequirements {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.PhysicalConnectionRequirements()
-        value.subnetId = try reader["SubnetId"].readIfPresent()
-        value.securityGroupIdList = try reader["SecurityGroupIdList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.availabilityZone = try reader["AvailabilityZone"].readIfPresent()
-        return value
-    }
-}
-
-extension GlueClientTypes.CrawlerMetrics {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.CrawlerMetrics {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.CrawlerMetrics()
-        value.crawlerName = try reader["CrawlerName"].readIfPresent()
-        value.timeLeftSeconds = try reader["TimeLeftSeconds"].readIfPresent() ?? 0
-        value.stillEstimating = try reader["StillEstimating"].readIfPresent() ?? false
-        value.lastRuntimeSeconds = try reader["LastRuntimeSeconds"].readIfPresent() ?? 0
-        value.medianRuntimeSeconds = try reader["MedianRuntimeSeconds"].readIfPresent() ?? 0
-        value.tablesCreated = try reader["TablesCreated"].readIfPresent() ?? 0
-        value.tablesUpdated = try reader["TablesUpdated"].readIfPresent() ?? 0
-        value.tablesDeleted = try reader["TablesDeleted"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension GlueClientTypes.Database {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.Database {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.Database()
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.description = try reader["Description"].readIfPresent()
-        value.locationUri = try reader["LocationUri"].readIfPresent()
-        value.parameters = try reader["Parameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.createTableDefaultPermissions = try reader["CreateTableDefaultPermissions"].readListIfPresent(memberReadingClosure: GlueClientTypes.PrincipalPermissions.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.targetDatabase = try reader["TargetDatabase"].readIfPresent(with: GlueClientTypes.DatabaseIdentifier.read(from:))
-        value.catalogId = try reader["CatalogId"].readIfPresent()
-        value.federatedDatabase = try reader["FederatedDatabase"].readIfPresent(with: GlueClientTypes.FederatedDatabase.read(from:))
-        return value
-    }
-}
-
-extension GlueClientTypes.FederatedDatabase {
-
-    static func write(value: GlueClientTypes.FederatedDatabase?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ConnectionName"].write(value.connectionName)
-        try writer["ConnectionType"].write(value.connectionType)
-        try writer["Identifier"].write(value.identifier)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.FederatedDatabase {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.FederatedDatabase()
-        value.identifier = try reader["Identifier"].readIfPresent()
-        value.connectionName = try reader["ConnectionName"].readIfPresent()
-        value.connectionType = try reader["ConnectionType"].readIfPresent()
-        return value
-    }
-}
-
-extension GlueClientTypes.DatabaseIdentifier {
-
-    static func write(value: GlueClientTypes.DatabaseIdentifier?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CatalogId"].write(value.catalogId)
-        try writer["DatabaseName"].write(value.databaseName)
-        try writer["Region"].write(value.region)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.DatabaseIdentifier {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.DatabaseIdentifier()
-        value.catalogId = try reader["CatalogId"].readIfPresent()
-        value.databaseName = try reader["DatabaseName"].readIfPresent()
-        value.region = try reader["Region"].readIfPresent()
-        return value
-    }
-}
-
-extension GlueClientTypes.DataCatalogEncryptionSettings {
-
-    static func write(value: GlueClientTypes.DataCatalogEncryptionSettings?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ConnectionPasswordEncryption"].write(value.connectionPasswordEncryption, with: GlueClientTypes.ConnectionPasswordEncryption.write(value:to:))
-        try writer["EncryptionAtRest"].write(value.encryptionAtRest, with: GlueClientTypes.EncryptionAtRest.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.DataCatalogEncryptionSettings {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.DataCatalogEncryptionSettings()
-        value.encryptionAtRest = try reader["EncryptionAtRest"].readIfPresent(with: GlueClientTypes.EncryptionAtRest.read(from:))
-        value.connectionPasswordEncryption = try reader["ConnectionPasswordEncryption"].readIfPresent(with: GlueClientTypes.ConnectionPasswordEncryption.read(from:))
-        return value
-    }
-}
-
-extension GlueClientTypes.ConnectionPasswordEncryption {
-
-    static func write(value: GlueClientTypes.ConnectionPasswordEncryption?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AwsKmsKeyId"].write(value.awsKmsKeyId)
-        try writer["ReturnConnectionPasswordEncrypted"].write(value.returnConnectionPasswordEncrypted)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.ConnectionPasswordEncryption {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.ConnectionPasswordEncryption()
-        value.returnConnectionPasswordEncrypted = try reader["ReturnConnectionPasswordEncrypted"].readIfPresent() ?? false
-        value.awsKmsKeyId = try reader["AwsKmsKeyId"].readIfPresent()
-        return value
-    }
-}
-
-extension GlueClientTypes.EncryptionAtRest {
-
-    static func write(value: GlueClientTypes.EncryptionAtRest?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CatalogEncryptionMode"].write(value.catalogEncryptionMode)
-        try writer["CatalogEncryptionServiceRole"].write(value.catalogEncryptionServiceRole)
-        try writer["SseAwsKmsKeyId"].write(value.sseAwsKmsKeyId)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.EncryptionAtRest {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.EncryptionAtRest()
-        value.catalogEncryptionMode = try reader["CatalogEncryptionMode"].readIfPresent() ?? .sdkUnknown("")
-        value.sseAwsKmsKeyId = try reader["SseAwsKmsKeyId"].readIfPresent()
-        value.catalogEncryptionServiceRole = try reader["CatalogEncryptionServiceRole"].readIfPresent()
-        return value
-    }
-}
-
-extension GlueClientTypes.CodeGenNode {
-
-    static func write(value: GlueClientTypes.CodeGenNode?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Args"].writeList(value.args, memberWritingClosure: GlueClientTypes.CodeGenNodeArg.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Id"].write(value.id)
-        try writer["LineNumber"].write(value.lineNumber)
-        try writer["NodeType"].write(value.nodeType)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.CodeGenNode {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.CodeGenNode()
-        value.id = try reader["Id"].readIfPresent() ?? ""
-        value.nodeType = try reader["NodeType"].readIfPresent() ?? ""
-        value.args = try reader["Args"].readListIfPresent(memberReadingClosure: GlueClientTypes.CodeGenNodeArg.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.lineNumber = try reader["LineNumber"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension GlueClientTypes.CodeGenNodeArg {
-
-    static func write(value: GlueClientTypes.CodeGenNodeArg?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-        try writer["Param"].write(value.param)
-        try writer["Value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.CodeGenNodeArg {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.CodeGenNodeArg()
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.value = try reader["Value"].readIfPresent() ?? ""
-        value.param = try reader["Param"].readIfPresent() ?? false
-        return value
-    }
-}
-
-extension GlueClientTypes.CodeGenEdge {
-
-    static func write(value: GlueClientTypes.CodeGenEdge?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Source"].write(value.source)
-        try writer["Target"].write(value.target)
-        try writer["TargetParameter"].write(value.targetParameter)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.CodeGenEdge {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.CodeGenEdge()
-        value.source = try reader["Source"].readIfPresent() ?? ""
-        value.target = try reader["Target"].readIfPresent() ?? ""
-        value.targetParameter = try reader["TargetParameter"].readIfPresent()
-        return value
-    }
-}
-
-extension GlueClientTypes.StatisticModelResult {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.StatisticModelResult {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.StatisticModelResult()
-        value.lowerBound = try reader["LowerBound"].readIfPresent()
-        value.upperBound = try reader["UpperBound"].readIfPresent()
-        value.predictedValue = try reader["PredictedValue"].readIfPresent()
-        value.actualValue = try reader["ActualValue"].readIfPresent()
-        value.date = try reader["Date"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.inclusionAnnotation = try reader["InclusionAnnotation"].readIfPresent()
-        return value
-    }
-}
-
-extension GlueClientTypes.DataQualityTargetTable {
-
-    static func write(value: GlueClientTypes.DataQualityTargetTable?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CatalogId"].write(value.catalogId)
-        try writer["DatabaseName"].write(value.databaseName)
-        try writer["TableName"].write(value.tableName)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.DataQualityTargetTable {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.DataQualityTargetTable()
-        value.tableName = try reader["TableName"].readIfPresent() ?? ""
-        value.databaseName = try reader["DatabaseName"].readIfPresent() ?? ""
-        value.catalogId = try reader["CatalogId"].readIfPresent()
-        return value
-    }
-}
-
-extension GlueClientTypes.DataQualityEvaluationRunAdditionalRunOptions {
-
-    static func write(value: GlueClientTypes.DataQualityEvaluationRunAdditionalRunOptions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CloudWatchMetricsEnabled"].write(value.cloudWatchMetricsEnabled)
-        try writer["CompositeRuleEvaluationMethod"].write(value.compositeRuleEvaluationMethod)
-        try writer["ResultsS3Prefix"].write(value.resultsS3Prefix)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.DataQualityEvaluationRunAdditionalRunOptions {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.DataQualityEvaluationRunAdditionalRunOptions()
-        value.cloudWatchMetricsEnabled = try reader["CloudWatchMetricsEnabled"].readIfPresent()
-        value.resultsS3Prefix = try reader["ResultsS3Prefix"].readIfPresent()
-        value.compositeRuleEvaluationMethod = try reader["CompositeRuleEvaluationMethod"].readIfPresent()
         return value
     }
 }
@@ -50201,497 +51007,147 @@ extension GlueClientTypes.SourceTableConfig {
     }
 }
 
-extension GlueClientTypes.TargetTableConfig {
+extension GlueClientTypes.SparkConnectorSource {
 
-    static func write(value: GlueClientTypes.TargetTableConfig?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: GlueClientTypes.SparkConnectorSource?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["PartitionSpec"].writeList(value.partitionSpec, memberWritingClosure: GlueClientTypes.IntegrationPartition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["TargetTableName"].write(value.targetTableName)
-        try writer["UnnestSpec"].write(value.unnestSpec)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.TargetTableConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.TargetTableConfig()
-        value.unnestSpec = try reader["UnnestSpec"].readIfPresent()
-        value.partitionSpec = try reader["PartitionSpec"].readListIfPresent(memberReadingClosure: GlueClientTypes.IntegrationPartition.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.targetTableName = try reader["TargetTableName"].readIfPresent()
-        return value
-    }
-}
-
-extension GlueClientTypes.IntegrationPartition {
-
-    static func write(value: GlueClientTypes.IntegrationPartition?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ConversionSpec"].write(value.conversionSpec)
-        try writer["FieldName"].write(value.fieldName)
-        try writer["FunctionSpec"].write(value.functionSpec)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.IntegrationPartition {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.IntegrationPartition()
-        value.fieldName = try reader["FieldName"].readIfPresent()
-        value.functionSpec = try reader["FunctionSpec"].readIfPresent()
-        value.conversionSpec = try reader["ConversionSpec"].readIfPresent()
-        return value
-    }
-}
-
-extension GlueClientTypes.JobBookmarkEntry {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.JobBookmarkEntry {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.JobBookmarkEntry()
-        value.jobName = try reader["JobName"].readIfPresent()
-        value.version = try reader["Version"].readIfPresent() ?? 0
-        value.run = try reader["Run"].readIfPresent() ?? 0
-        value.attempt = try reader["Attempt"].readIfPresent() ?? 0
-        value.previousRunId = try reader["PreviousRunId"].readIfPresent()
-        value.runId = try reader["RunId"].readIfPresent()
-        value.jobBookmark = try reader["JobBookmark"].readIfPresent()
-        return value
-    }
-}
-
-extension GlueClientTypes.MappingEntry {
-
-    static func write(value: GlueClientTypes.MappingEntry?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["SourcePath"].write(value.sourcePath)
-        try writer["SourceTable"].write(value.sourceTable)
-        try writer["SourceType"].write(value.sourceType)
-        try writer["TargetPath"].write(value.targetPath)
-        try writer["TargetTable"].write(value.targetTable)
-        try writer["TargetType"].write(value.targetType)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.MappingEntry {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.MappingEntry()
-        value.sourceTable = try reader["SourceTable"].readIfPresent()
-        value.sourcePath = try reader["SourcePath"].readIfPresent()
-        value.sourceType = try reader["SourceType"].readIfPresent()
-        value.targetTable = try reader["TargetTable"].readIfPresent()
-        value.targetPath = try reader["TargetPath"].readIfPresent()
-        value.targetType = try reader["TargetType"].readIfPresent()
-        return value
-    }
-}
-
-extension GlueClientTypes.MaterializedViewRefreshTaskRun {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.MaterializedViewRefreshTaskRun {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.MaterializedViewRefreshTaskRun()
-        value.customerId = try reader["CustomerId"].readIfPresent()
-        value.materializedViewRefreshTaskRunId = try reader["MaterializedViewRefreshTaskRunId"].readIfPresent()
-        value.databaseName = try reader["DatabaseName"].readIfPresent()
-        value.tableName = try reader["TableName"].readIfPresent()
-        value.catalogId = try reader["CatalogId"].readIfPresent()
-        value.role = try reader["Role"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastUpdated = try reader["LastUpdated"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
-        value.dpuSeconds = try reader["DPUSeconds"].readIfPresent() ?? 0
-        value.refreshType = try reader["RefreshType"].readIfPresent()
-        value.processedBytes = try reader["ProcessedBytes"].readIfPresent()
-        return value
-    }
-}
-
-extension GlueClientTypes.TaskRunProperties {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.TaskRunProperties {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.TaskRunProperties()
-        value.taskType = try reader["TaskType"].readIfPresent()
-        value.importLabelsTaskRunProperties = try reader["ImportLabelsTaskRunProperties"].readIfPresent(with: GlueClientTypes.ImportLabelsTaskRunProperties.read(from:))
-        value.exportLabelsTaskRunProperties = try reader["ExportLabelsTaskRunProperties"].readIfPresent(with: GlueClientTypes.ExportLabelsTaskRunProperties.read(from:))
-        value.labelingSetGenerationTaskRunProperties = try reader["LabelingSetGenerationTaskRunProperties"].readIfPresent(with: GlueClientTypes.LabelingSetGenerationTaskRunProperties.read(from:))
-        value.findMatchesTaskRunProperties = try reader["FindMatchesTaskRunProperties"].readIfPresent(with: GlueClientTypes.FindMatchesTaskRunProperties.read(from:))
-        return value
-    }
-}
-
-extension GlueClientTypes.FindMatchesTaskRunProperties {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.FindMatchesTaskRunProperties {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.FindMatchesTaskRunProperties()
-        value.jobId = try reader["JobId"].readIfPresent()
-        value.jobName = try reader["JobName"].readIfPresent()
-        value.jobRunId = try reader["JobRunId"].readIfPresent()
-        return value
-    }
-}
-
-extension GlueClientTypes.LabelingSetGenerationTaskRunProperties {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.LabelingSetGenerationTaskRunProperties {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.LabelingSetGenerationTaskRunProperties()
-        value.outputS3Path = try reader["OutputS3Path"].readIfPresent()
-        return value
-    }
-}
-
-extension GlueClientTypes.ExportLabelsTaskRunProperties {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.ExportLabelsTaskRunProperties {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.ExportLabelsTaskRunProperties()
-        value.outputS3Path = try reader["OutputS3Path"].readIfPresent()
-        return value
-    }
-}
-
-extension GlueClientTypes.ImportLabelsTaskRunProperties {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.ImportLabelsTaskRunProperties {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.ImportLabelsTaskRunProperties()
-        value.inputS3Path = try reader["InputS3Path"].readIfPresent()
-        value.replace = try reader["Replace"].readIfPresent() ?? false
-        return value
-    }
-}
-
-extension GlueClientTypes.TaskRun {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.TaskRun {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.TaskRun()
-        value.transformId = try reader["TransformId"].readIfPresent()
-        value.taskRunId = try reader["TaskRunId"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.logGroupName = try reader["LogGroupName"].readIfPresent()
-        value.properties = try reader["Properties"].readIfPresent(with: GlueClientTypes.TaskRunProperties.read(from:))
-        value.errorString = try reader["ErrorString"].readIfPresent()
-        value.startedOn = try reader["StartedOn"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastModifiedOn = try reader["LastModifiedOn"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.completedOn = try reader["CompletedOn"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.executionTime = try reader["ExecutionTime"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension GlueClientTypes.TransformParameters {
-
-    static func write(value: GlueClientTypes.TransformParameters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["FindMatchesParameters"].write(value.findMatchesParameters, with: GlueClientTypes.FindMatchesParameters.write(value:to:))
-        try writer["TransformType"].write(value.transformType)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.TransformParameters {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.TransformParameters()
-        value.transformType = try reader["TransformType"].readIfPresent() ?? .sdkUnknown("")
-        value.findMatchesParameters = try reader["FindMatchesParameters"].readIfPresent(with: GlueClientTypes.FindMatchesParameters.read(from:))
-        return value
-    }
-}
-
-extension GlueClientTypes.FindMatchesParameters {
-
-    static func write(value: GlueClientTypes.FindMatchesParameters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AccuracyCostTradeoff"].write(value.accuracyCostTradeoff)
-        try writer["EnforceProvidedLabels"].write(value.enforceProvidedLabels)
-        try writer["PrecisionRecallTradeoff"].write(value.precisionRecallTradeoff)
-        try writer["PrimaryKeyColumnName"].write(value.primaryKeyColumnName)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.FindMatchesParameters {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.FindMatchesParameters()
-        value.primaryKeyColumnName = try reader["PrimaryKeyColumnName"].readIfPresent()
-        value.precisionRecallTradeoff = try reader["PrecisionRecallTradeoff"].readIfPresent()
-        value.accuracyCostTradeoff = try reader["AccuracyCostTradeoff"].readIfPresent()
-        value.enforceProvidedLabels = try reader["EnforceProvidedLabels"].readIfPresent()
-        return value
-    }
-}
-
-extension GlueClientTypes.EvaluationMetrics {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.EvaluationMetrics {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.EvaluationMetrics()
-        value.transformType = try reader["TransformType"].readIfPresent() ?? .sdkUnknown("")
-        value.findMatchesMetrics = try reader["FindMatchesMetrics"].readIfPresent(with: GlueClientTypes.FindMatchesMetrics.read(from:))
-        return value
-    }
-}
-
-extension GlueClientTypes.FindMatchesMetrics {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.FindMatchesMetrics {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.FindMatchesMetrics()
-        value.areaUnderPRCurve = try reader["AreaUnderPRCurve"].readIfPresent()
-        value.precision = try reader["Precision"].readIfPresent()
-        value.recall = try reader["Recall"].readIfPresent()
-        value.f1 = try reader["F1"].readIfPresent()
-        value.confusionMatrix = try reader["ConfusionMatrix"].readIfPresent(with: GlueClientTypes.ConfusionMatrix.read(from:))
-        value.columnImportances = try reader["ColumnImportances"].readListIfPresent(memberReadingClosure: GlueClientTypes.ColumnImportance.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension GlueClientTypes.ColumnImportance {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.ColumnImportance {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.ColumnImportance()
-        value.columnName = try reader["ColumnName"].readIfPresent()
-        value.importance = try reader["Importance"].readIfPresent()
-        return value
-    }
-}
-
-extension GlueClientTypes.ConfusionMatrix {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.ConfusionMatrix {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.ConfusionMatrix()
-        value.numTruePositives = try reader["NumTruePositives"].readIfPresent()
-        value.numFalsePositives = try reader["NumFalsePositives"].readIfPresent()
-        value.numTrueNegatives = try reader["NumTrueNegatives"].readIfPresent()
-        value.numFalseNegatives = try reader["NumFalseNegatives"].readIfPresent()
-        return value
-    }
-}
-
-extension GlueClientTypes.SchemaColumn {
-
-    static func write(value: GlueClientTypes.SchemaColumn?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DataType"].write(value.dataType)
+        try writer["AdditionalOptions"].writeMap(value.additionalOptions, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["ConnectionName"].write(value.connectionName)
+        try writer["ConnectionType"].write(value.connectionType)
+        try writer["ConnectorName"].write(value.connectorName)
         try writer["Name"].write(value.name)
+        try writer["OutputSchemas"].writeList(value.outputSchemas, memberWritingClosure: GlueClientTypes.GlueSchema.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.SchemaColumn {
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.SparkConnectorSource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.SchemaColumn()
-        value.name = try reader["Name"].readIfPresent()
-        value.dataType = try reader["DataType"].readIfPresent()
-        return value
-    }
-}
-
-extension GlueClientTypes.TransformEncryption {
-
-    static func write(value: GlueClientTypes.TransformEncryption?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["MlUserDataEncryption"].write(value.mlUserDataEncryption, with: GlueClientTypes.MLUserDataEncryption.write(value:to:))
-        try writer["TaskRunSecurityConfigurationName"].write(value.taskRunSecurityConfigurationName)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.TransformEncryption {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.TransformEncryption()
-        value.mlUserDataEncryption = try reader["MlUserDataEncryption"].readIfPresent(with: GlueClientTypes.MLUserDataEncryption.read(from:))
-        value.taskRunSecurityConfigurationName = try reader["TaskRunSecurityConfigurationName"].readIfPresent()
-        return value
-    }
-}
-
-extension GlueClientTypes.MLUserDataEncryption {
-
-    static func write(value: GlueClientTypes.MLUserDataEncryption?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["KmsKeyId"].write(value.kmsKeyId)
-        try writer["MlUserDataEncryptionMode"].write(value.mlUserDataEncryptionMode)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.MLUserDataEncryption {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.MLUserDataEncryption()
-        value.mlUserDataEncryptionMode = try reader["MlUserDataEncryptionMode"].readIfPresent() ?? .sdkUnknown("")
-        value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
-        return value
-    }
-}
-
-extension GlueClientTypes.MLTransform {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.MLTransform {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.MLTransform()
-        value.transformId = try reader["TransformId"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.createdOn = try reader["CreatedOn"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastModifiedOn = try reader["LastModifiedOn"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.inputRecordTables = try reader["InputRecordTables"].readListIfPresent(memberReadingClosure: GlueClientTypes.GlueTable.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.parameters = try reader["Parameters"].readIfPresent(with: GlueClientTypes.TransformParameters.read(from:))
-        value.evaluationMetrics = try reader["EvaluationMetrics"].readIfPresent(with: GlueClientTypes.EvaluationMetrics.read(from:))
-        value.labelCount = try reader["LabelCount"].readIfPresent() ?? 0
-        value.schema = try reader["Schema"].readListIfPresent(memberReadingClosure: GlueClientTypes.SchemaColumn.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.role = try reader["Role"].readIfPresent()
-        value.glueVersion = try reader["GlueVersion"].readIfPresent()
-        value.maxCapacity = try reader["MaxCapacity"].readIfPresent()
-        value.workerType = try reader["WorkerType"].readIfPresent()
-        value.numberOfWorkers = try reader["NumberOfWorkers"].readIfPresent()
-        value.timeout = try reader["Timeout"].readIfPresent()
-        value.maxRetries = try reader["MaxRetries"].readIfPresent()
-        value.transformEncryption = try reader["TransformEncryption"].readIfPresent(with: GlueClientTypes.TransformEncryption.read(from:))
-        return value
-    }
-}
-
-extension GlueClientTypes.PartitionIndexDescriptor {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.PartitionIndexDescriptor {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.PartitionIndexDescriptor()
-        value.indexName = try reader["IndexName"].readIfPresent() ?? ""
-        value.keys = try reader["Keys"].readListIfPresent(memberReadingClosure: GlueClientTypes.KeySchemaElement.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.indexStatus = try reader["IndexStatus"].readIfPresent() ?? .sdkUnknown("")
-        value.backfillErrors = try reader["BackfillErrors"].readListIfPresent(memberReadingClosure: GlueClientTypes.BackfillError.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension GlueClientTypes.BackfillError {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.BackfillError {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.BackfillError()
-        value.code = try reader["Code"].readIfPresent()
-        value.partitions = try reader["Partitions"].readListIfPresent(memberReadingClosure: GlueClientTypes.PartitionValueList.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension GlueClientTypes.KeySchemaElement {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.KeySchemaElement {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.KeySchemaElement()
+        var value = GlueClientTypes.SparkConnectorSource()
         value.name = try reader["Name"].readIfPresent() ?? ""
-        value.type = try reader["Type"].readIfPresent() ?? ""
+        value.connectionName = try reader["ConnectionName"].readIfPresent() ?? ""
+        value.connectorName = try reader["ConnectorName"].readIfPresent() ?? ""
+        value.connectionType = try reader["ConnectionType"].readIfPresent() ?? ""
+        value.additionalOptions = try reader["AdditionalOptions"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.outputSchemas = try reader["OutputSchemas"].readListIfPresent(memberReadingClosure: GlueClientTypes.GlueSchema.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
 
-extension GlueClientTypes.GluePolicy {
+extension GlueClientTypes.SparkConnectorTarget {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.GluePolicy {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.GluePolicy()
-        value.policyInJson = try reader["PolicyInJson"].readIfPresent()
-        value.policyHash = try reader["PolicyHash"].readIfPresent()
-        value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.updateTime = try reader["UpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension GlueClientTypes.SecurityConfiguration {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.SecurityConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.SecurityConfiguration()
-        value.name = try reader["Name"].readIfPresent()
-        value.createdTimeStamp = try reader["CreatedTimeStamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.encryptionConfiguration = try reader["EncryptionConfiguration"].readIfPresent(with: GlueClientTypes.EncryptionConfiguration.read(from:))
-        return value
-    }
-}
-
-extension GlueClientTypes.EncryptionConfiguration {
-
-    static func write(value: GlueClientTypes.EncryptionConfiguration?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: GlueClientTypes.SparkConnectorTarget?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["CloudWatchEncryption"].write(value.cloudWatchEncryption, with: GlueClientTypes.CloudWatchEncryption.write(value:to:))
-        try writer["DataQualityEncryption"].write(value.dataQualityEncryption, with: GlueClientTypes.DataQualityEncryption.write(value:to:))
-        try writer["JobBookmarksEncryption"].write(value.jobBookmarksEncryption, with: GlueClientTypes.JobBookmarksEncryption.write(value:to:))
-        try writer["S3Encryption"].writeList(value.s3Encryption, memberWritingClosure: GlueClientTypes.S3Encryption.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["AdditionalOptions"].writeMap(value.additionalOptions, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["ConnectionName"].write(value.connectionName)
+        try writer["ConnectionType"].write(value.connectionType)
+        try writer["ConnectorName"].write(value.connectorName)
+        try writer["Inputs"].writeList(value.inputs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Name"].write(value.name)
+        try writer["OutputSchemas"].writeList(value.outputSchemas, memberWritingClosure: GlueClientTypes.GlueSchema.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.EncryptionConfiguration {
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.SparkConnectorTarget {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.EncryptionConfiguration()
-        value.s3Encryption = try reader["S3Encryption"].readListIfPresent(memberReadingClosure: GlueClientTypes.S3Encryption.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.cloudWatchEncryption = try reader["CloudWatchEncryption"].readIfPresent(with: GlueClientTypes.CloudWatchEncryption.read(from:))
-        value.jobBookmarksEncryption = try reader["JobBookmarksEncryption"].readIfPresent(with: GlueClientTypes.JobBookmarksEncryption.read(from:))
-        value.dataQualityEncryption = try reader["DataQualityEncryption"].readIfPresent(with: GlueClientTypes.DataQualityEncryption.read(from:))
+        var value = GlueClientTypes.SparkConnectorTarget()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.inputs = try reader["Inputs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.connectionName = try reader["ConnectionName"].readIfPresent() ?? ""
+        value.connectorName = try reader["ConnectorName"].readIfPresent() ?? ""
+        value.connectionType = try reader["ConnectionType"].readIfPresent() ?? ""
+        value.additionalOptions = try reader["AdditionalOptions"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.outputSchemas = try reader["OutputSchemas"].readListIfPresent(memberReadingClosure: GlueClientTypes.GlueSchema.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
 
-extension GlueClientTypes.DataQualityEncryption {
+extension GlueClientTypes.SparkSQL {
 
-    static func write(value: GlueClientTypes.DataQualityEncryption?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: GlueClientTypes.SparkSQL?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["DataQualityEncryptionMode"].write(value.dataQualityEncryptionMode)
-        try writer["KmsKeyArn"].write(value.kmsKeyArn)
+        try writer["Inputs"].writeList(value.inputs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Name"].write(value.name)
+        try writer["OutputSchemas"].writeList(value.outputSchemas, memberWritingClosure: GlueClientTypes.GlueSchema.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["SqlAliases"].writeList(value.sqlAliases, memberWritingClosure: GlueClientTypes.SqlAlias.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["SqlQuery"].write(value.sqlQuery)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.DataQualityEncryption {
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.SparkSQL {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.DataQualityEncryption()
-        value.dataQualityEncryptionMode = try reader["DataQualityEncryptionMode"].readIfPresent()
-        value.kmsKeyArn = try reader["KmsKeyArn"].readIfPresent()
+        var value = GlueClientTypes.SparkSQL()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.inputs = try reader["Inputs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.sqlQuery = try reader["SqlQuery"].readIfPresent() ?? ""
+        value.sqlAliases = try reader["SqlAliases"].readListIfPresent(memberReadingClosure: GlueClientTypes.SqlAlias.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.outputSchemas = try reader["OutputSchemas"].readListIfPresent(memberReadingClosure: GlueClientTypes.GlueSchema.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
 
-extension GlueClientTypes.JobBookmarksEncryption {
+extension GlueClientTypes.Spigot {
 
-    static func write(value: GlueClientTypes.JobBookmarksEncryption?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: GlueClientTypes.Spigot?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["JobBookmarksEncryptionMode"].write(value.jobBookmarksEncryptionMode)
-        try writer["KmsKeyArn"].write(value.kmsKeyArn)
+        try writer["Inputs"].writeList(value.inputs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Name"].write(value.name)
+        try writer["Path"].write(value.path)
+        try writer["Prob"].write(value.prob)
+        try writer["Topk"].write(value.topk)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.JobBookmarksEncryption {
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.Spigot {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.JobBookmarksEncryption()
-        value.jobBookmarksEncryptionMode = try reader["JobBookmarksEncryptionMode"].readIfPresent()
-        value.kmsKeyArn = try reader["KmsKeyArn"].readIfPresent()
+        var value = GlueClientTypes.Spigot()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.inputs = try reader["Inputs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.path = try reader["Path"].readIfPresent() ?? ""
+        value.topk = try reader["Topk"].readIfPresent()
+        value.prob = try reader["Prob"].readIfPresent()
         return value
     }
 }
 
-extension GlueClientTypes.CloudWatchEncryption {
+extension GlueClientTypes.SplitFields {
 
-    static func write(value: GlueClientTypes.CloudWatchEncryption?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: GlueClientTypes.SplitFields?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["CloudWatchEncryptionMode"].write(value.cloudWatchEncryptionMode)
-        try writer["KmsKeyArn"].write(value.kmsKeyArn)
+        try writer["Inputs"].writeList(value.inputs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Name"].write(value.name)
+        try writer["Paths"].writeList(value.paths, memberWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.CloudWatchEncryption {
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.SplitFields {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.CloudWatchEncryption()
-        value.cloudWatchEncryptionMode = try reader["CloudWatchEncryptionMode"].readIfPresent()
-        value.kmsKeyArn = try reader["KmsKeyArn"].readIfPresent()
+        var value = GlueClientTypes.SplitFields()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.inputs = try reader["Inputs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.paths = try reader["Paths"].readListIfPresent(memberReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
 
-extension GlueClientTypes.S3Encryption {
+extension GlueClientTypes.SqlAlias {
 
-    static func write(value: GlueClientTypes.S3Encryption?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: GlueClientTypes.SqlAlias?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["KmsKeyArn"].write(value.kmsKeyArn)
-        try writer["S3EncryptionMode"].write(value.s3EncryptionMode)
+        try writer["Alias"].write(value.alias)
+        try writer["From"].write(value.from)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.S3Encryption {
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.SqlAlias {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.S3Encryption()
-        value.s3EncryptionMode = try reader["S3EncryptionMode"].readIfPresent()
-        value.kmsKeyArn = try reader["KmsKeyArn"].readIfPresent()
+        var value = GlueClientTypes.SqlAlias()
+        value.from = try reader["From"].readIfPresent() ?? ""
+        value.alias = try reader["Alias"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension GlueClientTypes.StartingEventBatchCondition {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.StartingEventBatchCondition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.StartingEventBatchCondition()
+        value.batchSize = try reader["BatchSize"].readIfPresent()
+        value.batchWindow = try reader["BatchWindow"].readIfPresent()
         return value
     }
 }
@@ -50737,6 +51193,153 @@ extension GlueClientTypes.StatementOutputData {
     }
 }
 
+extension GlueClientTypes.StatisticAnnotation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.StatisticAnnotation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.StatisticAnnotation()
+        value.profileId = try reader["ProfileId"].readIfPresent()
+        value.statisticId = try reader["StatisticId"].readIfPresent()
+        value.statisticRecordedOn = try reader["StatisticRecordedOn"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.inclusionAnnotation = try reader["InclusionAnnotation"].readIfPresent(with: GlueClientTypes.TimestampedInclusionAnnotation.read(from:))
+        return value
+    }
+}
+
+extension GlueClientTypes.StatisticModelResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.StatisticModelResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.StatisticModelResult()
+        value.lowerBound = try reader["LowerBound"].readIfPresent()
+        value.upperBound = try reader["UpperBound"].readIfPresent()
+        value.predictedValue = try reader["PredictedValue"].readIfPresent()
+        value.actualValue = try reader["ActualValue"].readIfPresent()
+        value.date = try reader["Date"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.inclusionAnnotation = try reader["InclusionAnnotation"].readIfPresent()
+        return value
+    }
+}
+
+extension GlueClientTypes.StatisticSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.StatisticSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.StatisticSummary()
+        value.statisticId = try reader["StatisticId"].readIfPresent()
+        value.profileId = try reader["ProfileId"].readIfPresent()
+        value.runIdentifier = try reader["RunIdentifier"].readIfPresent(with: GlueClientTypes.RunIdentifier.read(from:))
+        value.statisticName = try reader["StatisticName"].readIfPresent()
+        value.doubleValue = try reader["DoubleValue"].readIfPresent() ?? 0
+        value.evaluationLevel = try reader["EvaluationLevel"].readIfPresent()
+        value.columnsReferenced = try reader["ColumnsReferenced"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.referencedDatasets = try reader["ReferencedDatasets"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.statisticProperties = try reader["StatisticProperties"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.recordedOn = try reader["RecordedOn"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.inclusionAnnotation = try reader["InclusionAnnotation"].readIfPresent(with: GlueClientTypes.TimestampedInclusionAnnotation.read(from:))
+        return value
+    }
+}
+
+extension GlueClientTypes.StatusDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.StatusDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.StatusDetails()
+        value.requestedChange = try reader["RequestedChange"].readIfPresent(with: GlueClientTypes.Table.read(from:))
+        value.viewValidations = try reader["ViewValidations"].readListIfPresent(memberReadingClosure: GlueClientTypes.ViewValidation.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension GlueClientTypes.StorageDescriptor {
+
+    static func write(value: GlueClientTypes.StorageDescriptor?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AdditionalLocations"].writeList(value.additionalLocations, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["BucketColumns"].writeList(value.bucketColumns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Columns"].writeList(value.columns, memberWritingClosure: GlueClientTypes.Column.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Compressed"].write(value.compressed)
+        try writer["InputFormat"].write(value.inputFormat)
+        try writer["Location"].write(value.location)
+        try writer["NumberOfBuckets"].write(value.numberOfBuckets)
+        try writer["OutputFormat"].write(value.outputFormat)
+        try writer["Parameters"].writeMap(value.parameters, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["SchemaReference"].write(value.schemaReference, with: GlueClientTypes.SchemaReference.write(value:to:))
+        try writer["SerdeInfo"].write(value.serdeInfo, with: GlueClientTypes.SerDeInfo.write(value:to:))
+        try writer["SkewedInfo"].write(value.skewedInfo, with: GlueClientTypes.SkewedInfo.write(value:to:))
+        try writer["SortColumns"].writeList(value.sortColumns, memberWritingClosure: GlueClientTypes.Order.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["StoredAsSubDirectories"].write(value.storedAsSubDirectories)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.StorageDescriptor {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.StorageDescriptor()
+        value.columns = try reader["Columns"].readListIfPresent(memberReadingClosure: GlueClientTypes.Column.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.location = try reader["Location"].readIfPresent()
+        value.additionalLocations = try reader["AdditionalLocations"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.inputFormat = try reader["InputFormat"].readIfPresent()
+        value.outputFormat = try reader["OutputFormat"].readIfPresent()
+        value.compressed = try reader["Compressed"].readIfPresent() ?? false
+        value.numberOfBuckets = try reader["NumberOfBuckets"].readIfPresent() ?? 0
+        value.serdeInfo = try reader["SerdeInfo"].readIfPresent(with: GlueClientTypes.SerDeInfo.read(from:))
+        value.bucketColumns = try reader["BucketColumns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.sortColumns = try reader["SortColumns"].readListIfPresent(memberReadingClosure: GlueClientTypes.Order.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.parameters = try reader["Parameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.skewedInfo = try reader["SkewedInfo"].readIfPresent(with: GlueClientTypes.SkewedInfo.read(from:))
+        value.storedAsSubDirectories = try reader["StoredAsSubDirectories"].readIfPresent() ?? false
+        value.schemaReference = try reader["SchemaReference"].readIfPresent(with: GlueClientTypes.SchemaReference.read(from:))
+        return value
+    }
+}
+
+extension GlueClientTypes.StreamingDataPreviewOptions {
+
+    static func write(value: GlueClientTypes.StreamingDataPreviewOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["PollingTime"].write(value.pollingTime)
+        try writer["RecordPollingLimit"].write(value.recordPollingLimit)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.StreamingDataPreviewOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.StreamingDataPreviewOptions()
+        value.pollingTime = try reader["PollingTime"].readIfPresent()
+        value.recordPollingLimit = try reader["RecordPollingLimit"].readIfPresent()
+        return value
+    }
+}
+
+extension GlueClientTypes.StringColumnStatisticsData {
+
+    static func write(value: GlueClientTypes.StringColumnStatisticsData?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AverageLength"].write(value.averageLength)
+        try writer["MaximumLength"].write(value.maximumLength)
+        try writer["NumberOfDistinctValues"].write(value.numberOfDistinctValues)
+        try writer["NumberOfNulls"].write(value.numberOfNulls)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.StringColumnStatisticsData {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.StringColumnStatisticsData()
+        value.maximumLength = try reader["MaximumLength"].readIfPresent() ?? 0
+        value.averageLength = try reader["AverageLength"].readIfPresent() ?? 0
+        value.numberOfNulls = try reader["NumberOfNulls"].readIfPresent() ?? 0
+        value.numberOfDistinctValues = try reader["NumberOfDistinctValues"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension GlueClientTypes.SupportedDialect {
+
+    static func write(value: GlueClientTypes.SupportedDialect?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Dialect"].write(value.dialect)
+        try writer["DialectVersion"].write(value.dialectVersion)
+    }
+}
+
 extension GlueClientTypes.Table {
 
     static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.Table {
@@ -50771,91 +51374,13 @@ extension GlueClientTypes.Table {
     }
 }
 
-extension GlueClientTypes.TableStatus {
+extension GlueClientTypes.TableError {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.TableStatus {
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.TableError {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.TableStatus()
-        value.requestedBy = try reader["RequestedBy"].readIfPresent()
-        value.updatedBy = try reader["UpdatedBy"].readIfPresent()
-        value.requestTime = try reader["RequestTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.updateTime = try reader["UpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.action = try reader["Action"].readIfPresent()
-        value.state = try reader["State"].readIfPresent()
-        value.error = try reader["Error"].readIfPresent(with: GlueClientTypes.ErrorDetail.read(from:))
-        value.details = try reader["Details"].readIfPresent(with: GlueClientTypes.StatusDetails.read(from:))
-        return value
-    }
-}
-
-extension GlueClientTypes.StatusDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.StatusDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.StatusDetails()
-        value.requestedChange = try reader["RequestedChange"].readIfPresent(with: GlueClientTypes.Table.read(from:))
-        value.viewValidations = try reader["ViewValidations"].readListIfPresent(memberReadingClosure: GlueClientTypes.ViewValidation.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension GlueClientTypes.ViewValidation {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.ViewValidation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.ViewValidation()
-        value.dialect = try reader["Dialect"].readIfPresent()
-        value.dialectVersion = try reader["DialectVersion"].readIfPresent()
-        value.viewValidationText = try reader["ViewValidationText"].readIfPresent()
-        value.updateTime = try reader["UpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.state = try reader["State"].readIfPresent()
-        value.error = try reader["Error"].readIfPresent(with: GlueClientTypes.ErrorDetail.read(from:))
-        return value
-    }
-}
-
-extension GlueClientTypes.ViewDefinition {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.ViewDefinition {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.ViewDefinition()
-        value.isProtected = try reader["IsProtected"].readIfPresent()
-        value.definer = try reader["Definer"].readIfPresent()
-        value.viewVersionId = try reader["ViewVersionId"].readIfPresent() ?? 0
-        value.viewVersionToken = try reader["ViewVersionToken"].readIfPresent()
-        value.refreshSeconds = try reader["RefreshSeconds"].readIfPresent()
-        value.lastRefreshType = try reader["LastRefreshType"].readIfPresent()
-        value.subObjects = try reader["SubObjects"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.subObjectVersionIds = try reader["SubObjectVersionIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false)
-        value.representations = try reader["Representations"].readListIfPresent(memberReadingClosure: GlueClientTypes.ViewRepresentation.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension GlueClientTypes.ViewRepresentation {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.ViewRepresentation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.ViewRepresentation()
-        value.dialect = try reader["Dialect"].readIfPresent()
-        value.dialectVersion = try reader["DialectVersion"].readIfPresent()
-        value.viewOriginalText = try reader["ViewOriginalText"].readIfPresent()
-        value.viewExpandedText = try reader["ViewExpandedText"].readIfPresent()
-        value.validationConnection = try reader["ValidationConnection"].readIfPresent()
-        value.isStale = try reader["IsStale"].readIfPresent()
-        return value
-    }
-}
-
-extension GlueClientTypes.FederatedTable {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.FederatedTable {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.FederatedTable()
-        value.identifier = try reader["Identifier"].readIfPresent()
-        value.databaseIdentifier = try reader["DatabaseIdentifier"].readIfPresent()
-        value.connectionName = try reader["ConnectionName"].readIfPresent()
-        value.connectionType = try reader["ConnectionType"].readIfPresent()
+        var value = GlueClientTypes.TableError()
+        value.tableName = try reader["TableName"].readIfPresent()
+        value.errorDetail = try reader["ErrorDetail"].readIfPresent(with: GlueClientTypes.ErrorDetail.read(from:))
         return value
     }
 }
@@ -50881,6 +51406,124 @@ extension GlueClientTypes.TableIdentifier {
     }
 }
 
+extension GlueClientTypes.TableInput {
+
+    static func write(value: GlueClientTypes.TableInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Description"].write(value.description)
+        try writer["LastAccessTime"].writeTimestamp(value.lastAccessTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["LastAnalyzedTime"].writeTimestamp(value.lastAnalyzedTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["Name"].write(value.name)
+        try writer["Owner"].write(value.owner)
+        try writer["Parameters"].writeMap(value.parameters, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["PartitionKeys"].writeList(value.partitionKeys, memberWritingClosure: GlueClientTypes.Column.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Retention"].write(value.retention)
+        try writer["StorageDescriptor"].write(value.storageDescriptor, with: GlueClientTypes.StorageDescriptor.write(value:to:))
+        try writer["TableType"].write(value.tableType)
+        try writer["TargetTable"].write(value.targetTable, with: GlueClientTypes.TableIdentifier.write(value:to:))
+        try writer["ViewDefinition"].write(value.viewDefinition, with: GlueClientTypes.ViewDefinitionInput.write(value:to:))
+        try writer["ViewExpandedText"].write(value.viewExpandedText)
+        try writer["ViewOriginalText"].write(value.viewOriginalText)
+    }
+}
+
+extension GlueClientTypes.TableOptimizer {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.TableOptimizer {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.TableOptimizer()
+        value.type = try reader["type"].readIfPresent()
+        value.configuration = try reader["configuration"].readIfPresent(with: GlueClientTypes.TableOptimizerConfiguration.read(from:))
+        value.lastRun = try reader["lastRun"].readIfPresent(with: GlueClientTypes.TableOptimizerRun.read(from:))
+        value.configurationSource = try reader["configurationSource"].readIfPresent()
+        return value
+    }
+}
+
+extension GlueClientTypes.TableOptimizerConfiguration {
+
+    static func write(value: GlueClientTypes.TableOptimizerConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["compactionConfiguration"].write(value.compactionConfiguration, with: GlueClientTypes.CompactionConfiguration.write(value:to:))
+        try writer["enabled"].write(value.enabled)
+        try writer["orphanFileDeletionConfiguration"].write(value.orphanFileDeletionConfiguration, with: GlueClientTypes.OrphanFileDeletionConfiguration.write(value:to:))
+        try writer["retentionConfiguration"].write(value.retentionConfiguration, with: GlueClientTypes.RetentionConfiguration.write(value:to:))
+        try writer["roleArn"].write(value.roleArn)
+        try writer["vpcConfiguration"].write(value.vpcConfiguration, with: GlueClientTypes.TableOptimizerVpcConfiguration.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.TableOptimizerConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.TableOptimizerConfiguration()
+        value.roleArn = try reader["roleArn"].readIfPresent()
+        value.enabled = try reader["enabled"].readIfPresent()
+        value.vpcConfiguration = try reader["vpcConfiguration"].readIfPresent(with: GlueClientTypes.TableOptimizerVpcConfiguration.read(from:))
+        value.compactionConfiguration = try reader["compactionConfiguration"].readIfPresent(with: GlueClientTypes.CompactionConfiguration.read(from:))
+        value.retentionConfiguration = try reader["retentionConfiguration"].readIfPresent(with: GlueClientTypes.RetentionConfiguration.read(from:))
+        value.orphanFileDeletionConfiguration = try reader["orphanFileDeletionConfiguration"].readIfPresent(with: GlueClientTypes.OrphanFileDeletionConfiguration.read(from:))
+        return value
+    }
+}
+
+extension GlueClientTypes.TableOptimizerRun {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.TableOptimizerRun {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.TableOptimizerRun()
+        value.eventType = try reader["eventType"].readIfPresent()
+        value.startTimestamp = try reader["startTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.endTimestamp = try reader["endTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.metrics = try reader["metrics"].readIfPresent(with: GlueClientTypes.RunMetrics.read(from:))
+        value.error = try reader["error"].readIfPresent()
+        value.compactionMetrics = try reader["compactionMetrics"].readIfPresent(with: GlueClientTypes.CompactionMetrics.read(from:))
+        value.compactionStrategy = try reader["compactionStrategy"].readIfPresent()
+        value.retentionMetrics = try reader["retentionMetrics"].readIfPresent(with: GlueClientTypes.RetentionMetrics.read(from:))
+        value.orphanFileDeletionMetrics = try reader["orphanFileDeletionMetrics"].readIfPresent(with: GlueClientTypes.OrphanFileDeletionMetrics.read(from:))
+        return value
+    }
+}
+
+extension GlueClientTypes.TableOptimizerVpcConfiguration {
+
+    static func write(value: GlueClientTypes.TableOptimizerVpcConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .glueconnectionname(glueconnectionname):
+                try writer["glueConnectionName"].write(glueconnectionname)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.TableOptimizerVpcConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "glueConnectionName":
+                return .glueconnectionname(try reader["glueConnectionName"].read())
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension GlueClientTypes.TableStatus {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.TableStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.TableStatus()
+        value.requestedBy = try reader["RequestedBy"].readIfPresent()
+        value.updatedBy = try reader["UpdatedBy"].readIfPresent()
+        value.requestTime = try reader["RequestTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.updateTime = try reader["UpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.action = try reader["Action"].readIfPresent()
+        value.state = try reader["State"].readIfPresent()
+        value.error = try reader["Error"].readIfPresent(with: GlueClientTypes.ErrorDetail.read(from:))
+        value.details = try reader["Details"].readIfPresent(with: GlueClientTypes.StatusDetails.read(from:))
+        return value
+    }
+}
+
 extension GlueClientTypes.TableVersion {
 
     static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.TableVersion {
@@ -50889,6 +51532,301 @@ extension GlueClientTypes.TableVersion {
         value.table = try reader["Table"].readIfPresent(with: GlueClientTypes.Table.read(from:))
         value.versionId = try reader["VersionId"].readIfPresent()
         return value
+    }
+}
+
+extension GlueClientTypes.TableVersionError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.TableVersionError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.TableVersionError()
+        value.tableName = try reader["TableName"].readIfPresent()
+        value.versionId = try reader["VersionId"].readIfPresent()
+        value.errorDetail = try reader["ErrorDetail"].readIfPresent(with: GlueClientTypes.ErrorDetail.read(from:))
+        return value
+    }
+}
+
+extension GlueClientTypes.Tag {
+
+    static func write(value: GlueClientTypes.Tag?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["key"].write(value.key)
+        try writer["value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.Tag {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.Tag()
+        value.key = try reader["key"].readIfPresent()
+        value.value = try reader["value"].readIfPresent()
+        return value
+    }
+}
+
+extension GlueClientTypes.TargetProcessingProperties {
+
+    static func write(value: GlueClientTypes.TargetProcessingProperties?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ConnectionName"].write(value.connectionName)
+        try writer["EventBusArn"].write(value.eventBusArn)
+        try writer["KmsArn"].write(value.kmsArn)
+        try writer["RoleArn"].write(value.roleArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.TargetProcessingProperties {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.TargetProcessingProperties()
+        value.roleArn = try reader["RoleArn"].readIfPresent()
+        value.kmsArn = try reader["KmsArn"].readIfPresent()
+        value.connectionName = try reader["ConnectionName"].readIfPresent()
+        value.eventBusArn = try reader["EventBusArn"].readIfPresent()
+        return value
+    }
+}
+
+extension GlueClientTypes.TargetRedshiftCatalog {
+
+    static func write(value: GlueClientTypes.TargetRedshiftCatalog?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CatalogArn"].write(value.catalogArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.TargetRedshiftCatalog {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.TargetRedshiftCatalog()
+        value.catalogArn = try reader["CatalogArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension GlueClientTypes.TargetTableConfig {
+
+    static func write(value: GlueClientTypes.TargetTableConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["PartitionSpec"].writeList(value.partitionSpec, memberWritingClosure: GlueClientTypes.IntegrationPartition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["TargetTableName"].write(value.targetTableName)
+        try writer["UnnestSpec"].write(value.unnestSpec)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.TargetTableConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.TargetTableConfig()
+        value.unnestSpec = try reader["UnnestSpec"].readIfPresent()
+        value.partitionSpec = try reader["PartitionSpec"].readListIfPresent(memberReadingClosure: GlueClientTypes.IntegrationPartition.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.targetTableName = try reader["TargetTableName"].readIfPresent()
+        return value
+    }
+}
+
+extension GlueClientTypes.TaskRun {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.TaskRun {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.TaskRun()
+        value.transformId = try reader["TransformId"].readIfPresent()
+        value.taskRunId = try reader["TaskRunId"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.logGroupName = try reader["LogGroupName"].readIfPresent()
+        value.properties = try reader["Properties"].readIfPresent(with: GlueClientTypes.TaskRunProperties.read(from:))
+        value.errorString = try reader["ErrorString"].readIfPresent()
+        value.startedOn = try reader["StartedOn"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastModifiedOn = try reader["LastModifiedOn"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.completedOn = try reader["CompletedOn"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.executionTime = try reader["ExecutionTime"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension GlueClientTypes.TaskRunFilterCriteria {
+
+    static func write(value: GlueClientTypes.TaskRunFilterCriteria?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["StartedAfter"].writeTimestamp(value.startedAfter, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["StartedBefore"].writeTimestamp(value.startedBefore, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["Status"].write(value.status)
+        try writer["TaskRunType"].write(value.taskRunType)
+    }
+}
+
+extension GlueClientTypes.TaskRunProperties {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.TaskRunProperties {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.TaskRunProperties()
+        value.taskType = try reader["TaskType"].readIfPresent()
+        value.importLabelsTaskRunProperties = try reader["ImportLabelsTaskRunProperties"].readIfPresent(with: GlueClientTypes.ImportLabelsTaskRunProperties.read(from:))
+        value.exportLabelsTaskRunProperties = try reader["ExportLabelsTaskRunProperties"].readIfPresent(with: GlueClientTypes.ExportLabelsTaskRunProperties.read(from:))
+        value.labelingSetGenerationTaskRunProperties = try reader["LabelingSetGenerationTaskRunProperties"].readIfPresent(with: GlueClientTypes.LabelingSetGenerationTaskRunProperties.read(from:))
+        value.findMatchesTaskRunProperties = try reader["FindMatchesTaskRunProperties"].readIfPresent(with: GlueClientTypes.FindMatchesTaskRunProperties.read(from:))
+        return value
+    }
+}
+
+extension GlueClientTypes.TaskRunSortCriteria {
+
+    static func write(value: GlueClientTypes.TaskRunSortCriteria?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Column"].write(value.column)
+        try writer["SortDirection"].write(value.sortDirection)
+    }
+}
+
+extension GlueClientTypes.TestConnectionInput {
+
+    static func write(value: GlueClientTypes.TestConnectionInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AuthenticationConfiguration"].write(value.authenticationConfiguration, with: GlueClientTypes.AuthenticationConfigurationInput.write(value:to:))
+        try writer["ConnectionProperties"].writeMap(value.connectionProperties, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["ConnectionType"].write(value.connectionType)
+    }
+}
+
+extension GlueClientTypes.TimestampedInclusionAnnotation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.TimestampedInclusionAnnotation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.TimestampedInclusionAnnotation()
+        value.value = try reader["Value"].readIfPresent()
+        value.lastModifiedOn = try reader["LastModifiedOn"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension GlueClientTypes.TimestampFilter {
+
+    static func write(value: GlueClientTypes.TimestampFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["RecordedAfter"].writeTimestamp(value.recordedAfter, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["RecordedBefore"].writeTimestamp(value.recordedBefore, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+    }
+}
+
+extension GlueClientTypes.TransformConfigParameter {
+
+    static func write(value: GlueClientTypes.TransformConfigParameter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["IsOptional"].write(value.isOptional)
+        try writer["ListType"].write(value.listType)
+        try writer["Name"].write(value.name)
+        try writer["Type"].write(value.type)
+        try writer["ValidationMessage"].write(value.validationMessage)
+        try writer["ValidationRule"].write(value.validationRule)
+        try writer["Value"].writeList(value.value, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.TransformConfigParameter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.TransformConfigParameter()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
+        value.validationRule = try reader["ValidationRule"].readIfPresent()
+        value.validationMessage = try reader["ValidationMessage"].readIfPresent()
+        value.value = try reader["Value"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.listType = try reader["ListType"].readIfPresent()
+        value.isOptional = try reader["IsOptional"].readIfPresent()
+        return value
+    }
+}
+
+extension GlueClientTypes.TransformEncryption {
+
+    static func write(value: GlueClientTypes.TransformEncryption?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MlUserDataEncryption"].write(value.mlUserDataEncryption, with: GlueClientTypes.MLUserDataEncryption.write(value:to:))
+        try writer["TaskRunSecurityConfigurationName"].write(value.taskRunSecurityConfigurationName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.TransformEncryption {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.TransformEncryption()
+        value.mlUserDataEncryption = try reader["MlUserDataEncryption"].readIfPresent(with: GlueClientTypes.MLUserDataEncryption.read(from:))
+        value.taskRunSecurityConfigurationName = try reader["TaskRunSecurityConfigurationName"].readIfPresent()
+        return value
+    }
+}
+
+extension GlueClientTypes.TransformFilterCriteria {
+
+    static func write(value: GlueClientTypes.TransformFilterCriteria?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CreatedAfter"].writeTimestamp(value.createdAfter, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["CreatedBefore"].writeTimestamp(value.createdBefore, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["GlueVersion"].write(value.glueVersion)
+        try writer["LastModifiedAfter"].writeTimestamp(value.lastModifiedAfter, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["LastModifiedBefore"].writeTimestamp(value.lastModifiedBefore, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["Name"].write(value.name)
+        try writer["Schema"].writeList(value.schema, memberWritingClosure: GlueClientTypes.SchemaColumn.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Status"].write(value.status)
+        try writer["TransformType"].write(value.transformType)
+    }
+}
+
+extension GlueClientTypes.TransformParameters {
+
+    static func write(value: GlueClientTypes.TransformParameters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FindMatchesParameters"].write(value.findMatchesParameters, with: GlueClientTypes.FindMatchesParameters.write(value:to:))
+        try writer["TransformType"].write(value.transformType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.TransformParameters {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.TransformParameters()
+        value.transformType = try reader["TransformType"].readIfPresent() ?? .sdkUnknown("")
+        value.findMatchesParameters = try reader["FindMatchesParameters"].readIfPresent(with: GlueClientTypes.FindMatchesParameters.read(from:))
+        return value
+    }
+}
+
+extension GlueClientTypes.TransformSortCriteria {
+
+    static func write(value: GlueClientTypes.TransformSortCriteria?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Column"].write(value.column)
+        try writer["SortDirection"].write(value.sortDirection)
+    }
+}
+
+extension GlueClientTypes.Trigger {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.Trigger {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.Trigger()
+        value.name = try reader["Name"].readIfPresent()
+        value.workflowName = try reader["WorkflowName"].readIfPresent()
+        value.id = try reader["Id"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent()
+        value.state = try reader["State"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.schedule = try reader["Schedule"].readIfPresent()
+        value.actions = try reader["Actions"].readListIfPresent(memberReadingClosure: GlueClientTypes.Action.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.predicate = try reader["Predicate"].readIfPresent(with: GlueClientTypes.Predicate.read(from:))
+        value.eventBatchingCondition = try reader["EventBatchingCondition"].readIfPresent(with: GlueClientTypes.EventBatchingCondition.read(from:))
+        return value
+    }
+}
+
+extension GlueClientTypes.TriggerNodeDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.TriggerNodeDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.TriggerNodeDetails()
+        value.trigger = try reader["Trigger"].readIfPresent(with: GlueClientTypes.Trigger.read(from:))
+        return value
+    }
+}
+
+extension GlueClientTypes.TriggerUpdate {
+
+    static func write(value: GlueClientTypes.TriggerUpdate?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Actions"].writeList(value.actions, memberWritingClosure: GlueClientTypes.Action.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Description"].write(value.description)
+        try writer["EventBatchingCondition"].write(value.eventBatchingCondition, with: GlueClientTypes.EventBatchingCondition.write(value:to:))
+        try writer["Name"].write(value.name)
+        try writer["Predicate"].write(value.predicate, with: GlueClientTypes.Predicate.write(value:to:))
+        try writer["Schedule"].write(value.schedule)
     }
 }
 
@@ -50904,51 +51842,124 @@ extension GlueClientTypes.UnfilteredPartition {
     }
 }
 
-extension GlueClientTypes.ColumnRowFilter {
+extension GlueClientTypes.Union {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.ColumnRowFilter {
+    static func write(value: GlueClientTypes.Union?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Inputs"].writeList(value.inputs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Name"].write(value.name)
+        try writer["UnionType"].write(value.unionType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.Union {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.ColumnRowFilter()
-        value.columnName = try reader["ColumnName"].readIfPresent()
-        value.rowFilterExpression = try reader["RowFilterExpression"].readIfPresent()
+        var value = GlueClientTypes.Union()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.inputs = try reader["Inputs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.unionType = try reader["UnionType"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
 
-extension GlueClientTypes.ProfileConfiguration {
+extension GlueClientTypes.UpdateCsvClassifierRequest {
 
-    static func write(value: GlueClientTypes.ProfileConfiguration?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: GlueClientTypes.UpdateCsvClassifierRequest?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["JobConfiguration"].writeMap(value.jobConfiguration, valueWritingClosure: GlueClientTypes.ConfigurationObject.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["SessionConfiguration"].writeMap(value.sessionConfiguration, valueWritingClosure: GlueClientTypes.ConfigurationObject.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["AllowSingleColumn"].write(value.allowSingleColumn)
+        try writer["ContainsHeader"].write(value.containsHeader)
+        try writer["CustomDatatypeConfigured"].write(value.customDatatypeConfigured)
+        try writer["CustomDatatypes"].writeList(value.customDatatypes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Delimiter"].write(value.delimiter)
+        try writer["DisableValueTrimming"].write(value.disableValueTrimming)
+        try writer["Header"].writeList(value.header, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Name"].write(value.name)
+        try writer["QuoteSymbol"].write(value.quoteSymbol)
+        try writer["Serde"].write(value.serde)
+    }
+}
+
+extension GlueClientTypes.UpdateGrokClassifierRequest {
+
+    static func write(value: GlueClientTypes.UpdateGrokClassifierRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Classification"].write(value.classification)
+        try writer["CustomPatterns"].write(value.customPatterns)
+        try writer["GrokPattern"].write(value.grokPattern)
+        try writer["Name"].write(value.name)
+    }
+}
+
+extension GlueClientTypes.UpdateIcebergInput {
+
+    static func write(value: GlueClientTypes.UpdateIcebergInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["UpdateIcebergTableInput"].write(value.updateIcebergTableInput, with: GlueClientTypes.UpdateIcebergTableInput.write(value:to:))
+    }
+}
+
+extension GlueClientTypes.UpdateIcebergTableInput {
+
+    static func write(value: GlueClientTypes.UpdateIcebergTableInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Updates"].writeList(value.updates, memberWritingClosure: GlueClientTypes.IcebergTableUpdate.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension GlueClientTypes.UpdateJsonClassifierRequest {
+
+    static func write(value: GlueClientTypes.UpdateJsonClassifierRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["JsonPath"].write(value.jsonPath)
+        try writer["Name"].write(value.name)
+    }
+}
+
+extension GlueClientTypes.UpdateOpenTableFormatInput {
+
+    static func write(value: GlueClientTypes.UpdateOpenTableFormatInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["UpdateIcebergInput"].write(value.updateIcebergInput, with: GlueClientTypes.UpdateIcebergInput.write(value:to:))
+    }
+}
+
+extension GlueClientTypes.UpdateXMLClassifierRequest {
+
+    static func write(value: GlueClientTypes.UpdateXMLClassifierRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Classification"].write(value.classification)
+        try writer["Name"].write(value.name)
+        try writer["RowTag"].write(value.rowTag)
+    }
+}
+
+extension GlueClientTypes.UpsertRedshiftTargetOptions {
+
+    static func write(value: GlueClientTypes.UpsertRedshiftTargetOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ConnectionName"].write(value.connectionName)
+        try writer["TableLocation"].write(value.tableLocation)
+        try writer["UpsertKeys"].writeList(value.upsertKeys, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.ProfileConfiguration {
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.UpsertRedshiftTargetOptions {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.ProfileConfiguration()
-        value.sessionConfiguration = try reader["SessionConfiguration"].readMapIfPresent(valueReadingClosure: GlueClientTypes.ConfigurationObject.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.jobConfiguration = try reader["JobConfiguration"].readMapIfPresent(valueReadingClosure: GlueClientTypes.ConfigurationObject.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        var value = GlueClientTypes.UpsertRedshiftTargetOptions()
+        value.tableLocation = try reader["TableLocation"].readIfPresent()
+        value.connectionName = try reader["ConnectionName"].readIfPresent()
+        value.upsertKeys = try reader["UpsertKeys"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
 
-extension GlueClientTypes.ConfigurationObject {
+extension GlueClientTypes.UsageProfileDefinition {
 
-    static func write(value: GlueClientTypes.ConfigurationObject?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AllowedValues"].writeList(value.allowedValues, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["DefaultValue"].write(value.defaultValue)
-        try writer["MaxValue"].write(value.maxValue)
-        try writer["MinValue"].write(value.minValue)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.ConfigurationObject {
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.UsageProfileDefinition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.ConfigurationObject()
-        value.defaultValue = try reader["DefaultValue"].readIfPresent()
-        value.allowedValues = try reader["AllowedValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.minValue = try reader["MinValue"].readIfPresent()
-        value.maxValue = try reader["MaxValue"].readIfPresent()
+        var value = GlueClientTypes.UsageProfileDefinition()
+        value.name = try reader["Name"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.createdOn = try reader["CreatedOn"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastModifiedOn = try reader["LastModifiedOn"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }
@@ -50971,563 +51982,34 @@ extension GlueClientTypes.UserDefinedFunction {
     }
 }
 
-extension GlueClientTypes.ResourceUri {
+extension GlueClientTypes.UserDefinedFunctionInput {
 
-    static func write(value: GlueClientTypes.ResourceUri?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: GlueClientTypes.UserDefinedFunctionInput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["ResourceType"].write(value.resourceType)
-        try writer["Uri"].write(value.uri)
+        try writer["ClassName"].write(value.className)
+        try writer["FunctionName"].write(value.functionName)
+        try writer["FunctionType"].write(value.functionType)
+        try writer["OwnerName"].write(value.ownerName)
+        try writer["OwnerType"].write(value.ownerType)
+        try writer["ResourceUris"].writeList(value.resourceUris, memberWritingClosure: GlueClientTypes.ResourceUri.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
+}
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.ResourceUri {
+extension GlueClientTypes.ViewDefinition {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.ViewDefinition {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.ResourceUri()
-        value.resourceType = try reader["ResourceType"].readIfPresent()
-        value.uri = try reader["Uri"].readIfPresent()
+        var value = GlueClientTypes.ViewDefinition()
+        value.isProtected = try reader["IsProtected"].readIfPresent()
+        value.definer = try reader["Definer"].readIfPresent()
+        value.viewVersionId = try reader["ViewVersionId"].readIfPresent() ?? 0
+        value.viewVersionToken = try reader["ViewVersionToken"].readIfPresent()
+        value.refreshSeconds = try reader["RefreshSeconds"].readIfPresent()
+        value.lastRefreshType = try reader["LastRefreshType"].readIfPresent()
+        value.subObjects = try reader["SubObjects"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.subObjectVersionIds = try reader["SubObjectVersionIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false)
+        value.representations = try reader["Representations"].readListIfPresent(memberReadingClosure: GlueClientTypes.ViewRepresentation.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
-    }
-}
-
-extension GlueClientTypes.ConnectionTypeBrief {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.ConnectionTypeBrief {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.ConnectionTypeBrief()
-        value.connectionType = try reader["ConnectionType"].readIfPresent()
-        value.displayName = try reader["DisplayName"].readIfPresent()
-        value.vendor = try reader["Vendor"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        value.categories = try reader["Categories"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.capabilities = try reader["Capabilities"].readIfPresent(with: GlueClientTypes.Capabilities.read(from:))
-        value.logoUrl = try reader["LogoUrl"].readIfPresent()
-        value.connectionTypeVariants = try reader["ConnectionTypeVariants"].readListIfPresent(memberReadingClosure: GlueClientTypes.ConnectionTypeVariant.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension GlueClientTypes.ConnectionTypeVariant {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.ConnectionTypeVariant {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.ConnectionTypeVariant()
-        value.connectionTypeVariantName = try reader["ConnectionTypeVariantName"].readIfPresent()
-        value.displayName = try reader["DisplayName"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        value.logoUrl = try reader["LogoUrl"].readIfPresent()
-        return value
-    }
-}
-
-extension GlueClientTypes.CrawlerHistory {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.CrawlerHistory {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.CrawlerHistory()
-        value.crawlId = try reader["CrawlId"].readIfPresent()
-        value.state = try reader["State"].readIfPresent()
-        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.summary = try reader["Summary"].readIfPresent()
-        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
-        value.logGroup = try reader["LogGroup"].readIfPresent()
-        value.logStream = try reader["LogStream"].readIfPresent()
-        value.messagePrefix = try reader["MessagePrefix"].readIfPresent()
-        value.dpuHour = try reader["DPUHour"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension GlueClientTypes.DataQualityResultDescription {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.DataQualityResultDescription {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.DataQualityResultDescription()
-        value.resultId = try reader["ResultId"].readIfPresent()
-        value.dataSource = try reader["DataSource"].readIfPresent(with: GlueClientTypes.DataSource.read(from:))
-        value.jobName = try reader["JobName"].readIfPresent()
-        value.jobRunId = try reader["JobRunId"].readIfPresent()
-        value.startedOn = try reader["StartedOn"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension GlueClientTypes.DataQualityRuleRecommendationRunDescription {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.DataQualityRuleRecommendationRunDescription {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.DataQualityRuleRecommendationRunDescription()
-        value.runId = try reader["RunId"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.startedOn = try reader["StartedOn"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.dataSource = try reader["DataSource"].readIfPresent(with: GlueClientTypes.DataSource.read(from:))
-        return value
-    }
-}
-
-extension GlueClientTypes.DataQualityRulesetEvaluationRunDescription {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.DataQualityRulesetEvaluationRunDescription {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.DataQualityRulesetEvaluationRunDescription()
-        value.runId = try reader["RunId"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.startedOn = try reader["StartedOn"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.dataSource = try reader["DataSource"].readIfPresent(with: GlueClientTypes.DataSource.read(from:))
-        return value
-    }
-}
-
-extension GlueClientTypes.DataQualityRulesetListDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.DataQualityRulesetListDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.DataQualityRulesetListDetails()
-        value.name = try reader["Name"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        value.createdOn = try reader["CreatedOn"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastModifiedOn = try reader["LastModifiedOn"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.targetTable = try reader["TargetTable"].readIfPresent(with: GlueClientTypes.DataQualityTargetTable.read(from:))
-        value.recommendationRunId = try reader["RecommendationRunId"].readIfPresent()
-        value.ruleCount = try reader["RuleCount"].readIfPresent()
-        return value
-    }
-}
-
-extension GlueClientTypes.StatisticAnnotation {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.StatisticAnnotation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.StatisticAnnotation()
-        value.profileId = try reader["ProfileId"].readIfPresent()
-        value.statisticId = try reader["StatisticId"].readIfPresent()
-        value.statisticRecordedOn = try reader["StatisticRecordedOn"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.inclusionAnnotation = try reader["InclusionAnnotation"].readIfPresent(with: GlueClientTypes.TimestampedInclusionAnnotation.read(from:))
-        return value
-    }
-}
-
-extension GlueClientTypes.TimestampedInclusionAnnotation {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.TimestampedInclusionAnnotation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.TimestampedInclusionAnnotation()
-        value.value = try reader["Value"].readIfPresent()
-        value.lastModifiedOn = try reader["LastModifiedOn"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension GlueClientTypes.StatisticSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.StatisticSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.StatisticSummary()
-        value.statisticId = try reader["StatisticId"].readIfPresent()
-        value.profileId = try reader["ProfileId"].readIfPresent()
-        value.runIdentifier = try reader["RunIdentifier"].readIfPresent(with: GlueClientTypes.RunIdentifier.read(from:))
-        value.statisticName = try reader["StatisticName"].readIfPresent()
-        value.doubleValue = try reader["DoubleValue"].readIfPresent() ?? 0
-        value.evaluationLevel = try reader["EvaluationLevel"].readIfPresent()
-        value.columnsReferenced = try reader["ColumnsReferenced"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.referencedDatasets = try reader["ReferencedDatasets"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.statisticProperties = try reader["StatisticProperties"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.recordedOn = try reader["RecordedOn"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.inclusionAnnotation = try reader["InclusionAnnotation"].readIfPresent(with: GlueClientTypes.TimestampedInclusionAnnotation.read(from:))
-        return value
-    }
-}
-
-extension GlueClientTypes.RunIdentifier {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.RunIdentifier {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.RunIdentifier()
-        value.runId = try reader["RunId"].readIfPresent()
-        value.jobRunId = try reader["JobRunId"].readIfPresent()
-        return value
-    }
-}
-
-extension GlueClientTypes.Entity {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.Entity {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.Entity()
-        value.entityName = try reader["EntityName"].readIfPresent()
-        value.label = try reader["Label"].readIfPresent()
-        value.isParentEntity = try reader["IsParentEntity"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        value.category = try reader["Category"].readIfPresent()
-        value.customProperties = try reader["CustomProperties"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
-}
-
-extension GlueClientTypes.IntegrationResourceProperty {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.IntegrationResourceProperty {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.IntegrationResourceProperty()
-        value.resourceArn = try reader["ResourceArn"].readIfPresent() ?? ""
-        value.resourcePropertyArn = try reader["ResourcePropertyArn"].readIfPresent()
-        value.sourceProcessingProperties = try reader["SourceProcessingProperties"].readIfPresent(with: GlueClientTypes.SourceProcessingProperties.read(from:))
-        value.targetProcessingProperties = try reader["TargetProcessingProperties"].readIfPresent(with: GlueClientTypes.TargetProcessingProperties.read(from:))
-        return value
-    }
-}
-
-extension GlueClientTypes.RegistryListItem {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.RegistryListItem {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.RegistryListItem()
-        value.registryName = try reader["RegistryName"].readIfPresent()
-        value.registryArn = try reader["RegistryArn"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.createdTime = try reader["CreatedTime"].readIfPresent()
-        value.updatedTime = try reader["UpdatedTime"].readIfPresent()
-        return value
-    }
-}
-
-extension GlueClientTypes.SchemaListItem {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.SchemaListItem {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.SchemaListItem()
-        value.registryName = try reader["RegistryName"].readIfPresent()
-        value.schemaName = try reader["SchemaName"].readIfPresent()
-        value.schemaArn = try reader["SchemaArn"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        value.schemaStatus = try reader["SchemaStatus"].readIfPresent()
-        value.createdTime = try reader["CreatedTime"].readIfPresent()
-        value.updatedTime = try reader["UpdatedTime"].readIfPresent()
-        return value
-    }
-}
-
-extension GlueClientTypes.SchemaVersionListItem {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.SchemaVersionListItem {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.SchemaVersionListItem()
-        value.schemaArn = try reader["SchemaArn"].readIfPresent()
-        value.schemaVersionId = try reader["SchemaVersionId"].readIfPresent()
-        value.versionNumber = try reader["VersionNumber"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.createdTime = try reader["CreatedTime"].readIfPresent()
-        return value
-    }
-}
-
-extension GlueClientTypes.UsageProfileDefinition {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.UsageProfileDefinition {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.UsageProfileDefinition()
-        value.name = try reader["Name"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        value.createdOn = try reader["CreatedOn"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastModifiedOn = try reader["LastModifiedOn"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension GlueClientTypes.MetadataInfo {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.MetadataInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.MetadataInfo()
-        value.metadataValue = try reader["MetadataValue"].readIfPresent()
-        value.createdTime = try reader["CreatedTime"].readIfPresent()
-        value.otherMetadataValueList = try reader["OtherMetadataValueList"].readListIfPresent(memberReadingClosure: GlueClientTypes.OtherMetadataValueListItem.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension GlueClientTypes.OtherMetadataValueListItem {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.OtherMetadataValueListItem {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.OtherMetadataValueListItem()
-        value.metadataValue = try reader["MetadataValue"].readIfPresent()
-        value.createdTime = try reader["CreatedTime"].readIfPresent()
-        return value
-    }
-}
-
-extension GlueClientTypes.ColumnStatisticsError {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.ColumnStatisticsError {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GlueClientTypes.ColumnStatisticsError()
-        value.columnStatistics = try reader["ColumnStatistics"].readIfPresent(with: GlueClientTypes.ColumnStatistics.read(from:))
-        value.error = try reader["Error"].readIfPresent(with: GlueClientTypes.ErrorDetail.read(from:))
-        return value
-    }
-}
-
-extension GlueClientTypes.PartitionInput {
-
-    static func write(value: GlueClientTypes.PartitionInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["LastAccessTime"].writeTimestamp(value.lastAccessTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        try writer["LastAnalyzedTime"].writeTimestamp(value.lastAnalyzedTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        try writer["Parameters"].writeMap(value.parameters, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["StorageDescriptor"].write(value.storageDescriptor, with: GlueClientTypes.StorageDescriptor.write(value:to:))
-        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension GlueClientTypes.BatchGetTableOptimizerEntry {
-
-    static func write(value: GlueClientTypes.BatchGetTableOptimizerEntry?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["catalogId"].write(value.catalogId)
-        try writer["databaseName"].write(value.databaseName)
-        try writer["tableName"].write(value.tableName)
-        try writer["type"].write(value.type)
-    }
-}
-
-extension GlueClientTypes.DatapointInclusionAnnotation {
-
-    static func write(value: GlueClientTypes.DatapointInclusionAnnotation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["InclusionAnnotation"].write(value.inclusionAnnotation)
-        try writer["ProfileId"].write(value.profileId)
-        try writer["StatisticId"].write(value.statisticId)
-    }
-}
-
-extension GlueClientTypes.BatchUpdatePartitionRequestEntry {
-
-    static func write(value: GlueClientTypes.BatchUpdatePartitionRequestEntry?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["PartitionInput"].write(value.partitionInput, with: GlueClientTypes.PartitionInput.write(value:to:))
-        try writer["PartitionValueList"].writeList(value.partitionValueList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension GlueClientTypes.CatalogInput {
-
-    static func write(value: GlueClientTypes.CatalogInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AllowFullTableExternalDataAccess"].write(value.allowFullTableExternalDataAccess)
-        try writer["CatalogProperties"].write(value.catalogProperties, with: GlueClientTypes.CatalogProperties.write(value:to:))
-        try writer["CreateDatabaseDefaultPermissions"].writeList(value.createDatabaseDefaultPermissions, memberWritingClosure: GlueClientTypes.PrincipalPermissions.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["CreateTableDefaultPermissions"].writeList(value.createTableDefaultPermissions, memberWritingClosure: GlueClientTypes.PrincipalPermissions.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Description"].write(value.description)
-        try writer["FederatedCatalog"].write(value.federatedCatalog, with: GlueClientTypes.FederatedCatalog.write(value:to:))
-        try writer["Parameters"].writeMap(value.parameters, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["TargetRedshiftCatalog"].write(value.targetRedshiftCatalog, with: GlueClientTypes.TargetRedshiftCatalog.write(value:to:))
-    }
-}
-
-extension GlueClientTypes.CatalogProperties {
-
-    static func write(value: GlueClientTypes.CatalogProperties?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CustomProperties"].writeMap(value.customProperties, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["DataLakeAccessProperties"].write(value.dataLakeAccessProperties, with: GlueClientTypes.DataLakeAccessProperties.write(value:to:))
-        try writer["IcebergOptimizationProperties"].write(value.icebergOptimizationProperties, with: GlueClientTypes.IcebergOptimizationProperties.write(value:to:))
-    }
-}
-
-extension GlueClientTypes.IcebergOptimizationProperties {
-
-    static func write(value: GlueClientTypes.IcebergOptimizationProperties?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Compaction"].writeMap(value.compaction, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["OrphanFileDeletion"].writeMap(value.orphanFileDeletion, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["Retention"].writeMap(value.retention, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["RoleArn"].write(value.roleArn)
-    }
-}
-
-extension GlueClientTypes.DataLakeAccessProperties {
-
-    static func write(value: GlueClientTypes.DataLakeAccessProperties?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CatalogType"].write(value.catalogType)
-        try writer["DataLakeAccess"].write(value.dataLakeAccess)
-        try writer["DataTransferRole"].write(value.dataTransferRole)
-        try writer["KmsKey"].write(value.kmsKey)
-    }
-}
-
-extension GlueClientTypes.CreateGrokClassifierRequest {
-
-    static func write(value: GlueClientTypes.CreateGrokClassifierRequest?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Classification"].write(value.classification)
-        try writer["CustomPatterns"].write(value.customPatterns)
-        try writer["GrokPattern"].write(value.grokPattern)
-        try writer["Name"].write(value.name)
-    }
-}
-
-extension GlueClientTypes.CreateXMLClassifierRequest {
-
-    static func write(value: GlueClientTypes.CreateXMLClassifierRequest?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Classification"].write(value.classification)
-        try writer["Name"].write(value.name)
-        try writer["RowTag"].write(value.rowTag)
-    }
-}
-
-extension GlueClientTypes.CreateJsonClassifierRequest {
-
-    static func write(value: GlueClientTypes.CreateJsonClassifierRequest?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["JsonPath"].write(value.jsonPath)
-        try writer["Name"].write(value.name)
-    }
-}
-
-extension GlueClientTypes.CreateCsvClassifierRequest {
-
-    static func write(value: GlueClientTypes.CreateCsvClassifierRequest?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AllowSingleColumn"].write(value.allowSingleColumn)
-        try writer["ContainsHeader"].write(value.containsHeader)
-        try writer["CustomDatatypeConfigured"].write(value.customDatatypeConfigured)
-        try writer["CustomDatatypes"].writeList(value.customDatatypes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Delimiter"].write(value.delimiter)
-        try writer["DisableValueTrimming"].write(value.disableValueTrimming)
-        try writer["Header"].writeList(value.header, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Name"].write(value.name)
-        try writer["QuoteSymbol"].write(value.quoteSymbol)
-        try writer["Serde"].write(value.serde)
-    }
-}
-
-extension GlueClientTypes.ConnectionInput {
-
-    static func write(value: GlueClientTypes.ConnectionInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AthenaProperties"].writeMap(value.athenaProperties, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["AuthenticationConfiguration"].write(value.authenticationConfiguration, with: GlueClientTypes.AuthenticationConfigurationInput.write(value:to:))
-        try writer["ConnectionProperties"].writeMap(value.connectionProperties, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["ConnectionType"].write(value.connectionType)
-        try writer["Description"].write(value.description)
-        try writer["MatchCriteria"].writeList(value.matchCriteria, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Name"].write(value.name)
-        try writer["PhysicalConnectionRequirements"].write(value.physicalConnectionRequirements, with: GlueClientTypes.PhysicalConnectionRequirements.write(value:to:))
-        try writer["PythonProperties"].writeMap(value.pythonProperties, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["SparkProperties"].writeMap(value.sparkProperties, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["ValidateCredentials"].write(value.validateCredentials)
-        try writer["ValidateForComputeEnvironments"].writeList(value.validateForComputeEnvironments, memberWritingClosure: SmithyReadWrite.WritingClosureBox<GlueClientTypes.ComputeEnvironment>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension GlueClientTypes.AuthenticationConfigurationInput {
-
-    static func write(value: GlueClientTypes.AuthenticationConfigurationInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AuthenticationType"].write(value.authenticationType)
-        try writer["BasicAuthenticationCredentials"].write(value.basicAuthenticationCredentials, with: GlueClientTypes.BasicAuthenticationCredentials.write(value:to:))
-        try writer["CustomAuthenticationCredentials"].writeMap(value.customAuthenticationCredentials, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["KmsKeyArn"].write(value.kmsKeyArn)
-        try writer["OAuth2Properties"].write(value.oAuth2Properties, with: GlueClientTypes.OAuth2PropertiesInput.write(value:to:))
-        try writer["SecretArn"].write(value.secretArn)
-    }
-}
-
-extension GlueClientTypes.BasicAuthenticationCredentials {
-
-    static func write(value: GlueClientTypes.BasicAuthenticationCredentials?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Password"].write(value.password)
-        try writer["Username"].write(value.username)
-    }
-}
-
-extension GlueClientTypes.OAuth2PropertiesInput {
-
-    static func write(value: GlueClientTypes.OAuth2PropertiesInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AuthorizationCodeProperties"].write(value.authorizationCodeProperties, with: GlueClientTypes.AuthorizationCodeProperties.write(value:to:))
-        try writer["OAuth2ClientApplication"].write(value.oAuth2ClientApplication, with: GlueClientTypes.OAuth2ClientApplication.write(value:to:))
-        try writer["OAuth2Credentials"].write(value.oAuth2Credentials, with: GlueClientTypes.OAuth2Credentials.write(value:to:))
-        try writer["OAuth2GrantType"].write(value.oAuth2GrantType)
-        try writer["TokenUrl"].write(value.tokenUrl)
-        try writer["TokenUrlParametersMap"].writeMap(value.tokenUrlParametersMap, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
-}
-
-extension GlueClientTypes.OAuth2Credentials {
-
-    static func write(value: GlueClientTypes.OAuth2Credentials?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AccessToken"].write(value.accessToken)
-        try writer["JwtToken"].write(value.jwtToken)
-        try writer["RefreshToken"].write(value.refreshToken)
-        try writer["UserManagedClientApplicationClientSecret"].write(value.userManagedClientApplicationClientSecret)
-    }
-}
-
-extension GlueClientTypes.AuthorizationCodeProperties {
-
-    static func write(value: GlueClientTypes.AuthorizationCodeProperties?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AuthorizationCode"].write(value.authorizationCode)
-        try writer["RedirectUri"].write(value.redirectUri)
-    }
-}
-
-extension GlueClientTypes.DatabaseInput {
-
-    static func write(value: GlueClientTypes.DatabaseInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreateTableDefaultPermissions"].writeList(value.createTableDefaultPermissions, memberWritingClosure: GlueClientTypes.PrincipalPermissions.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Description"].write(value.description)
-        try writer["FederatedDatabase"].write(value.federatedDatabase, with: GlueClientTypes.FederatedDatabase.write(value:to:))
-        try writer["LocationUri"].write(value.locationUri)
-        try writer["Name"].write(value.name)
-        try writer["Parameters"].writeMap(value.parameters, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["TargetDatabase"].write(value.targetDatabase, with: GlueClientTypes.DatabaseIdentifier.write(value:to:))
-    }
-}
-
-extension GlueClientTypes.PartitionIndex {
-
-    static func write(value: GlueClientTypes.PartitionIndex?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["IndexName"].write(value.indexName)
-        try writer["Keys"].writeList(value.keys, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension GlueClientTypes.RegistryId {
-
-    static func write(value: GlueClientTypes.RegistryId?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["RegistryArn"].write(value.registryArn)
-        try writer["RegistryName"].write(value.registryName)
-    }
-}
-
-extension GlueClientTypes.TableInput {
-
-    static func write(value: GlueClientTypes.TableInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Description"].write(value.description)
-        try writer["LastAccessTime"].writeTimestamp(value.lastAccessTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        try writer["LastAnalyzedTime"].writeTimestamp(value.lastAnalyzedTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        try writer["Name"].write(value.name)
-        try writer["Owner"].write(value.owner)
-        try writer["Parameters"].writeMap(value.parameters, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["PartitionKeys"].writeList(value.partitionKeys, memberWritingClosure: GlueClientTypes.Column.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Retention"].write(value.retention)
-        try writer["StorageDescriptor"].write(value.storageDescriptor, with: GlueClientTypes.StorageDescriptor.write(value:to:))
-        try writer["TableType"].write(value.tableType)
-        try writer["TargetTable"].write(value.targetTable, with: GlueClientTypes.TableIdentifier.write(value:to:))
-        try writer["ViewDefinition"].write(value.viewDefinition, with: GlueClientTypes.ViewDefinitionInput.write(value:to:))
-        try writer["ViewExpandedText"].write(value.viewExpandedText)
-        try writer["ViewOriginalText"].write(value.viewOriginalText)
     }
 }
 
@@ -51547,6 +52029,21 @@ extension GlueClientTypes.ViewDefinitionInput {
     }
 }
 
+extension GlueClientTypes.ViewRepresentation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.ViewRepresentation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.ViewRepresentation()
+        value.dialect = try reader["Dialect"].readIfPresent()
+        value.dialectVersion = try reader["DialectVersion"].readIfPresent()
+        value.viewOriginalText = try reader["ViewOriginalText"].readIfPresent()
+        value.viewExpandedText = try reader["ViewExpandedText"].readIfPresent()
+        value.validationConnection = try reader["ValidationConnection"].readIfPresent()
+        value.isStale = try reader["IsStale"].readIfPresent()
+        return value
+    }
+}
+
 extension GlueClientTypes.ViewRepresentationInput {
 
     static func write(value: GlueClientTypes.ViewRepresentationInput?, to writer: SmithyJSON.Writer) throws {
@@ -51559,596 +52056,99 @@ extension GlueClientTypes.ViewRepresentationInput {
     }
 }
 
-extension GlueClientTypes.OpenTableFormatInput {
+extension GlueClientTypes.ViewValidation {
 
-    static func write(value: GlueClientTypes.OpenTableFormatInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["IcebergInput"].write(value.icebergInput, with: GlueClientTypes.IcebergInput.write(value:to:))
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.ViewValidation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.ViewValidation()
+        value.dialect = try reader["Dialect"].readIfPresent()
+        value.dialectVersion = try reader["DialectVersion"].readIfPresent()
+        value.viewValidationText = try reader["ViewValidationText"].readIfPresent()
+        value.updateTime = try reader["UpdateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.state = try reader["State"].readIfPresent()
+        value.error = try reader["Error"].readIfPresent(with: GlueClientTypes.ErrorDetail.read(from:))
+        return value
     }
 }
 
-extension GlueClientTypes.IcebergInput {
+extension GlueClientTypes.Workflow {
 
-    static func write(value: GlueClientTypes.IcebergInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreateIcebergTableInput"].write(value.createIcebergTableInput, with: GlueClientTypes.CreateIcebergTableInput.write(value:to:))
-        try writer["MetadataOperation"].write(value.metadataOperation)
-        try writer["Version"].write(value.version)
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.Workflow {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.Workflow()
+        value.name = try reader["Name"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.defaultRunProperties = try reader["DefaultRunProperties"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.createdOn = try reader["CreatedOn"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastModifiedOn = try reader["LastModifiedOn"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastRun = try reader["LastRun"].readIfPresent(with: GlueClientTypes.WorkflowRun.read(from:))
+        value.graph = try reader["Graph"].readIfPresent(with: GlueClientTypes.WorkflowGraph.read(from:))
+        value.maxConcurrentRuns = try reader["MaxConcurrentRuns"].readIfPresent()
+        value.blueprintDetails = try reader["BlueprintDetails"].readIfPresent(with: GlueClientTypes.BlueprintDetails.read(from:))
+        return value
     }
 }
 
-extension GlueClientTypes.CreateIcebergTableInput {
+extension GlueClientTypes.WorkflowGraph {
 
-    static func write(value: GlueClientTypes.CreateIcebergTableInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Location"].write(value.location)
-        try writer["PartitionSpec"].write(value.partitionSpec, with: GlueClientTypes.IcebergPartitionSpec.write(value:to:))
-        try writer["Properties"].writeMap(value.properties, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["Schema"].write(value.schema, with: GlueClientTypes.IcebergSchema.write(value:to:))
-        try writer["WriteOrder"].write(value.writeOrder, with: GlueClientTypes.IcebergSortOrder.write(value:to:))
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.WorkflowGraph {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.WorkflowGraph()
+        value.nodes = try reader["Nodes"].readListIfPresent(memberReadingClosure: GlueClientTypes.Node.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.edges = try reader["Edges"].readListIfPresent(memberReadingClosure: GlueClientTypes.Edge.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
     }
 }
 
-extension GlueClientTypes.IcebergSortOrder {
+extension GlueClientTypes.WorkflowRun {
 
-    static func write(value: GlueClientTypes.IcebergSortOrder?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Fields"].writeList(value.fields, memberWritingClosure: GlueClientTypes.IcebergSortField.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["OrderId"].write(value.orderId)
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.WorkflowRun {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.WorkflowRun()
+        value.name = try reader["Name"].readIfPresent()
+        value.workflowRunId = try reader["WorkflowRunId"].readIfPresent()
+        value.previousRunId = try reader["PreviousRunId"].readIfPresent()
+        value.workflowRunProperties = try reader["WorkflowRunProperties"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.startedOn = try reader["StartedOn"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.completedOn = try reader["CompletedOn"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.status = try reader["Status"].readIfPresent()
+        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
+        value.statistics = try reader["Statistics"].readIfPresent(with: GlueClientTypes.WorkflowRunStatistics.read(from:))
+        value.graph = try reader["Graph"].readIfPresent(with: GlueClientTypes.WorkflowGraph.read(from:))
+        value.startingEventBatchCondition = try reader["StartingEventBatchCondition"].readIfPresent(with: GlueClientTypes.StartingEventBatchCondition.read(from:))
+        return value
     }
 }
 
-extension GlueClientTypes.IcebergSortField {
+extension GlueClientTypes.WorkflowRunStatistics {
 
-    static func write(value: GlueClientTypes.IcebergSortField?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Direction"].write(value.direction)
-        try writer["NullOrder"].write(value.nullOrder)
-        try writer["SourceId"].write(value.sourceId)
-        try writer["Transform"].write(value.transform)
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.WorkflowRunStatistics {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.WorkflowRunStatistics()
+        value.totalActions = try reader["TotalActions"].readIfPresent() ?? 0
+        value.timeoutActions = try reader["TimeoutActions"].readIfPresent() ?? 0
+        value.failedActions = try reader["FailedActions"].readIfPresent() ?? 0
+        value.stoppedActions = try reader["StoppedActions"].readIfPresent() ?? 0
+        value.succeededActions = try reader["SucceededActions"].readIfPresent() ?? 0
+        value.runningActions = try reader["RunningActions"].readIfPresent() ?? 0
+        value.erroredActions = try reader["ErroredActions"].readIfPresent() ?? 0
+        value.waitingActions = try reader["WaitingActions"].readIfPresent() ?? 0
+        return value
     }
 }
 
-extension GlueClientTypes.IcebergPartitionSpec {
-
-    static func write(value: GlueClientTypes.IcebergPartitionSpec?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Fields"].writeList(value.fields, memberWritingClosure: GlueClientTypes.IcebergPartitionField.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["SpecId"].write(value.specId)
-    }
-}
-
-extension GlueClientTypes.IcebergPartitionField {
-
-    static func write(value: GlueClientTypes.IcebergPartitionField?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["FieldId"].write(value.fieldId)
-        try writer["Name"].write(value.name)
-        try writer["SourceId"].write(value.sourceId)
-        try writer["Transform"].write(value.transform)
-    }
-}
-
-extension GlueClientTypes.IcebergSchema {
-
-    static func write(value: GlueClientTypes.IcebergSchema?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Fields"].writeList(value.fields, memberWritingClosure: GlueClientTypes.IcebergStructField.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["IdentifierFieldIds"].writeList(value.identifierFieldIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeInt(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["SchemaId"].write(value.schemaId)
-        try writer["Type"].write(value.type)
-    }
-}
-
-extension GlueClientTypes.IcebergStructField {
-
-    static func write(value: GlueClientTypes.IcebergStructField?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Doc"].write(value.doc)
-        try writer["Id"].write(value.id)
-        try writer["InitialDefault"].write(value.initialDefault)
-        try writer["Name"].write(value.name)
-        try writer["Required"].write(value.`required`)
-        try writer["Type"].write(value.type)
-        try writer["WriteDefault"].write(value.writeDefault)
-    }
-}
-
-extension GlueClientTypes.UserDefinedFunctionInput {
-
-    static func write(value: GlueClientTypes.UserDefinedFunctionInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ClassName"].write(value.className)
-        try writer["FunctionName"].write(value.functionName)
-        try writer["FunctionType"].write(value.functionType)
-        try writer["OwnerName"].write(value.ownerName)
-        try writer["OwnerType"].write(value.ownerType)
-        try writer["ResourceUris"].writeList(value.resourceUris, memberWritingClosure: GlueClientTypes.ResourceUri.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension GlueClientTypes.IntegrationFilter {
-
-    static func write(value: GlueClientTypes.IntegrationFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension GlueClientTypes.GetConnectionsFilter {
-
-    static func write(value: GlueClientTypes.GetConnectionsFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ConnectionSchemaVersion"].write(value.connectionSchemaVersion)
-        try writer["ConnectionType"].write(value.connectionType)
-        try writer["MatchCriteria"].writeList(value.matchCriteria, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension GlueClientTypes.CatalogEntry {
-
-    static func write(value: GlueClientTypes.CatalogEntry?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DatabaseName"].write(value.databaseName)
-        try writer["TableName"].write(value.tableName)
-    }
-}
-
-extension GlueClientTypes.Location {
-
-    static func write(value: GlueClientTypes.Location?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DynamoDB"].writeList(value.dynamoDB, memberWritingClosure: GlueClientTypes.CodeGenNodeArg.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Jdbc"].writeList(value.jdbc, memberWritingClosure: GlueClientTypes.CodeGenNodeArg.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["S3"].writeList(value.s3, memberWritingClosure: GlueClientTypes.CodeGenNodeArg.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension GlueClientTypes.TaskRunFilterCriteria {
-
-    static func write(value: GlueClientTypes.TaskRunFilterCriteria?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["StartedAfter"].writeTimestamp(value.startedAfter, format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        try writer["StartedBefore"].writeTimestamp(value.startedBefore, format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        try writer["Status"].write(value.status)
-        try writer["TaskRunType"].write(value.taskRunType)
-    }
-}
-
-extension GlueClientTypes.TaskRunSortCriteria {
-
-    static func write(value: GlueClientTypes.TaskRunSortCriteria?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Column"].write(value.column)
-        try writer["SortDirection"].write(value.sortDirection)
-    }
-}
-
-extension GlueClientTypes.TransformFilterCriteria {
-
-    static func write(value: GlueClientTypes.TransformFilterCriteria?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreatedAfter"].writeTimestamp(value.createdAfter, format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        try writer["CreatedBefore"].writeTimestamp(value.createdBefore, format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        try writer["GlueVersion"].write(value.glueVersion)
-        try writer["LastModifiedAfter"].writeTimestamp(value.lastModifiedAfter, format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        try writer["LastModifiedBefore"].writeTimestamp(value.lastModifiedBefore, format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        try writer["Name"].write(value.name)
-        try writer["Schema"].writeList(value.schema, memberWritingClosure: GlueClientTypes.SchemaColumn.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Status"].write(value.status)
-        try writer["TransformType"].write(value.transformType)
-    }
-}
-
-extension GlueClientTypes.TransformSortCriteria {
-
-    static func write(value: GlueClientTypes.TransformSortCriteria?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Column"].write(value.column)
-        try writer["SortDirection"].write(value.sortDirection)
-    }
-}
-
-extension GlueClientTypes.Segment {
-
-    static func write(value: GlueClientTypes.Segment?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["SegmentNumber"].write(value.segmentNumber)
-        try writer["TotalSegments"].write(value.totalSegments)
-    }
-}
-
-extension GlueClientTypes.SchemaVersionNumber {
-
-    static func write(value: GlueClientTypes.SchemaVersionNumber?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["LatestVersion"].write(value.latestVersion)
-        try writer["VersionNumber"].write(value.versionNumber)
-    }
-}
-
-extension GlueClientTypes.AuditContext {
-
-    static func write(value: GlueClientTypes.AuditContext?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AdditionalAuditContext"].write(value.additionalAuditContext)
-        try writer["AllColumnsRequested"].write(value.allColumnsRequested)
-        try writer["RequestedColumns"].writeList(value.requestedColumns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension GlueClientTypes.QuerySessionContext {
-
-    static func write(value: GlueClientTypes.QuerySessionContext?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AdditionalContext"].writeMap(value.additionalContext, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["ClusterId"].write(value.clusterId)
-        try writer["QueryAuthorizationId"].write(value.queryAuthorizationId)
-        try writer["QueryId"].write(value.queryId)
-        try writer["QueryStartTime"].writeTimestamp(value.queryStartTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
-    }
-}
-
-extension GlueClientTypes.SupportedDialect {
-
-    static func write(value: GlueClientTypes.SupportedDialect?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Dialect"].write(value.dialect)
-        try writer["DialectVersion"].write(value.dialectVersion)
-    }
-}
-
-extension GlueClientTypes.CrawlsFilter {
-
-    static func write(value: GlueClientTypes.CrawlsFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["FieldName"].write(value.fieldName)
-        try writer["FieldValue"].write(value.fieldValue)
-        try writer["FilterOperator"].write(value.filterOperator)
-    }
-}
-
-extension GlueClientTypes.DataQualityResultFilterCriteria {
-
-    static func write(value: GlueClientTypes.DataQualityResultFilterCriteria?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DataSource"].write(value.dataSource, with: GlueClientTypes.DataSource.write(value:to:))
-        try writer["JobName"].write(value.jobName)
-        try writer["JobRunId"].write(value.jobRunId)
-        try writer["StartedAfter"].writeTimestamp(value.startedAfter, format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        try writer["StartedBefore"].writeTimestamp(value.startedBefore, format: SmithyTimestamps.TimestampFormat.epochSeconds)
-    }
-}
-
-extension GlueClientTypes.DataQualityRuleRecommendationRunFilter {
-
-    static func write(value: GlueClientTypes.DataQualityRuleRecommendationRunFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DataSource"].write(value.dataSource, with: GlueClientTypes.DataSource.write(value:to:))
-        try writer["StartedAfter"].writeTimestamp(value.startedAfter, format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        try writer["StartedBefore"].writeTimestamp(value.startedBefore, format: SmithyTimestamps.TimestampFormat.epochSeconds)
-    }
-}
-
-extension GlueClientTypes.DataQualityRulesetEvaluationRunFilter {
-
-    static func write(value: GlueClientTypes.DataQualityRulesetEvaluationRunFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DataSource"].write(value.dataSource, with: GlueClientTypes.DataSource.write(value:to:))
-        try writer["StartedAfter"].writeTimestamp(value.startedAfter, format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        try writer["StartedBefore"].writeTimestamp(value.startedBefore, format: SmithyTimestamps.TimestampFormat.epochSeconds)
-    }
-}
-
-extension GlueClientTypes.DataQualityRulesetFilterCriteria {
-
-    static func write(value: GlueClientTypes.DataQualityRulesetFilterCriteria?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CreatedAfter"].writeTimestamp(value.createdAfter, format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        try writer["CreatedBefore"].writeTimestamp(value.createdBefore, format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        try writer["Description"].write(value.description)
-        try writer["LastModifiedAfter"].writeTimestamp(value.lastModifiedAfter, format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        try writer["LastModifiedBefore"].writeTimestamp(value.lastModifiedBefore, format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        try writer["Name"].write(value.name)
-        try writer["TargetTable"].write(value.targetTable, with: GlueClientTypes.DataQualityTargetTable.write(value:to:))
-    }
-}
-
-extension GlueClientTypes.TimestampFilter {
-
-    static func write(value: GlueClientTypes.TimestampFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["RecordedAfter"].writeTimestamp(value.recordedAfter, format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        try writer["RecordedBefore"].writeTimestamp(value.recordedBefore, format: SmithyTimestamps.TimestampFormat.epochSeconds)
-    }
-}
-
-extension GlueClientTypes.IntegrationResourcePropertyFilter {
-
-    static func write(value: GlueClientTypes.IntegrationResourcePropertyFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension GlueClientTypes.MetadataKeyValuePair {
-
-    static func write(value: GlueClientTypes.MetadataKeyValuePair?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["MetadataKey"].write(value.metadataKey)
-        try writer["MetadataValue"].write(value.metadataValue)
-    }
-}
-
-extension GlueClientTypes.ConnectionPropertiesConfiguration {
-
-    static func write(value: GlueClientTypes.ConnectionPropertiesConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AdditionalRequestParameters"].writeList(value.additionalRequestParameters, memberWritingClosure: GlueClientTypes.ConnectorProperty.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Url"].write(value.url, with: GlueClientTypes.ConnectorProperty.write(value:to:))
-    }
-}
-
-extension GlueClientTypes.ConnectorAuthenticationConfiguration {
-
-    static func write(value: GlueClientTypes.ConnectorAuthenticationConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AuthenticationTypes"].writeList(value.authenticationTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<GlueClientTypes.AuthenticationType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["BasicAuthenticationProperties"].write(value.basicAuthenticationProperties, with: GlueClientTypes.BasicAuthenticationProperties.write(value:to:))
-        try writer["CustomAuthenticationProperties"].write(value.customAuthenticationProperties, with: GlueClientTypes.CustomAuthenticationProperties.write(value:to:))
-        try writer["OAuth2Properties"].write(value.oAuth2Properties, with: GlueClientTypes.ConnectorOAuth2Properties.write(value:to:))
-    }
-}
-
-extension GlueClientTypes.CustomAuthenticationProperties {
-
-    static func write(value: GlueClientTypes.CustomAuthenticationProperties?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AuthenticationParameters"].writeList(value.authenticationParameters, memberWritingClosure: GlueClientTypes.ConnectorProperty.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension GlueClientTypes.BasicAuthenticationProperties {
-
-    static func write(value: GlueClientTypes.BasicAuthenticationProperties?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Password"].write(value.password, with: GlueClientTypes.ConnectorProperty.write(value:to:))
-        try writer["Username"].write(value.username, with: GlueClientTypes.ConnectorProperty.write(value:to:))
-    }
-}
-
-extension GlueClientTypes.ConnectorOAuth2Properties {
-
-    static func write(value: GlueClientTypes.ConnectorOAuth2Properties?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AuthorizationCodeProperties"].write(value.authorizationCodeProperties, with: GlueClientTypes.ConnectorAuthorizationCodeProperties.write(value:to:))
-        try writer["ClientCredentialsProperties"].write(value.clientCredentialsProperties, with: GlueClientTypes.ClientCredentialsProperties.write(value:to:))
-        try writer["JWTBearerProperties"].write(value.jwtBearerProperties, with: GlueClientTypes.JWTBearerProperties.write(value:to:))
-        try writer["OAuth2GrantType"].write(value.oAuth2GrantType)
-    }
-}
-
-extension GlueClientTypes.ConnectorAuthorizationCodeProperties {
-
-    static func write(value: GlueClientTypes.ConnectorAuthorizationCodeProperties?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AuthorizationCode"].write(value.authorizationCode, with: GlueClientTypes.ConnectorProperty.write(value:to:))
-        try writer["AuthorizationCodeUrl"].write(value.authorizationCodeUrl, with: GlueClientTypes.ConnectorProperty.write(value:to:))
-        try writer["ClientId"].write(value.clientId, with: GlueClientTypes.ConnectorProperty.write(value:to:))
-        try writer["ClientSecret"].write(value.clientSecret, with: GlueClientTypes.ConnectorProperty.write(value:to:))
-        try writer["ContentType"].write(value.contentType)
-        try writer["Prompt"].write(value.prompt, with: GlueClientTypes.ConnectorProperty.write(value:to:))
-        try writer["RedirectUri"].write(value.redirectUri, with: GlueClientTypes.ConnectorProperty.write(value:to:))
-        try writer["RequestMethod"].write(value.requestMethod)
-        try writer["Scope"].write(value.scope, with: GlueClientTypes.ConnectorProperty.write(value:to:))
-        try writer["TokenUrl"].write(value.tokenUrl, with: GlueClientTypes.ConnectorProperty.write(value:to:))
-        try writer["TokenUrlParameters"].writeList(value.tokenUrlParameters, memberWritingClosure: GlueClientTypes.ConnectorProperty.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension GlueClientTypes.JWTBearerProperties {
-
-    static func write(value: GlueClientTypes.JWTBearerProperties?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ContentType"].write(value.contentType)
-        try writer["JwtToken"].write(value.jwtToken, with: GlueClientTypes.ConnectorProperty.write(value:to:))
-        try writer["RequestMethod"].write(value.requestMethod)
-        try writer["TokenUrl"].write(value.tokenUrl, with: GlueClientTypes.ConnectorProperty.write(value:to:))
-        try writer["TokenUrlParameters"].writeList(value.tokenUrlParameters, memberWritingClosure: GlueClientTypes.ConnectorProperty.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension GlueClientTypes.ClientCredentialsProperties {
-
-    static func write(value: GlueClientTypes.ClientCredentialsProperties?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ClientId"].write(value.clientId, with: GlueClientTypes.ConnectorProperty.write(value:to:))
-        try writer["ClientSecret"].write(value.clientSecret, with: GlueClientTypes.ConnectorProperty.write(value:to:))
-        try writer["ContentType"].write(value.contentType)
-        try writer["RequestMethod"].write(value.requestMethod)
-        try writer["Scope"].write(value.scope, with: GlueClientTypes.ConnectorProperty.write(value:to:))
-        try writer["TokenUrl"].write(value.tokenUrl, with: GlueClientTypes.ConnectorProperty.write(value:to:))
-        try writer["TokenUrlParameters"].writeList(value.tokenUrlParameters, memberWritingClosure: GlueClientTypes.ConnectorProperty.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension GlueClientTypes.PropertyPredicate {
-
-    static func write(value: GlueClientTypes.PropertyPredicate?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Comparator"].write(value.comparator)
-        try writer["Key"].write(value.key)
-        try writer["Value"].write(value.value)
-    }
-}
-
-extension GlueClientTypes.SortCriterion {
-
-    static func write(value: GlueClientTypes.SortCriterion?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["FieldName"].write(value.fieldName)
-        try writer["Sort"].write(value.sort)
-    }
-}
-
-extension GlueClientTypes.TestConnectionInput {
-
-    static func write(value: GlueClientTypes.TestConnectionInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AuthenticationConfiguration"].write(value.authenticationConfiguration, with: GlueClientTypes.AuthenticationConfigurationInput.write(value:to:))
-        try writer["ConnectionProperties"].writeMap(value.connectionProperties, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["ConnectionType"].write(value.connectionType)
-    }
-}
-
-extension GlueClientTypes.UpdateGrokClassifierRequest {
-
-    static func write(value: GlueClientTypes.UpdateGrokClassifierRequest?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Classification"].write(value.classification)
-        try writer["CustomPatterns"].write(value.customPatterns)
-        try writer["GrokPattern"].write(value.grokPattern)
-        try writer["Name"].write(value.name)
-    }
-}
-
-extension GlueClientTypes.UpdateXMLClassifierRequest {
-
-    static func write(value: GlueClientTypes.UpdateXMLClassifierRequest?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Classification"].write(value.classification)
-        try writer["Name"].write(value.name)
-        try writer["RowTag"].write(value.rowTag)
-    }
-}
-
-extension GlueClientTypes.UpdateJsonClassifierRequest {
-
-    static func write(value: GlueClientTypes.UpdateJsonClassifierRequest?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["JsonPath"].write(value.jsonPath)
-        try writer["Name"].write(value.name)
-    }
-}
-
-extension GlueClientTypes.UpdateCsvClassifierRequest {
-
-    static func write(value: GlueClientTypes.UpdateCsvClassifierRequest?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AllowSingleColumn"].write(value.allowSingleColumn)
-        try writer["ContainsHeader"].write(value.containsHeader)
-        try writer["CustomDatatypeConfigured"].write(value.customDatatypeConfigured)
-        try writer["CustomDatatypes"].writeList(value.customDatatypes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Delimiter"].write(value.delimiter)
-        try writer["DisableValueTrimming"].write(value.disableValueTrimming)
-        try writer["Header"].writeList(value.header, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Name"].write(value.name)
-        try writer["QuoteSymbol"].write(value.quoteSymbol)
-        try writer["Serde"].write(value.serde)
-    }
-}
-
-extension GlueClientTypes.DevEndpointCustomLibraries {
-
-    static func write(value: GlueClientTypes.DevEndpointCustomLibraries?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ExtraJarsS3Path"].write(value.extraJarsS3Path)
-        try writer["ExtraPythonLibsS3Path"].write(value.extraPythonLibsS3Path)
-    }
-}
-
-extension GlueClientTypes.JobUpdate {
-
-    static func write(value: GlueClientTypes.JobUpdate?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AllocatedCapacity"].write(value.allocatedCapacity)
-        try writer["CodeGenConfigurationNodes"].writeMap(value.codeGenConfigurationNodes, valueWritingClosure: GlueClientTypes.CodeGenConfigurationNode.write(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["Command"].write(value.command, with: GlueClientTypes.JobCommand.write(value:to:))
-        try writer["Connections"].write(value.connections, with: GlueClientTypes.ConnectionsList.write(value:to:))
-        try writer["DefaultArguments"].writeMap(value.defaultArguments, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["Description"].write(value.description)
-        try writer["ExecutionClass"].write(value.executionClass)
-        try writer["ExecutionProperty"].write(value.executionProperty, with: GlueClientTypes.ExecutionProperty.write(value:to:))
-        try writer["GlueVersion"].write(value.glueVersion)
-        try writer["JobMode"].write(value.jobMode)
-        try writer["JobRunQueuingEnabled"].write(value.jobRunQueuingEnabled)
-        try writer["LogUri"].write(value.logUri)
-        try writer["MaintenanceWindow"].write(value.maintenanceWindow)
-        try writer["MaxCapacity"].write(value.maxCapacity)
-        try writer["MaxRetries"].write(value.maxRetries)
-        try writer["NonOverridableArguments"].writeMap(value.nonOverridableArguments, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["NotificationProperty"].write(value.notificationProperty, with: GlueClientTypes.NotificationProperty.write(value:to:))
-        try writer["NumberOfWorkers"].write(value.numberOfWorkers)
-        try writer["Role"].write(value.role)
-        try writer["SecurityConfiguration"].write(value.securityConfiguration)
-        try writer["SourceControlDetails"].write(value.sourceControlDetails, with: GlueClientTypes.SourceControlDetails.write(value:to:))
-        try writer["Timeout"].write(value.timeout)
-        try writer["WorkerType"].write(value.workerType)
-    }
-}
-
-extension GlueClientTypes.UpdateOpenTableFormatInput {
-
-    static func write(value: GlueClientTypes.UpdateOpenTableFormatInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["UpdateIcebergInput"].write(value.updateIcebergInput, with: GlueClientTypes.UpdateIcebergInput.write(value:to:))
-    }
-}
-
-extension GlueClientTypes.UpdateIcebergInput {
-
-    static func write(value: GlueClientTypes.UpdateIcebergInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["UpdateIcebergTableInput"].write(value.updateIcebergTableInput, with: GlueClientTypes.UpdateIcebergTableInput.write(value:to:))
-    }
-}
-
-extension GlueClientTypes.UpdateIcebergTableInput {
-
-    static func write(value: GlueClientTypes.UpdateIcebergTableInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Updates"].writeList(value.updates, memberWritingClosure: GlueClientTypes.IcebergTableUpdate.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension GlueClientTypes.IcebergTableUpdate {
-
-    static func write(value: GlueClientTypes.IcebergTableUpdate?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Action"].write(value.action)
-        try writer["EncryptionKey"].write(value.encryptionKey, with: GlueClientTypes.IcebergEncryptedKey.write(value:to:))
-        try writer["KeyId"].write(value.keyId)
-        try writer["Location"].write(value.location)
-        try writer["PartitionSpec"].write(value.partitionSpec, with: GlueClientTypes.IcebergPartitionSpec.write(value:to:))
-        try writer["Properties"].writeMap(value.properties, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["Schema"].write(value.schema, with: GlueClientTypes.IcebergSchema.write(value:to:))
-        try writer["SortOrder"].write(value.sortOrder, with: GlueClientTypes.IcebergSortOrder.write(value:to:))
-    }
-}
-
-extension GlueClientTypes.IcebergEncryptedKey {
-
-    static func write(value: GlueClientTypes.IcebergEncryptedKey?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["EncryptedById"].write(value.encryptedById)
-        try writer["EncryptedKeyMetadata"].write(value.encryptedKeyMetadata)
-        try writer["KeyId"].write(value.keyId)
-        try writer["Properties"].writeMap(value.properties, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
-}
-
-extension GlueClientTypes.TriggerUpdate {
-
-    static func write(value: GlueClientTypes.TriggerUpdate?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Actions"].writeList(value.actions, memberWritingClosure: GlueClientTypes.Action.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Description"].write(value.description)
-        try writer["EventBatchingCondition"].write(value.eventBatchingCondition, with: GlueClientTypes.EventBatchingCondition.write(value:to:))
-        try writer["Name"].write(value.name)
-        try writer["Predicate"].write(value.predicate, with: GlueClientTypes.Predicate.write(value:to:))
-        try writer["Schedule"].write(value.schedule)
+extension GlueClientTypes.XMLClassifier {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GlueClientTypes.XMLClassifier {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GlueClientTypes.XMLClassifier()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.classification = try reader["Classification"].readIfPresent() ?? ""
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastUpdated = try reader["LastUpdated"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.version = try reader["Version"].readIfPresent() ?? 0
+        value.rowTag = try reader["RowTag"].readIfPresent()
+        return value
     }
 }
 

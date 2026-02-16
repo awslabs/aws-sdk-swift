@@ -1921,20 +1921,6 @@ extension ConcurrentAccessException {
     }
 }
 
-extension Cloud9ClientTypes.EnvironmentMember {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> Cloud9ClientTypes.EnvironmentMember {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = Cloud9ClientTypes.EnvironmentMember()
-        value.permissions = try reader["permissions"].readIfPresent() ?? .sdkUnknown("")
-        value.userId = try reader["userId"].readIfPresent() ?? ""
-        value.userArn = try reader["userArn"].readIfPresent() ?? ""
-        value.environmentId = try reader["environmentId"].readIfPresent() ?? ""
-        value.lastAccess = try reader["lastAccess"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
 extension Cloud9ClientTypes.Environment {
 
     static func read(from reader: SmithyJSON.Reader) throws -> Cloud9ClientTypes.Environment {
@@ -1961,6 +1947,20 @@ extension Cloud9ClientTypes.EnvironmentLifecycle {
         value.status = try reader["status"].readIfPresent()
         value.reason = try reader["reason"].readIfPresent()
         value.failureResource = try reader["failureResource"].readIfPresent()
+        return value
+    }
+}
+
+extension Cloud9ClientTypes.EnvironmentMember {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> Cloud9ClientTypes.EnvironmentMember {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = Cloud9ClientTypes.EnvironmentMember()
+        value.permissions = try reader["permissions"].readIfPresent() ?? .sdkUnknown("")
+        value.userId = try reader["userId"].readIfPresent() ?? ""
+        value.userArn = try reader["userArn"].readIfPresent() ?? ""
+        value.environmentId = try reader["environmentId"].readIfPresent() ?? ""
+        value.lastAccess = try reader["lastAccess"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }

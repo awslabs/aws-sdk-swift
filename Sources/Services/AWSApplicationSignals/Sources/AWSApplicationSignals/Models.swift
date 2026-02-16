@@ -4567,23 +4567,225 @@ extension ServiceQuotaExceededException {
     }
 }
 
-extension ApplicationSignalsClientTypes.ServiceLevelObjectiveBudgetReport {
+extension ApplicationSignalsClientTypes.AttributeFilter {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ApplicationSignalsClientTypes.ServiceLevelObjectiveBudgetReport {
+    static func write(value: ApplicationSignalsClientTypes.AttributeFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AttributeFilterName"].write(value.attributeFilterName)
+        try writer["AttributeFilterValues"].writeList(value.attributeFilterValues, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ApplicationSignalsClientTypes.AttributeFilter {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ApplicationSignalsClientTypes.ServiceLevelObjectiveBudgetReport()
-        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        var value = ApplicationSignalsClientTypes.AttributeFilter()
+        value.attributeFilterName = try reader["AttributeFilterName"].readIfPresent() ?? ""
+        value.attributeFilterValues = try reader["AttributeFilterValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension ApplicationSignalsClientTypes.AuditFinding {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ApplicationSignalsClientTypes.AuditFinding {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ApplicationSignalsClientTypes.AuditFinding()
+        value.keyAttributes = try reader["KeyAttributes"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
+        value.auditorResults = try reader["AuditorResults"].readListIfPresent(memberReadingClosure: ApplicationSignalsClientTypes.AuditorResult.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.operation = try reader["Operation"].readIfPresent()
+        value.metricGraph = try reader["MetricGraph"].readIfPresent(with: ApplicationSignalsClientTypes.MetricGraph.read(from:))
+        value.dependencyGraph = try reader["DependencyGraph"].readIfPresent(with: ApplicationSignalsClientTypes.DependencyGraph.read(from:))
+        value.type = try reader["Type"].readIfPresent()
+        return value
+    }
+}
+
+extension ApplicationSignalsClientTypes.AuditorResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ApplicationSignalsClientTypes.AuditorResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ApplicationSignalsClientTypes.AuditorResult()
+        value.auditor = try reader["Auditor"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.data = try reader["Data"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.severity = try reader["Severity"].readIfPresent()
+        return value
+    }
+}
+
+extension ApplicationSignalsClientTypes.AuditTarget {
+
+    static func write(value: ApplicationSignalsClientTypes.AuditTarget?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Data"].write(value.data, with: ApplicationSignalsClientTypes.AuditTargetEntity.write(value:to:))
+        try writer["Type"].write(value.type)
+    }
+}
+
+extension ApplicationSignalsClientTypes.AuditTargetEntity {
+
+    static func write(value: ApplicationSignalsClientTypes.AuditTargetEntity?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .canary(canary):
+                try writer["Canary"].write(canary, with: ApplicationSignalsClientTypes.CanaryEntity.write(value:to:))
+            case let .service(service):
+                try writer["Service"].write(service, with: ApplicationSignalsClientTypes.ServiceEntity.write(value:to:))
+            case let .serviceoperation(serviceoperation):
+                try writer["ServiceOperation"].write(serviceoperation, with: ApplicationSignalsClientTypes.ServiceOperationEntity.write(value:to:))
+            case let .slo(slo):
+                try writer["Slo"].write(slo, with: ApplicationSignalsClientTypes.ServiceLevelObjectiveEntity.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension ApplicationSignalsClientTypes.BatchUpdateExclusionWindowsError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ApplicationSignalsClientTypes.BatchUpdateExclusionWindowsError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ApplicationSignalsClientTypes.BatchUpdateExclusionWindowsError()
+        value.sloId = try reader["SloId"].readIfPresent() ?? ""
+        value.errorCode = try reader["ErrorCode"].readIfPresent() ?? ""
+        value.errorMessage = try reader["ErrorMessage"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension ApplicationSignalsClientTypes.BurnRateConfiguration {
+
+    static func write(value: ApplicationSignalsClientTypes.BurnRateConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["LookBackWindowMinutes"].write(value.lookBackWindowMinutes)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ApplicationSignalsClientTypes.BurnRateConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ApplicationSignalsClientTypes.BurnRateConfiguration()
+        value.lookBackWindowMinutes = try reader["LookBackWindowMinutes"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension ApplicationSignalsClientTypes.CalendarInterval {
+
+    static func write(value: ApplicationSignalsClientTypes.CalendarInterval?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Duration"].write(value.duration)
+        try writer["DurationUnit"].write(value.durationUnit)
+        try writer["StartTime"].writeTimestamp(value.startTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ApplicationSignalsClientTypes.CalendarInterval {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ApplicationSignalsClientTypes.CalendarInterval()
+        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.durationUnit = try reader["DurationUnit"].readIfPresent() ?? .sdkUnknown("")
+        value.duration = try reader["Duration"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension ApplicationSignalsClientTypes.CanaryEntity {
+
+    static func write(value: ApplicationSignalsClientTypes.CanaryEntity?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CanaryName"].write(value.canaryName)
+    }
+}
+
+extension ApplicationSignalsClientTypes.ChangeEvent {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ApplicationSignalsClientTypes.ChangeEvent {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ApplicationSignalsClientTypes.ChangeEvent()
+        value.timestamp = try reader["Timestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.accountId = try reader["AccountId"].readIfPresent() ?? ""
+        value.region = try reader["Region"].readIfPresent() ?? ""
+        value.entity = try reader["Entity"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
+        value.changeEventType = try reader["ChangeEventType"].readIfPresent() ?? .sdkUnknown("")
+        value.eventId = try reader["EventId"].readIfPresent() ?? ""
+        value.userName = try reader["UserName"].readIfPresent()
+        value.eventName = try reader["EventName"].readIfPresent()
+        return value
+    }
+}
+
+extension ApplicationSignalsClientTypes.DependencyConfig {
+
+    static func write(value: ApplicationSignalsClientTypes.DependencyConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DependencyKeyAttributes"].writeMap(value.dependencyKeyAttributes, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["DependencyOperationName"].write(value.dependencyOperationName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ApplicationSignalsClientTypes.DependencyConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ApplicationSignalsClientTypes.DependencyConfig()
+        value.dependencyKeyAttributes = try reader["DependencyKeyAttributes"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
+        value.dependencyOperationName = try reader["DependencyOperationName"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension ApplicationSignalsClientTypes.DependencyGraph {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ApplicationSignalsClientTypes.DependencyGraph {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ApplicationSignalsClientTypes.DependencyGraph()
+        value.nodes = try reader["Nodes"].readListIfPresent(memberReadingClosure: ApplicationSignalsClientTypes.Node.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.edges = try reader["Edges"].readListIfPresent(memberReadingClosure: ApplicationSignalsClientTypes.Edge.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ApplicationSignalsClientTypes.Dimension {
+
+    static func write(value: ApplicationSignalsClientTypes.Dimension?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Name"].write(value.name)
+        try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ApplicationSignalsClientTypes.Dimension {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ApplicationSignalsClientTypes.Dimension()
         value.name = try reader["Name"].readIfPresent() ?? ""
-        value.evaluationType = try reader["EvaluationType"].readIfPresent()
-        value.budgetStatus = try reader["BudgetStatus"].readIfPresent() ?? .sdkUnknown("")
-        value.attainment = try reader["Attainment"].readIfPresent()
-        value.totalBudgetSeconds = try reader["TotalBudgetSeconds"].readIfPresent()
-        value.budgetSecondsRemaining = try reader["BudgetSecondsRemaining"].readIfPresent()
-        value.totalBudgetRequests = try reader["TotalBudgetRequests"].readIfPresent()
-        value.budgetRequestsRemaining = try reader["BudgetRequestsRemaining"].readIfPresent()
-        value.sli = try reader["Sli"].readIfPresent(with: ApplicationSignalsClientTypes.ServiceLevelIndicator.read(from:))
-        value.requestBasedSli = try reader["RequestBasedSli"].readIfPresent(with: ApplicationSignalsClientTypes.RequestBasedServiceLevelIndicator.read(from:))
-        value.goal = try reader["Goal"].readIfPresent(with: ApplicationSignalsClientTypes.Goal.read(from:))
+        value.value = try reader["Value"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension ApplicationSignalsClientTypes.Edge {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ApplicationSignalsClientTypes.Edge {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ApplicationSignalsClientTypes.Edge()
+        value.sourceNodeId = try reader["SourceNodeId"].readIfPresent()
+        value.destinationNodeId = try reader["DestinationNodeId"].readIfPresent()
+        value.duration = try reader["Duration"].readIfPresent()
+        value.connectionType = try reader["ConnectionType"].readIfPresent()
+        return value
+    }
+}
+
+extension ApplicationSignalsClientTypes.ExclusionWindow {
+
+    static func write(value: ApplicationSignalsClientTypes.ExclusionWindow?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Reason"].write(value.reason)
+        try writer["RecurrenceRule"].write(value.recurrenceRule, with: ApplicationSignalsClientTypes.RecurrenceRule.write(value:to:))
+        try writer["StartTime"].writeTimestamp(value.startTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["Window"].write(value.window, with: ApplicationSignalsClientTypes.Window.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ApplicationSignalsClientTypes.ExclusionWindow {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ApplicationSignalsClientTypes.ExclusionWindow()
+        value.window = try reader["Window"].readIfPresent(with: ApplicationSignalsClientTypes.Window.read(from:))
+        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.recurrenceRule = try reader["RecurrenceRule"].readIfPresent(with: ApplicationSignalsClientTypes.RecurrenceRule.read(from:))
+        value.reason = try reader["Reason"].readIfPresent()
         return value
     }
 }
@@ -4603,6 +4805,36 @@ extension ApplicationSignalsClientTypes.Goal {
         value.interval = try reader["Interval"].readIfPresent(with: ApplicationSignalsClientTypes.Interval.read(from:))
         value.attainmentGoal = try reader["AttainmentGoal"].readIfPresent()
         value.warningThreshold = try reader["WarningThreshold"].readIfPresent()
+        return value
+    }
+}
+
+extension ApplicationSignalsClientTypes.GroupingAttributeDefinition {
+
+    static func write(value: ApplicationSignalsClientTypes.GroupingAttributeDefinition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DefaultGroupingValue"].write(value.defaultGroupingValue)
+        try writer["GroupingName"].write(value.groupingName)
+        try writer["GroupingSourceKeys"].writeList(value.groupingSourceKeys, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ApplicationSignalsClientTypes.GroupingAttributeDefinition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ApplicationSignalsClientTypes.GroupingAttributeDefinition()
+        value.groupingName = try reader["GroupingName"].readIfPresent() ?? ""
+        value.groupingSourceKeys = try reader["GroupingSourceKeys"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.defaultGroupingValue = try reader["DefaultGroupingValue"].readIfPresent()
+        return value
+    }
+}
+
+extension ApplicationSignalsClientTypes.GroupingConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ApplicationSignalsClientTypes.GroupingConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ApplicationSignalsClientTypes.GroupingConfiguration()
+        value.groupingAttributeDefinitions = try reader["GroupingAttributeDefinitions"].readListIfPresent(memberReadingClosure: ApplicationSignalsClientTypes.GroupingAttributeDefinition.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -4635,82 +4867,95 @@ extension ApplicationSignalsClientTypes.Interval {
     }
 }
 
-extension ApplicationSignalsClientTypes.CalendarInterval {
+extension ApplicationSignalsClientTypes.Metric {
 
-    static func write(value: ApplicationSignalsClientTypes.CalendarInterval?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: ApplicationSignalsClientTypes.Metric?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["Duration"].write(value.duration)
-        try writer["DurationUnit"].write(value.durationUnit)
-        try writer["StartTime"].writeTimestamp(value.startTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["Dimensions"].writeList(value.dimensions, memberWritingClosure: ApplicationSignalsClientTypes.Dimension.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["MetricName"].write(value.metricName)
+        try writer["Namespace"].write(value.namespace)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ApplicationSignalsClientTypes.CalendarInterval {
+    static func read(from reader: SmithyJSON.Reader) throws -> ApplicationSignalsClientTypes.Metric {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ApplicationSignalsClientTypes.CalendarInterval()
-        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.durationUnit = try reader["DurationUnit"].readIfPresent() ?? .sdkUnknown("")
-        value.duration = try reader["Duration"].readIfPresent() ?? 0
+        var value = ApplicationSignalsClientTypes.Metric()
+        value.namespace = try reader["Namespace"].readIfPresent()
+        value.metricName = try reader["MetricName"].readIfPresent()
+        value.dimensions = try reader["Dimensions"].readListIfPresent(memberReadingClosure: ApplicationSignalsClientTypes.Dimension.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
 
-extension ApplicationSignalsClientTypes.RollingInterval {
+extension ApplicationSignalsClientTypes.MetricDataQuery {
 
-    static func write(value: ApplicationSignalsClientTypes.RollingInterval?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: ApplicationSignalsClientTypes.MetricDataQuery?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["Duration"].write(value.duration)
-        try writer["DurationUnit"].write(value.durationUnit)
+        try writer["AccountId"].write(value.accountId)
+        try writer["Expression"].write(value.expression)
+        try writer["Id"].write(value.id)
+        try writer["Label"].write(value.label)
+        try writer["MetricStat"].write(value.metricStat, with: ApplicationSignalsClientTypes.MetricStat.write(value:to:))
+        try writer["Period"].write(value.period)
+        try writer["ReturnData"].write(value.returnData)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ApplicationSignalsClientTypes.RollingInterval {
+    static func read(from reader: SmithyJSON.Reader) throws -> ApplicationSignalsClientTypes.MetricDataQuery {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ApplicationSignalsClientTypes.RollingInterval()
-        value.durationUnit = try reader["DurationUnit"].readIfPresent() ?? .sdkUnknown("")
-        value.duration = try reader["Duration"].readIfPresent() ?? 0
+        var value = ApplicationSignalsClientTypes.MetricDataQuery()
+        value.id = try reader["Id"].readIfPresent() ?? ""
+        value.metricStat = try reader["MetricStat"].readIfPresent(with: ApplicationSignalsClientTypes.MetricStat.read(from:))
+        value.expression = try reader["Expression"].readIfPresent()
+        value.label = try reader["Label"].readIfPresent()
+        value.returnData = try reader["ReturnData"].readIfPresent()
+        value.period = try reader["Period"].readIfPresent()
+        value.accountId = try reader["AccountId"].readIfPresent()
         return value
     }
 }
 
-extension ApplicationSignalsClientTypes.RequestBasedServiceLevelIndicator {
+extension ApplicationSignalsClientTypes.MetricGraph {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ApplicationSignalsClientTypes.RequestBasedServiceLevelIndicator {
+    static func read(from reader: SmithyJSON.Reader) throws -> ApplicationSignalsClientTypes.MetricGraph {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ApplicationSignalsClientTypes.RequestBasedServiceLevelIndicator()
-        value.requestBasedSliMetric = try reader["RequestBasedSliMetric"].readIfPresent(with: ApplicationSignalsClientTypes.RequestBasedServiceLevelIndicatorMetric.read(from:))
-        value.metricThreshold = try reader["MetricThreshold"].readIfPresent()
-        value.comparisonOperator = try reader["ComparisonOperator"].readIfPresent()
+        var value = ApplicationSignalsClientTypes.MetricGraph()
+        value.metricDataQueries = try reader["MetricDataQueries"].readListIfPresent(memberReadingClosure: ApplicationSignalsClientTypes.MetricDataQuery.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }
 
-extension ApplicationSignalsClientTypes.RequestBasedServiceLevelIndicatorMetric {
+extension ApplicationSignalsClientTypes.MetricReference {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ApplicationSignalsClientTypes.RequestBasedServiceLevelIndicatorMetric {
+    static func read(from reader: SmithyJSON.Reader) throws -> ApplicationSignalsClientTypes.MetricReference {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ApplicationSignalsClientTypes.RequestBasedServiceLevelIndicatorMetric()
-        value.keyAttributes = try reader["KeyAttributes"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.operationName = try reader["OperationName"].readIfPresent()
-        value.metricType = try reader["MetricType"].readIfPresent()
-        value.totalRequestCountMetric = try reader["TotalRequestCountMetric"].readListIfPresent(memberReadingClosure: ApplicationSignalsClientTypes.MetricDataQuery.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.monitoredRequestCountMetric = try reader["MonitoredRequestCountMetric"].readIfPresent(with: ApplicationSignalsClientTypes.MonitoredRequestCountMetricDataQueries.read(from:))
-        value.dependencyConfig = try reader["DependencyConfig"].readIfPresent(with: ApplicationSignalsClientTypes.DependencyConfig.read(from:))
+        var value = ApplicationSignalsClientTypes.MetricReference()
+        value.namespace = try reader["Namespace"].readIfPresent() ?? ""
+        value.metricType = try reader["MetricType"].readIfPresent() ?? ""
+        value.dimensions = try reader["Dimensions"].readListIfPresent(memberReadingClosure: ApplicationSignalsClientTypes.Dimension.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.metricName = try reader["MetricName"].readIfPresent() ?? ""
+        value.accountId = try reader["AccountId"].readIfPresent()
         return value
     }
 }
 
-extension ApplicationSignalsClientTypes.DependencyConfig {
+extension ApplicationSignalsClientTypes.MetricStat {
 
-    static func write(value: ApplicationSignalsClientTypes.DependencyConfig?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: ApplicationSignalsClientTypes.MetricStat?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["DependencyKeyAttributes"].writeMap(value.dependencyKeyAttributes, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["DependencyOperationName"].write(value.dependencyOperationName)
+        try writer["Metric"].write(value.metric, with: ApplicationSignalsClientTypes.Metric.write(value:to:))
+        try writer["Period"].write(value.period)
+        try writer["Stat"].write(value.stat)
+        try writer["Unit"].write(value.unit)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ApplicationSignalsClientTypes.DependencyConfig {
+    static func read(from reader: SmithyJSON.Reader) throws -> ApplicationSignalsClientTypes.MetricStat {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ApplicationSignalsClientTypes.DependencyConfig()
-        value.dependencyKeyAttributes = try reader["DependencyKeyAttributes"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
-        value.dependencyOperationName = try reader["DependencyOperationName"].readIfPresent() ?? ""
+        var value = ApplicationSignalsClientTypes.MetricStat()
+        value.metric = try reader["Metric"].readIfPresent(with: ApplicationSignalsClientTypes.Metric.read(from:))
+        value.period = try reader["Period"].readIfPresent() ?? 0
+        value.stat = try reader["Stat"].readIfPresent() ?? ""
+        value.unit = try reader["Unit"].readIfPresent()
         return value
     }
 }
@@ -4743,256 +4988,6 @@ extension ApplicationSignalsClientTypes.MonitoredRequestCountMetricDataQueries {
     }
 }
 
-extension ApplicationSignalsClientTypes.MetricDataQuery {
-
-    static func write(value: ApplicationSignalsClientTypes.MetricDataQuery?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AccountId"].write(value.accountId)
-        try writer["Expression"].write(value.expression)
-        try writer["Id"].write(value.id)
-        try writer["Label"].write(value.label)
-        try writer["MetricStat"].write(value.metricStat, with: ApplicationSignalsClientTypes.MetricStat.write(value:to:))
-        try writer["Period"].write(value.period)
-        try writer["ReturnData"].write(value.returnData)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ApplicationSignalsClientTypes.MetricDataQuery {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ApplicationSignalsClientTypes.MetricDataQuery()
-        value.id = try reader["Id"].readIfPresent() ?? ""
-        value.metricStat = try reader["MetricStat"].readIfPresent(with: ApplicationSignalsClientTypes.MetricStat.read(from:))
-        value.expression = try reader["Expression"].readIfPresent()
-        value.label = try reader["Label"].readIfPresent()
-        value.returnData = try reader["ReturnData"].readIfPresent()
-        value.period = try reader["Period"].readIfPresent()
-        value.accountId = try reader["AccountId"].readIfPresent()
-        return value
-    }
-}
-
-extension ApplicationSignalsClientTypes.MetricStat {
-
-    static func write(value: ApplicationSignalsClientTypes.MetricStat?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Metric"].write(value.metric, with: ApplicationSignalsClientTypes.Metric.write(value:to:))
-        try writer["Period"].write(value.period)
-        try writer["Stat"].write(value.stat)
-        try writer["Unit"].write(value.unit)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ApplicationSignalsClientTypes.MetricStat {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ApplicationSignalsClientTypes.MetricStat()
-        value.metric = try reader["Metric"].readIfPresent(with: ApplicationSignalsClientTypes.Metric.read(from:))
-        value.period = try reader["Period"].readIfPresent() ?? 0
-        value.stat = try reader["Stat"].readIfPresent() ?? ""
-        value.unit = try reader["Unit"].readIfPresent()
-        return value
-    }
-}
-
-extension ApplicationSignalsClientTypes.Metric {
-
-    static func write(value: ApplicationSignalsClientTypes.Metric?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Dimensions"].writeList(value.dimensions, memberWritingClosure: ApplicationSignalsClientTypes.Dimension.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["MetricName"].write(value.metricName)
-        try writer["Namespace"].write(value.namespace)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ApplicationSignalsClientTypes.Metric {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ApplicationSignalsClientTypes.Metric()
-        value.namespace = try reader["Namespace"].readIfPresent()
-        value.metricName = try reader["MetricName"].readIfPresent()
-        value.dimensions = try reader["Dimensions"].readListIfPresent(memberReadingClosure: ApplicationSignalsClientTypes.Dimension.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension ApplicationSignalsClientTypes.Dimension {
-
-    static func write(value: ApplicationSignalsClientTypes.Dimension?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-        try writer["Value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ApplicationSignalsClientTypes.Dimension {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ApplicationSignalsClientTypes.Dimension()
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.value = try reader["Value"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension ApplicationSignalsClientTypes.ServiceLevelIndicator {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ApplicationSignalsClientTypes.ServiceLevelIndicator {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ApplicationSignalsClientTypes.ServiceLevelIndicator()
-        value.sliMetric = try reader["SliMetric"].readIfPresent(with: ApplicationSignalsClientTypes.ServiceLevelIndicatorMetric.read(from:))
-        value.metricThreshold = try reader["MetricThreshold"].readIfPresent() ?? 0.0
-        value.comparisonOperator = try reader["ComparisonOperator"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension ApplicationSignalsClientTypes.ServiceLevelIndicatorMetric {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ApplicationSignalsClientTypes.ServiceLevelIndicatorMetric {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ApplicationSignalsClientTypes.ServiceLevelIndicatorMetric()
-        value.keyAttributes = try reader["KeyAttributes"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.operationName = try reader["OperationName"].readIfPresent()
-        value.metricType = try reader["MetricType"].readIfPresent()
-        value.metricDataQueries = try reader["MetricDataQueries"].readListIfPresent(memberReadingClosure: ApplicationSignalsClientTypes.MetricDataQuery.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.dependencyConfig = try reader["DependencyConfig"].readIfPresent(with: ApplicationSignalsClientTypes.DependencyConfig.read(from:))
-        return value
-    }
-}
-
-extension ApplicationSignalsClientTypes.ServiceLevelObjectiveBudgetReportError {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ApplicationSignalsClientTypes.ServiceLevelObjectiveBudgetReportError {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ApplicationSignalsClientTypes.ServiceLevelObjectiveBudgetReportError()
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.arn = try reader["Arn"].readIfPresent() ?? ""
-        value.errorCode = try reader["ErrorCode"].readIfPresent() ?? ""
-        value.errorMessage = try reader["ErrorMessage"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension ApplicationSignalsClientTypes.BatchUpdateExclusionWindowsError {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ApplicationSignalsClientTypes.BatchUpdateExclusionWindowsError {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ApplicationSignalsClientTypes.BatchUpdateExclusionWindowsError()
-        value.sloId = try reader["SloId"].readIfPresent() ?? ""
-        value.errorCode = try reader["ErrorCode"].readIfPresent() ?? ""
-        value.errorMessage = try reader["ErrorMessage"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension ApplicationSignalsClientTypes.ServiceLevelObjective {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ApplicationSignalsClientTypes.ServiceLevelObjective {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ApplicationSignalsClientTypes.ServiceLevelObjective()
-        value.arn = try reader["Arn"].readIfPresent() ?? ""
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.description = try reader["Description"].readIfPresent()
-        value.createdTime = try reader["CreatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.lastUpdatedTime = try reader["LastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.sli = try reader["Sli"].readIfPresent(with: ApplicationSignalsClientTypes.ServiceLevelIndicator.read(from:))
-        value.requestBasedSli = try reader["RequestBasedSli"].readIfPresent(with: ApplicationSignalsClientTypes.RequestBasedServiceLevelIndicator.read(from:))
-        value.evaluationType = try reader["EvaluationType"].readIfPresent()
-        value.goal = try reader["Goal"].readIfPresent(with: ApplicationSignalsClientTypes.Goal.read(from:))
-        value.burnRateConfigurations = try reader["BurnRateConfigurations"].readListIfPresent(memberReadingClosure: ApplicationSignalsClientTypes.BurnRateConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.metricSourceType = try reader["MetricSourceType"].readIfPresent()
-        return value
-    }
-}
-
-extension ApplicationSignalsClientTypes.BurnRateConfiguration {
-
-    static func write(value: ApplicationSignalsClientTypes.BurnRateConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["LookBackWindowMinutes"].write(value.lookBackWindowMinutes)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ApplicationSignalsClientTypes.BurnRateConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ApplicationSignalsClientTypes.BurnRateConfiguration()
-        value.lookBackWindowMinutes = try reader["LookBackWindowMinutes"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension ApplicationSignalsClientTypes.Service {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ApplicationSignalsClientTypes.Service {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ApplicationSignalsClientTypes.Service()
-        value.keyAttributes = try reader["KeyAttributes"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
-        value.attributeMaps = try reader["AttributeMaps"].readListIfPresent(memberReadingClosure: SmithyReadWrite.mapReadingClosure(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
-        value.serviceGroups = try reader["ServiceGroups"].readListIfPresent(memberReadingClosure: ApplicationSignalsClientTypes.ServiceGroup.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.metricReferences = try reader["MetricReferences"].readListIfPresent(memberReadingClosure: ApplicationSignalsClientTypes.MetricReference.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.logGroupReferences = try reader["LogGroupReferences"].readListIfPresent(memberReadingClosure: SmithyReadWrite.mapReadingClosure(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension ApplicationSignalsClientTypes.MetricReference {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ApplicationSignalsClientTypes.MetricReference {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ApplicationSignalsClientTypes.MetricReference()
-        value.namespace = try reader["Namespace"].readIfPresent() ?? ""
-        value.metricType = try reader["MetricType"].readIfPresent() ?? ""
-        value.dimensions = try reader["Dimensions"].readListIfPresent(memberReadingClosure: ApplicationSignalsClientTypes.Dimension.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.metricName = try reader["MetricName"].readIfPresent() ?? ""
-        value.accountId = try reader["AccountId"].readIfPresent()
-        return value
-    }
-}
-
-extension ApplicationSignalsClientTypes.ServiceGroup {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ApplicationSignalsClientTypes.ServiceGroup {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ApplicationSignalsClientTypes.ServiceGroup()
-        value.groupName = try reader["GroupName"].readIfPresent() ?? ""
-        value.groupValue = try reader["GroupValue"].readIfPresent() ?? ""
-        value.groupSource = try reader["GroupSource"].readIfPresent() ?? ""
-        value.groupIdentifier = try reader["GroupIdentifier"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension ApplicationSignalsClientTypes.AuditFinding {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ApplicationSignalsClientTypes.AuditFinding {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ApplicationSignalsClientTypes.AuditFinding()
-        value.keyAttributes = try reader["KeyAttributes"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
-        value.auditorResults = try reader["AuditorResults"].readListIfPresent(memberReadingClosure: ApplicationSignalsClientTypes.AuditorResult.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.operation = try reader["Operation"].readIfPresent()
-        value.metricGraph = try reader["MetricGraph"].readIfPresent(with: ApplicationSignalsClientTypes.MetricGraph.read(from:))
-        value.dependencyGraph = try reader["DependencyGraph"].readIfPresent(with: ApplicationSignalsClientTypes.DependencyGraph.read(from:))
-        value.type = try reader["Type"].readIfPresent()
-        return value
-    }
-}
-
-extension ApplicationSignalsClientTypes.DependencyGraph {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ApplicationSignalsClientTypes.DependencyGraph {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ApplicationSignalsClientTypes.DependencyGraph()
-        value.nodes = try reader["Nodes"].readListIfPresent(memberReadingClosure: ApplicationSignalsClientTypes.Node.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.edges = try reader["Edges"].readListIfPresent(memberReadingClosure: ApplicationSignalsClientTypes.Edge.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension ApplicationSignalsClientTypes.Edge {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ApplicationSignalsClientTypes.Edge {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ApplicationSignalsClientTypes.Edge()
-        value.sourceNodeId = try reader["SourceNodeId"].readIfPresent()
-        value.destinationNodeId = try reader["DestinationNodeId"].readIfPresent()
-        value.duration = try reader["Duration"].readIfPresent()
-        value.connectionType = try reader["ConnectionType"].readIfPresent()
-        return value
-    }
-}
-
 extension ApplicationSignalsClientTypes.Node {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ApplicationSignalsClientTypes.Node {
@@ -5009,63 +5004,98 @@ extension ApplicationSignalsClientTypes.Node {
     }
 }
 
-extension ApplicationSignalsClientTypes.MetricGraph {
+extension ApplicationSignalsClientTypes.RecurrenceRule {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ApplicationSignalsClientTypes.MetricGraph {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ApplicationSignalsClientTypes.MetricGraph()
-        value.metricDataQueries = try reader["MetricDataQueries"].readListIfPresent(memberReadingClosure: ApplicationSignalsClientTypes.MetricDataQuery.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension ApplicationSignalsClientTypes.AuditorResult {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ApplicationSignalsClientTypes.AuditorResult {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ApplicationSignalsClientTypes.AuditorResult()
-        value.auditor = try reader["Auditor"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        value.data = try reader["Data"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.severity = try reader["Severity"].readIfPresent()
-        return value
-    }
-}
-
-extension ApplicationSignalsClientTypes.ChangeEvent {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ApplicationSignalsClientTypes.ChangeEvent {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ApplicationSignalsClientTypes.ChangeEvent()
-        value.timestamp = try reader["Timestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.accountId = try reader["AccountId"].readIfPresent() ?? ""
-        value.region = try reader["Region"].readIfPresent() ?? ""
-        value.entity = try reader["Entity"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
-        value.changeEventType = try reader["ChangeEventType"].readIfPresent() ?? .sdkUnknown("")
-        value.eventId = try reader["EventId"].readIfPresent() ?? ""
-        value.userName = try reader["UserName"].readIfPresent()
-        value.eventName = try reader["EventName"].readIfPresent()
-        return value
-    }
-}
-
-extension ApplicationSignalsClientTypes.GroupingAttributeDefinition {
-
-    static func write(value: ApplicationSignalsClientTypes.GroupingAttributeDefinition?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: ApplicationSignalsClientTypes.RecurrenceRule?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["DefaultGroupingValue"].write(value.defaultGroupingValue)
-        try writer["GroupingName"].write(value.groupingName)
-        try writer["GroupingSourceKeys"].writeList(value.groupingSourceKeys, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Expression"].write(value.expression)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ApplicationSignalsClientTypes.GroupingAttributeDefinition {
+    static func read(from reader: SmithyJSON.Reader) throws -> ApplicationSignalsClientTypes.RecurrenceRule {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ApplicationSignalsClientTypes.GroupingAttributeDefinition()
-        value.groupingName = try reader["GroupingName"].readIfPresent() ?? ""
-        value.groupingSourceKeys = try reader["GroupingSourceKeys"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.defaultGroupingValue = try reader["DefaultGroupingValue"].readIfPresent()
+        var value = ApplicationSignalsClientTypes.RecurrenceRule()
+        value.expression = try reader["Expression"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension ApplicationSignalsClientTypes.RequestBasedServiceLevelIndicator {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ApplicationSignalsClientTypes.RequestBasedServiceLevelIndicator {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ApplicationSignalsClientTypes.RequestBasedServiceLevelIndicator()
+        value.requestBasedSliMetric = try reader["RequestBasedSliMetric"].readIfPresent(with: ApplicationSignalsClientTypes.RequestBasedServiceLevelIndicatorMetric.read(from:))
+        value.metricThreshold = try reader["MetricThreshold"].readIfPresent()
+        value.comparisonOperator = try reader["ComparisonOperator"].readIfPresent()
+        return value
+    }
+}
+
+extension ApplicationSignalsClientTypes.RequestBasedServiceLevelIndicatorConfig {
+
+    static func write(value: ApplicationSignalsClientTypes.RequestBasedServiceLevelIndicatorConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ComparisonOperator"].write(value.comparisonOperator)
+        try writer["MetricThreshold"].write(value.metricThreshold)
+        try writer["RequestBasedSliMetricConfig"].write(value.requestBasedSliMetricConfig, with: ApplicationSignalsClientTypes.RequestBasedServiceLevelIndicatorMetricConfig.write(value:to:))
+    }
+}
+
+extension ApplicationSignalsClientTypes.RequestBasedServiceLevelIndicatorMetric {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ApplicationSignalsClientTypes.RequestBasedServiceLevelIndicatorMetric {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ApplicationSignalsClientTypes.RequestBasedServiceLevelIndicatorMetric()
+        value.keyAttributes = try reader["KeyAttributes"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.operationName = try reader["OperationName"].readIfPresent()
+        value.metricType = try reader["MetricType"].readIfPresent()
+        value.totalRequestCountMetric = try reader["TotalRequestCountMetric"].readListIfPresent(memberReadingClosure: ApplicationSignalsClientTypes.MetricDataQuery.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.monitoredRequestCountMetric = try reader["MonitoredRequestCountMetric"].readIfPresent(with: ApplicationSignalsClientTypes.MonitoredRequestCountMetricDataQueries.read(from:))
+        value.dependencyConfig = try reader["DependencyConfig"].readIfPresent(with: ApplicationSignalsClientTypes.DependencyConfig.read(from:))
+        return value
+    }
+}
+
+extension ApplicationSignalsClientTypes.RequestBasedServiceLevelIndicatorMetricConfig {
+
+    static func write(value: ApplicationSignalsClientTypes.RequestBasedServiceLevelIndicatorMetricConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DependencyConfig"].write(value.dependencyConfig, with: ApplicationSignalsClientTypes.DependencyConfig.write(value:to:))
+        try writer["KeyAttributes"].writeMap(value.keyAttributes, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["MetricType"].write(value.metricType)
+        try writer["MonitoredRequestCountMetric"].write(value.monitoredRequestCountMetric, with: ApplicationSignalsClientTypes.MonitoredRequestCountMetricDataQueries.write(value:to:))
+        try writer["OperationName"].write(value.operationName)
+        try writer["TotalRequestCountMetric"].writeList(value.totalRequestCountMetric, memberWritingClosure: ApplicationSignalsClientTypes.MetricDataQuery.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension ApplicationSignalsClientTypes.RollingInterval {
+
+    static func write(value: ApplicationSignalsClientTypes.RollingInterval?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Duration"].write(value.duration)
+        try writer["DurationUnit"].write(value.durationUnit)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ApplicationSignalsClientTypes.RollingInterval {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ApplicationSignalsClientTypes.RollingInterval()
+        value.durationUnit = try reader["DurationUnit"].readIfPresent() ?? .sdkUnknown("")
+        value.duration = try reader["Duration"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension ApplicationSignalsClientTypes.Service {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ApplicationSignalsClientTypes.Service {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ApplicationSignalsClientTypes.Service()
+        value.keyAttributes = try reader["KeyAttributes"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
+        value.attributeMaps = try reader["AttributeMaps"].readListIfPresent(memberReadingClosure: SmithyReadWrite.mapReadingClosure(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
+        value.serviceGroups = try reader["ServiceGroups"].readListIfPresent(memberReadingClosure: ApplicationSignalsClientTypes.ServiceGroup.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.metricReferences = try reader["MetricReferences"].readListIfPresent(memberReadingClosure: ApplicationSignalsClientTypes.MetricReference.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.logGroupReferences = try reader["LogGroupReferences"].readListIfPresent(memberReadingClosure: SmithyReadWrite.mapReadingClosure(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -5096,56 +5126,141 @@ extension ApplicationSignalsClientTypes.ServiceDependent {
     }
 }
 
-extension ApplicationSignalsClientTypes.ExclusionWindow {
+extension ApplicationSignalsClientTypes.ServiceEntity {
 
-    static func write(value: ApplicationSignalsClientTypes.ExclusionWindow?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: ApplicationSignalsClientTypes.ServiceEntity?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["Reason"].write(value.reason)
-        try writer["RecurrenceRule"].write(value.recurrenceRule, with: ApplicationSignalsClientTypes.RecurrenceRule.write(value:to:))
-        try writer["StartTime"].writeTimestamp(value.startTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        try writer["Window"].write(value.window, with: ApplicationSignalsClientTypes.Window.write(value:to:))
+        try writer["AwsAccountId"].write(value.awsAccountId)
+        try writer["Environment"].write(value.environment)
+        try writer["Name"].write(value.name)
+        try writer["Type"].write(value.type)
     }
+}
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ApplicationSignalsClientTypes.ExclusionWindow {
+extension ApplicationSignalsClientTypes.ServiceGroup {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ApplicationSignalsClientTypes.ServiceGroup {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ApplicationSignalsClientTypes.ExclusionWindow()
-        value.window = try reader["Window"].readIfPresent(with: ApplicationSignalsClientTypes.Window.read(from:))
-        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.recurrenceRule = try reader["RecurrenceRule"].readIfPresent(with: ApplicationSignalsClientTypes.RecurrenceRule.read(from:))
-        value.reason = try reader["Reason"].readIfPresent()
+        var value = ApplicationSignalsClientTypes.ServiceGroup()
+        value.groupName = try reader["GroupName"].readIfPresent() ?? ""
+        value.groupValue = try reader["GroupValue"].readIfPresent() ?? ""
+        value.groupSource = try reader["GroupSource"].readIfPresent() ?? ""
+        value.groupIdentifier = try reader["GroupIdentifier"].readIfPresent() ?? ""
         return value
     }
 }
 
-extension ApplicationSignalsClientTypes.RecurrenceRule {
+extension ApplicationSignalsClientTypes.ServiceLevelIndicator {
 
-    static func write(value: ApplicationSignalsClientTypes.RecurrenceRule?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Expression"].write(value.expression)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ApplicationSignalsClientTypes.RecurrenceRule {
+    static func read(from reader: SmithyJSON.Reader) throws -> ApplicationSignalsClientTypes.ServiceLevelIndicator {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ApplicationSignalsClientTypes.RecurrenceRule()
-        value.expression = try reader["Expression"].readIfPresent() ?? ""
+        var value = ApplicationSignalsClientTypes.ServiceLevelIndicator()
+        value.sliMetric = try reader["SliMetric"].readIfPresent(with: ApplicationSignalsClientTypes.ServiceLevelIndicatorMetric.read(from:))
+        value.metricThreshold = try reader["MetricThreshold"].readIfPresent() ?? 0.0
+        value.comparisonOperator = try reader["ComparisonOperator"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
 
-extension ApplicationSignalsClientTypes.Window {
+extension ApplicationSignalsClientTypes.ServiceLevelIndicatorConfig {
 
-    static func write(value: ApplicationSignalsClientTypes.Window?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: ApplicationSignalsClientTypes.ServiceLevelIndicatorConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["Duration"].write(value.duration)
-        try writer["DurationUnit"].write(value.durationUnit)
+        try writer["ComparisonOperator"].write(value.comparisonOperator)
+        try writer["MetricThreshold"].write(value.metricThreshold)
+        try writer["SliMetricConfig"].write(value.sliMetricConfig, with: ApplicationSignalsClientTypes.ServiceLevelIndicatorMetricConfig.write(value:to:))
     }
+}
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ApplicationSignalsClientTypes.Window {
+extension ApplicationSignalsClientTypes.ServiceLevelIndicatorMetric {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ApplicationSignalsClientTypes.ServiceLevelIndicatorMetric {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ApplicationSignalsClientTypes.Window()
-        value.durationUnit = try reader["DurationUnit"].readIfPresent() ?? .sdkUnknown("")
-        value.duration = try reader["Duration"].readIfPresent() ?? 0
+        var value = ApplicationSignalsClientTypes.ServiceLevelIndicatorMetric()
+        value.keyAttributes = try reader["KeyAttributes"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.operationName = try reader["OperationName"].readIfPresent()
+        value.metricType = try reader["MetricType"].readIfPresent()
+        value.metricDataQueries = try reader["MetricDataQueries"].readListIfPresent(memberReadingClosure: ApplicationSignalsClientTypes.MetricDataQuery.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.dependencyConfig = try reader["DependencyConfig"].readIfPresent(with: ApplicationSignalsClientTypes.DependencyConfig.read(from:))
         return value
+    }
+}
+
+extension ApplicationSignalsClientTypes.ServiceLevelIndicatorMetricConfig {
+
+    static func write(value: ApplicationSignalsClientTypes.ServiceLevelIndicatorMetricConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DependencyConfig"].write(value.dependencyConfig, with: ApplicationSignalsClientTypes.DependencyConfig.write(value:to:))
+        try writer["KeyAttributes"].writeMap(value.keyAttributes, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["MetricDataQueries"].writeList(value.metricDataQueries, memberWritingClosure: ApplicationSignalsClientTypes.MetricDataQuery.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["MetricName"].write(value.metricName)
+        try writer["MetricType"].write(value.metricType)
+        try writer["OperationName"].write(value.operationName)
+        try writer["PeriodSeconds"].write(value.periodSeconds)
+        try writer["Statistic"].write(value.statistic)
+    }
+}
+
+extension ApplicationSignalsClientTypes.ServiceLevelObjective {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ApplicationSignalsClientTypes.ServiceLevelObjective {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ApplicationSignalsClientTypes.ServiceLevelObjective()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.description = try reader["Description"].readIfPresent()
+        value.createdTime = try reader["CreatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastUpdatedTime = try reader["LastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.sli = try reader["Sli"].readIfPresent(with: ApplicationSignalsClientTypes.ServiceLevelIndicator.read(from:))
+        value.requestBasedSli = try reader["RequestBasedSli"].readIfPresent(with: ApplicationSignalsClientTypes.RequestBasedServiceLevelIndicator.read(from:))
+        value.evaluationType = try reader["EvaluationType"].readIfPresent()
+        value.goal = try reader["Goal"].readIfPresent(with: ApplicationSignalsClientTypes.Goal.read(from:))
+        value.burnRateConfigurations = try reader["BurnRateConfigurations"].readListIfPresent(memberReadingClosure: ApplicationSignalsClientTypes.BurnRateConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.metricSourceType = try reader["MetricSourceType"].readIfPresent()
+        return value
+    }
+}
+
+extension ApplicationSignalsClientTypes.ServiceLevelObjectiveBudgetReport {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ApplicationSignalsClientTypes.ServiceLevelObjectiveBudgetReport {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ApplicationSignalsClientTypes.ServiceLevelObjectiveBudgetReport()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.evaluationType = try reader["EvaluationType"].readIfPresent()
+        value.budgetStatus = try reader["BudgetStatus"].readIfPresent() ?? .sdkUnknown("")
+        value.attainment = try reader["Attainment"].readIfPresent()
+        value.totalBudgetSeconds = try reader["TotalBudgetSeconds"].readIfPresent()
+        value.budgetSecondsRemaining = try reader["BudgetSecondsRemaining"].readIfPresent()
+        value.totalBudgetRequests = try reader["TotalBudgetRequests"].readIfPresent()
+        value.budgetRequestsRemaining = try reader["BudgetRequestsRemaining"].readIfPresent()
+        value.sli = try reader["Sli"].readIfPresent(with: ApplicationSignalsClientTypes.ServiceLevelIndicator.read(from:))
+        value.requestBasedSli = try reader["RequestBasedSli"].readIfPresent(with: ApplicationSignalsClientTypes.RequestBasedServiceLevelIndicator.read(from:))
+        value.goal = try reader["Goal"].readIfPresent(with: ApplicationSignalsClientTypes.Goal.read(from:))
+        return value
+    }
+}
+
+extension ApplicationSignalsClientTypes.ServiceLevelObjectiveBudgetReportError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ApplicationSignalsClientTypes.ServiceLevelObjectiveBudgetReportError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ApplicationSignalsClientTypes.ServiceLevelObjectiveBudgetReportError()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.errorCode = try reader["ErrorCode"].readIfPresent() ?? ""
+        value.errorMessage = try reader["ErrorMessage"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension ApplicationSignalsClientTypes.ServiceLevelObjectiveEntity {
+
+    static func write(value: ApplicationSignalsClientTypes.ServiceLevelObjectiveEntity?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["SloArn"].write(value.sloArn)
+        try writer["SloName"].write(value.sloName)
     }
 }
 
@@ -5177,16 +5292,13 @@ extension ApplicationSignalsClientTypes.ServiceOperation {
     }
 }
 
-extension ApplicationSignalsClientTypes.ServiceSummary {
+extension ApplicationSignalsClientTypes.ServiceOperationEntity {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ApplicationSignalsClientTypes.ServiceSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ApplicationSignalsClientTypes.ServiceSummary()
-        value.keyAttributes = try reader["KeyAttributes"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
-        value.attributeMaps = try reader["AttributeMaps"].readListIfPresent(memberReadingClosure: SmithyReadWrite.mapReadingClosure(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
-        value.metricReferences = try reader["MetricReferences"].readListIfPresent(memberReadingClosure: ApplicationSignalsClientTypes.MetricReference.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.serviceGroups = try reader["ServiceGroups"].readListIfPresent(memberReadingClosure: ApplicationSignalsClientTypes.ServiceGroup.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
+    static func write(value: ApplicationSignalsClientTypes.ServiceOperationEntity?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MetricType"].write(value.metricType)
+        try writer["Operation"].write(value.operation)
+        try writer["Service"].write(value.service, with: ApplicationSignalsClientTypes.ServiceEntity.write(value:to:))
     }
 }
 
@@ -5202,19 +5314,15 @@ extension ApplicationSignalsClientTypes.ServiceState {
     }
 }
 
-extension ApplicationSignalsClientTypes.AttributeFilter {
+extension ApplicationSignalsClientTypes.ServiceSummary {
 
-    static func write(value: ApplicationSignalsClientTypes.AttributeFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AttributeFilterName"].write(value.attributeFilterName)
-        try writer["AttributeFilterValues"].writeList(value.attributeFilterValues, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ApplicationSignalsClientTypes.AttributeFilter {
+    static func read(from reader: SmithyJSON.Reader) throws -> ApplicationSignalsClientTypes.ServiceSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ApplicationSignalsClientTypes.AttributeFilter()
-        value.attributeFilterName = try reader["AttributeFilterName"].readIfPresent() ?? ""
-        value.attributeFilterValues = try reader["AttributeFilterValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        var value = ApplicationSignalsClientTypes.ServiceSummary()
+        value.keyAttributes = try reader["KeyAttributes"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
+        value.attributeMaps = try reader["AttributeMaps"].readListIfPresent(memberReadingClosure: SmithyReadWrite.mapReadingClosure(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
+        value.metricReferences = try reader["MetricReferences"].readListIfPresent(memberReadingClosure: ApplicationSignalsClientTypes.MetricReference.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.serviceGroups = try reader["ServiceGroups"].readListIfPresent(memberReadingClosure: ApplicationSignalsClientTypes.ServiceGroup.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -5236,128 +5344,20 @@ extension ApplicationSignalsClientTypes.Tag {
     }
 }
 
-extension ApplicationSignalsClientTypes.GroupingConfiguration {
+extension ApplicationSignalsClientTypes.Window {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ApplicationSignalsClientTypes.GroupingConfiguration {
+    static func write(value: ApplicationSignalsClientTypes.Window?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Duration"].write(value.duration)
+        try writer["DurationUnit"].write(value.durationUnit)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ApplicationSignalsClientTypes.Window {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ApplicationSignalsClientTypes.GroupingConfiguration()
-        value.groupingAttributeDefinitions = try reader["GroupingAttributeDefinitions"].readListIfPresent(memberReadingClosure: ApplicationSignalsClientTypes.GroupingAttributeDefinition.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        var value = ApplicationSignalsClientTypes.Window()
+        value.durationUnit = try reader["DurationUnit"].readIfPresent() ?? .sdkUnknown("")
+        value.duration = try reader["Duration"].readIfPresent() ?? 0
         return value
-    }
-}
-
-extension ApplicationSignalsClientTypes.ServiceLevelIndicatorConfig {
-
-    static func write(value: ApplicationSignalsClientTypes.ServiceLevelIndicatorConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ComparisonOperator"].write(value.comparisonOperator)
-        try writer["MetricThreshold"].write(value.metricThreshold)
-        try writer["SliMetricConfig"].write(value.sliMetricConfig, with: ApplicationSignalsClientTypes.ServiceLevelIndicatorMetricConfig.write(value:to:))
-    }
-}
-
-extension ApplicationSignalsClientTypes.ServiceLevelIndicatorMetricConfig {
-
-    static func write(value: ApplicationSignalsClientTypes.ServiceLevelIndicatorMetricConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DependencyConfig"].write(value.dependencyConfig, with: ApplicationSignalsClientTypes.DependencyConfig.write(value:to:))
-        try writer["KeyAttributes"].writeMap(value.keyAttributes, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["MetricDataQueries"].writeList(value.metricDataQueries, memberWritingClosure: ApplicationSignalsClientTypes.MetricDataQuery.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["MetricName"].write(value.metricName)
-        try writer["MetricType"].write(value.metricType)
-        try writer["OperationName"].write(value.operationName)
-        try writer["PeriodSeconds"].write(value.periodSeconds)
-        try writer["Statistic"].write(value.statistic)
-    }
-}
-
-extension ApplicationSignalsClientTypes.RequestBasedServiceLevelIndicatorConfig {
-
-    static func write(value: ApplicationSignalsClientTypes.RequestBasedServiceLevelIndicatorConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ComparisonOperator"].write(value.comparisonOperator)
-        try writer["MetricThreshold"].write(value.metricThreshold)
-        try writer["RequestBasedSliMetricConfig"].write(value.requestBasedSliMetricConfig, with: ApplicationSignalsClientTypes.RequestBasedServiceLevelIndicatorMetricConfig.write(value:to:))
-    }
-}
-
-extension ApplicationSignalsClientTypes.RequestBasedServiceLevelIndicatorMetricConfig {
-
-    static func write(value: ApplicationSignalsClientTypes.RequestBasedServiceLevelIndicatorMetricConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DependencyConfig"].write(value.dependencyConfig, with: ApplicationSignalsClientTypes.DependencyConfig.write(value:to:))
-        try writer["KeyAttributes"].writeMap(value.keyAttributes, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        try writer["MetricType"].write(value.metricType)
-        try writer["MonitoredRequestCountMetric"].write(value.monitoredRequestCountMetric, with: ApplicationSignalsClientTypes.MonitoredRequestCountMetricDataQueries.write(value:to:))
-        try writer["OperationName"].write(value.operationName)
-        try writer["TotalRequestCountMetric"].writeList(value.totalRequestCountMetric, memberWritingClosure: ApplicationSignalsClientTypes.MetricDataQuery.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension ApplicationSignalsClientTypes.AuditTarget {
-
-    static func write(value: ApplicationSignalsClientTypes.AuditTarget?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Data"].write(value.data, with: ApplicationSignalsClientTypes.AuditTargetEntity.write(value:to:))
-        try writer["Type"].write(value.type)
-    }
-}
-
-extension ApplicationSignalsClientTypes.AuditTargetEntity {
-
-    static func write(value: ApplicationSignalsClientTypes.AuditTargetEntity?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .canary(canary):
-                try writer["Canary"].write(canary, with: ApplicationSignalsClientTypes.CanaryEntity.write(value:to:))
-            case let .service(service):
-                try writer["Service"].write(service, with: ApplicationSignalsClientTypes.ServiceEntity.write(value:to:))
-            case let .serviceoperation(serviceoperation):
-                try writer["ServiceOperation"].write(serviceoperation, with: ApplicationSignalsClientTypes.ServiceOperationEntity.write(value:to:))
-            case let .slo(slo):
-                try writer["Slo"].write(slo, with: ApplicationSignalsClientTypes.ServiceLevelObjectiveEntity.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-}
-
-extension ApplicationSignalsClientTypes.CanaryEntity {
-
-    static func write(value: ApplicationSignalsClientTypes.CanaryEntity?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CanaryName"].write(value.canaryName)
-    }
-}
-
-extension ApplicationSignalsClientTypes.ServiceOperationEntity {
-
-    static func write(value: ApplicationSignalsClientTypes.ServiceOperationEntity?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["MetricType"].write(value.metricType)
-        try writer["Operation"].write(value.operation)
-        try writer["Service"].write(value.service, with: ApplicationSignalsClientTypes.ServiceEntity.write(value:to:))
-    }
-}
-
-extension ApplicationSignalsClientTypes.ServiceEntity {
-
-    static func write(value: ApplicationSignalsClientTypes.ServiceEntity?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AwsAccountId"].write(value.awsAccountId)
-        try writer["Environment"].write(value.environment)
-        try writer["Name"].write(value.name)
-        try writer["Type"].write(value.type)
-    }
-}
-
-extension ApplicationSignalsClientTypes.ServiceLevelObjectiveEntity {
-
-    static func write(value: ApplicationSignalsClientTypes.ServiceLevelObjectiveEntity?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["SloArn"].write(value.sloArn)
-        try writer["SloName"].write(value.sloName)
     }
 }
 

@@ -1643,36 +1643,17 @@ extension ResourceNotFoundException {
     }
 }
 
-extension RbinClientTypes.RetentionPeriod {
+extension RbinClientTypes.LockConfiguration {
 
-    static func write(value: RbinClientTypes.RetentionPeriod?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: RbinClientTypes.LockConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["RetentionPeriodUnit"].write(value.retentionPeriodUnit)
-        try writer["RetentionPeriodValue"].write(value.retentionPeriodValue)
+        try writer["UnlockDelay"].write(value.unlockDelay, with: RbinClientTypes.UnlockDelay.write(value:to:))
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> RbinClientTypes.RetentionPeriod {
+    static func read(from reader: SmithyJSON.Reader) throws -> RbinClientTypes.LockConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RbinClientTypes.RetentionPeriod()
-        value.retentionPeriodValue = try reader["RetentionPeriodValue"].readIfPresent() ?? 0
-        value.retentionPeriodUnit = try reader["RetentionPeriodUnit"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension RbinClientTypes.Tag {
-
-    static func write(value: RbinClientTypes.Tag?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Key"].write(value.key)
-        try writer["Value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RbinClientTypes.Tag {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RbinClientTypes.Tag()
-        value.key = try reader["Key"].readIfPresent() ?? ""
-        value.value = try reader["Value"].readIfPresent() ?? ""
+        var value = RbinClientTypes.LockConfiguration()
+        value.unlockDelay = try reader["UnlockDelay"].readIfPresent(with: RbinClientTypes.UnlockDelay.read(from:))
         return value
     }
 }
@@ -1694,17 +1675,50 @@ extension RbinClientTypes.ResourceTag {
     }
 }
 
-extension RbinClientTypes.LockConfiguration {
+extension RbinClientTypes.RetentionPeriod {
 
-    static func write(value: RbinClientTypes.LockConfiguration?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: RbinClientTypes.RetentionPeriod?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["UnlockDelay"].write(value.unlockDelay, with: RbinClientTypes.UnlockDelay.write(value:to:))
+        try writer["RetentionPeriodUnit"].write(value.retentionPeriodUnit)
+        try writer["RetentionPeriodValue"].write(value.retentionPeriodValue)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> RbinClientTypes.LockConfiguration {
+    static func read(from reader: SmithyJSON.Reader) throws -> RbinClientTypes.RetentionPeriod {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RbinClientTypes.LockConfiguration()
-        value.unlockDelay = try reader["UnlockDelay"].readIfPresent(with: RbinClientTypes.UnlockDelay.read(from:))
+        var value = RbinClientTypes.RetentionPeriod()
+        value.retentionPeriodValue = try reader["RetentionPeriodValue"].readIfPresent() ?? 0
+        value.retentionPeriodUnit = try reader["RetentionPeriodUnit"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension RbinClientTypes.RuleSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RbinClientTypes.RuleSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RbinClientTypes.RuleSummary()
+        value.identifier = try reader["Identifier"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.retentionPeriod = try reader["RetentionPeriod"].readIfPresent(with: RbinClientTypes.RetentionPeriod.read(from:))
+        value.lockState = try reader["LockState"].readIfPresent()
+        value.ruleArn = try reader["RuleArn"].readIfPresent()
+        return value
+    }
+}
+
+extension RbinClientTypes.Tag {
+
+    static func write(value: RbinClientTypes.Tag?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Key"].write(value.key)
+        try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RbinClientTypes.Tag {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RbinClientTypes.Tag()
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
         return value
     }
 }
@@ -1722,20 +1736,6 @@ extension RbinClientTypes.UnlockDelay {
         var value = RbinClientTypes.UnlockDelay()
         value.unlockDelayValue = try reader["UnlockDelayValue"].readIfPresent() ?? 0
         value.unlockDelayUnit = try reader["UnlockDelayUnit"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension RbinClientTypes.RuleSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RbinClientTypes.RuleSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RbinClientTypes.RuleSummary()
-        value.identifier = try reader["Identifier"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        value.retentionPeriod = try reader["RetentionPeriod"].readIfPresent(with: RbinClientTypes.RetentionPeriod.read(from:))
-        value.lockState = try reader["LockState"].readIfPresent()
-        value.ruleArn = try reader["RuleArn"].readIfPresent()
         return value
     }
 }

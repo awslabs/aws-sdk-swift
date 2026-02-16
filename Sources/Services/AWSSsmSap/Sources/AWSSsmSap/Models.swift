@@ -3942,6 +3942,61 @@ extension SsmSapClientTypes.Application {
     }
 }
 
+extension SsmSapClientTypes.ApplicationCredential {
+
+    static func write(value: SsmSapClientTypes.ApplicationCredential?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CredentialType"].write(value.credentialType)
+        try writer["DatabaseName"].write(value.databaseName)
+        try writer["SecretId"].write(value.secretId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SsmSapClientTypes.ApplicationCredential {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SsmSapClientTypes.ApplicationCredential()
+        value.databaseName = try reader["DatabaseName"].readIfPresent() ?? ""
+        value.credentialType = try reader["CredentialType"].readIfPresent() ?? .sdkUnknown("")
+        value.secretId = try reader["SecretId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension SsmSapClientTypes.ApplicationSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SsmSapClientTypes.ApplicationSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SsmSapClientTypes.ApplicationSummary()
+        value.id = try reader["Id"].readIfPresent()
+        value.discoveryStatus = try reader["DiscoveryStatus"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent()
+        value.arn = try reader["Arn"].readIfPresent()
+        value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension SsmSapClientTypes.AssociatedHost {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SsmSapClientTypes.AssociatedHost {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SsmSapClientTypes.AssociatedHost()
+        value.hostname = try reader["Hostname"].readIfPresent()
+        value.ec2InstanceId = try reader["Ec2InstanceId"].readIfPresent()
+        value.ipAddresses = try reader["IpAddresses"].readListIfPresent(memberReadingClosure: SsmSapClientTypes.IpAddressMember.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.osVersion = try reader["OsVersion"].readIfPresent()
+        return value
+    }
+}
+
+extension SsmSapClientTypes.BackintConfig {
+
+    static func write(value: SsmSapClientTypes.BackintConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["BackintMode"].write(value.backintMode)
+        try writer["EnsureNoBackupInProcess"].write(value.ensureNoBackupInProcess)
+    }
+}
+
 extension SsmSapClientTypes.Component {
 
     static func read(from reader: SmithyJSON.Reader) throws -> SsmSapClientTypes.Component {
@@ -3971,176 +4026,13 @@ extension SsmSapClientTypes.Component {
     }
 }
 
-extension SsmSapClientTypes.DatabaseConnection {
+extension SsmSapClientTypes.ComponentInfo {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SsmSapClientTypes.DatabaseConnection {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SsmSapClientTypes.DatabaseConnection()
-        value.databaseConnectionMethod = try reader["DatabaseConnectionMethod"].readIfPresent()
-        value.databaseArn = try reader["DatabaseArn"].readIfPresent()
-        value.connectionIp = try reader["ConnectionIp"].readIfPresent()
-        return value
-    }
-}
-
-extension SsmSapClientTypes.Host {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SsmSapClientTypes.Host {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SsmSapClientTypes.Host()
-        value.hostName = try reader["HostName"].readIfPresent()
-        value.hostIp = try reader["HostIp"].readIfPresent()
-        value.ec2InstanceId = try reader["EC2InstanceId"].readIfPresent()
-        value.instanceId = try reader["InstanceId"].readIfPresent()
-        value.hostRole = try reader["HostRole"].readIfPresent()
-        value.osVersion = try reader["OsVersion"].readIfPresent()
-        return value
-    }
-}
-
-extension SsmSapClientTypes.AssociatedHost {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SsmSapClientTypes.AssociatedHost {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SsmSapClientTypes.AssociatedHost()
-        value.hostname = try reader["Hostname"].readIfPresent()
-        value.ec2InstanceId = try reader["Ec2InstanceId"].readIfPresent()
-        value.ipAddresses = try reader["IpAddresses"].readListIfPresent(memberReadingClosure: SsmSapClientTypes.IpAddressMember.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.osVersion = try reader["OsVersion"].readIfPresent()
-        return value
-    }
-}
-
-extension SsmSapClientTypes.IpAddressMember {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SsmSapClientTypes.IpAddressMember {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SsmSapClientTypes.IpAddressMember()
-        value.ipAddress = try reader["IpAddress"].readIfPresent()
-        value.primary = try reader["Primary"].readIfPresent()
-        value.allocationType = try reader["AllocationType"].readIfPresent()
-        return value
-    }
-}
-
-extension SsmSapClientTypes.Resilience {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SsmSapClientTypes.Resilience {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SsmSapClientTypes.Resilience()
-        value.hsrTier = try reader["HsrTier"].readIfPresent()
-        value.hsrReplicationMode = try reader["HsrReplicationMode"].readIfPresent()
-        value.hsrOperationMode = try reader["HsrOperationMode"].readIfPresent()
-        value.clusterStatus = try reader["ClusterStatus"].readIfPresent()
-        value.enqueueReplication = try reader["EnqueueReplication"].readIfPresent()
-        return value
-    }
-}
-
-extension SsmSapClientTypes.ConfigurationCheckOperation {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SsmSapClientTypes.ConfigurationCheckOperation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SsmSapClientTypes.ConfigurationCheckOperation()
-        value.id = try reader["Id"].readIfPresent()
-        value.applicationId = try reader["ApplicationId"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.statusMessage = try reader["StatusMessage"].readIfPresent()
-        value.configurationCheckId = try reader["ConfigurationCheckId"].readIfPresent()
-        value.configurationCheckName = try reader["ConfigurationCheckName"].readIfPresent()
-        value.configurationCheckDescription = try reader["ConfigurationCheckDescription"].readIfPresent()
-        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.ruleStatusCounts = try reader["RuleStatusCounts"].readIfPresent(with: SsmSapClientTypes.RuleStatusCounts.read(from:))
-        return value
-    }
-}
-
-extension SsmSapClientTypes.RuleStatusCounts {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SsmSapClientTypes.RuleStatusCounts {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SsmSapClientTypes.RuleStatusCounts()
-        value.failed = try reader["Failed"].readIfPresent()
-        value.warning = try reader["Warning"].readIfPresent()
-        value.info = try reader["Info"].readIfPresent()
-        value.passed = try reader["Passed"].readIfPresent()
-        value.unknown = try reader["Unknown"].readIfPresent()
-        return value
-    }
-}
-
-extension SsmSapClientTypes.Database {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SsmSapClientTypes.Database {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SsmSapClientTypes.Database()
-        value.applicationId = try reader["ApplicationId"].readIfPresent()
-        value.componentId = try reader["ComponentId"].readIfPresent()
-        value.credentials = try reader["Credentials"].readListIfPresent(memberReadingClosure: SsmSapClientTypes.ApplicationCredential.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.databaseId = try reader["DatabaseId"].readIfPresent()
-        value.databaseName = try reader["DatabaseName"].readIfPresent()
-        value.databaseType = try reader["DatabaseType"].readIfPresent()
-        value.arn = try reader["Arn"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.primaryHost = try reader["PrimaryHost"].readIfPresent()
-        value.sqlPort = try reader["SQLPort"].readIfPresent()
-        value.lastUpdated = try reader["LastUpdated"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.connectedComponentArns = try reader["ConnectedComponentArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension SsmSapClientTypes.ApplicationCredential {
-
-    static func write(value: SsmSapClientTypes.ApplicationCredential?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: SsmSapClientTypes.ComponentInfo?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["CredentialType"].write(value.credentialType)
-        try writer["DatabaseName"].write(value.databaseName)
-        try writer["SecretId"].write(value.secretId)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SsmSapClientTypes.ApplicationCredential {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SsmSapClientTypes.ApplicationCredential()
-        value.databaseName = try reader["DatabaseName"].readIfPresent() ?? ""
-        value.credentialType = try reader["CredentialType"].readIfPresent() ?? .sdkUnknown("")
-        value.secretId = try reader["SecretId"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension SsmSapClientTypes.Operation {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SsmSapClientTypes.Operation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SsmSapClientTypes.Operation()
-        value.id = try reader["Id"].readIfPresent()
-        value.type = try reader["Type"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.statusMessage = try reader["StatusMessage"].readIfPresent()
-        value.properties = try reader["Properties"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.optionalFormOf(readingClosure: SmithyReadWrite.ReadingClosures.readString(from:)), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.resourceType = try reader["ResourceType"].readIfPresent()
-        value.resourceId = try reader["ResourceId"].readIfPresent()
-        value.resourceArn = try reader["ResourceArn"].readIfPresent()
-        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastUpdatedTime = try reader["LastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension SsmSapClientTypes.ApplicationSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SsmSapClientTypes.ApplicationSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SsmSapClientTypes.ApplicationSummary()
-        value.id = try reader["Id"].readIfPresent()
-        value.discoveryStatus = try reader["DiscoveryStatus"].readIfPresent()
-        value.type = try reader["Type"].readIfPresent()
-        value.arn = try reader["Arn"].readIfPresent()
-        value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
+        try writer["ComponentType"].write(value.componentType)
+        try writer["Ec2InstanceId"].write(value.ec2InstanceId)
+        try writer["Sid"].write(value.sid)
     }
 }
 
@@ -4171,6 +4063,58 @@ extension SsmSapClientTypes.ConfigurationCheckDefinition {
     }
 }
 
+extension SsmSapClientTypes.ConfigurationCheckOperation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SsmSapClientTypes.ConfigurationCheckOperation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SsmSapClientTypes.ConfigurationCheckOperation()
+        value.id = try reader["Id"].readIfPresent()
+        value.applicationId = try reader["ApplicationId"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.statusMessage = try reader["StatusMessage"].readIfPresent()
+        value.configurationCheckId = try reader["ConfigurationCheckId"].readIfPresent()
+        value.configurationCheckName = try reader["ConfigurationCheckName"].readIfPresent()
+        value.configurationCheckDescription = try reader["ConfigurationCheckDescription"].readIfPresent()
+        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.ruleStatusCounts = try reader["RuleStatusCounts"].readIfPresent(with: SsmSapClientTypes.RuleStatusCounts.read(from:))
+        return value
+    }
+}
+
+extension SsmSapClientTypes.Database {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SsmSapClientTypes.Database {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SsmSapClientTypes.Database()
+        value.applicationId = try reader["ApplicationId"].readIfPresent()
+        value.componentId = try reader["ComponentId"].readIfPresent()
+        value.credentials = try reader["Credentials"].readListIfPresent(memberReadingClosure: SsmSapClientTypes.ApplicationCredential.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.databaseId = try reader["DatabaseId"].readIfPresent()
+        value.databaseName = try reader["DatabaseName"].readIfPresent()
+        value.databaseType = try reader["DatabaseType"].readIfPresent()
+        value.arn = try reader["Arn"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.primaryHost = try reader["PrimaryHost"].readIfPresent()
+        value.sqlPort = try reader["SQLPort"].readIfPresent()
+        value.lastUpdated = try reader["LastUpdated"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.connectedComponentArns = try reader["ConnectedComponentArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension SsmSapClientTypes.DatabaseConnection {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SsmSapClientTypes.DatabaseConnection {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SsmSapClientTypes.DatabaseConnection()
+        value.databaseConnectionMethod = try reader["DatabaseConnectionMethod"].readIfPresent()
+        value.databaseArn = try reader["DatabaseArn"].readIfPresent()
+        value.connectionIp = try reader["ConnectionIp"].readIfPresent()
+        return value
+    }
+}
+
 extension SsmSapClientTypes.DatabaseSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> SsmSapClientTypes.DatabaseSummary {
@@ -4182,6 +4126,63 @@ extension SsmSapClientTypes.DatabaseSummary {
         value.databaseType = try reader["DatabaseType"].readIfPresent()
         value.arn = try reader["Arn"].readIfPresent()
         value.tags = try reader["Tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension SsmSapClientTypes.Filter {
+
+    static func write(value: SsmSapClientTypes.Filter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Name"].write(value.name)
+        try writer["Operator"].write(value.`operator`)
+        try writer["Value"].write(value.value)
+    }
+}
+
+extension SsmSapClientTypes.Host {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SsmSapClientTypes.Host {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SsmSapClientTypes.Host()
+        value.hostName = try reader["HostName"].readIfPresent()
+        value.hostIp = try reader["HostIp"].readIfPresent()
+        value.ec2InstanceId = try reader["EC2InstanceId"].readIfPresent()
+        value.instanceId = try reader["InstanceId"].readIfPresent()
+        value.hostRole = try reader["HostRole"].readIfPresent()
+        value.osVersion = try reader["OsVersion"].readIfPresent()
+        return value
+    }
+}
+
+extension SsmSapClientTypes.IpAddressMember {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SsmSapClientTypes.IpAddressMember {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SsmSapClientTypes.IpAddressMember()
+        value.ipAddress = try reader["IpAddress"].readIfPresent()
+        value.primary = try reader["Primary"].readIfPresent()
+        value.allocationType = try reader["AllocationType"].readIfPresent()
+        return value
+    }
+}
+
+extension SsmSapClientTypes.Operation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SsmSapClientTypes.Operation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SsmSapClientTypes.Operation()
+        value.id = try reader["Id"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.statusMessage = try reader["StatusMessage"].readIfPresent()
+        value.properties = try reader["Properties"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.optionalFormOf(readingClosure: SmithyReadWrite.ReadingClosures.readString(from:)), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.resourceType = try reader["ResourceType"].readIfPresent()
+        value.resourceId = try reader["ResourceId"].readIfPresent()
+        value.resourceArn = try reader["ResourceArn"].readIfPresent()
+        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastUpdatedTime = try reader["LastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }
@@ -4200,6 +4201,20 @@ extension SsmSapClientTypes.OperationEvent {
     }
 }
 
+extension SsmSapClientTypes.Resilience {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SsmSapClientTypes.Resilience {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SsmSapClientTypes.Resilience()
+        value.hsrTier = try reader["HsrTier"].readIfPresent()
+        value.hsrReplicationMode = try reader["HsrReplicationMode"].readIfPresent()
+        value.hsrOperationMode = try reader["HsrOperationMode"].readIfPresent()
+        value.clusterStatus = try reader["ClusterStatus"].readIfPresent()
+        value.enqueueReplication = try reader["EnqueueReplication"].readIfPresent()
+        return value
+    }
+}
+
 extension SsmSapClientTypes.Resource {
 
     static func read(from reader: SmithyJSON.Reader) throws -> SsmSapClientTypes.Resource {
@@ -4207,19 +4222,6 @@ extension SsmSapClientTypes.Resource {
         var value = SsmSapClientTypes.Resource()
         value.resourceArn = try reader["ResourceArn"].readIfPresent()
         value.resourceType = try reader["ResourceType"].readIfPresent()
-        return value
-    }
-}
-
-extension SsmSapClientTypes.SubCheckResult {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SsmSapClientTypes.SubCheckResult {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SsmSapClientTypes.SubCheckResult()
-        value.id = try reader["Id"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        value.references = try reader["References"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -4238,32 +4240,30 @@ extension SsmSapClientTypes.RuleResult {
     }
 }
 
-extension SsmSapClientTypes.Filter {
+extension SsmSapClientTypes.RuleStatusCounts {
 
-    static func write(value: SsmSapClientTypes.Filter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-        try writer["Operator"].write(value.`operator`)
-        try writer["Value"].write(value.value)
+    static func read(from reader: SmithyJSON.Reader) throws -> SsmSapClientTypes.RuleStatusCounts {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SsmSapClientTypes.RuleStatusCounts()
+        value.failed = try reader["Failed"].readIfPresent()
+        value.warning = try reader["Warning"].readIfPresent()
+        value.info = try reader["Info"].readIfPresent()
+        value.passed = try reader["Passed"].readIfPresent()
+        value.unknown = try reader["Unknown"].readIfPresent()
+        return value
     }
 }
 
-extension SsmSapClientTypes.ComponentInfo {
+extension SsmSapClientTypes.SubCheckResult {
 
-    static func write(value: SsmSapClientTypes.ComponentInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ComponentType"].write(value.componentType)
-        try writer["Ec2InstanceId"].write(value.ec2InstanceId)
-        try writer["Sid"].write(value.sid)
-    }
-}
-
-extension SsmSapClientTypes.BackintConfig {
-
-    static func write(value: SsmSapClientTypes.BackintConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BackintMode"].write(value.backintMode)
-        try writer["EnsureNoBackupInProcess"].write(value.ensureNoBackupInProcess)
+    static func read(from reader: SmithyJSON.Reader) throws -> SsmSapClientTypes.SubCheckResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SsmSapClientTypes.SubCheckResult()
+        value.id = try reader["Id"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.references = try reader["References"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
     }
 }
 

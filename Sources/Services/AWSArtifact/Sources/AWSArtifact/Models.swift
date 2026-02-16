@@ -1524,6 +1524,28 @@ extension ArtifactClientTypes.AccountSettings {
     }
 }
 
+extension ArtifactClientTypes.CustomerAgreementSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ArtifactClientTypes.CustomerAgreementSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ArtifactClientTypes.CustomerAgreementSummary()
+        value.name = try reader["name"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent()
+        value.id = try reader["id"].readIfPresent()
+        value.agreementArn = try reader["agreementArn"].readIfPresent()
+        value.awsAccountId = try reader["awsAccountId"].readIfPresent()
+        value.organizationArn = try reader["organizationArn"].readIfPresent()
+        value.effectiveStart = try reader["effectiveStart"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.effectiveEnd = try reader["effectiveEnd"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.state = try reader["state"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.acceptanceTerms = try reader["acceptanceTerms"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.terminateTerms = try reader["terminateTerms"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.type = try reader["type"].readIfPresent()
+        return value
+    }
+}
+
 extension ArtifactClientTypes.ReportDetail {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ArtifactClientTypes.ReportDetail {
@@ -1549,28 +1571,6 @@ extension ArtifactClientTypes.ReportDetail {
         value.sequenceNumber = try reader["sequenceNumber"].readIfPresent()
         value.uploadState = try reader["uploadState"].readIfPresent()
         value.statusMessage = try reader["statusMessage"].readIfPresent()
-        return value
-    }
-}
-
-extension ArtifactClientTypes.CustomerAgreementSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ArtifactClientTypes.CustomerAgreementSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ArtifactClientTypes.CustomerAgreementSummary()
-        value.name = try reader["name"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
-        value.id = try reader["id"].readIfPresent()
-        value.agreementArn = try reader["agreementArn"].readIfPresent()
-        value.awsAccountId = try reader["awsAccountId"].readIfPresent()
-        value.organizationArn = try reader["organizationArn"].readIfPresent()
-        value.effectiveStart = try reader["effectiveStart"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.effectiveEnd = try reader["effectiveEnd"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.state = try reader["state"].readIfPresent()
-        value.description = try reader["description"].readIfPresent()
-        value.acceptanceTerms = try reader["acceptanceTerms"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.terminateTerms = try reader["terminateTerms"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.type = try reader["type"].readIfPresent()
         return value
     }
 }

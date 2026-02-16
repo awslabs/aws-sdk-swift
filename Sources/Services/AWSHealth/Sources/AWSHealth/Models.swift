@@ -2190,6 +2190,18 @@ extension ConcurrentModificationException {
     }
 }
 
+extension HealthClientTypes.AccountEntityAggregate {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> HealthClientTypes.AccountEntityAggregate {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = HealthClientTypes.AccountEntityAggregate()
+        value.accountId = try reader["accountId"].readIfPresent()
+        value.count = try reader["count"].readIfPresent() ?? 0
+        value.statuses = try reader["statuses"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
 extension HealthClientTypes.AffectedEntity {
 
     static func read(from reader: SmithyJSON.Reader) throws -> HealthClientTypes.AffectedEntity {
@@ -2208,16 +2220,22 @@ extension HealthClientTypes.AffectedEntity {
     }
 }
 
-extension HealthClientTypes.OrganizationAffectedEntitiesErrorItem {
+extension HealthClientTypes.DateTimeRange {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> HealthClientTypes.OrganizationAffectedEntitiesErrorItem {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = HealthClientTypes.OrganizationAffectedEntitiesErrorItem()
-        value.awsAccountId = try reader["awsAccountId"].readIfPresent()
-        value.eventArn = try reader["eventArn"].readIfPresent()
-        value.errorName = try reader["errorName"].readIfPresent()
-        value.errorMessage = try reader["errorMessage"].readIfPresent()
-        return value
+    static func write(value: HealthClientTypes.DateTimeRange?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["from"].writeTimestamp(value.from, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["to"].writeTimestamp(value.to, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+    }
+}
+
+extension HealthClientTypes.EntityAccountFilter {
+
+    static func write(value: HealthClientTypes.EntityAccountFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["awsAccountId"].write(value.awsAccountId)
+        try writer["eventArn"].write(value.eventArn)
+        try writer["statusCodes"].writeList(value.statusCodes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<HealthClientTypes.EntityStatusCode>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -2233,61 +2251,16 @@ extension HealthClientTypes.EntityAggregate {
     }
 }
 
-extension HealthClientTypes.OrganizationEntityAggregate {
+extension HealthClientTypes.EntityFilter {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> HealthClientTypes.OrganizationEntityAggregate {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = HealthClientTypes.OrganizationEntityAggregate()
-        value.eventArn = try reader["eventArn"].readIfPresent()
-        value.count = try reader["count"].readIfPresent() ?? 0
-        value.statuses = try reader["statuses"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.accounts = try reader["accounts"].readListIfPresent(memberReadingClosure: HealthClientTypes.AccountEntityAggregate.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension HealthClientTypes.AccountEntityAggregate {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> HealthClientTypes.AccountEntityAggregate {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = HealthClientTypes.AccountEntityAggregate()
-        value.accountId = try reader["accountId"].readIfPresent()
-        value.count = try reader["count"].readIfPresent() ?? 0
-        value.statuses = try reader["statuses"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
-}
-
-extension HealthClientTypes.EventAggregate {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> HealthClientTypes.EventAggregate {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = HealthClientTypes.EventAggregate()
-        value.aggregateValue = try reader["aggregateValue"].readIfPresent()
-        value.count = try reader["count"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension HealthClientTypes.EventDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> HealthClientTypes.EventDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = HealthClientTypes.EventDetails()
-        value.event = try reader["event"].readIfPresent(with: HealthClientTypes.Event.read(from:))
-        value.eventDescription = try reader["eventDescription"].readIfPresent(with: HealthClientTypes.EventDescription.read(from:))
-        value.eventMetadata = try reader["eventMetadata"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
-}
-
-extension HealthClientTypes.EventDescription {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> HealthClientTypes.EventDescription {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = HealthClientTypes.EventDescription()
-        value.latestDescription = try reader["latestDescription"].readIfPresent()
-        return value
+    static func write(value: HealthClientTypes.EntityFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["entityArns"].writeList(value.entityArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["entityValues"].writeList(value.entityValues, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["eventArns"].writeList(value.eventArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["lastUpdatedTimes"].writeList(value.lastUpdatedTimes, memberWritingClosure: HealthClientTypes.DateTimeRange.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["statusCodes"].writeList(value.statusCodes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<HealthClientTypes.EntityStatusCode>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["tags"].writeList(value.tags, memberWritingClosure: SmithyReadWrite.mapWritingClosure(valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -2313,6 +2286,48 @@ extension HealthClientTypes.Event {
     }
 }
 
+extension HealthClientTypes.EventAccountFilter {
+
+    static func write(value: HealthClientTypes.EventAccountFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["awsAccountId"].write(value.awsAccountId)
+        try writer["eventArn"].write(value.eventArn)
+    }
+}
+
+extension HealthClientTypes.EventAggregate {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> HealthClientTypes.EventAggregate {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = HealthClientTypes.EventAggregate()
+        value.aggregateValue = try reader["aggregateValue"].readIfPresent()
+        value.count = try reader["count"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension HealthClientTypes.EventDescription {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> HealthClientTypes.EventDescription {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = HealthClientTypes.EventDescription()
+        value.latestDescription = try reader["latestDescription"].readIfPresent()
+        return value
+    }
+}
+
+extension HealthClientTypes.EventDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> HealthClientTypes.EventDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = HealthClientTypes.EventDetails()
+        value.event = try reader["event"].readIfPresent(with: HealthClientTypes.Event.read(from:))
+        value.eventDescription = try reader["eventDescription"].readIfPresent(with: HealthClientTypes.EventDescription.read(from:))
+        value.eventMetadata = try reader["eventMetadata"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
 extension HealthClientTypes.EventDetailsErrorItem {
 
     static func read(from reader: SmithyJSON.Reader) throws -> HealthClientTypes.EventDetailsErrorItem {
@@ -2321,6 +2336,101 @@ extension HealthClientTypes.EventDetailsErrorItem {
         value.eventArn = try reader["eventArn"].readIfPresent()
         value.errorName = try reader["errorName"].readIfPresent()
         value.errorMessage = try reader["errorMessage"].readIfPresent()
+        return value
+    }
+}
+
+extension HealthClientTypes.EventFilter {
+
+    static func write(value: HealthClientTypes.EventFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["actionabilities"].writeList(value.actionabilities, memberWritingClosure: SmithyReadWrite.WritingClosureBox<HealthClientTypes.EventActionability>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["availabilityZones"].writeList(value.availabilityZones, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["endTimes"].writeList(value.endTimes, memberWritingClosure: HealthClientTypes.DateTimeRange.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["entityArns"].writeList(value.entityArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["entityValues"].writeList(value.entityValues, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["eventArns"].writeList(value.eventArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["eventStatusCodes"].writeList(value.eventStatusCodes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<HealthClientTypes.EventStatusCode>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["eventTypeCategories"].writeList(value.eventTypeCategories, memberWritingClosure: SmithyReadWrite.WritingClosureBox<HealthClientTypes.EventTypeCategory>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["eventTypeCodes"].writeList(value.eventTypeCodes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["lastUpdatedTimes"].writeList(value.lastUpdatedTimes, memberWritingClosure: HealthClientTypes.DateTimeRange.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["personas"].writeList(value.personas, memberWritingClosure: SmithyReadWrite.WritingClosureBox<HealthClientTypes.EventPersona>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["regions"].writeList(value.regions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["services"].writeList(value.services, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["startTimes"].writeList(value.startTimes, memberWritingClosure: HealthClientTypes.DateTimeRange.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["tags"].writeList(value.tags, memberWritingClosure: SmithyReadWrite.mapWritingClosure(valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension HealthClientTypes.EventType {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> HealthClientTypes.EventType {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = HealthClientTypes.EventType()
+        value.service = try reader["service"].readIfPresent()
+        value.code = try reader["code"].readIfPresent()
+        value.category = try reader["category"].readIfPresent()
+        value.actionability = try reader["actionability"].readIfPresent()
+        value.personas = try reader["personas"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<HealthClientTypes.EventTypePersona>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension HealthClientTypes.EventTypeFilter {
+
+    static func write(value: HealthClientTypes.EventTypeFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["actionabilities"].writeList(value.actionabilities, memberWritingClosure: SmithyReadWrite.WritingClosureBox<HealthClientTypes.EventTypeActionability>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["eventTypeCategories"].writeList(value.eventTypeCategories, memberWritingClosure: SmithyReadWrite.WritingClosureBox<HealthClientTypes.EventTypeCategory>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["eventTypeCodes"].writeList(value.eventTypeCodes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["personas"].writeList(value.personas, memberWritingClosure: SmithyReadWrite.WritingClosureBox<HealthClientTypes.EventTypePersona>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["services"].writeList(value.services, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension HealthClientTypes.OrganizationAffectedEntitiesErrorItem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> HealthClientTypes.OrganizationAffectedEntitiesErrorItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = HealthClientTypes.OrganizationAffectedEntitiesErrorItem()
+        value.awsAccountId = try reader["awsAccountId"].readIfPresent()
+        value.eventArn = try reader["eventArn"].readIfPresent()
+        value.errorName = try reader["errorName"].readIfPresent()
+        value.errorMessage = try reader["errorMessage"].readIfPresent()
+        return value
+    }
+}
+
+extension HealthClientTypes.OrganizationEntityAggregate {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> HealthClientTypes.OrganizationEntityAggregate {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = HealthClientTypes.OrganizationEntityAggregate()
+        value.eventArn = try reader["eventArn"].readIfPresent()
+        value.count = try reader["count"].readIfPresent() ?? 0
+        value.statuses = try reader["statuses"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.accounts = try reader["accounts"].readListIfPresent(memberReadingClosure: HealthClientTypes.AccountEntityAggregate.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension HealthClientTypes.OrganizationEvent {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> HealthClientTypes.OrganizationEvent {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = HealthClientTypes.OrganizationEvent()
+        value.arn = try reader["arn"].readIfPresent()
+        value.service = try reader["service"].readIfPresent()
+        value.eventTypeCode = try reader["eventTypeCode"].readIfPresent()
+        value.eventTypeCategory = try reader["eventTypeCategory"].readIfPresent()
+        value.eventScopeCode = try reader["eventScopeCode"].readIfPresent()
+        value.region = try reader["region"].readIfPresent()
+        value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.endTime = try reader["endTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastUpdatedTime = try reader["lastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.statusCode = try reader["statusCode"].readIfPresent()
+        value.actionability = try reader["actionability"].readIfPresent()
+        value.personas = try reader["personas"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<HealthClientTypes.EventPersona>().read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -2351,104 +2461,6 @@ extension HealthClientTypes.OrganizationEventDetailsErrorItem {
     }
 }
 
-extension HealthClientTypes.OrganizationEvent {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> HealthClientTypes.OrganizationEvent {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = HealthClientTypes.OrganizationEvent()
-        value.arn = try reader["arn"].readIfPresent()
-        value.service = try reader["service"].readIfPresent()
-        value.eventTypeCode = try reader["eventTypeCode"].readIfPresent()
-        value.eventTypeCategory = try reader["eventTypeCategory"].readIfPresent()
-        value.eventScopeCode = try reader["eventScopeCode"].readIfPresent()
-        value.region = try reader["region"].readIfPresent()
-        value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.endTime = try reader["endTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastUpdatedTime = try reader["lastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.statusCode = try reader["statusCode"].readIfPresent()
-        value.actionability = try reader["actionability"].readIfPresent()
-        value.personas = try reader["personas"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<HealthClientTypes.EventPersona>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension HealthClientTypes.EventType {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> HealthClientTypes.EventType {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = HealthClientTypes.EventType()
-        value.service = try reader["service"].readIfPresent()
-        value.code = try reader["code"].readIfPresent()
-        value.category = try reader["category"].readIfPresent()
-        value.actionability = try reader["actionability"].readIfPresent()
-        value.personas = try reader["personas"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<HealthClientTypes.EventTypePersona>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension HealthClientTypes.EntityFilter {
-
-    static func write(value: HealthClientTypes.EntityFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["entityArns"].writeList(value.entityArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["entityValues"].writeList(value.entityValues, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["eventArns"].writeList(value.eventArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["lastUpdatedTimes"].writeList(value.lastUpdatedTimes, memberWritingClosure: HealthClientTypes.DateTimeRange.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["statusCodes"].writeList(value.statusCodes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<HealthClientTypes.EntityStatusCode>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["tags"].writeList(value.tags, memberWritingClosure: SmithyReadWrite.mapWritingClosure(valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension HealthClientTypes.DateTimeRange {
-
-    static func write(value: HealthClientTypes.DateTimeRange?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["from"].writeTimestamp(value.from, format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        try writer["to"].writeTimestamp(value.to, format: SmithyTimestamps.TimestampFormat.epochSeconds)
-    }
-}
-
-extension HealthClientTypes.EventAccountFilter {
-
-    static func write(value: HealthClientTypes.EventAccountFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["awsAccountId"].write(value.awsAccountId)
-        try writer["eventArn"].write(value.eventArn)
-    }
-}
-
-extension HealthClientTypes.EntityAccountFilter {
-
-    static func write(value: HealthClientTypes.EntityAccountFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["awsAccountId"].write(value.awsAccountId)
-        try writer["eventArn"].write(value.eventArn)
-        try writer["statusCodes"].writeList(value.statusCodes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<HealthClientTypes.EntityStatusCode>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension HealthClientTypes.EventFilter {
-
-    static func write(value: HealthClientTypes.EventFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["actionabilities"].writeList(value.actionabilities, memberWritingClosure: SmithyReadWrite.WritingClosureBox<HealthClientTypes.EventActionability>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["availabilityZones"].writeList(value.availabilityZones, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["endTimes"].writeList(value.endTimes, memberWritingClosure: HealthClientTypes.DateTimeRange.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["entityArns"].writeList(value.entityArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["entityValues"].writeList(value.entityValues, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["eventArns"].writeList(value.eventArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["eventStatusCodes"].writeList(value.eventStatusCodes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<HealthClientTypes.EventStatusCode>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["eventTypeCategories"].writeList(value.eventTypeCategories, memberWritingClosure: SmithyReadWrite.WritingClosureBox<HealthClientTypes.EventTypeCategory>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["eventTypeCodes"].writeList(value.eventTypeCodes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["lastUpdatedTimes"].writeList(value.lastUpdatedTimes, memberWritingClosure: HealthClientTypes.DateTimeRange.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["personas"].writeList(value.personas, memberWritingClosure: SmithyReadWrite.WritingClosureBox<HealthClientTypes.EventPersona>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["regions"].writeList(value.regions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["services"].writeList(value.services, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["startTimes"].writeList(value.startTimes, memberWritingClosure: HealthClientTypes.DateTimeRange.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["tags"].writeList(value.tags, memberWritingClosure: SmithyReadWrite.mapWritingClosure(valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
 extension HealthClientTypes.OrganizationEventFilter {
 
     static func write(value: HealthClientTypes.OrganizationEventFilter?, to writer: SmithyJSON.Writer) throws {
@@ -2466,18 +2478,6 @@ extension HealthClientTypes.OrganizationEventFilter {
         try writer["regions"].writeList(value.regions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["services"].writeList(value.services, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["startTime"].write(value.startTime, with: HealthClientTypes.DateTimeRange.write(value:to:))
-    }
-}
-
-extension HealthClientTypes.EventTypeFilter {
-
-    static func write(value: HealthClientTypes.EventTypeFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["actionabilities"].writeList(value.actionabilities, memberWritingClosure: SmithyReadWrite.WritingClosureBox<HealthClientTypes.EventTypeActionability>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["eventTypeCategories"].writeList(value.eventTypeCategories, memberWritingClosure: SmithyReadWrite.WritingClosureBox<HealthClientTypes.EventTypeCategory>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["eventTypeCodes"].writeList(value.eventTypeCodes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["personas"].writeList(value.personas, memberWritingClosure: SmithyReadWrite.WritingClosureBox<HealthClientTypes.EventTypePersona>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["services"].writeList(value.services, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 

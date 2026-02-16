@@ -1178,14 +1178,36 @@ extension InvalidTokenException {
     }
 }
 
-extension MarketplaceMeteringClientTypes.UsageRecordResult {
+extension MarketplaceMeteringClientTypes.Tag {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceMeteringClientTypes.UsageRecordResult {
+    static func write(value: MarketplaceMeteringClientTypes.Tag?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Key"].write(value.key)
+        try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceMeteringClientTypes.Tag {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MarketplaceMeteringClientTypes.UsageRecordResult()
-        value.usageRecord = try reader["UsageRecord"].readIfPresent(with: MarketplaceMeteringClientTypes.UsageRecord.read(from:))
-        value.meteringRecordId = try reader["MeteringRecordId"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
+        var value = MarketplaceMeteringClientTypes.Tag()
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension MarketplaceMeteringClientTypes.UsageAllocation {
+
+    static func write(value: MarketplaceMeteringClientTypes.UsageAllocation?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AllocatedUsageQuantity"].write(value.allocatedUsageQuantity)
+        try writer["Tags"].writeList(value.tags, memberWritingClosure: MarketplaceMeteringClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceMeteringClientTypes.UsageAllocation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MarketplaceMeteringClientTypes.UsageAllocation()
+        value.allocatedUsageQuantity = try reader["AllocatedUsageQuantity"].readIfPresent() ?? 0
+        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: MarketplaceMeteringClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -1215,36 +1237,14 @@ extension MarketplaceMeteringClientTypes.UsageRecord {
     }
 }
 
-extension MarketplaceMeteringClientTypes.UsageAllocation {
+extension MarketplaceMeteringClientTypes.UsageRecordResult {
 
-    static func write(value: MarketplaceMeteringClientTypes.UsageAllocation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AllocatedUsageQuantity"].write(value.allocatedUsageQuantity)
-        try writer["Tags"].writeList(value.tags, memberWritingClosure: MarketplaceMeteringClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceMeteringClientTypes.UsageAllocation {
+    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceMeteringClientTypes.UsageRecordResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MarketplaceMeteringClientTypes.UsageAllocation()
-        value.allocatedUsageQuantity = try reader["AllocatedUsageQuantity"].readIfPresent() ?? 0
-        value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: MarketplaceMeteringClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension MarketplaceMeteringClientTypes.Tag {
-
-    static func write(value: MarketplaceMeteringClientTypes.Tag?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Key"].write(value.key)
-        try writer["Value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceMeteringClientTypes.Tag {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MarketplaceMeteringClientTypes.Tag()
-        value.key = try reader["Key"].readIfPresent() ?? ""
-        value.value = try reader["Value"].readIfPresent() ?? ""
+        var value = MarketplaceMeteringClientTypes.UsageRecordResult()
+        value.usageRecord = try reader["UsageRecord"].readIfPresent(with: MarketplaceMeteringClientTypes.UsageRecord.read(from:))
+        value.meteringRecordId = try reader["MeteringRecordId"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
         return value
     }
 }

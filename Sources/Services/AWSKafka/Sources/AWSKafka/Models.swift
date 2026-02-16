@@ -8870,26 +8870,190 @@ extension UnknownTopicOrPartitionException {
     }
 }
 
-extension KafkaClientTypes.UnprocessedScramSecret {
+extension KafkaClientTypes.AmazonMskCluster {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.UnprocessedScramSecret {
+    static func write(value: KafkaClientTypes.AmazonMskCluster?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["mskClusterArn"].write(value.mskClusterArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.AmazonMskCluster {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.UnprocessedScramSecret()
-        value.errorCode = try reader["errorCode"].readIfPresent()
-        value.errorMessage = try reader["errorMessage"].readIfPresent()
-        value.secretArn = try reader["secretArn"].readIfPresent()
+        var value = KafkaClientTypes.AmazonMskCluster()
+        value.mskClusterArn = try reader["mskClusterArn"].readIfPresent() ?? ""
         return value
     }
 }
 
-extension KafkaClientTypes.ConfigurationRevision {
+extension KafkaClientTypes.BrokerCountUpdateInfo {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.ConfigurationRevision {
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.BrokerCountUpdateInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.ConfigurationRevision()
-        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.description = try reader["description"].readIfPresent()
-        value.revision = try reader["revision"].readIfPresent() ?? 0
+        var value = KafkaClientTypes.BrokerCountUpdateInfo()
+        value.createdBrokerIds = try reader["createdBrokerIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false)
+        value.deletedBrokerIds = try reader["deletedBrokerIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension KafkaClientTypes.BrokerEBSVolumeInfo {
+
+    static func write(value: KafkaClientTypes.BrokerEBSVolumeInfo?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["kafkaBrokerNodeId"].write(value.kafkaBrokerNodeId)
+        try writer["provisionedThroughput"].write(value.provisionedThroughput, with: KafkaClientTypes.ProvisionedThroughput.write(value:to:))
+        try writer["volumeSizeGB"].write(value.volumeSizeGB)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.BrokerEBSVolumeInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.BrokerEBSVolumeInfo()
+        value.kafkaBrokerNodeId = try reader["kafkaBrokerNodeId"].readIfPresent() ?? ""
+        value.provisionedThroughput = try reader["provisionedThroughput"].readIfPresent(with: KafkaClientTypes.ProvisionedThroughput.read(from:))
+        value.volumeSizeGB = try reader["volumeSizeGB"].readIfPresent()
+        return value
+    }
+}
+
+extension KafkaClientTypes.BrokerLogs {
+
+    static func write(value: KafkaClientTypes.BrokerLogs?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["cloudWatchLogs"].write(value.cloudWatchLogs, with: KafkaClientTypes.CloudWatchLogs.write(value:to:))
+        try writer["firehose"].write(value.firehose, with: KafkaClientTypes.Firehose.write(value:to:))
+        try writer["s3"].write(value.s3, with: KafkaClientTypes.S3.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.BrokerLogs {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.BrokerLogs()
+        value.cloudWatchLogs = try reader["cloudWatchLogs"].readIfPresent(with: KafkaClientTypes.CloudWatchLogs.read(from:))
+        value.firehose = try reader["firehose"].readIfPresent(with: KafkaClientTypes.Firehose.read(from:))
+        value.s3 = try reader["s3"].readIfPresent(with: KafkaClientTypes.S3.read(from:))
+        return value
+    }
+}
+
+extension KafkaClientTypes.BrokerNodeGroupInfo {
+
+    static func write(value: KafkaClientTypes.BrokerNodeGroupInfo?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["brokerAZDistribution"].write(value.brokerAZDistribution)
+        try writer["clientSubnets"].writeList(value.clientSubnets, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["connectivityInfo"].write(value.connectivityInfo, with: KafkaClientTypes.ConnectivityInfo.write(value:to:))
+        try writer["instanceType"].write(value.instanceType)
+        try writer["securityGroups"].writeList(value.securityGroups, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["storageInfo"].write(value.storageInfo, with: KafkaClientTypes.StorageInfo.write(value:to:))
+        try writer["zoneIds"].writeList(value.zoneIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.BrokerNodeGroupInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.BrokerNodeGroupInfo()
+        value.brokerAZDistribution = try reader["brokerAZDistribution"].readIfPresent()
+        value.clientSubnets = try reader["clientSubnets"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.instanceType = try reader["instanceType"].readIfPresent() ?? ""
+        value.securityGroups = try reader["securityGroups"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.storageInfo = try reader["storageInfo"].readIfPresent(with: KafkaClientTypes.StorageInfo.read(from:))
+        value.connectivityInfo = try reader["connectivityInfo"].readIfPresent(with: KafkaClientTypes.ConnectivityInfo.read(from:))
+        value.zoneIds = try reader["zoneIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension KafkaClientTypes.BrokerNodeInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.BrokerNodeInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.BrokerNodeInfo()
+        value.attachedENIId = try reader["attachedENIId"].readIfPresent()
+        value.brokerId = try reader["brokerId"].readIfPresent()
+        value.clientSubnet = try reader["clientSubnet"].readIfPresent()
+        value.clientVpcIpAddress = try reader["clientVpcIpAddress"].readIfPresent()
+        value.currentBrokerSoftwareInfo = try reader["currentBrokerSoftwareInfo"].readIfPresent(with: KafkaClientTypes.BrokerSoftwareInfo.read(from:))
+        value.endpoints = try reader["endpoints"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension KafkaClientTypes.BrokerSoftwareInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.BrokerSoftwareInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.BrokerSoftwareInfo()
+        value.configurationArn = try reader["configurationArn"].readIfPresent()
+        value.configurationRevision = try reader["configurationRevision"].readIfPresent()
+        value.kafkaVersion = try reader["kafkaVersion"].readIfPresent()
+        return value
+    }
+}
+
+extension KafkaClientTypes.ClientAuthentication {
+
+    static func write(value: KafkaClientTypes.ClientAuthentication?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["sasl"].write(value.sasl, with: KafkaClientTypes.Sasl.write(value:to:))
+        try writer["tls"].write(value.tls, with: KafkaClientTypes.Tls.write(value:to:))
+        try writer["unauthenticated"].write(value.unauthenticated, with: KafkaClientTypes.Unauthenticated.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.ClientAuthentication {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.ClientAuthentication()
+        value.sasl = try reader["sasl"].readIfPresent(with: KafkaClientTypes.Sasl.read(from:))
+        value.tls = try reader["tls"].readIfPresent(with: KafkaClientTypes.Tls.read(from:))
+        value.unauthenticated = try reader["unauthenticated"].readIfPresent(with: KafkaClientTypes.Unauthenticated.read(from:))
+        return value
+    }
+}
+
+extension KafkaClientTypes.ClientVpcConnection {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.ClientVpcConnection {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.ClientVpcConnection()
+        value.authentication = try reader["authentication"].readIfPresent()
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.state = try reader["state"].readIfPresent()
+        value.vpcConnectionArn = try reader["vpcConnectionArn"].readIfPresent() ?? ""
+        value.owner = try reader["owner"].readIfPresent()
+        return value
+    }
+}
+
+extension KafkaClientTypes.CloudWatchLogs {
+
+    static func write(value: KafkaClientTypes.CloudWatchLogs?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["enabled"].write(value.enabled)
+        try writer["logGroup"].write(value.logGroup)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.CloudWatchLogs {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.CloudWatchLogs()
+        value.enabled = try reader["enabled"].readIfPresent() ?? false
+        value.logGroup = try reader["logGroup"].readIfPresent()
+        return value
+    }
+}
+
+extension KafkaClientTypes.Cluster {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.Cluster {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.Cluster()
+        value.activeOperationArn = try reader["activeOperationArn"].readIfPresent()
+        value.clusterType = try reader["clusterType"].readIfPresent()
+        value.clusterArn = try reader["clusterArn"].readIfPresent()
+        value.clusterName = try reader["clusterName"].readIfPresent()
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.currentVersion = try reader["currentVersion"].readIfPresent()
+        value.state = try reader["state"].readIfPresent()
+        value.stateInfo = try reader["stateInfo"].readIfPresent(with: KafkaClientTypes.StateInfo.read(from:))
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.provisioned = try reader["provisioned"].readIfPresent(with: KafkaClientTypes.Provisioned.read(from:))
+        value.serverless = try reader["serverless"].readIfPresent(with: KafkaClientTypes.Serverless.read(from:))
         return value
     }
 }
@@ -8924,141 +9088,249 @@ extension KafkaClientTypes.ClusterInfo {
     }
 }
 
-extension KafkaClientTypes.StateInfo {
+extension KafkaClientTypes.ClusterOperationInfo {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.StateInfo {
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.ClusterOperationInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.StateInfo()
-        value.code = try reader["code"].readIfPresent()
-        value.message = try reader["message"].readIfPresent()
+        var value = KafkaClientTypes.ClusterOperationInfo()
+        value.clientRequestId = try reader["clientRequestId"].readIfPresent()
+        value.clusterArn = try reader["clusterArn"].readIfPresent()
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.endTime = try reader["endTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.errorInfo = try reader["errorInfo"].readIfPresent(with: KafkaClientTypes.ErrorInfo.read(from:))
+        value.operationArn = try reader["operationArn"].readIfPresent()
+        value.operationState = try reader["operationState"].readIfPresent()
+        value.operationSteps = try reader["operationSteps"].readListIfPresent(memberReadingClosure: KafkaClientTypes.ClusterOperationStep.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.operationType = try reader["operationType"].readIfPresent()
+        value.sourceClusterInfo = try reader["sourceClusterInfo"].readIfPresent(with: KafkaClientTypes.MutableClusterInfo.read(from:))
+        value.targetClusterInfo = try reader["targetClusterInfo"].readIfPresent(with: KafkaClientTypes.MutableClusterInfo.read(from:))
+        value.vpcConnectionInfo = try reader["vpcConnectionInfo"].readIfPresent(with: KafkaClientTypes.VpcConnectionInfo.read(from:))
         return value
     }
 }
 
-extension KafkaClientTypes.LoggingInfo {
+extension KafkaClientTypes.ClusterOperationStep {
 
-    static func write(value: KafkaClientTypes.LoggingInfo?, to writer: SmithyJSON.Writer) throws {
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.ClusterOperationStep {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.ClusterOperationStep()
+        value.stepInfo = try reader["stepInfo"].readIfPresent(with: KafkaClientTypes.ClusterOperationStepInfo.read(from:))
+        value.stepName = try reader["stepName"].readIfPresent()
+        return value
+    }
+}
+
+extension KafkaClientTypes.ClusterOperationStepInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.ClusterOperationStepInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.ClusterOperationStepInfo()
+        value.stepStatus = try reader["stepStatus"].readIfPresent()
+        return value
+    }
+}
+
+extension KafkaClientTypes.ClusterOperationV2 {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.ClusterOperationV2 {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.ClusterOperationV2()
+        value.clusterArn = try reader["clusterArn"].readIfPresent()
+        value.clusterType = try reader["clusterType"].readIfPresent()
+        value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.endTime = try reader["endTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.errorInfo = try reader["errorInfo"].readIfPresent(with: KafkaClientTypes.ErrorInfo.read(from:))
+        value.operationArn = try reader["operationArn"].readIfPresent()
+        value.operationState = try reader["operationState"].readIfPresent()
+        value.operationType = try reader["operationType"].readIfPresent()
+        value.provisioned = try reader["provisioned"].readIfPresent(with: KafkaClientTypes.ClusterOperationV2Provisioned.read(from:))
+        value.serverless = try reader["serverless"].readIfPresent(with: KafkaClientTypes.ClusterOperationV2Serverless.read(from:))
+        return value
+    }
+}
+
+extension KafkaClientTypes.ClusterOperationV2Provisioned {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.ClusterOperationV2Provisioned {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.ClusterOperationV2Provisioned()
+        value.operationSteps = try reader["operationSteps"].readListIfPresent(memberReadingClosure: KafkaClientTypes.ClusterOperationStep.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.sourceClusterInfo = try reader["sourceClusterInfo"].readIfPresent(with: KafkaClientTypes.MutableClusterInfo.read(from:))
+        value.targetClusterInfo = try reader["targetClusterInfo"].readIfPresent(with: KafkaClientTypes.MutableClusterInfo.read(from:))
+        value.vpcConnectionInfo = try reader["vpcConnectionInfo"].readIfPresent(with: KafkaClientTypes.VpcConnectionInfo.read(from:))
+        return value
+    }
+}
+
+extension KafkaClientTypes.ClusterOperationV2Serverless {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.ClusterOperationV2Serverless {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.ClusterOperationV2Serverless()
+        value.vpcConnectionInfo = try reader["vpcConnectionInfo"].readIfPresent(with: KafkaClientTypes.VpcConnectionInfoServerless.read(from:))
+        return value
+    }
+}
+
+extension KafkaClientTypes.ClusterOperationV2Summary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.ClusterOperationV2Summary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.ClusterOperationV2Summary()
+        value.clusterArn = try reader["clusterArn"].readIfPresent()
+        value.clusterType = try reader["clusterType"].readIfPresent()
+        value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.endTime = try reader["endTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.operationArn = try reader["operationArn"].readIfPresent()
+        value.operationState = try reader["operationState"].readIfPresent()
+        value.operationType = try reader["operationType"].readIfPresent()
+        return value
+    }
+}
+
+extension KafkaClientTypes.CompatibleKafkaVersion {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.CompatibleKafkaVersion {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.CompatibleKafkaVersion()
+        value.sourceVersion = try reader["sourceVersion"].readIfPresent()
+        value.targetVersions = try reader["targetVersions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension KafkaClientTypes.Configuration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.Configuration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.Configuration()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.description = try reader["description"].readIfPresent() ?? ""
+        value.kafkaVersions = try reader["kafkaVersions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.latestRevision = try reader["latestRevision"].readIfPresent(with: KafkaClientTypes.ConfigurationRevision.read(from:))
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.state = try reader["state"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension KafkaClientTypes.ConfigurationInfo {
+
+    static func write(value: KafkaClientTypes.ConfigurationInfo?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["brokerLogs"].write(value.brokerLogs, with: KafkaClientTypes.BrokerLogs.write(value:to:))
+        try writer["arn"].write(value.arn)
+        try writer["revision"].write(value.revision)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.LoggingInfo {
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.ConfigurationInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.LoggingInfo()
-        value.brokerLogs = try reader["brokerLogs"].readIfPresent(with: KafkaClientTypes.BrokerLogs.read(from:))
+        var value = KafkaClientTypes.ConfigurationInfo()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.revision = try reader["revision"].readIfPresent() ?? 0
         return value
     }
 }
 
-extension KafkaClientTypes.BrokerLogs {
+extension KafkaClientTypes.ConfigurationRevision {
 
-    static func write(value: KafkaClientTypes.BrokerLogs?, to writer: SmithyJSON.Writer) throws {
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.ConfigurationRevision {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.ConfigurationRevision()
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.description = try reader["description"].readIfPresent()
+        value.revision = try reader["revision"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension KafkaClientTypes.ConnectivityInfo {
+
+    static func write(value: KafkaClientTypes.ConnectivityInfo?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["cloudWatchLogs"].write(value.cloudWatchLogs, with: KafkaClientTypes.CloudWatchLogs.write(value:to:))
-        try writer["firehose"].write(value.firehose, with: KafkaClientTypes.Firehose.write(value:to:))
-        try writer["s3"].write(value.s3, with: KafkaClientTypes.S3.write(value:to:))
+        try writer["publicAccess"].write(value.publicAccess, with: KafkaClientTypes.PublicAccess.write(value:to:))
+        try writer["vpcConnectivity"].write(value.vpcConnectivity, with: KafkaClientTypes.VpcConnectivity.write(value:to:))
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.BrokerLogs {
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.ConnectivityInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.BrokerLogs()
-        value.cloudWatchLogs = try reader["cloudWatchLogs"].readIfPresent(with: KafkaClientTypes.CloudWatchLogs.read(from:))
-        value.firehose = try reader["firehose"].readIfPresent(with: KafkaClientTypes.Firehose.read(from:))
-        value.s3 = try reader["s3"].readIfPresent(with: KafkaClientTypes.S3.read(from:))
+        var value = KafkaClientTypes.ConnectivityInfo()
+        value.publicAccess = try reader["publicAccess"].readIfPresent(with: KafkaClientTypes.PublicAccess.read(from:))
+        value.vpcConnectivity = try reader["vpcConnectivity"].readIfPresent(with: KafkaClientTypes.VpcConnectivity.read(from:))
         return value
     }
 }
 
-extension KafkaClientTypes.S3 {
+extension KafkaClientTypes.ConsumerGroupReplication {
 
-    static func write(value: KafkaClientTypes.S3?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: KafkaClientTypes.ConsumerGroupReplication?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["bucket"].write(value.bucket)
-        try writer["enabled"].write(value.enabled)
-        try writer["prefix"].write(value.`prefix`)
+        try writer["consumerGroupsToExclude"].writeList(value.consumerGroupsToExclude, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["consumerGroupsToReplicate"].writeList(value.consumerGroupsToReplicate, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["detectAndCopyNewConsumerGroups"].write(value.detectAndCopyNewConsumerGroups)
+        try writer["synchroniseConsumerGroupOffsets"].write(value.synchroniseConsumerGroupOffsets)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.S3 {
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.ConsumerGroupReplication {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.S3()
-        value.bucket = try reader["bucket"].readIfPresent()
-        value.enabled = try reader["enabled"].readIfPresent() ?? false
-        value.`prefix` = try reader["prefix"].readIfPresent()
+        var value = KafkaClientTypes.ConsumerGroupReplication()
+        value.consumerGroupsToExclude = try reader["consumerGroupsToExclude"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.consumerGroupsToReplicate = try reader["consumerGroupsToReplicate"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.detectAndCopyNewConsumerGroups = try reader["detectAndCopyNewConsumerGroups"].readIfPresent()
+        value.synchroniseConsumerGroupOffsets = try reader["synchroniseConsumerGroupOffsets"].readIfPresent()
         return value
     }
 }
 
-extension KafkaClientTypes.Firehose {
+extension KafkaClientTypes.ConsumerGroupReplicationUpdate {
 
-    static func write(value: KafkaClientTypes.Firehose?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: KafkaClientTypes.ConsumerGroupReplicationUpdate?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["deliveryStream"].write(value.deliveryStream)
-        try writer["enabled"].write(value.enabled)
+        try writer["consumerGroupsToExclude"].writeList(value.consumerGroupsToExclude, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["consumerGroupsToReplicate"].writeList(value.consumerGroupsToReplicate, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["detectAndCopyNewConsumerGroups"].write(value.detectAndCopyNewConsumerGroups)
+        try writer["synchroniseConsumerGroupOffsets"].write(value.synchroniseConsumerGroupOffsets)
     }
+}
 
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.Firehose {
+extension KafkaClientTypes.ControllerNodeInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.ControllerNodeInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.Firehose()
-        value.deliveryStream = try reader["deliveryStream"].readIfPresent()
-        value.enabled = try reader["enabled"].readIfPresent() ?? false
+        var value = KafkaClientTypes.ControllerNodeInfo()
+        value.endpoints = try reader["endpoints"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
 
-extension KafkaClientTypes.CloudWatchLogs {
+extension KafkaClientTypes.EBSStorageInfo {
 
-    static func write(value: KafkaClientTypes.CloudWatchLogs?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: KafkaClientTypes.EBSStorageInfo?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["enabled"].write(value.enabled)
-        try writer["logGroup"].write(value.logGroup)
+        try writer["provisionedThroughput"].write(value.provisionedThroughput, with: KafkaClientTypes.ProvisionedThroughput.write(value:to:))
+        try writer["volumeSize"].write(value.volumeSize)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.CloudWatchLogs {
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.EBSStorageInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.CloudWatchLogs()
-        value.enabled = try reader["enabled"].readIfPresent() ?? false
-        value.logGroup = try reader["logGroup"].readIfPresent()
+        var value = KafkaClientTypes.EBSStorageInfo()
+        value.provisionedThroughput = try reader["provisionedThroughput"].readIfPresent(with: KafkaClientTypes.ProvisionedThroughput.read(from:))
+        value.volumeSize = try reader["volumeSize"].readIfPresent()
         return value
     }
 }
 
-extension KafkaClientTypes.OpenMonitoring {
+extension KafkaClientTypes.EncryptionAtRest {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.OpenMonitoring {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.OpenMonitoring()
-        value.prometheus = try reader["prometheus"].readIfPresent(with: KafkaClientTypes.Prometheus.read(from:))
-        return value
+    static func write(value: KafkaClientTypes.EncryptionAtRest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["dataVolumeKMSKeyId"].write(value.dataVolumeKMSKeyId)
     }
-}
 
-extension KafkaClientTypes.Prometheus {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.Prometheus {
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.EncryptionAtRest {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.Prometheus()
-        value.jmxExporter = try reader["jmxExporter"].readIfPresent(with: KafkaClientTypes.JmxExporter.read(from:))
-        value.nodeExporter = try reader["nodeExporter"].readIfPresent(with: KafkaClientTypes.NodeExporter.read(from:))
-        return value
-    }
-}
-
-extension KafkaClientTypes.NodeExporter {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.NodeExporter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.NodeExporter()
-        value.enabledInBroker = try reader["enabledInBroker"].readIfPresent() ?? false
-        return value
-    }
-}
-
-extension KafkaClientTypes.JmxExporter {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.JmxExporter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.JmxExporter()
-        value.enabledInBroker = try reader["enabledInBroker"].readIfPresent() ?? false
+        var value = KafkaClientTypes.EncryptionAtRest()
+        value.dataVolumeKMSKeyId = try reader["dataVolumeKMSKeyId"].readIfPresent() ?? ""
         return value
     }
 }
@@ -9097,80 +9369,464 @@ extension KafkaClientTypes.EncryptionInTransit {
     }
 }
 
-extension KafkaClientTypes.EncryptionAtRest {
+extension KafkaClientTypes.ErrorInfo {
 
-    static func write(value: KafkaClientTypes.EncryptionAtRest?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["dataVolumeKMSKeyId"].write(value.dataVolumeKMSKeyId)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.EncryptionAtRest {
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.ErrorInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.EncryptionAtRest()
-        value.dataVolumeKMSKeyId = try reader["dataVolumeKMSKeyId"].readIfPresent() ?? ""
+        var value = KafkaClientTypes.ErrorInfo()
+        value.errorCode = try reader["errorCode"].readIfPresent()
+        value.errorString = try reader["errorString"].readIfPresent()
         return value
     }
 }
 
-extension KafkaClientTypes.BrokerSoftwareInfo {
+extension KafkaClientTypes.Firehose {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.BrokerSoftwareInfo {
+    static func write(value: KafkaClientTypes.Firehose?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["deliveryStream"].write(value.deliveryStream)
+        try writer["enabled"].write(value.enabled)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.Firehose {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.BrokerSoftwareInfo()
-        value.configurationArn = try reader["configurationArn"].readIfPresent()
-        value.configurationRevision = try reader["configurationRevision"].readIfPresent()
+        var value = KafkaClientTypes.Firehose()
+        value.deliveryStream = try reader["deliveryStream"].readIfPresent()
+        value.enabled = try reader["enabled"].readIfPresent() ?? false
+        return value
+    }
+}
+
+extension KafkaClientTypes.Iam {
+
+    static func write(value: KafkaClientTypes.Iam?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["enabled"].write(value.enabled)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.Iam {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.Iam()
+        value.enabled = try reader["enabled"].readIfPresent()
+        return value
+    }
+}
+
+extension KafkaClientTypes.JmxExporter {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.JmxExporter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.JmxExporter()
+        value.enabledInBroker = try reader["enabledInBroker"].readIfPresent() ?? false
+        return value
+    }
+}
+
+extension KafkaClientTypes.JmxExporterInfo {
+
+    static func write(value: KafkaClientTypes.JmxExporterInfo?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["enabledInBroker"].write(value.enabledInBroker)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.JmxExporterInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.JmxExporterInfo()
+        value.enabledInBroker = try reader["enabledInBroker"].readIfPresent() ?? false
+        return value
+    }
+}
+
+extension KafkaClientTypes.KafkaCluster {
+
+    static func write(value: KafkaClientTypes.KafkaCluster?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["amazonMskCluster"].write(value.amazonMskCluster, with: KafkaClientTypes.AmazonMskCluster.write(value:to:))
+        try writer["vpcConfig"].write(value.vpcConfig, with: KafkaClientTypes.KafkaClusterClientVpcConfig.write(value:to:))
+    }
+}
+
+extension KafkaClientTypes.KafkaClusterClientVpcConfig {
+
+    static func write(value: KafkaClientTypes.KafkaClusterClientVpcConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["securityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["subnetIds"].writeList(value.subnetIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.KafkaClusterClientVpcConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.KafkaClusterClientVpcConfig()
+        value.securityGroupIds = try reader["securityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.subnetIds = try reader["subnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension KafkaClientTypes.KafkaClusterDescription {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.KafkaClusterDescription {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.KafkaClusterDescription()
+        value.amazonMskCluster = try reader["amazonMskCluster"].readIfPresent(with: KafkaClientTypes.AmazonMskCluster.read(from:))
+        value.kafkaClusterAlias = try reader["kafkaClusterAlias"].readIfPresent()
+        value.vpcConfig = try reader["vpcConfig"].readIfPresent(with: KafkaClientTypes.KafkaClusterClientVpcConfig.read(from:))
+        return value
+    }
+}
+
+extension KafkaClientTypes.KafkaClusterSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.KafkaClusterSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.KafkaClusterSummary()
+        value.amazonMskCluster = try reader["amazonMskCluster"].readIfPresent(with: KafkaClientTypes.AmazonMskCluster.read(from:))
+        value.kafkaClusterAlias = try reader["kafkaClusterAlias"].readIfPresent()
+        return value
+    }
+}
+
+extension KafkaClientTypes.KafkaVersion {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.KafkaVersion {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.KafkaVersion()
+        value.version = try reader["version"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        return value
+    }
+}
+
+extension KafkaClientTypes.LoggingInfo {
+
+    static func write(value: KafkaClientTypes.LoggingInfo?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["brokerLogs"].write(value.brokerLogs, with: KafkaClientTypes.BrokerLogs.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.LoggingInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.LoggingInfo()
+        value.brokerLogs = try reader["brokerLogs"].readIfPresent(with: KafkaClientTypes.BrokerLogs.read(from:))
+        return value
+    }
+}
+
+extension KafkaClientTypes.MutableClusterInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.MutableClusterInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.MutableClusterInfo()
+        value.brokerEBSVolumeInfo = try reader["brokerEBSVolumeInfo"].readListIfPresent(memberReadingClosure: KafkaClientTypes.BrokerEBSVolumeInfo.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.configurationInfo = try reader["configurationInfo"].readIfPresent(with: KafkaClientTypes.ConfigurationInfo.read(from:))
+        value.numberOfBrokerNodes = try reader["numberOfBrokerNodes"].readIfPresent()
+        value.enhancedMonitoring = try reader["enhancedMonitoring"].readIfPresent()
+        value.openMonitoring = try reader["openMonitoring"].readIfPresent(with: KafkaClientTypes.OpenMonitoring.read(from:))
         value.kafkaVersion = try reader["kafkaVersion"].readIfPresent()
+        value.loggingInfo = try reader["loggingInfo"].readIfPresent(with: KafkaClientTypes.LoggingInfo.read(from:))
+        value.instanceType = try reader["instanceType"].readIfPresent()
+        value.clientAuthentication = try reader["clientAuthentication"].readIfPresent(with: KafkaClientTypes.ClientAuthentication.read(from:))
+        value.encryptionInfo = try reader["encryptionInfo"].readIfPresent(with: KafkaClientTypes.EncryptionInfo.read(from:))
+        value.connectivityInfo = try reader["connectivityInfo"].readIfPresent(with: KafkaClientTypes.ConnectivityInfo.read(from:))
+        value.storageMode = try reader["storageMode"].readIfPresent()
+        value.brokerCountUpdateInfo = try reader["brokerCountUpdateInfo"].readIfPresent(with: KafkaClientTypes.BrokerCountUpdateInfo.read(from:))
+        value.rebalancing = try reader["rebalancing"].readIfPresent(with: KafkaClientTypes.Rebalancing.read(from:))
         return value
     }
 }
 
-extension KafkaClientTypes.ClientAuthentication {
+extension KafkaClientTypes.NodeExporter {
 
-    static func write(value: KafkaClientTypes.ClientAuthentication?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["sasl"].write(value.sasl, with: KafkaClientTypes.Sasl.write(value:to:))
-        try writer["tls"].write(value.tls, with: KafkaClientTypes.Tls.write(value:to:))
-        try writer["unauthenticated"].write(value.unauthenticated, with: KafkaClientTypes.Unauthenticated.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.ClientAuthentication {
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.NodeExporter {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.ClientAuthentication()
-        value.sasl = try reader["sasl"].readIfPresent(with: KafkaClientTypes.Sasl.read(from:))
-        value.tls = try reader["tls"].readIfPresent(with: KafkaClientTypes.Tls.read(from:))
-        value.unauthenticated = try reader["unauthenticated"].readIfPresent(with: KafkaClientTypes.Unauthenticated.read(from:))
+        var value = KafkaClientTypes.NodeExporter()
+        value.enabledInBroker = try reader["enabledInBroker"].readIfPresent() ?? false
         return value
     }
 }
 
-extension KafkaClientTypes.Unauthenticated {
+extension KafkaClientTypes.NodeExporterInfo {
 
-    static func write(value: KafkaClientTypes.Unauthenticated?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: KafkaClientTypes.NodeExporterInfo?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["enabledInBroker"].write(value.enabledInBroker)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.NodeExporterInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.NodeExporterInfo()
+        value.enabledInBroker = try reader["enabledInBroker"].readIfPresent() ?? false
+        return value
+    }
+}
+
+extension KafkaClientTypes.NodeInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.NodeInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.NodeInfo()
+        value.addedToClusterTime = try reader["addedToClusterTime"].readIfPresent()
+        value.brokerNodeInfo = try reader["brokerNodeInfo"].readIfPresent(with: KafkaClientTypes.BrokerNodeInfo.read(from:))
+        value.controllerNodeInfo = try reader["controllerNodeInfo"].readIfPresent(with: KafkaClientTypes.ControllerNodeInfo.read(from:))
+        value.instanceType = try reader["instanceType"].readIfPresent()
+        value.nodeARN = try reader["nodeARN"].readIfPresent()
+        value.nodeType = try reader["nodeType"].readIfPresent()
+        value.zookeeperNodeInfo = try reader["zookeeperNodeInfo"].readIfPresent(with: KafkaClientTypes.ZookeeperNodeInfo.read(from:))
+        return value
+    }
+}
+
+extension KafkaClientTypes.OpenMonitoring {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.OpenMonitoring {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.OpenMonitoring()
+        value.prometheus = try reader["prometheus"].readIfPresent(with: KafkaClientTypes.Prometheus.read(from:))
+        return value
+    }
+}
+
+extension KafkaClientTypes.OpenMonitoringInfo {
+
+    static func write(value: KafkaClientTypes.OpenMonitoringInfo?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["prometheus"].write(value.prometheus, with: KafkaClientTypes.PrometheusInfo.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.OpenMonitoringInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.OpenMonitoringInfo()
+        value.prometheus = try reader["prometheus"].readIfPresent(with: KafkaClientTypes.PrometheusInfo.read(from:))
+        return value
+    }
+}
+
+extension KafkaClientTypes.Prometheus {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.Prometheus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.Prometheus()
+        value.jmxExporter = try reader["jmxExporter"].readIfPresent(with: KafkaClientTypes.JmxExporter.read(from:))
+        value.nodeExporter = try reader["nodeExporter"].readIfPresent(with: KafkaClientTypes.NodeExporter.read(from:))
+        return value
+    }
+}
+
+extension KafkaClientTypes.PrometheusInfo {
+
+    static func write(value: KafkaClientTypes.PrometheusInfo?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["jmxExporter"].write(value.jmxExporter, with: KafkaClientTypes.JmxExporterInfo.write(value:to:))
+        try writer["nodeExporter"].write(value.nodeExporter, with: KafkaClientTypes.NodeExporterInfo.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.PrometheusInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.PrometheusInfo()
+        value.jmxExporter = try reader["jmxExporter"].readIfPresent(with: KafkaClientTypes.JmxExporterInfo.read(from:))
+        value.nodeExporter = try reader["nodeExporter"].readIfPresent(with: KafkaClientTypes.NodeExporterInfo.read(from:))
+        return value
+    }
+}
+
+extension KafkaClientTypes.Provisioned {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.Provisioned {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.Provisioned()
+        value.brokerNodeGroupInfo = try reader["brokerNodeGroupInfo"].readIfPresent(with: KafkaClientTypes.BrokerNodeGroupInfo.read(from:))
+        value.rebalancing = try reader["rebalancing"].readIfPresent(with: KafkaClientTypes.Rebalancing.read(from:))
+        value.currentBrokerSoftwareInfo = try reader["currentBrokerSoftwareInfo"].readIfPresent(with: KafkaClientTypes.BrokerSoftwareInfo.read(from:))
+        value.clientAuthentication = try reader["clientAuthentication"].readIfPresent(with: KafkaClientTypes.ClientAuthentication.read(from:))
+        value.encryptionInfo = try reader["encryptionInfo"].readIfPresent(with: KafkaClientTypes.EncryptionInfo.read(from:))
+        value.enhancedMonitoring = try reader["enhancedMonitoring"].readIfPresent()
+        value.openMonitoring = try reader["openMonitoring"].readIfPresent(with: KafkaClientTypes.OpenMonitoringInfo.read(from:))
+        value.loggingInfo = try reader["loggingInfo"].readIfPresent(with: KafkaClientTypes.LoggingInfo.read(from:))
+        value.numberOfBrokerNodes = try reader["numberOfBrokerNodes"].readIfPresent() ?? 0
+        value.zookeeperConnectString = try reader["zookeeperConnectString"].readIfPresent()
+        value.zookeeperConnectStringTls = try reader["zookeeperConnectStringTls"].readIfPresent()
+        value.storageMode = try reader["storageMode"].readIfPresent()
+        value.customerActionStatus = try reader["customerActionStatus"].readIfPresent()
+        return value
+    }
+}
+
+extension KafkaClientTypes.ProvisionedRequest {
+
+    static func write(value: KafkaClientTypes.ProvisionedRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["brokerNodeGroupInfo"].write(value.brokerNodeGroupInfo, with: KafkaClientTypes.BrokerNodeGroupInfo.write(value:to:))
+        try writer["clientAuthentication"].write(value.clientAuthentication, with: KafkaClientTypes.ClientAuthentication.write(value:to:))
+        try writer["configurationInfo"].write(value.configurationInfo, with: KafkaClientTypes.ConfigurationInfo.write(value:to:))
+        try writer["encryptionInfo"].write(value.encryptionInfo, with: KafkaClientTypes.EncryptionInfo.write(value:to:))
+        try writer["enhancedMonitoring"].write(value.enhancedMonitoring)
+        try writer["kafkaVersion"].write(value.kafkaVersion)
+        try writer["loggingInfo"].write(value.loggingInfo, with: KafkaClientTypes.LoggingInfo.write(value:to:))
+        try writer["numberOfBrokerNodes"].write(value.numberOfBrokerNodes)
+        try writer["openMonitoring"].write(value.openMonitoring, with: KafkaClientTypes.OpenMonitoringInfo.write(value:to:))
+        try writer["rebalancing"].write(value.rebalancing, with: KafkaClientTypes.Rebalancing.write(value:to:))
+        try writer["storageMode"].write(value.storageMode)
+    }
+}
+
+extension KafkaClientTypes.ProvisionedThroughput {
+
+    static func write(value: KafkaClientTypes.ProvisionedThroughput?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["enabled"].write(value.enabled)
+        try writer["volumeThroughput"].write(value.volumeThroughput)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.Unauthenticated {
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.ProvisionedThroughput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.Unauthenticated()
+        var value = KafkaClientTypes.ProvisionedThroughput()
         value.enabled = try reader["enabled"].readIfPresent()
+        value.volumeThroughput = try reader["volumeThroughput"].readIfPresent()
         return value
     }
 }
 
-extension KafkaClientTypes.Tls {
+extension KafkaClientTypes.PublicAccess {
 
-    static func write(value: KafkaClientTypes.Tls?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: KafkaClientTypes.PublicAccess?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["certificateAuthorityArnList"].writeList(value.certificateAuthorityArnList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["enabled"].write(value.enabled)
+        try writer["type"].write(value.type)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.Tls {
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.PublicAccess {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.Tls()
-        value.certificateAuthorityArnList = try reader["certificateAuthorityArnList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.enabled = try reader["enabled"].readIfPresent()
+        var value = KafkaClientTypes.PublicAccess()
+        value.type = try reader["type"].readIfPresent()
+        return value
+    }
+}
+
+extension KafkaClientTypes.Rebalancing {
+
+    static func write(value: KafkaClientTypes.Rebalancing?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["status"].write(value.status)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.Rebalancing {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.Rebalancing()
+        value.status = try reader["status"].readIfPresent()
+        return value
+    }
+}
+
+extension KafkaClientTypes.ReplicationInfo {
+
+    static func write(value: KafkaClientTypes.ReplicationInfo?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["consumerGroupReplication"].write(value.consumerGroupReplication, with: KafkaClientTypes.ConsumerGroupReplication.write(value:to:))
+        try writer["sourceKafkaClusterArn"].write(value.sourceKafkaClusterArn)
+        try writer["targetCompressionType"].write(value.targetCompressionType)
+        try writer["targetKafkaClusterArn"].write(value.targetKafkaClusterArn)
+        try writer["topicReplication"].write(value.topicReplication, with: KafkaClientTypes.TopicReplication.write(value:to:))
+    }
+}
+
+extension KafkaClientTypes.ReplicationInfoDescription {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.ReplicationInfoDescription {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.ReplicationInfoDescription()
+        value.consumerGroupReplication = try reader["consumerGroupReplication"].readIfPresent(with: KafkaClientTypes.ConsumerGroupReplication.read(from:))
+        value.sourceKafkaClusterAlias = try reader["sourceKafkaClusterAlias"].readIfPresent()
+        value.targetCompressionType = try reader["targetCompressionType"].readIfPresent()
+        value.targetKafkaClusterAlias = try reader["targetKafkaClusterAlias"].readIfPresent()
+        value.topicReplication = try reader["topicReplication"].readIfPresent(with: KafkaClientTypes.TopicReplication.read(from:))
+        return value
+    }
+}
+
+extension KafkaClientTypes.ReplicationInfoSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.ReplicationInfoSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.ReplicationInfoSummary()
+        value.sourceKafkaClusterAlias = try reader["sourceKafkaClusterAlias"].readIfPresent()
+        value.targetKafkaClusterAlias = try reader["targetKafkaClusterAlias"].readIfPresent()
+        return value
+    }
+}
+
+extension KafkaClientTypes.ReplicationStartingPosition {
+
+    static func write(value: KafkaClientTypes.ReplicationStartingPosition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.ReplicationStartingPosition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.ReplicationStartingPosition()
+        value.type = try reader["type"].readIfPresent()
+        return value
+    }
+}
+
+extension KafkaClientTypes.ReplicationStateInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.ReplicationStateInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.ReplicationStateInfo()
+        value.code = try reader["code"].readIfPresent()
+        value.message = try reader["message"].readIfPresent()
+        return value
+    }
+}
+
+extension KafkaClientTypes.ReplicationTopicNameConfiguration {
+
+    static func write(value: KafkaClientTypes.ReplicationTopicNameConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.ReplicationTopicNameConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.ReplicationTopicNameConfiguration()
+        value.type = try reader["type"].readIfPresent()
+        return value
+    }
+}
+
+extension KafkaClientTypes.ReplicatorSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.ReplicatorSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.ReplicatorSummary()
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.currentVersion = try reader["currentVersion"].readIfPresent()
+        value.isReplicatorReference = try reader["isReplicatorReference"].readIfPresent()
+        value.kafkaClustersSummary = try reader["kafkaClustersSummary"].readListIfPresent(memberReadingClosure: KafkaClientTypes.KafkaClusterSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.replicationInfoSummaryList = try reader["replicationInfoSummaryList"].readListIfPresent(memberReadingClosure: KafkaClientTypes.ReplicationInfoSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.replicatorArn = try reader["replicatorArn"].readIfPresent()
+        value.replicatorName = try reader["replicatorName"].readIfPresent()
+        value.replicatorResourceArn = try reader["replicatorResourceArn"].readIfPresent()
+        value.replicatorState = try reader["replicatorState"].readIfPresent()
+        return value
+    }
+}
+
+extension KafkaClientTypes.S3 {
+
+    static func write(value: KafkaClientTypes.S3?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["bucket"].write(value.bucket)
+        try writer["enabled"].write(value.enabled)
+        try writer["prefix"].write(value.`prefix`)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.S3 {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.S3()
+        value.bucket = try reader["bucket"].readIfPresent()
+        value.enabled = try reader["enabled"].readIfPresent() ?? false
+        value.`prefix` = try reader["prefix"].readIfPresent()
         return value
     }
 }
@@ -9192,21 +9848,6 @@ extension KafkaClientTypes.Sasl {
     }
 }
 
-extension KafkaClientTypes.Iam {
-
-    static func write(value: KafkaClientTypes.Iam?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["enabled"].write(value.enabled)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.Iam {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.Iam()
-        value.enabled = try reader["enabled"].readIfPresent()
-        return value
-    }
-}
-
 extension KafkaClientTypes.Scram {
 
     static func write(value: KafkaClientTypes.Scram?, to writer: SmithyJSON.Writer) throws {
@@ -9222,61 +9863,257 @@ extension KafkaClientTypes.Scram {
     }
 }
 
-extension KafkaClientTypes.Rebalancing {
+extension KafkaClientTypes.Serverless {
 
-    static func write(value: KafkaClientTypes.Rebalancing?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["status"].write(value.status)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.Rebalancing {
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.Serverless {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.Rebalancing()
-        value.status = try reader["status"].readIfPresent()
+        var value = KafkaClientTypes.Serverless()
+        value.vpcConfigs = try reader["vpcConfigs"].readListIfPresent(memberReadingClosure: KafkaClientTypes.VpcConfig.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.clientAuthentication = try reader["clientAuthentication"].readIfPresent(with: KafkaClientTypes.ServerlessClientAuthentication.read(from:))
         return value
     }
 }
 
-extension KafkaClientTypes.BrokerNodeGroupInfo {
+extension KafkaClientTypes.ServerlessClientAuthentication {
 
-    static func write(value: KafkaClientTypes.BrokerNodeGroupInfo?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: KafkaClientTypes.ServerlessClientAuthentication?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["brokerAZDistribution"].write(value.brokerAZDistribution)
-        try writer["clientSubnets"].writeList(value.clientSubnets, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["connectivityInfo"].write(value.connectivityInfo, with: KafkaClientTypes.ConnectivityInfo.write(value:to:))
-        try writer["instanceType"].write(value.instanceType)
-        try writer["securityGroups"].writeList(value.securityGroups, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["storageInfo"].write(value.storageInfo, with: KafkaClientTypes.StorageInfo.write(value:to:))
-        try writer["zoneIds"].writeList(value.zoneIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["sasl"].write(value.sasl, with: KafkaClientTypes.ServerlessSasl.write(value:to:))
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.BrokerNodeGroupInfo {
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.ServerlessClientAuthentication {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.BrokerNodeGroupInfo()
-        value.brokerAZDistribution = try reader["brokerAZDistribution"].readIfPresent()
-        value.clientSubnets = try reader["clientSubnets"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.instanceType = try reader["instanceType"].readIfPresent() ?? ""
-        value.securityGroups = try reader["securityGroups"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.storageInfo = try reader["storageInfo"].readIfPresent(with: KafkaClientTypes.StorageInfo.read(from:))
-        value.connectivityInfo = try reader["connectivityInfo"].readIfPresent(with: KafkaClientTypes.ConnectivityInfo.read(from:))
-        value.zoneIds = try reader["zoneIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = KafkaClientTypes.ServerlessClientAuthentication()
+        value.sasl = try reader["sasl"].readIfPresent(with: KafkaClientTypes.ServerlessSasl.read(from:))
         return value
     }
 }
 
-extension KafkaClientTypes.ConnectivityInfo {
+extension KafkaClientTypes.ServerlessRequest {
 
-    static func write(value: KafkaClientTypes.ConnectivityInfo?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: KafkaClientTypes.ServerlessRequest?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["publicAccess"].write(value.publicAccess, with: KafkaClientTypes.PublicAccess.write(value:to:))
-        try writer["vpcConnectivity"].write(value.vpcConnectivity, with: KafkaClientTypes.VpcConnectivity.write(value:to:))
+        try writer["clientAuthentication"].write(value.clientAuthentication, with: KafkaClientTypes.ServerlessClientAuthentication.write(value:to:))
+        try writer["vpcConfigs"].writeList(value.vpcConfigs, memberWritingClosure: KafkaClientTypes.VpcConfig.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension KafkaClientTypes.ServerlessSasl {
+
+    static func write(value: KafkaClientTypes.ServerlessSasl?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["iam"].write(value.iam, with: KafkaClientTypes.Iam.write(value:to:))
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.ConnectivityInfo {
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.ServerlessSasl {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.ConnectivityInfo()
-        value.publicAccess = try reader["publicAccess"].readIfPresent(with: KafkaClientTypes.PublicAccess.read(from:))
-        value.vpcConnectivity = try reader["vpcConnectivity"].readIfPresent(with: KafkaClientTypes.VpcConnectivity.read(from:))
+        var value = KafkaClientTypes.ServerlessSasl()
+        value.iam = try reader["iam"].readIfPresent(with: KafkaClientTypes.Iam.read(from:))
+        return value
+    }
+}
+
+extension KafkaClientTypes.StateInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.StateInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.StateInfo()
+        value.code = try reader["code"].readIfPresent()
+        value.message = try reader["message"].readIfPresent()
+        return value
+    }
+}
+
+extension KafkaClientTypes.StorageInfo {
+
+    static func write(value: KafkaClientTypes.StorageInfo?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ebsStorageInfo"].write(value.ebsStorageInfo, with: KafkaClientTypes.EBSStorageInfo.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.StorageInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.StorageInfo()
+        value.ebsStorageInfo = try reader["ebsStorageInfo"].readIfPresent(with: KafkaClientTypes.EBSStorageInfo.read(from:))
+        return value
+    }
+}
+
+extension KafkaClientTypes.Tls {
+
+    static func write(value: KafkaClientTypes.Tls?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["certificateAuthorityArnList"].writeList(value.certificateAuthorityArnList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["enabled"].write(value.enabled)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.Tls {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.Tls()
+        value.certificateAuthorityArnList = try reader["certificateAuthorityArnList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.enabled = try reader["enabled"].readIfPresent()
+        return value
+    }
+}
+
+extension KafkaClientTypes.TopicInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.TopicInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.TopicInfo()
+        value.topicArn = try reader["topicArn"].readIfPresent()
+        value.topicName = try reader["topicName"].readIfPresent()
+        value.replicationFactor = try reader["replicationFactor"].readIfPresent()
+        value.partitionCount = try reader["partitionCount"].readIfPresent()
+        value.outOfSyncReplicaCount = try reader["outOfSyncReplicaCount"].readIfPresent()
+        return value
+    }
+}
+
+extension KafkaClientTypes.TopicPartitionInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.TopicPartitionInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.TopicPartitionInfo()
+        value.partition = try reader["partition"].readIfPresent()
+        value.leader = try reader["leader"].readIfPresent()
+        value.replicas = try reader["replicas"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false)
+        value.isr = try reader["isr"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension KafkaClientTypes.TopicReplication {
+
+    static func write(value: KafkaClientTypes.TopicReplication?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["copyAccessControlListsForTopics"].write(value.copyAccessControlListsForTopics)
+        try writer["copyTopicConfigurations"].write(value.copyTopicConfigurations)
+        try writer["detectAndCopyNewTopics"].write(value.detectAndCopyNewTopics)
+        try writer["startingPosition"].write(value.startingPosition, with: KafkaClientTypes.ReplicationStartingPosition.write(value:to:))
+        try writer["topicNameConfiguration"].write(value.topicNameConfiguration, with: KafkaClientTypes.ReplicationTopicNameConfiguration.write(value:to:))
+        try writer["topicsToExclude"].writeList(value.topicsToExclude, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["topicsToReplicate"].writeList(value.topicsToReplicate, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.TopicReplication {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.TopicReplication()
+        value.copyAccessControlListsForTopics = try reader["copyAccessControlListsForTopics"].readIfPresent()
+        value.copyTopicConfigurations = try reader["copyTopicConfigurations"].readIfPresent()
+        value.detectAndCopyNewTopics = try reader["detectAndCopyNewTopics"].readIfPresent()
+        value.startingPosition = try reader["startingPosition"].readIfPresent(with: KafkaClientTypes.ReplicationStartingPosition.read(from:))
+        value.topicNameConfiguration = try reader["topicNameConfiguration"].readIfPresent(with: KafkaClientTypes.ReplicationTopicNameConfiguration.read(from:))
+        value.topicsToExclude = try reader["topicsToExclude"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.topicsToReplicate = try reader["topicsToReplicate"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension KafkaClientTypes.TopicReplicationUpdate {
+
+    static func write(value: KafkaClientTypes.TopicReplicationUpdate?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["copyAccessControlListsForTopics"].write(value.copyAccessControlListsForTopics)
+        try writer["copyTopicConfigurations"].write(value.copyTopicConfigurations)
+        try writer["detectAndCopyNewTopics"].write(value.detectAndCopyNewTopics)
+        try writer["topicsToExclude"].writeList(value.topicsToExclude, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["topicsToReplicate"].writeList(value.topicsToReplicate, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension KafkaClientTypes.Unauthenticated {
+
+    static func write(value: KafkaClientTypes.Unauthenticated?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["enabled"].write(value.enabled)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.Unauthenticated {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.Unauthenticated()
+        value.enabled = try reader["enabled"].readIfPresent()
+        return value
+    }
+}
+
+extension KafkaClientTypes.UnprocessedScramSecret {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.UnprocessedScramSecret {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.UnprocessedScramSecret()
+        value.errorCode = try reader["errorCode"].readIfPresent()
+        value.errorMessage = try reader["errorMessage"].readIfPresent()
+        value.secretArn = try reader["secretArn"].readIfPresent()
+        return value
+    }
+}
+
+extension KafkaClientTypes.UserIdentity {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.UserIdentity {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.UserIdentity()
+        value.type = try reader["type"].readIfPresent()
+        value.principalId = try reader["principalId"].readIfPresent()
+        return value
+    }
+}
+
+extension KafkaClientTypes.VpcConfig {
+
+    static func write(value: KafkaClientTypes.VpcConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["securityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["subnetIds"].writeList(value.subnetIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.VpcConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.VpcConfig()
+        value.subnetIds = try reader["subnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.securityGroupIds = try reader["securityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension KafkaClientTypes.VpcConnection {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.VpcConnection {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.VpcConnection()
+        value.vpcConnectionArn = try reader["vpcConnectionArn"].readIfPresent() ?? ""
+        value.targetClusterArn = try reader["targetClusterArn"].readIfPresent() ?? ""
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.authentication = try reader["authentication"].readIfPresent()
+        value.vpcId = try reader["vpcId"].readIfPresent()
+        value.state = try reader["state"].readIfPresent()
+        return value
+    }
+}
+
+extension KafkaClientTypes.VpcConnectionInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.VpcConnectionInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.VpcConnectionInfo()
+        value.vpcConnectionArn = try reader["vpcConnectionArn"].readIfPresent()
+        value.owner = try reader["owner"].readIfPresent()
+        value.userIdentity = try reader["userIdentity"].readIfPresent(with: KafkaClientTypes.UserIdentity.read(from:))
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
+extension KafkaClientTypes.VpcConnectionInfoServerless {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.VpcConnectionInfoServerless {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.VpcConnectionInfoServerless()
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.owner = try reader["owner"].readIfPresent()
+        value.userIdentity = try reader["userIdentity"].readIfPresent(with: KafkaClientTypes.UserIdentity.read(from:))
+        value.vpcConnectionArn = try reader["vpcConnectionArn"].readIfPresent()
         return value
     }
 }
@@ -9313,16 +10150,16 @@ extension KafkaClientTypes.VpcConnectivityClientAuthentication {
     }
 }
 
-extension KafkaClientTypes.VpcConnectivityTls {
+extension KafkaClientTypes.VpcConnectivityIam {
 
-    static func write(value: KafkaClientTypes.VpcConnectivityTls?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: KafkaClientTypes.VpcConnectivityIam?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["enabled"].write(value.enabled)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.VpcConnectivityTls {
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.VpcConnectivityIam {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.VpcConnectivityTls()
+        var value = KafkaClientTypes.VpcConnectivityIam()
         value.enabled = try reader["enabled"].readIfPresent()
         return value
     }
@@ -9345,21 +10182,6 @@ extension KafkaClientTypes.VpcConnectivitySasl {
     }
 }
 
-extension KafkaClientTypes.VpcConnectivityIam {
-
-    static func write(value: KafkaClientTypes.VpcConnectivityIam?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["enabled"].write(value.enabled)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.VpcConnectivityIam {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.VpcConnectivityIam()
-        value.enabled = try reader["enabled"].readIfPresent()
-        return value
-    }
-}
-
 extension KafkaClientTypes.VpcConnectivityScram {
 
     static func write(value: KafkaClientTypes.VpcConnectivityScram?, to writer: SmithyJSON.Writer) throws {
@@ -9375,674 +10197,17 @@ extension KafkaClientTypes.VpcConnectivityScram {
     }
 }
 
-extension KafkaClientTypes.PublicAccess {
+extension KafkaClientTypes.VpcConnectivityTls {
 
-    static func write(value: KafkaClientTypes.PublicAccess?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["type"].write(value.type)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.PublicAccess {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.PublicAccess()
-        value.type = try reader["type"].readIfPresent()
-        return value
-    }
-}
-
-extension KafkaClientTypes.StorageInfo {
-
-    static func write(value: KafkaClientTypes.StorageInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ebsStorageInfo"].write(value.ebsStorageInfo, with: KafkaClientTypes.EBSStorageInfo.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.StorageInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.StorageInfo()
-        value.ebsStorageInfo = try reader["ebsStorageInfo"].readIfPresent(with: KafkaClientTypes.EBSStorageInfo.read(from:))
-        return value
-    }
-}
-
-extension KafkaClientTypes.EBSStorageInfo {
-
-    static func write(value: KafkaClientTypes.EBSStorageInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["provisionedThroughput"].write(value.provisionedThroughput, with: KafkaClientTypes.ProvisionedThroughput.write(value:to:))
-        try writer["volumeSize"].write(value.volumeSize)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.EBSStorageInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.EBSStorageInfo()
-        value.provisionedThroughput = try reader["provisionedThroughput"].readIfPresent(with: KafkaClientTypes.ProvisionedThroughput.read(from:))
-        value.volumeSize = try reader["volumeSize"].readIfPresent()
-        return value
-    }
-}
-
-extension KafkaClientTypes.ProvisionedThroughput {
-
-    static func write(value: KafkaClientTypes.ProvisionedThroughput?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: KafkaClientTypes.VpcConnectivityTls?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["enabled"].write(value.enabled)
-        try writer["volumeThroughput"].write(value.volumeThroughput)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.ProvisionedThroughput {
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.VpcConnectivityTls {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.ProvisionedThroughput()
+        var value = KafkaClientTypes.VpcConnectivityTls()
         value.enabled = try reader["enabled"].readIfPresent()
-        value.volumeThroughput = try reader["volumeThroughput"].readIfPresent()
-        return value
-    }
-}
-
-extension KafkaClientTypes.ClusterOperationInfo {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.ClusterOperationInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.ClusterOperationInfo()
-        value.clientRequestId = try reader["clientRequestId"].readIfPresent()
-        value.clusterArn = try reader["clusterArn"].readIfPresent()
-        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.endTime = try reader["endTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.errorInfo = try reader["errorInfo"].readIfPresent(with: KafkaClientTypes.ErrorInfo.read(from:))
-        value.operationArn = try reader["operationArn"].readIfPresent()
-        value.operationState = try reader["operationState"].readIfPresent()
-        value.operationSteps = try reader["operationSteps"].readListIfPresent(memberReadingClosure: KafkaClientTypes.ClusterOperationStep.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.operationType = try reader["operationType"].readIfPresent()
-        value.sourceClusterInfo = try reader["sourceClusterInfo"].readIfPresent(with: KafkaClientTypes.MutableClusterInfo.read(from:))
-        value.targetClusterInfo = try reader["targetClusterInfo"].readIfPresent(with: KafkaClientTypes.MutableClusterInfo.read(from:))
-        value.vpcConnectionInfo = try reader["vpcConnectionInfo"].readIfPresent(with: KafkaClientTypes.VpcConnectionInfo.read(from:))
-        return value
-    }
-}
-
-extension KafkaClientTypes.VpcConnectionInfo {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.VpcConnectionInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.VpcConnectionInfo()
-        value.vpcConnectionArn = try reader["vpcConnectionArn"].readIfPresent()
-        value.owner = try reader["owner"].readIfPresent()
-        value.userIdentity = try reader["userIdentity"].readIfPresent(with: KafkaClientTypes.UserIdentity.read(from:))
-        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        return value
-    }
-}
-
-extension KafkaClientTypes.UserIdentity {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.UserIdentity {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.UserIdentity()
-        value.type = try reader["type"].readIfPresent()
-        value.principalId = try reader["principalId"].readIfPresent()
-        return value
-    }
-}
-
-extension KafkaClientTypes.MutableClusterInfo {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.MutableClusterInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.MutableClusterInfo()
-        value.brokerEBSVolumeInfo = try reader["brokerEBSVolumeInfo"].readListIfPresent(memberReadingClosure: KafkaClientTypes.BrokerEBSVolumeInfo.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.configurationInfo = try reader["configurationInfo"].readIfPresent(with: KafkaClientTypes.ConfigurationInfo.read(from:))
-        value.numberOfBrokerNodes = try reader["numberOfBrokerNodes"].readIfPresent()
-        value.enhancedMonitoring = try reader["enhancedMonitoring"].readIfPresent()
-        value.openMonitoring = try reader["openMonitoring"].readIfPresent(with: KafkaClientTypes.OpenMonitoring.read(from:))
-        value.kafkaVersion = try reader["kafkaVersion"].readIfPresent()
-        value.loggingInfo = try reader["loggingInfo"].readIfPresent(with: KafkaClientTypes.LoggingInfo.read(from:))
-        value.instanceType = try reader["instanceType"].readIfPresent()
-        value.clientAuthentication = try reader["clientAuthentication"].readIfPresent(with: KafkaClientTypes.ClientAuthentication.read(from:))
-        value.encryptionInfo = try reader["encryptionInfo"].readIfPresent(with: KafkaClientTypes.EncryptionInfo.read(from:))
-        value.connectivityInfo = try reader["connectivityInfo"].readIfPresent(with: KafkaClientTypes.ConnectivityInfo.read(from:))
-        value.storageMode = try reader["storageMode"].readIfPresent()
-        value.brokerCountUpdateInfo = try reader["brokerCountUpdateInfo"].readIfPresent(with: KafkaClientTypes.BrokerCountUpdateInfo.read(from:))
-        value.rebalancing = try reader["rebalancing"].readIfPresent(with: KafkaClientTypes.Rebalancing.read(from:))
-        return value
-    }
-}
-
-extension KafkaClientTypes.BrokerCountUpdateInfo {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.BrokerCountUpdateInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.BrokerCountUpdateInfo()
-        value.createdBrokerIds = try reader["createdBrokerIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false)
-        value.deletedBrokerIds = try reader["deletedBrokerIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension KafkaClientTypes.ConfigurationInfo {
-
-    static func write(value: KafkaClientTypes.ConfigurationInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["arn"].write(value.arn)
-        try writer["revision"].write(value.revision)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.ConfigurationInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.ConfigurationInfo()
-        value.arn = try reader["arn"].readIfPresent() ?? ""
-        value.revision = try reader["revision"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension KafkaClientTypes.BrokerEBSVolumeInfo {
-
-    static func write(value: KafkaClientTypes.BrokerEBSVolumeInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["kafkaBrokerNodeId"].write(value.kafkaBrokerNodeId)
-        try writer["provisionedThroughput"].write(value.provisionedThroughput, with: KafkaClientTypes.ProvisionedThroughput.write(value:to:))
-        try writer["volumeSizeGB"].write(value.volumeSizeGB)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.BrokerEBSVolumeInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.BrokerEBSVolumeInfo()
-        value.kafkaBrokerNodeId = try reader["kafkaBrokerNodeId"].readIfPresent() ?? ""
-        value.provisionedThroughput = try reader["provisionedThroughput"].readIfPresent(with: KafkaClientTypes.ProvisionedThroughput.read(from:))
-        value.volumeSizeGB = try reader["volumeSizeGB"].readIfPresent()
-        return value
-    }
-}
-
-extension KafkaClientTypes.ClusterOperationStep {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.ClusterOperationStep {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.ClusterOperationStep()
-        value.stepInfo = try reader["stepInfo"].readIfPresent(with: KafkaClientTypes.ClusterOperationStepInfo.read(from:))
-        value.stepName = try reader["stepName"].readIfPresent()
-        return value
-    }
-}
-
-extension KafkaClientTypes.ClusterOperationStepInfo {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.ClusterOperationStepInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.ClusterOperationStepInfo()
-        value.stepStatus = try reader["stepStatus"].readIfPresent()
-        return value
-    }
-}
-
-extension KafkaClientTypes.ErrorInfo {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.ErrorInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.ErrorInfo()
-        value.errorCode = try reader["errorCode"].readIfPresent()
-        value.errorString = try reader["errorString"].readIfPresent()
-        return value
-    }
-}
-
-extension KafkaClientTypes.ClusterOperationV2 {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.ClusterOperationV2 {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.ClusterOperationV2()
-        value.clusterArn = try reader["clusterArn"].readIfPresent()
-        value.clusterType = try reader["clusterType"].readIfPresent()
-        value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.endTime = try reader["endTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.errorInfo = try reader["errorInfo"].readIfPresent(with: KafkaClientTypes.ErrorInfo.read(from:))
-        value.operationArn = try reader["operationArn"].readIfPresent()
-        value.operationState = try reader["operationState"].readIfPresent()
-        value.operationType = try reader["operationType"].readIfPresent()
-        value.provisioned = try reader["provisioned"].readIfPresent(with: KafkaClientTypes.ClusterOperationV2Provisioned.read(from:))
-        value.serverless = try reader["serverless"].readIfPresent(with: KafkaClientTypes.ClusterOperationV2Serverless.read(from:))
-        return value
-    }
-}
-
-extension KafkaClientTypes.ClusterOperationV2Serverless {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.ClusterOperationV2Serverless {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.ClusterOperationV2Serverless()
-        value.vpcConnectionInfo = try reader["vpcConnectionInfo"].readIfPresent(with: KafkaClientTypes.VpcConnectionInfoServerless.read(from:))
-        return value
-    }
-}
-
-extension KafkaClientTypes.VpcConnectionInfoServerless {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.VpcConnectionInfoServerless {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.VpcConnectionInfoServerless()
-        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.owner = try reader["owner"].readIfPresent()
-        value.userIdentity = try reader["userIdentity"].readIfPresent(with: KafkaClientTypes.UserIdentity.read(from:))
-        value.vpcConnectionArn = try reader["vpcConnectionArn"].readIfPresent()
-        return value
-    }
-}
-
-extension KafkaClientTypes.ClusterOperationV2Provisioned {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.ClusterOperationV2Provisioned {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.ClusterOperationV2Provisioned()
-        value.operationSteps = try reader["operationSteps"].readListIfPresent(memberReadingClosure: KafkaClientTypes.ClusterOperationStep.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.sourceClusterInfo = try reader["sourceClusterInfo"].readIfPresent(with: KafkaClientTypes.MutableClusterInfo.read(from:))
-        value.targetClusterInfo = try reader["targetClusterInfo"].readIfPresent(with: KafkaClientTypes.MutableClusterInfo.read(from:))
-        value.vpcConnectionInfo = try reader["vpcConnectionInfo"].readIfPresent(with: KafkaClientTypes.VpcConnectionInfo.read(from:))
-        return value
-    }
-}
-
-extension KafkaClientTypes.Cluster {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.Cluster {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.Cluster()
-        value.activeOperationArn = try reader["activeOperationArn"].readIfPresent()
-        value.clusterType = try reader["clusterType"].readIfPresent()
-        value.clusterArn = try reader["clusterArn"].readIfPresent()
-        value.clusterName = try reader["clusterName"].readIfPresent()
-        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.currentVersion = try reader["currentVersion"].readIfPresent()
-        value.state = try reader["state"].readIfPresent()
-        value.stateInfo = try reader["stateInfo"].readIfPresent(with: KafkaClientTypes.StateInfo.read(from:))
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.provisioned = try reader["provisioned"].readIfPresent(with: KafkaClientTypes.Provisioned.read(from:))
-        value.serverless = try reader["serverless"].readIfPresent(with: KafkaClientTypes.Serverless.read(from:))
-        return value
-    }
-}
-
-extension KafkaClientTypes.Serverless {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.Serverless {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.Serverless()
-        value.vpcConfigs = try reader["vpcConfigs"].readListIfPresent(memberReadingClosure: KafkaClientTypes.VpcConfig.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.clientAuthentication = try reader["clientAuthentication"].readIfPresent(with: KafkaClientTypes.ServerlessClientAuthentication.read(from:))
-        return value
-    }
-}
-
-extension KafkaClientTypes.ServerlessClientAuthentication {
-
-    static func write(value: KafkaClientTypes.ServerlessClientAuthentication?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["sasl"].write(value.sasl, with: KafkaClientTypes.ServerlessSasl.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.ServerlessClientAuthentication {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.ServerlessClientAuthentication()
-        value.sasl = try reader["sasl"].readIfPresent(with: KafkaClientTypes.ServerlessSasl.read(from:))
-        return value
-    }
-}
-
-extension KafkaClientTypes.ServerlessSasl {
-
-    static func write(value: KafkaClientTypes.ServerlessSasl?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["iam"].write(value.iam, with: KafkaClientTypes.Iam.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.ServerlessSasl {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.ServerlessSasl()
-        value.iam = try reader["iam"].readIfPresent(with: KafkaClientTypes.Iam.read(from:))
-        return value
-    }
-}
-
-extension KafkaClientTypes.VpcConfig {
-
-    static func write(value: KafkaClientTypes.VpcConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["securityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["subnetIds"].writeList(value.subnetIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.VpcConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.VpcConfig()
-        value.subnetIds = try reader["subnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.securityGroupIds = try reader["securityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension KafkaClientTypes.Provisioned {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.Provisioned {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.Provisioned()
-        value.brokerNodeGroupInfo = try reader["brokerNodeGroupInfo"].readIfPresent(with: KafkaClientTypes.BrokerNodeGroupInfo.read(from:))
-        value.rebalancing = try reader["rebalancing"].readIfPresent(with: KafkaClientTypes.Rebalancing.read(from:))
-        value.currentBrokerSoftwareInfo = try reader["currentBrokerSoftwareInfo"].readIfPresent(with: KafkaClientTypes.BrokerSoftwareInfo.read(from:))
-        value.clientAuthentication = try reader["clientAuthentication"].readIfPresent(with: KafkaClientTypes.ClientAuthentication.read(from:))
-        value.encryptionInfo = try reader["encryptionInfo"].readIfPresent(with: KafkaClientTypes.EncryptionInfo.read(from:))
-        value.enhancedMonitoring = try reader["enhancedMonitoring"].readIfPresent()
-        value.openMonitoring = try reader["openMonitoring"].readIfPresent(with: KafkaClientTypes.OpenMonitoringInfo.read(from:))
-        value.loggingInfo = try reader["loggingInfo"].readIfPresent(with: KafkaClientTypes.LoggingInfo.read(from:))
-        value.numberOfBrokerNodes = try reader["numberOfBrokerNodes"].readIfPresent() ?? 0
-        value.zookeeperConnectString = try reader["zookeeperConnectString"].readIfPresent()
-        value.zookeeperConnectStringTls = try reader["zookeeperConnectStringTls"].readIfPresent()
-        value.storageMode = try reader["storageMode"].readIfPresent()
-        value.customerActionStatus = try reader["customerActionStatus"].readIfPresent()
-        return value
-    }
-}
-
-extension KafkaClientTypes.OpenMonitoringInfo {
-
-    static func write(value: KafkaClientTypes.OpenMonitoringInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["prometheus"].write(value.prometheus, with: KafkaClientTypes.PrometheusInfo.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.OpenMonitoringInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.OpenMonitoringInfo()
-        value.prometheus = try reader["prometheus"].readIfPresent(with: KafkaClientTypes.PrometheusInfo.read(from:))
-        return value
-    }
-}
-
-extension KafkaClientTypes.PrometheusInfo {
-
-    static func write(value: KafkaClientTypes.PrometheusInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["jmxExporter"].write(value.jmxExporter, with: KafkaClientTypes.JmxExporterInfo.write(value:to:))
-        try writer["nodeExporter"].write(value.nodeExporter, with: KafkaClientTypes.NodeExporterInfo.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.PrometheusInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.PrometheusInfo()
-        value.jmxExporter = try reader["jmxExporter"].readIfPresent(with: KafkaClientTypes.JmxExporterInfo.read(from:))
-        value.nodeExporter = try reader["nodeExporter"].readIfPresent(with: KafkaClientTypes.NodeExporterInfo.read(from:))
-        return value
-    }
-}
-
-extension KafkaClientTypes.NodeExporterInfo {
-
-    static func write(value: KafkaClientTypes.NodeExporterInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["enabledInBroker"].write(value.enabledInBroker)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.NodeExporterInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.NodeExporterInfo()
-        value.enabledInBroker = try reader["enabledInBroker"].readIfPresent() ?? false
-        return value
-    }
-}
-
-extension KafkaClientTypes.JmxExporterInfo {
-
-    static func write(value: KafkaClientTypes.JmxExporterInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["enabledInBroker"].write(value.enabledInBroker)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.JmxExporterInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.JmxExporterInfo()
-        value.enabledInBroker = try reader["enabledInBroker"].readIfPresent() ?? false
-        return value
-    }
-}
-
-extension KafkaClientTypes.KafkaClusterDescription {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.KafkaClusterDescription {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.KafkaClusterDescription()
-        value.amazonMskCluster = try reader["amazonMskCluster"].readIfPresent(with: KafkaClientTypes.AmazonMskCluster.read(from:))
-        value.kafkaClusterAlias = try reader["kafkaClusterAlias"].readIfPresent()
-        value.vpcConfig = try reader["vpcConfig"].readIfPresent(with: KafkaClientTypes.KafkaClusterClientVpcConfig.read(from:))
-        return value
-    }
-}
-
-extension KafkaClientTypes.KafkaClusterClientVpcConfig {
-
-    static func write(value: KafkaClientTypes.KafkaClusterClientVpcConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["securityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["subnetIds"].writeList(value.subnetIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.KafkaClusterClientVpcConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.KafkaClusterClientVpcConfig()
-        value.securityGroupIds = try reader["securityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.subnetIds = try reader["subnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension KafkaClientTypes.AmazonMskCluster {
-
-    static func write(value: KafkaClientTypes.AmazonMskCluster?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["mskClusterArn"].write(value.mskClusterArn)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.AmazonMskCluster {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.AmazonMskCluster()
-        value.mskClusterArn = try reader["mskClusterArn"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension KafkaClientTypes.ReplicationInfoDescription {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.ReplicationInfoDescription {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.ReplicationInfoDescription()
-        value.consumerGroupReplication = try reader["consumerGroupReplication"].readIfPresent(with: KafkaClientTypes.ConsumerGroupReplication.read(from:))
-        value.sourceKafkaClusterAlias = try reader["sourceKafkaClusterAlias"].readIfPresent()
-        value.targetCompressionType = try reader["targetCompressionType"].readIfPresent()
-        value.targetKafkaClusterAlias = try reader["targetKafkaClusterAlias"].readIfPresent()
-        value.topicReplication = try reader["topicReplication"].readIfPresent(with: KafkaClientTypes.TopicReplication.read(from:))
-        return value
-    }
-}
-
-extension KafkaClientTypes.TopicReplication {
-
-    static func write(value: KafkaClientTypes.TopicReplication?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["copyAccessControlListsForTopics"].write(value.copyAccessControlListsForTopics)
-        try writer["copyTopicConfigurations"].write(value.copyTopicConfigurations)
-        try writer["detectAndCopyNewTopics"].write(value.detectAndCopyNewTopics)
-        try writer["startingPosition"].write(value.startingPosition, with: KafkaClientTypes.ReplicationStartingPosition.write(value:to:))
-        try writer["topicNameConfiguration"].write(value.topicNameConfiguration, with: KafkaClientTypes.ReplicationTopicNameConfiguration.write(value:to:))
-        try writer["topicsToExclude"].writeList(value.topicsToExclude, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["topicsToReplicate"].writeList(value.topicsToReplicate, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.TopicReplication {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.TopicReplication()
-        value.copyAccessControlListsForTopics = try reader["copyAccessControlListsForTopics"].readIfPresent()
-        value.copyTopicConfigurations = try reader["copyTopicConfigurations"].readIfPresent()
-        value.detectAndCopyNewTopics = try reader["detectAndCopyNewTopics"].readIfPresent()
-        value.startingPosition = try reader["startingPosition"].readIfPresent(with: KafkaClientTypes.ReplicationStartingPosition.read(from:))
-        value.topicNameConfiguration = try reader["topicNameConfiguration"].readIfPresent(with: KafkaClientTypes.ReplicationTopicNameConfiguration.read(from:))
-        value.topicsToExclude = try reader["topicsToExclude"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.topicsToReplicate = try reader["topicsToReplicate"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension KafkaClientTypes.ReplicationTopicNameConfiguration {
-
-    static func write(value: KafkaClientTypes.ReplicationTopicNameConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["type"].write(value.type)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.ReplicationTopicNameConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.ReplicationTopicNameConfiguration()
-        value.type = try reader["type"].readIfPresent()
-        return value
-    }
-}
-
-extension KafkaClientTypes.ReplicationStartingPosition {
-
-    static func write(value: KafkaClientTypes.ReplicationStartingPosition?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["type"].write(value.type)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.ReplicationStartingPosition {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.ReplicationStartingPosition()
-        value.type = try reader["type"].readIfPresent()
-        return value
-    }
-}
-
-extension KafkaClientTypes.ConsumerGroupReplication {
-
-    static func write(value: KafkaClientTypes.ConsumerGroupReplication?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["consumerGroupsToExclude"].writeList(value.consumerGroupsToExclude, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["consumerGroupsToReplicate"].writeList(value.consumerGroupsToReplicate, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["detectAndCopyNewConsumerGroups"].write(value.detectAndCopyNewConsumerGroups)
-        try writer["synchroniseConsumerGroupOffsets"].write(value.synchroniseConsumerGroupOffsets)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.ConsumerGroupReplication {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.ConsumerGroupReplication()
-        value.consumerGroupsToExclude = try reader["consumerGroupsToExclude"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.consumerGroupsToReplicate = try reader["consumerGroupsToReplicate"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.detectAndCopyNewConsumerGroups = try reader["detectAndCopyNewConsumerGroups"].readIfPresent()
-        value.synchroniseConsumerGroupOffsets = try reader["synchroniseConsumerGroupOffsets"].readIfPresent()
-        return value
-    }
-}
-
-extension KafkaClientTypes.ReplicationStateInfo {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.ReplicationStateInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.ReplicationStateInfo()
-        value.code = try reader["code"].readIfPresent()
-        value.message = try reader["message"].readIfPresent()
-        return value
-    }
-}
-
-extension KafkaClientTypes.TopicPartitionInfo {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.TopicPartitionInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.TopicPartitionInfo()
-        value.partition = try reader["partition"].readIfPresent()
-        value.leader = try reader["leader"].readIfPresent()
-        value.replicas = try reader["replicas"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false)
-        value.isr = try reader["isr"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readInt(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension KafkaClientTypes.CompatibleKafkaVersion {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.CompatibleKafkaVersion {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.CompatibleKafkaVersion()
-        value.sourceVersion = try reader["sourceVersion"].readIfPresent()
-        value.targetVersions = try reader["targetVersions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension KafkaClientTypes.ClientVpcConnection {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.ClientVpcConnection {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.ClientVpcConnection()
-        value.authentication = try reader["authentication"].readIfPresent()
-        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.state = try reader["state"].readIfPresent()
-        value.vpcConnectionArn = try reader["vpcConnectionArn"].readIfPresent() ?? ""
-        value.owner = try reader["owner"].readIfPresent()
-        return value
-    }
-}
-
-extension KafkaClientTypes.ClusterOperationV2Summary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.ClusterOperationV2Summary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.ClusterOperationV2Summary()
-        value.clusterArn = try reader["clusterArn"].readIfPresent()
-        value.clusterType = try reader["clusterType"].readIfPresent()
-        value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.endTime = try reader["endTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.operationArn = try reader["operationArn"].readIfPresent()
-        value.operationState = try reader["operationState"].readIfPresent()
-        value.operationType = try reader["operationType"].readIfPresent()
-        return value
-    }
-}
-
-extension KafkaClientTypes.Configuration {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.Configuration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.Configuration()
-        value.arn = try reader["arn"].readIfPresent() ?? ""
-        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.description = try reader["description"].readIfPresent() ?? ""
-        value.kafkaVersions = try reader["kafkaVersions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.latestRevision = try reader["latestRevision"].readIfPresent(with: KafkaClientTypes.ConfigurationRevision.read(from:))
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.state = try reader["state"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension KafkaClientTypes.KafkaVersion {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.KafkaVersion {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.KafkaVersion()
-        value.version = try reader["version"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        return value
-    }
-}
-
-extension KafkaClientTypes.NodeInfo {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.NodeInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.NodeInfo()
-        value.addedToClusterTime = try reader["addedToClusterTime"].readIfPresent()
-        value.brokerNodeInfo = try reader["brokerNodeInfo"].readIfPresent(with: KafkaClientTypes.BrokerNodeInfo.read(from:))
-        value.controllerNodeInfo = try reader["controllerNodeInfo"].readIfPresent(with: KafkaClientTypes.ControllerNodeInfo.read(from:))
-        value.instanceType = try reader["instanceType"].readIfPresent()
-        value.nodeARN = try reader["nodeARN"].readIfPresent()
-        value.nodeType = try reader["nodeType"].readIfPresent()
-        value.zookeeperNodeInfo = try reader["zookeeperNodeInfo"].readIfPresent(with: KafkaClientTypes.ZookeeperNodeInfo.read(from:))
         return value
     }
 }
@@ -10058,171 +10223,6 @@ extension KafkaClientTypes.ZookeeperNodeInfo {
         value.zookeeperId = try reader["zookeeperId"].readIfPresent()
         value.zookeeperVersion = try reader["zookeeperVersion"].readIfPresent()
         return value
-    }
-}
-
-extension KafkaClientTypes.ControllerNodeInfo {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.ControllerNodeInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.ControllerNodeInfo()
-        value.endpoints = try reader["endpoints"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension KafkaClientTypes.BrokerNodeInfo {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.BrokerNodeInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.BrokerNodeInfo()
-        value.attachedENIId = try reader["attachedENIId"].readIfPresent()
-        value.brokerId = try reader["brokerId"].readIfPresent()
-        value.clientSubnet = try reader["clientSubnet"].readIfPresent()
-        value.clientVpcIpAddress = try reader["clientVpcIpAddress"].readIfPresent()
-        value.currentBrokerSoftwareInfo = try reader["currentBrokerSoftwareInfo"].readIfPresent(with: KafkaClientTypes.BrokerSoftwareInfo.read(from:))
-        value.endpoints = try reader["endpoints"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension KafkaClientTypes.ReplicatorSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.ReplicatorSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.ReplicatorSummary()
-        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.currentVersion = try reader["currentVersion"].readIfPresent()
-        value.isReplicatorReference = try reader["isReplicatorReference"].readIfPresent()
-        value.kafkaClustersSummary = try reader["kafkaClustersSummary"].readListIfPresent(memberReadingClosure: KafkaClientTypes.KafkaClusterSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.replicationInfoSummaryList = try reader["replicationInfoSummaryList"].readListIfPresent(memberReadingClosure: KafkaClientTypes.ReplicationInfoSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.replicatorArn = try reader["replicatorArn"].readIfPresent()
-        value.replicatorName = try reader["replicatorName"].readIfPresent()
-        value.replicatorResourceArn = try reader["replicatorResourceArn"].readIfPresent()
-        value.replicatorState = try reader["replicatorState"].readIfPresent()
-        return value
-    }
-}
-
-extension KafkaClientTypes.ReplicationInfoSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.ReplicationInfoSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.ReplicationInfoSummary()
-        value.sourceKafkaClusterAlias = try reader["sourceKafkaClusterAlias"].readIfPresent()
-        value.targetKafkaClusterAlias = try reader["targetKafkaClusterAlias"].readIfPresent()
-        return value
-    }
-}
-
-extension KafkaClientTypes.KafkaClusterSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.KafkaClusterSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.KafkaClusterSummary()
-        value.amazonMskCluster = try reader["amazonMskCluster"].readIfPresent(with: KafkaClientTypes.AmazonMskCluster.read(from:))
-        value.kafkaClusterAlias = try reader["kafkaClusterAlias"].readIfPresent()
-        return value
-    }
-}
-
-extension KafkaClientTypes.TopicInfo {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.TopicInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.TopicInfo()
-        value.topicArn = try reader["topicArn"].readIfPresent()
-        value.topicName = try reader["topicName"].readIfPresent()
-        value.replicationFactor = try reader["replicationFactor"].readIfPresent()
-        value.partitionCount = try reader["partitionCount"].readIfPresent()
-        value.outOfSyncReplicaCount = try reader["outOfSyncReplicaCount"].readIfPresent()
-        return value
-    }
-}
-
-extension KafkaClientTypes.VpcConnection {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.VpcConnection {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KafkaClientTypes.VpcConnection()
-        value.vpcConnectionArn = try reader["vpcConnectionArn"].readIfPresent() ?? ""
-        value.targetClusterArn = try reader["targetClusterArn"].readIfPresent() ?? ""
-        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.authentication = try reader["authentication"].readIfPresent()
-        value.vpcId = try reader["vpcId"].readIfPresent()
-        value.state = try reader["state"].readIfPresent()
-        return value
-    }
-}
-
-extension KafkaClientTypes.ProvisionedRequest {
-
-    static func write(value: KafkaClientTypes.ProvisionedRequest?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["brokerNodeGroupInfo"].write(value.brokerNodeGroupInfo, with: KafkaClientTypes.BrokerNodeGroupInfo.write(value:to:))
-        try writer["clientAuthentication"].write(value.clientAuthentication, with: KafkaClientTypes.ClientAuthentication.write(value:to:))
-        try writer["configurationInfo"].write(value.configurationInfo, with: KafkaClientTypes.ConfigurationInfo.write(value:to:))
-        try writer["encryptionInfo"].write(value.encryptionInfo, with: KafkaClientTypes.EncryptionInfo.write(value:to:))
-        try writer["enhancedMonitoring"].write(value.enhancedMonitoring)
-        try writer["kafkaVersion"].write(value.kafkaVersion)
-        try writer["loggingInfo"].write(value.loggingInfo, with: KafkaClientTypes.LoggingInfo.write(value:to:))
-        try writer["numberOfBrokerNodes"].write(value.numberOfBrokerNodes)
-        try writer["openMonitoring"].write(value.openMonitoring, with: KafkaClientTypes.OpenMonitoringInfo.write(value:to:))
-        try writer["rebalancing"].write(value.rebalancing, with: KafkaClientTypes.Rebalancing.write(value:to:))
-        try writer["storageMode"].write(value.storageMode)
-    }
-}
-
-extension KafkaClientTypes.ServerlessRequest {
-
-    static func write(value: KafkaClientTypes.ServerlessRequest?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["clientAuthentication"].write(value.clientAuthentication, with: KafkaClientTypes.ServerlessClientAuthentication.write(value:to:))
-        try writer["vpcConfigs"].writeList(value.vpcConfigs, memberWritingClosure: KafkaClientTypes.VpcConfig.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension KafkaClientTypes.KafkaCluster {
-
-    static func write(value: KafkaClientTypes.KafkaCluster?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["amazonMskCluster"].write(value.amazonMskCluster, with: KafkaClientTypes.AmazonMskCluster.write(value:to:))
-        try writer["vpcConfig"].write(value.vpcConfig, with: KafkaClientTypes.KafkaClusterClientVpcConfig.write(value:to:))
-    }
-}
-
-extension KafkaClientTypes.ReplicationInfo {
-
-    static func write(value: KafkaClientTypes.ReplicationInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["consumerGroupReplication"].write(value.consumerGroupReplication, with: KafkaClientTypes.ConsumerGroupReplication.write(value:to:))
-        try writer["sourceKafkaClusterArn"].write(value.sourceKafkaClusterArn)
-        try writer["targetCompressionType"].write(value.targetCompressionType)
-        try writer["targetKafkaClusterArn"].write(value.targetKafkaClusterArn)
-        try writer["topicReplication"].write(value.topicReplication, with: KafkaClientTypes.TopicReplication.write(value:to:))
-    }
-}
-
-extension KafkaClientTypes.ConsumerGroupReplicationUpdate {
-
-    static func write(value: KafkaClientTypes.ConsumerGroupReplicationUpdate?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["consumerGroupsToExclude"].writeList(value.consumerGroupsToExclude, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["consumerGroupsToReplicate"].writeList(value.consumerGroupsToReplicate, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["detectAndCopyNewConsumerGroups"].write(value.detectAndCopyNewConsumerGroups)
-        try writer["synchroniseConsumerGroupOffsets"].write(value.synchroniseConsumerGroupOffsets)
-    }
-}
-
-extension KafkaClientTypes.TopicReplicationUpdate {
-
-    static func write(value: KafkaClientTypes.TopicReplicationUpdate?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["copyAccessControlListsForTopics"].write(value.copyAccessControlListsForTopics)
-        try writer["copyTopicConfigurations"].write(value.copyTopicConfigurations)
-        try writer["detectAndCopyNewTopics"].write(value.detectAndCopyNewTopics)
-        try writer["topicsToExclude"].writeList(value.topicsToExclude, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["topicsToReplicate"].writeList(value.topicsToReplicate, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
