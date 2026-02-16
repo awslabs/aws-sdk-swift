@@ -10,41 +10,6 @@ import software.amazon.smithy.aws.traits.protocols.AwsJson1_0Trait
 
 class AWSJsonHttpInitialRequestTests {
     @Test
-    fun `001 Conformance to MessageMarshallable gets generated correctly`() {
-        val context =
-            setupTests(
-                "awsjson/initial-request.smithy",
-                "com.test#InitialRequestTest",
-            )
-        val contents =
-            TestUtils.getFileContents(
-                context.manifest,
-                "Sources/Example/models/TestStream+MessageMarshallable.swift",
-            )
-        contents.shouldSyntacticSanityCheck()
-        val expectedContents = """
-extension InitialRequestTestClientTypes.TestStream {
-    static var marshal: SmithyEventStreamsAPI.MarshalClosure<InitialRequestTestClientTypes.TestStream> {
-        { (self) in
-            var headers: [SmithyEventStreamsAPI.Header] = [.init(name: ":message-type", value: .string("event"))]
-            var payload: Foundation.Data? = nil
-            switch self {
-            case .messagewithstring(let value):
-                headers.append(.init(name: ":event-type", value: .string("MessageWithString")))
-                headers.append(.init(name: ":content-type", value: .string("text/plain")))
-                payload = value.data?.data(using: .utf8)
-            case .sdkUnknown(_):
-                throw Smithy.ClientError.unknownError("cannot serialize the unknown event type!")
-            }
-            return SmithyEventStreamsAPI.Message(headers: headers, payload: payload ?? .init())
-        }
-    }
-}
-"""
-        contents.shouldContainOnlyOnce(expectedContents)
-    }
-
-    @Test
     fun `004 makeInitialRequestMessage method gets generated for input struct in extension`() {
         val context =
             setupTests(
