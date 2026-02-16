@@ -221,6 +221,36 @@ extension KafkaClientTypes {
 
 extension KafkaClientTypes {
 
+    /// The network type of the cluster, which is IPv4 or DUAL. The DUAL network type uses both IPv4 and IPv6 addresses for your cluster and its resources.By default, a cluster uses the IPv4 network type.
+    public enum NetworkType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case dual
+        case ipv4
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [NetworkType] {
+            return [
+                .dual,
+                .ipv4
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .dual: return "DUAL"
+            case .ipv4: return "IPV4"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension KafkaClientTypes {
+
     /// Public access control for brokers.
     public struct PublicAccess: Swift.Sendable {
         /// The value DISABLED indicates that public access is turned off. SERVICE_PROVIDED_EIPS indicates that public access is turned on.
@@ -336,15 +366,19 @@ extension KafkaClientTypes {
 
     /// Information about the broker access configuration.
     public struct ConnectivityInfo: Swift.Sendable {
+        /// The network type of the cluster, which is IPv4 or DUAL. The DUAL network type uses both IPv4 and IPv6 addresses for your cluster and its resources.By default, a cluster uses the IPv4 network type.
+        public var networkType: KafkaClientTypes.NetworkType?
         /// Public access control for brokers.
         public var publicAccess: KafkaClientTypes.PublicAccess?
         /// VPC connectivity access control for brokers.
         public var vpcConnectivity: KafkaClientTypes.VpcConnectivity?
 
         public init(
+            networkType: KafkaClientTypes.NetworkType? = nil,
             publicAccess: KafkaClientTypes.PublicAccess? = nil,
             vpcConnectivity: KafkaClientTypes.VpcConnectivity? = nil
         ) {
+            self.networkType = networkType
             self.publicAccess = publicAccess
             self.vpcConnectivity = vpcConnectivity
         }
@@ -1036,6 +1070,21 @@ extension KafkaClientTypes {
 
 extension KafkaClientTypes {
 
+    /// Describes the cluster's connectivity information, such as its network type, which is IPv4 or DUAL.
+    public struct ServerlessConnectivityInfo: Swift.Sendable {
+        /// The network type of the cluster, which is IPv4 or DUAL. The DUAL network type uses both IPv4 and IPv6 addresses for your cluster and its resources.By default, a cluster uses the IPv4 network type.
+        public var networkType: KafkaClientTypes.NetworkType?
+
+        public init(
+            networkType: KafkaClientTypes.NetworkType? = nil
+        ) {
+            self.networkType = networkType
+        }
+    }
+}
+
+extension KafkaClientTypes {
+
     /// The configuration of the Amazon VPCs for the cluster.
     public struct VpcConfig: Swift.Sendable {
         /// The IDs of the security groups associated with the cluster.
@@ -1060,15 +1109,19 @@ extension KafkaClientTypes {
     public struct Serverless: Swift.Sendable {
         /// Includes all client authentication information.
         public var clientAuthentication: KafkaClientTypes.ServerlessClientAuthentication?
+        /// Describes the cluster's connectivity information, such as its network type, which is IPv4 or DUAL.
+        public var connectivityInfo: KafkaClientTypes.ServerlessConnectivityInfo?
         /// The configuration of the Amazon VPCs for the cluster.
         /// This member is required.
         public var vpcConfigs: [KafkaClientTypes.VpcConfig]?
 
         public init(
             clientAuthentication: KafkaClientTypes.ServerlessClientAuthentication? = nil,
+            connectivityInfo: KafkaClientTypes.ServerlessConnectivityInfo? = nil,
             vpcConfigs: [KafkaClientTypes.VpcConfig]? = nil
         ) {
             self.clientAuthentication = clientAuthentication
+            self.connectivityInfo = connectivityInfo
             self.vpcConfigs = vpcConfigs
         }
     }
@@ -2936,12 +2989,20 @@ extension KafkaClientTypes {
 
     /// Returns information about a serverless cluster operation.
     public struct ClusterOperationV2Serverless: Swift.Sendable {
+        /// Describes the cluster's attributes before any updates are applied. For example, networkType, which can be either IPv4 or DUAL.
+        public var sourceClusterInfo: KafkaClientTypes.ServerlessConnectivityInfo?
+        /// Describes the cluster's attributes after any updates are applied. For example, networkType, which can be either IPv4 or DUAL.
+        public var targetClusterInfo: KafkaClientTypes.ServerlessConnectivityInfo?
         /// Description of the VPC connection for CreateVpcConnection and DeleteVpcConnection operations.
         public var vpcConnectionInfo: KafkaClientTypes.VpcConnectionInfoServerless?
 
         public init(
+            sourceClusterInfo: KafkaClientTypes.ServerlessConnectivityInfo? = nil,
+            targetClusterInfo: KafkaClientTypes.ServerlessConnectivityInfo? = nil,
             vpcConnectionInfo: KafkaClientTypes.VpcConnectionInfoServerless? = nil
         ) {
+            self.sourceClusterInfo = sourceClusterInfo
+            self.targetClusterInfo = targetClusterInfo
             self.vpcConnectionInfo = vpcConnectionInfo
         }
     }
@@ -4355,6 +4416,8 @@ public struct GetBootstrapBrokersInput: Swift.Sendable {
 public struct GetBootstrapBrokersOutput: Swift.Sendable {
     /// A string containing one or more hostname:port pairs.
     public var bootstrapBrokerString: Swift.String?
+    /// A string that contains one or more DNS names (or IP) and port pairs for IPv6 connectivity.
+    public var bootstrapBrokerStringIpv6: Swift.String?
     /// A string that contains one or more DNS names (or IP addresses) and SASL IAM port pairs.
     public var bootstrapBrokerStringPublicSaslIam: Swift.String?
     /// A string containing one or more DNS names (or IP) and Sasl Scram port pairs.
@@ -4363,10 +4426,16 @@ public struct GetBootstrapBrokersOutput: Swift.Sendable {
     public var bootstrapBrokerStringPublicTls: Swift.String?
     /// A string that contains one or more DNS names (or IP addresses) and SASL IAM port pairs.
     public var bootstrapBrokerStringSaslIam: Swift.String?
+    /// A string that contains one or more DNS names (or IP) and SASL IAM port pairs for IPv6 connectivity.
+    public var bootstrapBrokerStringSaslIamIpv6: Swift.String?
     /// A string containing one or more DNS names (or IP) and Sasl Scram port pairs.
     public var bootstrapBrokerStringSaslScram: Swift.String?
+    /// A string that contains one or more DNS names (or IP) and SASL SCRAM port pairs for IPv6 connectivity.
+    public var bootstrapBrokerStringSaslScramIpv6: Swift.String?
     /// A string containing one or more DNS names (or IP) and TLS port pairs.
     public var bootstrapBrokerStringTls: Swift.String?
+    /// A string that contains one or more DNS names (or IP) and TLS port pairs for IPv6 connectivity.
+    public var bootstrapBrokerStringTlsIpv6: Swift.String?
     /// A string containing one or more DNS names (or IP) and SASL/IAM port pairs for VPC connectivity.
     public var bootstrapBrokerStringVpcConnectivitySaslIam: Swift.String?
     /// A string containing one or more DNS names (or IP) and SASL/SCRAM port pairs for VPC connectivity.
@@ -4376,23 +4445,31 @@ public struct GetBootstrapBrokersOutput: Swift.Sendable {
 
     public init(
         bootstrapBrokerString: Swift.String? = nil,
+        bootstrapBrokerStringIpv6: Swift.String? = nil,
         bootstrapBrokerStringPublicSaslIam: Swift.String? = nil,
         bootstrapBrokerStringPublicSaslScram: Swift.String? = nil,
         bootstrapBrokerStringPublicTls: Swift.String? = nil,
         bootstrapBrokerStringSaslIam: Swift.String? = nil,
+        bootstrapBrokerStringSaslIamIpv6: Swift.String? = nil,
         bootstrapBrokerStringSaslScram: Swift.String? = nil,
+        bootstrapBrokerStringSaslScramIpv6: Swift.String? = nil,
         bootstrapBrokerStringTls: Swift.String? = nil,
+        bootstrapBrokerStringTlsIpv6: Swift.String? = nil,
         bootstrapBrokerStringVpcConnectivitySaslIam: Swift.String? = nil,
         bootstrapBrokerStringVpcConnectivitySaslScram: Swift.String? = nil,
         bootstrapBrokerStringVpcConnectivityTls: Swift.String? = nil
     ) {
         self.bootstrapBrokerString = bootstrapBrokerString
+        self.bootstrapBrokerStringIpv6 = bootstrapBrokerStringIpv6
         self.bootstrapBrokerStringPublicSaslIam = bootstrapBrokerStringPublicSaslIam
         self.bootstrapBrokerStringPublicSaslScram = bootstrapBrokerStringPublicSaslScram
         self.bootstrapBrokerStringPublicTls = bootstrapBrokerStringPublicTls
         self.bootstrapBrokerStringSaslIam = bootstrapBrokerStringSaslIam
+        self.bootstrapBrokerStringSaslIamIpv6 = bootstrapBrokerStringSaslIamIpv6
         self.bootstrapBrokerStringSaslScram = bootstrapBrokerStringSaslScram
+        self.bootstrapBrokerStringSaslScramIpv6 = bootstrapBrokerStringSaslScramIpv6
         self.bootstrapBrokerStringTls = bootstrapBrokerStringTls
+        self.bootstrapBrokerStringTlsIpv6 = bootstrapBrokerStringTlsIpv6
         self.bootstrapBrokerStringVpcConnectivitySaslIam = bootstrapBrokerStringVpcConnectivitySaslIam
         self.bootstrapBrokerStringVpcConnectivitySaslScram = bootstrapBrokerStringVpcConnectivitySaslScram
         self.bootstrapBrokerStringVpcConnectivityTls = bootstrapBrokerStringVpcConnectivityTls
@@ -7077,12 +7154,16 @@ extension GetBootstrapBrokersOutput {
         let reader = responseReader
         var value = GetBootstrapBrokersOutput()
         value.bootstrapBrokerString = try reader["bootstrapBrokerString"].readIfPresent()
+        value.bootstrapBrokerStringIpv6 = try reader["bootstrapBrokerStringIpv6"].readIfPresent()
         value.bootstrapBrokerStringPublicSaslIam = try reader["bootstrapBrokerStringPublicSaslIam"].readIfPresent()
         value.bootstrapBrokerStringPublicSaslScram = try reader["bootstrapBrokerStringPublicSaslScram"].readIfPresent()
         value.bootstrapBrokerStringPublicTls = try reader["bootstrapBrokerStringPublicTls"].readIfPresent()
         value.bootstrapBrokerStringSaslIam = try reader["bootstrapBrokerStringSaslIam"].readIfPresent()
+        value.bootstrapBrokerStringSaslIamIpv6 = try reader["bootstrapBrokerStringSaslIamIpv6"].readIfPresent()
         value.bootstrapBrokerStringSaslScram = try reader["bootstrapBrokerStringSaslScram"].readIfPresent()
+        value.bootstrapBrokerStringSaslScramIpv6 = try reader["bootstrapBrokerStringSaslScramIpv6"].readIfPresent()
         value.bootstrapBrokerStringTls = try reader["bootstrapBrokerStringTls"].readIfPresent()
+        value.bootstrapBrokerStringTlsIpv6 = try reader["bootstrapBrokerStringTlsIpv6"].readIfPresent()
         value.bootstrapBrokerStringVpcConnectivitySaslIam = try reader["bootstrapBrokerStringVpcConnectivitySaslIam"].readIfPresent()
         value.bootstrapBrokerStringVpcConnectivitySaslScram = try reader["bootstrapBrokerStringVpcConnectivitySaslScram"].readIfPresent()
         value.bootstrapBrokerStringVpcConnectivityTls = try reader["bootstrapBrokerStringVpcConnectivityTls"].readIfPresent()
@@ -9167,6 +9248,8 @@ extension KafkaClientTypes.ClusterOperationV2Serverless {
     static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.ClusterOperationV2Serverless {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = KafkaClientTypes.ClusterOperationV2Serverless()
+        value.sourceClusterInfo = try reader["sourceClusterInfo"].readIfPresent(with: KafkaClientTypes.ServerlessConnectivityInfo.read(from:))
+        value.targetClusterInfo = try reader["targetClusterInfo"].readIfPresent(with: KafkaClientTypes.ServerlessConnectivityInfo.read(from:))
         value.vpcConnectionInfo = try reader["vpcConnectionInfo"].readIfPresent(with: KafkaClientTypes.VpcConnectionInfoServerless.read(from:))
         return value
     }
@@ -9248,6 +9331,7 @@ extension KafkaClientTypes.ConnectivityInfo {
 
     static func write(value: KafkaClientTypes.ConnectivityInfo?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["networkType"].write(value.networkType)
         try writer["publicAccess"].write(value.publicAccess, with: KafkaClientTypes.PublicAccess.write(value:to:))
         try writer["vpcConnectivity"].write(value.vpcConnectivity, with: KafkaClientTypes.VpcConnectivity.write(value:to:))
     }
@@ -9257,6 +9341,7 @@ extension KafkaClientTypes.ConnectivityInfo {
         var value = KafkaClientTypes.ConnectivityInfo()
         value.publicAccess = try reader["publicAccess"].readIfPresent(with: KafkaClientTypes.PublicAccess.read(from:))
         value.vpcConnectivity = try reader["vpcConnectivity"].readIfPresent(with: KafkaClientTypes.VpcConnectivity.read(from:))
+        value.networkType = try reader["networkType"].readIfPresent()
         return value
     }
 }
@@ -9870,6 +9955,7 @@ extension KafkaClientTypes.Serverless {
         var value = KafkaClientTypes.Serverless()
         value.vpcConfigs = try reader["vpcConfigs"].readListIfPresent(memberReadingClosure: KafkaClientTypes.VpcConfig.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.clientAuthentication = try reader["clientAuthentication"].readIfPresent(with: KafkaClientTypes.ServerlessClientAuthentication.read(from:))
+        value.connectivityInfo = try reader["connectivityInfo"].readIfPresent(with: KafkaClientTypes.ServerlessConnectivityInfo.read(from:))
         return value
     }
 }
@@ -9885,6 +9971,16 @@ extension KafkaClientTypes.ServerlessClientAuthentication {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = KafkaClientTypes.ServerlessClientAuthentication()
         value.sasl = try reader["sasl"].readIfPresent(with: KafkaClientTypes.ServerlessSasl.read(from:))
+        return value
+    }
+}
+
+extension KafkaClientTypes.ServerlessConnectivityInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KafkaClientTypes.ServerlessConnectivityInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KafkaClientTypes.ServerlessConnectivityInfo()
+        value.networkType = try reader["networkType"].readIfPresent()
         return value
     }
 }
