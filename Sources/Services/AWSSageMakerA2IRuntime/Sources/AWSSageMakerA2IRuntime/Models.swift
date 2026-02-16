@@ -831,6 +831,22 @@ extension ServiceQuotaExceededException {
     }
 }
 
+extension SageMakerA2IRuntimeClientTypes.HumanLoopDataAttributes {
+
+    static func write(value: SageMakerA2IRuntimeClientTypes.HumanLoopDataAttributes?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ContentClassifiers"].writeList(value.contentClassifiers, memberWritingClosure: SmithyReadWrite.WritingClosureBox<SageMakerA2IRuntimeClientTypes.ContentClassifier>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension SageMakerA2IRuntimeClientTypes.HumanLoopInput {
+
+    static func write(value: SageMakerA2IRuntimeClientTypes.HumanLoopInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["InputContent"].write(value.inputContent)
+    }
+}
+
 extension SageMakerA2IRuntimeClientTypes.HumanLoopOutput {
 
     static func read(from reader: SmithyJSON.Reader) throws -> SageMakerA2IRuntimeClientTypes.HumanLoopOutput {
@@ -852,22 +868,6 @@ extension SageMakerA2IRuntimeClientTypes.HumanLoopSummary {
         value.failureReason = try reader["FailureReason"].readIfPresent()
         value.flowDefinitionArn = try reader["FlowDefinitionArn"].readIfPresent()
         return value
-    }
-}
-
-extension SageMakerA2IRuntimeClientTypes.HumanLoopInput {
-
-    static func write(value: SageMakerA2IRuntimeClientTypes.HumanLoopInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["InputContent"].write(value.inputContent)
-    }
-}
-
-extension SageMakerA2IRuntimeClientTypes.HumanLoopDataAttributes {
-
-    static func write(value: SageMakerA2IRuntimeClientTypes.HumanLoopDataAttributes?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ContentClassifiers"].writeList(value.contentClassifiers, memberWritingClosure: SmithyReadWrite.WritingClosureBox<SageMakerA2IRuntimeClientTypes.ContentClassifier>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 

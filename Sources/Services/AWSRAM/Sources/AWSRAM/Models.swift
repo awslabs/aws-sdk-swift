@@ -5460,139 +5460,6 @@ extension UnmatchedPolicyPermissionException {
     }
 }
 
-extension RAMClientTypes.ResourceShareInvitation {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RAMClientTypes.ResourceShareInvitation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RAMClientTypes.ResourceShareInvitation()
-        value.resourceShareInvitationArn = try reader["resourceShareInvitationArn"].readIfPresent()
-        value.resourceShareName = try reader["resourceShareName"].readIfPresent()
-        value.resourceShareArn = try reader["resourceShareArn"].readIfPresent()
-        value.senderAccountId = try reader["senderAccountId"].readIfPresent()
-        value.receiverAccountId = try reader["receiverAccountId"].readIfPresent()
-        value.invitationTimestamp = try reader["invitationTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.status = try reader["status"].readIfPresent()
-        value.resourceShareAssociations = try reader["resourceShareAssociations"].readListIfPresent(memberReadingClosure: RAMClientTypes.ResourceShareAssociation.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.receiverArn = try reader["receiverArn"].readIfPresent()
-        return value
-    }
-}
-
-extension RAMClientTypes.ResourceShareAssociation {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RAMClientTypes.ResourceShareAssociation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RAMClientTypes.ResourceShareAssociation()
-        value.resourceShareArn = try reader["resourceShareArn"].readIfPresent()
-        value.resourceShareName = try reader["resourceShareName"].readIfPresent()
-        value.associatedEntity = try reader["associatedEntity"].readIfPresent()
-        value.associationType = try reader["associationType"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.statusMessage = try reader["statusMessage"].readIfPresent()
-        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastUpdatedTime = try reader["lastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.external = try reader["external"].readIfPresent()
-        return value
-    }
-}
-
-extension RAMClientTypes.ResourceSharePermissionSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RAMClientTypes.ResourceSharePermissionSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RAMClientTypes.ResourceSharePermissionSummary()
-        value.arn = try reader["arn"].readIfPresent()
-        value.version = try reader["version"].readIfPresent()
-        value.defaultVersion = try reader["defaultVersion"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.resourceType = try reader["resourceType"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastUpdatedTime = try reader["lastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.isResourceTypeDefault = try reader["isResourceTypeDefault"].readIfPresent()
-        value.permissionType = try reader["permissionType"].readIfPresent()
-        value.featureSet = try reader["featureSet"].readIfPresent()
-        value.tags = try reader["tags"].readListIfPresent(memberReadingClosure: RAMClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension RAMClientTypes.Tag {
-
-    static func write(value: RAMClientTypes.Tag?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["key"].write(value.key)
-        try writer["value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RAMClientTypes.Tag {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RAMClientTypes.Tag()
-        value.key = try reader["key"].readIfPresent()
-        value.value = try reader["value"].readIfPresent()
-        return value
-    }
-}
-
-extension RAMClientTypes.ResourceSharePermissionDetail {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RAMClientTypes.ResourceSharePermissionDetail {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RAMClientTypes.ResourceSharePermissionDetail()
-        value.arn = try reader["arn"].readIfPresent()
-        value.version = try reader["version"].readIfPresent()
-        value.defaultVersion = try reader["defaultVersion"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.resourceType = try reader["resourceType"].readIfPresent()
-        value.permission = try reader["permission"].readIfPresent()
-        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastUpdatedTime = try reader["lastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.isResourceTypeDefault = try reader["isResourceTypeDefault"].readIfPresent()
-        value.permissionType = try reader["permissionType"].readIfPresent()
-        value.featureSet = try reader["featureSet"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.tags = try reader["tags"].readListIfPresent(memberReadingClosure: RAMClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension RAMClientTypes.ResourceShare {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RAMClientTypes.ResourceShare {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RAMClientTypes.ResourceShare()
-        value.resourceShareArn = try reader["resourceShareArn"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.owningAccountId = try reader["owningAccountId"].readIfPresent()
-        value.allowExternalPrincipals = try reader["allowExternalPrincipals"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.statusMessage = try reader["statusMessage"].readIfPresent()
-        value.tags = try reader["tags"].readListIfPresent(memberReadingClosure: RAMClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastUpdatedTime = try reader["lastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.featureSet = try reader["featureSet"].readIfPresent()
-        return value
-    }
-}
-
-extension RAMClientTypes.Resource {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RAMClientTypes.Resource {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RAMClientTypes.Resource()
-        value.arn = try reader["arn"].readIfPresent()
-        value.type = try reader["type"].readIfPresent()
-        value.resourceShareArn = try reader["resourceShareArn"].readIfPresent()
-        value.resourceGroupArn = try reader["resourceGroupArn"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.statusMessage = try reader["statusMessage"].readIfPresent()
-        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastUpdatedTime = try reader["lastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.resourceRegionScope = try reader["resourceRegionScope"].readIfPresent()
-        return value
-    }
-}
-
 extension RAMClientTypes.AssociatedPermission {
 
     static func read(from reader: SmithyJSON.Reader) throws -> RAMClientTypes.AssociatedPermission {
@@ -5606,6 +5473,22 @@ extension RAMClientTypes.AssociatedPermission {
         value.featureSet = try reader["featureSet"].readIfPresent()
         value.lastUpdatedTime = try reader["lastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.resourceShareArn = try reader["resourceShareArn"].readIfPresent()
+        return value
+    }
+}
+
+extension RAMClientTypes.AssociatedSource {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RAMClientTypes.AssociatedSource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RAMClientTypes.AssociatedSource()
+        value.resourceShareArn = try reader["resourceShareArn"].readIfPresent()
+        value.sourceId = try reader["sourceId"].readIfPresent()
+        value.sourceType = try reader["sourceType"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.lastUpdatedTime = try reader["lastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.statusMessage = try reader["statusMessage"].readIfPresent()
         return value
     }
 }
@@ -5642,6 +5525,122 @@ extension RAMClientTypes.ReplacePermissionAssociationsWork {
     }
 }
 
+extension RAMClientTypes.Resource {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RAMClientTypes.Resource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RAMClientTypes.Resource()
+        value.arn = try reader["arn"].readIfPresent()
+        value.type = try reader["type"].readIfPresent()
+        value.resourceShareArn = try reader["resourceShareArn"].readIfPresent()
+        value.resourceGroupArn = try reader["resourceGroupArn"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.statusMessage = try reader["statusMessage"].readIfPresent()
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastUpdatedTime = try reader["lastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.resourceRegionScope = try reader["resourceRegionScope"].readIfPresent()
+        return value
+    }
+}
+
+extension RAMClientTypes.ResourceShare {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RAMClientTypes.ResourceShare {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RAMClientTypes.ResourceShare()
+        value.resourceShareArn = try reader["resourceShareArn"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        value.owningAccountId = try reader["owningAccountId"].readIfPresent()
+        value.allowExternalPrincipals = try reader["allowExternalPrincipals"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.statusMessage = try reader["statusMessage"].readIfPresent()
+        value.tags = try reader["tags"].readListIfPresent(memberReadingClosure: RAMClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastUpdatedTime = try reader["lastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.featureSet = try reader["featureSet"].readIfPresent()
+        return value
+    }
+}
+
+extension RAMClientTypes.ResourceShareAssociation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RAMClientTypes.ResourceShareAssociation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RAMClientTypes.ResourceShareAssociation()
+        value.resourceShareArn = try reader["resourceShareArn"].readIfPresent()
+        value.resourceShareName = try reader["resourceShareName"].readIfPresent()
+        value.associatedEntity = try reader["associatedEntity"].readIfPresent()
+        value.associationType = try reader["associationType"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.statusMessage = try reader["statusMessage"].readIfPresent()
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastUpdatedTime = try reader["lastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.external = try reader["external"].readIfPresent()
+        return value
+    }
+}
+
+extension RAMClientTypes.ResourceShareInvitation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RAMClientTypes.ResourceShareInvitation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RAMClientTypes.ResourceShareInvitation()
+        value.resourceShareInvitationArn = try reader["resourceShareInvitationArn"].readIfPresent()
+        value.resourceShareName = try reader["resourceShareName"].readIfPresent()
+        value.resourceShareArn = try reader["resourceShareArn"].readIfPresent()
+        value.senderAccountId = try reader["senderAccountId"].readIfPresent()
+        value.receiverAccountId = try reader["receiverAccountId"].readIfPresent()
+        value.invitationTimestamp = try reader["invitationTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.status = try reader["status"].readIfPresent()
+        value.resourceShareAssociations = try reader["resourceShareAssociations"].readListIfPresent(memberReadingClosure: RAMClientTypes.ResourceShareAssociation.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.receiverArn = try reader["receiverArn"].readIfPresent()
+        return value
+    }
+}
+
+extension RAMClientTypes.ResourceSharePermissionDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RAMClientTypes.ResourceSharePermissionDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RAMClientTypes.ResourceSharePermissionDetail()
+        value.arn = try reader["arn"].readIfPresent()
+        value.version = try reader["version"].readIfPresent()
+        value.defaultVersion = try reader["defaultVersion"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        value.resourceType = try reader["resourceType"].readIfPresent()
+        value.permission = try reader["permission"].readIfPresent()
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastUpdatedTime = try reader["lastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.isResourceTypeDefault = try reader["isResourceTypeDefault"].readIfPresent()
+        value.permissionType = try reader["permissionType"].readIfPresent()
+        value.featureSet = try reader["featureSet"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.tags = try reader["tags"].readListIfPresent(memberReadingClosure: RAMClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension RAMClientTypes.ResourceSharePermissionSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RAMClientTypes.ResourceSharePermissionSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RAMClientTypes.ResourceSharePermissionSummary()
+        value.arn = try reader["arn"].readIfPresent()
+        value.version = try reader["version"].readIfPresent()
+        value.defaultVersion = try reader["defaultVersion"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        value.resourceType = try reader["resourceType"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastUpdatedTime = try reader["lastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.isResourceTypeDefault = try reader["isResourceTypeDefault"].readIfPresent()
+        value.permissionType = try reader["permissionType"].readIfPresent()
+        value.featureSet = try reader["featureSet"].readIfPresent()
+        value.tags = try reader["tags"].readListIfPresent(memberReadingClosure: RAMClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension RAMClientTypes.ServiceNameAndResourceType {
 
     static func read(from reader: SmithyJSON.Reader) throws -> RAMClientTypes.ServiceNameAndResourceType {
@@ -5654,18 +5653,19 @@ extension RAMClientTypes.ServiceNameAndResourceType {
     }
 }
 
-extension RAMClientTypes.AssociatedSource {
+extension RAMClientTypes.Tag {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> RAMClientTypes.AssociatedSource {
+    static func write(value: RAMClientTypes.Tag?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["key"].write(value.key)
+        try writer["value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RAMClientTypes.Tag {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RAMClientTypes.AssociatedSource()
-        value.resourceShareArn = try reader["resourceShareArn"].readIfPresent()
-        value.sourceId = try reader["sourceId"].readIfPresent()
-        value.sourceType = try reader["sourceType"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.lastUpdatedTime = try reader["lastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.statusMessage = try reader["statusMessage"].readIfPresent()
+        var value = RAMClientTypes.Tag()
+        value.key = try reader["key"].readIfPresent()
+        value.value = try reader["value"].readIfPresent()
         return value
     }
 }

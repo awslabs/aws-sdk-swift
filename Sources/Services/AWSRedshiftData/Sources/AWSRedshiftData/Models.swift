@@ -2082,43 +2082,6 @@ extension ExecuteStatementException {
     }
 }
 
-extension RedshiftDataClientTypes.SqlParameter {
-
-    static func write(value: RedshiftDataClientTypes.SqlParameter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["name"].write(value.name)
-        try writer["value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RedshiftDataClientTypes.SqlParameter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RedshiftDataClientTypes.SqlParameter()
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.value = try reader["value"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension RedshiftDataClientTypes.SubStatementData {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RedshiftDataClientTypes.SubStatementData {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RedshiftDataClientTypes.SubStatementData()
-        value.id = try reader["Id"].readIfPresent() ?? ""
-        value.duration = try reader["Duration"].readIfPresent() ?? 0
-        value.error = try reader["Error"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.queryString = try reader["QueryString"].readIfPresent()
-        value.resultRows = try reader["ResultRows"].readIfPresent() ?? 0
-        value.resultSize = try reader["ResultSize"].readIfPresent() ?? 0
-        value.redshiftQueryId = try reader["RedshiftQueryId"].readIfPresent() ?? 0
-        value.hasResultSet = try reader["HasResultSet"].readIfPresent()
-        return value
-    }
-}
-
 extension RedshiftDataClientTypes.ColumnMetadata {
 
     static func read(from reader: SmithyJSON.Reader) throws -> RedshiftDataClientTypes.ColumnMetadata {
@@ -2179,6 +2142,23 @@ extension RedshiftDataClientTypes.QueryRecords {
     }
 }
 
+extension RedshiftDataClientTypes.SqlParameter {
+
+    static func write(value: RedshiftDataClientTypes.SqlParameter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["name"].write(value.name)
+        try writer["value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RedshiftDataClientTypes.SqlParameter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RedshiftDataClientTypes.SqlParameter()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.value = try reader["value"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension RedshiftDataClientTypes.StatementData {
 
     static func read(from reader: SmithyJSON.Reader) throws -> RedshiftDataClientTypes.StatementData {
@@ -2196,6 +2176,26 @@ extension RedshiftDataClientTypes.StatementData {
         value.isBatchStatement = try reader["IsBatchStatement"].readIfPresent()
         value.resultFormat = try reader["ResultFormat"].readIfPresent()
         value.sessionId = try reader["SessionId"].readIfPresent()
+        return value
+    }
+}
+
+extension RedshiftDataClientTypes.SubStatementData {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RedshiftDataClientTypes.SubStatementData {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RedshiftDataClientTypes.SubStatementData()
+        value.id = try reader["Id"].readIfPresent() ?? ""
+        value.duration = try reader["Duration"].readIfPresent() ?? 0
+        value.error = try reader["Error"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.queryString = try reader["QueryString"].readIfPresent()
+        value.resultRows = try reader["ResultRows"].readIfPresent() ?? 0
+        value.resultSize = try reader["ResultSize"].readIfPresent() ?? 0
+        value.redshiftQueryId = try reader["RedshiftQueryId"].readIfPresent() ?? 0
+        value.hasResultSet = try reader["HasResultSet"].readIfPresent()
         return value
     }
 }

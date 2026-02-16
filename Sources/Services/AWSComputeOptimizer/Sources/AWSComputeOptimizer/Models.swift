@@ -10287,40 +10287,43 @@ extension LimitExceededException {
     }
 }
 
-extension ComputeOptimizerClientTypes.RecommendationExportJob {
+extension ComputeOptimizerClientTypes.AccountEnrollmentStatus {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.RecommendationExportJob {
+    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.AccountEnrollmentStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ComputeOptimizerClientTypes.RecommendationExportJob()
-        value.jobId = try reader["jobId"].readIfPresent()
-        value.destination = try reader["destination"].readIfPresent(with: ComputeOptimizerClientTypes.ExportDestination.read(from:))
-        value.resourceType = try reader["resourceType"].readIfPresent()
+        var value = ComputeOptimizerClientTypes.AccountEnrollmentStatus()
+        value.accountId = try reader["accountId"].readIfPresent()
         value.status = try reader["status"].readIfPresent()
-        value.creationTimestamp = try reader["creationTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.statusReason = try reader["statusReason"].readIfPresent()
         value.lastUpdatedTimestamp = try reader["lastUpdatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.failureReason = try reader["failureReason"].readIfPresent()
         return value
     }
 }
 
-extension ComputeOptimizerClientTypes.ExportDestination {
+extension ComputeOptimizerClientTypes.AutoScalingGroupConfiguration {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.ExportDestination {
+    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.AutoScalingGroupConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ComputeOptimizerClientTypes.ExportDestination()
-        value.s3 = try reader["s3"].readIfPresent(with: ComputeOptimizerClientTypes.S3Destination.read(from:))
+        var value = ComputeOptimizerClientTypes.AutoScalingGroupConfiguration()
+        value.desiredCapacity = try reader["desiredCapacity"].readIfPresent() ?? 0
+        value.minSize = try reader["minSize"].readIfPresent() ?? 0
+        value.maxSize = try reader["maxSize"].readIfPresent() ?? 0
+        value.instanceType = try reader["instanceType"].readIfPresent()
+        value.allocationStrategy = try reader["allocationStrategy"].readIfPresent()
+        value.estimatedInstanceHourReductionPercentage = try reader["estimatedInstanceHourReductionPercentage"].readIfPresent()
+        value.type = try reader["type"].readIfPresent()
+        value.mixedInstanceTypes = try reader["mixedInstanceTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
 
-extension ComputeOptimizerClientTypes.S3Destination {
+extension ComputeOptimizerClientTypes.AutoScalingGroupEstimatedMonthlySavings {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.S3Destination {
+    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.AutoScalingGroupEstimatedMonthlySavings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ComputeOptimizerClientTypes.S3Destination()
-        value.bucket = try reader["bucket"].readIfPresent()
-        value.key = try reader["key"].readIfPresent()
-        value.metadataKey = try reader["metadataKey"].readIfPresent()
+        var value = ComputeOptimizerClientTypes.AutoScalingGroupEstimatedMonthlySavings()
+        value.currency = try reader["currency"].readIfPresent()
+        value.value = try reader["value"].readIfPresent() ?? 0
         return value
     }
 }
@@ -10343,95 +10346,6 @@ extension ComputeOptimizerClientTypes.AutoScalingGroupRecommendation {
         value.currentPerformanceRisk = try reader["currentPerformanceRisk"].readIfPresent()
         value.effectiveRecommendationPreferences = try reader["effectiveRecommendationPreferences"].readIfPresent(with: ComputeOptimizerClientTypes.EffectiveRecommendationPreferences.read(from:))
         value.inferredWorkloadTypes = try reader["inferredWorkloadTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<ComputeOptimizerClientTypes.InferredWorkloadType>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension ComputeOptimizerClientTypes.EffectiveRecommendationPreferences {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.EffectiveRecommendationPreferences {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ComputeOptimizerClientTypes.EffectiveRecommendationPreferences()
-        value.cpuVendorArchitectures = try reader["cpuVendorArchitectures"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<ComputeOptimizerClientTypes.CpuVendorArchitecture>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.enhancedInfrastructureMetrics = try reader["enhancedInfrastructureMetrics"].readIfPresent()
-        value.inferredWorkloadTypes = try reader["inferredWorkloadTypes"].readIfPresent()
-        value.externalMetricsPreference = try reader["externalMetricsPreference"].readIfPresent(with: ComputeOptimizerClientTypes.ExternalMetricsPreference.read(from:))
-        value.lookBackPeriod = try reader["lookBackPeriod"].readIfPresent()
-        value.utilizationPreferences = try reader["utilizationPreferences"].readListIfPresent(memberReadingClosure: ComputeOptimizerClientTypes.UtilizationPreference.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.preferredResources = try reader["preferredResources"].readListIfPresent(memberReadingClosure: ComputeOptimizerClientTypes.EffectivePreferredResource.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.savingsEstimationMode = try reader["savingsEstimationMode"].readIfPresent(with: ComputeOptimizerClientTypes.InstanceSavingsEstimationMode.read(from:))
-        return value
-    }
-}
-
-extension ComputeOptimizerClientTypes.InstanceSavingsEstimationMode {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.InstanceSavingsEstimationMode {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ComputeOptimizerClientTypes.InstanceSavingsEstimationMode()
-        value.source = try reader["source"].readIfPresent()
-        return value
-    }
-}
-
-extension ComputeOptimizerClientTypes.EffectivePreferredResource {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.EffectivePreferredResource {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ComputeOptimizerClientTypes.EffectivePreferredResource()
-        value.name = try reader["name"].readIfPresent()
-        value.includeList = try reader["includeList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.effectiveIncludeList = try reader["effectiveIncludeList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.excludeList = try reader["excludeList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension ComputeOptimizerClientTypes.UtilizationPreference {
-
-    static func write(value: ComputeOptimizerClientTypes.UtilizationPreference?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["metricName"].write(value.metricName)
-        try writer["metricParameters"].write(value.metricParameters, with: ComputeOptimizerClientTypes.CustomizableMetricParameters.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.UtilizationPreference {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ComputeOptimizerClientTypes.UtilizationPreference()
-        value.metricName = try reader["metricName"].readIfPresent()
-        value.metricParameters = try reader["metricParameters"].readIfPresent(with: ComputeOptimizerClientTypes.CustomizableMetricParameters.read(from:))
-        return value
-    }
-}
-
-extension ComputeOptimizerClientTypes.CustomizableMetricParameters {
-
-    static func write(value: ComputeOptimizerClientTypes.CustomizableMetricParameters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["headroom"].write(value.headroom)
-        try writer["threshold"].write(value.threshold)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.CustomizableMetricParameters {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ComputeOptimizerClientTypes.CustomizableMetricParameters()
-        value.threshold = try reader["threshold"].readIfPresent()
-        value.headroom = try reader["headroom"].readIfPresent()
-        return value
-    }
-}
-
-extension ComputeOptimizerClientTypes.ExternalMetricsPreference {
-
-    static func write(value: ComputeOptimizerClientTypes.ExternalMetricsPreference?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["source"].write(value.source)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.ExternalMetricsPreference {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ComputeOptimizerClientTypes.ExternalMetricsPreference()
-        value.source = try reader["source"].readIfPresent()
         return value
     }
 }
@@ -10464,128 +10378,70 @@ extension ComputeOptimizerClientTypes.AutoScalingGroupSavingsOpportunityAfterDis
     }
 }
 
-extension ComputeOptimizerClientTypes.AutoScalingGroupEstimatedMonthlySavings {
+extension ComputeOptimizerClientTypes.ContainerConfiguration {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.AutoScalingGroupEstimatedMonthlySavings {
+    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.ContainerConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ComputeOptimizerClientTypes.AutoScalingGroupEstimatedMonthlySavings()
-        value.currency = try reader["currency"].readIfPresent()
-        value.value = try reader["value"].readIfPresent() ?? 0
+        var value = ComputeOptimizerClientTypes.ContainerConfiguration()
+        value.containerName = try reader["containerName"].readIfPresent()
+        value.memorySizeConfiguration = try reader["memorySizeConfiguration"].readIfPresent(with: ComputeOptimizerClientTypes.MemorySizeConfiguration.read(from:))
+        value.cpu = try reader["cpu"].readIfPresent()
         return value
     }
 }
 
-extension ComputeOptimizerClientTypes.SavingsOpportunity {
+extension ComputeOptimizerClientTypes.ContainerRecommendation {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.SavingsOpportunity {
+    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.ContainerRecommendation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ComputeOptimizerClientTypes.SavingsOpportunity()
-        value.savingsOpportunityPercentage = try reader["savingsOpportunityPercentage"].readIfPresent() ?? 0
-        value.estimatedMonthlySavings = try reader["estimatedMonthlySavings"].readIfPresent(with: ComputeOptimizerClientTypes.EstimatedMonthlySavings.read(from:))
+        var value = ComputeOptimizerClientTypes.ContainerRecommendation()
+        value.containerName = try reader["containerName"].readIfPresent()
+        value.memorySizeConfiguration = try reader["memorySizeConfiguration"].readIfPresent(with: ComputeOptimizerClientTypes.MemorySizeConfiguration.read(from:))
+        value.cpu = try reader["cpu"].readIfPresent()
         return value
     }
 }
 
-extension ComputeOptimizerClientTypes.EstimatedMonthlySavings {
+extension ComputeOptimizerClientTypes.CurrentPerformanceRiskRatings {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.EstimatedMonthlySavings {
+    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.CurrentPerformanceRiskRatings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ComputeOptimizerClientTypes.EstimatedMonthlySavings()
-        value.currency = try reader["currency"].readIfPresent()
-        value.value = try reader["value"].readIfPresent() ?? 0
+        var value = ComputeOptimizerClientTypes.CurrentPerformanceRiskRatings()
+        value.high = try reader["high"].readIfPresent() ?? 0
+        value.medium = try reader["medium"].readIfPresent() ?? 0
+        value.low = try reader["low"].readIfPresent() ?? 0
+        value.veryLow = try reader["veryLow"].readIfPresent() ?? 0
         return value
     }
 }
 
-extension ComputeOptimizerClientTypes.UtilizationMetric {
+extension ComputeOptimizerClientTypes.CustomizableMetricParameters {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.UtilizationMetric {
+    static func write(value: ComputeOptimizerClientTypes.CustomizableMetricParameters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["headroom"].write(value.headroom)
+        try writer["threshold"].write(value.threshold)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.CustomizableMetricParameters {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ComputeOptimizerClientTypes.UtilizationMetric()
-        value.name = try reader["name"].readIfPresent()
-        value.statistic = try reader["statistic"].readIfPresent()
-        value.value = try reader["value"].readIfPresent() ?? 0
+        var value = ComputeOptimizerClientTypes.CustomizableMetricParameters()
+        value.threshold = try reader["threshold"].readIfPresent()
+        value.headroom = try reader["headroom"].readIfPresent()
         return value
     }
 }
 
-extension ComputeOptimizerClientTypes.GpuInfo {
+extension ComputeOptimizerClientTypes.DBStorageConfiguration {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.GpuInfo {
+    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.DBStorageConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ComputeOptimizerClientTypes.GpuInfo()
-        value.gpus = try reader["gpus"].readListIfPresent(memberReadingClosure: ComputeOptimizerClientTypes.Gpu.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension ComputeOptimizerClientTypes.Gpu {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.Gpu {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ComputeOptimizerClientTypes.Gpu()
-        value.gpuCount = try reader["gpuCount"].readIfPresent() ?? 0
-        value.gpuMemorySizeInMiB = try reader["gpuMemorySizeInMiB"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension ComputeOptimizerClientTypes.AutoScalingGroupConfiguration {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.AutoScalingGroupConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ComputeOptimizerClientTypes.AutoScalingGroupConfiguration()
-        value.desiredCapacity = try reader["desiredCapacity"].readIfPresent() ?? 0
-        value.minSize = try reader["minSize"].readIfPresent() ?? 0
-        value.maxSize = try reader["maxSize"].readIfPresent() ?? 0
-        value.instanceType = try reader["instanceType"].readIfPresent()
-        value.allocationStrategy = try reader["allocationStrategy"].readIfPresent()
-        value.estimatedInstanceHourReductionPercentage = try reader["estimatedInstanceHourReductionPercentage"].readIfPresent()
-        value.type = try reader["type"].readIfPresent()
-        value.mixedInstanceTypes = try reader["mixedInstanceTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension ComputeOptimizerClientTypes.GetRecommendationError {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.GetRecommendationError {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ComputeOptimizerClientTypes.GetRecommendationError()
-        value.identifier = try reader["identifier"].readIfPresent()
-        value.code = try reader["code"].readIfPresent()
-        value.message = try reader["message"].readIfPresent()
-        return value
-    }
-}
-
-extension ComputeOptimizerClientTypes.VolumeRecommendation {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.VolumeRecommendation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ComputeOptimizerClientTypes.VolumeRecommendation()
-        value.volumeArn = try reader["volumeArn"].readIfPresent()
-        value.accountId = try reader["accountId"].readIfPresent()
-        value.currentConfiguration = try reader["currentConfiguration"].readIfPresent(with: ComputeOptimizerClientTypes.VolumeConfiguration.read(from:))
-        value.finding = try reader["finding"].readIfPresent()
-        value.utilizationMetrics = try reader["utilizationMetrics"].readListIfPresent(memberReadingClosure: ComputeOptimizerClientTypes.EBSUtilizationMetric.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.lookBackPeriodInDays = try reader["lookBackPeriodInDays"].readIfPresent() ?? 0
-        value.volumeRecommendationOptions = try reader["volumeRecommendationOptions"].readListIfPresent(memberReadingClosure: ComputeOptimizerClientTypes.VolumeRecommendationOption.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.lastRefreshTimestamp = try reader["lastRefreshTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.currentPerformanceRisk = try reader["currentPerformanceRisk"].readIfPresent()
-        value.effectiveRecommendationPreferences = try reader["effectiveRecommendationPreferences"].readIfPresent(with: ComputeOptimizerClientTypes.EBSEffectiveRecommendationPreferences.read(from:))
-        value.tags = try reader["tags"].readListIfPresent(memberReadingClosure: ComputeOptimizerClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension ComputeOptimizerClientTypes.Tag {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.Tag {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ComputeOptimizerClientTypes.Tag()
-        value.key = try reader["key"].readIfPresent()
-        value.value = try reader["value"].readIfPresent()
+        var value = ComputeOptimizerClientTypes.DBStorageConfiguration()
+        value.storageType = try reader["storageType"].readIfPresent()
+        value.allocatedStorage = try reader["allocatedStorage"].readIfPresent() ?? 0
+        value.iops = try reader["iops"].readIfPresent()
+        value.maxAllocatedStorage = try reader["maxAllocatedStorage"].readIfPresent()
+        value.storageThroughput = try reader["storageThroughput"].readIfPresent()
         return value
     }
 }
@@ -10596,41 +10452,6 @@ extension ComputeOptimizerClientTypes.EBSEffectiveRecommendationPreferences {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComputeOptimizerClientTypes.EBSEffectiveRecommendationPreferences()
         value.savingsEstimationMode = try reader["savingsEstimationMode"].readIfPresent(with: ComputeOptimizerClientTypes.EBSSavingsEstimationMode.read(from:))
-        return value
-    }
-}
-
-extension ComputeOptimizerClientTypes.EBSSavingsEstimationMode {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.EBSSavingsEstimationMode {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ComputeOptimizerClientTypes.EBSSavingsEstimationMode()
-        value.source = try reader["source"].readIfPresent()
-        return value
-    }
-}
-
-extension ComputeOptimizerClientTypes.VolumeRecommendationOption {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.VolumeRecommendationOption {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ComputeOptimizerClientTypes.VolumeRecommendationOption()
-        value.configuration = try reader["configuration"].readIfPresent(with: ComputeOptimizerClientTypes.VolumeConfiguration.read(from:))
-        value.performanceRisk = try reader["performanceRisk"].readIfPresent() ?? 0
-        value.rank = try reader["rank"].readIfPresent() ?? 0
-        value.savingsOpportunity = try reader["savingsOpportunity"].readIfPresent(with: ComputeOptimizerClientTypes.SavingsOpportunity.read(from:))
-        value.savingsOpportunityAfterDiscounts = try reader["savingsOpportunityAfterDiscounts"].readIfPresent(with: ComputeOptimizerClientTypes.EBSSavingsOpportunityAfterDiscounts.read(from:))
-        return value
-    }
-}
-
-extension ComputeOptimizerClientTypes.EBSSavingsOpportunityAfterDiscounts {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.EBSSavingsOpportunityAfterDiscounts {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ComputeOptimizerClientTypes.EBSSavingsOpportunityAfterDiscounts()
-        value.savingsOpportunityPercentage = try reader["savingsOpportunityPercentage"].readIfPresent() ?? 0
-        value.estimatedMonthlySavings = try reader["estimatedMonthlySavings"].readIfPresent(with: ComputeOptimizerClientTypes.EBSEstimatedMonthlySavings.read(from:))
         return value
     }
 }
@@ -10646,18 +10467,32 @@ extension ComputeOptimizerClientTypes.EBSEstimatedMonthlySavings {
     }
 }
 
-extension ComputeOptimizerClientTypes.VolumeConfiguration {
+extension ComputeOptimizerClientTypes.EBSFilter {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.VolumeConfiguration {
+    static func write(value: ComputeOptimizerClientTypes.EBSFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["name"].write(value.name)
+        try writer["values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension ComputeOptimizerClientTypes.EBSSavingsEstimationMode {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.EBSSavingsEstimationMode {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ComputeOptimizerClientTypes.VolumeConfiguration()
-        value.volumeType = try reader["volumeType"].readIfPresent()
-        value.volumeSize = try reader["volumeSize"].readIfPresent() ?? 0
-        value.volumeBaselineIOPS = try reader["volumeBaselineIOPS"].readIfPresent() ?? 0
-        value.volumeBurstIOPS = try reader["volumeBurstIOPS"].readIfPresent() ?? 0
-        value.volumeBaselineThroughput = try reader["volumeBaselineThroughput"].readIfPresent() ?? 0
-        value.volumeBurstThroughput = try reader["volumeBurstThroughput"].readIfPresent() ?? 0
-        value.rootVolume = try reader["rootVolume"].readIfPresent()
+        var value = ComputeOptimizerClientTypes.EBSSavingsEstimationMode()
+        value.source = try reader["source"].readIfPresent()
+        return value
+    }
+}
+
+extension ComputeOptimizerClientTypes.EBSSavingsOpportunityAfterDiscounts {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.EBSSavingsOpportunityAfterDiscounts {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ComputeOptimizerClientTypes.EBSSavingsOpportunityAfterDiscounts()
+        value.savingsOpportunityPercentage = try reader["savingsOpportunityPercentage"].readIfPresent() ?? 0
+        value.estimatedMonthlySavings = try reader["estimatedMonthlySavings"].readIfPresent(with: ComputeOptimizerClientTypes.EBSEstimatedMonthlySavings.read(from:))
         return value
     }
 }
@@ -10669,6 +10504,393 @@ extension ComputeOptimizerClientTypes.EBSUtilizationMetric {
         var value = ComputeOptimizerClientTypes.EBSUtilizationMetric()
         value.name = try reader["name"].readIfPresent()
         value.statistic = try reader["statistic"].readIfPresent()
+        value.value = try reader["value"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension ComputeOptimizerClientTypes.ECSEffectiveRecommendationPreferences {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.ECSEffectiveRecommendationPreferences {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ComputeOptimizerClientTypes.ECSEffectiveRecommendationPreferences()
+        value.savingsEstimationMode = try reader["savingsEstimationMode"].readIfPresent(with: ComputeOptimizerClientTypes.ECSSavingsEstimationMode.read(from:))
+        return value
+    }
+}
+
+extension ComputeOptimizerClientTypes.ECSEstimatedMonthlySavings {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.ECSEstimatedMonthlySavings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ComputeOptimizerClientTypes.ECSEstimatedMonthlySavings()
+        value.currency = try reader["currency"].readIfPresent()
+        value.value = try reader["value"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension ComputeOptimizerClientTypes.ECSSavingsEstimationMode {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.ECSSavingsEstimationMode {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ComputeOptimizerClientTypes.ECSSavingsEstimationMode()
+        value.source = try reader["source"].readIfPresent()
+        return value
+    }
+}
+
+extension ComputeOptimizerClientTypes.ECSSavingsOpportunityAfterDiscounts {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.ECSSavingsOpportunityAfterDiscounts {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ComputeOptimizerClientTypes.ECSSavingsOpportunityAfterDiscounts()
+        value.savingsOpportunityPercentage = try reader["savingsOpportunityPercentage"].readIfPresent() ?? 0
+        value.estimatedMonthlySavings = try reader["estimatedMonthlySavings"].readIfPresent(with: ComputeOptimizerClientTypes.ECSEstimatedMonthlySavings.read(from:))
+        return value
+    }
+}
+
+extension ComputeOptimizerClientTypes.ECSServiceProjectedMetric {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.ECSServiceProjectedMetric {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ComputeOptimizerClientTypes.ECSServiceProjectedMetric()
+        value.name = try reader["name"].readIfPresent()
+        value.timestamps = try reader["timestamps"].readListIfPresent(memberReadingClosure: SmithyReadWrite.timestampReadingClosure(format: SmithyTimestamps.TimestampFormat.epochSeconds), memberNodeInfo: "member", isFlattened: false)
+        value.upperBoundValues = try reader["upperBoundValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false)
+        value.lowerBoundValues = try reader["lowerBoundValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ComputeOptimizerClientTypes.ECSServiceProjectedUtilizationMetric {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.ECSServiceProjectedUtilizationMetric {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ComputeOptimizerClientTypes.ECSServiceProjectedUtilizationMetric()
+        value.name = try reader["name"].readIfPresent()
+        value.statistic = try reader["statistic"].readIfPresent()
+        value.lowerBoundValue = try reader["lowerBoundValue"].readIfPresent() ?? 0
+        value.upperBoundValue = try reader["upperBoundValue"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension ComputeOptimizerClientTypes.ECSServiceRecommendation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.ECSServiceRecommendation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ComputeOptimizerClientTypes.ECSServiceRecommendation()
+        value.serviceArn = try reader["serviceArn"].readIfPresent()
+        value.accountId = try reader["accountId"].readIfPresent()
+        value.currentServiceConfiguration = try reader["currentServiceConfiguration"].readIfPresent(with: ComputeOptimizerClientTypes.ServiceConfiguration.read(from:))
+        value.utilizationMetrics = try reader["utilizationMetrics"].readListIfPresent(memberReadingClosure: ComputeOptimizerClientTypes.ECSServiceUtilizationMetric.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.lookbackPeriodInDays = try reader["lookbackPeriodInDays"].readIfPresent() ?? 0
+        value.launchType = try reader["launchType"].readIfPresent()
+        value.lastRefreshTimestamp = try reader["lastRefreshTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.finding = try reader["finding"].readIfPresent()
+        value.findingReasonCodes = try reader["findingReasonCodes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<ComputeOptimizerClientTypes.ECSServiceRecommendationFindingReasonCode>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.serviceRecommendationOptions = try reader["serviceRecommendationOptions"].readListIfPresent(memberReadingClosure: ComputeOptimizerClientTypes.ECSServiceRecommendationOption.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.currentPerformanceRisk = try reader["currentPerformanceRisk"].readIfPresent()
+        value.effectiveRecommendationPreferences = try reader["effectiveRecommendationPreferences"].readIfPresent(with: ComputeOptimizerClientTypes.ECSEffectiveRecommendationPreferences.read(from:))
+        value.tags = try reader["tags"].readListIfPresent(memberReadingClosure: ComputeOptimizerClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ComputeOptimizerClientTypes.ECSServiceRecommendationFilter {
+
+    static func write(value: ComputeOptimizerClientTypes.ECSServiceRecommendationFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["name"].write(value.name)
+        try writer["values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension ComputeOptimizerClientTypes.ECSServiceRecommendationOption {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.ECSServiceRecommendationOption {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ComputeOptimizerClientTypes.ECSServiceRecommendationOption()
+        value.memory = try reader["memory"].readIfPresent()
+        value.cpu = try reader["cpu"].readIfPresent()
+        value.savingsOpportunity = try reader["savingsOpportunity"].readIfPresent(with: ComputeOptimizerClientTypes.SavingsOpportunity.read(from:))
+        value.savingsOpportunityAfterDiscounts = try reader["savingsOpportunityAfterDiscounts"].readIfPresent(with: ComputeOptimizerClientTypes.ECSSavingsOpportunityAfterDiscounts.read(from:))
+        value.projectedUtilizationMetrics = try reader["projectedUtilizationMetrics"].readListIfPresent(memberReadingClosure: ComputeOptimizerClientTypes.ECSServiceProjectedUtilizationMetric.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.containerRecommendations = try reader["containerRecommendations"].readListIfPresent(memberReadingClosure: ComputeOptimizerClientTypes.ContainerRecommendation.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ComputeOptimizerClientTypes.ECSServiceRecommendedOptionProjectedMetric {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.ECSServiceRecommendedOptionProjectedMetric {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ComputeOptimizerClientTypes.ECSServiceRecommendedOptionProjectedMetric()
+        value.recommendedCpuUnits = try reader["recommendedCpuUnits"].readIfPresent() ?? 0
+        value.recommendedMemorySize = try reader["recommendedMemorySize"].readIfPresent() ?? 0
+        value.projectedMetrics = try reader["projectedMetrics"].readListIfPresent(memberReadingClosure: ComputeOptimizerClientTypes.ECSServiceProjectedMetric.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ComputeOptimizerClientTypes.ECSServiceUtilizationMetric {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.ECSServiceUtilizationMetric {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ComputeOptimizerClientTypes.ECSServiceUtilizationMetric()
+        value.name = try reader["name"].readIfPresent()
+        value.statistic = try reader["statistic"].readIfPresent()
+        value.value = try reader["value"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension ComputeOptimizerClientTypes.EffectivePreferredResource {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.EffectivePreferredResource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ComputeOptimizerClientTypes.EffectivePreferredResource()
+        value.name = try reader["name"].readIfPresent()
+        value.includeList = try reader["includeList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.effectiveIncludeList = try reader["effectiveIncludeList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.excludeList = try reader["excludeList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ComputeOptimizerClientTypes.EffectiveRecommendationPreferences {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.EffectiveRecommendationPreferences {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ComputeOptimizerClientTypes.EffectiveRecommendationPreferences()
+        value.cpuVendorArchitectures = try reader["cpuVendorArchitectures"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<ComputeOptimizerClientTypes.CpuVendorArchitecture>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.enhancedInfrastructureMetrics = try reader["enhancedInfrastructureMetrics"].readIfPresent()
+        value.inferredWorkloadTypes = try reader["inferredWorkloadTypes"].readIfPresent()
+        value.externalMetricsPreference = try reader["externalMetricsPreference"].readIfPresent(with: ComputeOptimizerClientTypes.ExternalMetricsPreference.read(from:))
+        value.lookBackPeriod = try reader["lookBackPeriod"].readIfPresent()
+        value.utilizationPreferences = try reader["utilizationPreferences"].readListIfPresent(memberReadingClosure: ComputeOptimizerClientTypes.UtilizationPreference.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.preferredResources = try reader["preferredResources"].readListIfPresent(memberReadingClosure: ComputeOptimizerClientTypes.EffectivePreferredResource.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.savingsEstimationMode = try reader["savingsEstimationMode"].readIfPresent(with: ComputeOptimizerClientTypes.InstanceSavingsEstimationMode.read(from:))
+        return value
+    }
+}
+
+extension ComputeOptimizerClientTypes.EnrollmentFilter {
+
+    static func write(value: ComputeOptimizerClientTypes.EnrollmentFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["name"].write(value.name)
+        try writer["values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension ComputeOptimizerClientTypes.EstimatedMonthlySavings {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.EstimatedMonthlySavings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ComputeOptimizerClientTypes.EstimatedMonthlySavings()
+        value.currency = try reader["currency"].readIfPresent()
+        value.value = try reader["value"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension ComputeOptimizerClientTypes.ExportDestination {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.ExportDestination {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ComputeOptimizerClientTypes.ExportDestination()
+        value.s3 = try reader["s3"].readIfPresent(with: ComputeOptimizerClientTypes.S3Destination.read(from:))
+        return value
+    }
+}
+
+extension ComputeOptimizerClientTypes.ExternalMetricsPreference {
+
+    static func write(value: ComputeOptimizerClientTypes.ExternalMetricsPreference?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["source"].write(value.source)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.ExternalMetricsPreference {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ComputeOptimizerClientTypes.ExternalMetricsPreference()
+        value.source = try reader["source"].readIfPresent()
+        return value
+    }
+}
+
+extension ComputeOptimizerClientTypes.ExternalMetricStatus {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.ExternalMetricStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ComputeOptimizerClientTypes.ExternalMetricStatus()
+        value.statusCode = try reader["statusCode"].readIfPresent()
+        value.statusReason = try reader["statusReason"].readIfPresent()
+        return value
+    }
+}
+
+extension ComputeOptimizerClientTypes.Filter {
+
+    static func write(value: ComputeOptimizerClientTypes.Filter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["name"].write(value.name)
+        try writer["values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension ComputeOptimizerClientTypes.GetRecommendationError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.GetRecommendationError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ComputeOptimizerClientTypes.GetRecommendationError()
+        value.identifier = try reader["identifier"].readIfPresent()
+        value.code = try reader["code"].readIfPresent()
+        value.message = try reader["message"].readIfPresent()
+        return value
+    }
+}
+
+extension ComputeOptimizerClientTypes.Gpu {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.Gpu {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ComputeOptimizerClientTypes.Gpu()
+        value.gpuCount = try reader["gpuCount"].readIfPresent() ?? 0
+        value.gpuMemorySizeInMiB = try reader["gpuMemorySizeInMiB"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension ComputeOptimizerClientTypes.GpuInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.GpuInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ComputeOptimizerClientTypes.GpuInfo()
+        value.gpus = try reader["gpus"].readListIfPresent(memberReadingClosure: ComputeOptimizerClientTypes.Gpu.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ComputeOptimizerClientTypes.IdleEstimatedMonthlySavings {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.IdleEstimatedMonthlySavings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ComputeOptimizerClientTypes.IdleEstimatedMonthlySavings()
+        value.currency = try reader["currency"].readIfPresent()
+        value.value = try reader["value"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension ComputeOptimizerClientTypes.IdleRecommendation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.IdleRecommendation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ComputeOptimizerClientTypes.IdleRecommendation()
+        value.resourceArn = try reader["resourceArn"].readIfPresent()
+        value.resourceId = try reader["resourceId"].readIfPresent()
+        value.resourceType = try reader["resourceType"].readIfPresent()
+        value.accountId = try reader["accountId"].readIfPresent()
+        value.finding = try reader["finding"].readIfPresent()
+        value.findingDescription = try reader["findingDescription"].readIfPresent()
+        value.savingsOpportunity = try reader["savingsOpportunity"].readIfPresent(with: ComputeOptimizerClientTypes.IdleSavingsOpportunity.read(from:))
+        value.savingsOpportunityAfterDiscounts = try reader["savingsOpportunityAfterDiscounts"].readIfPresent(with: ComputeOptimizerClientTypes.IdleSavingsOpportunityAfterDiscounts.read(from:))
+        value.utilizationMetrics = try reader["utilizationMetrics"].readListIfPresent(memberReadingClosure: ComputeOptimizerClientTypes.IdleUtilizationMetric.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.lookBackPeriodInDays = try reader["lookBackPeriodInDays"].readIfPresent() ?? 0
+        value.lastRefreshTimestamp = try reader["lastRefreshTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.tags = try reader["tags"].readListIfPresent(memberReadingClosure: ComputeOptimizerClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ComputeOptimizerClientTypes.IdleRecommendationError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.IdleRecommendationError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ComputeOptimizerClientTypes.IdleRecommendationError()
+        value.identifier = try reader["identifier"].readIfPresent()
+        value.code = try reader["code"].readIfPresent()
+        value.message = try reader["message"].readIfPresent()
+        value.resourceType = try reader["resourceType"].readIfPresent()
+        return value
+    }
+}
+
+extension ComputeOptimizerClientTypes.IdleRecommendationFilter {
+
+    static func write(value: ComputeOptimizerClientTypes.IdleRecommendationFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["name"].write(value.name)
+        try writer["values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension ComputeOptimizerClientTypes.IdleSavingsOpportunity {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.IdleSavingsOpportunity {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ComputeOptimizerClientTypes.IdleSavingsOpportunity()
+        value.savingsOpportunityPercentage = try reader["savingsOpportunityPercentage"].readIfPresent() ?? 0
+        value.estimatedMonthlySavings = try reader["estimatedMonthlySavings"].readIfPresent(with: ComputeOptimizerClientTypes.IdleEstimatedMonthlySavings.read(from:))
+        return value
+    }
+}
+
+extension ComputeOptimizerClientTypes.IdleSavingsOpportunityAfterDiscounts {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.IdleSavingsOpportunityAfterDiscounts {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ComputeOptimizerClientTypes.IdleSavingsOpportunityAfterDiscounts()
+        value.savingsOpportunityPercentage = try reader["savingsOpportunityPercentage"].readIfPresent() ?? 0
+        value.estimatedMonthlySavings = try reader["estimatedMonthlySavings"].readIfPresent(with: ComputeOptimizerClientTypes.IdleEstimatedMonthlySavings.read(from:))
+        return value
+    }
+}
+
+extension ComputeOptimizerClientTypes.IdleSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.IdleSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ComputeOptimizerClientTypes.IdleSummary()
+        value.name = try reader["name"].readIfPresent()
+        value.value = try reader["value"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension ComputeOptimizerClientTypes.IdleUtilizationMetric {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.IdleUtilizationMetric {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ComputeOptimizerClientTypes.IdleUtilizationMetric()
+        value.name = try reader["name"].readIfPresent()
+        value.statistic = try reader["statistic"].readIfPresent()
+        value.value = try reader["value"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension ComputeOptimizerClientTypes.InferredWorkloadSaving {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.InferredWorkloadSaving {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ComputeOptimizerClientTypes.InferredWorkloadSaving()
+        value.inferredWorkloadTypes = try reader["inferredWorkloadTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<ComputeOptimizerClientTypes.InferredWorkloadType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.estimatedMonthlySavings = try reader["estimatedMonthlySavings"].readIfPresent(with: ComputeOptimizerClientTypes.EstimatedMonthlySavings.read(from:))
+        return value
+    }
+}
+
+extension ComputeOptimizerClientTypes.InstanceEstimatedMonthlySavings {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.InstanceEstimatedMonthlySavings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ComputeOptimizerClientTypes.InstanceEstimatedMonthlySavings()
+        value.currency = try reader["currency"].readIfPresent()
         value.value = try reader["value"].readIfPresent() ?? 0
         return value
     }
@@ -10702,28 +10924,6 @@ extension ComputeOptimizerClientTypes.InstanceRecommendation {
     }
 }
 
-extension ComputeOptimizerClientTypes.ExternalMetricStatus {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.ExternalMetricStatus {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ComputeOptimizerClientTypes.ExternalMetricStatus()
-        value.statusCode = try reader["statusCode"].readIfPresent()
-        value.statusReason = try reader["statusReason"].readIfPresent()
-        return value
-    }
-}
-
-extension ComputeOptimizerClientTypes.RecommendationSource {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.RecommendationSource {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ComputeOptimizerClientTypes.RecommendationSource()
-        value.recommendationSourceArn = try reader["recommendationSourceArn"].readIfPresent()
-        value.recommendationSourceType = try reader["recommendationSourceType"].readIfPresent()
-        return value
-    }
-}
-
 extension ComputeOptimizerClientTypes.InstanceRecommendationOption {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.InstanceRecommendationOption {
@@ -10742,6 +10942,16 @@ extension ComputeOptimizerClientTypes.InstanceRecommendationOption {
     }
 }
 
+extension ComputeOptimizerClientTypes.InstanceSavingsEstimationMode {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.InstanceSavingsEstimationMode {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ComputeOptimizerClientTypes.InstanceSavingsEstimationMode()
+        value.source = try reader["source"].readIfPresent()
+        return value
+    }
+}
+
 extension ComputeOptimizerClientTypes.InstanceSavingsOpportunityAfterDiscounts {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.InstanceSavingsOpportunityAfterDiscounts {
@@ -10753,331 +10963,12 @@ extension ComputeOptimizerClientTypes.InstanceSavingsOpportunityAfterDiscounts {
     }
 }
 
-extension ComputeOptimizerClientTypes.InstanceEstimatedMonthlySavings {
+extension ComputeOptimizerClientTypes.JobFilter {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.InstanceEstimatedMonthlySavings {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ComputeOptimizerClientTypes.InstanceEstimatedMonthlySavings()
-        value.currency = try reader["currency"].readIfPresent()
-        value.value = try reader["value"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension ComputeOptimizerClientTypes.RecommendedOptionProjectedMetric {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.RecommendedOptionProjectedMetric {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ComputeOptimizerClientTypes.RecommendedOptionProjectedMetric()
-        value.recommendedInstanceType = try reader["recommendedInstanceType"].readIfPresent()
-        value.rank = try reader["rank"].readIfPresent() ?? 0
-        value.projectedMetrics = try reader["projectedMetrics"].readListIfPresent(memberReadingClosure: ComputeOptimizerClientTypes.ProjectedMetric.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension ComputeOptimizerClientTypes.ProjectedMetric {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.ProjectedMetric {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ComputeOptimizerClientTypes.ProjectedMetric()
-        value.name = try reader["name"].readIfPresent()
-        value.timestamps = try reader["timestamps"].readListIfPresent(memberReadingClosure: SmithyReadWrite.timestampReadingClosure(format: SmithyTimestamps.TimestampFormat.epochSeconds), memberNodeInfo: "member", isFlattened: false)
-        value.values = try reader["values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension ComputeOptimizerClientTypes.ECSServiceRecommendedOptionProjectedMetric {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.ECSServiceRecommendedOptionProjectedMetric {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ComputeOptimizerClientTypes.ECSServiceRecommendedOptionProjectedMetric()
-        value.recommendedCpuUnits = try reader["recommendedCpuUnits"].readIfPresent() ?? 0
-        value.recommendedMemorySize = try reader["recommendedMemorySize"].readIfPresent() ?? 0
-        value.projectedMetrics = try reader["projectedMetrics"].readListIfPresent(memberReadingClosure: ComputeOptimizerClientTypes.ECSServiceProjectedMetric.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension ComputeOptimizerClientTypes.ECSServiceProjectedMetric {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.ECSServiceProjectedMetric {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ComputeOptimizerClientTypes.ECSServiceProjectedMetric()
-        value.name = try reader["name"].readIfPresent()
-        value.timestamps = try reader["timestamps"].readListIfPresent(memberReadingClosure: SmithyReadWrite.timestampReadingClosure(format: SmithyTimestamps.TimestampFormat.epochSeconds), memberNodeInfo: "member", isFlattened: false)
-        value.upperBoundValues = try reader["upperBoundValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false)
-        value.lowerBoundValues = try reader["lowerBoundValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension ComputeOptimizerClientTypes.ECSServiceRecommendation {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.ECSServiceRecommendation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ComputeOptimizerClientTypes.ECSServiceRecommendation()
-        value.serviceArn = try reader["serviceArn"].readIfPresent()
-        value.accountId = try reader["accountId"].readIfPresent()
-        value.currentServiceConfiguration = try reader["currentServiceConfiguration"].readIfPresent(with: ComputeOptimizerClientTypes.ServiceConfiguration.read(from:))
-        value.utilizationMetrics = try reader["utilizationMetrics"].readListIfPresent(memberReadingClosure: ComputeOptimizerClientTypes.ECSServiceUtilizationMetric.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.lookbackPeriodInDays = try reader["lookbackPeriodInDays"].readIfPresent() ?? 0
-        value.launchType = try reader["launchType"].readIfPresent()
-        value.lastRefreshTimestamp = try reader["lastRefreshTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.finding = try reader["finding"].readIfPresent()
-        value.findingReasonCodes = try reader["findingReasonCodes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<ComputeOptimizerClientTypes.ECSServiceRecommendationFindingReasonCode>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.serviceRecommendationOptions = try reader["serviceRecommendationOptions"].readListIfPresent(memberReadingClosure: ComputeOptimizerClientTypes.ECSServiceRecommendationOption.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.currentPerformanceRisk = try reader["currentPerformanceRisk"].readIfPresent()
-        value.effectiveRecommendationPreferences = try reader["effectiveRecommendationPreferences"].readIfPresent(with: ComputeOptimizerClientTypes.ECSEffectiveRecommendationPreferences.read(from:))
-        value.tags = try reader["tags"].readListIfPresent(memberReadingClosure: ComputeOptimizerClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension ComputeOptimizerClientTypes.ECSEffectiveRecommendationPreferences {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.ECSEffectiveRecommendationPreferences {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ComputeOptimizerClientTypes.ECSEffectiveRecommendationPreferences()
-        value.savingsEstimationMode = try reader["savingsEstimationMode"].readIfPresent(with: ComputeOptimizerClientTypes.ECSSavingsEstimationMode.read(from:))
-        return value
-    }
-}
-
-extension ComputeOptimizerClientTypes.ECSSavingsEstimationMode {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.ECSSavingsEstimationMode {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ComputeOptimizerClientTypes.ECSSavingsEstimationMode()
-        value.source = try reader["source"].readIfPresent()
-        return value
-    }
-}
-
-extension ComputeOptimizerClientTypes.ECSServiceRecommendationOption {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.ECSServiceRecommendationOption {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ComputeOptimizerClientTypes.ECSServiceRecommendationOption()
-        value.memory = try reader["memory"].readIfPresent()
-        value.cpu = try reader["cpu"].readIfPresent()
-        value.savingsOpportunity = try reader["savingsOpportunity"].readIfPresent(with: ComputeOptimizerClientTypes.SavingsOpportunity.read(from:))
-        value.savingsOpportunityAfterDiscounts = try reader["savingsOpportunityAfterDiscounts"].readIfPresent(with: ComputeOptimizerClientTypes.ECSSavingsOpportunityAfterDiscounts.read(from:))
-        value.projectedUtilizationMetrics = try reader["projectedUtilizationMetrics"].readListIfPresent(memberReadingClosure: ComputeOptimizerClientTypes.ECSServiceProjectedUtilizationMetric.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.containerRecommendations = try reader["containerRecommendations"].readListIfPresent(memberReadingClosure: ComputeOptimizerClientTypes.ContainerRecommendation.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension ComputeOptimizerClientTypes.ContainerRecommendation {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.ContainerRecommendation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ComputeOptimizerClientTypes.ContainerRecommendation()
-        value.containerName = try reader["containerName"].readIfPresent()
-        value.memorySizeConfiguration = try reader["memorySizeConfiguration"].readIfPresent(with: ComputeOptimizerClientTypes.MemorySizeConfiguration.read(from:))
-        value.cpu = try reader["cpu"].readIfPresent()
-        return value
-    }
-}
-
-extension ComputeOptimizerClientTypes.MemorySizeConfiguration {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.MemorySizeConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ComputeOptimizerClientTypes.MemorySizeConfiguration()
-        value.memory = try reader["memory"].readIfPresent()
-        value.memoryReservation = try reader["memoryReservation"].readIfPresent()
-        return value
-    }
-}
-
-extension ComputeOptimizerClientTypes.ECSServiceProjectedUtilizationMetric {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.ECSServiceProjectedUtilizationMetric {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ComputeOptimizerClientTypes.ECSServiceProjectedUtilizationMetric()
-        value.name = try reader["name"].readIfPresent()
-        value.statistic = try reader["statistic"].readIfPresent()
-        value.lowerBoundValue = try reader["lowerBoundValue"].readIfPresent() ?? 0
-        value.upperBoundValue = try reader["upperBoundValue"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension ComputeOptimizerClientTypes.ECSSavingsOpportunityAfterDiscounts {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.ECSSavingsOpportunityAfterDiscounts {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ComputeOptimizerClientTypes.ECSSavingsOpportunityAfterDiscounts()
-        value.savingsOpportunityPercentage = try reader["savingsOpportunityPercentage"].readIfPresent() ?? 0
-        value.estimatedMonthlySavings = try reader["estimatedMonthlySavings"].readIfPresent(with: ComputeOptimizerClientTypes.ECSEstimatedMonthlySavings.read(from:))
-        return value
-    }
-}
-
-extension ComputeOptimizerClientTypes.ECSEstimatedMonthlySavings {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.ECSEstimatedMonthlySavings {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ComputeOptimizerClientTypes.ECSEstimatedMonthlySavings()
-        value.currency = try reader["currency"].readIfPresent()
-        value.value = try reader["value"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension ComputeOptimizerClientTypes.ECSServiceUtilizationMetric {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.ECSServiceUtilizationMetric {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ComputeOptimizerClientTypes.ECSServiceUtilizationMetric()
-        value.name = try reader["name"].readIfPresent()
-        value.statistic = try reader["statistic"].readIfPresent()
-        value.value = try reader["value"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension ComputeOptimizerClientTypes.ServiceConfiguration {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.ServiceConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ComputeOptimizerClientTypes.ServiceConfiguration()
-        value.memory = try reader["memory"].readIfPresent()
-        value.cpu = try reader["cpu"].readIfPresent()
-        value.containerConfigurations = try reader["containerConfigurations"].readListIfPresent(memberReadingClosure: ComputeOptimizerClientTypes.ContainerConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.autoScalingConfiguration = try reader["autoScalingConfiguration"].readIfPresent()
-        value.taskDefinitionArn = try reader["taskDefinitionArn"].readIfPresent()
-        return value
-    }
-}
-
-extension ComputeOptimizerClientTypes.ContainerConfiguration {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.ContainerConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ComputeOptimizerClientTypes.ContainerConfiguration()
-        value.containerName = try reader["containerName"].readIfPresent()
-        value.memorySizeConfiguration = try reader["memorySizeConfiguration"].readIfPresent(with: ComputeOptimizerClientTypes.MemorySizeConfiguration.read(from:))
-        value.cpu = try reader["cpu"].readIfPresent()
-        return value
-    }
-}
-
-extension ComputeOptimizerClientTypes.AccountEnrollmentStatus {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.AccountEnrollmentStatus {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ComputeOptimizerClientTypes.AccountEnrollmentStatus()
-        value.accountId = try reader["accountId"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.statusReason = try reader["statusReason"].readIfPresent()
-        value.lastUpdatedTimestamp = try reader["lastUpdatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension ComputeOptimizerClientTypes.IdleRecommendation {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.IdleRecommendation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ComputeOptimizerClientTypes.IdleRecommendation()
-        value.resourceArn = try reader["resourceArn"].readIfPresent()
-        value.resourceId = try reader["resourceId"].readIfPresent()
-        value.resourceType = try reader["resourceType"].readIfPresent()
-        value.accountId = try reader["accountId"].readIfPresent()
-        value.finding = try reader["finding"].readIfPresent()
-        value.findingDescription = try reader["findingDescription"].readIfPresent()
-        value.savingsOpportunity = try reader["savingsOpportunity"].readIfPresent(with: ComputeOptimizerClientTypes.IdleSavingsOpportunity.read(from:))
-        value.savingsOpportunityAfterDiscounts = try reader["savingsOpportunityAfterDiscounts"].readIfPresent(with: ComputeOptimizerClientTypes.IdleSavingsOpportunityAfterDiscounts.read(from:))
-        value.utilizationMetrics = try reader["utilizationMetrics"].readListIfPresent(memberReadingClosure: ComputeOptimizerClientTypes.IdleUtilizationMetric.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.lookBackPeriodInDays = try reader["lookBackPeriodInDays"].readIfPresent() ?? 0
-        value.lastRefreshTimestamp = try reader["lastRefreshTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.tags = try reader["tags"].readListIfPresent(memberReadingClosure: ComputeOptimizerClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension ComputeOptimizerClientTypes.IdleUtilizationMetric {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.IdleUtilizationMetric {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ComputeOptimizerClientTypes.IdleUtilizationMetric()
-        value.name = try reader["name"].readIfPresent()
-        value.statistic = try reader["statistic"].readIfPresent()
-        value.value = try reader["value"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension ComputeOptimizerClientTypes.IdleSavingsOpportunityAfterDiscounts {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.IdleSavingsOpportunityAfterDiscounts {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ComputeOptimizerClientTypes.IdleSavingsOpportunityAfterDiscounts()
-        value.savingsOpportunityPercentage = try reader["savingsOpportunityPercentage"].readIfPresent() ?? 0
-        value.estimatedMonthlySavings = try reader["estimatedMonthlySavings"].readIfPresent(with: ComputeOptimizerClientTypes.IdleEstimatedMonthlySavings.read(from:))
-        return value
-    }
-}
-
-extension ComputeOptimizerClientTypes.IdleEstimatedMonthlySavings {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.IdleEstimatedMonthlySavings {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ComputeOptimizerClientTypes.IdleEstimatedMonthlySavings()
-        value.currency = try reader["currency"].readIfPresent()
-        value.value = try reader["value"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension ComputeOptimizerClientTypes.IdleSavingsOpportunity {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.IdleSavingsOpportunity {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ComputeOptimizerClientTypes.IdleSavingsOpportunity()
-        value.savingsOpportunityPercentage = try reader["savingsOpportunityPercentage"].readIfPresent() ?? 0
-        value.estimatedMonthlySavings = try reader["estimatedMonthlySavings"].readIfPresent(with: ComputeOptimizerClientTypes.IdleEstimatedMonthlySavings.read(from:))
-        return value
-    }
-}
-
-extension ComputeOptimizerClientTypes.IdleRecommendationError {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.IdleRecommendationError {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ComputeOptimizerClientTypes.IdleRecommendationError()
-        value.identifier = try reader["identifier"].readIfPresent()
-        value.code = try reader["code"].readIfPresent()
-        value.message = try reader["message"].readIfPresent()
-        value.resourceType = try reader["resourceType"].readIfPresent()
-        return value
-    }
-}
-
-extension ComputeOptimizerClientTypes.LambdaFunctionRecommendation {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.LambdaFunctionRecommendation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ComputeOptimizerClientTypes.LambdaFunctionRecommendation()
-        value.functionArn = try reader["functionArn"].readIfPresent()
-        value.functionVersion = try reader["functionVersion"].readIfPresent()
-        value.accountId = try reader["accountId"].readIfPresent()
-        value.currentMemorySize = try reader["currentMemorySize"].readIfPresent() ?? 0
-        value.numberOfInvocations = try reader["numberOfInvocations"].readIfPresent() ?? 0
-        value.utilizationMetrics = try reader["utilizationMetrics"].readListIfPresent(memberReadingClosure: ComputeOptimizerClientTypes.LambdaFunctionUtilizationMetric.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.lookbackPeriodInDays = try reader["lookbackPeriodInDays"].readIfPresent() ?? 0
-        value.lastRefreshTimestamp = try reader["lastRefreshTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.finding = try reader["finding"].readIfPresent()
-        value.findingReasonCodes = try reader["findingReasonCodes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<ComputeOptimizerClientTypes.LambdaFunctionRecommendationFindingReasonCode>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.memorySizeRecommendationOptions = try reader["memorySizeRecommendationOptions"].readListIfPresent(memberReadingClosure: ComputeOptimizerClientTypes.LambdaFunctionMemoryRecommendationOption.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.currentPerformanceRisk = try reader["currentPerformanceRisk"].readIfPresent()
-        value.effectiveRecommendationPreferences = try reader["effectiveRecommendationPreferences"].readIfPresent(with: ComputeOptimizerClientTypes.LambdaEffectiveRecommendationPreferences.read(from:))
-        value.tags = try reader["tags"].readListIfPresent(memberReadingClosure: ComputeOptimizerClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
+    static func write(value: ComputeOptimizerClientTypes.JobFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["name"].write(value.name)
+        try writer["values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -11087,41 +10978,6 @@ extension ComputeOptimizerClientTypes.LambdaEffectiveRecommendationPreferences {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ComputeOptimizerClientTypes.LambdaEffectiveRecommendationPreferences()
         value.savingsEstimationMode = try reader["savingsEstimationMode"].readIfPresent(with: ComputeOptimizerClientTypes.LambdaSavingsEstimationMode.read(from:))
-        return value
-    }
-}
-
-extension ComputeOptimizerClientTypes.LambdaSavingsEstimationMode {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.LambdaSavingsEstimationMode {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ComputeOptimizerClientTypes.LambdaSavingsEstimationMode()
-        value.source = try reader["source"].readIfPresent()
-        return value
-    }
-}
-
-extension ComputeOptimizerClientTypes.LambdaFunctionMemoryRecommendationOption {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.LambdaFunctionMemoryRecommendationOption {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ComputeOptimizerClientTypes.LambdaFunctionMemoryRecommendationOption()
-        value.rank = try reader["rank"].readIfPresent() ?? 0
-        value.memorySize = try reader["memorySize"].readIfPresent() ?? 0
-        value.projectedUtilizationMetrics = try reader["projectedUtilizationMetrics"].readListIfPresent(memberReadingClosure: ComputeOptimizerClientTypes.LambdaFunctionMemoryProjectedMetric.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.savingsOpportunity = try reader["savingsOpportunity"].readIfPresent(with: ComputeOptimizerClientTypes.SavingsOpportunity.read(from:))
-        value.savingsOpportunityAfterDiscounts = try reader["savingsOpportunityAfterDiscounts"].readIfPresent(with: ComputeOptimizerClientTypes.LambdaSavingsOpportunityAfterDiscounts.read(from:))
-        return value
-    }
-}
-
-extension ComputeOptimizerClientTypes.LambdaSavingsOpportunityAfterDiscounts {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.LambdaSavingsOpportunityAfterDiscounts {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ComputeOptimizerClientTypes.LambdaSavingsOpportunityAfterDiscounts()
-        value.savingsOpportunityPercentage = try reader["savingsOpportunityPercentage"].readIfPresent() ?? 0
-        value.estimatedMonthlySavings = try reader["estimatedMonthlySavings"].readIfPresent(with: ComputeOptimizerClientTypes.LambdaEstimatedMonthlySavings.read(from:))
         return value
     }
 }
@@ -11149,6 +11005,52 @@ extension ComputeOptimizerClientTypes.LambdaFunctionMemoryProjectedMetric {
     }
 }
 
+extension ComputeOptimizerClientTypes.LambdaFunctionMemoryRecommendationOption {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.LambdaFunctionMemoryRecommendationOption {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ComputeOptimizerClientTypes.LambdaFunctionMemoryRecommendationOption()
+        value.rank = try reader["rank"].readIfPresent() ?? 0
+        value.memorySize = try reader["memorySize"].readIfPresent() ?? 0
+        value.projectedUtilizationMetrics = try reader["projectedUtilizationMetrics"].readListIfPresent(memberReadingClosure: ComputeOptimizerClientTypes.LambdaFunctionMemoryProjectedMetric.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.savingsOpportunity = try reader["savingsOpportunity"].readIfPresent(with: ComputeOptimizerClientTypes.SavingsOpportunity.read(from:))
+        value.savingsOpportunityAfterDiscounts = try reader["savingsOpportunityAfterDiscounts"].readIfPresent(with: ComputeOptimizerClientTypes.LambdaSavingsOpportunityAfterDiscounts.read(from:))
+        return value
+    }
+}
+
+extension ComputeOptimizerClientTypes.LambdaFunctionRecommendation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.LambdaFunctionRecommendation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ComputeOptimizerClientTypes.LambdaFunctionRecommendation()
+        value.functionArn = try reader["functionArn"].readIfPresent()
+        value.functionVersion = try reader["functionVersion"].readIfPresent()
+        value.accountId = try reader["accountId"].readIfPresent()
+        value.currentMemorySize = try reader["currentMemorySize"].readIfPresent() ?? 0
+        value.numberOfInvocations = try reader["numberOfInvocations"].readIfPresent() ?? 0
+        value.utilizationMetrics = try reader["utilizationMetrics"].readListIfPresent(memberReadingClosure: ComputeOptimizerClientTypes.LambdaFunctionUtilizationMetric.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.lookbackPeriodInDays = try reader["lookbackPeriodInDays"].readIfPresent() ?? 0
+        value.lastRefreshTimestamp = try reader["lastRefreshTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.finding = try reader["finding"].readIfPresent()
+        value.findingReasonCodes = try reader["findingReasonCodes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<ComputeOptimizerClientTypes.LambdaFunctionRecommendationFindingReasonCode>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.memorySizeRecommendationOptions = try reader["memorySizeRecommendationOptions"].readListIfPresent(memberReadingClosure: ComputeOptimizerClientTypes.LambdaFunctionMemoryRecommendationOption.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.currentPerformanceRisk = try reader["currentPerformanceRisk"].readIfPresent()
+        value.effectiveRecommendationPreferences = try reader["effectiveRecommendationPreferences"].readIfPresent(with: ComputeOptimizerClientTypes.LambdaEffectiveRecommendationPreferences.read(from:))
+        value.tags = try reader["tags"].readListIfPresent(memberReadingClosure: ComputeOptimizerClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ComputeOptimizerClientTypes.LambdaFunctionRecommendationFilter {
+
+    static func write(value: ComputeOptimizerClientTypes.LambdaFunctionRecommendationFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["name"].write(value.name)
+        try writer["values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension ComputeOptimizerClientTypes.LambdaFunctionUtilizationMetric {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.LambdaFunctionUtilizationMetric {
@@ -11157,6 +11059,44 @@ extension ComputeOptimizerClientTypes.LambdaFunctionUtilizationMetric {
         value.name = try reader["name"].readIfPresent()
         value.statistic = try reader["statistic"].readIfPresent()
         value.value = try reader["value"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension ComputeOptimizerClientTypes.LambdaSavingsEstimationMode {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.LambdaSavingsEstimationMode {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ComputeOptimizerClientTypes.LambdaSavingsEstimationMode()
+        value.source = try reader["source"].readIfPresent()
+        return value
+    }
+}
+
+extension ComputeOptimizerClientTypes.LambdaSavingsOpportunityAfterDiscounts {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.LambdaSavingsOpportunityAfterDiscounts {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ComputeOptimizerClientTypes.LambdaSavingsOpportunityAfterDiscounts()
+        value.savingsOpportunityPercentage = try reader["savingsOpportunityPercentage"].readIfPresent() ?? 0
+        value.estimatedMonthlySavings = try reader["estimatedMonthlySavings"].readIfPresent(with: ComputeOptimizerClientTypes.LambdaEstimatedMonthlySavings.read(from:))
+        return value
+    }
+}
+
+extension ComputeOptimizerClientTypes.LicenseConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.LicenseConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ComputeOptimizerClientTypes.LicenseConfiguration()
+        value.numberOfCores = try reader["numberOfCores"].readIfPresent() ?? 0
+        value.instanceType = try reader["instanceType"].readIfPresent()
+        value.operatingSystem = try reader["operatingSystem"].readIfPresent()
+        value.licenseEdition = try reader["licenseEdition"].readIfPresent()
+        value.licenseName = try reader["licenseName"].readIfPresent()
+        value.licenseModel = try reader["licenseModel"].readIfPresent()
+        value.licenseVersion = try reader["licenseVersion"].readIfPresent()
+        value.metricsSource = try reader["metricsSource"].readListIfPresent(memberReadingClosure: ComputeOptimizerClientTypes.MetricSource.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -11179,6 +11119,15 @@ extension ComputeOptimizerClientTypes.LicenseRecommendation {
     }
 }
 
+extension ComputeOptimizerClientTypes.LicenseRecommendationFilter {
+
+    static func write(value: ComputeOptimizerClientTypes.LicenseRecommendationFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["name"].write(value.name)
+        try writer["values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension ComputeOptimizerClientTypes.LicenseRecommendationOption {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.LicenseRecommendationOption {
@@ -11193,19 +11142,13 @@ extension ComputeOptimizerClientTypes.LicenseRecommendationOption {
     }
 }
 
-extension ComputeOptimizerClientTypes.LicenseConfiguration {
+extension ComputeOptimizerClientTypes.MemorySizeConfiguration {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.LicenseConfiguration {
+    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.MemorySizeConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ComputeOptimizerClientTypes.LicenseConfiguration()
-        value.numberOfCores = try reader["numberOfCores"].readIfPresent() ?? 0
-        value.instanceType = try reader["instanceType"].readIfPresent()
-        value.operatingSystem = try reader["operatingSystem"].readIfPresent()
-        value.licenseEdition = try reader["licenseEdition"].readIfPresent()
-        value.licenseName = try reader["licenseName"].readIfPresent()
-        value.licenseModel = try reader["licenseModel"].readIfPresent()
-        value.licenseVersion = try reader["licenseVersion"].readIfPresent()
-        value.metricsSource = try reader["metricsSource"].readListIfPresent(memberReadingClosure: ComputeOptimizerClientTypes.MetricSource.read(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = ComputeOptimizerClientTypes.MemorySizeConfiguration()
+        value.memory = try reader["memory"].readIfPresent()
+        value.memoryReservation = try reader["memoryReservation"].readIfPresent()
         return value
     }
 }
@@ -11217,6 +11160,49 @@ extension ComputeOptimizerClientTypes.MetricSource {
         var value = ComputeOptimizerClientTypes.MetricSource()
         value.provider = try reader["provider"].readIfPresent()
         value.providerArn = try reader["providerArn"].readIfPresent()
+        return value
+    }
+}
+
+extension ComputeOptimizerClientTypes.OrderBy {
+
+    static func write(value: ComputeOptimizerClientTypes.OrderBy?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["dimension"].write(value.dimension)
+        try writer["order"].write(value.order)
+    }
+}
+
+extension ComputeOptimizerClientTypes.PreferredResource {
+
+    static func write(value: ComputeOptimizerClientTypes.PreferredResource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["excludeList"].writeList(value.excludeList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["includeList"].writeList(value.includeList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["name"].write(value.name)
+    }
+}
+
+extension ComputeOptimizerClientTypes.ProjectedMetric {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.ProjectedMetric {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ComputeOptimizerClientTypes.ProjectedMetric()
+        value.name = try reader["name"].readIfPresent()
+        value.timestamps = try reader["timestamps"].readListIfPresent(memberReadingClosure: SmithyReadWrite.timestampReadingClosure(format: SmithyTimestamps.TimestampFormat.epochSeconds), memberNodeInfo: "member", isFlattened: false)
+        value.values = try reader["values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ComputeOptimizerClientTypes.RDSDatabaseProjectedMetric {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.RDSDatabaseProjectedMetric {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ComputeOptimizerClientTypes.RDSDatabaseProjectedMetric()
+        value.name = try reader["name"].readIfPresent()
+        value.timestamps = try reader["timestamps"].readListIfPresent(memberReadingClosure: SmithyReadWrite.timestampReadingClosure(format: SmithyTimestamps.TimestampFormat.epochSeconds), memberNodeInfo: "member", isFlattened: false)
+        value.values = try reader["values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -11233,14 +11219,17 @@ extension ComputeOptimizerClientTypes.RDSDatabaseRecommendedOptionProjectedMetri
     }
 }
 
-extension ComputeOptimizerClientTypes.RDSDatabaseProjectedMetric {
+extension ComputeOptimizerClientTypes.RDSDBInstanceRecommendationOption {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.RDSDatabaseProjectedMetric {
+    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.RDSDBInstanceRecommendationOption {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ComputeOptimizerClientTypes.RDSDatabaseProjectedMetric()
-        value.name = try reader["name"].readIfPresent()
-        value.timestamps = try reader["timestamps"].readListIfPresent(memberReadingClosure: SmithyReadWrite.timestampReadingClosure(format: SmithyTimestamps.TimestampFormat.epochSeconds), memberNodeInfo: "member", isFlattened: false)
-        value.values = try reader["values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = ComputeOptimizerClientTypes.RDSDBInstanceRecommendationOption()
+        value.dbInstanceClass = try reader["dbInstanceClass"].readIfPresent()
+        value.projectedUtilizationMetrics = try reader["projectedUtilizationMetrics"].readListIfPresent(memberReadingClosure: ComputeOptimizerClientTypes.RDSDBUtilizationMetric.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.performanceRisk = try reader["performanceRisk"].readIfPresent() ?? 0
+        value.rank = try reader["rank"].readIfPresent() ?? 0
+        value.savingsOpportunity = try reader["savingsOpportunity"].readIfPresent(with: ComputeOptimizerClientTypes.SavingsOpportunity.read(from:))
+        value.savingsOpportunityAfterDiscounts = try reader["savingsOpportunityAfterDiscounts"].readIfPresent(with: ComputeOptimizerClientTypes.RDSInstanceSavingsOpportunityAfterDiscounts.read(from:))
         return value
     }
 }
@@ -11276,38 +11265,12 @@ extension ComputeOptimizerClientTypes.RDSDBRecommendation {
     }
 }
 
-extension ComputeOptimizerClientTypes.RDSEffectiveRecommendationPreferences {
+extension ComputeOptimizerClientTypes.RDSDBRecommendationFilter {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.RDSEffectiveRecommendationPreferences {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ComputeOptimizerClientTypes.RDSEffectiveRecommendationPreferences()
-        value.cpuVendorArchitectures = try reader["cpuVendorArchitectures"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<ComputeOptimizerClientTypes.CpuVendorArchitecture>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.enhancedInfrastructureMetrics = try reader["enhancedInfrastructureMetrics"].readIfPresent()
-        value.lookBackPeriod = try reader["lookBackPeriod"].readIfPresent()
-        value.savingsEstimationMode = try reader["savingsEstimationMode"].readIfPresent(with: ComputeOptimizerClientTypes.RDSSavingsEstimationMode.read(from:))
-        return value
-    }
-}
-
-extension ComputeOptimizerClientTypes.RDSSavingsEstimationMode {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.RDSSavingsEstimationMode {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ComputeOptimizerClientTypes.RDSSavingsEstimationMode()
-        value.source = try reader["source"].readIfPresent()
-        return value
-    }
-}
-
-extension ComputeOptimizerClientTypes.RDSDBUtilizationMetric {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.RDSDBUtilizationMetric {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ComputeOptimizerClientTypes.RDSDBUtilizationMetric()
-        value.name = try reader["name"].readIfPresent()
-        value.statistic = try reader["statistic"].readIfPresent()
-        value.value = try reader["value"].readIfPresent() ?? 0
-        return value
+    static func write(value: ComputeOptimizerClientTypes.RDSDBRecommendationFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["name"].write(value.name)
+        try writer["values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -11325,53 +11288,38 @@ extension ComputeOptimizerClientTypes.RDSDBStorageRecommendationOption {
     }
 }
 
-extension ComputeOptimizerClientTypes.RDSStorageSavingsOpportunityAfterDiscounts {
+extension ComputeOptimizerClientTypes.RDSDBUtilizationMetric {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.RDSStorageSavingsOpportunityAfterDiscounts {
+    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.RDSDBUtilizationMetric {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ComputeOptimizerClientTypes.RDSStorageSavingsOpportunityAfterDiscounts()
-        value.savingsOpportunityPercentage = try reader["savingsOpportunityPercentage"].readIfPresent() ?? 0
-        value.estimatedMonthlySavings = try reader["estimatedMonthlySavings"].readIfPresent(with: ComputeOptimizerClientTypes.RDSStorageEstimatedMonthlySavings.read(from:))
-        return value
-    }
-}
-
-extension ComputeOptimizerClientTypes.RDSStorageEstimatedMonthlySavings {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.RDSStorageEstimatedMonthlySavings {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ComputeOptimizerClientTypes.RDSStorageEstimatedMonthlySavings()
-        value.currency = try reader["currency"].readIfPresent()
+        var value = ComputeOptimizerClientTypes.RDSDBUtilizationMetric()
+        value.name = try reader["name"].readIfPresent()
+        value.statistic = try reader["statistic"].readIfPresent()
         value.value = try reader["value"].readIfPresent() ?? 0
         return value
     }
 }
 
-extension ComputeOptimizerClientTypes.DBStorageConfiguration {
+extension ComputeOptimizerClientTypes.RDSEffectiveRecommendationPreferences {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.DBStorageConfiguration {
+    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.RDSEffectiveRecommendationPreferences {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ComputeOptimizerClientTypes.DBStorageConfiguration()
-        value.storageType = try reader["storageType"].readIfPresent()
-        value.allocatedStorage = try reader["allocatedStorage"].readIfPresent() ?? 0
-        value.iops = try reader["iops"].readIfPresent()
-        value.maxAllocatedStorage = try reader["maxAllocatedStorage"].readIfPresent()
-        value.storageThroughput = try reader["storageThroughput"].readIfPresent()
+        var value = ComputeOptimizerClientTypes.RDSEffectiveRecommendationPreferences()
+        value.cpuVendorArchitectures = try reader["cpuVendorArchitectures"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<ComputeOptimizerClientTypes.CpuVendorArchitecture>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.enhancedInfrastructureMetrics = try reader["enhancedInfrastructureMetrics"].readIfPresent()
+        value.lookBackPeriod = try reader["lookBackPeriod"].readIfPresent()
+        value.savingsEstimationMode = try reader["savingsEstimationMode"].readIfPresent(with: ComputeOptimizerClientTypes.RDSSavingsEstimationMode.read(from:))
         return value
     }
 }
 
-extension ComputeOptimizerClientTypes.RDSDBInstanceRecommendationOption {
+extension ComputeOptimizerClientTypes.RDSInstanceEstimatedMonthlySavings {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.RDSDBInstanceRecommendationOption {
+    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.RDSInstanceEstimatedMonthlySavings {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ComputeOptimizerClientTypes.RDSDBInstanceRecommendationOption()
-        value.dbInstanceClass = try reader["dbInstanceClass"].readIfPresent()
-        value.projectedUtilizationMetrics = try reader["projectedUtilizationMetrics"].readListIfPresent(memberReadingClosure: ComputeOptimizerClientTypes.RDSDBUtilizationMetric.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.performanceRisk = try reader["performanceRisk"].readIfPresent() ?? 0
-        value.rank = try reader["rank"].readIfPresent() ?? 0
-        value.savingsOpportunity = try reader["savingsOpportunity"].readIfPresent(with: ComputeOptimizerClientTypes.SavingsOpportunity.read(from:))
-        value.savingsOpportunityAfterDiscounts = try reader["savingsOpportunityAfterDiscounts"].readIfPresent(with: ComputeOptimizerClientTypes.RDSInstanceSavingsOpportunityAfterDiscounts.read(from:))
+        var value = ComputeOptimizerClientTypes.RDSInstanceEstimatedMonthlySavings()
+        value.currency = try reader["currency"].readIfPresent()
+        value.value = try reader["value"].readIfPresent() ?? 0
         return value
     }
 }
@@ -11387,14 +11335,70 @@ extension ComputeOptimizerClientTypes.RDSInstanceSavingsOpportunityAfterDiscount
     }
 }
 
-extension ComputeOptimizerClientTypes.RDSInstanceEstimatedMonthlySavings {
+extension ComputeOptimizerClientTypes.RDSSavingsEstimationMode {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.RDSInstanceEstimatedMonthlySavings {
+    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.RDSSavingsEstimationMode {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ComputeOptimizerClientTypes.RDSInstanceEstimatedMonthlySavings()
+        var value = ComputeOptimizerClientTypes.RDSSavingsEstimationMode()
+        value.source = try reader["source"].readIfPresent()
+        return value
+    }
+}
+
+extension ComputeOptimizerClientTypes.RDSStorageEstimatedMonthlySavings {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.RDSStorageEstimatedMonthlySavings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ComputeOptimizerClientTypes.RDSStorageEstimatedMonthlySavings()
         value.currency = try reader["currency"].readIfPresent()
         value.value = try reader["value"].readIfPresent() ?? 0
         return value
+    }
+}
+
+extension ComputeOptimizerClientTypes.RDSStorageSavingsOpportunityAfterDiscounts {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.RDSStorageSavingsOpportunityAfterDiscounts {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ComputeOptimizerClientTypes.RDSStorageSavingsOpportunityAfterDiscounts()
+        value.savingsOpportunityPercentage = try reader["savingsOpportunityPercentage"].readIfPresent() ?? 0
+        value.estimatedMonthlySavings = try reader["estimatedMonthlySavings"].readIfPresent(with: ComputeOptimizerClientTypes.RDSStorageEstimatedMonthlySavings.read(from:))
+        return value
+    }
+}
+
+extension ComputeOptimizerClientTypes.ReasonCodeSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.ReasonCodeSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ComputeOptimizerClientTypes.ReasonCodeSummary()
+        value.name = try reader["name"].readIfPresent()
+        value.value = try reader["value"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension ComputeOptimizerClientTypes.RecommendationExportJob {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.RecommendationExportJob {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ComputeOptimizerClientTypes.RecommendationExportJob()
+        value.jobId = try reader["jobId"].readIfPresent()
+        value.destination = try reader["destination"].readIfPresent(with: ComputeOptimizerClientTypes.ExportDestination.read(from:))
+        value.resourceType = try reader["resourceType"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.creationTimestamp = try reader["creationTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastUpdatedTimestamp = try reader["lastUpdatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.failureReason = try reader["failureReason"].readIfPresent()
+        return value
+    }
+}
+
+extension ComputeOptimizerClientTypes.RecommendationPreferences {
+
+    static func write(value: ComputeOptimizerClientTypes.RecommendationPreferences?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["cpuVendorArchitectures"].writeList(value.cpuVendorArchitectures, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ComputeOptimizerClientTypes.CpuVendorArchitecture>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -11416,19 +11420,13 @@ extension ComputeOptimizerClientTypes.RecommendationPreferencesDetail {
     }
 }
 
-extension ComputeOptimizerClientTypes.Scope {
+extension ComputeOptimizerClientTypes.RecommendationSource {
 
-    static func write(value: ComputeOptimizerClientTypes.Scope?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["name"].write(value.name)
-        try writer["value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.Scope {
+    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.RecommendationSource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ComputeOptimizerClientTypes.Scope()
-        value.name = try reader["name"].readIfPresent()
-        value.value = try reader["value"].readIfPresent()
+        var value = ComputeOptimizerClientTypes.RecommendationSource()
+        value.recommendationSourceArn = try reader["recommendationSourceArn"].readIfPresent()
+        value.recommendationSourceType = try reader["recommendationSourceType"].readIfPresent()
         return value
     }
 }
@@ -11451,37 +11449,77 @@ extension ComputeOptimizerClientTypes.RecommendationSummary {
     }
 }
 
-extension ComputeOptimizerClientTypes.InferredWorkloadSaving {
+extension ComputeOptimizerClientTypes.RecommendedOptionProjectedMetric {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.InferredWorkloadSaving {
+    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.RecommendedOptionProjectedMetric {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ComputeOptimizerClientTypes.InferredWorkloadSaving()
-        value.inferredWorkloadTypes = try reader["inferredWorkloadTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<ComputeOptimizerClientTypes.InferredWorkloadType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = ComputeOptimizerClientTypes.RecommendedOptionProjectedMetric()
+        value.recommendedInstanceType = try reader["recommendedInstanceType"].readIfPresent()
+        value.rank = try reader["rank"].readIfPresent() ?? 0
+        value.projectedMetrics = try reader["projectedMetrics"].readListIfPresent(memberReadingClosure: ComputeOptimizerClientTypes.ProjectedMetric.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ComputeOptimizerClientTypes.S3Destination {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.S3Destination {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ComputeOptimizerClientTypes.S3Destination()
+        value.bucket = try reader["bucket"].readIfPresent()
+        value.key = try reader["key"].readIfPresent()
+        value.metadataKey = try reader["metadataKey"].readIfPresent()
+        return value
+    }
+}
+
+extension ComputeOptimizerClientTypes.S3DestinationConfig {
+
+    static func write(value: ComputeOptimizerClientTypes.S3DestinationConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["bucket"].write(value.bucket)
+        try writer["keyPrefix"].write(value.keyPrefix)
+    }
+}
+
+extension ComputeOptimizerClientTypes.SavingsOpportunity {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.SavingsOpportunity {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ComputeOptimizerClientTypes.SavingsOpportunity()
+        value.savingsOpportunityPercentage = try reader["savingsOpportunityPercentage"].readIfPresent() ?? 0
         value.estimatedMonthlySavings = try reader["estimatedMonthlySavings"].readIfPresent(with: ComputeOptimizerClientTypes.EstimatedMonthlySavings.read(from:))
         return value
     }
 }
 
-extension ComputeOptimizerClientTypes.CurrentPerformanceRiskRatings {
+extension ComputeOptimizerClientTypes.Scope {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.CurrentPerformanceRiskRatings {
+    static func write(value: ComputeOptimizerClientTypes.Scope?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["name"].write(value.name)
+        try writer["value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.Scope {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ComputeOptimizerClientTypes.CurrentPerformanceRiskRatings()
-        value.high = try reader["high"].readIfPresent() ?? 0
-        value.medium = try reader["medium"].readIfPresent() ?? 0
-        value.low = try reader["low"].readIfPresent() ?? 0
-        value.veryLow = try reader["veryLow"].readIfPresent() ?? 0
+        var value = ComputeOptimizerClientTypes.Scope()
+        value.name = try reader["name"].readIfPresent()
+        value.value = try reader["value"].readIfPresent()
         return value
     }
 }
 
-extension ComputeOptimizerClientTypes.IdleSummary {
+extension ComputeOptimizerClientTypes.ServiceConfiguration {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.IdleSummary {
+    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.ServiceConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ComputeOptimizerClientTypes.IdleSummary()
-        value.name = try reader["name"].readIfPresent()
-        value.value = try reader["value"].readIfPresent() ?? 0
+        var value = ComputeOptimizerClientTypes.ServiceConfiguration()
+        value.memory = try reader["memory"].readIfPresent()
+        value.cpu = try reader["cpu"].readIfPresent()
+        value.containerConfigurations = try reader["containerConfigurations"].readListIfPresent(memberReadingClosure: ComputeOptimizerClientTypes.ContainerConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.autoScalingConfiguration = try reader["autoScalingConfiguration"].readIfPresent()
+        value.taskDefinitionArn = try reader["taskDefinitionArn"].readIfPresent()
         return value
     }
 }
@@ -11498,131 +11536,93 @@ extension ComputeOptimizerClientTypes.Summary {
     }
 }
 
-extension ComputeOptimizerClientTypes.ReasonCodeSummary {
+extension ComputeOptimizerClientTypes.Tag {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.ReasonCodeSummary {
+    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.Tag {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ComputeOptimizerClientTypes.ReasonCodeSummary()
+        var value = ComputeOptimizerClientTypes.Tag()
+        value.key = try reader["key"].readIfPresent()
+        value.value = try reader["value"].readIfPresent()
+        return value
+    }
+}
+
+extension ComputeOptimizerClientTypes.UtilizationMetric {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.UtilizationMetric {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ComputeOptimizerClientTypes.UtilizationMetric()
         value.name = try reader["name"].readIfPresent()
+        value.statistic = try reader["statistic"].readIfPresent()
         value.value = try reader["value"].readIfPresent() ?? 0
         return value
     }
 }
 
-extension ComputeOptimizerClientTypes.JobFilter {
+extension ComputeOptimizerClientTypes.UtilizationPreference {
 
-    static func write(value: ComputeOptimizerClientTypes.JobFilter?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: ComputeOptimizerClientTypes.UtilizationPreference?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["name"].write(value.name)
-        try writer["values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["metricName"].write(value.metricName)
+        try writer["metricParameters"].write(value.metricParameters, with: ComputeOptimizerClientTypes.CustomizableMetricParameters.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.UtilizationPreference {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ComputeOptimizerClientTypes.UtilizationPreference()
+        value.metricName = try reader["metricName"].readIfPresent()
+        value.metricParameters = try reader["metricParameters"].readIfPresent(with: ComputeOptimizerClientTypes.CustomizableMetricParameters.read(from:))
+        return value
     }
 }
 
-extension ComputeOptimizerClientTypes.Filter {
+extension ComputeOptimizerClientTypes.VolumeConfiguration {
 
-    static func write(value: ComputeOptimizerClientTypes.Filter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["name"].write(value.name)
-        try writer["values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.VolumeConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ComputeOptimizerClientTypes.VolumeConfiguration()
+        value.volumeType = try reader["volumeType"].readIfPresent()
+        value.volumeSize = try reader["volumeSize"].readIfPresent() ?? 0
+        value.volumeBaselineIOPS = try reader["volumeBaselineIOPS"].readIfPresent() ?? 0
+        value.volumeBurstIOPS = try reader["volumeBurstIOPS"].readIfPresent() ?? 0
+        value.volumeBaselineThroughput = try reader["volumeBaselineThroughput"].readIfPresent() ?? 0
+        value.volumeBurstThroughput = try reader["volumeBurstThroughput"].readIfPresent() ?? 0
+        value.rootVolume = try reader["rootVolume"].readIfPresent()
+        return value
     }
 }
 
-extension ComputeOptimizerClientTypes.S3DestinationConfig {
+extension ComputeOptimizerClientTypes.VolumeRecommendation {
 
-    static func write(value: ComputeOptimizerClientTypes.S3DestinationConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["bucket"].write(value.bucket)
-        try writer["keyPrefix"].write(value.keyPrefix)
+    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.VolumeRecommendation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ComputeOptimizerClientTypes.VolumeRecommendation()
+        value.volumeArn = try reader["volumeArn"].readIfPresent()
+        value.accountId = try reader["accountId"].readIfPresent()
+        value.currentConfiguration = try reader["currentConfiguration"].readIfPresent(with: ComputeOptimizerClientTypes.VolumeConfiguration.read(from:))
+        value.finding = try reader["finding"].readIfPresent()
+        value.utilizationMetrics = try reader["utilizationMetrics"].readListIfPresent(memberReadingClosure: ComputeOptimizerClientTypes.EBSUtilizationMetric.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.lookBackPeriodInDays = try reader["lookBackPeriodInDays"].readIfPresent() ?? 0
+        value.volumeRecommendationOptions = try reader["volumeRecommendationOptions"].readListIfPresent(memberReadingClosure: ComputeOptimizerClientTypes.VolumeRecommendationOption.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.lastRefreshTimestamp = try reader["lastRefreshTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.currentPerformanceRisk = try reader["currentPerformanceRisk"].readIfPresent()
+        value.effectiveRecommendationPreferences = try reader["effectiveRecommendationPreferences"].readIfPresent(with: ComputeOptimizerClientTypes.EBSEffectiveRecommendationPreferences.read(from:))
+        value.tags = try reader["tags"].readListIfPresent(memberReadingClosure: ComputeOptimizerClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
     }
 }
 
-extension ComputeOptimizerClientTypes.RecommendationPreferences {
+extension ComputeOptimizerClientTypes.VolumeRecommendationOption {
 
-    static func write(value: ComputeOptimizerClientTypes.RecommendationPreferences?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["cpuVendorArchitectures"].writeList(value.cpuVendorArchitectures, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ComputeOptimizerClientTypes.CpuVendorArchitecture>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension ComputeOptimizerClientTypes.EBSFilter {
-
-    static func write(value: ComputeOptimizerClientTypes.EBSFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["name"].write(value.name)
-        try writer["values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension ComputeOptimizerClientTypes.ECSServiceRecommendationFilter {
-
-    static func write(value: ComputeOptimizerClientTypes.ECSServiceRecommendationFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["name"].write(value.name)
-        try writer["values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension ComputeOptimizerClientTypes.IdleRecommendationFilter {
-
-    static func write(value: ComputeOptimizerClientTypes.IdleRecommendationFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["name"].write(value.name)
-        try writer["values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension ComputeOptimizerClientTypes.LambdaFunctionRecommendationFilter {
-
-    static func write(value: ComputeOptimizerClientTypes.LambdaFunctionRecommendationFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["name"].write(value.name)
-        try writer["values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension ComputeOptimizerClientTypes.LicenseRecommendationFilter {
-
-    static func write(value: ComputeOptimizerClientTypes.LicenseRecommendationFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["name"].write(value.name)
-        try writer["values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension ComputeOptimizerClientTypes.RDSDBRecommendationFilter {
-
-    static func write(value: ComputeOptimizerClientTypes.RDSDBRecommendationFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["name"].write(value.name)
-        try writer["values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension ComputeOptimizerClientTypes.EnrollmentFilter {
-
-    static func write(value: ComputeOptimizerClientTypes.EnrollmentFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["name"].write(value.name)
-        try writer["values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension ComputeOptimizerClientTypes.OrderBy {
-
-    static func write(value: ComputeOptimizerClientTypes.OrderBy?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["dimension"].write(value.dimension)
-        try writer["order"].write(value.order)
-    }
-}
-
-extension ComputeOptimizerClientTypes.PreferredResource {
-
-    static func write(value: ComputeOptimizerClientTypes.PreferredResource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["excludeList"].writeList(value.excludeList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["includeList"].writeList(value.includeList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["name"].write(value.name)
+    static func read(from reader: SmithyJSON.Reader) throws -> ComputeOptimizerClientTypes.VolumeRecommendationOption {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ComputeOptimizerClientTypes.VolumeRecommendationOption()
+        value.configuration = try reader["configuration"].readIfPresent(with: ComputeOptimizerClientTypes.VolumeConfiguration.read(from:))
+        value.performanceRisk = try reader["performanceRisk"].readIfPresent() ?? 0
+        value.rank = try reader["rank"].readIfPresent() ?? 0
+        value.savingsOpportunity = try reader["savingsOpportunity"].readIfPresent(with: ComputeOptimizerClientTypes.SavingsOpportunity.read(from:))
+        value.savingsOpportunityAfterDiscounts = try reader["savingsOpportunityAfterDiscounts"].readIfPresent(with: ComputeOptimizerClientTypes.EBSSavingsOpportunityAfterDiscounts.read(from:))
+        return value
     }
 }
 

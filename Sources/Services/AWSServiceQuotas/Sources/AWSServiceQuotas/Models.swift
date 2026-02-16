@@ -3401,37 +3401,26 @@ extension TooManyTagsException {
     }
 }
 
-extension ServiceQuotasClientTypes.QuotaInfo {
+extension ServiceQuotasClientTypes.ErrorReason {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ServiceQuotasClientTypes.QuotaInfo {
+    static func read(from reader: SmithyJSON.Reader) throws -> ServiceQuotasClientTypes.ErrorReason {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ServiceQuotasClientTypes.QuotaInfo()
-        value.quotaCode = try reader["QuotaCode"].readIfPresent()
-        value.quotaName = try reader["QuotaName"].readIfPresent()
+        var value = ServiceQuotasClientTypes.ErrorReason()
+        value.errorCode = try reader["ErrorCode"].readIfPresent()
+        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
         return value
     }
 }
 
-extension ServiceQuotasClientTypes.ServiceQuota {
+extension ServiceQuotasClientTypes.MetricInfo {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ServiceQuotasClientTypes.ServiceQuota {
+    static func read(from reader: SmithyJSON.Reader) throws -> ServiceQuotasClientTypes.MetricInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ServiceQuotasClientTypes.ServiceQuota()
-        value.serviceCode = try reader["ServiceCode"].readIfPresent()
-        value.serviceName = try reader["ServiceName"].readIfPresent()
-        value.quotaArn = try reader["QuotaArn"].readIfPresent()
-        value.quotaCode = try reader["QuotaCode"].readIfPresent()
-        value.quotaName = try reader["QuotaName"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
-        value.unit = try reader["Unit"].readIfPresent()
-        value.adjustable = try reader["Adjustable"].readIfPresent() ?? false
-        value.globalQuota = try reader["GlobalQuota"].readIfPresent() ?? false
-        value.usageMetric = try reader["UsageMetric"].readIfPresent(with: ServiceQuotasClientTypes.MetricInfo.read(from:))
-        value.period = try reader["Period"].readIfPresent(with: ServiceQuotasClientTypes.QuotaPeriod.read(from:))
-        value.errorReason = try reader["ErrorReason"].readIfPresent(with: ServiceQuotasClientTypes.ErrorReason.read(from:))
-        value.quotaAppliedAtLevel = try reader["QuotaAppliedAtLevel"].readIfPresent()
-        value.quotaContext = try reader["QuotaContext"].readIfPresent(with: ServiceQuotasClientTypes.QuotaContextInfo.read(from:))
-        value.description = try reader["Description"].readIfPresent()
+        var value = ServiceQuotasClientTypes.MetricInfo()
+        value.metricNamespace = try reader["MetricNamespace"].readIfPresent()
+        value.metricName = try reader["MetricName"].readIfPresent()
+        value.metricDimensions = try reader["MetricDimensions"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.metricStatisticRecommendation = try reader["MetricStatisticRecommendation"].readIfPresent()
         return value
     }
 }
@@ -3448,13 +3437,13 @@ extension ServiceQuotasClientTypes.QuotaContextInfo {
     }
 }
 
-extension ServiceQuotasClientTypes.ErrorReason {
+extension ServiceQuotasClientTypes.QuotaInfo {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ServiceQuotasClientTypes.ErrorReason {
+    static func read(from reader: SmithyJSON.Reader) throws -> ServiceQuotasClientTypes.QuotaInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ServiceQuotasClientTypes.ErrorReason()
-        value.errorCode = try reader["ErrorCode"].readIfPresent()
-        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
+        var value = ServiceQuotasClientTypes.QuotaInfo()
+        value.quotaCode = try reader["QuotaCode"].readIfPresent()
+        value.quotaName = try reader["QuotaName"].readIfPresent()
         return value
     }
 }
@@ -3466,19 +3455,6 @@ extension ServiceQuotasClientTypes.QuotaPeriod {
         var value = ServiceQuotasClientTypes.QuotaPeriod()
         value.periodValue = try reader["PeriodValue"].readIfPresent()
         value.periodUnit = try reader["PeriodUnit"].readIfPresent()
-        return value
-    }
-}
-
-extension ServiceQuotasClientTypes.MetricInfo {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ServiceQuotasClientTypes.MetricInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ServiceQuotasClientTypes.MetricInfo()
-        value.metricNamespace = try reader["MetricNamespace"].readIfPresent()
-        value.metricName = try reader["MetricName"].readIfPresent()
-        value.metricDimensions = try reader["MetricDimensions"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.metricStatisticRecommendation = try reader["MetricStatisticRecommendation"].readIfPresent()
         return value
     }
 }
@@ -3527,6 +3503,41 @@ extension ServiceQuotasClientTypes.RequestedServiceQuotaChange {
     }
 }
 
+extension ServiceQuotasClientTypes.ServiceInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ServiceQuotasClientTypes.ServiceInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ServiceQuotasClientTypes.ServiceInfo()
+        value.serviceCode = try reader["ServiceCode"].readIfPresent()
+        value.serviceName = try reader["ServiceName"].readIfPresent()
+        return value
+    }
+}
+
+extension ServiceQuotasClientTypes.ServiceQuota {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ServiceQuotasClientTypes.ServiceQuota {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ServiceQuotasClientTypes.ServiceQuota()
+        value.serviceCode = try reader["ServiceCode"].readIfPresent()
+        value.serviceName = try reader["ServiceName"].readIfPresent()
+        value.quotaArn = try reader["QuotaArn"].readIfPresent()
+        value.quotaCode = try reader["QuotaCode"].readIfPresent()
+        value.quotaName = try reader["QuotaName"].readIfPresent()
+        value.value = try reader["Value"].readIfPresent()
+        value.unit = try reader["Unit"].readIfPresent()
+        value.adjustable = try reader["Adjustable"].readIfPresent() ?? false
+        value.globalQuota = try reader["GlobalQuota"].readIfPresent() ?? false
+        value.usageMetric = try reader["UsageMetric"].readIfPresent(with: ServiceQuotasClientTypes.MetricInfo.read(from:))
+        value.period = try reader["Period"].readIfPresent(with: ServiceQuotasClientTypes.QuotaPeriod.read(from:))
+        value.errorReason = try reader["ErrorReason"].readIfPresent(with: ServiceQuotasClientTypes.ErrorReason.read(from:))
+        value.quotaAppliedAtLevel = try reader["QuotaAppliedAtLevel"].readIfPresent()
+        value.quotaContext = try reader["QuotaContext"].readIfPresent(with: ServiceQuotasClientTypes.QuotaContextInfo.read(from:))
+        value.description = try reader["Description"].readIfPresent()
+        return value
+    }
+}
+
 extension ServiceQuotasClientTypes.ServiceQuotaIncreaseRequestInTemplate {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ServiceQuotasClientTypes.ServiceQuotaIncreaseRequestInTemplate {
@@ -3540,17 +3551,6 @@ extension ServiceQuotasClientTypes.ServiceQuotaIncreaseRequestInTemplate {
         value.awsRegion = try reader["AwsRegion"].readIfPresent()
         value.unit = try reader["Unit"].readIfPresent()
         value.globalQuota = try reader["GlobalQuota"].readIfPresent() ?? false
-        return value
-    }
-}
-
-extension ServiceQuotasClientTypes.ServiceInfo {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ServiceQuotasClientTypes.ServiceInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ServiceQuotasClientTypes.ServiceInfo()
-        value.serviceCode = try reader["ServiceCode"].readIfPresent()
-        value.serviceName = try reader["ServiceName"].readIfPresent()
         return value
     }
 }

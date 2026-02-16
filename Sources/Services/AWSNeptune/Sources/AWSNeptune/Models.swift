@@ -11413,103 +11413,49 @@ extension InvalidRestoreFault {
     }
 }
 
-extension NeptuneClientTypes.EventSubscription {
+extension NeptuneClientTypes.AvailabilityZone {
 
-    static func read(from reader: SmithyXML.Reader) throws -> NeptuneClientTypes.EventSubscription {
+    static func read(from reader: SmithyXML.Reader) throws -> NeptuneClientTypes.AvailabilityZone {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NeptuneClientTypes.EventSubscription()
-        value.customerAwsId = try reader["CustomerAwsId"].readIfPresent()
-        value.custSubscriptionId = try reader["CustSubscriptionId"].readIfPresent()
-        value.snsTopicArn = try reader["SnsTopicArn"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.subscriptionCreationTime = try reader["SubscriptionCreationTime"].readIfPresent()
-        value.sourceType = try reader["SourceType"].readIfPresent()
-        value.sourceIdsList = try reader["SourceIdsList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "SourceId", isFlattened: false)
-        value.eventCategoriesList = try reader["EventCategoriesList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "EventCategory", isFlattened: false)
-        value.enabled = try reader["Enabled"].readIfPresent()
-        value.eventSubscriptionArn = try reader["EventSubscriptionArn"].readIfPresent()
+        var value = NeptuneClientTypes.AvailabilityZone()
+        value.name = try reader["Name"].readIfPresent()
         return value
     }
 }
 
-extension NeptuneClientTypes.ResourcePendingMaintenanceActions {
+extension NeptuneClientTypes.CharacterSet {
 
-    static func read(from reader: SmithyXML.Reader) throws -> NeptuneClientTypes.ResourcePendingMaintenanceActions {
+    static func read(from reader: SmithyXML.Reader) throws -> NeptuneClientTypes.CharacterSet {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NeptuneClientTypes.ResourcePendingMaintenanceActions()
-        value.resourceIdentifier = try reader["ResourceIdentifier"].readIfPresent()
-        value.pendingMaintenanceActionDetails = try reader["PendingMaintenanceActionDetails"].readListIfPresent(memberReadingClosure: NeptuneClientTypes.PendingMaintenanceAction.read(from:), memberNodeInfo: "PendingMaintenanceAction", isFlattened: false)
+        var value = NeptuneClientTypes.CharacterSet()
+        value.characterSetName = try reader["CharacterSetName"].readIfPresent()
+        value.characterSetDescription = try reader["CharacterSetDescription"].readIfPresent()
         return value
     }
 }
 
-extension NeptuneClientTypes.PendingMaintenanceAction {
+extension NeptuneClientTypes.CloudwatchLogsExportConfiguration {
 
-    static func read(from reader: SmithyXML.Reader) throws -> NeptuneClientTypes.PendingMaintenanceAction {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NeptuneClientTypes.PendingMaintenanceAction()
-        value.action = try reader["Action"].readIfPresent()
-        value.autoAppliedAfterDate = try reader["AutoAppliedAfterDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.forcedApplyDate = try reader["ForcedApplyDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.optInStatus = try reader["OptInStatus"].readIfPresent()
-        value.currentApplyDate = try reader["CurrentApplyDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.description = try reader["Description"].readIfPresent()
-        return value
+    static func write(value: NeptuneClientTypes.CloudwatchLogsExportConfiguration?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["DisableLogTypes"].writeList(value.disableLogTypes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["EnableLogTypes"].writeList(value.enableLogTypes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
-extension NeptuneClientTypes.DBClusterParameterGroup {
+extension NeptuneClientTypes.ClusterPendingModifiedValues {
 
-    static func read(from reader: SmithyXML.Reader) throws -> NeptuneClientTypes.DBClusterParameterGroup {
+    static func read(from reader: SmithyXML.Reader) throws -> NeptuneClientTypes.ClusterPendingModifiedValues {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NeptuneClientTypes.DBClusterParameterGroup()
-        value.dbClusterParameterGroupName = try reader["DBClusterParameterGroupName"].readIfPresent()
-        value.dbParameterGroupFamily = try reader["DBParameterGroupFamily"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        value.dbClusterParameterGroupArn = try reader["DBClusterParameterGroupArn"].readIfPresent()
-        return value
-    }
-}
-
-extension NeptuneClientTypes.DBClusterSnapshot {
-
-    static func read(from reader: SmithyXML.Reader) throws -> NeptuneClientTypes.DBClusterSnapshot {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NeptuneClientTypes.DBClusterSnapshot()
-        value.availabilityZones = try reader["AvailabilityZones"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "AvailabilityZone", isFlattened: false)
-        value.dbClusterSnapshotIdentifier = try reader["DBClusterSnapshotIdentifier"].readIfPresent()
+        var value = NeptuneClientTypes.ClusterPendingModifiedValues()
+        value.pendingCloudwatchLogsExports = try reader["PendingCloudwatchLogsExports"].readIfPresent(with: NeptuneClientTypes.PendingCloudwatchLogsExports.read(from:))
         value.dbClusterIdentifier = try reader["DBClusterIdentifier"].readIfPresent()
-        value.snapshotCreateTime = try reader["SnapshotCreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.engine = try reader["Engine"].readIfPresent()
-        value.allocatedStorage = try reader["AllocatedStorage"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.port = try reader["Port"].readIfPresent()
-        value.vpcId = try reader["VpcId"].readIfPresent()
-        value.clusterCreateTime = try reader["ClusterCreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.masterUsername = try reader["MasterUsername"].readIfPresent()
-        value.engineVersion = try reader["EngineVersion"].readIfPresent()
-        value.licenseModel = try reader["LicenseModel"].readIfPresent()
-        value.snapshotType = try reader["SnapshotType"].readIfPresent()
-        value.percentProgress = try reader["PercentProgress"].readIfPresent()
-        value.storageEncrypted = try reader["StorageEncrypted"].readIfPresent()
-        value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
-        value.dbClusterSnapshotArn = try reader["DBClusterSnapshotArn"].readIfPresent()
-        value.sourceDBClusterSnapshotArn = try reader["SourceDBClusterSnapshotArn"].readIfPresent()
         value.iamDatabaseAuthenticationEnabled = try reader["IAMDatabaseAuthenticationEnabled"].readIfPresent()
+        value.engineVersion = try reader["EngineVersion"].readIfPresent()
+        value.backupRetentionPeriod = try reader["BackupRetentionPeriod"].readIfPresent()
         value.storageType = try reader["StorageType"].readIfPresent()
-        return value
-    }
-}
-
-extension NeptuneClientTypes.DBParameterGroup {
-
-    static func read(from reader: SmithyXML.Reader) throws -> NeptuneClientTypes.DBParameterGroup {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NeptuneClientTypes.DBParameterGroup()
-        value.dbParameterGroupName = try reader["DBParameterGroupName"].readIfPresent()
-        value.dbParameterGroupFamily = try reader["DBParameterGroupFamily"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        value.dbParameterGroupArn = try reader["DBParameterGroupArn"].readIfPresent()
+        value.allocatedStorage = try reader["AllocatedStorage"].readIfPresent()
+        value.iops = try reader["Iops"].readIfPresent()
         return value
     }
 }
@@ -11568,64 +11514,21 @@ extension NeptuneClientTypes.DBCluster {
     }
 }
 
-extension NeptuneClientTypes.ServerlessV2ScalingConfigurationInfo {
+extension NeptuneClientTypes.DBClusterEndpoint {
 
-    static func read(from reader: SmithyXML.Reader) throws -> NeptuneClientTypes.ServerlessV2ScalingConfigurationInfo {
+    static func read(from reader: SmithyXML.Reader) throws -> NeptuneClientTypes.DBClusterEndpoint {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NeptuneClientTypes.ServerlessV2ScalingConfigurationInfo()
-        value.minCapacity = try reader["MinCapacity"].readIfPresent()
-        value.maxCapacity = try reader["MaxCapacity"].readIfPresent()
-        return value
-    }
-}
-
-extension NeptuneClientTypes.ClusterPendingModifiedValues {
-
-    static func read(from reader: SmithyXML.Reader) throws -> NeptuneClientTypes.ClusterPendingModifiedValues {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NeptuneClientTypes.ClusterPendingModifiedValues()
-        value.pendingCloudwatchLogsExports = try reader["PendingCloudwatchLogsExports"].readIfPresent(with: NeptuneClientTypes.PendingCloudwatchLogsExports.read(from:))
+        var value = NeptuneClientTypes.DBClusterEndpoint()
+        value.dbClusterEndpointIdentifier = try reader["DBClusterEndpointIdentifier"].readIfPresent()
         value.dbClusterIdentifier = try reader["DBClusterIdentifier"].readIfPresent()
-        value.iamDatabaseAuthenticationEnabled = try reader["IAMDatabaseAuthenticationEnabled"].readIfPresent()
-        value.engineVersion = try reader["EngineVersion"].readIfPresent()
-        value.backupRetentionPeriod = try reader["BackupRetentionPeriod"].readIfPresent()
-        value.storageType = try reader["StorageType"].readIfPresent()
-        value.allocatedStorage = try reader["AllocatedStorage"].readIfPresent()
-        value.iops = try reader["Iops"].readIfPresent()
-        return value
-    }
-}
-
-extension NeptuneClientTypes.PendingCloudwatchLogsExports {
-
-    static func read(from reader: SmithyXML.Reader) throws -> NeptuneClientTypes.PendingCloudwatchLogsExports {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NeptuneClientTypes.PendingCloudwatchLogsExports()
-        value.logTypesToEnable = try reader["LogTypesToEnable"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.logTypesToDisable = try reader["LogTypesToDisable"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension NeptuneClientTypes.DBClusterRole {
-
-    static func read(from reader: SmithyXML.Reader) throws -> NeptuneClientTypes.DBClusterRole {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NeptuneClientTypes.DBClusterRole()
-        value.roleArn = try reader["RoleArn"].readIfPresent()
+        value.dbClusterEndpointResourceIdentifier = try reader["DBClusterEndpointResourceIdentifier"].readIfPresent()
+        value.endpoint = try reader["Endpoint"].readIfPresent()
         value.status = try reader["Status"].readIfPresent()
-        value.featureName = try reader["FeatureName"].readIfPresent()
-        return value
-    }
-}
-
-extension NeptuneClientTypes.VpcSecurityGroupMembership {
-
-    static func read(from reader: SmithyXML.Reader) throws -> NeptuneClientTypes.VpcSecurityGroupMembership {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NeptuneClientTypes.VpcSecurityGroupMembership()
-        value.vpcSecurityGroupId = try reader["VpcSecurityGroupId"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
+        value.endpointType = try reader["EndpointType"].readIfPresent()
+        value.customEndpointType = try reader["CustomEndpointType"].readIfPresent()
+        value.staticMembers = try reader["StaticMembers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.excludedMembers = try reader["ExcludedMembers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.dbClusterEndpointArn = try reader["DBClusterEndpointArn"].readIfPresent()
         return value
     }
 }
@@ -11650,6 +11553,105 @@ extension NeptuneClientTypes.DBClusterOptionGroupStatus {
         var value = NeptuneClientTypes.DBClusterOptionGroupStatus()
         value.dbClusterOptionGroupName = try reader["DBClusterOptionGroupName"].readIfPresent()
         value.status = try reader["Status"].readIfPresent()
+        return value
+    }
+}
+
+extension NeptuneClientTypes.DBClusterParameterGroup {
+
+    static func read(from reader: SmithyXML.Reader) throws -> NeptuneClientTypes.DBClusterParameterGroup {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NeptuneClientTypes.DBClusterParameterGroup()
+        value.dbClusterParameterGroupName = try reader["DBClusterParameterGroupName"].readIfPresent()
+        value.dbParameterGroupFamily = try reader["DBParameterGroupFamily"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.dbClusterParameterGroupArn = try reader["DBClusterParameterGroupArn"].readIfPresent()
+        return value
+    }
+}
+
+extension NeptuneClientTypes.DBClusterRole {
+
+    static func read(from reader: SmithyXML.Reader) throws -> NeptuneClientTypes.DBClusterRole {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NeptuneClientTypes.DBClusterRole()
+        value.roleArn = try reader["RoleArn"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.featureName = try reader["FeatureName"].readIfPresent()
+        return value
+    }
+}
+
+extension NeptuneClientTypes.DBClusterSnapshot {
+
+    static func read(from reader: SmithyXML.Reader) throws -> NeptuneClientTypes.DBClusterSnapshot {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NeptuneClientTypes.DBClusterSnapshot()
+        value.availabilityZones = try reader["AvailabilityZones"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "AvailabilityZone", isFlattened: false)
+        value.dbClusterSnapshotIdentifier = try reader["DBClusterSnapshotIdentifier"].readIfPresent()
+        value.dbClusterIdentifier = try reader["DBClusterIdentifier"].readIfPresent()
+        value.snapshotCreateTime = try reader["SnapshotCreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.engine = try reader["Engine"].readIfPresent()
+        value.allocatedStorage = try reader["AllocatedStorage"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.port = try reader["Port"].readIfPresent()
+        value.vpcId = try reader["VpcId"].readIfPresent()
+        value.clusterCreateTime = try reader["ClusterCreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.masterUsername = try reader["MasterUsername"].readIfPresent()
+        value.engineVersion = try reader["EngineVersion"].readIfPresent()
+        value.licenseModel = try reader["LicenseModel"].readIfPresent()
+        value.snapshotType = try reader["SnapshotType"].readIfPresent()
+        value.percentProgress = try reader["PercentProgress"].readIfPresent()
+        value.storageEncrypted = try reader["StorageEncrypted"].readIfPresent()
+        value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
+        value.dbClusterSnapshotArn = try reader["DBClusterSnapshotArn"].readIfPresent()
+        value.sourceDBClusterSnapshotArn = try reader["SourceDBClusterSnapshotArn"].readIfPresent()
+        value.iamDatabaseAuthenticationEnabled = try reader["IAMDatabaseAuthenticationEnabled"].readIfPresent()
+        value.storageType = try reader["StorageType"].readIfPresent()
+        return value
+    }
+}
+
+extension NeptuneClientTypes.DBClusterSnapshotAttribute {
+
+    static func read(from reader: SmithyXML.Reader) throws -> NeptuneClientTypes.DBClusterSnapshotAttribute {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NeptuneClientTypes.DBClusterSnapshotAttribute()
+        value.attributeName = try reader["AttributeName"].readIfPresent()
+        value.attributeValues = try reader["AttributeValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "AttributeValue", isFlattened: false)
+        return value
+    }
+}
+
+extension NeptuneClientTypes.DBClusterSnapshotAttributesResult {
+
+    static func read(from reader: SmithyXML.Reader) throws -> NeptuneClientTypes.DBClusterSnapshotAttributesResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NeptuneClientTypes.DBClusterSnapshotAttributesResult()
+        value.dbClusterSnapshotIdentifier = try reader["DBClusterSnapshotIdentifier"].readIfPresent()
+        value.dbClusterSnapshotAttributes = try reader["DBClusterSnapshotAttributes"].readListIfPresent(memberReadingClosure: NeptuneClientTypes.DBClusterSnapshotAttribute.read(from:), memberNodeInfo: "DBClusterSnapshotAttribute", isFlattened: false)
+        return value
+    }
+}
+
+extension NeptuneClientTypes.DBEngineVersion {
+
+    static func read(from reader: SmithyXML.Reader) throws -> NeptuneClientTypes.DBEngineVersion {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NeptuneClientTypes.DBEngineVersion()
+        value.engine = try reader["Engine"].readIfPresent()
+        value.engineVersion = try reader["EngineVersion"].readIfPresent()
+        value.dbParameterGroupFamily = try reader["DBParameterGroupFamily"].readIfPresent()
+        value.dbEngineDescription = try reader["DBEngineDescription"].readIfPresent()
+        value.dbEngineVersionDescription = try reader["DBEngineVersionDescription"].readIfPresent()
+        value.defaultCharacterSet = try reader["DefaultCharacterSet"].readIfPresent(with: NeptuneClientTypes.CharacterSet.read(from:))
+        value.supportedCharacterSets = try reader["SupportedCharacterSets"].readListIfPresent(memberReadingClosure: NeptuneClientTypes.CharacterSet.read(from:), memberNodeInfo: "CharacterSet", isFlattened: false)
+        value.validUpgradeTarget = try reader["ValidUpgradeTarget"].readListIfPresent(memberReadingClosure: NeptuneClientTypes.UpgradeTarget.read(from:), memberNodeInfo: "UpgradeTarget", isFlattened: false)
+        value.supportedTimezones = try reader["SupportedTimezones"].readListIfPresent(memberReadingClosure: NeptuneClientTypes.Timezone.read(from:), memberNodeInfo: "Timezone", isFlattened: false)
+        value.exportableLogTypes = try reader["ExportableLogTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.supportsLogExportsToCloudwatchLogs = try reader["SupportsLogExportsToCloudwatchLogs"].readIfPresent()
+        value.supportsReadReplica = try reader["SupportsReadReplica"].readIfPresent()
+        value.supportsGlobalDatabases = try reader["SupportsGlobalDatabases"].readIfPresent()
         return value
     }
 }
@@ -11716,19 +11718,6 @@ extension NeptuneClientTypes.DBInstance {
     }
 }
 
-extension NeptuneClientTypes.DomainMembership {
-
-    static func read(from reader: SmithyXML.Reader) throws -> NeptuneClientTypes.DomainMembership {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NeptuneClientTypes.DomainMembership()
-        value.domain = try reader["Domain"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.fqdn = try reader["FQDN"].readIfPresent()
-        value.iamRoleName = try reader["IAMRoleName"].readIfPresent()
-        return value
-    }
-}
-
 extension NeptuneClientTypes.DBInstanceStatusInfo {
 
     static func read(from reader: SmithyXML.Reader) throws -> NeptuneClientTypes.DBInstanceStatusInfo {
@@ -11742,73 +11731,15 @@ extension NeptuneClientTypes.DBInstanceStatusInfo {
     }
 }
 
-extension NeptuneClientTypes.OptionGroupMembership {
+extension NeptuneClientTypes.DBParameterGroup {
 
-    static func read(from reader: SmithyXML.Reader) throws -> NeptuneClientTypes.OptionGroupMembership {
+    static func read(from reader: SmithyXML.Reader) throws -> NeptuneClientTypes.DBParameterGroup {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NeptuneClientTypes.OptionGroupMembership()
-        value.optionGroupName = try reader["OptionGroupName"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        return value
-    }
-}
-
-extension NeptuneClientTypes.PendingModifiedValues {
-
-    static func read(from reader: SmithyXML.Reader) throws -> NeptuneClientTypes.PendingModifiedValues {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NeptuneClientTypes.PendingModifiedValues()
-        value.dbInstanceClass = try reader["DBInstanceClass"].readIfPresent()
-        value.allocatedStorage = try reader["AllocatedStorage"].readIfPresent()
-        value.masterUserPassword = try reader["MasterUserPassword"].readIfPresent()
-        value.port = try reader["Port"].readIfPresent()
-        value.backupRetentionPeriod = try reader["BackupRetentionPeriod"].readIfPresent()
-        value.multiAZ = try reader["MultiAZ"].readIfPresent()
-        value.engineVersion = try reader["EngineVersion"].readIfPresent()
-        value.licenseModel = try reader["LicenseModel"].readIfPresent()
-        value.iops = try reader["Iops"].readIfPresent()
-        value.dbInstanceIdentifier = try reader["DBInstanceIdentifier"].readIfPresent()
-        value.storageType = try reader["StorageType"].readIfPresent()
-        value.caCertificateIdentifier = try reader["CACertificateIdentifier"].readIfPresent()
-        value.dbSubnetGroupName = try reader["DBSubnetGroupName"].readIfPresent()
-        value.pendingCloudwatchLogsExports = try reader["PendingCloudwatchLogsExports"].readIfPresent(with: NeptuneClientTypes.PendingCloudwatchLogsExports.read(from:))
-        return value
-    }
-}
-
-extension NeptuneClientTypes.DBSubnetGroup {
-
-    static func read(from reader: SmithyXML.Reader) throws -> NeptuneClientTypes.DBSubnetGroup {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NeptuneClientTypes.DBSubnetGroup()
-        value.dbSubnetGroupName = try reader["DBSubnetGroupName"].readIfPresent()
-        value.dbSubnetGroupDescription = try reader["DBSubnetGroupDescription"].readIfPresent()
-        value.vpcId = try reader["VpcId"].readIfPresent()
-        value.subnetGroupStatus = try reader["SubnetGroupStatus"].readIfPresent()
-        value.subnets = try reader["Subnets"].readListIfPresent(memberReadingClosure: NeptuneClientTypes.Subnet.read(from:), memberNodeInfo: "Subnet", isFlattened: false)
-        value.dbSubnetGroupArn = try reader["DBSubnetGroupArn"].readIfPresent()
-        return value
-    }
-}
-
-extension NeptuneClientTypes.Subnet {
-
-    static func read(from reader: SmithyXML.Reader) throws -> NeptuneClientTypes.Subnet {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NeptuneClientTypes.Subnet()
-        value.subnetIdentifier = try reader["SubnetIdentifier"].readIfPresent()
-        value.subnetAvailabilityZone = try reader["SubnetAvailabilityZone"].readIfPresent(with: NeptuneClientTypes.AvailabilityZone.read(from:))
-        value.subnetStatus = try reader["SubnetStatus"].readIfPresent()
-        return value
-    }
-}
-
-extension NeptuneClientTypes.AvailabilityZone {
-
-    static func read(from reader: SmithyXML.Reader) throws -> NeptuneClientTypes.AvailabilityZone {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NeptuneClientTypes.AvailabilityZone()
-        value.name = try reader["Name"].readIfPresent()
+        var value = NeptuneClientTypes.DBParameterGroup()
+        value.dbParameterGroupName = try reader["DBParameterGroupName"].readIfPresent()
+        value.dbParameterGroupFamily = try reader["DBParameterGroupFamily"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.dbParameterGroupArn = try reader["DBParameterGroupArn"].readIfPresent()
         return value
     }
 }
@@ -11835,6 +11766,45 @@ extension NeptuneClientTypes.DBSecurityGroupMembership {
     }
 }
 
+extension NeptuneClientTypes.DBSubnetGroup {
+
+    static func read(from reader: SmithyXML.Reader) throws -> NeptuneClientTypes.DBSubnetGroup {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NeptuneClientTypes.DBSubnetGroup()
+        value.dbSubnetGroupName = try reader["DBSubnetGroupName"].readIfPresent()
+        value.dbSubnetGroupDescription = try reader["DBSubnetGroupDescription"].readIfPresent()
+        value.vpcId = try reader["VpcId"].readIfPresent()
+        value.subnetGroupStatus = try reader["SubnetGroupStatus"].readIfPresent()
+        value.subnets = try reader["Subnets"].readListIfPresent(memberReadingClosure: NeptuneClientTypes.Subnet.read(from:), memberNodeInfo: "Subnet", isFlattened: false)
+        value.dbSubnetGroupArn = try reader["DBSubnetGroupArn"].readIfPresent()
+        return value
+    }
+}
+
+extension NeptuneClientTypes.DomainMembership {
+
+    static func read(from reader: SmithyXML.Reader) throws -> NeptuneClientTypes.DomainMembership {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NeptuneClientTypes.DomainMembership()
+        value.domain = try reader["Domain"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.fqdn = try reader["FQDN"].readIfPresent()
+        value.iamRoleName = try reader["IAMRoleName"].readIfPresent()
+        return value
+    }
+}
+
+extension NeptuneClientTypes.DoubleRange {
+
+    static func read(from reader: SmithyXML.Reader) throws -> NeptuneClientTypes.DoubleRange {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NeptuneClientTypes.DoubleRange()
+        value.from = try reader["From"].readIfPresent()
+        value.to = try reader["To"].readIfPresent()
+        return value
+    }
+}
+
 extension NeptuneClientTypes.Endpoint {
 
     static func read(from reader: SmithyXML.Reader) throws -> NeptuneClientTypes.Endpoint {
@@ -11844,6 +11814,85 @@ extension NeptuneClientTypes.Endpoint {
         value.port = try reader["Port"].readIfPresent()
         value.hostedZoneId = try reader["HostedZoneId"].readIfPresent()
         return value
+    }
+}
+
+extension NeptuneClientTypes.EngineDefaults {
+
+    static func read(from reader: SmithyXML.Reader) throws -> NeptuneClientTypes.EngineDefaults {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NeptuneClientTypes.EngineDefaults()
+        value.dbParameterGroupFamily = try reader["DBParameterGroupFamily"].readIfPresent()
+        value.marker = try reader["Marker"].readIfPresent()
+        value.parameters = try reader["Parameters"].readListIfPresent(memberReadingClosure: NeptuneClientTypes.Parameter.read(from:), memberNodeInfo: "Parameter", isFlattened: false)
+        return value
+    }
+}
+
+extension NeptuneClientTypes.Event {
+
+    static func read(from reader: SmithyXML.Reader) throws -> NeptuneClientTypes.Event {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NeptuneClientTypes.Event()
+        value.sourceIdentifier = try reader["SourceIdentifier"].readIfPresent()
+        value.sourceType = try reader["SourceType"].readIfPresent()
+        value.message = try reader["Message"].readIfPresent()
+        value.eventCategories = try reader["EventCategories"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "EventCategory", isFlattened: false)
+        value.date = try reader["Date"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.sourceArn = try reader["SourceArn"].readIfPresent()
+        return value
+    }
+}
+
+extension NeptuneClientTypes.EventCategoriesMap {
+
+    static func read(from reader: SmithyXML.Reader) throws -> NeptuneClientTypes.EventCategoriesMap {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NeptuneClientTypes.EventCategoriesMap()
+        value.sourceType = try reader["SourceType"].readIfPresent()
+        value.eventCategories = try reader["EventCategories"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "EventCategory", isFlattened: false)
+        return value
+    }
+}
+
+extension NeptuneClientTypes.EventSubscription {
+
+    static func read(from reader: SmithyXML.Reader) throws -> NeptuneClientTypes.EventSubscription {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NeptuneClientTypes.EventSubscription()
+        value.customerAwsId = try reader["CustomerAwsId"].readIfPresent()
+        value.custSubscriptionId = try reader["CustSubscriptionId"].readIfPresent()
+        value.snsTopicArn = try reader["SnsTopicArn"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.subscriptionCreationTime = try reader["SubscriptionCreationTime"].readIfPresent()
+        value.sourceType = try reader["SourceType"].readIfPresent()
+        value.sourceIdsList = try reader["SourceIdsList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "SourceId", isFlattened: false)
+        value.eventCategoriesList = try reader["EventCategoriesList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "EventCategory", isFlattened: false)
+        value.enabled = try reader["Enabled"].readIfPresent()
+        value.eventSubscriptionArn = try reader["EventSubscriptionArn"].readIfPresent()
+        return value
+    }
+}
+
+extension NeptuneClientTypes.FailoverState {
+
+    static func read(from reader: SmithyXML.Reader) throws -> NeptuneClientTypes.FailoverState {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NeptuneClientTypes.FailoverState()
+        value.status = try reader["Status"].readIfPresent()
+        value.fromDbClusterArn = try reader["FromDbClusterArn"].readIfPresent()
+        value.toDbClusterArn = try reader["ToDbClusterArn"].readIfPresent()
+        value.isDataLossAllowed = try reader["IsDataLossAllowed"].readIfPresent()
+        return value
+    }
+}
+
+extension NeptuneClientTypes.Filter {
+
+    static func write(value: NeptuneClientTypes.Filter?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["Name"].write(value.name)
+        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "Value", isFlattened: false)
     }
 }
 
@@ -11866,19 +11915,6 @@ extension NeptuneClientTypes.GlobalCluster {
     }
 }
 
-extension NeptuneClientTypes.FailoverState {
-
-    static func read(from reader: SmithyXML.Reader) throws -> NeptuneClientTypes.FailoverState {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NeptuneClientTypes.FailoverState()
-        value.status = try reader["Status"].readIfPresent()
-        value.fromDbClusterArn = try reader["FromDbClusterArn"].readIfPresent()
-        value.toDbClusterArn = try reader["ToDbClusterArn"].readIfPresent()
-        value.isDataLossAllowed = try reader["IsDataLossAllowed"].readIfPresent()
-        return value
-    }
-}
-
 extension NeptuneClientTypes.GlobalClusterMember {
 
     static func read(from reader: SmithyXML.Reader) throws -> NeptuneClientTypes.GlobalClusterMember {
@@ -11891,21 +11927,43 @@ extension NeptuneClientTypes.GlobalClusterMember {
     }
 }
 
-extension NeptuneClientTypes.DBClusterEndpoint {
+extension NeptuneClientTypes.OptionGroupMembership {
 
-    static func read(from reader: SmithyXML.Reader) throws -> NeptuneClientTypes.DBClusterEndpoint {
+    static func read(from reader: SmithyXML.Reader) throws -> NeptuneClientTypes.OptionGroupMembership {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NeptuneClientTypes.DBClusterEndpoint()
-        value.dbClusterEndpointIdentifier = try reader["DBClusterEndpointIdentifier"].readIfPresent()
-        value.dbClusterIdentifier = try reader["DBClusterIdentifier"].readIfPresent()
-        value.dbClusterEndpointResourceIdentifier = try reader["DBClusterEndpointResourceIdentifier"].readIfPresent()
-        value.endpoint = try reader["Endpoint"].readIfPresent()
+        var value = NeptuneClientTypes.OptionGroupMembership()
+        value.optionGroupName = try reader["OptionGroupName"].readIfPresent()
         value.status = try reader["Status"].readIfPresent()
-        value.endpointType = try reader["EndpointType"].readIfPresent()
-        value.customEndpointType = try reader["CustomEndpointType"].readIfPresent()
-        value.staticMembers = try reader["StaticMembers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.excludedMembers = try reader["ExcludedMembers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.dbClusterEndpointArn = try reader["DBClusterEndpointArn"].readIfPresent()
+        return value
+    }
+}
+
+extension NeptuneClientTypes.OrderableDBInstanceOption {
+
+    static func read(from reader: SmithyXML.Reader) throws -> NeptuneClientTypes.OrderableDBInstanceOption {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NeptuneClientTypes.OrderableDBInstanceOption()
+        value.engine = try reader["Engine"].readIfPresent()
+        value.engineVersion = try reader["EngineVersion"].readIfPresent()
+        value.dbInstanceClass = try reader["DBInstanceClass"].readIfPresent()
+        value.licenseModel = try reader["LicenseModel"].readIfPresent()
+        value.availabilityZones = try reader["AvailabilityZones"].readListIfPresent(memberReadingClosure: NeptuneClientTypes.AvailabilityZone.read(from:), memberNodeInfo: "AvailabilityZone", isFlattened: false)
+        value.multiAZCapable = try reader["MultiAZCapable"].readIfPresent()
+        value.readReplicaCapable = try reader["ReadReplicaCapable"].readIfPresent()
+        value.vpc = try reader["Vpc"].readIfPresent()
+        value.supportsStorageEncryption = try reader["SupportsStorageEncryption"].readIfPresent()
+        value.storageType = try reader["StorageType"].readIfPresent()
+        value.supportsIops = try reader["SupportsIops"].readIfPresent()
+        value.supportsEnhancedMonitoring = try reader["SupportsEnhancedMonitoring"].readIfPresent()
+        value.supportsIAMDatabaseAuthentication = try reader["SupportsIAMDatabaseAuthentication"].readIfPresent()
+        value.supportsPerformanceInsights = try reader["SupportsPerformanceInsights"].readIfPresent()
+        value.minStorageSize = try reader["MinStorageSize"].readIfPresent()
+        value.maxStorageSize = try reader["MaxStorageSize"].readIfPresent()
+        value.minIopsPerDbInstance = try reader["MinIopsPerDbInstance"].readIfPresent()
+        value.maxIopsPerDbInstance = try reader["MaxIopsPerDbInstance"].readIfPresent()
+        value.minIopsPerGib = try reader["MinIopsPerGib"].readIfPresent()
+        value.maxIopsPerGib = try reader["MaxIopsPerGib"].readIfPresent()
+        value.supportsGlobalDatabases = try reader["SupportsGlobalDatabases"].readIfPresent()
         return value
     }
 }
@@ -11943,46 +12001,123 @@ extension NeptuneClientTypes.Parameter {
     }
 }
 
-extension NeptuneClientTypes.DBClusterSnapshotAttributesResult {
+extension NeptuneClientTypes.PendingCloudwatchLogsExports {
 
-    static func read(from reader: SmithyXML.Reader) throws -> NeptuneClientTypes.DBClusterSnapshotAttributesResult {
+    static func read(from reader: SmithyXML.Reader) throws -> NeptuneClientTypes.PendingCloudwatchLogsExports {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NeptuneClientTypes.DBClusterSnapshotAttributesResult()
-        value.dbClusterSnapshotIdentifier = try reader["DBClusterSnapshotIdentifier"].readIfPresent()
-        value.dbClusterSnapshotAttributes = try reader["DBClusterSnapshotAttributes"].readListIfPresent(memberReadingClosure: NeptuneClientTypes.DBClusterSnapshotAttribute.read(from:), memberNodeInfo: "DBClusterSnapshotAttribute", isFlattened: false)
+        var value = NeptuneClientTypes.PendingCloudwatchLogsExports()
+        value.logTypesToEnable = try reader["LogTypesToEnable"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.logTypesToDisable = try reader["LogTypesToDisable"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
 
-extension NeptuneClientTypes.DBClusterSnapshotAttribute {
+extension NeptuneClientTypes.PendingMaintenanceAction {
 
-    static func read(from reader: SmithyXML.Reader) throws -> NeptuneClientTypes.DBClusterSnapshotAttribute {
+    static func read(from reader: SmithyXML.Reader) throws -> NeptuneClientTypes.PendingMaintenanceAction {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NeptuneClientTypes.DBClusterSnapshotAttribute()
-        value.attributeName = try reader["AttributeName"].readIfPresent()
-        value.attributeValues = try reader["AttributeValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "AttributeValue", isFlattened: false)
+        var value = NeptuneClientTypes.PendingMaintenanceAction()
+        value.action = try reader["Action"].readIfPresent()
+        value.autoAppliedAfterDate = try reader["AutoAppliedAfterDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.forcedApplyDate = try reader["ForcedApplyDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.optInStatus = try reader["OptInStatus"].readIfPresent()
+        value.currentApplyDate = try reader["CurrentApplyDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.description = try reader["Description"].readIfPresent()
         return value
     }
 }
 
-extension NeptuneClientTypes.DBEngineVersion {
+extension NeptuneClientTypes.PendingModifiedValues {
 
-    static func read(from reader: SmithyXML.Reader) throws -> NeptuneClientTypes.DBEngineVersion {
+    static func read(from reader: SmithyXML.Reader) throws -> NeptuneClientTypes.PendingModifiedValues {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NeptuneClientTypes.DBEngineVersion()
-        value.engine = try reader["Engine"].readIfPresent()
+        var value = NeptuneClientTypes.PendingModifiedValues()
+        value.dbInstanceClass = try reader["DBInstanceClass"].readIfPresent()
+        value.allocatedStorage = try reader["AllocatedStorage"].readIfPresent()
+        value.masterUserPassword = try reader["MasterUserPassword"].readIfPresent()
+        value.port = try reader["Port"].readIfPresent()
+        value.backupRetentionPeriod = try reader["BackupRetentionPeriod"].readIfPresent()
+        value.multiAZ = try reader["MultiAZ"].readIfPresent()
         value.engineVersion = try reader["EngineVersion"].readIfPresent()
-        value.dbParameterGroupFamily = try reader["DBParameterGroupFamily"].readIfPresent()
-        value.dbEngineDescription = try reader["DBEngineDescription"].readIfPresent()
-        value.dbEngineVersionDescription = try reader["DBEngineVersionDescription"].readIfPresent()
-        value.defaultCharacterSet = try reader["DefaultCharacterSet"].readIfPresent(with: NeptuneClientTypes.CharacterSet.read(from:))
-        value.supportedCharacterSets = try reader["SupportedCharacterSets"].readListIfPresent(memberReadingClosure: NeptuneClientTypes.CharacterSet.read(from:), memberNodeInfo: "CharacterSet", isFlattened: false)
-        value.validUpgradeTarget = try reader["ValidUpgradeTarget"].readListIfPresent(memberReadingClosure: NeptuneClientTypes.UpgradeTarget.read(from:), memberNodeInfo: "UpgradeTarget", isFlattened: false)
-        value.supportedTimezones = try reader["SupportedTimezones"].readListIfPresent(memberReadingClosure: NeptuneClientTypes.Timezone.read(from:), memberNodeInfo: "Timezone", isFlattened: false)
-        value.exportableLogTypes = try reader["ExportableLogTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.supportsLogExportsToCloudwatchLogs = try reader["SupportsLogExportsToCloudwatchLogs"].readIfPresent()
-        value.supportsReadReplica = try reader["SupportsReadReplica"].readIfPresent()
-        value.supportsGlobalDatabases = try reader["SupportsGlobalDatabases"].readIfPresent()
+        value.licenseModel = try reader["LicenseModel"].readIfPresent()
+        value.iops = try reader["Iops"].readIfPresent()
+        value.dbInstanceIdentifier = try reader["DBInstanceIdentifier"].readIfPresent()
+        value.storageType = try reader["StorageType"].readIfPresent()
+        value.caCertificateIdentifier = try reader["CACertificateIdentifier"].readIfPresent()
+        value.dbSubnetGroupName = try reader["DBSubnetGroupName"].readIfPresent()
+        value.pendingCloudwatchLogsExports = try reader["PendingCloudwatchLogsExports"].readIfPresent(with: NeptuneClientTypes.PendingCloudwatchLogsExports.read(from:))
+        return value
+    }
+}
+
+extension NeptuneClientTypes.Range {
+
+    static func read(from reader: SmithyXML.Reader) throws -> NeptuneClientTypes.Range {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NeptuneClientTypes.Range()
+        value.from = try reader["From"].readIfPresent()
+        value.to = try reader["To"].readIfPresent()
+        value.step = try reader["Step"].readIfPresent()
+        return value
+    }
+}
+
+extension NeptuneClientTypes.ResourcePendingMaintenanceActions {
+
+    static func read(from reader: SmithyXML.Reader) throws -> NeptuneClientTypes.ResourcePendingMaintenanceActions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NeptuneClientTypes.ResourcePendingMaintenanceActions()
+        value.resourceIdentifier = try reader["ResourceIdentifier"].readIfPresent()
+        value.pendingMaintenanceActionDetails = try reader["PendingMaintenanceActionDetails"].readListIfPresent(memberReadingClosure: NeptuneClientTypes.PendingMaintenanceAction.read(from:), memberNodeInfo: "PendingMaintenanceAction", isFlattened: false)
+        return value
+    }
+}
+
+extension NeptuneClientTypes.ServerlessV2ScalingConfiguration {
+
+    static func write(value: NeptuneClientTypes.ServerlessV2ScalingConfiguration?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["MaxCapacity"].write(value.maxCapacity)
+        try writer["MinCapacity"].write(value.minCapacity)
+    }
+}
+
+extension NeptuneClientTypes.ServerlessV2ScalingConfigurationInfo {
+
+    static func read(from reader: SmithyXML.Reader) throws -> NeptuneClientTypes.ServerlessV2ScalingConfigurationInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NeptuneClientTypes.ServerlessV2ScalingConfigurationInfo()
+        value.minCapacity = try reader["MinCapacity"].readIfPresent()
+        value.maxCapacity = try reader["MaxCapacity"].readIfPresent()
+        return value
+    }
+}
+
+extension NeptuneClientTypes.Subnet {
+
+    static func read(from reader: SmithyXML.Reader) throws -> NeptuneClientTypes.Subnet {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NeptuneClientTypes.Subnet()
+        value.subnetIdentifier = try reader["SubnetIdentifier"].readIfPresent()
+        value.subnetAvailabilityZone = try reader["SubnetAvailabilityZone"].readIfPresent(with: NeptuneClientTypes.AvailabilityZone.read(from:))
+        value.subnetStatus = try reader["SubnetStatus"].readIfPresent()
+        return value
+    }
+}
+
+extension NeptuneClientTypes.Tag {
+
+    static func write(value: NeptuneClientTypes.Tag?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["Key"].write(value.key)
+        try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> NeptuneClientTypes.Tag {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NeptuneClientTypes.Tag()
+        value.key = try reader["Key"].readIfPresent()
+        value.value = try reader["Value"].readIfPresent()
         return value
     }
 }
@@ -12012,85 +12147,6 @@ extension NeptuneClientTypes.UpgradeTarget {
     }
 }
 
-extension NeptuneClientTypes.CharacterSet {
-
-    static func read(from reader: SmithyXML.Reader) throws -> NeptuneClientTypes.CharacterSet {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NeptuneClientTypes.CharacterSet()
-        value.characterSetName = try reader["CharacterSetName"].readIfPresent()
-        value.characterSetDescription = try reader["CharacterSetDescription"].readIfPresent()
-        return value
-    }
-}
-
-extension NeptuneClientTypes.EngineDefaults {
-
-    static func read(from reader: SmithyXML.Reader) throws -> NeptuneClientTypes.EngineDefaults {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NeptuneClientTypes.EngineDefaults()
-        value.dbParameterGroupFamily = try reader["DBParameterGroupFamily"].readIfPresent()
-        value.marker = try reader["Marker"].readIfPresent()
-        value.parameters = try reader["Parameters"].readListIfPresent(memberReadingClosure: NeptuneClientTypes.Parameter.read(from:), memberNodeInfo: "Parameter", isFlattened: false)
-        return value
-    }
-}
-
-extension NeptuneClientTypes.EventCategoriesMap {
-
-    static func read(from reader: SmithyXML.Reader) throws -> NeptuneClientTypes.EventCategoriesMap {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NeptuneClientTypes.EventCategoriesMap()
-        value.sourceType = try reader["SourceType"].readIfPresent()
-        value.eventCategories = try reader["EventCategories"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "EventCategory", isFlattened: false)
-        return value
-    }
-}
-
-extension NeptuneClientTypes.Event {
-
-    static func read(from reader: SmithyXML.Reader) throws -> NeptuneClientTypes.Event {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NeptuneClientTypes.Event()
-        value.sourceIdentifier = try reader["SourceIdentifier"].readIfPresent()
-        value.sourceType = try reader["SourceType"].readIfPresent()
-        value.message = try reader["Message"].readIfPresent()
-        value.eventCategories = try reader["EventCategories"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "EventCategory", isFlattened: false)
-        value.date = try reader["Date"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.sourceArn = try reader["SourceArn"].readIfPresent()
-        return value
-    }
-}
-
-extension NeptuneClientTypes.OrderableDBInstanceOption {
-
-    static func read(from reader: SmithyXML.Reader) throws -> NeptuneClientTypes.OrderableDBInstanceOption {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NeptuneClientTypes.OrderableDBInstanceOption()
-        value.engine = try reader["Engine"].readIfPresent()
-        value.engineVersion = try reader["EngineVersion"].readIfPresent()
-        value.dbInstanceClass = try reader["DBInstanceClass"].readIfPresent()
-        value.licenseModel = try reader["LicenseModel"].readIfPresent()
-        value.availabilityZones = try reader["AvailabilityZones"].readListIfPresent(memberReadingClosure: NeptuneClientTypes.AvailabilityZone.read(from:), memberNodeInfo: "AvailabilityZone", isFlattened: false)
-        value.multiAZCapable = try reader["MultiAZCapable"].readIfPresent()
-        value.readReplicaCapable = try reader["ReadReplicaCapable"].readIfPresent()
-        value.vpc = try reader["Vpc"].readIfPresent()
-        value.supportsStorageEncryption = try reader["SupportsStorageEncryption"].readIfPresent()
-        value.storageType = try reader["StorageType"].readIfPresent()
-        value.supportsIops = try reader["SupportsIops"].readIfPresent()
-        value.supportsEnhancedMonitoring = try reader["SupportsEnhancedMonitoring"].readIfPresent()
-        value.supportsIAMDatabaseAuthentication = try reader["SupportsIAMDatabaseAuthentication"].readIfPresent()
-        value.supportsPerformanceInsights = try reader["SupportsPerformanceInsights"].readIfPresent()
-        value.minStorageSize = try reader["MinStorageSize"].readIfPresent()
-        value.maxStorageSize = try reader["MaxStorageSize"].readIfPresent()
-        value.minIopsPerDbInstance = try reader["MinIopsPerDbInstance"].readIfPresent()
-        value.maxIopsPerDbInstance = try reader["MaxIopsPerDbInstance"].readIfPresent()
-        value.minIopsPerGib = try reader["MinIopsPerGib"].readIfPresent()
-        value.maxIopsPerGib = try reader["MaxIopsPerGib"].readIfPresent()
-        value.supportsGlobalDatabases = try reader["SupportsGlobalDatabases"].readIfPresent()
-        return value
-    }
-}
-
 extension NeptuneClientTypes.ValidDBInstanceModificationsMessage {
 
     static func read(from reader: SmithyXML.Reader) throws -> NeptuneClientTypes.ValidDBInstanceModificationsMessage {
@@ -12114,70 +12170,14 @@ extension NeptuneClientTypes.ValidStorageOptions {
     }
 }
 
-extension NeptuneClientTypes.DoubleRange {
+extension NeptuneClientTypes.VpcSecurityGroupMembership {
 
-    static func read(from reader: SmithyXML.Reader) throws -> NeptuneClientTypes.DoubleRange {
+    static func read(from reader: SmithyXML.Reader) throws -> NeptuneClientTypes.VpcSecurityGroupMembership {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NeptuneClientTypes.DoubleRange()
-        value.from = try reader["From"].readIfPresent()
-        value.to = try reader["To"].readIfPresent()
+        var value = NeptuneClientTypes.VpcSecurityGroupMembership()
+        value.vpcSecurityGroupId = try reader["VpcSecurityGroupId"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
         return value
-    }
-}
-
-extension NeptuneClientTypes.Range {
-
-    static func read(from reader: SmithyXML.Reader) throws -> NeptuneClientTypes.Range {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NeptuneClientTypes.Range()
-        value.from = try reader["From"].readIfPresent()
-        value.to = try reader["To"].readIfPresent()
-        value.step = try reader["Step"].readIfPresent()
-        return value
-    }
-}
-
-extension NeptuneClientTypes.Tag {
-
-    static func write(value: NeptuneClientTypes.Tag?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Key"].write(value.key)
-        try writer["Value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> NeptuneClientTypes.Tag {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NeptuneClientTypes.Tag()
-        value.key = try reader["Key"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
-        return value
-    }
-}
-
-extension NeptuneClientTypes.ServerlessV2ScalingConfiguration {
-
-    static func write(value: NeptuneClientTypes.ServerlessV2ScalingConfiguration?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["MaxCapacity"].write(value.maxCapacity)
-        try writer["MinCapacity"].write(value.minCapacity)
-    }
-}
-
-extension NeptuneClientTypes.Filter {
-
-    static func write(value: NeptuneClientTypes.Filter?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "Value", isFlattened: false)
-    }
-}
-
-extension NeptuneClientTypes.CloudwatchLogsExportConfiguration {
-
-    static func write(value: NeptuneClientTypes.CloudwatchLogsExportConfiguration?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["DisableLogTypes"].writeList(value.disableLogTypes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["EnableLogTypes"].writeList(value.enableLogTypes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 

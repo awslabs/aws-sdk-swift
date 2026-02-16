@@ -2928,29 +2928,6 @@ extension TooManyTagsException {
     }
 }
 
-extension RolesAnywhereClientTypes.ProfileDetail {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RolesAnywhereClientTypes.ProfileDetail {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RolesAnywhereClientTypes.ProfileDetail()
-        value.profileId = try reader["profileId"].readIfPresent()
-        value.profileArn = try reader["profileArn"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.requireInstanceProperties = try reader["requireInstanceProperties"].readIfPresent()
-        value.enabled = try reader["enabled"].readIfPresent()
-        value.createdBy = try reader["createdBy"].readIfPresent()
-        value.sessionPolicy = try reader["sessionPolicy"].readIfPresent()
-        value.roleArns = try reader["roleArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.managedPolicyArns = try reader["managedPolicyArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.durationSeconds = try reader["durationSeconds"].readIfPresent()
-        value.acceptRoleSessionName = try reader["acceptRoleSessionName"].readIfPresent()
-        value.attributeMappings = try reader["attributeMappings"].readListIfPresent(memberReadingClosure: RolesAnywhereClientTypes.AttributeMapping.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
 extension RolesAnywhereClientTypes.AttributeMapping {
 
     static func read(from reader: SmithyJSON.Reader) throws -> RolesAnywhereClientTypes.AttributeMapping {
@@ -2958,6 +2935,50 @@ extension RolesAnywhereClientTypes.AttributeMapping {
         var value = RolesAnywhereClientTypes.AttributeMapping()
         value.certificateField = try reader["certificateField"].readIfPresent()
         value.mappingRules = try reader["mappingRules"].readListIfPresent(memberReadingClosure: RolesAnywhereClientTypes.MappingRule.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension RolesAnywhereClientTypes.CredentialSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RolesAnywhereClientTypes.CredentialSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RolesAnywhereClientTypes.CredentialSummary()
+        value.seenAt = try reader["seenAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.serialNumber = try reader["serialNumber"].readIfPresent()
+        value.issuer = try reader["issuer"].readIfPresent()
+        value.enabled = try reader["enabled"].readIfPresent()
+        value.x509CertificateData = try reader["x509CertificateData"].readIfPresent()
+        value.failed = try reader["failed"].readIfPresent()
+        return value
+    }
+}
+
+extension RolesAnywhereClientTypes.CrlDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RolesAnywhereClientTypes.CrlDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RolesAnywhereClientTypes.CrlDetail()
+        value.crlId = try reader["crlId"].readIfPresent()
+        value.crlArn = try reader["crlArn"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        value.enabled = try reader["enabled"].readIfPresent()
+        value.crlData = try reader["crlData"].readIfPresent()
+        value.trustAnchorArn = try reader["trustAnchorArn"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
+extension RolesAnywhereClientTypes.InstanceProperty {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RolesAnywhereClientTypes.InstanceProperty {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RolesAnywhereClientTypes.InstanceProperty()
+        value.seenAt = try reader["seenAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.properties = try reader["properties"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.failed = try reader["failed"].readIfPresent()
         return value
     }
 }
@@ -2977,20 +2998,14 @@ extension RolesAnywhereClientTypes.MappingRule {
     }
 }
 
-extension RolesAnywhereClientTypes.TrustAnchorDetail {
+extension RolesAnywhereClientTypes.NotificationSetting {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> RolesAnywhereClientTypes.TrustAnchorDetail {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RolesAnywhereClientTypes.TrustAnchorDetail()
-        value.trustAnchorId = try reader["trustAnchorId"].readIfPresent()
-        value.trustAnchorArn = try reader["trustAnchorArn"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.source = try reader["source"].readIfPresent(with: RolesAnywhereClientTypes.Source.read(from:))
-        value.enabled = try reader["enabled"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.notificationSettings = try reader["notificationSettings"].readListIfPresent(memberReadingClosure: RolesAnywhereClientTypes.NotificationSettingDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
+    static func write(value: RolesAnywhereClientTypes.NotificationSetting?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["channel"].write(value.channel)
+        try writer["enabled"].write(value.enabled)
+        try writer["event"].write(value.event)
+        try writer["threshold"].write(value.threshold)
     }
 }
 
@@ -3004,6 +3019,38 @@ extension RolesAnywhereClientTypes.NotificationSettingDetail {
         value.threshold = try reader["threshold"].readIfPresent()
         value.channel = try reader["channel"].readIfPresent()
         value.configuredBy = try reader["configuredBy"].readIfPresent()
+        return value
+    }
+}
+
+extension RolesAnywhereClientTypes.NotificationSettingKey {
+
+    static func write(value: RolesAnywhereClientTypes.NotificationSettingKey?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["channel"].write(value.channel)
+        try writer["event"].write(value.event)
+    }
+}
+
+extension RolesAnywhereClientTypes.ProfileDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> RolesAnywhereClientTypes.ProfileDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RolesAnywhereClientTypes.ProfileDetail()
+        value.profileId = try reader["profileId"].readIfPresent()
+        value.profileArn = try reader["profileArn"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        value.requireInstanceProperties = try reader["requireInstanceProperties"].readIfPresent()
+        value.enabled = try reader["enabled"].readIfPresent()
+        value.createdBy = try reader["createdBy"].readIfPresent()
+        value.sessionPolicy = try reader["sessionPolicy"].readIfPresent()
+        value.roleArns = try reader["roleArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.managedPolicyArns = try reader["managedPolicyArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.durationSeconds = try reader["durationSeconds"].readIfPresent()
+        value.acceptRoleSessionName = try reader["acceptRoleSessionName"].readIfPresent()
+        value.attributeMappings = try reader["attributeMappings"].readListIfPresent(memberReadingClosure: RolesAnywhereClientTypes.AttributeMapping.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -3053,23 +3100,6 @@ extension RolesAnywhereClientTypes.SourceData {
     }
 }
 
-extension RolesAnywhereClientTypes.CrlDetail {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RolesAnywhereClientTypes.CrlDetail {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RolesAnywhereClientTypes.CrlDetail()
-        value.crlId = try reader["crlId"].readIfPresent()
-        value.crlArn = try reader["crlArn"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.enabled = try reader["enabled"].readIfPresent()
-        value.crlData = try reader["crlData"].readIfPresent()
-        value.trustAnchorArn = try reader["trustAnchorArn"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        return value
-    }
-}
-
 extension RolesAnywhereClientTypes.SubjectDetail {
 
     static func read(from reader: SmithyJSON.Reader) throws -> RolesAnywhereClientTypes.SubjectDetail {
@@ -3084,33 +3114,6 @@ extension RolesAnywhereClientTypes.SubjectDetail {
         value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.credentials = try reader["credentials"].readListIfPresent(memberReadingClosure: RolesAnywhereClientTypes.CredentialSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.instanceProperties = try reader["instanceProperties"].readListIfPresent(memberReadingClosure: RolesAnywhereClientTypes.InstanceProperty.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension RolesAnywhereClientTypes.InstanceProperty {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RolesAnywhereClientTypes.InstanceProperty {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RolesAnywhereClientTypes.InstanceProperty()
-        value.seenAt = try reader["seenAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.properties = try reader["properties"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.failed = try reader["failed"].readIfPresent()
-        return value
-    }
-}
-
-extension RolesAnywhereClientTypes.CredentialSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> RolesAnywhereClientTypes.CredentialSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = RolesAnywhereClientTypes.CredentialSummary()
-        value.seenAt = try reader["seenAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.serialNumber = try reader["serialNumber"].readIfPresent()
-        value.issuer = try reader["issuer"].readIfPresent()
-        value.enabled = try reader["enabled"].readIfPresent()
-        value.x509CertificateData = try reader["x509CertificateData"].readIfPresent()
-        value.failed = try reader["failed"].readIfPresent()
         return value
     }
 }
@@ -3148,23 +3151,20 @@ extension RolesAnywhereClientTypes.Tag {
     }
 }
 
-extension RolesAnywhereClientTypes.NotificationSetting {
+extension RolesAnywhereClientTypes.TrustAnchorDetail {
 
-    static func write(value: RolesAnywhereClientTypes.NotificationSetting?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["channel"].write(value.channel)
-        try writer["enabled"].write(value.enabled)
-        try writer["event"].write(value.event)
-        try writer["threshold"].write(value.threshold)
-    }
-}
-
-extension RolesAnywhereClientTypes.NotificationSettingKey {
-
-    static func write(value: RolesAnywhereClientTypes.NotificationSettingKey?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["channel"].write(value.channel)
-        try writer["event"].write(value.event)
+    static func read(from reader: SmithyJSON.Reader) throws -> RolesAnywhereClientTypes.TrustAnchorDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = RolesAnywhereClientTypes.TrustAnchorDetail()
+        value.trustAnchorId = try reader["trustAnchorId"].readIfPresent()
+        value.trustAnchorArn = try reader["trustAnchorArn"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        value.source = try reader["source"].readIfPresent(with: RolesAnywhereClientTypes.Source.read(from:))
+        value.enabled = try reader["enabled"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.updatedAt = try reader["updatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.notificationSettings = try reader["notificationSettings"].readListIfPresent(memberReadingClosure: RolesAnywhereClientTypes.NotificationSettingDetail.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
     }
 }
 

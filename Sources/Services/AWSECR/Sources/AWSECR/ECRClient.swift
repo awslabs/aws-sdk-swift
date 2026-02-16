@@ -3078,7 +3078,7 @@ extension ECRClient {
 
     /// Performs the `ListImageReferrers` operation on the `ECR` service.
     ///
-    /// Lists the artifacts associated with a specified subject image.
+    /// Lists the artifacts associated with a specified subject image. The IAM principal invoking this operation must have the ecr:BatchGetImage permission.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListImageReferrersInput`)
     ///

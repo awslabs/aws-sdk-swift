@@ -7486,6 +7486,222 @@ extension TooManyTagsException {
     }
 }
 
+extension ElasticBeanstalkClientTypes.ApplicationDescription {
+
+    static func read(from reader: SmithyXML.Reader) throws -> ElasticBeanstalkClientTypes.ApplicationDescription {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElasticBeanstalkClientTypes.ApplicationDescription()
+        value.applicationArn = try reader["ApplicationArn"].readIfPresent()
+        value.applicationName = try reader["ApplicationName"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.dateCreated = try reader["DateCreated"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.dateUpdated = try reader["DateUpdated"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.versions = try reader["Versions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.configurationTemplates = try reader["ConfigurationTemplates"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.resourceLifecycleConfig = try reader["ResourceLifecycleConfig"].readIfPresent(with: ElasticBeanstalkClientTypes.ApplicationResourceLifecycleConfig.read(from:))
+        return value
+    }
+}
+
+extension ElasticBeanstalkClientTypes.ApplicationMetrics {
+
+    static func read(from reader: SmithyXML.Reader) throws -> ElasticBeanstalkClientTypes.ApplicationMetrics {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElasticBeanstalkClientTypes.ApplicationMetrics()
+        value.duration = try reader["Duration"].readIfPresent()
+        value.requestCount = try reader["RequestCount"].readIfPresent() ?? 0
+        value.statusCodes = try reader["StatusCodes"].readIfPresent(with: ElasticBeanstalkClientTypes.StatusCodes.read(from:))
+        value.latency = try reader["Latency"].readIfPresent(with: ElasticBeanstalkClientTypes.Latency.read(from:))
+        return value
+    }
+}
+
+extension ElasticBeanstalkClientTypes.ApplicationResourceLifecycleConfig {
+
+    static func write(value: ElasticBeanstalkClientTypes.ApplicationResourceLifecycleConfig?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["ServiceRole"].write(value.serviceRole)
+        try writer["VersionLifecycleConfig"].write(value.versionLifecycleConfig, with: ElasticBeanstalkClientTypes.ApplicationVersionLifecycleConfig.write(value:to:))
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> ElasticBeanstalkClientTypes.ApplicationResourceLifecycleConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElasticBeanstalkClientTypes.ApplicationResourceLifecycleConfig()
+        value.serviceRole = try reader["ServiceRole"].readIfPresent()
+        value.versionLifecycleConfig = try reader["VersionLifecycleConfig"].readIfPresent(with: ElasticBeanstalkClientTypes.ApplicationVersionLifecycleConfig.read(from:))
+        return value
+    }
+}
+
+extension ElasticBeanstalkClientTypes.ApplicationVersionDescription {
+
+    static func read(from reader: SmithyXML.Reader) throws -> ElasticBeanstalkClientTypes.ApplicationVersionDescription {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElasticBeanstalkClientTypes.ApplicationVersionDescription()
+        value.applicationVersionArn = try reader["ApplicationVersionArn"].readIfPresent()
+        value.applicationName = try reader["ApplicationName"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.versionLabel = try reader["VersionLabel"].readIfPresent()
+        value.sourceBuildInformation = try reader["SourceBuildInformation"].readIfPresent(with: ElasticBeanstalkClientTypes.SourceBuildInformation.read(from:))
+        value.buildArn = try reader["BuildArn"].readIfPresent()
+        value.sourceBundle = try reader["SourceBundle"].readIfPresent(with: ElasticBeanstalkClientTypes.S3Location.read(from:))
+        value.dateCreated = try reader["DateCreated"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.dateUpdated = try reader["DateUpdated"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.status = try reader["Status"].readIfPresent()
+        return value
+    }
+}
+
+extension ElasticBeanstalkClientTypes.ApplicationVersionLifecycleConfig {
+
+    static func write(value: ElasticBeanstalkClientTypes.ApplicationVersionLifecycleConfig?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["MaxAgeRule"].write(value.maxAgeRule, with: ElasticBeanstalkClientTypes.MaxAgeRule.write(value:to:))
+        try writer["MaxCountRule"].write(value.maxCountRule, with: ElasticBeanstalkClientTypes.MaxCountRule.write(value:to:))
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> ElasticBeanstalkClientTypes.ApplicationVersionLifecycleConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElasticBeanstalkClientTypes.ApplicationVersionLifecycleConfig()
+        value.maxCountRule = try reader["MaxCountRule"].readIfPresent(with: ElasticBeanstalkClientTypes.MaxCountRule.read(from:))
+        value.maxAgeRule = try reader["MaxAgeRule"].readIfPresent(with: ElasticBeanstalkClientTypes.MaxAgeRule.read(from:))
+        return value
+    }
+}
+
+extension ElasticBeanstalkClientTypes.AutoScalingGroup {
+
+    static func read(from reader: SmithyXML.Reader) throws -> ElasticBeanstalkClientTypes.AutoScalingGroup {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElasticBeanstalkClientTypes.AutoScalingGroup()
+        value.name = try reader["Name"].readIfPresent()
+        return value
+    }
+}
+
+extension ElasticBeanstalkClientTypes.BuildConfiguration {
+
+    static func write(value: ElasticBeanstalkClientTypes.BuildConfiguration?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["ArtifactName"].write(value.artifactName)
+        try writer["CodeBuildServiceRole"].write(value.codeBuildServiceRole)
+        try writer["ComputeType"].write(value.computeType)
+        try writer["Image"].write(value.image)
+        try writer["TimeoutInMinutes"].write(value.timeoutInMinutes)
+    }
+}
+
+extension ElasticBeanstalkClientTypes.Builder {
+
+    static func read(from reader: SmithyXML.Reader) throws -> ElasticBeanstalkClientTypes.Builder {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElasticBeanstalkClientTypes.Builder()
+        value.arn = try reader["ARN"].readIfPresent()
+        return value
+    }
+}
+
+extension ElasticBeanstalkClientTypes.ConfigurationOptionDescription {
+
+    static func read(from reader: SmithyXML.Reader) throws -> ElasticBeanstalkClientTypes.ConfigurationOptionDescription {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElasticBeanstalkClientTypes.ConfigurationOptionDescription()
+        value.namespace = try reader["Namespace"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        value.defaultValue = try reader["DefaultValue"].readIfPresent()
+        value.changeSeverity = try reader["ChangeSeverity"].readIfPresent()
+        value.userDefined = try reader["UserDefined"].readIfPresent()
+        value.valueType = try reader["ValueType"].readIfPresent()
+        value.valueOptions = try reader["ValueOptions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.minValue = try reader["MinValue"].readIfPresent()
+        value.maxValue = try reader["MaxValue"].readIfPresent()
+        value.maxLength = try reader["MaxLength"].readIfPresent()
+        value.regex = try reader["Regex"].readIfPresent(with: ElasticBeanstalkClientTypes.OptionRestrictionRegex.read(from:))
+        return value
+    }
+}
+
+extension ElasticBeanstalkClientTypes.ConfigurationOptionSetting {
+
+    static func write(value: ElasticBeanstalkClientTypes.ConfigurationOptionSetting?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["Namespace"].write(value.namespace)
+        try writer["OptionName"].write(value.optionName)
+        try writer["ResourceName"].write(value.resourceName)
+        try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> ElasticBeanstalkClientTypes.ConfigurationOptionSetting {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElasticBeanstalkClientTypes.ConfigurationOptionSetting()
+        value.resourceName = try reader["ResourceName"].readIfPresent()
+        value.namespace = try reader["Namespace"].readIfPresent()
+        value.optionName = try reader["OptionName"].readIfPresent()
+        value.value = try reader["Value"].readIfPresent()
+        return value
+    }
+}
+
+extension ElasticBeanstalkClientTypes.ConfigurationSettingsDescription {
+
+    static func read(from reader: SmithyXML.Reader) throws -> ElasticBeanstalkClientTypes.ConfigurationSettingsDescription {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElasticBeanstalkClientTypes.ConfigurationSettingsDescription()
+        value.solutionStackName = try reader["SolutionStackName"].readIfPresent()
+        value.platformArn = try reader["PlatformArn"].readIfPresent()
+        value.applicationName = try reader["ApplicationName"].readIfPresent()
+        value.templateName = try reader["TemplateName"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.environmentName = try reader["EnvironmentName"].readIfPresent()
+        value.deploymentStatus = try reader["DeploymentStatus"].readIfPresent()
+        value.dateCreated = try reader["DateCreated"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.dateUpdated = try reader["DateUpdated"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.optionSettings = try reader["OptionSettings"].readListIfPresent(memberReadingClosure: ElasticBeanstalkClientTypes.ConfigurationOptionSetting.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ElasticBeanstalkClientTypes.CPUUtilization {
+
+    static func read(from reader: SmithyXML.Reader) throws -> ElasticBeanstalkClientTypes.CPUUtilization {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElasticBeanstalkClientTypes.CPUUtilization()
+        value.user = try reader["User"].readIfPresent()
+        value.nice = try reader["Nice"].readIfPresent()
+        value.system = try reader["System"].readIfPresent()
+        value.idle = try reader["Idle"].readIfPresent()
+        value.ioWait = try reader["IOWait"].readIfPresent()
+        value.irq = try reader["IRQ"].readIfPresent()
+        value.softIRQ = try reader["SoftIRQ"].readIfPresent()
+        value.privileged = try reader["Privileged"].readIfPresent()
+        return value
+    }
+}
+
+extension ElasticBeanstalkClientTypes.CustomAmi {
+
+    static func read(from reader: SmithyXML.Reader) throws -> ElasticBeanstalkClientTypes.CustomAmi {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElasticBeanstalkClientTypes.CustomAmi()
+        value.virtualizationType = try reader["VirtualizationType"].readIfPresent()
+        value.imageId = try reader["ImageId"].readIfPresent()
+        return value
+    }
+}
+
+extension ElasticBeanstalkClientTypes.Deployment {
+
+    static func read(from reader: SmithyXML.Reader) throws -> ElasticBeanstalkClientTypes.Deployment {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElasticBeanstalkClientTypes.Deployment()
+        value.versionLabel = try reader["VersionLabel"].readIfPresent()
+        value.deploymentId = try reader["DeploymentId"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.deploymentTime = try reader["DeploymentTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
 extension ElasticBeanstalkClientTypes.EnvironmentDescription {
 
     static func read(from reader: SmithyXML.Reader) throws -> ElasticBeanstalkClientTypes.EnvironmentDescription {
@@ -7516,6 +7732,19 @@ extension ElasticBeanstalkClientTypes.EnvironmentDescription {
     }
 }
 
+extension ElasticBeanstalkClientTypes.EnvironmentInfoDescription {
+
+    static func read(from reader: SmithyXML.Reader) throws -> ElasticBeanstalkClientTypes.EnvironmentInfoDescription {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElasticBeanstalkClientTypes.EnvironmentInfoDescription()
+        value.infoType = try reader["InfoType"].readIfPresent()
+        value.ec2InstanceId = try reader["Ec2InstanceId"].readIfPresent()
+        value.sampleTimestamp = try reader["SampleTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.message = try reader["Message"].readIfPresent()
+        return value
+    }
+}
+
 extension ElasticBeanstalkClientTypes.EnvironmentLink {
 
     static func read(from reader: SmithyXML.Reader) throws -> ElasticBeanstalkClientTypes.EnvironmentLink {
@@ -7523,6 +7752,33 @@ extension ElasticBeanstalkClientTypes.EnvironmentLink {
         var value = ElasticBeanstalkClientTypes.EnvironmentLink()
         value.linkName = try reader["LinkName"].readIfPresent()
         value.environmentName = try reader["EnvironmentName"].readIfPresent()
+        return value
+    }
+}
+
+extension ElasticBeanstalkClientTypes.EnvironmentResourceDescription {
+
+    static func read(from reader: SmithyXML.Reader) throws -> ElasticBeanstalkClientTypes.EnvironmentResourceDescription {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElasticBeanstalkClientTypes.EnvironmentResourceDescription()
+        value.environmentName = try reader["EnvironmentName"].readIfPresent()
+        value.autoScalingGroups = try reader["AutoScalingGroups"].readListIfPresent(memberReadingClosure: ElasticBeanstalkClientTypes.AutoScalingGroup.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.instances = try reader["Instances"].readListIfPresent(memberReadingClosure: ElasticBeanstalkClientTypes.Instance.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.launchConfigurations = try reader["LaunchConfigurations"].readListIfPresent(memberReadingClosure: ElasticBeanstalkClientTypes.LaunchConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.launchTemplates = try reader["LaunchTemplates"].readListIfPresent(memberReadingClosure: ElasticBeanstalkClientTypes.LaunchTemplate.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.loadBalancers = try reader["LoadBalancers"].readListIfPresent(memberReadingClosure: ElasticBeanstalkClientTypes.LoadBalancer.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.triggers = try reader["Triggers"].readListIfPresent(memberReadingClosure: ElasticBeanstalkClientTypes.Trigger.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.queues = try reader["Queues"].readListIfPresent(memberReadingClosure: ElasticBeanstalkClientTypes.Queue.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ElasticBeanstalkClientTypes.EnvironmentResourcesDescription {
+
+    static func read(from reader: SmithyXML.Reader) throws -> ElasticBeanstalkClientTypes.EnvironmentResourcesDescription {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElasticBeanstalkClientTypes.EnvironmentResourcesDescription()
+        value.loadBalancer = try reader["LoadBalancer"].readIfPresent(with: ElasticBeanstalkClientTypes.LoadBalancerDescription.read(from:))
         return value
     }
 }
@@ -7546,12 +7802,105 @@ extension ElasticBeanstalkClientTypes.EnvironmentTier {
     }
 }
 
-extension ElasticBeanstalkClientTypes.EnvironmentResourcesDescription {
+extension ElasticBeanstalkClientTypes.EventDescription {
 
-    static func read(from reader: SmithyXML.Reader) throws -> ElasticBeanstalkClientTypes.EnvironmentResourcesDescription {
+    static func read(from reader: SmithyXML.Reader) throws -> ElasticBeanstalkClientTypes.EventDescription {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElasticBeanstalkClientTypes.EnvironmentResourcesDescription()
-        value.loadBalancer = try reader["LoadBalancer"].readIfPresent(with: ElasticBeanstalkClientTypes.LoadBalancerDescription.read(from:))
+        var value = ElasticBeanstalkClientTypes.EventDescription()
+        value.eventDate = try reader["EventDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.message = try reader["Message"].readIfPresent()
+        value.applicationName = try reader["ApplicationName"].readIfPresent()
+        value.versionLabel = try reader["VersionLabel"].readIfPresent()
+        value.templateName = try reader["TemplateName"].readIfPresent()
+        value.environmentName = try reader["EnvironmentName"].readIfPresent()
+        value.platformArn = try reader["PlatformArn"].readIfPresent()
+        value.requestId = try reader["RequestId"].readIfPresent()
+        value.severity = try reader["Severity"].readIfPresent()
+        return value
+    }
+}
+
+extension ElasticBeanstalkClientTypes.Instance {
+
+    static func read(from reader: SmithyXML.Reader) throws -> ElasticBeanstalkClientTypes.Instance {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElasticBeanstalkClientTypes.Instance()
+        value.id = try reader["Id"].readIfPresent()
+        return value
+    }
+}
+
+extension ElasticBeanstalkClientTypes.InstanceHealthSummary {
+
+    static func read(from reader: SmithyXML.Reader) throws -> ElasticBeanstalkClientTypes.InstanceHealthSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElasticBeanstalkClientTypes.InstanceHealthSummary()
+        value.noData = try reader["NoData"].readIfPresent()
+        value.unknown = try reader["Unknown"].readIfPresent()
+        value.pending = try reader["Pending"].readIfPresent()
+        value.ok = try reader["Ok"].readIfPresent()
+        value.info = try reader["Info"].readIfPresent()
+        value.warning = try reader["Warning"].readIfPresent()
+        value.degraded = try reader["Degraded"].readIfPresent()
+        value.severe = try reader["Severe"].readIfPresent()
+        return value
+    }
+}
+
+extension ElasticBeanstalkClientTypes.Latency {
+
+    static func read(from reader: SmithyXML.Reader) throws -> ElasticBeanstalkClientTypes.Latency {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElasticBeanstalkClientTypes.Latency()
+        value.p999 = try reader["P999"].readIfPresent()
+        value.p99 = try reader["P99"].readIfPresent()
+        value.p95 = try reader["P95"].readIfPresent()
+        value.p90 = try reader["P90"].readIfPresent()
+        value.p85 = try reader["P85"].readIfPresent()
+        value.p75 = try reader["P75"].readIfPresent()
+        value.p50 = try reader["P50"].readIfPresent()
+        value.p10 = try reader["P10"].readIfPresent()
+        return value
+    }
+}
+
+extension ElasticBeanstalkClientTypes.LaunchConfiguration {
+
+    static func read(from reader: SmithyXML.Reader) throws -> ElasticBeanstalkClientTypes.LaunchConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElasticBeanstalkClientTypes.LaunchConfiguration()
+        value.name = try reader["Name"].readIfPresent()
+        return value
+    }
+}
+
+extension ElasticBeanstalkClientTypes.LaunchTemplate {
+
+    static func read(from reader: SmithyXML.Reader) throws -> ElasticBeanstalkClientTypes.LaunchTemplate {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElasticBeanstalkClientTypes.LaunchTemplate()
+        value.id = try reader["Id"].readIfPresent()
+        return value
+    }
+}
+
+extension ElasticBeanstalkClientTypes.Listener {
+
+    static func read(from reader: SmithyXML.Reader) throws -> ElasticBeanstalkClientTypes.Listener {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElasticBeanstalkClientTypes.Listener()
+        value.`protocol` = try reader["Protocol"].readIfPresent()
+        value.port = try reader["Port"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension ElasticBeanstalkClientTypes.LoadBalancer {
+
+    static func read(from reader: SmithyXML.Reader) throws -> ElasticBeanstalkClientTypes.LoadBalancer {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElasticBeanstalkClientTypes.LoadBalancer()
+        value.name = try reader["Name"].readIfPresent()
         return value
     }
 }
@@ -7568,64 +7917,33 @@ extension ElasticBeanstalkClientTypes.LoadBalancerDescription {
     }
 }
 
-extension ElasticBeanstalkClientTypes.Listener {
+extension ElasticBeanstalkClientTypes.ManagedAction {
 
-    static func read(from reader: SmithyXML.Reader) throws -> ElasticBeanstalkClientTypes.Listener {
+    static func read(from reader: SmithyXML.Reader) throws -> ElasticBeanstalkClientTypes.ManagedAction {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElasticBeanstalkClientTypes.Listener()
-        value.`protocol` = try reader["Protocol"].readIfPresent()
-        value.port = try reader["Port"].readIfPresent() ?? 0
+        var value = ElasticBeanstalkClientTypes.ManagedAction()
+        value.actionId = try reader["ActionId"].readIfPresent()
+        value.actionDescription = try reader["ActionDescription"].readIfPresent()
+        value.actionType = try reader["ActionType"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.windowStartTime = try reader["WindowStartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
     }
 }
 
-extension ElasticBeanstalkClientTypes.ApplicationDescription {
+extension ElasticBeanstalkClientTypes.ManagedActionHistoryItem {
 
-    static func read(from reader: SmithyXML.Reader) throws -> ElasticBeanstalkClientTypes.ApplicationDescription {
+    static func read(from reader: SmithyXML.Reader) throws -> ElasticBeanstalkClientTypes.ManagedActionHistoryItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElasticBeanstalkClientTypes.ApplicationDescription()
-        value.applicationArn = try reader["ApplicationArn"].readIfPresent()
-        value.applicationName = try reader["ApplicationName"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        value.dateCreated = try reader["DateCreated"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.dateUpdated = try reader["DateUpdated"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.versions = try reader["Versions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.configurationTemplates = try reader["ConfigurationTemplates"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.resourceLifecycleConfig = try reader["ResourceLifecycleConfig"].readIfPresent(with: ElasticBeanstalkClientTypes.ApplicationResourceLifecycleConfig.read(from:))
-        return value
-    }
-}
-
-extension ElasticBeanstalkClientTypes.ApplicationResourceLifecycleConfig {
-
-    static func write(value: ElasticBeanstalkClientTypes.ApplicationResourceLifecycleConfig?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["ServiceRole"].write(value.serviceRole)
-        try writer["VersionLifecycleConfig"].write(value.versionLifecycleConfig, with: ElasticBeanstalkClientTypes.ApplicationVersionLifecycleConfig.write(value:to:))
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> ElasticBeanstalkClientTypes.ApplicationResourceLifecycleConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElasticBeanstalkClientTypes.ApplicationResourceLifecycleConfig()
-        value.serviceRole = try reader["ServiceRole"].readIfPresent()
-        value.versionLifecycleConfig = try reader["VersionLifecycleConfig"].readIfPresent(with: ElasticBeanstalkClientTypes.ApplicationVersionLifecycleConfig.read(from:))
-        return value
-    }
-}
-
-extension ElasticBeanstalkClientTypes.ApplicationVersionLifecycleConfig {
-
-    static func write(value: ElasticBeanstalkClientTypes.ApplicationVersionLifecycleConfig?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["MaxAgeRule"].write(value.maxAgeRule, with: ElasticBeanstalkClientTypes.MaxAgeRule.write(value:to:))
-        try writer["MaxCountRule"].write(value.maxCountRule, with: ElasticBeanstalkClientTypes.MaxCountRule.write(value:to:))
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> ElasticBeanstalkClientTypes.ApplicationVersionLifecycleConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElasticBeanstalkClientTypes.ApplicationVersionLifecycleConfig()
-        value.maxCountRule = try reader["MaxCountRule"].readIfPresent(with: ElasticBeanstalkClientTypes.MaxCountRule.read(from:))
-        value.maxAgeRule = try reader["MaxAgeRule"].readIfPresent(with: ElasticBeanstalkClientTypes.MaxAgeRule.read(from:))
+        var value = ElasticBeanstalkClientTypes.ManagedActionHistoryItem()
+        value.actionId = try reader["ActionId"].readIfPresent()
+        value.actionType = try reader["ActionType"].readIfPresent()
+        value.actionDescription = try reader["ActionDescription"].readIfPresent()
+        value.failureType = try reader["FailureType"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.failureDescription = try reader["FailureDescription"].readIfPresent()
+        value.executedTime = try reader["ExecutedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.finishedTime = try reader["FinishedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
     }
 }
@@ -7668,157 +7986,6 @@ extension ElasticBeanstalkClientTypes.MaxCountRule {
     }
 }
 
-extension ElasticBeanstalkClientTypes.ApplicationVersionDescription {
-
-    static func read(from reader: SmithyXML.Reader) throws -> ElasticBeanstalkClientTypes.ApplicationVersionDescription {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElasticBeanstalkClientTypes.ApplicationVersionDescription()
-        value.applicationVersionArn = try reader["ApplicationVersionArn"].readIfPresent()
-        value.applicationName = try reader["ApplicationName"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        value.versionLabel = try reader["VersionLabel"].readIfPresent()
-        value.sourceBuildInformation = try reader["SourceBuildInformation"].readIfPresent(with: ElasticBeanstalkClientTypes.SourceBuildInformation.read(from:))
-        value.buildArn = try reader["BuildArn"].readIfPresent()
-        value.sourceBundle = try reader["SourceBundle"].readIfPresent(with: ElasticBeanstalkClientTypes.S3Location.read(from:))
-        value.dateCreated = try reader["DateCreated"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.dateUpdated = try reader["DateUpdated"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.status = try reader["Status"].readIfPresent()
-        return value
-    }
-}
-
-extension ElasticBeanstalkClientTypes.S3Location {
-
-    static func write(value: ElasticBeanstalkClientTypes.S3Location?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["S3Bucket"].write(value.s3Bucket)
-        try writer["S3Key"].write(value.s3Key)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> ElasticBeanstalkClientTypes.S3Location {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElasticBeanstalkClientTypes.S3Location()
-        value.s3Bucket = try reader["S3Bucket"].readIfPresent()
-        value.s3Key = try reader["S3Key"].readIfPresent()
-        return value
-    }
-}
-
-extension ElasticBeanstalkClientTypes.SourceBuildInformation {
-
-    static func write(value: ElasticBeanstalkClientTypes.SourceBuildInformation?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["SourceLocation"].write(value.sourceLocation)
-        try writer["SourceRepository"].write(value.sourceRepository)
-        try writer["SourceType"].write(value.sourceType)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> ElasticBeanstalkClientTypes.SourceBuildInformation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElasticBeanstalkClientTypes.SourceBuildInformation()
-        value.sourceType = try reader["SourceType"].readIfPresent() ?? .sdkUnknown("")
-        value.sourceRepository = try reader["SourceRepository"].readIfPresent() ?? .sdkUnknown("")
-        value.sourceLocation = try reader["SourceLocation"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension ElasticBeanstalkClientTypes.ConfigurationOptionSetting {
-
-    static func write(value: ElasticBeanstalkClientTypes.ConfigurationOptionSetting?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Namespace"].write(value.namespace)
-        try writer["OptionName"].write(value.optionName)
-        try writer["ResourceName"].write(value.resourceName)
-        try writer["Value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> ElasticBeanstalkClientTypes.ConfigurationOptionSetting {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElasticBeanstalkClientTypes.ConfigurationOptionSetting()
-        value.resourceName = try reader["ResourceName"].readIfPresent()
-        value.namespace = try reader["Namespace"].readIfPresent()
-        value.optionName = try reader["OptionName"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
-        return value
-    }
-}
-
-extension ElasticBeanstalkClientTypes.PlatformSummary {
-
-    static func read(from reader: SmithyXML.Reader) throws -> ElasticBeanstalkClientTypes.PlatformSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElasticBeanstalkClientTypes.PlatformSummary()
-        value.platformArn = try reader["PlatformArn"].readIfPresent()
-        value.platformOwner = try reader["PlatformOwner"].readIfPresent()
-        value.platformStatus = try reader["PlatformStatus"].readIfPresent()
-        value.platformCategory = try reader["PlatformCategory"].readIfPresent()
-        value.operatingSystemName = try reader["OperatingSystemName"].readIfPresent()
-        value.operatingSystemVersion = try reader["OperatingSystemVersion"].readIfPresent()
-        value.supportedTierList = try reader["SupportedTierList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.supportedAddonList = try reader["SupportedAddonList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.platformLifecycleState = try reader["PlatformLifecycleState"].readIfPresent()
-        value.platformVersion = try reader["PlatformVersion"].readIfPresent()
-        value.platformBranchName = try reader["PlatformBranchName"].readIfPresent()
-        value.platformBranchLifecycleState = try reader["PlatformBranchLifecycleState"].readIfPresent()
-        return value
-    }
-}
-
-extension ElasticBeanstalkClientTypes.Builder {
-
-    static func read(from reader: SmithyXML.Reader) throws -> ElasticBeanstalkClientTypes.Builder {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElasticBeanstalkClientTypes.Builder()
-        value.arn = try reader["ARN"].readIfPresent()
-        return value
-    }
-}
-
-extension ElasticBeanstalkClientTypes.ResourceQuotas {
-
-    static func read(from reader: SmithyXML.Reader) throws -> ElasticBeanstalkClientTypes.ResourceQuotas {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElasticBeanstalkClientTypes.ResourceQuotas()
-        value.applicationQuota = try reader["ApplicationQuota"].readIfPresent(with: ElasticBeanstalkClientTypes.ResourceQuota.read(from:))
-        value.applicationVersionQuota = try reader["ApplicationVersionQuota"].readIfPresent(with: ElasticBeanstalkClientTypes.ResourceQuota.read(from:))
-        value.environmentQuota = try reader["EnvironmentQuota"].readIfPresent(with: ElasticBeanstalkClientTypes.ResourceQuota.read(from:))
-        value.configurationTemplateQuota = try reader["ConfigurationTemplateQuota"].readIfPresent(with: ElasticBeanstalkClientTypes.ResourceQuota.read(from:))
-        value.customPlatformQuota = try reader["CustomPlatformQuota"].readIfPresent(with: ElasticBeanstalkClientTypes.ResourceQuota.read(from:))
-        return value
-    }
-}
-
-extension ElasticBeanstalkClientTypes.ResourceQuota {
-
-    static func read(from reader: SmithyXML.Reader) throws -> ElasticBeanstalkClientTypes.ResourceQuota {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElasticBeanstalkClientTypes.ResourceQuota()
-        value.maximum = try reader["Maximum"].readIfPresent()
-        return value
-    }
-}
-
-extension ElasticBeanstalkClientTypes.ConfigurationOptionDescription {
-
-    static func read(from reader: SmithyXML.Reader) throws -> ElasticBeanstalkClientTypes.ConfigurationOptionDescription {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElasticBeanstalkClientTypes.ConfigurationOptionDescription()
-        value.namespace = try reader["Namespace"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
-        value.defaultValue = try reader["DefaultValue"].readIfPresent()
-        value.changeSeverity = try reader["ChangeSeverity"].readIfPresent()
-        value.userDefined = try reader["UserDefined"].readIfPresent()
-        value.valueType = try reader["ValueType"].readIfPresent()
-        value.valueOptions = try reader["ValueOptions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.minValue = try reader["MinValue"].readIfPresent()
-        value.maxValue = try reader["MaxValue"].readIfPresent()
-        value.maxLength = try reader["MaxLength"].readIfPresent()
-        value.regex = try reader["Regex"].readIfPresent(with: ElasticBeanstalkClientTypes.OptionRestrictionRegex.read(from:))
-        return value
-    }
-}
-
 extension ElasticBeanstalkClientTypes.OptionRestrictionRegex {
 
     static func read(from reader: SmithyXML.Reader) throws -> ElasticBeanstalkClientTypes.OptionRestrictionRegex {
@@ -7830,278 +7997,26 @@ extension ElasticBeanstalkClientTypes.OptionRestrictionRegex {
     }
 }
 
-extension ElasticBeanstalkClientTypes.ConfigurationSettingsDescription {
+extension ElasticBeanstalkClientTypes.OptionSpecification {
 
-    static func read(from reader: SmithyXML.Reader) throws -> ElasticBeanstalkClientTypes.ConfigurationSettingsDescription {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElasticBeanstalkClientTypes.ConfigurationSettingsDescription()
-        value.solutionStackName = try reader["SolutionStackName"].readIfPresent()
-        value.platformArn = try reader["PlatformArn"].readIfPresent()
-        value.applicationName = try reader["ApplicationName"].readIfPresent()
-        value.templateName = try reader["TemplateName"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        value.environmentName = try reader["EnvironmentName"].readIfPresent()
-        value.deploymentStatus = try reader["DeploymentStatus"].readIfPresent()
-        value.dateCreated = try reader["DateCreated"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.dateUpdated = try reader["DateUpdated"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.optionSettings = try reader["OptionSettings"].readListIfPresent(memberReadingClosure: ElasticBeanstalkClientTypes.ConfigurationOptionSetting.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
+    static func write(value: ElasticBeanstalkClientTypes.OptionSpecification?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["Namespace"].write(value.namespace)
+        try writer["OptionName"].write(value.optionName)
+        try writer["ResourceName"].write(value.resourceName)
     }
 }
 
-extension ElasticBeanstalkClientTypes.ApplicationMetrics {
+extension ElasticBeanstalkClientTypes.PlatformBranchSummary {
 
-    static func read(from reader: SmithyXML.Reader) throws -> ElasticBeanstalkClientTypes.ApplicationMetrics {
+    static func read(from reader: SmithyXML.Reader) throws -> ElasticBeanstalkClientTypes.PlatformBranchSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElasticBeanstalkClientTypes.ApplicationMetrics()
-        value.duration = try reader["Duration"].readIfPresent()
-        value.requestCount = try reader["RequestCount"].readIfPresent() ?? 0
-        value.statusCodes = try reader["StatusCodes"].readIfPresent(with: ElasticBeanstalkClientTypes.StatusCodes.read(from:))
-        value.latency = try reader["Latency"].readIfPresent(with: ElasticBeanstalkClientTypes.Latency.read(from:))
-        return value
-    }
-}
-
-extension ElasticBeanstalkClientTypes.Latency {
-
-    static func read(from reader: SmithyXML.Reader) throws -> ElasticBeanstalkClientTypes.Latency {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElasticBeanstalkClientTypes.Latency()
-        value.p999 = try reader["P999"].readIfPresent()
-        value.p99 = try reader["P99"].readIfPresent()
-        value.p95 = try reader["P95"].readIfPresent()
-        value.p90 = try reader["P90"].readIfPresent()
-        value.p85 = try reader["P85"].readIfPresent()
-        value.p75 = try reader["P75"].readIfPresent()
-        value.p50 = try reader["P50"].readIfPresent()
-        value.p10 = try reader["P10"].readIfPresent()
-        return value
-    }
-}
-
-extension ElasticBeanstalkClientTypes.StatusCodes {
-
-    static func read(from reader: SmithyXML.Reader) throws -> ElasticBeanstalkClientTypes.StatusCodes {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElasticBeanstalkClientTypes.StatusCodes()
-        value.status2xx = try reader["Status2xx"].readIfPresent()
-        value.status3xx = try reader["Status3xx"].readIfPresent()
-        value.status4xx = try reader["Status4xx"].readIfPresent()
-        value.status5xx = try reader["Status5xx"].readIfPresent()
-        return value
-    }
-}
-
-extension ElasticBeanstalkClientTypes.InstanceHealthSummary {
-
-    static func read(from reader: SmithyXML.Reader) throws -> ElasticBeanstalkClientTypes.InstanceHealthSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElasticBeanstalkClientTypes.InstanceHealthSummary()
-        value.noData = try reader["NoData"].readIfPresent()
-        value.unknown = try reader["Unknown"].readIfPresent()
-        value.pending = try reader["Pending"].readIfPresent()
-        value.ok = try reader["Ok"].readIfPresent()
-        value.info = try reader["Info"].readIfPresent()
-        value.warning = try reader["Warning"].readIfPresent()
-        value.degraded = try reader["Degraded"].readIfPresent()
-        value.severe = try reader["Severe"].readIfPresent()
-        return value
-    }
-}
-
-extension ElasticBeanstalkClientTypes.ManagedActionHistoryItem {
-
-    static func read(from reader: SmithyXML.Reader) throws -> ElasticBeanstalkClientTypes.ManagedActionHistoryItem {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElasticBeanstalkClientTypes.ManagedActionHistoryItem()
-        value.actionId = try reader["ActionId"].readIfPresent()
-        value.actionType = try reader["ActionType"].readIfPresent()
-        value.actionDescription = try reader["ActionDescription"].readIfPresent()
-        value.failureType = try reader["FailureType"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.failureDescription = try reader["FailureDescription"].readIfPresent()
-        value.executedTime = try reader["ExecutedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.finishedTime = try reader["FinishedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        return value
-    }
-}
-
-extension ElasticBeanstalkClientTypes.ManagedAction {
-
-    static func read(from reader: SmithyXML.Reader) throws -> ElasticBeanstalkClientTypes.ManagedAction {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElasticBeanstalkClientTypes.ManagedAction()
-        value.actionId = try reader["ActionId"].readIfPresent()
-        value.actionDescription = try reader["ActionDescription"].readIfPresent()
-        value.actionType = try reader["ActionType"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.windowStartTime = try reader["WindowStartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        return value
-    }
-}
-
-extension ElasticBeanstalkClientTypes.EnvironmentResourceDescription {
-
-    static func read(from reader: SmithyXML.Reader) throws -> ElasticBeanstalkClientTypes.EnvironmentResourceDescription {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElasticBeanstalkClientTypes.EnvironmentResourceDescription()
-        value.environmentName = try reader["EnvironmentName"].readIfPresent()
-        value.autoScalingGroups = try reader["AutoScalingGroups"].readListIfPresent(memberReadingClosure: ElasticBeanstalkClientTypes.AutoScalingGroup.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.instances = try reader["Instances"].readListIfPresent(memberReadingClosure: ElasticBeanstalkClientTypes.Instance.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.launchConfigurations = try reader["LaunchConfigurations"].readListIfPresent(memberReadingClosure: ElasticBeanstalkClientTypes.LaunchConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.launchTemplates = try reader["LaunchTemplates"].readListIfPresent(memberReadingClosure: ElasticBeanstalkClientTypes.LaunchTemplate.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.loadBalancers = try reader["LoadBalancers"].readListIfPresent(memberReadingClosure: ElasticBeanstalkClientTypes.LoadBalancer.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.triggers = try reader["Triggers"].readListIfPresent(memberReadingClosure: ElasticBeanstalkClientTypes.Trigger.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.queues = try reader["Queues"].readListIfPresent(memberReadingClosure: ElasticBeanstalkClientTypes.Queue.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension ElasticBeanstalkClientTypes.Queue {
-
-    static func read(from reader: SmithyXML.Reader) throws -> ElasticBeanstalkClientTypes.Queue {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElasticBeanstalkClientTypes.Queue()
-        value.name = try reader["Name"].readIfPresent()
-        value.url = try reader["URL"].readIfPresent()
-        return value
-    }
-}
-
-extension ElasticBeanstalkClientTypes.Trigger {
-
-    static func read(from reader: SmithyXML.Reader) throws -> ElasticBeanstalkClientTypes.Trigger {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElasticBeanstalkClientTypes.Trigger()
-        value.name = try reader["Name"].readIfPresent()
-        return value
-    }
-}
-
-extension ElasticBeanstalkClientTypes.LoadBalancer {
-
-    static func read(from reader: SmithyXML.Reader) throws -> ElasticBeanstalkClientTypes.LoadBalancer {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElasticBeanstalkClientTypes.LoadBalancer()
-        value.name = try reader["Name"].readIfPresent()
-        return value
-    }
-}
-
-extension ElasticBeanstalkClientTypes.LaunchTemplate {
-
-    static func read(from reader: SmithyXML.Reader) throws -> ElasticBeanstalkClientTypes.LaunchTemplate {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElasticBeanstalkClientTypes.LaunchTemplate()
-        value.id = try reader["Id"].readIfPresent()
-        return value
-    }
-}
-
-extension ElasticBeanstalkClientTypes.LaunchConfiguration {
-
-    static func read(from reader: SmithyXML.Reader) throws -> ElasticBeanstalkClientTypes.LaunchConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElasticBeanstalkClientTypes.LaunchConfiguration()
-        value.name = try reader["Name"].readIfPresent()
-        return value
-    }
-}
-
-extension ElasticBeanstalkClientTypes.Instance {
-
-    static func read(from reader: SmithyXML.Reader) throws -> ElasticBeanstalkClientTypes.Instance {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElasticBeanstalkClientTypes.Instance()
-        value.id = try reader["Id"].readIfPresent()
-        return value
-    }
-}
-
-extension ElasticBeanstalkClientTypes.AutoScalingGroup {
-
-    static func read(from reader: SmithyXML.Reader) throws -> ElasticBeanstalkClientTypes.AutoScalingGroup {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElasticBeanstalkClientTypes.AutoScalingGroup()
-        value.name = try reader["Name"].readIfPresent()
-        return value
-    }
-}
-
-extension ElasticBeanstalkClientTypes.EventDescription {
-
-    static func read(from reader: SmithyXML.Reader) throws -> ElasticBeanstalkClientTypes.EventDescription {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElasticBeanstalkClientTypes.EventDescription()
-        value.eventDate = try reader["EventDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.message = try reader["Message"].readIfPresent()
-        value.applicationName = try reader["ApplicationName"].readIfPresent()
-        value.versionLabel = try reader["VersionLabel"].readIfPresent()
-        value.templateName = try reader["TemplateName"].readIfPresent()
-        value.environmentName = try reader["EnvironmentName"].readIfPresent()
-        value.platformArn = try reader["PlatformArn"].readIfPresent()
-        value.requestId = try reader["RequestId"].readIfPresent()
-        value.severity = try reader["Severity"].readIfPresent()
-        return value
-    }
-}
-
-extension ElasticBeanstalkClientTypes.SingleInstanceHealth {
-
-    static func read(from reader: SmithyXML.Reader) throws -> ElasticBeanstalkClientTypes.SingleInstanceHealth {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElasticBeanstalkClientTypes.SingleInstanceHealth()
-        value.instanceId = try reader["InstanceId"].readIfPresent()
-        value.healthStatus = try reader["HealthStatus"].readIfPresent()
-        value.color = try reader["Color"].readIfPresent()
-        value.causes = try reader["Causes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.launchedAt = try reader["LaunchedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.applicationMetrics = try reader["ApplicationMetrics"].readIfPresent(with: ElasticBeanstalkClientTypes.ApplicationMetrics.read(from:))
-        value.system = try reader["System"].readIfPresent(with: ElasticBeanstalkClientTypes.SystemStatus.read(from:))
-        value.deployment = try reader["Deployment"].readIfPresent(with: ElasticBeanstalkClientTypes.Deployment.read(from:))
-        value.availabilityZone = try reader["AvailabilityZone"].readIfPresent()
-        value.instanceType = try reader["InstanceType"].readIfPresent()
-        return value
-    }
-}
-
-extension ElasticBeanstalkClientTypes.Deployment {
-
-    static func read(from reader: SmithyXML.Reader) throws -> ElasticBeanstalkClientTypes.Deployment {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElasticBeanstalkClientTypes.Deployment()
-        value.versionLabel = try reader["VersionLabel"].readIfPresent()
-        value.deploymentId = try reader["DeploymentId"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.deploymentTime = try reader["DeploymentTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        return value
-    }
-}
-
-extension ElasticBeanstalkClientTypes.SystemStatus {
-
-    static func read(from reader: SmithyXML.Reader) throws -> ElasticBeanstalkClientTypes.SystemStatus {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElasticBeanstalkClientTypes.SystemStatus()
-        value.cpuUtilization = try reader["CPUUtilization"].readIfPresent(with: ElasticBeanstalkClientTypes.CPUUtilization.read(from:))
-        value.loadAverage = try reader["LoadAverage"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension ElasticBeanstalkClientTypes.CPUUtilization {
-
-    static func read(from reader: SmithyXML.Reader) throws -> ElasticBeanstalkClientTypes.CPUUtilization {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElasticBeanstalkClientTypes.CPUUtilization()
-        value.user = try reader["User"].readIfPresent()
-        value.nice = try reader["Nice"].readIfPresent()
-        value.system = try reader["System"].readIfPresent()
-        value.idle = try reader["Idle"].readIfPresent()
-        value.ioWait = try reader["IOWait"].readIfPresent()
-        value.irq = try reader["IRQ"].readIfPresent()
-        value.softIRQ = try reader["SoftIRQ"].readIfPresent()
-        value.privileged = try reader["Privileged"].readIfPresent()
+        var value = ElasticBeanstalkClientTypes.PlatformBranchSummary()
+        value.platformName = try reader["PlatformName"].readIfPresent()
+        value.branchName = try reader["BranchName"].readIfPresent()
+        value.lifecycleState = try reader["LifecycleState"].readIfPresent()
+        value.branchOrder = try reader["BranchOrder"].readIfPresent() ?? 0
+        value.supportedTierList = try reader["SupportedTierList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -8136,14 +8051,13 @@ extension ElasticBeanstalkClientTypes.PlatformDescription {
     }
 }
 
-extension ElasticBeanstalkClientTypes.CustomAmi {
+extension ElasticBeanstalkClientTypes.PlatformFilter {
 
-    static func read(from reader: SmithyXML.Reader) throws -> ElasticBeanstalkClientTypes.CustomAmi {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElasticBeanstalkClientTypes.CustomAmi()
-        value.virtualizationType = try reader["VirtualizationType"].readIfPresent()
-        value.imageId = try reader["ImageId"].readIfPresent()
-        return value
+    static func write(value: ElasticBeanstalkClientTypes.PlatformFilter?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["Operator"].write(value.`operator`)
+        try writer["Type"].write(value.type)
+        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -8169,6 +8083,108 @@ extension ElasticBeanstalkClientTypes.PlatformProgrammingLanguage {
     }
 }
 
+extension ElasticBeanstalkClientTypes.PlatformSummary {
+
+    static func read(from reader: SmithyXML.Reader) throws -> ElasticBeanstalkClientTypes.PlatformSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElasticBeanstalkClientTypes.PlatformSummary()
+        value.platformArn = try reader["PlatformArn"].readIfPresent()
+        value.platformOwner = try reader["PlatformOwner"].readIfPresent()
+        value.platformStatus = try reader["PlatformStatus"].readIfPresent()
+        value.platformCategory = try reader["PlatformCategory"].readIfPresent()
+        value.operatingSystemName = try reader["OperatingSystemName"].readIfPresent()
+        value.operatingSystemVersion = try reader["OperatingSystemVersion"].readIfPresent()
+        value.supportedTierList = try reader["SupportedTierList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.supportedAddonList = try reader["SupportedAddonList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.platformLifecycleState = try reader["PlatformLifecycleState"].readIfPresent()
+        value.platformVersion = try reader["PlatformVersion"].readIfPresent()
+        value.platformBranchName = try reader["PlatformBranchName"].readIfPresent()
+        value.platformBranchLifecycleState = try reader["PlatformBranchLifecycleState"].readIfPresent()
+        return value
+    }
+}
+
+extension ElasticBeanstalkClientTypes.Queue {
+
+    static func read(from reader: SmithyXML.Reader) throws -> ElasticBeanstalkClientTypes.Queue {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElasticBeanstalkClientTypes.Queue()
+        value.name = try reader["Name"].readIfPresent()
+        value.url = try reader["URL"].readIfPresent()
+        return value
+    }
+}
+
+extension ElasticBeanstalkClientTypes.ResourceQuota {
+
+    static func read(from reader: SmithyXML.Reader) throws -> ElasticBeanstalkClientTypes.ResourceQuota {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElasticBeanstalkClientTypes.ResourceQuota()
+        value.maximum = try reader["Maximum"].readIfPresent()
+        return value
+    }
+}
+
+extension ElasticBeanstalkClientTypes.ResourceQuotas {
+
+    static func read(from reader: SmithyXML.Reader) throws -> ElasticBeanstalkClientTypes.ResourceQuotas {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElasticBeanstalkClientTypes.ResourceQuotas()
+        value.applicationQuota = try reader["ApplicationQuota"].readIfPresent(with: ElasticBeanstalkClientTypes.ResourceQuota.read(from:))
+        value.applicationVersionQuota = try reader["ApplicationVersionQuota"].readIfPresent(with: ElasticBeanstalkClientTypes.ResourceQuota.read(from:))
+        value.environmentQuota = try reader["EnvironmentQuota"].readIfPresent(with: ElasticBeanstalkClientTypes.ResourceQuota.read(from:))
+        value.configurationTemplateQuota = try reader["ConfigurationTemplateQuota"].readIfPresent(with: ElasticBeanstalkClientTypes.ResourceQuota.read(from:))
+        value.customPlatformQuota = try reader["CustomPlatformQuota"].readIfPresent(with: ElasticBeanstalkClientTypes.ResourceQuota.read(from:))
+        return value
+    }
+}
+
+extension ElasticBeanstalkClientTypes.S3Location {
+
+    static func write(value: ElasticBeanstalkClientTypes.S3Location?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["S3Bucket"].write(value.s3Bucket)
+        try writer["S3Key"].write(value.s3Key)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> ElasticBeanstalkClientTypes.S3Location {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElasticBeanstalkClientTypes.S3Location()
+        value.s3Bucket = try reader["S3Bucket"].readIfPresent()
+        value.s3Key = try reader["S3Key"].readIfPresent()
+        return value
+    }
+}
+
+extension ElasticBeanstalkClientTypes.SearchFilter {
+
+    static func write(value: ElasticBeanstalkClientTypes.SearchFilter?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["Attribute"].write(value.attribute)
+        try writer["Operator"].write(value.`operator`)
+        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension ElasticBeanstalkClientTypes.SingleInstanceHealth {
+
+    static func read(from reader: SmithyXML.Reader) throws -> ElasticBeanstalkClientTypes.SingleInstanceHealth {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElasticBeanstalkClientTypes.SingleInstanceHealth()
+        value.instanceId = try reader["InstanceId"].readIfPresent()
+        value.healthStatus = try reader["HealthStatus"].readIfPresent()
+        value.color = try reader["Color"].readIfPresent()
+        value.causes = try reader["Causes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.launchedAt = try reader["LaunchedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.applicationMetrics = try reader["ApplicationMetrics"].readIfPresent(with: ElasticBeanstalkClientTypes.ApplicationMetrics.read(from:))
+        value.system = try reader["System"].readIfPresent(with: ElasticBeanstalkClientTypes.SystemStatus.read(from:))
+        value.deployment = try reader["Deployment"].readIfPresent(with: ElasticBeanstalkClientTypes.Deployment.read(from:))
+        value.availabilityZone = try reader["AvailabilityZone"].readIfPresent()
+        value.instanceType = try reader["InstanceType"].readIfPresent()
+        return value
+    }
+}
+
 extension ElasticBeanstalkClientTypes.SolutionStackDescription {
 
     static func read(from reader: SmithyXML.Reader) throws -> ElasticBeanstalkClientTypes.SolutionStackDescription {
@@ -8180,16 +8196,54 @@ extension ElasticBeanstalkClientTypes.SolutionStackDescription {
     }
 }
 
-extension ElasticBeanstalkClientTypes.PlatformBranchSummary {
+extension ElasticBeanstalkClientTypes.SourceBuildInformation {
 
-    static func read(from reader: SmithyXML.Reader) throws -> ElasticBeanstalkClientTypes.PlatformBranchSummary {
+    static func write(value: ElasticBeanstalkClientTypes.SourceBuildInformation?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["SourceLocation"].write(value.sourceLocation)
+        try writer["SourceRepository"].write(value.sourceRepository)
+        try writer["SourceType"].write(value.sourceType)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> ElasticBeanstalkClientTypes.SourceBuildInformation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElasticBeanstalkClientTypes.PlatformBranchSummary()
-        value.platformName = try reader["PlatformName"].readIfPresent()
-        value.branchName = try reader["BranchName"].readIfPresent()
-        value.lifecycleState = try reader["LifecycleState"].readIfPresent()
-        value.branchOrder = try reader["BranchOrder"].readIfPresent() ?? 0
-        value.supportedTierList = try reader["SupportedTierList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = ElasticBeanstalkClientTypes.SourceBuildInformation()
+        value.sourceType = try reader["SourceType"].readIfPresent() ?? .sdkUnknown("")
+        value.sourceRepository = try reader["SourceRepository"].readIfPresent() ?? .sdkUnknown("")
+        value.sourceLocation = try reader["SourceLocation"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension ElasticBeanstalkClientTypes.SourceConfiguration {
+
+    static func write(value: ElasticBeanstalkClientTypes.SourceConfiguration?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["ApplicationName"].write(value.applicationName)
+        try writer["TemplateName"].write(value.templateName)
+    }
+}
+
+extension ElasticBeanstalkClientTypes.StatusCodes {
+
+    static func read(from reader: SmithyXML.Reader) throws -> ElasticBeanstalkClientTypes.StatusCodes {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElasticBeanstalkClientTypes.StatusCodes()
+        value.status2xx = try reader["Status2xx"].readIfPresent()
+        value.status3xx = try reader["Status3xx"].readIfPresent()
+        value.status4xx = try reader["Status4xx"].readIfPresent()
+        value.status5xx = try reader["Status5xx"].readIfPresent()
+        return value
+    }
+}
+
+extension ElasticBeanstalkClientTypes.SystemStatus {
+
+    static func read(from reader: SmithyXML.Reader) throws -> ElasticBeanstalkClientTypes.SystemStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ElasticBeanstalkClientTypes.SystemStatus()
+        value.cpuUtilization = try reader["CPUUtilization"].readIfPresent(with: ElasticBeanstalkClientTypes.CPUUtilization.read(from:))
+        value.loadAverage = try reader["LoadAverage"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readDouble(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -8211,15 +8265,12 @@ extension ElasticBeanstalkClientTypes.Tag {
     }
 }
 
-extension ElasticBeanstalkClientTypes.EnvironmentInfoDescription {
+extension ElasticBeanstalkClientTypes.Trigger {
 
-    static func read(from reader: SmithyXML.Reader) throws -> ElasticBeanstalkClientTypes.EnvironmentInfoDescription {
+    static func read(from reader: SmithyXML.Reader) throws -> ElasticBeanstalkClientTypes.Trigger {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ElasticBeanstalkClientTypes.EnvironmentInfoDescription()
-        value.infoType = try reader["InfoType"].readIfPresent()
-        value.ec2InstanceId = try reader["Ec2InstanceId"].readIfPresent()
-        value.sampleTimestamp = try reader["SampleTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.message = try reader["Message"].readIfPresent()
+        var value = ElasticBeanstalkClientTypes.Trigger()
+        value.name = try reader["Name"].readIfPresent()
         return value
     }
 }
@@ -8234,57 +8285,6 @@ extension ElasticBeanstalkClientTypes.ValidationMessage {
         value.namespace = try reader["Namespace"].readIfPresent()
         value.optionName = try reader["OptionName"].readIfPresent()
         return value
-    }
-}
-
-extension ElasticBeanstalkClientTypes.BuildConfiguration {
-
-    static func write(value: ElasticBeanstalkClientTypes.BuildConfiguration?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["ArtifactName"].write(value.artifactName)
-        try writer["CodeBuildServiceRole"].write(value.codeBuildServiceRole)
-        try writer["ComputeType"].write(value.computeType)
-        try writer["Image"].write(value.image)
-        try writer["TimeoutInMinutes"].write(value.timeoutInMinutes)
-    }
-}
-
-extension ElasticBeanstalkClientTypes.SourceConfiguration {
-
-    static func write(value: ElasticBeanstalkClientTypes.SourceConfiguration?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["ApplicationName"].write(value.applicationName)
-        try writer["TemplateName"].write(value.templateName)
-    }
-}
-
-extension ElasticBeanstalkClientTypes.OptionSpecification {
-
-    static func write(value: ElasticBeanstalkClientTypes.OptionSpecification?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Namespace"].write(value.namespace)
-        try writer["OptionName"].write(value.optionName)
-        try writer["ResourceName"].write(value.resourceName)
-    }
-}
-
-extension ElasticBeanstalkClientTypes.SearchFilter {
-
-    static func write(value: ElasticBeanstalkClientTypes.SearchFilter?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Attribute"].write(value.attribute)
-        try writer["Operator"].write(value.`operator`)
-        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension ElasticBeanstalkClientTypes.PlatformFilter {
-
-    static func write(value: ElasticBeanstalkClientTypes.PlatformFilter?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Operator"].write(value.`operator`)
-        try writer["Type"].write(value.type)
-        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 

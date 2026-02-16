@@ -17253,125 +17253,42 @@ extension LambdaClientTypes.InvokeWithResponseStreamResponseEvent {
     }
 }
 
-extension LambdaClientTypes.CheckpointUpdatedExecutionState {
+extension LambdaClientTypes.AccountLimit {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.CheckpointUpdatedExecutionState {
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.AccountLimit {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LambdaClientTypes.CheckpointUpdatedExecutionState()
-        value.operations = try reader["Operations"].readListIfPresent(memberReadingClosure: LambdaClientTypes.Operation.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.nextMarker = try reader["NextMarker"].readIfPresent()
+        var value = LambdaClientTypes.AccountLimit()
+        value.totalCodeSize = try reader["TotalCodeSize"].readIfPresent() ?? 0
+        value.codeSizeUnzipped = try reader["CodeSizeUnzipped"].readIfPresent() ?? 0
+        value.codeSizeZipped = try reader["CodeSizeZipped"].readIfPresent() ?? 0
+        value.concurrentExecutions = try reader["ConcurrentExecutions"].readIfPresent() ?? 0
+        value.unreservedConcurrentExecutions = try reader["UnreservedConcurrentExecutions"].readIfPresent()
         return value
     }
 }
 
-extension LambdaClientTypes.Operation {
+extension LambdaClientTypes.AccountUsage {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.Operation {
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.AccountUsage {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LambdaClientTypes.Operation()
-        value.id = try reader["Id"].readIfPresent() ?? ""
-        value.parentId = try reader["ParentId"].readIfPresent()
+        var value = LambdaClientTypes.AccountUsage()
+        value.totalCodeSize = try reader["TotalCodeSize"].readIfPresent() ?? 0
+        value.functionCount = try reader["FunctionCount"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension LambdaClientTypes.AliasConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.AliasConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.AliasConfiguration()
+        value.aliasArn = try reader["AliasArn"].readIfPresent()
         value.name = try reader["Name"].readIfPresent()
-        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
-        value.subType = try reader["SubType"].readIfPresent()
-        value.startTimestamp = try reader["StartTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.endTimestamp = try reader["EndTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
-        value.executionDetails = try reader["ExecutionDetails"].readIfPresent(with: LambdaClientTypes.ExecutionDetails.read(from:))
-        value.contextDetails = try reader["ContextDetails"].readIfPresent(with: LambdaClientTypes.ContextDetails.read(from:))
-        value.stepDetails = try reader["StepDetails"].readIfPresent(with: LambdaClientTypes.StepDetails.read(from:))
-        value.waitDetails = try reader["WaitDetails"].readIfPresent(with: LambdaClientTypes.WaitDetails.read(from:))
-        value.callbackDetails = try reader["CallbackDetails"].readIfPresent(with: LambdaClientTypes.CallbackDetails.read(from:))
-        value.chainedInvokeDetails = try reader["ChainedInvokeDetails"].readIfPresent(with: LambdaClientTypes.ChainedInvokeDetails.read(from:))
-        return value
-    }
-}
-
-extension LambdaClientTypes.ChainedInvokeDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.ChainedInvokeDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LambdaClientTypes.ChainedInvokeDetails()
-        value.result = try reader["Result"].readIfPresent()
-        value.error = try reader["Error"].readIfPresent(with: LambdaClientTypes.ErrorObject.read(from:))
-        return value
-    }
-}
-
-extension LambdaClientTypes.ErrorObject {
-
-    static func write(value: LambdaClientTypes.ErrorObject?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ErrorData"].write(value.errorData)
-        try writer["ErrorMessage"].write(value.errorMessage)
-        try writer["ErrorType"].write(value.errorType)
-        try writer["StackTrace"].writeList(value.stackTrace, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.ErrorObject {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LambdaClientTypes.ErrorObject()
-        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
-        value.errorType = try reader["ErrorType"].readIfPresent()
-        value.errorData = try reader["ErrorData"].readIfPresent()
-        value.stackTrace = try reader["StackTrace"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension LambdaClientTypes.CallbackDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.CallbackDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LambdaClientTypes.CallbackDetails()
-        value.callbackId = try reader["CallbackId"].readIfPresent()
-        value.result = try reader["Result"].readIfPresent()
-        value.error = try reader["Error"].readIfPresent(with: LambdaClientTypes.ErrorObject.read(from:))
-        return value
-    }
-}
-
-extension LambdaClientTypes.WaitDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.WaitDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LambdaClientTypes.WaitDetails()
-        value.scheduledEndTimestamp = try reader["ScheduledEndTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension LambdaClientTypes.StepDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.StepDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LambdaClientTypes.StepDetails()
-        value.attempt = try reader["Attempt"].readIfPresent() ?? 0
-        value.nextAttemptTimestamp = try reader["NextAttemptTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.result = try reader["Result"].readIfPresent()
-        value.error = try reader["Error"].readIfPresent(with: LambdaClientTypes.ErrorObject.read(from:))
-        return value
-    }
-}
-
-extension LambdaClientTypes.ContextDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.ContextDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LambdaClientTypes.ContextDetails()
-        value.replayChildren = try reader["ReplayChildren"].readIfPresent()
-        value.result = try reader["Result"].readIfPresent()
-        value.error = try reader["Error"].readIfPresent(with: LambdaClientTypes.ErrorObject.read(from:))
-        return value
-    }
-}
-
-extension LambdaClientTypes.ExecutionDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.ExecutionDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LambdaClientTypes.ExecutionDetails()
-        value.inputPayload = try reader["InputPayload"].readIfPresent()
+        value.functionVersion = try reader["FunctionVersion"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.routingConfig = try reader["RoutingConfig"].readIfPresent(with: LambdaClientTypes.AliasRoutingConfiguration.read(from:))
+        value.revisionId = try reader["RevisionId"].readIfPresent()
         return value
     }
 }
@@ -17391,6 +17308,101 @@ extension LambdaClientTypes.AliasRoutingConfiguration {
     }
 }
 
+extension LambdaClientTypes.AllowedPublishers {
+
+    static func write(value: LambdaClientTypes.AllowedPublishers?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["SigningProfileVersionArns"].writeList(value.signingProfileVersionArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.AllowedPublishers {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.AllowedPublishers()
+        value.signingProfileVersionArns = try reader["SigningProfileVersionArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension LambdaClientTypes.AmazonManagedKafkaEventSourceConfig {
+
+    static func write(value: LambdaClientTypes.AmazonManagedKafkaEventSourceConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ConsumerGroupId"].write(value.consumerGroupId)
+        try writer["SchemaRegistryConfig"].write(value.schemaRegistryConfig, with: LambdaClientTypes.KafkaSchemaRegistryConfig.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.AmazonManagedKafkaEventSourceConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.AmazonManagedKafkaEventSourceConfig()
+        value.consumerGroupId = try reader["ConsumerGroupId"].readIfPresent()
+        value.schemaRegistryConfig = try reader["SchemaRegistryConfig"].readIfPresent(with: LambdaClientTypes.KafkaSchemaRegistryConfig.read(from:))
+        return value
+    }
+}
+
+extension LambdaClientTypes.CallbackDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.CallbackDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.CallbackDetails()
+        value.callbackId = try reader["CallbackId"].readIfPresent()
+        value.result = try reader["Result"].readIfPresent()
+        value.error = try reader["Error"].readIfPresent(with: LambdaClientTypes.ErrorObject.read(from:))
+        return value
+    }
+}
+
+extension LambdaClientTypes.CallbackFailedDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.CallbackFailedDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.CallbackFailedDetails()
+        value.error = try reader["Error"].readIfPresent(with: LambdaClientTypes.EventError.read(from:))
+        return value
+    }
+}
+
+extension LambdaClientTypes.CallbackOptions {
+
+    static func write(value: LambdaClientTypes.CallbackOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["HeartbeatTimeoutSeconds"].write(value.heartbeatTimeoutSeconds)
+        try writer["TimeoutSeconds"].write(value.timeoutSeconds)
+    }
+}
+
+extension LambdaClientTypes.CallbackStartedDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.CallbackStartedDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.CallbackStartedDetails()
+        value.callbackId = try reader["CallbackId"].readIfPresent() ?? ""
+        value.heartbeatTimeout = try reader["HeartbeatTimeout"].readIfPresent()
+        value.timeout = try reader["Timeout"].readIfPresent()
+        return value
+    }
+}
+
+extension LambdaClientTypes.CallbackSucceededDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.CallbackSucceededDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.CallbackSucceededDetails()
+        value.result = try reader["Result"].readIfPresent(with: LambdaClientTypes.EventResult.read(from:))
+        return value
+    }
+}
+
+extension LambdaClientTypes.CallbackTimedOutDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.CallbackTimedOutDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.CallbackTimedOutDetails()
+        value.error = try reader["Error"].readIfPresent(with: LambdaClientTypes.EventError.read(from:))
+        return value
+    }
+}
+
 extension LambdaClientTypes.CapacityProvider {
 
     static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.CapacityProvider {
@@ -17404,6 +17416,36 @@ extension LambdaClientTypes.CapacityProvider {
         value.capacityProviderScalingConfig = try reader["CapacityProviderScalingConfig"].readIfPresent(with: LambdaClientTypes.CapacityProviderScalingConfig.read(from:))
         value.kmsKeyArn = try reader["KmsKeyArn"].readIfPresent()
         value.lastModified = try reader["LastModified"].readIfPresent()
+        return value
+    }
+}
+
+extension LambdaClientTypes.CapacityProviderConfig {
+
+    static func write(value: LambdaClientTypes.CapacityProviderConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["LambdaManagedInstancesCapacityProviderConfig"].write(value.lambdaManagedInstancesCapacityProviderConfig, with: LambdaClientTypes.LambdaManagedInstancesCapacityProviderConfig.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.CapacityProviderConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.CapacityProviderConfig()
+        value.lambdaManagedInstancesCapacityProviderConfig = try reader["LambdaManagedInstancesCapacityProviderConfig"].readIfPresent(with: LambdaClientTypes.LambdaManagedInstancesCapacityProviderConfig.read(from:))
+        return value
+    }
+}
+
+extension LambdaClientTypes.CapacityProviderPermissionsConfig {
+
+    static func write(value: LambdaClientTypes.CapacityProviderPermissionsConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CapacityProviderOperatorRoleArn"].write(value.capacityProviderOperatorRoleArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.CapacityProviderPermissionsConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.CapacityProviderPermissionsConfig()
+        value.capacityProviderOperatorRoleArn = try reader["CapacityProviderOperatorRoleArn"].readIfPresent() ?? ""
         return value
     }
 }
@@ -17427,57 +17469,6 @@ extension LambdaClientTypes.CapacityProviderScalingConfig {
     }
 }
 
-extension LambdaClientTypes.TargetTrackingScalingPolicy {
-
-    static func write(value: LambdaClientTypes.TargetTrackingScalingPolicy?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["PredefinedMetricType"].write(value.predefinedMetricType)
-        try writer["TargetValue"].write(value.targetValue)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.TargetTrackingScalingPolicy {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LambdaClientTypes.TargetTrackingScalingPolicy()
-        value.predefinedMetricType = try reader["PredefinedMetricType"].readIfPresent() ?? .sdkUnknown("")
-        value.targetValue = try reader["TargetValue"].readIfPresent() ?? 0.0
-        return value
-    }
-}
-
-extension LambdaClientTypes.InstanceRequirements {
-
-    static func write(value: LambdaClientTypes.InstanceRequirements?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AllowedInstanceTypes"].writeList(value.allowedInstanceTypes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Architectures"].writeList(value.architectures, memberWritingClosure: SmithyReadWrite.WritingClosureBox<LambdaClientTypes.Architecture>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ExcludedInstanceTypes"].writeList(value.excludedInstanceTypes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.InstanceRequirements {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LambdaClientTypes.InstanceRequirements()
-        value.architectures = try reader["Architectures"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<LambdaClientTypes.Architecture>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.allowedInstanceTypes = try reader["AllowedInstanceTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.excludedInstanceTypes = try reader["ExcludedInstanceTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension LambdaClientTypes.CapacityProviderPermissionsConfig {
-
-    static func write(value: LambdaClientTypes.CapacityProviderPermissionsConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CapacityProviderOperatorRoleArn"].write(value.capacityProviderOperatorRoleArn)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.CapacityProviderPermissionsConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LambdaClientTypes.CapacityProviderPermissionsConfig()
-        value.capacityProviderOperatorRoleArn = try reader["CapacityProviderOperatorRoleArn"].readIfPresent() ?? ""
-        return value
-    }
-}
-
 extension LambdaClientTypes.CapacityProviderVpcConfig {
 
     static func write(value: LambdaClientTypes.CapacityProviderVpcConfig?, to writer: SmithyJSON.Writer) throws {
@@ -17491,6 +17482,91 @@ extension LambdaClientTypes.CapacityProviderVpcConfig {
         var value = LambdaClientTypes.CapacityProviderVpcConfig()
         value.subnetIds = try reader["SubnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.securityGroupIds = try reader["SecurityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension LambdaClientTypes.ChainedInvokeDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.ChainedInvokeDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.ChainedInvokeDetails()
+        value.result = try reader["Result"].readIfPresent()
+        value.error = try reader["Error"].readIfPresent(with: LambdaClientTypes.ErrorObject.read(from:))
+        return value
+    }
+}
+
+extension LambdaClientTypes.ChainedInvokeFailedDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.ChainedInvokeFailedDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.ChainedInvokeFailedDetails()
+        value.error = try reader["Error"].readIfPresent(with: LambdaClientTypes.EventError.read(from:))
+        return value
+    }
+}
+
+extension LambdaClientTypes.ChainedInvokeOptions {
+
+    static func write(value: LambdaClientTypes.ChainedInvokeOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FunctionName"].write(value.functionName)
+        try writer["TenantId"].write(value.tenantId)
+    }
+}
+
+extension LambdaClientTypes.ChainedInvokeStartedDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.ChainedInvokeStartedDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.ChainedInvokeStartedDetails()
+        value.functionName = try reader["FunctionName"].readIfPresent() ?? ""
+        value.tenantId = try reader["TenantId"].readIfPresent()
+        value.input = try reader["Input"].readIfPresent(with: LambdaClientTypes.EventInput.read(from:))
+        value.executedVersion = try reader["ExecutedVersion"].readIfPresent()
+        value.durableExecutionArn = try reader["DurableExecutionArn"].readIfPresent()
+        return value
+    }
+}
+
+extension LambdaClientTypes.ChainedInvokeStoppedDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.ChainedInvokeStoppedDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.ChainedInvokeStoppedDetails()
+        value.error = try reader["Error"].readIfPresent(with: LambdaClientTypes.EventError.read(from:))
+        return value
+    }
+}
+
+extension LambdaClientTypes.ChainedInvokeSucceededDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.ChainedInvokeSucceededDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.ChainedInvokeSucceededDetails()
+        value.result = try reader["Result"].readIfPresent(with: LambdaClientTypes.EventResult.read(from:))
+        return value
+    }
+}
+
+extension LambdaClientTypes.ChainedInvokeTimedOutDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.ChainedInvokeTimedOutDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.ChainedInvokeTimedOutDetails()
+        value.error = try reader["Error"].readIfPresent(with: LambdaClientTypes.EventError.read(from:))
+        return value
+    }
+}
+
+extension LambdaClientTypes.CheckpointUpdatedExecutionState {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.CheckpointUpdatedExecutionState {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.CheckpointUpdatedExecutionState()
+        value.operations = try reader["Operations"].readListIfPresent(memberReadingClosure: LambdaClientTypes.Operation.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextMarker = try reader["NextMarker"].readIfPresent()
         return value
     }
 }
@@ -17525,573 +17601,60 @@ extension LambdaClientTypes.CodeSigningPolicies {
     }
 }
 
-extension LambdaClientTypes.AllowedPublishers {
+extension LambdaClientTypes.Concurrency {
 
-    static func write(value: LambdaClientTypes.AllowedPublishers?, to writer: SmithyJSON.Writer) throws {
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.Concurrency {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.Concurrency()
+        value.reservedConcurrentExecutions = try reader["ReservedConcurrentExecutions"].readIfPresent()
+        return value
+    }
+}
+
+extension LambdaClientTypes.ContextDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.ContextDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.ContextDetails()
+        value.replayChildren = try reader["ReplayChildren"].readIfPresent()
+        value.result = try reader["Result"].readIfPresent()
+        value.error = try reader["Error"].readIfPresent(with: LambdaClientTypes.ErrorObject.read(from:))
+        return value
+    }
+}
+
+extension LambdaClientTypes.ContextFailedDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.ContextFailedDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.ContextFailedDetails()
+        value.error = try reader["Error"].readIfPresent(with: LambdaClientTypes.EventError.read(from:))
+        return value
+    }
+}
+
+extension LambdaClientTypes.ContextOptions {
+
+    static func write(value: LambdaClientTypes.ContextOptions?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["SigningProfileVersionArns"].writeList(value.signingProfileVersionArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.AllowedPublishers {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LambdaClientTypes.AllowedPublishers()
-        value.signingProfileVersionArns = try reader["SigningProfileVersionArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
+        try writer["ReplayChildren"].write(value.replayChildren)
     }
 }
 
-extension LambdaClientTypes.FilterCriteria {
+extension LambdaClientTypes.ContextStartedDetails {
 
-    static func write(value: LambdaClientTypes.FilterCriteria?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Filters"].writeList(value.filters, memberWritingClosure: LambdaClientTypes.Filter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.FilterCriteria {
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.ContextStartedDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LambdaClientTypes.FilterCriteria()
-        value.filters = try reader["Filters"].readListIfPresent(memberReadingClosure: LambdaClientTypes.Filter.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
+        return LambdaClientTypes.ContextStartedDetails()
     }
 }
 
-extension LambdaClientTypes.Filter {
+extension LambdaClientTypes.ContextSucceededDetails {
 
-    static func write(value: LambdaClientTypes.Filter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Pattern"].write(value.pattern)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.Filter {
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.ContextSucceededDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LambdaClientTypes.Filter()
-        value.pattern = try reader["Pattern"].readIfPresent()
-        return value
-    }
-}
-
-extension LambdaClientTypes.DestinationConfig {
-
-    static func write(value: LambdaClientTypes.DestinationConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["OnFailure"].write(value.onFailure, with: LambdaClientTypes.OnFailure.write(value:to:))
-        try writer["OnSuccess"].write(value.onSuccess, with: LambdaClientTypes.OnSuccess.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.DestinationConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LambdaClientTypes.DestinationConfig()
-        value.onSuccess = try reader["OnSuccess"].readIfPresent(with: LambdaClientTypes.OnSuccess.read(from:))
-        value.onFailure = try reader["OnFailure"].readIfPresent(with: LambdaClientTypes.OnFailure.read(from:))
-        return value
-    }
-}
-
-extension LambdaClientTypes.OnFailure {
-
-    static func write(value: LambdaClientTypes.OnFailure?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Destination"].write(value.destination)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.OnFailure {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LambdaClientTypes.OnFailure()
-        value.destination = try reader["Destination"].readIfPresent()
-        return value
-    }
-}
-
-extension LambdaClientTypes.OnSuccess {
-
-    static func write(value: LambdaClientTypes.OnSuccess?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Destination"].write(value.destination)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.OnSuccess {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LambdaClientTypes.OnSuccess()
-        value.destination = try reader["Destination"].readIfPresent()
-        return value
-    }
-}
-
-extension LambdaClientTypes.SourceAccessConfiguration {
-
-    static func write(value: LambdaClientTypes.SourceAccessConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Type"].write(value.type)
-        try writer["URI"].write(value.uri)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.SourceAccessConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LambdaClientTypes.SourceAccessConfiguration()
-        value.type = try reader["Type"].readIfPresent()
-        value.uri = try reader["URI"].readIfPresent()
-        return value
-    }
-}
-
-extension LambdaClientTypes.SelfManagedEventSource {
-
-    static func write(value: LambdaClientTypes.SelfManagedEventSource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Endpoints"].writeMap(value.endpoints, valueWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.SelfManagedEventSource {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LambdaClientTypes.SelfManagedEventSource()
-        value.endpoints = try reader["Endpoints"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
-}
-
-extension LambdaClientTypes.AmazonManagedKafkaEventSourceConfig {
-
-    static func write(value: LambdaClientTypes.AmazonManagedKafkaEventSourceConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ConsumerGroupId"].write(value.consumerGroupId)
-        try writer["SchemaRegistryConfig"].write(value.schemaRegistryConfig, with: LambdaClientTypes.KafkaSchemaRegistryConfig.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.AmazonManagedKafkaEventSourceConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LambdaClientTypes.AmazonManagedKafkaEventSourceConfig()
-        value.consumerGroupId = try reader["ConsumerGroupId"].readIfPresent()
-        value.schemaRegistryConfig = try reader["SchemaRegistryConfig"].readIfPresent(with: LambdaClientTypes.KafkaSchemaRegistryConfig.read(from:))
-        return value
-    }
-}
-
-extension LambdaClientTypes.KafkaSchemaRegistryConfig {
-
-    static func write(value: LambdaClientTypes.KafkaSchemaRegistryConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AccessConfigs"].writeList(value.accessConfigs, memberWritingClosure: LambdaClientTypes.KafkaSchemaRegistryAccessConfig.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["EventRecordFormat"].write(value.eventRecordFormat)
-        try writer["SchemaRegistryURI"].write(value.schemaRegistryURI)
-        try writer["SchemaValidationConfigs"].writeList(value.schemaValidationConfigs, memberWritingClosure: LambdaClientTypes.KafkaSchemaValidationConfig.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.KafkaSchemaRegistryConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LambdaClientTypes.KafkaSchemaRegistryConfig()
-        value.schemaRegistryURI = try reader["SchemaRegistryURI"].readIfPresent()
-        value.eventRecordFormat = try reader["EventRecordFormat"].readIfPresent()
-        value.accessConfigs = try reader["AccessConfigs"].readListIfPresent(memberReadingClosure: LambdaClientTypes.KafkaSchemaRegistryAccessConfig.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.schemaValidationConfigs = try reader["SchemaValidationConfigs"].readListIfPresent(memberReadingClosure: LambdaClientTypes.KafkaSchemaValidationConfig.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension LambdaClientTypes.KafkaSchemaValidationConfig {
-
-    static func write(value: LambdaClientTypes.KafkaSchemaValidationConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Attribute"].write(value.attribute)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.KafkaSchemaValidationConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LambdaClientTypes.KafkaSchemaValidationConfig()
-        value.attribute = try reader["Attribute"].readIfPresent()
-        return value
-    }
-}
-
-extension LambdaClientTypes.KafkaSchemaRegistryAccessConfig {
-
-    static func write(value: LambdaClientTypes.KafkaSchemaRegistryAccessConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Type"].write(value.type)
-        try writer["URI"].write(value.uri)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.KafkaSchemaRegistryAccessConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LambdaClientTypes.KafkaSchemaRegistryAccessConfig()
-        value.type = try reader["Type"].readIfPresent()
-        value.uri = try reader["URI"].readIfPresent()
-        return value
-    }
-}
-
-extension LambdaClientTypes.SelfManagedKafkaEventSourceConfig {
-
-    static func write(value: LambdaClientTypes.SelfManagedKafkaEventSourceConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ConsumerGroupId"].write(value.consumerGroupId)
-        try writer["SchemaRegistryConfig"].write(value.schemaRegistryConfig, with: LambdaClientTypes.KafkaSchemaRegistryConfig.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.SelfManagedKafkaEventSourceConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LambdaClientTypes.SelfManagedKafkaEventSourceConfig()
-        value.consumerGroupId = try reader["ConsumerGroupId"].readIfPresent()
-        value.schemaRegistryConfig = try reader["SchemaRegistryConfig"].readIfPresent(with: LambdaClientTypes.KafkaSchemaRegistryConfig.read(from:))
-        return value
-    }
-}
-
-extension LambdaClientTypes.ScalingConfig {
-
-    static func write(value: LambdaClientTypes.ScalingConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["MaximumConcurrency"].write(value.maximumConcurrency)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.ScalingConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LambdaClientTypes.ScalingConfig()
-        value.maximumConcurrency = try reader["MaximumConcurrency"].readIfPresent()
-        return value
-    }
-}
-
-extension LambdaClientTypes.DocumentDBEventSourceConfig {
-
-    static func write(value: LambdaClientTypes.DocumentDBEventSourceConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CollectionName"].write(value.collectionName)
-        try writer["DatabaseName"].write(value.databaseName)
-        try writer["FullDocument"].write(value.fullDocument)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.DocumentDBEventSourceConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LambdaClientTypes.DocumentDBEventSourceConfig()
-        value.databaseName = try reader["DatabaseName"].readIfPresent()
-        value.collectionName = try reader["CollectionName"].readIfPresent()
-        value.fullDocument = try reader["FullDocument"].readIfPresent()
-        return value
-    }
-}
-
-extension LambdaClientTypes.FilterCriteriaError {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.FilterCriteriaError {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LambdaClientTypes.FilterCriteriaError()
-        value.errorCode = try reader["ErrorCode"].readIfPresent()
-        value.message = try reader["Message"].readIfPresent()
-        return value
-    }
-}
-
-extension LambdaClientTypes.EventSourceMappingMetricsConfig {
-
-    static func write(value: LambdaClientTypes.EventSourceMappingMetricsConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Metrics"].writeList(value.metrics, memberWritingClosure: SmithyReadWrite.WritingClosureBox<LambdaClientTypes.EventSourceMappingMetric>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.EventSourceMappingMetricsConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LambdaClientTypes.EventSourceMappingMetricsConfig()
-        value.metrics = try reader["Metrics"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<LambdaClientTypes.EventSourceMappingMetric>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension LambdaClientTypes.EventSourceMappingLoggingConfig {
-
-    static func write(value: LambdaClientTypes.EventSourceMappingLoggingConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["SystemLogLevel"].write(value.systemLogLevel)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.EventSourceMappingLoggingConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LambdaClientTypes.EventSourceMappingLoggingConfig()
-        value.systemLogLevel = try reader["SystemLogLevel"].readIfPresent()
-        return value
-    }
-}
-
-extension LambdaClientTypes.ProvisionedPollerConfig {
-
-    static func write(value: LambdaClientTypes.ProvisionedPollerConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["MaximumPollers"].write(value.maximumPollers)
-        try writer["MinimumPollers"].write(value.minimumPollers)
-        try writer["PollerGroupName"].write(value.pollerGroupName)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.ProvisionedPollerConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LambdaClientTypes.ProvisionedPollerConfig()
-        value.minimumPollers = try reader["MinimumPollers"].readIfPresent()
-        value.maximumPollers = try reader["MaximumPollers"].readIfPresent()
-        value.pollerGroupName = try reader["PollerGroupName"].readIfPresent()
-        return value
-    }
-}
-
-extension LambdaClientTypes.VpcConfigResponse {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.VpcConfigResponse {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LambdaClientTypes.VpcConfigResponse()
-        value.subnetIds = try reader["SubnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.securityGroupIds = try reader["SecurityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.vpcId = try reader["VpcId"].readIfPresent()
-        value.ipv6AllowedForDualStack = try reader["Ipv6AllowedForDualStack"].readIfPresent()
-        return value
-    }
-}
-
-extension LambdaClientTypes.DeadLetterConfig {
-
-    static func write(value: LambdaClientTypes.DeadLetterConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["TargetArn"].write(value.targetArn)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.DeadLetterConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LambdaClientTypes.DeadLetterConfig()
-        value.targetArn = try reader["TargetArn"].readIfPresent()
-        return value
-    }
-}
-
-extension LambdaClientTypes.EnvironmentResponse {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.EnvironmentResponse {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LambdaClientTypes.EnvironmentResponse()
-        value.variables = try reader["Variables"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.error = try reader["Error"].readIfPresent(with: LambdaClientTypes.EnvironmentError.read(from:))
-        return value
-    }
-}
-
-extension LambdaClientTypes.EnvironmentError {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.EnvironmentError {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LambdaClientTypes.EnvironmentError()
-        value.errorCode = try reader["ErrorCode"].readIfPresent()
-        value.message = try reader["Message"].readIfPresent()
-        return value
-    }
-}
-
-extension LambdaClientTypes.TracingConfigResponse {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.TracingConfigResponse {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LambdaClientTypes.TracingConfigResponse()
-        value.mode = try reader["Mode"].readIfPresent()
-        return value
-    }
-}
-
-extension LambdaClientTypes.Layer {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.Layer {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LambdaClientTypes.Layer()
-        value.arn = try reader["Arn"].readIfPresent()
-        value.codeSize = try reader["CodeSize"].readIfPresent() ?? 0
-        value.signingProfileVersionArn = try reader["SigningProfileVersionArn"].readIfPresent()
-        value.signingJobArn = try reader["SigningJobArn"].readIfPresent()
-        return value
-    }
-}
-
-extension LambdaClientTypes.FileSystemConfig {
-
-    static func write(value: LambdaClientTypes.FileSystemConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-        try writer["LocalMountPath"].write(value.localMountPath)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.FileSystemConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LambdaClientTypes.FileSystemConfig()
-        value.arn = try reader["Arn"].readIfPresent() ?? ""
-        value.localMountPath = try reader["LocalMountPath"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension LambdaClientTypes.ImageConfigResponse {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.ImageConfigResponse {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LambdaClientTypes.ImageConfigResponse()
-        value.imageConfig = try reader["ImageConfig"].readIfPresent(with: LambdaClientTypes.ImageConfig.read(from:))
-        value.error = try reader["Error"].readIfPresent(with: LambdaClientTypes.ImageConfigError.read(from:))
-        return value
-    }
-}
-
-extension LambdaClientTypes.ImageConfigError {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.ImageConfigError {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LambdaClientTypes.ImageConfigError()
-        value.errorCode = try reader["ErrorCode"].readIfPresent()
-        value.message = try reader["Message"].readIfPresent()
-        return value
-    }
-}
-
-extension LambdaClientTypes.ImageConfig {
-
-    static func write(value: LambdaClientTypes.ImageConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Command"].writeList(value.command, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["EntryPoint"].writeList(value.entryPoint, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["WorkingDirectory"].write(value.workingDirectory)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.ImageConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LambdaClientTypes.ImageConfig()
-        value.entryPoint = try reader["EntryPoint"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.command = try reader["Command"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.workingDirectory = try reader["WorkingDirectory"].readIfPresent()
-        return value
-    }
-}
-
-extension LambdaClientTypes.EphemeralStorage {
-
-    static func write(value: LambdaClientTypes.EphemeralStorage?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Size"].write(value.size)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.EphemeralStorage {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LambdaClientTypes.EphemeralStorage()
-        value.size = try reader["Size"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension LambdaClientTypes.SnapStartResponse {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.SnapStartResponse {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LambdaClientTypes.SnapStartResponse()
-        value.applyOn = try reader["ApplyOn"].readIfPresent()
-        value.optimizationStatus = try reader["OptimizationStatus"].readIfPresent()
-        return value
-    }
-}
-
-extension LambdaClientTypes.RuntimeVersionConfig {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.RuntimeVersionConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LambdaClientTypes.RuntimeVersionConfig()
-        value.runtimeVersionArn = try reader["RuntimeVersionArn"].readIfPresent()
-        value.error = try reader["Error"].readIfPresent(with: LambdaClientTypes.RuntimeVersionError.read(from:))
-        return value
-    }
-}
-
-extension LambdaClientTypes.RuntimeVersionError {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.RuntimeVersionError {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LambdaClientTypes.RuntimeVersionError()
-        value.errorCode = try reader["ErrorCode"].readIfPresent()
-        value.message = try reader["Message"].readIfPresent()
-        return value
-    }
-}
-
-extension LambdaClientTypes.LoggingConfig {
-
-    static func write(value: LambdaClientTypes.LoggingConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ApplicationLogLevel"].write(value.applicationLogLevel)
-        try writer["LogFormat"].write(value.logFormat)
-        try writer["LogGroup"].write(value.logGroup)
-        try writer["SystemLogLevel"].write(value.systemLogLevel)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.LoggingConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LambdaClientTypes.LoggingConfig()
-        value.logFormat = try reader["LogFormat"].readIfPresent()
-        value.applicationLogLevel = try reader["ApplicationLogLevel"].readIfPresent()
-        value.systemLogLevel = try reader["SystemLogLevel"].readIfPresent()
-        value.logGroup = try reader["LogGroup"].readIfPresent()
-        return value
-    }
-}
-
-extension LambdaClientTypes.CapacityProviderConfig {
-
-    static func write(value: LambdaClientTypes.CapacityProviderConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["LambdaManagedInstancesCapacityProviderConfig"].write(value.lambdaManagedInstancesCapacityProviderConfig, with: LambdaClientTypes.LambdaManagedInstancesCapacityProviderConfig.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.CapacityProviderConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LambdaClientTypes.CapacityProviderConfig()
-        value.lambdaManagedInstancesCapacityProviderConfig = try reader["LambdaManagedInstancesCapacityProviderConfig"].readIfPresent(with: LambdaClientTypes.LambdaManagedInstancesCapacityProviderConfig.read(from:))
-        return value
-    }
-}
-
-extension LambdaClientTypes.LambdaManagedInstancesCapacityProviderConfig {
-
-    static func write(value: LambdaClientTypes.LambdaManagedInstancesCapacityProviderConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CapacityProviderArn"].write(value.capacityProviderArn)
-        try writer["ExecutionEnvironmentMemoryGiBPerVCpu"].write(value.executionEnvironmentMemoryGiBPerVCpu)
-        try writer["PerExecutionEnvironmentMaxConcurrency"].write(value.perExecutionEnvironmentMaxConcurrency)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.LambdaManagedInstancesCapacityProviderConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LambdaClientTypes.LambdaManagedInstancesCapacityProviderConfig()
-        value.capacityProviderArn = try reader["CapacityProviderArn"].readIfPresent() ?? ""
-        value.perExecutionEnvironmentMaxConcurrency = try reader["PerExecutionEnvironmentMaxConcurrency"].readIfPresent()
-        value.executionEnvironmentMemoryGiBPerVCpu = try reader["ExecutionEnvironmentMemoryGiBPerVCpu"].readIfPresent()
-        return value
-    }
-}
-
-extension LambdaClientTypes.DurableConfig {
-
-    static func write(value: LambdaClientTypes.DurableConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ExecutionTimeout"].write(value.executionTimeout)
-        try writer["RetentionPeriodInDays"].write(value.retentionPeriodInDays)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.DurableConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LambdaClientTypes.DurableConfig()
-        value.retentionPeriodInDays = try reader["RetentionPeriodInDays"].readIfPresent()
-        value.executionTimeout = try reader["ExecutionTimeout"].readIfPresent()
-        return value
-    }
-}
-
-extension LambdaClientTypes.TenancyConfig {
-
-    static func write(value: LambdaClientTypes.TenancyConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["TenantIsolationMode"].write(value.tenantIsolationMode)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.TenancyConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LambdaClientTypes.TenancyConfig()
-        value.tenantIsolationMode = try reader["TenantIsolationMode"].readIfPresent() ?? .sdkUnknown("")
+        var value = LambdaClientTypes.ContextSucceededDetails()
+        value.result = try reader["Result"].readIfPresent(with: LambdaClientTypes.EventResult.read(from:))
         return value
     }
 }
@@ -18121,37 +17684,136 @@ extension LambdaClientTypes.Cors {
     }
 }
 
-extension LambdaClientTypes.AccountLimit {
+extension LambdaClientTypes.DeadLetterConfig {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.AccountLimit {
+    static func write(value: LambdaClientTypes.DeadLetterConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["TargetArn"].write(value.targetArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.DeadLetterConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LambdaClientTypes.AccountLimit()
-        value.totalCodeSize = try reader["TotalCodeSize"].readIfPresent() ?? 0
-        value.codeSizeUnzipped = try reader["CodeSizeUnzipped"].readIfPresent() ?? 0
-        value.codeSizeZipped = try reader["CodeSizeZipped"].readIfPresent() ?? 0
-        value.concurrentExecutions = try reader["ConcurrentExecutions"].readIfPresent() ?? 0
-        value.unreservedConcurrentExecutions = try reader["UnreservedConcurrentExecutions"].readIfPresent()
+        var value = LambdaClientTypes.DeadLetterConfig()
+        value.targetArn = try reader["TargetArn"].readIfPresent()
         return value
     }
 }
 
-extension LambdaClientTypes.AccountUsage {
+extension LambdaClientTypes.DestinationConfig {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.AccountUsage {
+    static func write(value: LambdaClientTypes.DestinationConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["OnFailure"].write(value.onFailure, with: LambdaClientTypes.OnFailure.write(value:to:))
+        try writer["OnSuccess"].write(value.onSuccess, with: LambdaClientTypes.OnSuccess.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.DestinationConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LambdaClientTypes.AccountUsage()
-        value.totalCodeSize = try reader["TotalCodeSize"].readIfPresent() ?? 0
-        value.functionCount = try reader["FunctionCount"].readIfPresent() ?? 0
+        var value = LambdaClientTypes.DestinationConfig()
+        value.onSuccess = try reader["OnSuccess"].readIfPresent(with: LambdaClientTypes.OnSuccess.read(from:))
+        value.onFailure = try reader["OnFailure"].readIfPresent(with: LambdaClientTypes.OnFailure.read(from:))
         return value
     }
 }
 
-extension LambdaClientTypes.TraceHeader {
+extension LambdaClientTypes.DocumentDBEventSourceConfig {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.TraceHeader {
+    static func write(value: LambdaClientTypes.DocumentDBEventSourceConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CollectionName"].write(value.collectionName)
+        try writer["DatabaseName"].write(value.databaseName)
+        try writer["FullDocument"].write(value.fullDocument)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.DocumentDBEventSourceConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LambdaClientTypes.TraceHeader()
-        value.xAmznTraceId = try reader["XAmznTraceId"].readIfPresent()
+        var value = LambdaClientTypes.DocumentDBEventSourceConfig()
+        value.databaseName = try reader["DatabaseName"].readIfPresent()
+        value.collectionName = try reader["CollectionName"].readIfPresent()
+        value.fullDocument = try reader["FullDocument"].readIfPresent()
+        return value
+    }
+}
+
+extension LambdaClientTypes.DurableConfig {
+
+    static func write(value: LambdaClientTypes.DurableConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ExecutionTimeout"].write(value.executionTimeout)
+        try writer["RetentionPeriodInDays"].write(value.retentionPeriodInDays)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.DurableConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.DurableConfig()
+        value.retentionPeriodInDays = try reader["RetentionPeriodInDays"].readIfPresent()
+        value.executionTimeout = try reader["ExecutionTimeout"].readIfPresent()
+        return value
+    }
+}
+
+extension LambdaClientTypes.Environment {
+
+    static func write(value: LambdaClientTypes.Environment?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Variables"].writeMap(value.variables, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+}
+
+extension LambdaClientTypes.EnvironmentError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.EnvironmentError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.EnvironmentError()
+        value.errorCode = try reader["ErrorCode"].readIfPresent()
+        value.message = try reader["Message"].readIfPresent()
+        return value
+    }
+}
+
+extension LambdaClientTypes.EnvironmentResponse {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.EnvironmentResponse {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.EnvironmentResponse()
+        value.variables = try reader["Variables"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.error = try reader["Error"].readIfPresent(with: LambdaClientTypes.EnvironmentError.read(from:))
+        return value
+    }
+}
+
+extension LambdaClientTypes.EphemeralStorage {
+
+    static func write(value: LambdaClientTypes.EphemeralStorage?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Size"].write(value.size)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.EphemeralStorage {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.EphemeralStorage()
+        value.size = try reader["Size"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension LambdaClientTypes.ErrorObject {
+
+    static func write(value: LambdaClientTypes.ErrorObject?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ErrorData"].write(value.errorData)
+        try writer["ErrorMessage"].write(value.errorMessage)
+        try writer["ErrorType"].write(value.errorType)
+        try writer["StackTrace"].writeList(value.stackTrace, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.ErrorObject {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.ErrorObject()
+        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
+        value.errorType = try reader["ErrorType"].readIfPresent()
+        value.errorData = try reader["ErrorData"].readIfPresent()
+        value.stackTrace = try reader["StackTrace"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -18196,19 +17858,6 @@ extension LambdaClientTypes.Event {
     }
 }
 
-extension LambdaClientTypes.InvocationCompletedDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.InvocationCompletedDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LambdaClientTypes.InvocationCompletedDetails()
-        value.startTimestamp = try reader["StartTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.endTimestamp = try reader["EndTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.requestId = try reader["RequestId"].readIfPresent() ?? ""
-        value.error = try reader["Error"].readIfPresent(with: LambdaClientTypes.EventError.read(from:))
-        return value
-    }
-}
-
 extension LambdaClientTypes.EventError {
 
     static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.EventError {
@@ -18216,113 +17865,6 @@ extension LambdaClientTypes.EventError {
         var value = LambdaClientTypes.EventError()
         value.payload = try reader["Payload"].readIfPresent(with: LambdaClientTypes.ErrorObject.read(from:))
         value.truncated = try reader["Truncated"].readIfPresent()
-        return value
-    }
-}
-
-extension LambdaClientTypes.CallbackTimedOutDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.CallbackTimedOutDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LambdaClientTypes.CallbackTimedOutDetails()
-        value.error = try reader["Error"].readIfPresent(with: LambdaClientTypes.EventError.read(from:))
-        return value
-    }
-}
-
-extension LambdaClientTypes.CallbackFailedDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.CallbackFailedDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LambdaClientTypes.CallbackFailedDetails()
-        value.error = try reader["Error"].readIfPresent(with: LambdaClientTypes.EventError.read(from:))
-        return value
-    }
-}
-
-extension LambdaClientTypes.CallbackSucceededDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.CallbackSucceededDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LambdaClientTypes.CallbackSucceededDetails()
-        value.result = try reader["Result"].readIfPresent(with: LambdaClientTypes.EventResult.read(from:))
-        return value
-    }
-}
-
-extension LambdaClientTypes.EventResult {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.EventResult {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LambdaClientTypes.EventResult()
-        value.payload = try reader["Payload"].readIfPresent()
-        value.truncated = try reader["Truncated"].readIfPresent()
-        return value
-    }
-}
-
-extension LambdaClientTypes.CallbackStartedDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.CallbackStartedDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LambdaClientTypes.CallbackStartedDetails()
-        value.callbackId = try reader["CallbackId"].readIfPresent() ?? ""
-        value.heartbeatTimeout = try reader["HeartbeatTimeout"].readIfPresent()
-        value.timeout = try reader["Timeout"].readIfPresent()
-        return value
-    }
-}
-
-extension LambdaClientTypes.ChainedInvokeStoppedDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.ChainedInvokeStoppedDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LambdaClientTypes.ChainedInvokeStoppedDetails()
-        value.error = try reader["Error"].readIfPresent(with: LambdaClientTypes.EventError.read(from:))
-        return value
-    }
-}
-
-extension LambdaClientTypes.ChainedInvokeTimedOutDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.ChainedInvokeTimedOutDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LambdaClientTypes.ChainedInvokeTimedOutDetails()
-        value.error = try reader["Error"].readIfPresent(with: LambdaClientTypes.EventError.read(from:))
-        return value
-    }
-}
-
-extension LambdaClientTypes.ChainedInvokeFailedDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.ChainedInvokeFailedDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LambdaClientTypes.ChainedInvokeFailedDetails()
-        value.error = try reader["Error"].readIfPresent(with: LambdaClientTypes.EventError.read(from:))
-        return value
-    }
-}
-
-extension LambdaClientTypes.ChainedInvokeSucceededDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.ChainedInvokeSucceededDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LambdaClientTypes.ChainedInvokeSucceededDetails()
-        value.result = try reader["Result"].readIfPresent(with: LambdaClientTypes.EventResult.read(from:))
-        return value
-    }
-}
-
-extension LambdaClientTypes.ChainedInvokeStartedDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.ChainedInvokeStartedDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LambdaClientTypes.ChainedInvokeStartedDetails()
-        value.functionName = try reader["FunctionName"].readIfPresent() ?? ""
-        value.tenantId = try reader["TenantId"].readIfPresent()
-        value.input = try reader["Input"].readIfPresent(with: LambdaClientTypes.EventInput.read(from:))
-        value.executedVersion = try reader["ExecutedVersion"].readIfPresent()
-        value.durableExecutionArn = try reader["DurableExecutionArn"].readIfPresent()
         return value
     }
 }
@@ -18338,122 +17880,110 @@ extension LambdaClientTypes.EventInput {
     }
 }
 
-extension LambdaClientTypes.StepFailedDetails {
+extension LambdaClientTypes.EventResult {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.StepFailedDetails {
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.EventResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LambdaClientTypes.StepFailedDetails()
-        value.error = try reader["Error"].readIfPresent(with: LambdaClientTypes.EventError.read(from:))
-        value.retryDetails = try reader["RetryDetails"].readIfPresent(with: LambdaClientTypes.RetryDetails.read(from:))
+        var value = LambdaClientTypes.EventResult()
+        value.payload = try reader["Payload"].readIfPresent()
+        value.truncated = try reader["Truncated"].readIfPresent()
         return value
     }
 }
 
-extension LambdaClientTypes.RetryDetails {
+extension LambdaClientTypes.EventSourceMappingConfiguration {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.RetryDetails {
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.EventSourceMappingConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LambdaClientTypes.RetryDetails()
-        value.currentAttempt = try reader["CurrentAttempt"].readIfPresent() ?? 0
-        value.nextAttemptDelaySeconds = try reader["NextAttemptDelaySeconds"].readIfPresent()
+        var value = LambdaClientTypes.EventSourceMappingConfiguration()
+        value.uuid = try reader["UUID"].readIfPresent()
+        value.startingPosition = try reader["StartingPosition"].readIfPresent()
+        value.startingPositionTimestamp = try reader["StartingPositionTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.batchSize = try reader["BatchSize"].readIfPresent()
+        value.maximumBatchingWindowInSeconds = try reader["MaximumBatchingWindowInSeconds"].readIfPresent()
+        value.parallelizationFactor = try reader["ParallelizationFactor"].readIfPresent()
+        value.eventSourceArn = try reader["EventSourceArn"].readIfPresent()
+        value.filterCriteria = try reader["FilterCriteria"].readIfPresent(with: LambdaClientTypes.FilterCriteria.read(from:))
+        value.functionArn = try reader["FunctionArn"].readIfPresent()
+        value.lastModified = try reader["LastModified"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastProcessingResult = try reader["LastProcessingResult"].readIfPresent()
+        value.state = try reader["State"].readIfPresent()
+        value.stateTransitionReason = try reader["StateTransitionReason"].readIfPresent()
+        value.destinationConfig = try reader["DestinationConfig"].readIfPresent(with: LambdaClientTypes.DestinationConfig.read(from:))
+        value.topics = try reader["Topics"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.queues = try reader["Queues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.sourceAccessConfigurations = try reader["SourceAccessConfigurations"].readListIfPresent(memberReadingClosure: LambdaClientTypes.SourceAccessConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.selfManagedEventSource = try reader["SelfManagedEventSource"].readIfPresent(with: LambdaClientTypes.SelfManagedEventSource.read(from:))
+        value.maximumRecordAgeInSeconds = try reader["MaximumRecordAgeInSeconds"].readIfPresent()
+        value.bisectBatchOnFunctionError = try reader["BisectBatchOnFunctionError"].readIfPresent()
+        value.maximumRetryAttempts = try reader["MaximumRetryAttempts"].readIfPresent()
+        value.tumblingWindowInSeconds = try reader["TumblingWindowInSeconds"].readIfPresent()
+        value.functionResponseTypes = try reader["FunctionResponseTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<LambdaClientTypes.FunctionResponseType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.amazonManagedKafkaEventSourceConfig = try reader["AmazonManagedKafkaEventSourceConfig"].readIfPresent(with: LambdaClientTypes.AmazonManagedKafkaEventSourceConfig.read(from:))
+        value.selfManagedKafkaEventSourceConfig = try reader["SelfManagedKafkaEventSourceConfig"].readIfPresent(with: LambdaClientTypes.SelfManagedKafkaEventSourceConfig.read(from:))
+        value.scalingConfig = try reader["ScalingConfig"].readIfPresent(with: LambdaClientTypes.ScalingConfig.read(from:))
+        value.documentDBEventSourceConfig = try reader["DocumentDBEventSourceConfig"].readIfPresent(with: LambdaClientTypes.DocumentDBEventSourceConfig.read(from:))
+        value.kmsKeyArn = try reader["KMSKeyArn"].readIfPresent()
+        value.filterCriteriaError = try reader["FilterCriteriaError"].readIfPresent(with: LambdaClientTypes.FilterCriteriaError.read(from:))
+        value.eventSourceMappingArn = try reader["EventSourceMappingArn"].readIfPresent()
+        value.metricsConfig = try reader["MetricsConfig"].readIfPresent(with: LambdaClientTypes.EventSourceMappingMetricsConfig.read(from:))
+        value.loggingConfig = try reader["LoggingConfig"].readIfPresent(with: LambdaClientTypes.EventSourceMappingLoggingConfig.read(from:))
+        value.provisionedPollerConfig = try reader["ProvisionedPollerConfig"].readIfPresent(with: LambdaClientTypes.ProvisionedPollerConfig.read(from:))
         return value
     }
 }
 
-extension LambdaClientTypes.StepSucceededDetails {
+extension LambdaClientTypes.EventSourceMappingLoggingConfig {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.StepSucceededDetails {
+    static func write(value: LambdaClientTypes.EventSourceMappingLoggingConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["SystemLogLevel"].write(value.systemLogLevel)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.EventSourceMappingLoggingConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LambdaClientTypes.StepSucceededDetails()
-        value.result = try reader["Result"].readIfPresent(with: LambdaClientTypes.EventResult.read(from:))
-        value.retryDetails = try reader["RetryDetails"].readIfPresent(with: LambdaClientTypes.RetryDetails.read(from:))
+        var value = LambdaClientTypes.EventSourceMappingLoggingConfig()
+        value.systemLogLevel = try reader["SystemLogLevel"].readIfPresent()
         return value
     }
 }
 
-extension LambdaClientTypes.StepStartedDetails {
+extension LambdaClientTypes.EventSourceMappingMetricsConfig {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.StepStartedDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        return LambdaClientTypes.StepStartedDetails()
+    static func write(value: LambdaClientTypes.EventSourceMappingMetricsConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Metrics"].writeList(value.metrics, memberWritingClosure: SmithyReadWrite.WritingClosureBox<LambdaClientTypes.EventSourceMappingMetric>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
-}
 
-extension LambdaClientTypes.WaitCancelledDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.WaitCancelledDetails {
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.EventSourceMappingMetricsConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LambdaClientTypes.WaitCancelledDetails()
-        value.error = try reader["Error"].readIfPresent(with: LambdaClientTypes.EventError.read(from:))
+        var value = LambdaClientTypes.EventSourceMappingMetricsConfig()
+        value.metrics = try reader["Metrics"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<LambdaClientTypes.EventSourceMappingMetric>().read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
 
-extension LambdaClientTypes.WaitSucceededDetails {
+extension LambdaClientTypes.Execution {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.WaitSucceededDetails {
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.Execution {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LambdaClientTypes.WaitSucceededDetails()
-        value.duration = try reader["Duration"].readIfPresent()
+        var value = LambdaClientTypes.Execution()
+        value.durableExecutionArn = try reader["DurableExecutionArn"].readIfPresent() ?? ""
+        value.durableExecutionName = try reader["DurableExecutionName"].readIfPresent() ?? ""
+        value.functionArn = try reader["FunctionArn"].readIfPresent() ?? ""
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.startTimestamp = try reader["StartTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.endTimestamp = try reader["EndTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }
 
-extension LambdaClientTypes.WaitStartedDetails {
+extension LambdaClientTypes.ExecutionDetails {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.WaitStartedDetails {
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.ExecutionDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LambdaClientTypes.WaitStartedDetails()
-        value.duration = try reader["Duration"].readIfPresent() ?? 0
-        value.scheduledEndTimestamp = try reader["ScheduledEndTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        return value
-    }
-}
-
-extension LambdaClientTypes.ContextFailedDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.ContextFailedDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LambdaClientTypes.ContextFailedDetails()
-        value.error = try reader["Error"].readIfPresent(with: LambdaClientTypes.EventError.read(from:))
-        return value
-    }
-}
-
-extension LambdaClientTypes.ContextSucceededDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.ContextSucceededDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LambdaClientTypes.ContextSucceededDetails()
-        value.result = try reader["Result"].readIfPresent(with: LambdaClientTypes.EventResult.read(from:))
-        return value
-    }
-}
-
-extension LambdaClientTypes.ContextStartedDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.ContextStartedDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        return LambdaClientTypes.ContextStartedDetails()
-    }
-}
-
-extension LambdaClientTypes.ExecutionStoppedDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.ExecutionStoppedDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LambdaClientTypes.ExecutionStoppedDetails()
-        value.error = try reader["Error"].readIfPresent(with: LambdaClientTypes.EventError.read(from:))
-        return value
-    }
-}
-
-extension LambdaClientTypes.ExecutionTimedOutDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.ExecutionTimedOutDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LambdaClientTypes.ExecutionTimedOutDetails()
-        value.error = try reader["Error"].readIfPresent(with: LambdaClientTypes.EventError.read(from:))
+        var value = LambdaClientTypes.ExecutionDetails()
+        value.inputPayload = try reader["InputPayload"].readIfPresent()
         return value
     }
 }
@@ -18463,6 +17993,27 @@ extension LambdaClientTypes.ExecutionFailedDetails {
     static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.ExecutionFailedDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = LambdaClientTypes.ExecutionFailedDetails()
+        value.error = try reader["Error"].readIfPresent(with: LambdaClientTypes.EventError.read(from:))
+        return value
+    }
+}
+
+extension LambdaClientTypes.ExecutionStartedDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.ExecutionStartedDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.ExecutionStartedDetails()
+        value.input = try reader["Input"].readIfPresent(with: LambdaClientTypes.EventInput.read(from:))
+        value.executionTimeout = try reader["ExecutionTimeout"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension LambdaClientTypes.ExecutionStoppedDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.ExecutionStoppedDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.ExecutionStoppedDetails()
         value.error = try reader["Error"].readIfPresent(with: LambdaClientTypes.EventError.read(from:))
         return value
     }
@@ -18478,13 +18029,97 @@ extension LambdaClientTypes.ExecutionSucceededDetails {
     }
 }
 
-extension LambdaClientTypes.ExecutionStartedDetails {
+extension LambdaClientTypes.ExecutionTimedOutDetails {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.ExecutionStartedDetails {
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.ExecutionTimedOutDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LambdaClientTypes.ExecutionStartedDetails()
-        value.input = try reader["Input"].readIfPresent(with: LambdaClientTypes.EventInput.read(from:))
-        value.executionTimeout = try reader["ExecutionTimeout"].readIfPresent() ?? 0
+        var value = LambdaClientTypes.ExecutionTimedOutDetails()
+        value.error = try reader["Error"].readIfPresent(with: LambdaClientTypes.EventError.read(from:))
+        return value
+    }
+}
+
+extension LambdaClientTypes.FileSystemConfig {
+
+    static func write(value: LambdaClientTypes.FileSystemConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Arn"].write(value.arn)
+        try writer["LocalMountPath"].write(value.localMountPath)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.FileSystemConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.FileSystemConfig()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        value.localMountPath = try reader["LocalMountPath"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension LambdaClientTypes.Filter {
+
+    static func write(value: LambdaClientTypes.Filter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Pattern"].write(value.pattern)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.Filter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.Filter()
+        value.pattern = try reader["Pattern"].readIfPresent()
+        return value
+    }
+}
+
+extension LambdaClientTypes.FilterCriteria {
+
+    static func write(value: LambdaClientTypes.FilterCriteria?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Filters"].writeList(value.filters, memberWritingClosure: LambdaClientTypes.Filter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.FilterCriteria {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.FilterCriteria()
+        value.filters = try reader["Filters"].readListIfPresent(memberReadingClosure: LambdaClientTypes.Filter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension LambdaClientTypes.FilterCriteriaError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.FilterCriteriaError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.FilterCriteriaError()
+        value.errorCode = try reader["ErrorCode"].readIfPresent()
+        value.message = try reader["Message"].readIfPresent()
+        return value
+    }
+}
+
+extension LambdaClientTypes.FunctionCode {
+
+    static func write(value: LambdaClientTypes.FunctionCode?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ImageUri"].write(value.imageUri)
+        try writer["S3Bucket"].write(value.s3Bucket)
+        try writer["S3Key"].write(value.s3Key)
+        try writer["S3ObjectVersion"].write(value.s3ObjectVersion)
+        try writer["SourceKMSKeyArn"].write(value.sourceKMSKeyArn)
+        try writer["ZipFile"].write(value.zipFile)
+    }
+}
+
+extension LambdaClientTypes.FunctionCodeLocation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.FunctionCodeLocation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.FunctionCodeLocation()
+        value.repositoryType = try reader["RepositoryType"].readIfPresent()
+        value.location = try reader["Location"].readIfPresent()
+        value.imageUri = try reader["ImageUri"].readIfPresent()
+        value.resolvedImageUri = try reader["ResolvedImageUri"].readIfPresent()
+        value.sourceKMSKeyArn = try reader["SourceKMSKeyArn"].readIfPresent()
         return value
     }
 }
@@ -18538,37 +18173,16 @@ extension LambdaClientTypes.FunctionConfiguration {
     }
 }
 
-extension LambdaClientTypes.FunctionCodeLocation {
+extension LambdaClientTypes.FunctionEventInvokeConfig {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.FunctionCodeLocation {
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.FunctionEventInvokeConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LambdaClientTypes.FunctionCodeLocation()
-        value.repositoryType = try reader["RepositoryType"].readIfPresent()
-        value.location = try reader["Location"].readIfPresent()
-        value.imageUri = try reader["ImageUri"].readIfPresent()
-        value.resolvedImageUri = try reader["ResolvedImageUri"].readIfPresent()
-        value.sourceKMSKeyArn = try reader["SourceKMSKeyArn"].readIfPresent()
-        return value
-    }
-}
-
-extension LambdaClientTypes.TagsError {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.TagsError {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LambdaClientTypes.TagsError()
-        value.errorCode = try reader["ErrorCode"].readIfPresent() ?? ""
-        value.message = try reader["Message"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension LambdaClientTypes.Concurrency {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.Concurrency {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LambdaClientTypes.Concurrency()
-        value.reservedConcurrentExecutions = try reader["ReservedConcurrentExecutions"].readIfPresent()
+        var value = LambdaClientTypes.FunctionEventInvokeConfig()
+        value.lastModified = try reader["LastModified"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.functionArn = try reader["FunctionArn"].readIfPresent()
+        value.maximumRetryAttempts = try reader["MaximumRetryAttempts"].readIfPresent()
+        value.maximumEventAgeInSeconds = try reader["MaximumEventAgeInSeconds"].readIfPresent()
+        value.destinationConfig = try reader["DestinationConfig"].readIfPresent(with: LambdaClientTypes.DestinationConfig.read(from:))
         return value
     }
 }
@@ -18586,128 +18200,6 @@ extension LambdaClientTypes.FunctionScalingConfig {
         var value = LambdaClientTypes.FunctionScalingConfig()
         value.minExecutionEnvironments = try reader["MinExecutionEnvironments"].readIfPresent()
         value.maxExecutionEnvironments = try reader["MaxExecutionEnvironments"].readIfPresent()
-        return value
-    }
-}
-
-extension LambdaClientTypes.LayerVersionContentOutput {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.LayerVersionContentOutput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LambdaClientTypes.LayerVersionContentOutput()
-        value.location = try reader["Location"].readIfPresent()
-        value.codeSha256 = try reader["CodeSha256"].readIfPresent()
-        value.codeSize = try reader["CodeSize"].readIfPresent() ?? 0
-        value.signingProfileVersionArn = try reader["SigningProfileVersionArn"].readIfPresent()
-        value.signingJobArn = try reader["SigningJobArn"].readIfPresent()
-        return value
-    }
-}
-
-extension LambdaClientTypes.InvokeWithResponseStreamCompleteEvent {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.InvokeWithResponseStreamCompleteEvent {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LambdaClientTypes.InvokeWithResponseStreamCompleteEvent()
-        value.errorCode = try reader["ErrorCode"].readIfPresent()
-        value.errorDetails = try reader["ErrorDetails"].readIfPresent()
-        value.logResult = try reader["LogResult"].readIfPresent()
-        return value
-    }
-}
-
-extension LambdaClientTypes.InvokeResponseStreamUpdate {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.InvokeResponseStreamUpdate {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LambdaClientTypes.InvokeResponseStreamUpdate()
-        value.payload = try reader["Payload"].readIfPresent()
-        return value
-    }
-}
-
-extension LambdaClientTypes.AliasConfiguration {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.AliasConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LambdaClientTypes.AliasConfiguration()
-        value.aliasArn = try reader["AliasArn"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
-        value.functionVersion = try reader["FunctionVersion"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        value.routingConfig = try reader["RoutingConfig"].readIfPresent(with: LambdaClientTypes.AliasRoutingConfiguration.read(from:))
-        value.revisionId = try reader["RevisionId"].readIfPresent()
-        return value
-    }
-}
-
-extension LambdaClientTypes.Execution {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.Execution {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LambdaClientTypes.Execution()
-        value.durableExecutionArn = try reader["DurableExecutionArn"].readIfPresent() ?? ""
-        value.durableExecutionName = try reader["DurableExecutionName"].readIfPresent() ?? ""
-        value.functionArn = try reader["FunctionArn"].readIfPresent() ?? ""
-        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
-        value.startTimestamp = try reader["StartTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.endTimestamp = try reader["EndTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension LambdaClientTypes.EventSourceMappingConfiguration {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.EventSourceMappingConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LambdaClientTypes.EventSourceMappingConfiguration()
-        value.uuid = try reader["UUID"].readIfPresent()
-        value.startingPosition = try reader["StartingPosition"].readIfPresent()
-        value.startingPositionTimestamp = try reader["StartingPositionTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.batchSize = try reader["BatchSize"].readIfPresent()
-        value.maximumBatchingWindowInSeconds = try reader["MaximumBatchingWindowInSeconds"].readIfPresent()
-        value.parallelizationFactor = try reader["ParallelizationFactor"].readIfPresent()
-        value.eventSourceArn = try reader["EventSourceArn"].readIfPresent()
-        value.filterCriteria = try reader["FilterCriteria"].readIfPresent(with: LambdaClientTypes.FilterCriteria.read(from:))
-        value.functionArn = try reader["FunctionArn"].readIfPresent()
-        value.lastModified = try reader["LastModified"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastProcessingResult = try reader["LastProcessingResult"].readIfPresent()
-        value.state = try reader["State"].readIfPresent()
-        value.stateTransitionReason = try reader["StateTransitionReason"].readIfPresent()
-        value.destinationConfig = try reader["DestinationConfig"].readIfPresent(with: LambdaClientTypes.DestinationConfig.read(from:))
-        value.topics = try reader["Topics"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.queues = try reader["Queues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.sourceAccessConfigurations = try reader["SourceAccessConfigurations"].readListIfPresent(memberReadingClosure: LambdaClientTypes.SourceAccessConfiguration.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.selfManagedEventSource = try reader["SelfManagedEventSource"].readIfPresent(with: LambdaClientTypes.SelfManagedEventSource.read(from:))
-        value.maximumRecordAgeInSeconds = try reader["MaximumRecordAgeInSeconds"].readIfPresent()
-        value.bisectBatchOnFunctionError = try reader["BisectBatchOnFunctionError"].readIfPresent()
-        value.maximumRetryAttempts = try reader["MaximumRetryAttempts"].readIfPresent()
-        value.tumblingWindowInSeconds = try reader["TumblingWindowInSeconds"].readIfPresent()
-        value.functionResponseTypes = try reader["FunctionResponseTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<LambdaClientTypes.FunctionResponseType>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.amazonManagedKafkaEventSourceConfig = try reader["AmazonManagedKafkaEventSourceConfig"].readIfPresent(with: LambdaClientTypes.AmazonManagedKafkaEventSourceConfig.read(from:))
-        value.selfManagedKafkaEventSourceConfig = try reader["SelfManagedKafkaEventSourceConfig"].readIfPresent(with: LambdaClientTypes.SelfManagedKafkaEventSourceConfig.read(from:))
-        value.scalingConfig = try reader["ScalingConfig"].readIfPresent(with: LambdaClientTypes.ScalingConfig.read(from:))
-        value.documentDBEventSourceConfig = try reader["DocumentDBEventSourceConfig"].readIfPresent(with: LambdaClientTypes.DocumentDBEventSourceConfig.read(from:))
-        value.kmsKeyArn = try reader["KMSKeyArn"].readIfPresent()
-        value.filterCriteriaError = try reader["FilterCriteriaError"].readIfPresent(with: LambdaClientTypes.FilterCriteriaError.read(from:))
-        value.eventSourceMappingArn = try reader["EventSourceMappingArn"].readIfPresent()
-        value.metricsConfig = try reader["MetricsConfig"].readIfPresent(with: LambdaClientTypes.EventSourceMappingMetricsConfig.read(from:))
-        value.loggingConfig = try reader["LoggingConfig"].readIfPresent(with: LambdaClientTypes.EventSourceMappingLoggingConfig.read(from:))
-        value.provisionedPollerConfig = try reader["ProvisionedPollerConfig"].readIfPresent(with: LambdaClientTypes.ProvisionedPollerConfig.read(from:))
-        return value
-    }
-}
-
-extension LambdaClientTypes.FunctionEventInvokeConfig {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.FunctionEventInvokeConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LambdaClientTypes.FunctionEventInvokeConfig()
-        value.lastModified = try reader["LastModified"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.functionArn = try reader["FunctionArn"].readIfPresent()
-        value.maximumRetryAttempts = try reader["MaximumRetryAttempts"].readIfPresent()
-        value.maximumEventAgeInSeconds = try reader["MaximumEventAgeInSeconds"].readIfPresent()
-        value.destinationConfig = try reader["DestinationConfig"].readIfPresent(with: LambdaClientTypes.DestinationConfig.read(from:))
         return value
     }
 }
@@ -18739,6 +18231,186 @@ extension LambdaClientTypes.FunctionVersionsByCapacityProviderListItem {
     }
 }
 
+extension LambdaClientTypes.ImageConfig {
+
+    static func write(value: LambdaClientTypes.ImageConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Command"].writeList(value.command, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["EntryPoint"].writeList(value.entryPoint, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["WorkingDirectory"].write(value.workingDirectory)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.ImageConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.ImageConfig()
+        value.entryPoint = try reader["EntryPoint"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.command = try reader["Command"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.workingDirectory = try reader["WorkingDirectory"].readIfPresent()
+        return value
+    }
+}
+
+extension LambdaClientTypes.ImageConfigError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.ImageConfigError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.ImageConfigError()
+        value.errorCode = try reader["ErrorCode"].readIfPresent()
+        value.message = try reader["Message"].readIfPresent()
+        return value
+    }
+}
+
+extension LambdaClientTypes.ImageConfigResponse {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.ImageConfigResponse {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.ImageConfigResponse()
+        value.imageConfig = try reader["ImageConfig"].readIfPresent(with: LambdaClientTypes.ImageConfig.read(from:))
+        value.error = try reader["Error"].readIfPresent(with: LambdaClientTypes.ImageConfigError.read(from:))
+        return value
+    }
+}
+
+extension LambdaClientTypes.InstanceRequirements {
+
+    static func write(value: LambdaClientTypes.InstanceRequirements?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AllowedInstanceTypes"].writeList(value.allowedInstanceTypes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Architectures"].writeList(value.architectures, memberWritingClosure: SmithyReadWrite.WritingClosureBox<LambdaClientTypes.Architecture>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ExcludedInstanceTypes"].writeList(value.excludedInstanceTypes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.InstanceRequirements {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.InstanceRequirements()
+        value.architectures = try reader["Architectures"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<LambdaClientTypes.Architecture>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.allowedInstanceTypes = try reader["AllowedInstanceTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.excludedInstanceTypes = try reader["ExcludedInstanceTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension LambdaClientTypes.InvocationCompletedDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.InvocationCompletedDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.InvocationCompletedDetails()
+        value.startTimestamp = try reader["StartTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.endTimestamp = try reader["EndTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.requestId = try reader["RequestId"].readIfPresent() ?? ""
+        value.error = try reader["Error"].readIfPresent(with: LambdaClientTypes.EventError.read(from:))
+        return value
+    }
+}
+
+extension LambdaClientTypes.InvokeResponseStreamUpdate {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.InvokeResponseStreamUpdate {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.InvokeResponseStreamUpdate()
+        value.payload = try reader["Payload"].readIfPresent()
+        return value
+    }
+}
+
+extension LambdaClientTypes.InvokeWithResponseStreamCompleteEvent {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.InvokeWithResponseStreamCompleteEvent {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.InvokeWithResponseStreamCompleteEvent()
+        value.errorCode = try reader["ErrorCode"].readIfPresent()
+        value.errorDetails = try reader["ErrorDetails"].readIfPresent()
+        value.logResult = try reader["LogResult"].readIfPresent()
+        return value
+    }
+}
+
+extension LambdaClientTypes.KafkaSchemaRegistryAccessConfig {
+
+    static func write(value: LambdaClientTypes.KafkaSchemaRegistryAccessConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Type"].write(value.type)
+        try writer["URI"].write(value.uri)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.KafkaSchemaRegistryAccessConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.KafkaSchemaRegistryAccessConfig()
+        value.type = try reader["Type"].readIfPresent()
+        value.uri = try reader["URI"].readIfPresent()
+        return value
+    }
+}
+
+extension LambdaClientTypes.KafkaSchemaRegistryConfig {
+
+    static func write(value: LambdaClientTypes.KafkaSchemaRegistryConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AccessConfigs"].writeList(value.accessConfigs, memberWritingClosure: LambdaClientTypes.KafkaSchemaRegistryAccessConfig.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["EventRecordFormat"].write(value.eventRecordFormat)
+        try writer["SchemaRegistryURI"].write(value.schemaRegistryURI)
+        try writer["SchemaValidationConfigs"].writeList(value.schemaValidationConfigs, memberWritingClosure: LambdaClientTypes.KafkaSchemaValidationConfig.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.KafkaSchemaRegistryConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.KafkaSchemaRegistryConfig()
+        value.schemaRegistryURI = try reader["SchemaRegistryURI"].readIfPresent()
+        value.eventRecordFormat = try reader["EventRecordFormat"].readIfPresent()
+        value.accessConfigs = try reader["AccessConfigs"].readListIfPresent(memberReadingClosure: LambdaClientTypes.KafkaSchemaRegistryAccessConfig.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.schemaValidationConfigs = try reader["SchemaValidationConfigs"].readListIfPresent(memberReadingClosure: LambdaClientTypes.KafkaSchemaValidationConfig.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension LambdaClientTypes.KafkaSchemaValidationConfig {
+
+    static func write(value: LambdaClientTypes.KafkaSchemaValidationConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Attribute"].write(value.attribute)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.KafkaSchemaValidationConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.KafkaSchemaValidationConfig()
+        value.attribute = try reader["Attribute"].readIfPresent()
+        return value
+    }
+}
+
+extension LambdaClientTypes.LambdaManagedInstancesCapacityProviderConfig {
+
+    static func write(value: LambdaClientTypes.LambdaManagedInstancesCapacityProviderConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CapacityProviderArn"].write(value.capacityProviderArn)
+        try writer["ExecutionEnvironmentMemoryGiBPerVCpu"].write(value.executionEnvironmentMemoryGiBPerVCpu)
+        try writer["PerExecutionEnvironmentMaxConcurrency"].write(value.perExecutionEnvironmentMaxConcurrency)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.LambdaManagedInstancesCapacityProviderConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.LambdaManagedInstancesCapacityProviderConfig()
+        value.capacityProviderArn = try reader["CapacityProviderArn"].readIfPresent() ?? ""
+        value.perExecutionEnvironmentMaxConcurrency = try reader["PerExecutionEnvironmentMaxConcurrency"].readIfPresent()
+        value.executionEnvironmentMemoryGiBPerVCpu = try reader["ExecutionEnvironmentMemoryGiBPerVCpu"].readIfPresent()
+        return value
+    }
+}
+
+extension LambdaClientTypes.Layer {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.Layer {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.Layer()
+        value.arn = try reader["Arn"].readIfPresent()
+        value.codeSize = try reader["CodeSize"].readIfPresent() ?? 0
+        value.signingProfileVersionArn = try reader["SigningProfileVersionArn"].readIfPresent()
+        value.signingJobArn = try reader["SigningJobArn"].readIfPresent()
+        return value
+    }
+}
+
 extension LambdaClientTypes.LayersListItem {
 
     static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.LayersListItem {
@@ -18747,6 +18419,31 @@ extension LambdaClientTypes.LayersListItem {
         value.layerName = try reader["LayerName"].readIfPresent()
         value.layerArn = try reader["LayerArn"].readIfPresent()
         value.latestMatchingVersion = try reader["LatestMatchingVersion"].readIfPresent(with: LambdaClientTypes.LayerVersionsListItem.read(from:))
+        return value
+    }
+}
+
+extension LambdaClientTypes.LayerVersionContentInput {
+
+    static func write(value: LambdaClientTypes.LayerVersionContentInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["S3Bucket"].write(value.s3Bucket)
+        try writer["S3Key"].write(value.s3Key)
+        try writer["S3ObjectVersion"].write(value.s3ObjectVersion)
+        try writer["ZipFile"].write(value.zipFile)
+    }
+}
+
+extension LambdaClientTypes.LayerVersionContentOutput {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.LayerVersionContentOutput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.LayerVersionContentOutput()
+        value.location = try reader["Location"].readIfPresent()
+        value.codeSha256 = try reader["CodeSha256"].readIfPresent()
+        value.codeSize = try reader["CodeSize"].readIfPresent() ?? 0
+        value.signingProfileVersionArn = try reader["SigningProfileVersionArn"].readIfPresent()
+        value.signingJobArn = try reader["SigningJobArn"].readIfPresent()
         return value
     }
 }
@@ -18767,18 +18464,76 @@ extension LambdaClientTypes.LayerVersionsListItem {
     }
 }
 
-extension LambdaClientTypes.ProvisionedConcurrencyConfigListItem {
+extension LambdaClientTypes.LoggingConfig {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.ProvisionedConcurrencyConfigListItem {
+    static func write(value: LambdaClientTypes.LoggingConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ApplicationLogLevel"].write(value.applicationLogLevel)
+        try writer["LogFormat"].write(value.logFormat)
+        try writer["LogGroup"].write(value.logGroup)
+        try writer["SystemLogLevel"].write(value.systemLogLevel)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.LoggingConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = LambdaClientTypes.ProvisionedConcurrencyConfigListItem()
-        value.functionArn = try reader["FunctionArn"].readIfPresent()
-        value.requestedProvisionedConcurrentExecutions = try reader["RequestedProvisionedConcurrentExecutions"].readIfPresent()
-        value.availableProvisionedConcurrentExecutions = try reader["AvailableProvisionedConcurrentExecutions"].readIfPresent()
-        value.allocatedProvisionedConcurrentExecutions = try reader["AllocatedProvisionedConcurrentExecutions"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.statusReason = try reader["StatusReason"].readIfPresent()
-        value.lastModified = try reader["LastModified"].readIfPresent()
+        var value = LambdaClientTypes.LoggingConfig()
+        value.logFormat = try reader["LogFormat"].readIfPresent()
+        value.applicationLogLevel = try reader["ApplicationLogLevel"].readIfPresent()
+        value.systemLogLevel = try reader["SystemLogLevel"].readIfPresent()
+        value.logGroup = try reader["LogGroup"].readIfPresent()
+        return value
+    }
+}
+
+extension LambdaClientTypes.OnFailure {
+
+    static func write(value: LambdaClientTypes.OnFailure?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Destination"].write(value.destination)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.OnFailure {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.OnFailure()
+        value.destination = try reader["Destination"].readIfPresent()
+        return value
+    }
+}
+
+extension LambdaClientTypes.OnSuccess {
+
+    static func write(value: LambdaClientTypes.OnSuccess?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Destination"].write(value.destination)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.OnSuccess {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.OnSuccess()
+        value.destination = try reader["Destination"].readIfPresent()
+        return value
+    }
+}
+
+extension LambdaClientTypes.Operation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.Operation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.Operation()
+        value.id = try reader["Id"].readIfPresent() ?? ""
+        value.parentId = try reader["ParentId"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
+        value.subType = try reader["SubType"].readIfPresent()
+        value.startTimestamp = try reader["StartTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.endTimestamp = try reader["EndTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.executionDetails = try reader["ExecutionDetails"].readIfPresent(with: LambdaClientTypes.ExecutionDetails.read(from:))
+        value.contextDetails = try reader["ContextDetails"].readIfPresent(with: LambdaClientTypes.ContextDetails.read(from:))
+        value.stepDetails = try reader["StepDetails"].readIfPresent(with: LambdaClientTypes.StepDetails.read(from:))
+        value.waitDetails = try reader["WaitDetails"].readIfPresent(with: LambdaClientTypes.WaitDetails.read(from:))
+        value.callbackDetails = try reader["CallbackDetails"].readIfPresent(with: LambdaClientTypes.CallbackDetails.read(from:))
+        value.chainedInvokeDetails = try reader["ChainedInvokeDetails"].readIfPresent(with: LambdaClientTypes.ChainedInvokeDetails.read(from:))
         return value
     }
 }
@@ -18803,29 +18558,178 @@ extension LambdaClientTypes.OperationUpdate {
     }
 }
 
-extension LambdaClientTypes.ChainedInvokeOptions {
+extension LambdaClientTypes.ProvisionedConcurrencyConfigListItem {
 
-    static func write(value: LambdaClientTypes.ChainedInvokeOptions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["FunctionName"].write(value.functionName)
-        try writer["TenantId"].write(value.tenantId)
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.ProvisionedConcurrencyConfigListItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.ProvisionedConcurrencyConfigListItem()
+        value.functionArn = try reader["FunctionArn"].readIfPresent()
+        value.requestedProvisionedConcurrentExecutions = try reader["RequestedProvisionedConcurrentExecutions"].readIfPresent()
+        value.availableProvisionedConcurrentExecutions = try reader["AvailableProvisionedConcurrentExecutions"].readIfPresent()
+        value.allocatedProvisionedConcurrentExecutions = try reader["AllocatedProvisionedConcurrentExecutions"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.statusReason = try reader["StatusReason"].readIfPresent()
+        value.lastModified = try reader["LastModified"].readIfPresent()
+        return value
     }
 }
 
-extension LambdaClientTypes.CallbackOptions {
+extension LambdaClientTypes.ProvisionedPollerConfig {
 
-    static func write(value: LambdaClientTypes.CallbackOptions?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: LambdaClientTypes.ProvisionedPollerConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["HeartbeatTimeoutSeconds"].write(value.heartbeatTimeoutSeconds)
-        try writer["TimeoutSeconds"].write(value.timeoutSeconds)
+        try writer["MaximumPollers"].write(value.maximumPollers)
+        try writer["MinimumPollers"].write(value.minimumPollers)
+        try writer["PollerGroupName"].write(value.pollerGroupName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.ProvisionedPollerConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.ProvisionedPollerConfig()
+        value.minimumPollers = try reader["MinimumPollers"].readIfPresent()
+        value.maximumPollers = try reader["MaximumPollers"].readIfPresent()
+        value.pollerGroupName = try reader["PollerGroupName"].readIfPresent()
+        return value
     }
 }
 
-extension LambdaClientTypes.WaitOptions {
+extension LambdaClientTypes.RetryDetails {
 
-    static func write(value: LambdaClientTypes.WaitOptions?, to writer: SmithyJSON.Writer) throws {
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.RetryDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.RetryDetails()
+        value.currentAttempt = try reader["CurrentAttempt"].readIfPresent() ?? 0
+        value.nextAttemptDelaySeconds = try reader["NextAttemptDelaySeconds"].readIfPresent()
+        return value
+    }
+}
+
+extension LambdaClientTypes.RuntimeVersionConfig {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.RuntimeVersionConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.RuntimeVersionConfig()
+        value.runtimeVersionArn = try reader["RuntimeVersionArn"].readIfPresent()
+        value.error = try reader["Error"].readIfPresent(with: LambdaClientTypes.RuntimeVersionError.read(from:))
+        return value
+    }
+}
+
+extension LambdaClientTypes.RuntimeVersionError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.RuntimeVersionError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.RuntimeVersionError()
+        value.errorCode = try reader["ErrorCode"].readIfPresent()
+        value.message = try reader["Message"].readIfPresent()
+        return value
+    }
+}
+
+extension LambdaClientTypes.ScalingConfig {
+
+    static func write(value: LambdaClientTypes.ScalingConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["WaitSeconds"].write(value.waitSeconds)
+        try writer["MaximumConcurrency"].write(value.maximumConcurrency)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.ScalingConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.ScalingConfig()
+        value.maximumConcurrency = try reader["MaximumConcurrency"].readIfPresent()
+        return value
+    }
+}
+
+extension LambdaClientTypes.SelfManagedEventSource {
+
+    static func write(value: LambdaClientTypes.SelfManagedEventSource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Endpoints"].writeMap(value.endpoints, valueWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.SelfManagedEventSource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.SelfManagedEventSource()
+        value.endpoints = try reader["Endpoints"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension LambdaClientTypes.SelfManagedKafkaEventSourceConfig {
+
+    static func write(value: LambdaClientTypes.SelfManagedKafkaEventSourceConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ConsumerGroupId"].write(value.consumerGroupId)
+        try writer["SchemaRegistryConfig"].write(value.schemaRegistryConfig, with: LambdaClientTypes.KafkaSchemaRegistryConfig.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.SelfManagedKafkaEventSourceConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.SelfManagedKafkaEventSourceConfig()
+        value.consumerGroupId = try reader["ConsumerGroupId"].readIfPresent()
+        value.schemaRegistryConfig = try reader["SchemaRegistryConfig"].readIfPresent(with: LambdaClientTypes.KafkaSchemaRegistryConfig.read(from:))
+        return value
+    }
+}
+
+extension LambdaClientTypes.SnapStart {
+
+    static func write(value: LambdaClientTypes.SnapStart?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ApplyOn"].write(value.applyOn)
+    }
+}
+
+extension LambdaClientTypes.SnapStartResponse {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.SnapStartResponse {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.SnapStartResponse()
+        value.applyOn = try reader["ApplyOn"].readIfPresent()
+        value.optimizationStatus = try reader["OptimizationStatus"].readIfPresent()
+        return value
+    }
+}
+
+extension LambdaClientTypes.SourceAccessConfiguration {
+
+    static func write(value: LambdaClientTypes.SourceAccessConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Type"].write(value.type)
+        try writer["URI"].write(value.uri)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.SourceAccessConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.SourceAccessConfiguration()
+        value.type = try reader["Type"].readIfPresent()
+        value.uri = try reader["URI"].readIfPresent()
+        return value
+    }
+}
+
+extension LambdaClientTypes.StepDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.StepDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.StepDetails()
+        value.attempt = try reader["Attempt"].readIfPresent() ?? 0
+        value.nextAttemptTimestamp = try reader["NextAttemptTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.result = try reader["Result"].readIfPresent()
+        value.error = try reader["Error"].readIfPresent(with: LambdaClientTypes.ErrorObject.read(from:))
+        return value
+    }
+}
+
+extension LambdaClientTypes.StepFailedDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.StepFailedDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.StepFailedDetails()
+        value.error = try reader["Error"].readIfPresent(with: LambdaClientTypes.EventError.read(from:))
+        value.retryDetails = try reader["RetryDetails"].readIfPresent(with: LambdaClientTypes.RetryDetails.read(from:))
+        return value
     }
 }
 
@@ -18837,24 +18741,93 @@ extension LambdaClientTypes.StepOptions {
     }
 }
 
-extension LambdaClientTypes.ContextOptions {
+extension LambdaClientTypes.StepStartedDetails {
 
-    static func write(value: LambdaClientTypes.ContextOptions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ReplayChildren"].write(value.replayChildren)
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.StepStartedDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        return LambdaClientTypes.StepStartedDetails()
     }
 }
 
-extension LambdaClientTypes.FunctionCode {
+extension LambdaClientTypes.StepSucceededDetails {
 
-    static func write(value: LambdaClientTypes.FunctionCode?, to writer: SmithyJSON.Writer) throws {
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.StepSucceededDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.StepSucceededDetails()
+        value.result = try reader["Result"].readIfPresent(with: LambdaClientTypes.EventResult.read(from:))
+        value.retryDetails = try reader["RetryDetails"].readIfPresent(with: LambdaClientTypes.RetryDetails.read(from:))
+        return value
+    }
+}
+
+extension LambdaClientTypes.TagsError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.TagsError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.TagsError()
+        value.errorCode = try reader["ErrorCode"].readIfPresent() ?? ""
+        value.message = try reader["Message"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension LambdaClientTypes.TargetTrackingScalingPolicy {
+
+    static func write(value: LambdaClientTypes.TargetTrackingScalingPolicy?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["ImageUri"].write(value.imageUri)
-        try writer["S3Bucket"].write(value.s3Bucket)
-        try writer["S3Key"].write(value.s3Key)
-        try writer["S3ObjectVersion"].write(value.s3ObjectVersion)
-        try writer["SourceKMSKeyArn"].write(value.sourceKMSKeyArn)
-        try writer["ZipFile"].write(value.zipFile)
+        try writer["PredefinedMetricType"].write(value.predefinedMetricType)
+        try writer["TargetValue"].write(value.targetValue)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.TargetTrackingScalingPolicy {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.TargetTrackingScalingPolicy()
+        value.predefinedMetricType = try reader["PredefinedMetricType"].readIfPresent() ?? .sdkUnknown("")
+        value.targetValue = try reader["TargetValue"].readIfPresent() ?? 0.0
+        return value
+    }
+}
+
+extension LambdaClientTypes.TenancyConfig {
+
+    static func write(value: LambdaClientTypes.TenancyConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["TenantIsolationMode"].write(value.tenantIsolationMode)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.TenancyConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.TenancyConfig()
+        value.tenantIsolationMode = try reader["TenantIsolationMode"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension LambdaClientTypes.TraceHeader {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.TraceHeader {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.TraceHeader()
+        value.xAmznTraceId = try reader["XAmznTraceId"].readIfPresent()
+        return value
+    }
+}
+
+extension LambdaClientTypes.TracingConfig {
+
+    static func write(value: LambdaClientTypes.TracingConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Mode"].write(value.mode)
+    }
+}
+
+extension LambdaClientTypes.TracingConfigResponse {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.TracingConfigResponse {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.TracingConfigResponse()
+        value.mode = try reader["Mode"].readIfPresent()
+        return value
     }
 }
 
@@ -18868,38 +18841,65 @@ extension LambdaClientTypes.VpcConfig {
     }
 }
 
-extension LambdaClientTypes.Environment {
+extension LambdaClientTypes.VpcConfigResponse {
 
-    static func write(value: LambdaClientTypes.Environment?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Variables"].writeMap(value.variables, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.VpcConfigResponse {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.VpcConfigResponse()
+        value.subnetIds = try reader["SubnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.securityGroupIds = try reader["SecurityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.vpcId = try reader["VpcId"].readIfPresent()
+        value.ipv6AllowedForDualStack = try reader["Ipv6AllowedForDualStack"].readIfPresent()
+        return value
     }
 }
 
-extension LambdaClientTypes.TracingConfig {
+extension LambdaClientTypes.WaitCancelledDetails {
 
-    static func write(value: LambdaClientTypes.TracingConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Mode"].write(value.mode)
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.WaitCancelledDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.WaitCancelledDetails()
+        value.error = try reader["Error"].readIfPresent(with: LambdaClientTypes.EventError.read(from:))
+        return value
     }
 }
 
-extension LambdaClientTypes.SnapStart {
+extension LambdaClientTypes.WaitDetails {
 
-    static func write(value: LambdaClientTypes.SnapStart?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ApplyOn"].write(value.applyOn)
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.WaitDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.WaitDetails()
+        value.scheduledEndTimestamp = try reader["ScheduledEndTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
     }
 }
 
-extension LambdaClientTypes.LayerVersionContentInput {
+extension LambdaClientTypes.WaitOptions {
 
-    static func write(value: LambdaClientTypes.LayerVersionContentInput?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: LambdaClientTypes.WaitOptions?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["S3Bucket"].write(value.s3Bucket)
-        try writer["S3Key"].write(value.s3Key)
-        try writer["S3ObjectVersion"].write(value.s3ObjectVersion)
-        try writer["ZipFile"].write(value.zipFile)
+        try writer["WaitSeconds"].write(value.waitSeconds)
+    }
+}
+
+extension LambdaClientTypes.WaitStartedDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.WaitStartedDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.WaitStartedDetails()
+        value.duration = try reader["Duration"].readIfPresent() ?? 0
+        value.scheduledEndTimestamp = try reader["ScheduledEndTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension LambdaClientTypes.WaitSucceededDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> LambdaClientTypes.WaitSucceededDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = LambdaClientTypes.WaitSucceededDetails()
+        value.duration = try reader["Duration"].readIfPresent()
+        return value
     }
 }
 

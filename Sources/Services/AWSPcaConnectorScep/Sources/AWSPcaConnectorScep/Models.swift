@@ -1632,6 +1632,19 @@ extension PcaConnectorScepClientTypes.ChallengeMetadata {
     }
 }
 
+extension PcaConnectorScepClientTypes.ChallengeMetadataSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PcaConnectorScepClientTypes.ChallengeMetadataSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PcaConnectorScepClientTypes.ChallengeMetadataSummary()
+        value.arn = try reader["Arn"].readIfPresent()
+        value.connectorArn = try reader["ConnectorArn"].readIfPresent()
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
 extension PcaConnectorScepClientTypes.Connector {
 
     static func read(from reader: SmithyJSON.Reader) throws -> PcaConnectorScepClientTypes.Connector {
@@ -1651,14 +1664,38 @@ extension PcaConnectorScepClientTypes.Connector {
     }
 }
 
-extension PcaConnectorScepClientTypes.OpenIdConfiguration {
+extension PcaConnectorScepClientTypes.ConnectorSummary {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> PcaConnectorScepClientTypes.OpenIdConfiguration {
+    static func read(from reader: SmithyJSON.Reader) throws -> PcaConnectorScepClientTypes.ConnectorSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PcaConnectorScepClientTypes.OpenIdConfiguration()
-        value.issuer = try reader["Issuer"].readIfPresent()
-        value.subject = try reader["Subject"].readIfPresent()
-        value.audience = try reader["Audience"].readIfPresent()
+        var value = PcaConnectorScepClientTypes.ConnectorSummary()
+        value.arn = try reader["Arn"].readIfPresent()
+        value.certificateAuthorityArn = try reader["CertificateAuthorityArn"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent()
+        value.mobileDeviceManagement = try reader["MobileDeviceManagement"].readIfPresent(with: PcaConnectorScepClientTypes.MobileDeviceManagement.read(from:))
+        value.openIdConfiguration = try reader["OpenIdConfiguration"].readIfPresent(with: PcaConnectorScepClientTypes.OpenIdConfiguration.read(from:))
+        value.status = try reader["Status"].readIfPresent()
+        value.statusReason = try reader["StatusReason"].readIfPresent()
+        value.endpoint = try reader["Endpoint"].readIfPresent()
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension PcaConnectorScepClientTypes.IntuneConfiguration {
+
+    static func write(value: PcaConnectorScepClientTypes.IntuneConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AzureApplicationId"].write(value.azureApplicationId)
+        try writer["Domain"].write(value.domain)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PcaConnectorScepClientTypes.IntuneConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PcaConnectorScepClientTypes.IntuneConfiguration()
+        value.azureApplicationId = try reader["AzureApplicationId"].readIfPresent() ?? ""
+        value.domain = try reader["Domain"].readIfPresent() ?? ""
         return value
     }
 }
@@ -1687,51 +1724,14 @@ extension PcaConnectorScepClientTypes.MobileDeviceManagement {
     }
 }
 
-extension PcaConnectorScepClientTypes.IntuneConfiguration {
+extension PcaConnectorScepClientTypes.OpenIdConfiguration {
 
-    static func write(value: PcaConnectorScepClientTypes.IntuneConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AzureApplicationId"].write(value.azureApplicationId)
-        try writer["Domain"].write(value.domain)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PcaConnectorScepClientTypes.IntuneConfiguration {
+    static func read(from reader: SmithyJSON.Reader) throws -> PcaConnectorScepClientTypes.OpenIdConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PcaConnectorScepClientTypes.IntuneConfiguration()
-        value.azureApplicationId = try reader["AzureApplicationId"].readIfPresent() ?? ""
-        value.domain = try reader["Domain"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension PcaConnectorScepClientTypes.ChallengeMetadataSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PcaConnectorScepClientTypes.ChallengeMetadataSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PcaConnectorScepClientTypes.ChallengeMetadataSummary()
-        value.arn = try reader["Arn"].readIfPresent()
-        value.connectorArn = try reader["ConnectorArn"].readIfPresent()
-        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension PcaConnectorScepClientTypes.ConnectorSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PcaConnectorScepClientTypes.ConnectorSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PcaConnectorScepClientTypes.ConnectorSummary()
-        value.arn = try reader["Arn"].readIfPresent()
-        value.certificateAuthorityArn = try reader["CertificateAuthorityArn"].readIfPresent()
-        value.type = try reader["Type"].readIfPresent()
-        value.mobileDeviceManagement = try reader["MobileDeviceManagement"].readIfPresent(with: PcaConnectorScepClientTypes.MobileDeviceManagement.read(from:))
-        value.openIdConfiguration = try reader["OpenIdConfiguration"].readIfPresent(with: PcaConnectorScepClientTypes.OpenIdConfiguration.read(from:))
-        value.status = try reader["Status"].readIfPresent()
-        value.statusReason = try reader["StatusReason"].readIfPresent()
-        value.endpoint = try reader["Endpoint"].readIfPresent()
-        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        var value = PcaConnectorScepClientTypes.OpenIdConfiguration()
+        value.issuer = try reader["Issuer"].readIfPresent()
+        value.subject = try reader["Subject"].readIfPresent()
+        value.audience = try reader["Audience"].readIfPresent()
         return value
     }
 }

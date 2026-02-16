@@ -1913,6 +1913,37 @@ extension ConflictException {
     }
 }
 
+extension IotDeviceAdvisorClientTypes.DeviceUnderTest {
+
+    static func write(value: IotDeviceAdvisorClientTypes.DeviceUnderTest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["certificateArn"].write(value.certificateArn)
+        try writer["deviceRoleArn"].write(value.deviceRoleArn)
+        try writer["thingArn"].write(value.thingArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IotDeviceAdvisorClientTypes.DeviceUnderTest {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IotDeviceAdvisorClientTypes.DeviceUnderTest()
+        value.thingArn = try reader["thingArn"].readIfPresent()
+        value.certificateArn = try reader["certificateArn"].readIfPresent()
+        value.deviceRoleArn = try reader["deviceRoleArn"].readIfPresent()
+        return value
+    }
+}
+
+extension IotDeviceAdvisorClientTypes.GroupResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IotDeviceAdvisorClientTypes.GroupResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IotDeviceAdvisorClientTypes.GroupResult()
+        value.groupId = try reader["groupId"].readIfPresent()
+        value.groupName = try reader["groupName"].readIfPresent()
+        value.tests = try reader["tests"].readListIfPresent(memberReadingClosure: IotDeviceAdvisorClientTypes.TestCaseRun.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension IotDeviceAdvisorClientTypes.SuiteDefinitionConfiguration {
 
     static func write(value: IotDeviceAdvisorClientTypes.SuiteDefinitionConfiguration?, to writer: SmithyJSON.Writer) throws {
@@ -1940,21 +1971,18 @@ extension IotDeviceAdvisorClientTypes.SuiteDefinitionConfiguration {
     }
 }
 
-extension IotDeviceAdvisorClientTypes.DeviceUnderTest {
+extension IotDeviceAdvisorClientTypes.SuiteDefinitionInformation {
 
-    static func write(value: IotDeviceAdvisorClientTypes.DeviceUnderTest?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["certificateArn"].write(value.certificateArn)
-        try writer["deviceRoleArn"].write(value.deviceRoleArn)
-        try writer["thingArn"].write(value.thingArn)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IotDeviceAdvisorClientTypes.DeviceUnderTest {
+    static func read(from reader: SmithyJSON.Reader) throws -> IotDeviceAdvisorClientTypes.SuiteDefinitionInformation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IotDeviceAdvisorClientTypes.DeviceUnderTest()
-        value.thingArn = try reader["thingArn"].readIfPresent()
-        value.certificateArn = try reader["certificateArn"].readIfPresent()
-        value.deviceRoleArn = try reader["deviceRoleArn"].readIfPresent()
+        var value = IotDeviceAdvisorClientTypes.SuiteDefinitionInformation()
+        value.suiteDefinitionId = try reader["suiteDefinitionId"].readIfPresent()
+        value.suiteDefinitionName = try reader["suiteDefinitionName"].readIfPresent()
+        value.defaultDevices = try reader["defaultDevices"].readListIfPresent(memberReadingClosure: IotDeviceAdvisorClientTypes.DeviceUnderTest.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.intendedForQualification = try reader["intendedForQualification"].readIfPresent()
+        value.isLongDurationTest = try reader["isLongDurationTest"].readIfPresent()
+        value.`protocol` = try reader["protocol"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }
@@ -1978,24 +2006,21 @@ extension IotDeviceAdvisorClientTypes.SuiteRunConfiguration {
     }
 }
 
-extension IotDeviceAdvisorClientTypes.TestResult {
+extension IotDeviceAdvisorClientTypes.SuiteRunInformation {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> IotDeviceAdvisorClientTypes.TestResult {
+    static func read(from reader: SmithyJSON.Reader) throws -> IotDeviceAdvisorClientTypes.SuiteRunInformation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IotDeviceAdvisorClientTypes.TestResult()
-        value.groups = try reader["groups"].readListIfPresent(memberReadingClosure: IotDeviceAdvisorClientTypes.GroupResult.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension IotDeviceAdvisorClientTypes.GroupResult {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IotDeviceAdvisorClientTypes.GroupResult {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IotDeviceAdvisorClientTypes.GroupResult()
-        value.groupId = try reader["groupId"].readIfPresent()
-        value.groupName = try reader["groupName"].readIfPresent()
-        value.tests = try reader["tests"].readListIfPresent(memberReadingClosure: IotDeviceAdvisorClientTypes.TestCaseRun.read(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = IotDeviceAdvisorClientTypes.SuiteRunInformation()
+        value.suiteDefinitionId = try reader["suiteDefinitionId"].readIfPresent()
+        value.suiteDefinitionVersion = try reader["suiteDefinitionVersion"].readIfPresent()
+        value.suiteDefinitionName = try reader["suiteDefinitionName"].readIfPresent()
+        value.suiteRunId = try reader["suiteRunId"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.startedAt = try reader["startedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.endAt = try reader["endAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.status = try reader["status"].readIfPresent()
+        value.passed = try reader["passed"].readIfPresent()
+        value.failed = try reader["failed"].readIfPresent()
         return value
     }
 }
@@ -2033,37 +2058,12 @@ extension IotDeviceAdvisorClientTypes.TestCaseScenario {
     }
 }
 
-extension IotDeviceAdvisorClientTypes.SuiteDefinitionInformation {
+extension IotDeviceAdvisorClientTypes.TestResult {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> IotDeviceAdvisorClientTypes.SuiteDefinitionInformation {
+    static func read(from reader: SmithyJSON.Reader) throws -> IotDeviceAdvisorClientTypes.TestResult {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IotDeviceAdvisorClientTypes.SuiteDefinitionInformation()
-        value.suiteDefinitionId = try reader["suiteDefinitionId"].readIfPresent()
-        value.suiteDefinitionName = try reader["suiteDefinitionName"].readIfPresent()
-        value.defaultDevices = try reader["defaultDevices"].readListIfPresent(memberReadingClosure: IotDeviceAdvisorClientTypes.DeviceUnderTest.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.intendedForQualification = try reader["intendedForQualification"].readIfPresent()
-        value.isLongDurationTest = try reader["isLongDurationTest"].readIfPresent()
-        value.`protocol` = try reader["protocol"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension IotDeviceAdvisorClientTypes.SuiteRunInformation {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IotDeviceAdvisorClientTypes.SuiteRunInformation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IotDeviceAdvisorClientTypes.SuiteRunInformation()
-        value.suiteDefinitionId = try reader["suiteDefinitionId"].readIfPresent()
-        value.suiteDefinitionVersion = try reader["suiteDefinitionVersion"].readIfPresent()
-        value.suiteDefinitionName = try reader["suiteDefinitionName"].readIfPresent()
-        value.suiteRunId = try reader["suiteRunId"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.startedAt = try reader["startedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.endAt = try reader["endAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.status = try reader["status"].readIfPresent()
-        value.passed = try reader["passed"].readIfPresent()
-        value.failed = try reader["failed"].readIfPresent()
+        var value = IotDeviceAdvisorClientTypes.TestResult()
+        value.groups = try reader["groups"].readListIfPresent(memberReadingClosure: IotDeviceAdvisorClientTypes.GroupResult.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }

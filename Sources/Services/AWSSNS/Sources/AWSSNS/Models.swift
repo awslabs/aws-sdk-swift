@@ -5412,6 +5412,19 @@ extension VerificationException {
     }
 }
 
+extension SNSClientTypes.BatchResultErrorEntry {
+
+    static func read(from reader: SmithyXML.Reader) throws -> SNSClientTypes.BatchResultErrorEntry {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SNSClientTypes.BatchResultErrorEntry()
+        value.id = try reader["Id"].readIfPresent() ?? ""
+        value.code = try reader["Code"].readIfPresent() ?? ""
+        value.message = try reader["Message"].readIfPresent()
+        value.senderFault = try reader["SenderFault"].readIfPresent() ?? false
+        return value
+    }
+}
+
 extension SNSClientTypes.Endpoint {
 
     static func read(from reader: SmithyXML.Reader) throws -> SNSClientTypes.Endpoint {
@@ -5420,6 +5433,16 @@ extension SNSClientTypes.Endpoint {
         value.endpointArn = try reader["EndpointArn"].readIfPresent()
         value.attributes = try reader["Attributes"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
+    }
+}
+
+extension SNSClientTypes.MessageAttributeValue {
+
+    static func write(value: SNSClientTypes.MessageAttributeValue?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["BinaryValue"].write(value.binaryValue)
+        try writer["DataType"].write(value.dataType)
+        try writer["StringValue"].write(value.stringValue)
     }
 }
 
@@ -5445,6 +5468,32 @@ extension SNSClientTypes.PlatformApplication {
         var value = SNSClientTypes.PlatformApplication()
         value.platformApplicationArn = try reader["PlatformApplicationArn"].readIfPresent()
         value.attributes = try reader["Attributes"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension SNSClientTypes.PublishBatchRequestEntry {
+
+    static func write(value: SNSClientTypes.PublishBatchRequestEntry?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["Id"].write(value.id)
+        try writer["Message"].write(value.message)
+        try writer["MessageAttributes"].writeMap(value.messageAttributes, valueWritingClosure: SNSClientTypes.MessageAttributeValue.write(value:to:), keyNodeInfo: "Name", valueNodeInfo: "Value", isFlattened: false)
+        try writer["MessageDeduplicationId"].write(value.messageDeduplicationId)
+        try writer["MessageGroupId"].write(value.messageGroupId)
+        try writer["MessageStructure"].write(value.messageStructure)
+        try writer["Subject"].write(value.subject)
+    }
+}
+
+extension SNSClientTypes.PublishBatchResultEntry {
+
+    static func read(from reader: SmithyXML.Reader) throws -> SNSClientTypes.PublishBatchResultEntry {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SNSClientTypes.PublishBatchResultEntry()
+        value.id = try reader["Id"].readIfPresent()
+        value.messageId = try reader["MessageId"].readIfPresent()
+        value.sequenceNumber = try reader["SequenceNumber"].readIfPresent()
         return value
     }
 }
@@ -5498,55 +5547,6 @@ extension SNSClientTypes.Topic {
         var value = SNSClientTypes.Topic()
         value.topicArn = try reader["TopicArn"].readIfPresent()
         return value
-    }
-}
-
-extension SNSClientTypes.PublishBatchResultEntry {
-
-    static func read(from reader: SmithyXML.Reader) throws -> SNSClientTypes.PublishBatchResultEntry {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SNSClientTypes.PublishBatchResultEntry()
-        value.id = try reader["Id"].readIfPresent()
-        value.messageId = try reader["MessageId"].readIfPresent()
-        value.sequenceNumber = try reader["SequenceNumber"].readIfPresent()
-        return value
-    }
-}
-
-extension SNSClientTypes.BatchResultErrorEntry {
-
-    static func read(from reader: SmithyXML.Reader) throws -> SNSClientTypes.BatchResultErrorEntry {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SNSClientTypes.BatchResultErrorEntry()
-        value.id = try reader["Id"].readIfPresent() ?? ""
-        value.code = try reader["Code"].readIfPresent() ?? ""
-        value.message = try reader["Message"].readIfPresent()
-        value.senderFault = try reader["SenderFault"].readIfPresent() ?? false
-        return value
-    }
-}
-
-extension SNSClientTypes.MessageAttributeValue {
-
-    static func write(value: SNSClientTypes.MessageAttributeValue?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["BinaryValue"].write(value.binaryValue)
-        try writer["DataType"].write(value.dataType)
-        try writer["StringValue"].write(value.stringValue)
-    }
-}
-
-extension SNSClientTypes.PublishBatchRequestEntry {
-
-    static func write(value: SNSClientTypes.PublishBatchRequestEntry?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Id"].write(value.id)
-        try writer["Message"].write(value.message)
-        try writer["MessageAttributes"].writeMap(value.messageAttributes, valueWritingClosure: SNSClientTypes.MessageAttributeValue.write(value:to:), keyNodeInfo: "Name", valueNodeInfo: "Value", isFlattened: false)
-        try writer["MessageDeduplicationId"].write(value.messageDeduplicationId)
-        try writer["MessageGroupId"].write(value.messageGroupId)
-        try writer["MessageStructure"].write(value.messageStructure)
-        try writer["Subject"].write(value.subject)
     }
 }
 

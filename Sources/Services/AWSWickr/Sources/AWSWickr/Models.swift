@@ -5964,30 +5964,76 @@ extension ValidationError {
     }
 }
 
-extension WickrClientTypes.User {
+extension WickrClientTypes.BasicDeviceObject {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> WickrClientTypes.User {
+    static func read(from reader: SmithyJSON.Reader) throws -> WickrClientTypes.BasicDeviceObject {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WickrClientTypes.User()
-        value.userId = try reader["userId"].readIfPresent()
-        value.firstName = try reader["firstName"].readIfPresent()
-        value.lastName = try reader["lastName"].readIfPresent()
-        value.username = try reader["username"].readIfPresent()
-        value.securityGroups = try reader["securityGroups"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.isAdmin = try reader["isAdmin"].readIfPresent()
-        value.suspended = try reader["suspended"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.otpEnabled = try reader["otpEnabled"].readIfPresent()
-        value.scimId = try reader["scimId"].readIfPresent()
+        var value = WickrClientTypes.BasicDeviceObject()
+        value.appId = try reader["appId"].readIfPresent()
+        value.created = try reader["created"].readIfPresent()
+        value.lastLogin = try reader["lastLogin"].readIfPresent()
+        value.statusText = try reader["statusText"].readIfPresent()
+        value.suspend = try reader["suspend"].readIfPresent()
         value.type = try reader["type"].readIfPresent()
-        value.cell = try reader["cell"].readIfPresent()
-        value.countryCode = try reader["countryCode"].readIfPresent()
-        value.challengeFailures = try reader["challengeFailures"].readIfPresent()
-        value.isInviteExpired = try reader["isInviteExpired"].readIfPresent()
-        value.isUser = try reader["isUser"].readIfPresent()
-        value.inviteCode = try reader["inviteCode"].readIfPresent()
-        value.codeValidation = try reader["codeValidation"].readIfPresent()
-        value.uname = try reader["uname"].readIfPresent()
+        return value
+    }
+}
+
+extension WickrClientTypes.BatchCreateUserRequestItem {
+
+    static func write(value: WickrClientTypes.BatchCreateUserRequestItem?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["codeValidation"].write(value.codeValidation)
+        try writer["firstName"].write(value.firstName)
+        try writer["inviteCode"].write(value.inviteCode)
+        try writer["inviteCodeTtl"].write(value.inviteCodeTtl)
+        try writer["lastName"].write(value.lastName)
+        try writer["securityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["username"].write(value.username)
+    }
+}
+
+extension WickrClientTypes.BatchDeviceErrorResponseItem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WickrClientTypes.BatchDeviceErrorResponseItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WickrClientTypes.BatchDeviceErrorResponseItem()
+        value.field = try reader["field"].readIfPresent()
+        value.reason = try reader["reason"].readIfPresent()
+        value.appId = try reader["appId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension WickrClientTypes.BatchDeviceSuccessResponseItem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WickrClientTypes.BatchDeviceSuccessResponseItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WickrClientTypes.BatchDeviceSuccessResponseItem()
+        value.appId = try reader["appId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension WickrClientTypes.BatchUnameErrorResponseItem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WickrClientTypes.BatchUnameErrorResponseItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WickrClientTypes.BatchUnameErrorResponseItem()
+        value.field = try reader["field"].readIfPresent()
+        value.reason = try reader["reason"].readIfPresent()
+        value.uname = try reader["uname"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension WickrClientTypes.BatchUnameSuccessResponseItem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WickrClientTypes.BatchUnameSuccessResponseItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WickrClientTypes.BatchUnameSuccessResponseItem()
+        value.uname = try reader["uname"].readIfPresent() ?? ""
+        value.username = try reader["username"].readIfPresent() ?? ""
         return value
     }
 }
@@ -6014,48 +6060,203 @@ extension WickrClientTypes.BatchUserSuccessResponseItem {
     }
 }
 
-extension WickrClientTypes.BatchUnameSuccessResponseItem {
+extension WickrClientTypes.BlockedGuestUser {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> WickrClientTypes.BatchUnameSuccessResponseItem {
+    static func read(from reader: SmithyJSON.Reader) throws -> WickrClientTypes.BlockedGuestUser {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WickrClientTypes.BatchUnameSuccessResponseItem()
-        value.uname = try reader["uname"].readIfPresent() ?? ""
+        var value = WickrClientTypes.BlockedGuestUser()
         value.username = try reader["username"].readIfPresent() ?? ""
+        value.admin = try reader["admin"].readIfPresent() ?? ""
+        value.modified = try reader["modified"].readIfPresent() ?? ""
+        value.usernameHash = try reader["usernameHash"].readIfPresent() ?? ""
         return value
     }
 }
 
-extension WickrClientTypes.BatchUnameErrorResponseItem {
+extension WickrClientTypes.Bot {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> WickrClientTypes.BatchUnameErrorResponseItem {
+    static func read(from reader: SmithyJSON.Reader) throws -> WickrClientTypes.Bot {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WickrClientTypes.BatchUnameErrorResponseItem()
+        var value = WickrClientTypes.Bot()
+        value.botId = try reader["botId"].readIfPresent()
+        value.displayName = try reader["displayName"].readIfPresent()
+        value.username = try reader["username"].readIfPresent()
+        value.uname = try reader["uname"].readIfPresent()
+        value.pubkey = try reader["pubkey"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.groupId = try reader["groupId"].readIfPresent()
+        value.hasChallenge = try reader["hasChallenge"].readIfPresent()
+        value.suspended = try reader["suspended"].readIfPresent()
+        value.lastLogin = try reader["lastLogin"].readIfPresent()
+        return value
+    }
+}
+
+extension WickrClientTypes.CallingSettings {
+
+    static func write(value: WickrClientTypes.CallingSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["canStart11Call"].write(value.canStart11Call)
+        try writer["canVideoCall"].write(value.canVideoCall)
+        try writer["forceTcpCall"].write(value.forceTcpCall)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WickrClientTypes.CallingSettings {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WickrClientTypes.CallingSettings()
+        value.canStart11Call = try reader["canStart11Call"].readIfPresent()
+        value.canVideoCall = try reader["canVideoCall"].readIfPresent()
+        value.forceTcpCall = try reader["forceTcpCall"].readIfPresent()
+        return value
+    }
+}
+
+extension WickrClientTypes.ErrorDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WickrClientTypes.ErrorDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WickrClientTypes.ErrorDetail()
         value.field = try reader["field"].readIfPresent()
         value.reason = try reader["reason"].readIfPresent()
-        value.uname = try reader["uname"].readIfPresent() ?? ""
         return value
     }
 }
 
-extension WickrClientTypes.BatchDeviceSuccessResponseItem {
+extension WickrClientTypes.GuestUser {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> WickrClientTypes.BatchDeviceSuccessResponseItem {
+    static func read(from reader: SmithyJSON.Reader) throws -> WickrClientTypes.GuestUser {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WickrClientTypes.BatchDeviceSuccessResponseItem()
-        value.appId = try reader["appId"].readIfPresent() ?? ""
+        var value = WickrClientTypes.GuestUser()
+        value.billingPeriod = try reader["billingPeriod"].readIfPresent() ?? ""
+        value.username = try reader["username"].readIfPresent() ?? ""
+        value.usernameHash = try reader["usernameHash"].readIfPresent() ?? ""
         return value
     }
 }
 
-extension WickrClientTypes.BatchDeviceErrorResponseItem {
+extension WickrClientTypes.GuestUserHistoryCount {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> WickrClientTypes.BatchDeviceErrorResponseItem {
+    static func read(from reader: SmithyJSON.Reader) throws -> WickrClientTypes.GuestUserHistoryCount {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WickrClientTypes.BatchDeviceErrorResponseItem()
-        value.field = try reader["field"].readIfPresent()
-        value.reason = try reader["reason"].readIfPresent()
-        value.appId = try reader["appId"].readIfPresent() ?? ""
+        var value = WickrClientTypes.GuestUserHistoryCount()
+        value.month = try reader["month"].readIfPresent() ?? ""
+        value.count = try reader["count"].readIfPresent() ?? ""
         return value
+    }
+}
+
+extension WickrClientTypes.Network {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WickrClientTypes.Network {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WickrClientTypes.Network()
+        value.networkId = try reader["networkId"].readIfPresent() ?? ""
+        value.networkName = try reader["networkName"].readIfPresent() ?? ""
+        value.accessLevel = try reader["accessLevel"].readIfPresent() ?? .sdkUnknown("")
+        value.awsAccountId = try reader["awsAccountId"].readIfPresent() ?? ""
+        value.networkArn = try reader["networkArn"].readIfPresent() ?? ""
+        value.standing = try reader["standing"].readIfPresent()
+        value.freeTrialExpiration = try reader["freeTrialExpiration"].readIfPresent()
+        value.migrationState = try reader["migrationState"].readIfPresent()
+        value.encryptionKeyArn = try reader["encryptionKeyArn"].readIfPresent()
+        return value
+    }
+}
+
+extension WickrClientTypes.NetworkSettings {
+
+    static func write(value: WickrClientTypes.NetworkSettings?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["dataRetention"].write(value.dataRetention)
+        try writer["enableClientMetrics"].write(value.enableClientMetrics)
+        try writer["readReceiptConfig"].write(value.readReceiptConfig, with: WickrClientTypes.ReadReceiptConfig.write(value:to:))
+    }
+}
+
+extension WickrClientTypes.OidcConfigInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WickrClientTypes.OidcConfigInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WickrClientTypes.OidcConfigInfo()
+        value.applicationName = try reader["applicationName"].readIfPresent()
+        value.clientId = try reader["clientId"].readIfPresent()
+        value.companyId = try reader["companyId"].readIfPresent() ?? ""
+        value.scopes = try reader["scopes"].readIfPresent() ?? ""
+        value.issuer = try reader["issuer"].readIfPresent() ?? ""
+        value.clientSecret = try reader["clientSecret"].readIfPresent()
+        value.secret = try reader["secret"].readIfPresent()
+        value.redirectUrl = try reader["redirectUrl"].readIfPresent()
+        value.userId = try reader["userId"].readIfPresent()
+        value.customUsername = try reader["customUsername"].readIfPresent()
+        value.caCertificate = try reader["caCertificate"].readIfPresent()
+        value.applicationId = try reader["applicationId"].readIfPresent()
+        value.ssoTokenBufferMinutes = try reader["ssoTokenBufferMinutes"].readIfPresent()
+        value.extraAuthParams = try reader["extraAuthParams"].readIfPresent()
+        return value
+    }
+}
+
+extension WickrClientTypes.OidcTokenInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WickrClientTypes.OidcTokenInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WickrClientTypes.OidcTokenInfo()
+        value.codeVerifier = try reader["codeVerifier"].readIfPresent()
+        value.codeChallenge = try reader["codeChallenge"].readIfPresent()
+        value.accessToken = try reader["accessToken"].readIfPresent()
+        value.idToken = try reader["idToken"].readIfPresent()
+        value.refreshToken = try reader["refreshToken"].readIfPresent()
+        value.tokenType = try reader["tokenType"].readIfPresent()
+        value.expiresIn = try reader["expiresIn"].readIfPresent()
+        return value
+    }
+}
+
+extension WickrClientTypes.PasswordRequirements {
+
+    static func write(value: WickrClientTypes.PasswordRequirements?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["lowercase"].write(value.lowercase)
+        try writer["minLength"].write(value.minLength)
+        try writer["numbers"].write(value.numbers)
+        try writer["symbols"].write(value.symbols)
+        try writer["uppercase"].write(value.uppercase)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WickrClientTypes.PasswordRequirements {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WickrClientTypes.PasswordRequirements()
+        value.lowercase = try reader["lowercase"].readIfPresent()
+        value.minLength = try reader["minLength"].readIfPresent()
+        value.numbers = try reader["numbers"].readIfPresent()
+        value.symbols = try reader["symbols"].readIfPresent()
+        value.uppercase = try reader["uppercase"].readIfPresent()
+        return value
+    }
+}
+
+extension WickrClientTypes.PermittedWickrEnterpriseNetwork {
+
+    static func write(value: WickrClientTypes.PermittedWickrEnterpriseNetwork?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["domain"].write(value.domain)
+        try writer["networkId"].write(value.networkId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WickrClientTypes.PermittedWickrEnterpriseNetwork {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WickrClientTypes.PermittedWickrEnterpriseNetwork()
+        value.domain = try reader["domain"].readIfPresent() ?? ""
+        value.networkId = try reader["networkId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension WickrClientTypes.ReadReceiptConfig {
+
+    static func write(value: WickrClientTypes.ReadReceiptConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["status"].write(value.status)
     }
 }
 
@@ -6159,36 +6360,29 @@ extension WickrClientTypes.SecurityGroupSettings {
     }
 }
 
-extension WickrClientTypes.PermittedWickrEnterpriseNetwork {
+extension WickrClientTypes.SecurityGroupSettingsRequest {
 
-    static func write(value: WickrClientTypes.PermittedWickrEnterpriseNetwork?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: WickrClientTypes.SecurityGroupSettingsRequest?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["domain"].write(value.domain)
-        try writer["networkId"].write(value.networkId)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WickrClientTypes.PermittedWickrEnterpriseNetwork {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WickrClientTypes.PermittedWickrEnterpriseNetwork()
-        value.domain = try reader["domain"].readIfPresent() ?? ""
-        value.networkId = try reader["networkId"].readIfPresent() ?? ""
-        return value
+        try writer["enableGuestFederation"].write(value.enableGuestFederation)
+        try writer["enableRestrictedGlobalFederation"].write(value.enableRestrictedGlobalFederation)
+        try writer["federationMode"].write(value.federationMode)
+        try writer["globalFederation"].write(value.globalFederation)
+        try writer["lockoutThreshold"].write(value.lockoutThreshold)
+        try writer["permittedNetworks"].writeList(value.permittedNetworks, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["permittedWickrAwsNetworks"].writeList(value.permittedWickrAwsNetworks, memberWritingClosure: WickrClientTypes.WickrAwsNetworks.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["permittedWickrEnterpriseNetworks"].writeList(value.permittedWickrEnterpriseNetworks, memberWritingClosure: WickrClientTypes.PermittedWickrEnterpriseNetwork.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
-extension WickrClientTypes.WickrAwsNetworks {
+extension WickrClientTypes.Setting {
 
-    static func write(value: WickrClientTypes.WickrAwsNetworks?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["networkId"].write(value.networkId)
-        try writer["region"].write(value.region)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WickrClientTypes.WickrAwsNetworks {
+    static func read(from reader: SmithyJSON.Reader) throws -> WickrClientTypes.Setting {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WickrClientTypes.WickrAwsNetworks()
-        value.region = try reader["region"].readIfPresent() ?? ""
-        value.networkId = try reader["networkId"].readIfPresent() ?? ""
+        var value = WickrClientTypes.Setting()
+        value.optionName = try reader["optionName"].readIfPresent() ?? ""
+        value.value = try reader["value"].readIfPresent() ?? ""
+        value.type = try reader["type"].readIfPresent() ?? ""
         return value
     }
 }
@@ -6210,245 +6404,6 @@ extension WickrClientTypes.ShredderSettings {
     }
 }
 
-extension WickrClientTypes.PasswordRequirements {
-
-    static func write(value: WickrClientTypes.PasswordRequirements?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["lowercase"].write(value.lowercase)
-        try writer["minLength"].write(value.minLength)
-        try writer["numbers"].write(value.numbers)
-        try writer["symbols"].write(value.symbols)
-        try writer["uppercase"].write(value.uppercase)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WickrClientTypes.PasswordRequirements {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WickrClientTypes.PasswordRequirements()
-        value.lowercase = try reader["lowercase"].readIfPresent()
-        value.minLength = try reader["minLength"].readIfPresent()
-        value.numbers = try reader["numbers"].readIfPresent()
-        value.symbols = try reader["symbols"].readIfPresent()
-        value.uppercase = try reader["uppercase"].readIfPresent()
-        return value
-    }
-}
-
-extension WickrClientTypes.CallingSettings {
-
-    static func write(value: WickrClientTypes.CallingSettings?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["canStart11Call"].write(value.canStart11Call)
-        try writer["canVideoCall"].write(value.canVideoCall)
-        try writer["forceTcpCall"].write(value.forceTcpCall)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WickrClientTypes.CallingSettings {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WickrClientTypes.CallingSettings()
-        value.canStart11Call = try reader["canStart11Call"].readIfPresent()
-        value.canVideoCall = try reader["canVideoCall"].readIfPresent()
-        value.forceTcpCall = try reader["forceTcpCall"].readIfPresent()
-        return value
-    }
-}
-
-extension WickrClientTypes.GuestUserHistoryCount {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WickrClientTypes.GuestUserHistoryCount {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WickrClientTypes.GuestUserHistoryCount()
-        value.month = try reader["month"].readIfPresent() ?? ""
-        value.count = try reader["count"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension WickrClientTypes.Setting {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WickrClientTypes.Setting {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WickrClientTypes.Setting()
-        value.optionName = try reader["optionName"].readIfPresent() ?? ""
-        value.value = try reader["value"].readIfPresent() ?? ""
-        value.type = try reader["type"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension WickrClientTypes.OidcConfigInfo {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WickrClientTypes.OidcConfigInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WickrClientTypes.OidcConfigInfo()
-        value.applicationName = try reader["applicationName"].readIfPresent()
-        value.clientId = try reader["clientId"].readIfPresent()
-        value.companyId = try reader["companyId"].readIfPresent() ?? ""
-        value.scopes = try reader["scopes"].readIfPresent() ?? ""
-        value.issuer = try reader["issuer"].readIfPresent() ?? ""
-        value.clientSecret = try reader["clientSecret"].readIfPresent()
-        value.secret = try reader["secret"].readIfPresent()
-        value.redirectUrl = try reader["redirectUrl"].readIfPresent()
-        value.userId = try reader["userId"].readIfPresent()
-        value.customUsername = try reader["customUsername"].readIfPresent()
-        value.caCertificate = try reader["caCertificate"].readIfPresent()
-        value.applicationId = try reader["applicationId"].readIfPresent()
-        value.ssoTokenBufferMinutes = try reader["ssoTokenBufferMinutes"].readIfPresent()
-        value.extraAuthParams = try reader["extraAuthParams"].readIfPresent()
-        return value
-    }
-}
-
-extension WickrClientTypes.OidcTokenInfo {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WickrClientTypes.OidcTokenInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WickrClientTypes.OidcTokenInfo()
-        value.codeVerifier = try reader["codeVerifier"].readIfPresent()
-        value.codeChallenge = try reader["codeChallenge"].readIfPresent()
-        value.accessToken = try reader["accessToken"].readIfPresent()
-        value.idToken = try reader["idToken"].readIfPresent()
-        value.refreshToken = try reader["refreshToken"].readIfPresent()
-        value.tokenType = try reader["tokenType"].readIfPresent()
-        value.expiresIn = try reader["expiresIn"].readIfPresent()
-        return value
-    }
-}
-
-extension WickrClientTypes.BlockedGuestUser {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WickrClientTypes.BlockedGuestUser {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WickrClientTypes.BlockedGuestUser()
-        value.username = try reader["username"].readIfPresent() ?? ""
-        value.admin = try reader["admin"].readIfPresent() ?? ""
-        value.modified = try reader["modified"].readIfPresent() ?? ""
-        value.usernameHash = try reader["usernameHash"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension WickrClientTypes.Bot {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WickrClientTypes.Bot {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WickrClientTypes.Bot()
-        value.botId = try reader["botId"].readIfPresent()
-        value.displayName = try reader["displayName"].readIfPresent()
-        value.username = try reader["username"].readIfPresent()
-        value.uname = try reader["uname"].readIfPresent()
-        value.pubkey = try reader["pubkey"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.groupId = try reader["groupId"].readIfPresent()
-        value.hasChallenge = try reader["hasChallenge"].readIfPresent()
-        value.suspended = try reader["suspended"].readIfPresent()
-        value.lastLogin = try reader["lastLogin"].readIfPresent()
-        return value
-    }
-}
-
-extension WickrClientTypes.BasicDeviceObject {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WickrClientTypes.BasicDeviceObject {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WickrClientTypes.BasicDeviceObject()
-        value.appId = try reader["appId"].readIfPresent()
-        value.created = try reader["created"].readIfPresent()
-        value.lastLogin = try reader["lastLogin"].readIfPresent()
-        value.statusText = try reader["statusText"].readIfPresent()
-        value.suspend = try reader["suspend"].readIfPresent()
-        value.type = try reader["type"].readIfPresent()
-        return value
-    }
-}
-
-extension WickrClientTypes.GuestUser {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WickrClientTypes.GuestUser {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WickrClientTypes.GuestUser()
-        value.billingPeriod = try reader["billingPeriod"].readIfPresent() ?? ""
-        value.username = try reader["username"].readIfPresent() ?? ""
-        value.usernameHash = try reader["usernameHash"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension WickrClientTypes.Network {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WickrClientTypes.Network {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WickrClientTypes.Network()
-        value.networkId = try reader["networkId"].readIfPresent() ?? ""
-        value.networkName = try reader["networkName"].readIfPresent() ?? ""
-        value.accessLevel = try reader["accessLevel"].readIfPresent() ?? .sdkUnknown("")
-        value.awsAccountId = try reader["awsAccountId"].readIfPresent() ?? ""
-        value.networkArn = try reader["networkArn"].readIfPresent() ?? ""
-        value.standing = try reader["standing"].readIfPresent()
-        value.freeTrialExpiration = try reader["freeTrialExpiration"].readIfPresent()
-        value.migrationState = try reader["migrationState"].readIfPresent()
-        value.encryptionKeyArn = try reader["encryptionKeyArn"].readIfPresent()
-        return value
-    }
-}
-
-extension WickrClientTypes.ErrorDetail {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WickrClientTypes.ErrorDetail {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WickrClientTypes.ErrorDetail()
-        value.field = try reader["field"].readIfPresent()
-        value.reason = try reader["reason"].readIfPresent()
-        return value
-    }
-}
-
-extension WickrClientTypes.BatchCreateUserRequestItem {
-
-    static func write(value: WickrClientTypes.BatchCreateUserRequestItem?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["codeValidation"].write(value.codeValidation)
-        try writer["firstName"].write(value.firstName)
-        try writer["inviteCode"].write(value.inviteCode)
-        try writer["inviteCodeTtl"].write(value.inviteCodeTtl)
-        try writer["lastName"].write(value.lastName)
-        try writer["securityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["username"].write(value.username)
-    }
-}
-
-extension WickrClientTypes.SecurityGroupSettingsRequest {
-
-    static func write(value: WickrClientTypes.SecurityGroupSettingsRequest?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["enableGuestFederation"].write(value.enableGuestFederation)
-        try writer["enableRestrictedGlobalFederation"].write(value.enableRestrictedGlobalFederation)
-        try writer["federationMode"].write(value.federationMode)
-        try writer["globalFederation"].write(value.globalFederation)
-        try writer["lockoutThreshold"].write(value.lockoutThreshold)
-        try writer["permittedNetworks"].writeList(value.permittedNetworks, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["permittedWickrAwsNetworks"].writeList(value.permittedWickrAwsNetworks, memberWritingClosure: WickrClientTypes.WickrAwsNetworks.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["permittedWickrEnterpriseNetworks"].writeList(value.permittedWickrEnterpriseNetworks, memberWritingClosure: WickrClientTypes.PermittedWickrEnterpriseNetwork.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension WickrClientTypes.NetworkSettings {
-
-    static func write(value: WickrClientTypes.NetworkSettings?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["dataRetention"].write(value.dataRetention)
-        try writer["enableClientMetrics"].write(value.enableClientMetrics)
-        try writer["readReceiptConfig"].write(value.readReceiptConfig, with: WickrClientTypes.ReadReceiptConfig.write(value:to:))
-    }
-}
-
-extension WickrClientTypes.ReadReceiptConfig {
-
-    static func write(value: WickrClientTypes.ReadReceiptConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["status"].write(value.status)
-    }
-}
-
 extension WickrClientTypes.UpdateUserDetails {
 
     static func write(value: WickrClientTypes.UpdateUserDetails?, to writer: SmithyJSON.Writer) throws {
@@ -6460,6 +6415,51 @@ extension WickrClientTypes.UpdateUserDetails {
         try writer["lastName"].write(value.lastName)
         try writer["securityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["username"].write(value.username)
+    }
+}
+
+extension WickrClientTypes.User {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WickrClientTypes.User {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WickrClientTypes.User()
+        value.userId = try reader["userId"].readIfPresent()
+        value.firstName = try reader["firstName"].readIfPresent()
+        value.lastName = try reader["lastName"].readIfPresent()
+        value.username = try reader["username"].readIfPresent()
+        value.securityGroups = try reader["securityGroups"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.isAdmin = try reader["isAdmin"].readIfPresent()
+        value.suspended = try reader["suspended"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.otpEnabled = try reader["otpEnabled"].readIfPresent()
+        value.scimId = try reader["scimId"].readIfPresent()
+        value.type = try reader["type"].readIfPresent()
+        value.cell = try reader["cell"].readIfPresent()
+        value.countryCode = try reader["countryCode"].readIfPresent()
+        value.challengeFailures = try reader["challengeFailures"].readIfPresent()
+        value.isInviteExpired = try reader["isInviteExpired"].readIfPresent()
+        value.isUser = try reader["isUser"].readIfPresent()
+        value.inviteCode = try reader["inviteCode"].readIfPresent()
+        value.codeValidation = try reader["codeValidation"].readIfPresent()
+        value.uname = try reader["uname"].readIfPresent()
+        return value
+    }
+}
+
+extension WickrClientTypes.WickrAwsNetworks {
+
+    static func write(value: WickrClientTypes.WickrAwsNetworks?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["networkId"].write(value.networkId)
+        try writer["region"].write(value.region)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WickrClientTypes.WickrAwsNetworks {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WickrClientTypes.WickrAwsNetworks()
+        value.region = try reader["region"].readIfPresent() ?? ""
+        value.networkId = try reader["networkId"].readIfPresent() ?? ""
+        return value
     }
 }
 

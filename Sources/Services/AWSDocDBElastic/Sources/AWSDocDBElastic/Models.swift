@@ -2480,52 +2480,6 @@ extension ServiceQuotaExceededException {
     }
 }
 
-extension DocDBElasticClientTypes.ResourcePendingMaintenanceAction {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DocDBElasticClientTypes.ResourcePendingMaintenanceAction {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DocDBElasticClientTypes.ResourcePendingMaintenanceAction()
-        value.resourceArn = try reader["resourceArn"].readIfPresent()
-        value.pendingMaintenanceActionDetails = try reader["pendingMaintenanceActionDetails"].readListIfPresent(memberReadingClosure: DocDBElasticClientTypes.PendingMaintenanceActionDetails.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension DocDBElasticClientTypes.PendingMaintenanceActionDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DocDBElasticClientTypes.PendingMaintenanceActionDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DocDBElasticClientTypes.PendingMaintenanceActionDetails()
-        value.action = try reader["action"].readIfPresent() ?? ""
-        value.autoAppliedAfterDate = try reader["autoAppliedAfterDate"].readIfPresent()
-        value.forcedApplyDate = try reader["forcedApplyDate"].readIfPresent()
-        value.optInStatus = try reader["optInStatus"].readIfPresent()
-        value.currentApplyDate = try reader["currentApplyDate"].readIfPresent()
-        value.description = try reader["description"].readIfPresent()
-        return value
-    }
-}
-
-extension DocDBElasticClientTypes.ClusterSnapshot {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DocDBElasticClientTypes.ClusterSnapshot {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DocDBElasticClientTypes.ClusterSnapshot()
-        value.subnetIds = try reader["subnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.snapshotName = try reader["snapshotName"].readIfPresent() ?? ""
-        value.snapshotArn = try reader["snapshotArn"].readIfPresent() ?? ""
-        value.snapshotCreationTime = try reader["snapshotCreationTime"].readIfPresent() ?? ""
-        value.clusterArn = try reader["clusterArn"].readIfPresent() ?? ""
-        value.clusterCreationTime = try reader["clusterCreationTime"].readIfPresent() ?? ""
-        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
-        value.vpcSecurityGroupIds = try reader["vpcSecurityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.adminUserName = try reader["adminUserName"].readIfPresent() ?? ""
-        value.kmsKeyId = try reader["kmsKeyId"].readIfPresent() ?? ""
-        value.snapshotType = try reader["snapshotType"].readIfPresent()
-        return value
-    }
-}
-
 extension DocDBElasticClientTypes.Cluster {
 
     static func read(from reader: SmithyJSON.Reader) throws -> DocDBElasticClientTypes.Cluster {
@@ -2552,18 +2506,6 @@ extension DocDBElasticClientTypes.Cluster {
     }
 }
 
-extension DocDBElasticClientTypes.Shard {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> DocDBElasticClientTypes.Shard {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DocDBElasticClientTypes.Shard()
-        value.shardId = try reader["shardId"].readIfPresent() ?? ""
-        value.createTime = try reader["createTime"].readIfPresent() ?? ""
-        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
 extension DocDBElasticClientTypes.ClusterInList {
 
     static func read(from reader: SmithyJSON.Reader) throws -> DocDBElasticClientTypes.ClusterInList {
@@ -2572,6 +2514,26 @@ extension DocDBElasticClientTypes.ClusterInList {
         value.clusterName = try reader["clusterName"].readIfPresent() ?? ""
         value.clusterArn = try reader["clusterArn"].readIfPresent() ?? ""
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension DocDBElasticClientTypes.ClusterSnapshot {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DocDBElasticClientTypes.ClusterSnapshot {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DocDBElasticClientTypes.ClusterSnapshot()
+        value.subnetIds = try reader["subnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.snapshotName = try reader["snapshotName"].readIfPresent() ?? ""
+        value.snapshotArn = try reader["snapshotArn"].readIfPresent() ?? ""
+        value.snapshotCreationTime = try reader["snapshotCreationTime"].readIfPresent() ?? ""
+        value.clusterArn = try reader["clusterArn"].readIfPresent() ?? ""
+        value.clusterCreationTime = try reader["clusterCreationTime"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.vpcSecurityGroupIds = try reader["vpcSecurityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.adminUserName = try reader["adminUserName"].readIfPresent() ?? ""
+        value.kmsKeyId = try reader["kmsKeyId"].readIfPresent() ?? ""
+        value.snapshotType = try reader["snapshotType"].readIfPresent()
         return value
     }
 }
@@ -2586,6 +2548,44 @@ extension DocDBElasticClientTypes.ClusterSnapshotInList {
         value.clusterArn = try reader["clusterArn"].readIfPresent() ?? ""
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.snapshotCreationTime = try reader["snapshotCreationTime"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension DocDBElasticClientTypes.PendingMaintenanceActionDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DocDBElasticClientTypes.PendingMaintenanceActionDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DocDBElasticClientTypes.PendingMaintenanceActionDetails()
+        value.action = try reader["action"].readIfPresent() ?? ""
+        value.autoAppliedAfterDate = try reader["autoAppliedAfterDate"].readIfPresent()
+        value.forcedApplyDate = try reader["forcedApplyDate"].readIfPresent()
+        value.optInStatus = try reader["optInStatus"].readIfPresent()
+        value.currentApplyDate = try reader["currentApplyDate"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        return value
+    }
+}
+
+extension DocDBElasticClientTypes.ResourcePendingMaintenanceAction {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DocDBElasticClientTypes.ResourcePendingMaintenanceAction {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DocDBElasticClientTypes.ResourcePendingMaintenanceAction()
+        value.resourceArn = try reader["resourceArn"].readIfPresent()
+        value.pendingMaintenanceActionDetails = try reader["pendingMaintenanceActionDetails"].readListIfPresent(memberReadingClosure: DocDBElasticClientTypes.PendingMaintenanceActionDetails.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension DocDBElasticClientTypes.Shard {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> DocDBElasticClientTypes.Shard {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DocDBElasticClientTypes.Shard()
+        value.shardId = try reader["shardId"].readIfPresent() ?? ""
+        value.createTime = try reader["createTime"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
