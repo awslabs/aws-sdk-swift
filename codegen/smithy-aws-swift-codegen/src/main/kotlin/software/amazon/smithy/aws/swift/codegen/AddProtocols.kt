@@ -14,6 +14,7 @@ import software.amazon.smithy.aws.swift.codegen.protocols.restjson.RestJSONCusto
 import software.amazon.smithy.aws.swift.codegen.protocols.restxml.RestXMLCustomizations
 import software.amazon.smithy.aws.swift.codegen.protocols.rpcv2cbor.AWSRpcV2CborCustomizations
 import software.amazon.smithy.aws.swift.codegen.swiftmodules.AWSClientRuntimeTypes
+import software.amazon.smithy.codegen.core.Symbol
 import software.amazon.smithy.swift.codegen.aws.protocols.awsjson.AWSJSON1_0ProtocolGenerator
 import software.amazon.smithy.swift.codegen.aws.protocols.awsjson.AWSJSON1_1ProtocolGenerator
 import software.amazon.smithy.swift.codegen.aws.protocols.awsquery.AWSQueryProtocolGenerator
@@ -22,10 +23,11 @@ import software.amazon.smithy.swift.codegen.aws.protocols.restjson.RestJson1Prot
 import software.amazon.smithy.swift.codegen.aws.protocols.restxml.RestXmlProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.SwiftIntegration
+import software.amazon.smithy.swift.codegen.middleware.MiddlewareRenderable
 import software.amazon.smithy.swift.codegen.protocols.rpcv2cbor.RpcV2CborProtocolGenerator
 
 /**
- * Integration that registers protocol generators this package provides
+ * Registers protocol generators configured with AWS-specific middleware and symbols.
  */
 class AddProtocols : SwiftIntegration {
     override val order: Byte = -10
@@ -34,76 +36,76 @@ class AddProtocols : SwiftIntegration {
         listOf(
             RestJson1ProtocolGenerator(
                 customizations = RestJSONCustomizations(),
-                operationEndpointResolverMiddlewareFactory = ::awsEndpointResolverMiddleware,
-                userAgentMiddlewareFactory = ::awsUserAgentMiddleware,
-                serviceErrorProtocolSymbolOverride = AWSClientRuntimeTypes.Core.AWSServiceError,
-                clockSkewProviderSymbolOverride = AWSClientRuntimeTypes.Core.AWSClockSkewProvider,
-                retryErrorInfoProviderSymbolOverride = AWSClientRuntimeTypes.Core.AWSRetryErrorInfoProvider,
+                operationEndpointResolverMiddlewareFactory = endpointMiddleware,
+                userAgentMiddlewareFactory = userAgentMiddleware,
+                serviceErrorProtocolSymbolOverride = awsServiceError,
+                clockSkewProviderSymbolOverride = awsClockSkew,
+                retryErrorInfoProviderSymbolOverride = awsRetryErrorInfo,
             ),
             AWSJSON1_0ProtocolGenerator(
                 customizations = AWSJSONCustomizations(),
-                operationEndpointResolverMiddlewareFactory = ::awsEndpointResolverMiddleware,
-                userAgentMiddlewareFactory = ::awsUserAgentMiddleware,
-                xAmzTargetMiddlewareFactory = ::awsXAmzTargetMiddleware,
-                serviceErrorProtocolSymbolOverride = AWSClientRuntimeTypes.Core.AWSServiceError,
-                clockSkewProviderSymbolOverride = AWSClientRuntimeTypes.Core.AWSClockSkewProvider,
-                retryErrorInfoProviderSymbolOverride = AWSClientRuntimeTypes.Core.AWSRetryErrorInfoProvider,
+                operationEndpointResolverMiddlewareFactory = endpointMiddleware,
+                userAgentMiddlewareFactory = userAgentMiddleware,
+                xAmzTargetMiddlewareFactory = xAmzTargetMiddleware,
+                serviceErrorProtocolSymbolOverride = awsServiceError,
+                clockSkewProviderSymbolOverride = awsClockSkew,
+                retryErrorInfoProviderSymbolOverride = awsRetryErrorInfo,
             ),
             AWSJSON1_1ProtocolGenerator(
                 customizations = AWSJSONCustomizations(),
-                operationEndpointResolverMiddlewareFactory = ::awsEndpointResolverMiddleware,
-                userAgentMiddlewareFactory = ::awsUserAgentMiddleware,
-                xAmzTargetMiddlewareFactory = ::awsXAmzTargetMiddleware,
-                serviceErrorProtocolSymbolOverride = AWSClientRuntimeTypes.Core.AWSServiceError,
-                clockSkewProviderSymbolOverride = AWSClientRuntimeTypes.Core.AWSClockSkewProvider,
-                retryErrorInfoProviderSymbolOverride = AWSClientRuntimeTypes.Core.AWSRetryErrorInfoProvider,
+                operationEndpointResolverMiddlewareFactory = endpointMiddleware,
+                userAgentMiddlewareFactory = userAgentMiddleware,
+                xAmzTargetMiddlewareFactory = xAmzTargetMiddleware,
+                serviceErrorProtocolSymbolOverride = awsServiceError,
+                clockSkewProviderSymbolOverride = awsClockSkew,
+                retryErrorInfoProviderSymbolOverride = awsRetryErrorInfo,
             ),
             RestXmlProtocolGenerator(
                 customizations = RestXMLCustomizations(),
-                operationEndpointResolverMiddlewareFactory = ::awsEndpointResolverMiddleware,
-                userAgentMiddlewareFactory = ::awsUserAgentMiddleware,
-                serviceErrorProtocolSymbolOverride = AWSClientRuntimeTypes.Core.AWSServiceError,
-                clockSkewProviderSymbolOverride = AWSClientRuntimeTypes.Core.AWSClockSkewProvider,
-                retryErrorInfoProviderSymbolOverride = AWSClientRuntimeTypes.Core.AWSRetryErrorInfoProvider,
+                operationEndpointResolverMiddlewareFactory = endpointMiddleware,
+                userAgentMiddlewareFactory = userAgentMiddleware,
+                serviceErrorProtocolSymbolOverride = awsServiceError,
+                clockSkewProviderSymbolOverride = awsClockSkew,
+                retryErrorInfoProviderSymbolOverride = awsRetryErrorInfo,
             ),
             AWSQueryProtocolGenerator(
                 customizations = AWSQueryCustomizations(),
-                operationEndpointResolverMiddlewareFactory = ::awsEndpointResolverMiddleware,
-                userAgentMiddlewareFactory = ::awsUserAgentMiddleware,
-                serviceErrorProtocolSymbolOverride = AWSClientRuntimeTypes.Core.AWSServiceError,
-                clockSkewProviderSymbolOverride = AWSClientRuntimeTypes.Core.AWSClockSkewProvider,
-                retryErrorInfoProviderSymbolOverride = AWSClientRuntimeTypes.Core.AWSRetryErrorInfoProvider,
+                operationEndpointResolverMiddlewareFactory = endpointMiddleware,
+                userAgentMiddlewareFactory = userAgentMiddleware,
+                serviceErrorProtocolSymbolOverride = awsServiceError,
+                clockSkewProviderSymbolOverride = awsClockSkew,
+                retryErrorInfoProviderSymbolOverride = awsRetryErrorInfo,
             ),
             EC2QueryProtocolGenerator(
                 customizations = EC2QueryCustomizations(),
-                operationEndpointResolverMiddlewareFactory = ::awsEndpointResolverMiddleware,
-                userAgentMiddlewareFactory = ::awsUserAgentMiddleware,
-                serviceErrorProtocolSymbolOverride = AWSClientRuntimeTypes.Core.AWSServiceError,
-                clockSkewProviderSymbolOverride = AWSClientRuntimeTypes.Core.AWSClockSkewProvider,
-                retryErrorInfoProviderSymbolOverride = AWSClientRuntimeTypes.Core.AWSRetryErrorInfoProvider,
+                operationEndpointResolverMiddlewareFactory = endpointMiddleware,
+                userAgentMiddlewareFactory = userAgentMiddleware,
+                serviceErrorProtocolSymbolOverride = awsServiceError,
+                clockSkewProviderSymbolOverride = awsClockSkew,
+                retryErrorInfoProviderSymbolOverride = awsRetryErrorInfo,
             ),
             RpcV2CborProtocolGenerator(
                 customizations = AWSRpcV2CborCustomizations(),
-                operationEndpointResolverMiddlewareFactory = ::awsEndpointResolverMiddleware,
-                userAgentMiddlewareFactory = ::awsUserAgentMiddleware,
-                serviceErrorProtocolSymbolOverride = AWSClientRuntimeTypes.Core.AWSServiceError,
-                clockSkewProviderSymbolOverride = AWSClientRuntimeTypes.Core.AWSClockSkewProvider,
-                retryErrorInfoProviderSymbolOverride = AWSClientRuntimeTypes.Core.AWSRetryErrorInfoProvider,
+                operationEndpointResolverMiddlewareFactory = endpointMiddleware,
+                userAgentMiddlewareFactory = userAgentMiddleware,
+                serviceErrorProtocolSymbolOverride = awsServiceError,
+                clockSkewProviderSymbolOverride = awsClockSkew,
+                retryErrorInfoProviderSymbolOverride = awsRetryErrorInfo,
             ),
         )
 
     companion object {
-        private fun awsEndpointResolverMiddleware(
-            ctx: ProtocolGenerator.GenerationContext,
-            endpointMiddlewareSymbol: software.amazon.smithy.codegen.core.Symbol,
-        ) = AWSOperationEndpointResolverMiddleware(ctx, endpointMiddlewareSymbol)
+        private val awsServiceError: Symbol = AWSClientRuntimeTypes.Core.AWSServiceError
+        private val awsClockSkew: Symbol = AWSClientRuntimeTypes.Core.AWSClockSkewProvider
+        private val awsRetryErrorInfo: Symbol = AWSClientRuntimeTypes.Core.AWSRetryErrorInfoProvider
 
-        private fun awsUserAgentMiddleware(
-            ctx: ProtocolGenerator.GenerationContext,
-        ) = UserAgentMiddleware(ctx.settings)
+        private val endpointMiddleware: (ProtocolGenerator.GenerationContext, Symbol) -> MiddlewareRenderable =
+            { ctx, sym -> AWSOperationEndpointResolverMiddleware(ctx, sym) }
 
-        private fun awsXAmzTargetMiddleware(
-            ctx: ProtocolGenerator.GenerationContext,
-        ) = AWSXAmzTargetMiddleware(ctx.model, ctx.symbolProvider, ctx.service)
+        private val userAgentMiddleware: (ProtocolGenerator.GenerationContext) -> MiddlewareRenderable =
+            { ctx -> UserAgentMiddleware(ctx.settings) }
+
+        private val xAmzTargetMiddleware: (ProtocolGenerator.GenerationContext) -> MiddlewareRenderable =
+            { ctx -> AWSXAmzTargetMiddleware(ctx.model, ctx.symbolProvider, ctx.service) }
     }
 }
