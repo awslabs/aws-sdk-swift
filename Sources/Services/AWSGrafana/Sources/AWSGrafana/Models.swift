@@ -881,6 +881,8 @@ extension GrafanaClientTypes {
         /// The unique ID of this workspace.
         /// This member is required.
         public var id: Swift.String?
+        /// The ID or ARN of the Key Management Service key used for encrypting workspace data.
+        public var kmsKeyId: Swift.String?
         /// If this workspace has a full Grafana Enterprise license purchased through Amazon Web Services Marketplace, this specifies when the license ends and will need to be renewed. Purchasing the Enterprise plugins option through Amazon Managed Grafana does not have an expiration. It is valid until the license is removed.
         public var licenseExpiration: Foundation.Date?
         /// Specifies whether this workspace has a full Grafana Enterprise license. Amazon Managed Grafana workspaces no longer support Grafana Enterprise free trials.
@@ -924,6 +926,7 @@ extension GrafanaClientTypes {
             grafanaToken: Swift.String? = nil,
             grafanaVersion: Swift.String? = nil,
             id: Swift.String? = nil,
+            kmsKeyId: Swift.String? = nil,
             licenseExpiration: Foundation.Date? = nil,
             licenseType: GrafanaClientTypes.LicenseType? = nil,
             modified: Foundation.Date? = nil,
@@ -950,6 +953,7 @@ extension GrafanaClientTypes {
             self.grafanaToken = grafanaToken
             self.grafanaVersion = grafanaVersion
             self.id = id
+            self.kmsKeyId = kmsKeyId
             self.licenseExpiration = licenseExpiration
             self.licenseType = licenseType
             self.modified = modified
@@ -970,7 +974,7 @@ extension GrafanaClientTypes {
 
 extension GrafanaClientTypes.WorkspaceDescription: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "WorkspaceDescription(accountAccessType: \(Swift.String(describing: accountAccessType)), authentication: \(Swift.String(describing: authentication)), created: \(Swift.String(describing: created)), dataSources: \(Swift.String(describing: dataSources)), endpoint: \(Swift.String(describing: endpoint)), freeTrialConsumed: \(Swift.String(describing: freeTrialConsumed)), freeTrialExpiration: \(Swift.String(describing: freeTrialExpiration)), grafanaToken: \(Swift.String(describing: grafanaToken)), grafanaVersion: \(Swift.String(describing: grafanaVersion)), id: \(Swift.String(describing: id)), licenseExpiration: \(Swift.String(describing: licenseExpiration)), licenseType: \(Swift.String(describing: licenseType)), modified: \(Swift.String(describing: modified)), networkAccessControl: \(Swift.String(describing: networkAccessControl)), notificationDestinations: \(Swift.String(describing: notificationDestinations)), permissionType: \(Swift.String(describing: permissionType)), stackSetName: \(Swift.String(describing: stackSetName)), status: \(Swift.String(describing: status)), tags: \(Swift.String(describing: tags)), vpcConfiguration: \(Swift.String(describing: vpcConfiguration)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\", organizationRoleName: \"CONTENT_REDACTED\", organizationalUnits: \"CONTENT_REDACTED\", workspaceRoleArn: \"CONTENT_REDACTED\")"}
+        "WorkspaceDescription(accountAccessType: \(Swift.String(describing: accountAccessType)), authentication: \(Swift.String(describing: authentication)), created: \(Swift.String(describing: created)), dataSources: \(Swift.String(describing: dataSources)), endpoint: \(Swift.String(describing: endpoint)), freeTrialConsumed: \(Swift.String(describing: freeTrialConsumed)), freeTrialExpiration: \(Swift.String(describing: freeTrialExpiration)), grafanaToken: \(Swift.String(describing: grafanaToken)), grafanaVersion: \(Swift.String(describing: grafanaVersion)), id: \(Swift.String(describing: id)), kmsKeyId: \(Swift.String(describing: kmsKeyId)), licenseExpiration: \(Swift.String(describing: licenseExpiration)), licenseType: \(Swift.String(describing: licenseType)), modified: \(Swift.String(describing: modified)), networkAccessControl: \(Swift.String(describing: networkAccessControl)), notificationDestinations: \(Swift.String(describing: notificationDestinations)), permissionType: \(Swift.String(describing: permissionType)), stackSetName: \(Swift.String(describing: stackSetName)), status: \(Swift.String(describing: status)), tags: \(Swift.String(describing: tags)), vpcConfiguration: \(Swift.String(describing: vpcConfiguration)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\", organizationRoleName: \"CONTENT_REDACTED\", organizationalUnits: \"CONTENT_REDACTED\", workspaceRoleArn: \"CONTENT_REDACTED\")"}
 }
 
 public struct AssociateLicenseOutput: Swift.Sendable {
@@ -1999,6 +2003,8 @@ public struct CreateWorkspaceInput: Swift.Sendable {
     public var configuration: Swift.String?
     /// Specifies the version of Grafana to support in the new workspace. If not specified, defaults to the latest version (for example, 10.4). To get a list of supported versions, use the ListVersions operation.
     public var grafanaVersion: Swift.String?
+    /// The ID or ARN of the Key Management Service key to use for encrypting workspace data.
+    public var kmsKeyId: Swift.String?
     /// Configuration for network access to your workspace. When this is configured, only listed IP addresses and VPC endpoints will be able to access your workspace. Standard Grafana authentication and authorization will still be required. If this is not configured, or is removed, then all IP addresses and VPC endpoints will be allowed. Standard Grafana authentication and authorization will still be required.
     public var networkAccessControl: GrafanaClientTypes.NetworkAccessConfiguration?
     /// The name of an IAM role that already exists to use with Organizations to access Amazon Web Services data sources and notification channels in other accounts in an organization.
@@ -2031,6 +2037,7 @@ public struct CreateWorkspaceInput: Swift.Sendable {
         clientToken: Swift.String? = nil,
         configuration: Swift.String? = nil,
         grafanaVersion: Swift.String? = nil,
+        kmsKeyId: Swift.String? = nil,
         networkAccessControl: GrafanaClientTypes.NetworkAccessConfiguration? = nil,
         organizationRoleName: Swift.String? = nil,
         permissionType: GrafanaClientTypes.PermissionType? = nil,
@@ -2049,6 +2056,7 @@ public struct CreateWorkspaceInput: Swift.Sendable {
         self.clientToken = clientToken
         self.configuration = configuration
         self.grafanaVersion = grafanaVersion
+        self.kmsKeyId = kmsKeyId
         self.networkAccessControl = networkAccessControl
         self.organizationRoleName = organizationRoleName
         self.permissionType = permissionType
@@ -2066,7 +2074,7 @@ public struct CreateWorkspaceInput: Swift.Sendable {
 
 extension CreateWorkspaceInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateWorkspaceInput(accountAccessType: \(Swift.String(describing: accountAccessType)), authenticationProviders: \(Swift.String(describing: authenticationProviders)), clientToken: \(Swift.String(describing: clientToken)), configuration: \(Swift.String(describing: configuration)), grafanaVersion: \(Swift.String(describing: grafanaVersion)), networkAccessControl: \(Swift.String(describing: networkAccessControl)), permissionType: \(Swift.String(describing: permissionType)), stackSetName: \(Swift.String(describing: stackSetName)), tags: \(Swift.String(describing: tags)), vpcConfiguration: \(Swift.String(describing: vpcConfiguration)), workspaceDataSources: \(Swift.String(describing: workspaceDataSources)), workspaceNotificationDestinations: \(Swift.String(describing: workspaceNotificationDestinations)), organizationRoleName: \"CONTENT_REDACTED\", workspaceDescription: \"CONTENT_REDACTED\", workspaceName: \"CONTENT_REDACTED\", workspaceOrganizationalUnits: \"CONTENT_REDACTED\", workspaceRoleArn: \"CONTENT_REDACTED\")"}
+        "CreateWorkspaceInput(accountAccessType: \(Swift.String(describing: accountAccessType)), authenticationProviders: \(Swift.String(describing: authenticationProviders)), clientToken: \(Swift.String(describing: clientToken)), configuration: \(Swift.String(describing: configuration)), grafanaVersion: \(Swift.String(describing: grafanaVersion)), kmsKeyId: \(Swift.String(describing: kmsKeyId)), networkAccessControl: \(Swift.String(describing: networkAccessControl)), permissionType: \(Swift.String(describing: permissionType)), stackSetName: \(Swift.String(describing: stackSetName)), tags: \(Swift.String(describing: tags)), vpcConfiguration: \(Swift.String(describing: vpcConfiguration)), workspaceDataSources: \(Swift.String(describing: workspaceDataSources)), workspaceNotificationDestinations: \(Swift.String(describing: workspaceNotificationDestinations)), organizationRoleName: \"CONTENT_REDACTED\", workspaceDescription: \"CONTENT_REDACTED\", workspaceName: \"CONTENT_REDACTED\", workspaceOrganizationalUnits: \"CONTENT_REDACTED\", workspaceRoleArn: \"CONTENT_REDACTED\")"}
 }
 
 public struct CreateWorkspaceOutput: Swift.Sendable {
@@ -2717,6 +2725,7 @@ extension CreateWorkspaceInput {
         try writer["clientToken"].write(value.clientToken)
         try writer["configuration"].write(value.configuration)
         try writer["grafanaVersion"].write(value.grafanaVersion)
+        try writer["kmsKeyId"].write(value.kmsKeyId)
         try writer["networkAccessControl"].write(value.networkAccessControl, with: GrafanaClientTypes.NetworkAccessConfiguration.write(value:to:))
         try writer["organizationRoleName"].write(value.organizationRoleName)
         try writer["permissionType"].write(value.permissionType)
@@ -4005,6 +4014,7 @@ extension GrafanaClientTypes.WorkspaceDescription {
         value.vpcConfiguration = try reader["vpcConfiguration"].readIfPresent(with: GrafanaClientTypes.VpcConfiguration.read(from:))
         value.networkAccessControl = try reader["networkAccessControl"].readIfPresent(with: GrafanaClientTypes.NetworkAccessConfiguration.read(from:))
         value.grafanaToken = try reader["grafanaToken"].readIfPresent()
+        value.kmsKeyId = try reader["kmsKeyId"].readIfPresent()
         return value
     }
 }

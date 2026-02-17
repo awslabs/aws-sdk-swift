@@ -389,8 +389,6 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSEventBridge](/sdk-for-swift/latest/api/awseventbridge/documentation/awseventbridge)
 
-[AWSEvidently](/sdk-for-swift/latest/api/awsevidently/documentation/awsevidently)
-
 [AWSEvs](/sdk-for-swift/latest/api/awsevs/documentation/awsevs)
 
 [AWSFMS](/sdk-for-swift/latest/api/awsfms/documentation/awsfms)
@@ -462,8 +460,6 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 [AWSInvoicing](/sdk-for-swift/latest/api/awsinvoicing/documentation/awsinvoicing)
 
 [AWSIoT](/sdk-for-swift/latest/api/awsiot/documentation/awsiot)
-
-[AWSIoTAnalytics](/sdk-for-swift/latest/api/awsiotanalytics/documentation/awsiotanalytics)
 
 [AWSIoTDataPlane](/sdk-for-swift/latest/api/awsiotdataplane/documentation/awsiotdataplane)
 
