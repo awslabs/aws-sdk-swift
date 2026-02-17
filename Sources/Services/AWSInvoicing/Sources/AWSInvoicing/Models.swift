@@ -3184,35 +3184,176 @@ extension ServiceQuotaExceededException {
     }
 }
 
-extension InvoicingClientTypes.InvoiceProfile {
+extension InvoicingClientTypes.AmountBreakdown {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> InvoicingClientTypes.InvoiceProfile {
+    static func read(from reader: SmithyJSON.Reader) throws -> InvoicingClientTypes.AmountBreakdown {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = InvoicingClientTypes.InvoiceProfile()
-        value.accountId = try reader["AccountId"].readIfPresent()
-        value.receiverName = try reader["ReceiverName"].readIfPresent()
-        value.receiverAddress = try reader["ReceiverAddress"].readIfPresent(with: InvoicingClientTypes.ReceiverAddress.read(from:))
-        value.receiverEmail = try reader["ReceiverEmail"].readIfPresent()
-        value.issuer = try reader["Issuer"].readIfPresent()
-        value.taxRegistrationNumber = try reader["TaxRegistrationNumber"].readIfPresent()
+        var value = InvoicingClientTypes.AmountBreakdown()
+        value.subTotalAmount = try reader["SubTotalAmount"].readIfPresent()
+        value.discounts = try reader["Discounts"].readIfPresent(with: InvoicingClientTypes.DiscountsBreakdown.read(from:))
+        value.taxes = try reader["Taxes"].readIfPresent(with: InvoicingClientTypes.TaxesBreakdown.read(from:))
+        value.fees = try reader["Fees"].readIfPresent(with: InvoicingClientTypes.FeesBreakdown.read(from:))
         return value
     }
 }
 
-extension InvoicingClientTypes.ReceiverAddress {
+extension InvoicingClientTypes.BillingPeriod {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> InvoicingClientTypes.ReceiverAddress {
+    static func write(value: InvoicingClientTypes.BillingPeriod?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Month"].write(value.month)
+        try writer["Year"].write(value.year)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> InvoicingClientTypes.BillingPeriod {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = InvoicingClientTypes.ReceiverAddress()
-        value.addressLine1 = try reader["AddressLine1"].readIfPresent()
-        value.addressLine2 = try reader["AddressLine2"].readIfPresent()
-        value.addressLine3 = try reader["AddressLine3"].readIfPresent()
-        value.districtOrCounty = try reader["DistrictOrCounty"].readIfPresent()
-        value.city = try reader["City"].readIfPresent()
-        value.stateOrRegion = try reader["StateOrRegion"].readIfPresent()
-        value.countryCode = try reader["CountryCode"].readIfPresent()
-        value.companyName = try reader["CompanyName"].readIfPresent()
-        value.postalCode = try reader["PostalCode"].readIfPresent()
+        var value = InvoicingClientTypes.BillingPeriod()
+        value.month = try reader["Month"].readIfPresent() ?? 0
+        value.year = try reader["Year"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension InvoicingClientTypes.Contact {
+
+    static func write(value: InvoicingClientTypes.Contact?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Email"].write(value.email)
+        try writer["Name"].write(value.name)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> InvoicingClientTypes.Contact {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = InvoicingClientTypes.Contact()
+        value.name = try reader["Name"].readIfPresent()
+        value.email = try reader["Email"].readIfPresent()
+        return value
+    }
+}
+
+extension InvoicingClientTypes.CurrencyExchangeDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> InvoicingClientTypes.CurrencyExchangeDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = InvoicingClientTypes.CurrencyExchangeDetails()
+        value.sourceCurrencyCode = try reader["SourceCurrencyCode"].readIfPresent()
+        value.targetCurrencyCode = try reader["TargetCurrencyCode"].readIfPresent()
+        value.rate = try reader["Rate"].readIfPresent()
+        return value
+    }
+}
+
+extension InvoicingClientTypes.DateInterval {
+
+    static func write(value: InvoicingClientTypes.DateInterval?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["EndDate"].writeTimestamp(value.endDate, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["StartDate"].writeTimestamp(value.startDate, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+    }
+}
+
+extension InvoicingClientTypes.DiscountsBreakdown {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> InvoicingClientTypes.DiscountsBreakdown {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = InvoicingClientTypes.DiscountsBreakdown()
+        value.breakdown = try reader["Breakdown"].readListIfPresent(memberReadingClosure: InvoicingClientTypes.DiscountsBreakdownAmount.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.totalAmount = try reader["TotalAmount"].readIfPresent()
+        return value
+    }
+}
+
+extension InvoicingClientTypes.DiscountsBreakdownAmount {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> InvoicingClientTypes.DiscountsBreakdownAmount {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = InvoicingClientTypes.DiscountsBreakdownAmount()
+        value.description = try reader["Description"].readIfPresent()
+        value.amount = try reader["Amount"].readIfPresent()
+        value.rate = try reader["Rate"].readIfPresent()
+        return value
+    }
+}
+
+extension InvoicingClientTypes.EinvoiceDeliveryPreference {
+
+    static func write(value: InvoicingClientTypes.EinvoiceDeliveryPreference?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ConnectionTestingMethod"].write(value.connectionTestingMethod)
+        try writer["EinvoiceDeliveryActivationDate"].writeTimestamp(value.einvoiceDeliveryActivationDate, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["EinvoiceDeliveryAttachmentTypes"].writeList(value.einvoiceDeliveryAttachmentTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<InvoicingClientTypes.EinvoiceDeliveryAttachmentType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["EinvoiceDeliveryDocumentTypes"].writeList(value.einvoiceDeliveryDocumentTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<InvoicingClientTypes.EinvoiceDeliveryDocumentType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Protocol"].write(value.`protocol`)
+        try writer["PurchaseOrderDataSources"].writeList(value.purchaseOrderDataSources, memberWritingClosure: InvoicingClientTypes.PurchaseOrderDataSource.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> InvoicingClientTypes.EinvoiceDeliveryPreference {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = InvoicingClientTypes.EinvoiceDeliveryPreference()
+        value.einvoiceDeliveryDocumentTypes = try reader["EinvoiceDeliveryDocumentTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<InvoicingClientTypes.EinvoiceDeliveryDocumentType>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.einvoiceDeliveryAttachmentTypes = try reader["EinvoiceDeliveryAttachmentTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<InvoicingClientTypes.EinvoiceDeliveryAttachmentType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.`protocol` = try reader["Protocol"].readIfPresent() ?? .sdkUnknown("")
+        value.purchaseOrderDataSources = try reader["PurchaseOrderDataSources"].readListIfPresent(memberReadingClosure: InvoicingClientTypes.PurchaseOrderDataSource.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.connectionTestingMethod = try reader["ConnectionTestingMethod"].readIfPresent() ?? .sdkUnknown("")
+        value.einvoiceDeliveryActivationDate = try reader["EinvoiceDeliveryActivationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension InvoicingClientTypes.Entity {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> InvoicingClientTypes.Entity {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = InvoicingClientTypes.Entity()
+        value.invoicingEntity = try reader["InvoicingEntity"].readIfPresent()
+        return value
+    }
+}
+
+extension InvoicingClientTypes.FeesBreakdown {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> InvoicingClientTypes.FeesBreakdown {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = InvoicingClientTypes.FeesBreakdown()
+        value.breakdown = try reader["Breakdown"].readListIfPresent(memberReadingClosure: InvoicingClientTypes.FeesBreakdownAmount.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.totalAmount = try reader["TotalAmount"].readIfPresent()
+        return value
+    }
+}
+
+extension InvoicingClientTypes.FeesBreakdownAmount {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> InvoicingClientTypes.FeesBreakdownAmount {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = InvoicingClientTypes.FeesBreakdownAmount()
+        value.description = try reader["Description"].readIfPresent()
+        value.amount = try reader["Amount"].readIfPresent()
+        value.rate = try reader["Rate"].readIfPresent()
+        return value
+    }
+}
+
+extension InvoicingClientTypes.Filters {
+
+    static func write(value: InvoicingClientTypes.Filters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Accounts"].writeList(value.accounts, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["BillSourceAccounts"].writeList(value.billSourceAccounts, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["InvoiceReceivers"].writeList(value.invoiceReceivers, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Names"].writeList(value.names, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension InvoicingClientTypes.InvoiceCurrencyAmount {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> InvoicingClientTypes.InvoiceCurrencyAmount {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = InvoicingClientTypes.InvoiceCurrencyAmount()
+        value.totalAmount = try reader["TotalAmount"].readIfPresent()
+        value.totalAmountBeforeTax = try reader["TotalAmountBeforeTax"].readIfPresent()
+        value.currencyCode = try reader["CurrencyCode"].readIfPresent()
+        value.amountBreakdown = try reader["AmountBreakdown"].readIfPresent(with: InvoicingClientTypes.AmountBreakdown.read(from:))
+        value.currencyExchangeDetails = try reader["CurrencyExchangeDetails"].readIfPresent(with: InvoicingClientTypes.CurrencyExchangeDetails.read(from:))
         return value
     }
 }
@@ -3230,13 +3371,73 @@ extension InvoicingClientTypes.InvoicePDF {
     }
 }
 
-extension InvoicingClientTypes.SupplementalDocument {
+extension InvoicingClientTypes.InvoiceProfile {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> InvoicingClientTypes.SupplementalDocument {
+    static func read(from reader: SmithyJSON.Reader) throws -> InvoicingClientTypes.InvoiceProfile {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = InvoicingClientTypes.SupplementalDocument()
-        value.documentUrl = try reader["DocumentUrl"].readIfPresent()
-        value.documentUrlExpirationDate = try reader["DocumentUrlExpirationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        var value = InvoicingClientTypes.InvoiceProfile()
+        value.accountId = try reader["AccountId"].readIfPresent()
+        value.receiverName = try reader["ReceiverName"].readIfPresent()
+        value.receiverAddress = try reader["ReceiverAddress"].readIfPresent(with: InvoicingClientTypes.ReceiverAddress.read(from:))
+        value.receiverEmail = try reader["ReceiverEmail"].readIfPresent()
+        value.issuer = try reader["Issuer"].readIfPresent()
+        value.taxRegistrationNumber = try reader["TaxRegistrationNumber"].readIfPresent()
+        return value
+    }
+}
+
+extension InvoicingClientTypes.InvoiceSummariesFilter {
+
+    static func write(value: InvoicingClientTypes.InvoiceSummariesFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["BillingPeriod"].write(value.billingPeriod, with: InvoicingClientTypes.BillingPeriod.write(value:to:))
+        try writer["InvoicingEntity"].write(value.invoicingEntity)
+        try writer["TimeInterval"].write(value.timeInterval, with: InvoicingClientTypes.DateInterval.write(value:to:))
+    }
+}
+
+extension InvoicingClientTypes.InvoiceSummariesSelector {
+
+    static func write(value: InvoicingClientTypes.InvoiceSummariesSelector?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ResourceType"].write(value.resourceType)
+        try writer["Value"].write(value.value)
+    }
+}
+
+extension InvoicingClientTypes.InvoiceSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> InvoicingClientTypes.InvoiceSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = InvoicingClientTypes.InvoiceSummary()
+        value.accountId = try reader["AccountId"].readIfPresent()
+        value.invoiceId = try reader["InvoiceId"].readIfPresent()
+        value.issuedDate = try reader["IssuedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.dueDate = try reader["DueDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.entity = try reader["Entity"].readIfPresent(with: InvoicingClientTypes.Entity.read(from:))
+        value.billingPeriod = try reader["BillingPeriod"].readIfPresent(with: InvoicingClientTypes.BillingPeriod.read(from:))
+        value.invoiceType = try reader["InvoiceType"].readIfPresent()
+        value.originalInvoiceId = try reader["OriginalInvoiceId"].readIfPresent()
+        value.purchaseOrderNumber = try reader["PurchaseOrderNumber"].readIfPresent()
+        value.baseCurrencyAmount = try reader["BaseCurrencyAmount"].readIfPresent(with: InvoicingClientTypes.InvoiceCurrencyAmount.read(from:))
+        value.taxCurrencyAmount = try reader["TaxCurrencyAmount"].readIfPresent(with: InvoicingClientTypes.InvoiceCurrencyAmount.read(from:))
+        value.paymentCurrencyAmount = try reader["PaymentCurrencyAmount"].readIfPresent(with: InvoicingClientTypes.InvoiceCurrencyAmount.read(from:))
+        return value
+    }
+}
+
+extension InvoicingClientTypes.InvoiceUnit {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> InvoicingClientTypes.InvoiceUnit {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = InvoicingClientTypes.InvoiceUnit()
+        value.invoiceUnitArn = try reader["InvoiceUnitArn"].readIfPresent()
+        value.invoiceReceiver = try reader["InvoiceReceiver"].readIfPresent()
+        value.name = try reader["Name"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.taxInheritanceDisabled = try reader["TaxInheritanceDisabled"].readIfPresent()
+        value.rule = try reader["Rule"].readIfPresent(with: InvoicingClientTypes.InvoiceUnitRule.read(from:))
+        value.lastModified = try reader["LastModified"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }
@@ -3290,81 +3491,6 @@ extension InvoicingClientTypes.ProcurementPortalPreference {
     }
 }
 
-extension InvoicingClientTypes.Contact {
-
-    static func write(value: InvoicingClientTypes.Contact?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Email"].write(value.email)
-        try writer["Name"].write(value.name)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> InvoicingClientTypes.Contact {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = InvoicingClientTypes.Contact()
-        value.name = try reader["Name"].readIfPresent()
-        value.email = try reader["Email"].readIfPresent()
-        return value
-    }
-}
-
-extension InvoicingClientTypes.EinvoiceDeliveryPreference {
-
-    static func write(value: InvoicingClientTypes.EinvoiceDeliveryPreference?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ConnectionTestingMethod"].write(value.connectionTestingMethod)
-        try writer["EinvoiceDeliveryActivationDate"].writeTimestamp(value.einvoiceDeliveryActivationDate, format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        try writer["EinvoiceDeliveryAttachmentTypes"].writeList(value.einvoiceDeliveryAttachmentTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<InvoicingClientTypes.EinvoiceDeliveryAttachmentType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["EinvoiceDeliveryDocumentTypes"].writeList(value.einvoiceDeliveryDocumentTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<InvoicingClientTypes.EinvoiceDeliveryDocumentType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Protocol"].write(value.`protocol`)
-        try writer["PurchaseOrderDataSources"].writeList(value.purchaseOrderDataSources, memberWritingClosure: InvoicingClientTypes.PurchaseOrderDataSource.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> InvoicingClientTypes.EinvoiceDeliveryPreference {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = InvoicingClientTypes.EinvoiceDeliveryPreference()
-        value.einvoiceDeliveryDocumentTypes = try reader["EinvoiceDeliveryDocumentTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<InvoicingClientTypes.EinvoiceDeliveryDocumentType>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.einvoiceDeliveryAttachmentTypes = try reader["EinvoiceDeliveryAttachmentTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<InvoicingClientTypes.EinvoiceDeliveryAttachmentType>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.`protocol` = try reader["Protocol"].readIfPresent() ?? .sdkUnknown("")
-        value.purchaseOrderDataSources = try reader["PurchaseOrderDataSources"].readListIfPresent(memberReadingClosure: InvoicingClientTypes.PurchaseOrderDataSource.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.connectionTestingMethod = try reader["ConnectionTestingMethod"].readIfPresent() ?? .sdkUnknown("")
-        value.einvoiceDeliveryActivationDate = try reader["EinvoiceDeliveryActivationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        return value
-    }
-}
-
-extension InvoicingClientTypes.PurchaseOrderDataSource {
-
-    static func write(value: InvoicingClientTypes.PurchaseOrderDataSource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["EinvoiceDeliveryDocumentType"].write(value.einvoiceDeliveryDocumentType)
-        try writer["PurchaseOrderDataSourceType"].write(value.purchaseOrderDataSourceType)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> InvoicingClientTypes.PurchaseOrderDataSource {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = InvoicingClientTypes.PurchaseOrderDataSource()
-        value.einvoiceDeliveryDocumentType = try reader["EinvoiceDeliveryDocumentType"].readIfPresent()
-        value.purchaseOrderDataSourceType = try reader["PurchaseOrderDataSourceType"].readIfPresent()
-        return value
-    }
-}
-
-extension InvoicingClientTypes.TestEnvPreference {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> InvoicingClientTypes.TestEnvPreference {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = InvoicingClientTypes.TestEnvPreference()
-        value.buyerDomain = try reader["BuyerDomain"].readIfPresent() ?? .sdkUnknown("")
-        value.buyerIdentifier = try reader["BuyerIdentifier"].readIfPresent() ?? ""
-        value.supplierDomain = try reader["SupplierDomain"].readIfPresent() ?? .sdkUnknown("")
-        value.supplierIdentifier = try reader["SupplierIdentifier"].readIfPresent() ?? ""
-        value.procurementPortalSharedSecret = try reader["ProcurementPortalSharedSecret"].readIfPresent()
-        value.procurementPortalInstanceEndpoint = try reader["ProcurementPortalInstanceEndpoint"].readIfPresent()
-        value.purchaseOrderRetrievalEndpoint = try reader["PurchaseOrderRetrievalEndpoint"].readIfPresent()
-        return value
-    }
-}
-
 extension InvoicingClientTypes.ProcurementPortalPreferenceSelector {
 
     static func write(value: InvoicingClientTypes.ProcurementPortalPreferenceSelector?, to writer: SmithyJSON.Writer) throws {
@@ -3378,178 +3504,6 @@ extension InvoicingClientTypes.ProcurementPortalPreferenceSelector {
         var value = InvoicingClientTypes.ProcurementPortalPreferenceSelector()
         value.invoiceUnitArns = try reader["InvoiceUnitArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         value.sellerOfRecords = try reader["SellerOfRecords"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension InvoicingClientTypes.InvoiceSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> InvoicingClientTypes.InvoiceSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = InvoicingClientTypes.InvoiceSummary()
-        value.accountId = try reader["AccountId"].readIfPresent()
-        value.invoiceId = try reader["InvoiceId"].readIfPresent()
-        value.issuedDate = try reader["IssuedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.dueDate = try reader["DueDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.entity = try reader["Entity"].readIfPresent(with: InvoicingClientTypes.Entity.read(from:))
-        value.billingPeriod = try reader["BillingPeriod"].readIfPresent(with: InvoicingClientTypes.BillingPeriod.read(from:))
-        value.invoiceType = try reader["InvoiceType"].readIfPresent()
-        value.originalInvoiceId = try reader["OriginalInvoiceId"].readIfPresent()
-        value.purchaseOrderNumber = try reader["PurchaseOrderNumber"].readIfPresent()
-        value.baseCurrencyAmount = try reader["BaseCurrencyAmount"].readIfPresent(with: InvoicingClientTypes.InvoiceCurrencyAmount.read(from:))
-        value.taxCurrencyAmount = try reader["TaxCurrencyAmount"].readIfPresent(with: InvoicingClientTypes.InvoiceCurrencyAmount.read(from:))
-        value.paymentCurrencyAmount = try reader["PaymentCurrencyAmount"].readIfPresent(with: InvoicingClientTypes.InvoiceCurrencyAmount.read(from:))
-        return value
-    }
-}
-
-extension InvoicingClientTypes.InvoiceCurrencyAmount {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> InvoicingClientTypes.InvoiceCurrencyAmount {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = InvoicingClientTypes.InvoiceCurrencyAmount()
-        value.totalAmount = try reader["TotalAmount"].readIfPresent()
-        value.totalAmountBeforeTax = try reader["TotalAmountBeforeTax"].readIfPresent()
-        value.currencyCode = try reader["CurrencyCode"].readIfPresent()
-        value.amountBreakdown = try reader["AmountBreakdown"].readIfPresent(with: InvoicingClientTypes.AmountBreakdown.read(from:))
-        value.currencyExchangeDetails = try reader["CurrencyExchangeDetails"].readIfPresent(with: InvoicingClientTypes.CurrencyExchangeDetails.read(from:))
-        return value
-    }
-}
-
-extension InvoicingClientTypes.CurrencyExchangeDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> InvoicingClientTypes.CurrencyExchangeDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = InvoicingClientTypes.CurrencyExchangeDetails()
-        value.sourceCurrencyCode = try reader["SourceCurrencyCode"].readIfPresent()
-        value.targetCurrencyCode = try reader["TargetCurrencyCode"].readIfPresent()
-        value.rate = try reader["Rate"].readIfPresent()
-        return value
-    }
-}
-
-extension InvoicingClientTypes.AmountBreakdown {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> InvoicingClientTypes.AmountBreakdown {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = InvoicingClientTypes.AmountBreakdown()
-        value.subTotalAmount = try reader["SubTotalAmount"].readIfPresent()
-        value.discounts = try reader["Discounts"].readIfPresent(with: InvoicingClientTypes.DiscountsBreakdown.read(from:))
-        value.taxes = try reader["Taxes"].readIfPresent(with: InvoicingClientTypes.TaxesBreakdown.read(from:))
-        value.fees = try reader["Fees"].readIfPresent(with: InvoicingClientTypes.FeesBreakdown.read(from:))
-        return value
-    }
-}
-
-extension InvoicingClientTypes.FeesBreakdown {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> InvoicingClientTypes.FeesBreakdown {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = InvoicingClientTypes.FeesBreakdown()
-        value.breakdown = try reader["Breakdown"].readListIfPresent(memberReadingClosure: InvoicingClientTypes.FeesBreakdownAmount.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.totalAmount = try reader["TotalAmount"].readIfPresent()
-        return value
-    }
-}
-
-extension InvoicingClientTypes.FeesBreakdownAmount {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> InvoicingClientTypes.FeesBreakdownAmount {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = InvoicingClientTypes.FeesBreakdownAmount()
-        value.description = try reader["Description"].readIfPresent()
-        value.amount = try reader["Amount"].readIfPresent()
-        value.rate = try reader["Rate"].readIfPresent()
-        return value
-    }
-}
-
-extension InvoicingClientTypes.TaxesBreakdown {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> InvoicingClientTypes.TaxesBreakdown {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = InvoicingClientTypes.TaxesBreakdown()
-        value.breakdown = try reader["Breakdown"].readListIfPresent(memberReadingClosure: InvoicingClientTypes.TaxesBreakdownAmount.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.totalAmount = try reader["TotalAmount"].readIfPresent()
-        return value
-    }
-}
-
-extension InvoicingClientTypes.TaxesBreakdownAmount {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> InvoicingClientTypes.TaxesBreakdownAmount {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = InvoicingClientTypes.TaxesBreakdownAmount()
-        value.description = try reader["Description"].readIfPresent()
-        value.amount = try reader["Amount"].readIfPresent()
-        value.rate = try reader["Rate"].readIfPresent()
-        return value
-    }
-}
-
-extension InvoicingClientTypes.DiscountsBreakdown {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> InvoicingClientTypes.DiscountsBreakdown {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = InvoicingClientTypes.DiscountsBreakdown()
-        value.breakdown = try reader["Breakdown"].readListIfPresent(memberReadingClosure: InvoicingClientTypes.DiscountsBreakdownAmount.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.totalAmount = try reader["TotalAmount"].readIfPresent()
-        return value
-    }
-}
-
-extension InvoicingClientTypes.DiscountsBreakdownAmount {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> InvoicingClientTypes.DiscountsBreakdownAmount {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = InvoicingClientTypes.DiscountsBreakdownAmount()
-        value.description = try reader["Description"].readIfPresent()
-        value.amount = try reader["Amount"].readIfPresent()
-        value.rate = try reader["Rate"].readIfPresent()
-        return value
-    }
-}
-
-extension InvoicingClientTypes.BillingPeriod {
-
-    static func write(value: InvoicingClientTypes.BillingPeriod?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Month"].write(value.month)
-        try writer["Year"].write(value.year)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> InvoicingClientTypes.BillingPeriod {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = InvoicingClientTypes.BillingPeriod()
-        value.month = try reader["Month"].readIfPresent() ?? 0
-        value.year = try reader["Year"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension InvoicingClientTypes.Entity {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> InvoicingClientTypes.Entity {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = InvoicingClientTypes.Entity()
-        value.invoicingEntity = try reader["InvoicingEntity"].readIfPresent()
-        return value
-    }
-}
-
-extension InvoicingClientTypes.InvoiceUnit {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> InvoicingClientTypes.InvoiceUnit {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = InvoicingClientTypes.InvoiceUnit()
-        value.invoiceUnitArn = try reader["InvoiceUnitArn"].readIfPresent()
-        value.invoiceReceiver = try reader["InvoiceReceiver"].readIfPresent()
-        value.name = try reader["Name"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        value.taxInheritanceDisabled = try reader["TaxInheritanceDisabled"].readIfPresent()
-        value.rule = try reader["Rule"].readIfPresent(with: InvoicingClientTypes.InvoiceUnitRule.read(from:))
-        value.lastModified = try reader["LastModified"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }
@@ -3580,6 +3534,41 @@ extension InvoicingClientTypes.ProcurementPortalPreferenceSummary {
     }
 }
 
+extension InvoicingClientTypes.PurchaseOrderDataSource {
+
+    static func write(value: InvoicingClientTypes.PurchaseOrderDataSource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["EinvoiceDeliveryDocumentType"].write(value.einvoiceDeliveryDocumentType)
+        try writer["PurchaseOrderDataSourceType"].write(value.purchaseOrderDataSourceType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> InvoicingClientTypes.PurchaseOrderDataSource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = InvoicingClientTypes.PurchaseOrderDataSource()
+        value.einvoiceDeliveryDocumentType = try reader["EinvoiceDeliveryDocumentType"].readIfPresent()
+        value.purchaseOrderDataSourceType = try reader["PurchaseOrderDataSourceType"].readIfPresent()
+        return value
+    }
+}
+
+extension InvoicingClientTypes.ReceiverAddress {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> InvoicingClientTypes.ReceiverAddress {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = InvoicingClientTypes.ReceiverAddress()
+        value.addressLine1 = try reader["AddressLine1"].readIfPresent()
+        value.addressLine2 = try reader["AddressLine2"].readIfPresent()
+        value.addressLine3 = try reader["AddressLine3"].readIfPresent()
+        value.districtOrCounty = try reader["DistrictOrCounty"].readIfPresent()
+        value.city = try reader["City"].readIfPresent()
+        value.stateOrRegion = try reader["StateOrRegion"].readIfPresent()
+        value.countryCode = try reader["CountryCode"].readIfPresent()
+        value.companyName = try reader["CompanyName"].readIfPresent()
+        value.postalCode = try reader["PostalCode"].readIfPresent()
+        return value
+    }
+}
+
 extension InvoicingClientTypes.ResourceTag {
 
     static func write(value: InvoicingClientTypes.ResourceTag?, to writer: SmithyJSON.Writer) throws {
@@ -3597,13 +3586,52 @@ extension InvoicingClientTypes.ResourceTag {
     }
 }
 
-extension InvoicingClientTypes.ValidationExceptionField {
+extension InvoicingClientTypes.SupplementalDocument {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> InvoicingClientTypes.ValidationExceptionField {
+    static func read(from reader: SmithyJSON.Reader) throws -> InvoicingClientTypes.SupplementalDocument {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = InvoicingClientTypes.ValidationExceptionField()
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.message = try reader["message"].readIfPresent() ?? ""
+        var value = InvoicingClientTypes.SupplementalDocument()
+        value.documentUrl = try reader["DocumentUrl"].readIfPresent()
+        value.documentUrlExpirationDate = try reader["DocumentUrlExpirationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension InvoicingClientTypes.TaxesBreakdown {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> InvoicingClientTypes.TaxesBreakdown {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = InvoicingClientTypes.TaxesBreakdown()
+        value.breakdown = try reader["Breakdown"].readListIfPresent(memberReadingClosure: InvoicingClientTypes.TaxesBreakdownAmount.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.totalAmount = try reader["TotalAmount"].readIfPresent()
+        return value
+    }
+}
+
+extension InvoicingClientTypes.TaxesBreakdownAmount {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> InvoicingClientTypes.TaxesBreakdownAmount {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = InvoicingClientTypes.TaxesBreakdownAmount()
+        value.description = try reader["Description"].readIfPresent()
+        value.amount = try reader["Amount"].readIfPresent()
+        value.rate = try reader["Rate"].readIfPresent()
+        return value
+    }
+}
+
+extension InvoicingClientTypes.TestEnvPreference {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> InvoicingClientTypes.TestEnvPreference {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = InvoicingClientTypes.TestEnvPreference()
+        value.buyerDomain = try reader["BuyerDomain"].readIfPresent() ?? .sdkUnknown("")
+        value.buyerIdentifier = try reader["BuyerIdentifier"].readIfPresent() ?? ""
+        value.supplierDomain = try reader["SupplierDomain"].readIfPresent() ?? .sdkUnknown("")
+        value.supplierIdentifier = try reader["SupplierIdentifier"].readIfPresent() ?? ""
+        value.procurementPortalSharedSecret = try reader["ProcurementPortalSharedSecret"].readIfPresent()
+        value.procurementPortalInstanceEndpoint = try reader["ProcurementPortalInstanceEndpoint"].readIfPresent()
+        value.purchaseOrderRetrievalEndpoint = try reader["PurchaseOrderRetrievalEndpoint"].readIfPresent()
         return value
     }
 }
@@ -3621,42 +3649,14 @@ extension InvoicingClientTypes.TestEnvPreferenceInput {
     }
 }
 
-extension InvoicingClientTypes.InvoiceSummariesSelector {
+extension InvoicingClientTypes.ValidationExceptionField {
 
-    static func write(value: InvoicingClientTypes.InvoiceSummariesSelector?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ResourceType"].write(value.resourceType)
-        try writer["Value"].write(value.value)
-    }
-}
-
-extension InvoicingClientTypes.InvoiceSummariesFilter {
-
-    static func write(value: InvoicingClientTypes.InvoiceSummariesFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BillingPeriod"].write(value.billingPeriod, with: InvoicingClientTypes.BillingPeriod.write(value:to:))
-        try writer["InvoicingEntity"].write(value.invoicingEntity)
-        try writer["TimeInterval"].write(value.timeInterval, with: InvoicingClientTypes.DateInterval.write(value:to:))
-    }
-}
-
-extension InvoicingClientTypes.DateInterval {
-
-    static func write(value: InvoicingClientTypes.DateInterval?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["EndDate"].writeTimestamp(value.endDate, format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        try writer["StartDate"].writeTimestamp(value.startDate, format: SmithyTimestamps.TimestampFormat.epochSeconds)
-    }
-}
-
-extension InvoicingClientTypes.Filters {
-
-    static func write(value: InvoicingClientTypes.Filters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Accounts"].writeList(value.accounts, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["BillSourceAccounts"].writeList(value.billSourceAccounts, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["InvoiceReceivers"].writeList(value.invoiceReceivers, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Names"].writeList(value.names, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    static func read(from reader: SmithyJSON.Reader) throws -> InvoicingClientTypes.ValidationExceptionField {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = InvoicingClientTypes.ValidationExceptionField()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.message = try reader["message"].readIfPresent() ?? ""
+        return value
     }
 }
 

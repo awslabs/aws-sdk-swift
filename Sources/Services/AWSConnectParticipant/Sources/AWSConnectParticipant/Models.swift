@@ -2067,13 +2067,36 @@ extension ResourceNotFoundException {
     }
 }
 
-extension ConnectParticipantClientTypes.Websocket {
+extension ConnectParticipantClientTypes.AttachmentItem {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ConnectParticipantClientTypes.Websocket {
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectParticipantClientTypes.AttachmentItem {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConnectParticipantClientTypes.Websocket()
-        value.url = try reader["Url"].readIfPresent()
-        value.connectionExpiry = try reader["ConnectionExpiry"].readIfPresent()
+        var value = ConnectParticipantClientTypes.AttachmentItem()
+        value.contentType = try reader["ContentType"].readIfPresent()
+        value.attachmentId = try reader["AttachmentId"].readIfPresent()
+        value.attachmentName = try reader["AttachmentName"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        return value
+    }
+}
+
+extension ConnectParticipantClientTypes.Attendee {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectParticipantClientTypes.Attendee {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectParticipantClientTypes.Attendee()
+        value.attendeeId = try reader["AttendeeId"].readIfPresent()
+        value.joinToken = try reader["JoinToken"].readIfPresent()
+        return value
+    }
+}
+
+extension ConnectParticipantClientTypes.AudioFeatures {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectParticipantClientTypes.AudioFeatures {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectParticipantClientTypes.AudioFeatures()
+        value.echoReduction = try reader["EchoReduction"].readIfPresent()
         return value
     }
 }
@@ -2089,25 +2112,23 @@ extension ConnectParticipantClientTypes.ConnectionCredentials {
     }
 }
 
-extension ConnectParticipantClientTypes.WebRTCConnection {
+extension ConnectParticipantClientTypes.Item {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ConnectParticipantClientTypes.WebRTCConnection {
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectParticipantClientTypes.Item {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConnectParticipantClientTypes.WebRTCConnection()
-        value.attendee = try reader["Attendee"].readIfPresent(with: ConnectParticipantClientTypes.Attendee.read(from:))
-        value.meeting = try reader["Meeting"].readIfPresent(with: ConnectParticipantClientTypes.WebRTCMeeting.read(from:))
-        return value
-    }
-}
-
-extension ConnectParticipantClientTypes.WebRTCMeeting {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConnectParticipantClientTypes.WebRTCMeeting {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConnectParticipantClientTypes.WebRTCMeeting()
-        value.mediaPlacement = try reader["MediaPlacement"].readIfPresent(with: ConnectParticipantClientTypes.WebRTCMediaPlacement.read(from:))
-        value.meetingFeatures = try reader["MeetingFeatures"].readIfPresent(with: ConnectParticipantClientTypes.MeetingFeaturesConfiguration.read(from:))
-        value.meetingId = try reader["MeetingId"].readIfPresent()
+        var value = ConnectParticipantClientTypes.Item()
+        value.absoluteTime = try reader["AbsoluteTime"].readIfPresent()
+        value.content = try reader["Content"].readIfPresent()
+        value.contentType = try reader["ContentType"].readIfPresent()
+        value.id = try reader["Id"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent()
+        value.participantId = try reader["ParticipantId"].readIfPresent()
+        value.displayName = try reader["DisplayName"].readIfPresent()
+        value.participantRole = try reader["ParticipantRole"].readIfPresent()
+        value.attachments = try reader["Attachments"].readListIfPresent(memberReadingClosure: ConnectParticipantClientTypes.AttachmentItem.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.messageMetadata = try reader["MessageMetadata"].readIfPresent(with: ConnectParticipantClientTypes.MessageMetadata.read(from:))
+        value.relatedContactId = try reader["RelatedContactId"].readIfPresent()
+        value.contactId = try reader["ContactId"].readIfPresent()
         return value
     }
 }
@@ -2122,36 +2143,58 @@ extension ConnectParticipantClientTypes.MeetingFeaturesConfiguration {
     }
 }
 
-extension ConnectParticipantClientTypes.AudioFeatures {
+extension ConnectParticipantClientTypes.MessageMetadata {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ConnectParticipantClientTypes.AudioFeatures {
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectParticipantClientTypes.MessageMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConnectParticipantClientTypes.AudioFeatures()
-        value.echoReduction = try reader["EchoReduction"].readIfPresent()
+        var value = ConnectParticipantClientTypes.MessageMetadata()
+        value.messageId = try reader["MessageId"].readIfPresent()
+        value.receipts = try reader["Receipts"].readListIfPresent(memberReadingClosure: ConnectParticipantClientTypes.Receipt.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.messageProcessingStatus = try reader["MessageProcessingStatus"].readIfPresent()
         return value
     }
 }
 
-extension ConnectParticipantClientTypes.WebRTCMediaPlacement {
+extension ConnectParticipantClientTypes.MessageProcessingMetadata {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ConnectParticipantClientTypes.WebRTCMediaPlacement {
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectParticipantClientTypes.MessageProcessingMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConnectParticipantClientTypes.WebRTCMediaPlacement()
-        value.audioHostUrl = try reader["AudioHostUrl"].readIfPresent()
-        value.audioFallbackUrl = try reader["AudioFallbackUrl"].readIfPresent()
-        value.signalingUrl = try reader["SignalingUrl"].readIfPresent()
-        value.eventIngestionUrl = try reader["EventIngestionUrl"].readIfPresent()
+        var value = ConnectParticipantClientTypes.MessageProcessingMetadata()
+        value.messageProcessingStatus = try reader["MessageProcessingStatus"].readIfPresent()
         return value
     }
 }
 
-extension ConnectParticipantClientTypes.Attendee {
+extension ConnectParticipantClientTypes.Receipt {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ConnectParticipantClientTypes.Attendee {
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectParticipantClientTypes.Receipt {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConnectParticipantClientTypes.Attendee()
-        value.attendeeId = try reader["AttendeeId"].readIfPresent()
-        value.joinToken = try reader["JoinToken"].readIfPresent()
+        var value = ConnectParticipantClientTypes.Receipt()
+        value.deliveredTimestamp = try reader["DeliveredTimestamp"].readIfPresent()
+        value.readTimestamp = try reader["ReadTimestamp"].readIfPresent()
+        value.recipientParticipantId = try reader["RecipientParticipantId"].readIfPresent()
+        return value
+    }
+}
+
+extension ConnectParticipantClientTypes.StartPosition {
+
+    static func write(value: ConnectParticipantClientTypes.StartPosition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AbsoluteTime"].write(value.absoluteTime)
+        try writer["Id"].write(value.id)
+        try writer["MostRecent"].write(value.mostRecent)
+    }
+}
+
+extension ConnectParticipantClientTypes.UploadMetadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectParticipantClientTypes.UploadMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ConnectParticipantClientTypes.UploadMetadata()
+        value.url = try reader["Url"].readIfPresent()
+        value.urlExpiry = try reader["UrlExpiry"].readIfPresent()
+        value.headersToInclude = try reader["HeadersToInclude"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
     }
 }
@@ -2182,93 +2225,50 @@ extension ConnectParticipantClientTypes.ViewContent {
     }
 }
 
-extension ConnectParticipantClientTypes.Item {
+extension ConnectParticipantClientTypes.WebRTCConnection {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ConnectParticipantClientTypes.Item {
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectParticipantClientTypes.WebRTCConnection {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConnectParticipantClientTypes.Item()
-        value.absoluteTime = try reader["AbsoluteTime"].readIfPresent()
-        value.content = try reader["Content"].readIfPresent()
-        value.contentType = try reader["ContentType"].readIfPresent()
-        value.id = try reader["Id"].readIfPresent()
-        value.type = try reader["Type"].readIfPresent()
-        value.participantId = try reader["ParticipantId"].readIfPresent()
-        value.displayName = try reader["DisplayName"].readIfPresent()
-        value.participantRole = try reader["ParticipantRole"].readIfPresent()
-        value.attachments = try reader["Attachments"].readListIfPresent(memberReadingClosure: ConnectParticipantClientTypes.AttachmentItem.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.messageMetadata = try reader["MessageMetadata"].readIfPresent(with: ConnectParticipantClientTypes.MessageMetadata.read(from:))
-        value.relatedContactId = try reader["RelatedContactId"].readIfPresent()
-        value.contactId = try reader["ContactId"].readIfPresent()
+        var value = ConnectParticipantClientTypes.WebRTCConnection()
+        value.attendee = try reader["Attendee"].readIfPresent(with: ConnectParticipantClientTypes.Attendee.read(from:))
+        value.meeting = try reader["Meeting"].readIfPresent(with: ConnectParticipantClientTypes.WebRTCMeeting.read(from:))
         return value
     }
 }
 
-extension ConnectParticipantClientTypes.MessageMetadata {
+extension ConnectParticipantClientTypes.WebRTCMediaPlacement {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ConnectParticipantClientTypes.MessageMetadata {
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectParticipantClientTypes.WebRTCMediaPlacement {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConnectParticipantClientTypes.MessageMetadata()
-        value.messageId = try reader["MessageId"].readIfPresent()
-        value.receipts = try reader["Receipts"].readListIfPresent(memberReadingClosure: ConnectParticipantClientTypes.Receipt.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.messageProcessingStatus = try reader["MessageProcessingStatus"].readIfPresent()
+        var value = ConnectParticipantClientTypes.WebRTCMediaPlacement()
+        value.audioHostUrl = try reader["AudioHostUrl"].readIfPresent()
+        value.audioFallbackUrl = try reader["AudioFallbackUrl"].readIfPresent()
+        value.signalingUrl = try reader["SignalingUrl"].readIfPresent()
+        value.eventIngestionUrl = try reader["EventIngestionUrl"].readIfPresent()
         return value
     }
 }
 
-extension ConnectParticipantClientTypes.Receipt {
+extension ConnectParticipantClientTypes.WebRTCMeeting {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ConnectParticipantClientTypes.Receipt {
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectParticipantClientTypes.WebRTCMeeting {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConnectParticipantClientTypes.Receipt()
-        value.deliveredTimestamp = try reader["DeliveredTimestamp"].readIfPresent()
-        value.readTimestamp = try reader["ReadTimestamp"].readIfPresent()
-        value.recipientParticipantId = try reader["RecipientParticipantId"].readIfPresent()
+        var value = ConnectParticipantClientTypes.WebRTCMeeting()
+        value.mediaPlacement = try reader["MediaPlacement"].readIfPresent(with: ConnectParticipantClientTypes.WebRTCMediaPlacement.read(from:))
+        value.meetingFeatures = try reader["MeetingFeatures"].readIfPresent(with: ConnectParticipantClientTypes.MeetingFeaturesConfiguration.read(from:))
+        value.meetingId = try reader["MeetingId"].readIfPresent()
         return value
     }
 }
 
-extension ConnectParticipantClientTypes.AttachmentItem {
+extension ConnectParticipantClientTypes.Websocket {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ConnectParticipantClientTypes.AttachmentItem {
+    static func read(from reader: SmithyJSON.Reader) throws -> ConnectParticipantClientTypes.Websocket {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConnectParticipantClientTypes.AttachmentItem()
-        value.contentType = try reader["ContentType"].readIfPresent()
-        value.attachmentId = try reader["AttachmentId"].readIfPresent()
-        value.attachmentName = try reader["AttachmentName"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        return value
-    }
-}
-
-extension ConnectParticipantClientTypes.MessageProcessingMetadata {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConnectParticipantClientTypes.MessageProcessingMetadata {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConnectParticipantClientTypes.MessageProcessingMetadata()
-        value.messageProcessingStatus = try reader["MessageProcessingStatus"].readIfPresent()
-        return value
-    }
-}
-
-extension ConnectParticipantClientTypes.UploadMetadata {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ConnectParticipantClientTypes.UploadMetadata {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ConnectParticipantClientTypes.UploadMetadata()
+        var value = ConnectParticipantClientTypes.Websocket()
         value.url = try reader["Url"].readIfPresent()
-        value.urlExpiry = try reader["UrlExpiry"].readIfPresent()
-        value.headersToInclude = try reader["HeadersToInclude"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.connectionExpiry = try reader["ConnectionExpiry"].readIfPresent()
         return value
-    }
-}
-
-extension ConnectParticipantClientTypes.StartPosition {
-
-    static func write(value: ConnectParticipantClientTypes.StartPosition?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AbsoluteTime"].write(value.absoluteTime)
-        try writer["Id"].write(value.id)
-        try writer["MostRecent"].write(value.mostRecent)
     }
 }
 

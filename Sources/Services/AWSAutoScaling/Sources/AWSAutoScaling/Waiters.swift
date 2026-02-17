@@ -24,7 +24,7 @@ extension AutoScalingClient {
                 guard case .success(let output) = result else { return false }
                 let autoScalingGroups = output.autoScalingGroups
                 let count = Double(autoScalingGroups?.count ?? 0)
-                let number = Double(0.0)
+                let number = Double(0)
                 let comparison = SmithyWaitersAPI.JMESUtils.compare(count, >, number)
                 return SmithyWaitersAPI.JMESUtils.compare(comparison, ==, true)
             }),
@@ -35,7 +35,7 @@ extension AutoScalingClient {
                 guard case .success(let output) = result else { return false }
                 let autoScalingGroups = output.autoScalingGroups
                 let count = Double(autoScalingGroups?.count ?? 0)
-                let number = Double(0.0)
+                let number = Double(0)
                 let comparison = SmithyWaitersAPI.JMESUtils.compare(count, >, number)
                 return SmithyWaitersAPI.JMESUtils.compare(comparison, ==, false)
             }),
@@ -136,7 +136,7 @@ extension AutoScalingClient {
                 guard case .success(let output) = result else { return false }
                 let autoScalingGroups = output.autoScalingGroups
                 let count = Double(autoScalingGroups?.count ?? 0)
-                let number = Double(0.0)
+                let number = Double(0)
                 let comparison = SmithyWaitersAPI.JMESUtils.compare(count, >, number)
                 return SmithyWaitersAPI.JMESUtils.compare(comparison, ==, false)
             }),
@@ -147,7 +147,7 @@ extension AutoScalingClient {
                 guard case .success(let output) = result else { return false }
                 let autoScalingGroups = output.autoScalingGroups
                 let count = Double(autoScalingGroups?.count ?? 0)
-                let number = Double(0.0)
+                let number = Double(0)
                 let comparison = SmithyWaitersAPI.JMESUtils.compare(count, >, number)
                 return SmithyWaitersAPI.JMESUtils.compare(comparison, ==, true)
             }),

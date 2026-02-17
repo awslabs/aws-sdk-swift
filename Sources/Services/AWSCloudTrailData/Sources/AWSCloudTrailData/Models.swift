@@ -414,6 +414,16 @@ extension UnsupportedOperationException {
     }
 }
 
+extension CloudTrailDataClientTypes.AuditEvent {
+
+    static func write(value: CloudTrailDataClientTypes.AuditEvent?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["eventData"].write(value.eventData)
+        try writer["eventDataChecksum"].write(value.eventDataChecksum)
+        try writer["id"].write(value.id)
+    }
+}
+
 extension CloudTrailDataClientTypes.AuditEventResultEntry {
 
     static func read(from reader: SmithyJSON.Reader) throws -> CloudTrailDataClientTypes.AuditEventResultEntry {
@@ -434,16 +444,6 @@ extension CloudTrailDataClientTypes.ResultErrorEntry {
         value.errorCode = try reader["errorCode"].readIfPresent() ?? ""
         value.errorMessage = try reader["errorMessage"].readIfPresent() ?? ""
         return value
-    }
-}
-
-extension CloudTrailDataClientTypes.AuditEvent {
-
-    static func write(value: CloudTrailDataClientTypes.AuditEvent?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["eventData"].write(value.eventData)
-        try writer["eventDataChecksum"].write(value.eventDataChecksum)
-        try writer["id"].write(value.id)
     }
 }
 

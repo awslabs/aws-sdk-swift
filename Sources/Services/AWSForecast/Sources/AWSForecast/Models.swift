@@ -9058,21 +9058,21 @@ extension InvalidNextTokenException {
     }
 }
 
-extension ForecastClientTypes.DataConfig {
+extension ForecastClientTypes.Action {
 
-    static func write(value: ForecastClientTypes.DataConfig?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: ForecastClientTypes.Action?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["AdditionalDatasets"].writeList(value.additionalDatasets, memberWritingClosure: ForecastClientTypes.AdditionalDataset.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["AttributeConfigs"].writeList(value.attributeConfigs, memberWritingClosure: ForecastClientTypes.AttributeConfig.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["DatasetGroupArn"].write(value.datasetGroupArn)
+        try writer["AttributeName"].write(value.attributeName)
+        try writer["Operation"].write(value.operation)
+        try writer["Value"].write(value.value)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ForecastClientTypes.DataConfig {
+    static func read(from reader: SmithyJSON.Reader) throws -> ForecastClientTypes.Action {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ForecastClientTypes.DataConfig()
-        value.datasetGroupArn = try reader["DatasetGroupArn"].readIfPresent() ?? ""
-        value.attributeConfigs = try reader["AttributeConfigs"].readListIfPresent(memberReadingClosure: ForecastClientTypes.AttributeConfig.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.additionalDatasets = try reader["AdditionalDatasets"].readListIfPresent(memberReadingClosure: ForecastClientTypes.AdditionalDataset.read(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = ForecastClientTypes.Action()
+        value.attributeName = try reader["AttributeName"].readIfPresent() ?? ""
+        value.operation = try reader["Operation"].readIfPresent() ?? .sdkUnknown("")
+        value.value = try reader["Value"].readIfPresent() ?? 0.0
         return value
     }
 }
@@ -9111,246 +9111,12 @@ extension ForecastClientTypes.AttributeConfig {
     }
 }
 
-extension ForecastClientTypes.EncryptionConfig {
-
-    static func write(value: ForecastClientTypes.EncryptionConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["KMSKeyArn"].write(value.kmsKeyArn)
-        try writer["RoleArn"].write(value.roleArn)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ForecastClientTypes.EncryptionConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ForecastClientTypes.EncryptionConfig()
-        value.roleArn = try reader["RoleArn"].readIfPresent() ?? ""
-        value.kmsKeyArn = try reader["KMSKeyArn"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension ForecastClientTypes.ReferencePredictorSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ForecastClientTypes.ReferencePredictorSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ForecastClientTypes.ReferencePredictorSummary()
-        value.arn = try reader["Arn"].readIfPresent()
-        value.state = try reader["State"].readIfPresent()
-        return value
-    }
-}
-
-extension ForecastClientTypes.ExplainabilityInfo {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ForecastClientTypes.ExplainabilityInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ForecastClientTypes.ExplainabilityInfo()
-        value.explainabilityArn = try reader["ExplainabilityArn"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        return value
-    }
-}
-
-extension ForecastClientTypes.MonitorInfo {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ForecastClientTypes.MonitorInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ForecastClientTypes.MonitorInfo()
-        value.monitorArn = try reader["MonitorArn"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        return value
-    }
-}
-
-extension ForecastClientTypes.TimeAlignmentBoundary {
-
-    static func write(value: ForecastClientTypes.TimeAlignmentBoundary?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DayOfMonth"].write(value.dayOfMonth)
-        try writer["DayOfWeek"].write(value.dayOfWeek)
-        try writer["Hour"].write(value.hour)
-        try writer["Month"].write(value.month)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ForecastClientTypes.TimeAlignmentBoundary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ForecastClientTypes.TimeAlignmentBoundary()
-        value.month = try reader["Month"].readIfPresent()
-        value.dayOfMonth = try reader["DayOfMonth"].readIfPresent()
-        value.dayOfWeek = try reader["DayOfWeek"].readIfPresent()
-        value.hour = try reader["Hour"].readIfPresent()
-        return value
-    }
-}
-
-extension ForecastClientTypes.Schema {
-
-    static func write(value: ForecastClientTypes.Schema?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Attributes"].writeList(value.attributes, memberWritingClosure: ForecastClientTypes.SchemaAttribute.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ForecastClientTypes.Schema {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ForecastClientTypes.Schema()
-        value.attributes = try reader["Attributes"].readListIfPresent(memberReadingClosure: ForecastClientTypes.SchemaAttribute.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension ForecastClientTypes.SchemaAttribute {
-
-    static func write(value: ForecastClientTypes.SchemaAttribute?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AttributeName"].write(value.attributeName)
-        try writer["AttributeType"].write(value.attributeType)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ForecastClientTypes.SchemaAttribute {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ForecastClientTypes.SchemaAttribute()
-        value.attributeName = try reader["AttributeName"].readIfPresent()
-        value.attributeType = try reader["AttributeType"].readIfPresent()
-        return value
-    }
-}
-
-extension ForecastClientTypes.DataSource {
-
-    static func write(value: ForecastClientTypes.DataSource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["S3Config"].write(value.s3Config, with: ForecastClientTypes.S3Config.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ForecastClientTypes.DataSource {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ForecastClientTypes.DataSource()
-        value.s3Config = try reader["S3Config"].readIfPresent(with: ForecastClientTypes.S3Config.read(from:))
-        return value
-    }
-}
-
-extension ForecastClientTypes.S3Config {
-
-    static func write(value: ForecastClientTypes.S3Config?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["KMSKeyArn"].write(value.kmsKeyArn)
-        try writer["Path"].write(value.path)
-        try writer["RoleArn"].write(value.roleArn)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ForecastClientTypes.S3Config {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ForecastClientTypes.S3Config()
-        value.path = try reader["Path"].readIfPresent() ?? ""
-        value.roleArn = try reader["RoleArn"].readIfPresent() ?? ""
-        value.kmsKeyArn = try reader["KMSKeyArn"].readIfPresent()
-        return value
-    }
-}
-
-extension ForecastClientTypes.Statistics {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ForecastClientTypes.Statistics {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ForecastClientTypes.Statistics()
-        value.count = try reader["Count"].readIfPresent()
-        value.countDistinct = try reader["CountDistinct"].readIfPresent()
-        value.countNull = try reader["CountNull"].readIfPresent()
-        value.countNan = try reader["CountNan"].readIfPresent()
-        value.min = try reader["Min"].readIfPresent()
-        value.max = try reader["Max"].readIfPresent()
-        value.avg = try reader["Avg"].readIfPresent()
-        value.stddev = try reader["Stddev"].readIfPresent()
-        value.countLong = try reader["CountLong"].readIfPresent()
-        value.countDistinctLong = try reader["CountDistinctLong"].readIfPresent()
-        value.countNullLong = try reader["CountNullLong"].readIfPresent()
-        value.countNanLong = try reader["CountNanLong"].readIfPresent()
-        return value
-    }
-}
-
-extension ForecastClientTypes.ExplainabilityConfig {
-
-    static func write(value: ForecastClientTypes.ExplainabilityConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["TimePointGranularity"].write(value.timePointGranularity)
-        try writer["TimeSeriesGranularity"].write(value.timeSeriesGranularity)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ForecastClientTypes.ExplainabilityConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ForecastClientTypes.ExplainabilityConfig()
-        value.timeSeriesGranularity = try reader["TimeSeriesGranularity"].readIfPresent() ?? .sdkUnknown("")
-        value.timePointGranularity = try reader["TimePointGranularity"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension ForecastClientTypes.DataDestination {
-
-    static func write(value: ForecastClientTypes.DataDestination?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["S3Config"].write(value.s3Config, with: ForecastClientTypes.S3Config.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ForecastClientTypes.DataDestination {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ForecastClientTypes.DataDestination()
-        value.s3Config = try reader["S3Config"].readIfPresent(with: ForecastClientTypes.S3Config.read(from:))
-        return value
-    }
-}
-
-extension ForecastClientTypes.TimeSeriesSelector {
-
-    static func write(value: ForecastClientTypes.TimeSeriesSelector?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["TimeSeriesIdentifiers"].write(value.timeSeriesIdentifiers, with: ForecastClientTypes.TimeSeriesIdentifiers.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ForecastClientTypes.TimeSeriesSelector {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ForecastClientTypes.TimeSeriesSelector()
-        value.timeSeriesIdentifiers = try reader["TimeSeriesIdentifiers"].readIfPresent(with: ForecastClientTypes.TimeSeriesIdentifiers.read(from:))
-        return value
-    }
-}
-
-extension ForecastClientTypes.TimeSeriesIdentifiers {
-
-    static func write(value: ForecastClientTypes.TimeSeriesIdentifiers?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DataSource"].write(value.dataSource, with: ForecastClientTypes.DataSource.write(value:to:))
-        try writer["Format"].write(value.format)
-        try writer["Schema"].write(value.schema, with: ForecastClientTypes.Schema.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ForecastClientTypes.TimeSeriesIdentifiers {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ForecastClientTypes.TimeSeriesIdentifiers()
-        value.dataSource = try reader["DataSource"].readIfPresent(with: ForecastClientTypes.DataSource.read(from:))
-        value.schema = try reader["Schema"].readIfPresent(with: ForecastClientTypes.Schema.read(from:))
-        value.format = try reader["Format"].readIfPresent()
-        return value
-    }
-}
-
 extension ForecastClientTypes.Baseline {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ForecastClientTypes.Baseline {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ForecastClientTypes.Baseline()
         value.predictorBaseline = try reader["PredictorBaseline"].readIfPresent(with: ForecastClientTypes.PredictorBaseline.read(from:))
-        return value
-    }
-}
-
-extension ForecastClientTypes.PredictorBaseline {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ForecastClientTypes.PredictorBaseline {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ForecastClientTypes.PredictorBaseline()
-        value.baselineMetrics = try reader["BaselineMetrics"].readListIfPresent(memberReadingClosure: ForecastClientTypes.BaselineMetric.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -9366,74 +9132,19 @@ extension ForecastClientTypes.BaselineMetric {
     }
 }
 
-extension ForecastClientTypes.EvaluationParameters {
+extension ForecastClientTypes.CategoricalParameterRange {
 
-    static func write(value: ForecastClientTypes.EvaluationParameters?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: ForecastClientTypes.CategoricalParameterRange?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["BackTestWindowOffset"].write(value.backTestWindowOffset)
-        try writer["NumberOfBacktestWindows"].write(value.numberOfBacktestWindows)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ForecastClientTypes.EvaluationParameters {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ForecastClientTypes.EvaluationParameters()
-        value.numberOfBacktestWindows = try reader["NumberOfBacktestWindows"].readIfPresent()
-        value.backTestWindowOffset = try reader["BackTestWindowOffset"].readIfPresent()
-        return value
-    }
-}
-
-extension ForecastClientTypes.HyperParameterTuningJobConfig {
-
-    static func write(value: ForecastClientTypes.HyperParameterTuningJobConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ParameterRanges"].write(value.parameterRanges, with: ForecastClientTypes.ParameterRanges.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ForecastClientTypes.HyperParameterTuningJobConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ForecastClientTypes.HyperParameterTuningJobConfig()
-        value.parameterRanges = try reader["ParameterRanges"].readIfPresent(with: ForecastClientTypes.ParameterRanges.read(from:))
-        return value
-    }
-}
-
-extension ForecastClientTypes.ParameterRanges {
-
-    static func write(value: ForecastClientTypes.ParameterRanges?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CategoricalParameterRanges"].writeList(value.categoricalParameterRanges, memberWritingClosure: ForecastClientTypes.CategoricalParameterRange.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ContinuousParameterRanges"].writeList(value.continuousParameterRanges, memberWritingClosure: ForecastClientTypes.ContinuousParameterRange.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["IntegerParameterRanges"].writeList(value.integerParameterRanges, memberWritingClosure: ForecastClientTypes.IntegerParameterRange.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ForecastClientTypes.ParameterRanges {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ForecastClientTypes.ParameterRanges()
-        value.categoricalParameterRanges = try reader["CategoricalParameterRanges"].readListIfPresent(memberReadingClosure: ForecastClientTypes.CategoricalParameterRange.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.continuousParameterRanges = try reader["ContinuousParameterRanges"].readListIfPresent(memberReadingClosure: ForecastClientTypes.ContinuousParameterRange.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.integerParameterRanges = try reader["IntegerParameterRanges"].readListIfPresent(memberReadingClosure: ForecastClientTypes.IntegerParameterRange.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension ForecastClientTypes.IntegerParameterRange {
-
-    static func write(value: ForecastClientTypes.IntegerParameterRange?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["MaxValue"].write(value.maxValue)
-        try writer["MinValue"].write(value.minValue)
         try writer["Name"].write(value.name)
-        try writer["ScalingType"].write(value.scalingType)
+        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ForecastClientTypes.IntegerParameterRange {
+    static func read(from reader: SmithyJSON.Reader) throws -> ForecastClientTypes.CategoricalParameterRange {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ForecastClientTypes.IntegerParameterRange()
+        var value = ForecastClientTypes.CategoricalParameterRange()
         value.name = try reader["Name"].readIfPresent() ?? ""
-        value.maxValue = try reader["MaxValue"].readIfPresent() ?? 0
-        value.minValue = try reader["MinValue"].readIfPresent() ?? 0
-        value.scalingType = try reader["ScalingType"].readIfPresent()
+        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -9459,279 +9170,36 @@ extension ForecastClientTypes.ContinuousParameterRange {
     }
 }
 
-extension ForecastClientTypes.CategoricalParameterRange {
+extension ForecastClientTypes.DataConfig {
 
-    static func write(value: ForecastClientTypes.CategoricalParameterRange?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: ForecastClientTypes.DataConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["Name"].write(value.name)
-        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ForecastClientTypes.CategoricalParameterRange {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ForecastClientTypes.CategoricalParameterRange()
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension ForecastClientTypes.InputDataConfig {
-
-    static func write(value: ForecastClientTypes.InputDataConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
+        try writer["AdditionalDatasets"].writeList(value.additionalDatasets, memberWritingClosure: ForecastClientTypes.AdditionalDataset.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["AttributeConfigs"].writeList(value.attributeConfigs, memberWritingClosure: ForecastClientTypes.AttributeConfig.write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["DatasetGroupArn"].write(value.datasetGroupArn)
-        try writer["SupplementaryFeatures"].writeList(value.supplementaryFeatures, memberWritingClosure: ForecastClientTypes.SupplementaryFeature.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ForecastClientTypes.InputDataConfig {
+    static func read(from reader: SmithyJSON.Reader) throws -> ForecastClientTypes.DataConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ForecastClientTypes.InputDataConfig()
+        var value = ForecastClientTypes.DataConfig()
         value.datasetGroupArn = try reader["DatasetGroupArn"].readIfPresent() ?? ""
-        value.supplementaryFeatures = try reader["SupplementaryFeatures"].readListIfPresent(memberReadingClosure: ForecastClientTypes.SupplementaryFeature.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.attributeConfigs = try reader["AttributeConfigs"].readListIfPresent(memberReadingClosure: ForecastClientTypes.AttributeConfig.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.additionalDatasets = try reader["AdditionalDatasets"].readListIfPresent(memberReadingClosure: ForecastClientTypes.AdditionalDataset.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
 
-extension ForecastClientTypes.SupplementaryFeature {
+extension ForecastClientTypes.DataDestination {
 
-    static func write(value: ForecastClientTypes.SupplementaryFeature?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: ForecastClientTypes.DataDestination?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["Name"].write(value.name)
-        try writer["Value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ForecastClientTypes.SupplementaryFeature {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ForecastClientTypes.SupplementaryFeature()
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.value = try reader["Value"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension ForecastClientTypes.FeaturizationConfig {
-
-    static func write(value: ForecastClientTypes.FeaturizationConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Featurizations"].writeList(value.featurizations, memberWritingClosure: ForecastClientTypes.Featurization.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ForecastDimensions"].writeList(value.forecastDimensions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ForecastFrequency"].write(value.forecastFrequency)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ForecastClientTypes.FeaturizationConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ForecastClientTypes.FeaturizationConfig()
-        value.forecastFrequency = try reader["ForecastFrequency"].readIfPresent() ?? ""
-        value.forecastDimensions = try reader["ForecastDimensions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.featurizations = try reader["Featurizations"].readListIfPresent(memberReadingClosure: ForecastClientTypes.Featurization.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension ForecastClientTypes.Featurization {
-
-    static func write(value: ForecastClientTypes.Featurization?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AttributeName"].write(value.attributeName)
-        try writer["FeaturizationPipeline"].writeList(value.featurizationPipeline, memberWritingClosure: ForecastClientTypes.FeaturizationMethod.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ForecastClientTypes.Featurization {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ForecastClientTypes.Featurization()
-        value.attributeName = try reader["AttributeName"].readIfPresent() ?? ""
-        value.featurizationPipeline = try reader["FeaturizationPipeline"].readListIfPresent(memberReadingClosure: ForecastClientTypes.FeaturizationMethod.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension ForecastClientTypes.FeaturizationMethod {
-
-    static func write(value: ForecastClientTypes.FeaturizationMethod?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["FeaturizationMethodName"].write(value.featurizationMethodName)
-        try writer["FeaturizationMethodParameters"].writeMap(value.featurizationMethodParameters, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ForecastClientTypes.FeaturizationMethod {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ForecastClientTypes.FeaturizationMethod()
-        value.featurizationMethodName = try reader["FeaturizationMethodName"].readIfPresent() ?? .sdkUnknown("")
-        value.featurizationMethodParameters = try reader["FeaturizationMethodParameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
-}
-
-extension ForecastClientTypes.PredictorExecutionDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ForecastClientTypes.PredictorExecutionDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ForecastClientTypes.PredictorExecutionDetails()
-        value.predictorExecutions = try reader["PredictorExecutions"].readListIfPresent(memberReadingClosure: ForecastClientTypes.PredictorExecution.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension ForecastClientTypes.PredictorExecution {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ForecastClientTypes.PredictorExecution {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ForecastClientTypes.PredictorExecution()
-        value.algorithmArn = try reader["AlgorithmArn"].readIfPresent()
-        value.testWindows = try reader["TestWindows"].readListIfPresent(memberReadingClosure: ForecastClientTypes.TestWindowSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension ForecastClientTypes.TestWindowSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ForecastClientTypes.TestWindowSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ForecastClientTypes.TestWindowSummary()
-        value.testWindowStart = try reader["TestWindowStart"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.testWindowEnd = try reader["TestWindowEnd"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.status = try reader["Status"].readIfPresent()
-        value.message = try reader["Message"].readIfPresent()
-        return value
-    }
-}
-
-extension ForecastClientTypes.TimeSeriesTransformation {
-
-    static func write(value: ForecastClientTypes.TimeSeriesTransformation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Action"].write(value.action, with: ForecastClientTypes.Action.write(value:to:))
-        try writer["TimeSeriesConditions"].writeList(value.timeSeriesConditions, memberWritingClosure: ForecastClientTypes.TimeSeriesCondition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ForecastClientTypes.TimeSeriesTransformation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ForecastClientTypes.TimeSeriesTransformation()
-        value.action = try reader["Action"].readIfPresent(with: ForecastClientTypes.Action.read(from:))
-        value.timeSeriesConditions = try reader["TimeSeriesConditions"].readListIfPresent(memberReadingClosure: ForecastClientTypes.TimeSeriesCondition.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension ForecastClientTypes.TimeSeriesCondition {
-
-    static func write(value: ForecastClientTypes.TimeSeriesCondition?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AttributeName"].write(value.attributeName)
-        try writer["AttributeValue"].write(value.attributeValue)
-        try writer["Condition"].write(value.condition)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ForecastClientTypes.TimeSeriesCondition {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ForecastClientTypes.TimeSeriesCondition()
-        value.attributeName = try reader["AttributeName"].readIfPresent() ?? ""
-        value.attributeValue = try reader["AttributeValue"].readIfPresent() ?? ""
-        value.condition = try reader["Condition"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension ForecastClientTypes.Action {
-
-    static func write(value: ForecastClientTypes.Action?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AttributeName"].write(value.attributeName)
-        try writer["Operation"].write(value.operation)
-        try writer["Value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ForecastClientTypes.Action {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ForecastClientTypes.Action()
-        value.attributeName = try reader["AttributeName"].readIfPresent() ?? ""
-        value.operation = try reader["Operation"].readIfPresent() ?? .sdkUnknown("")
-        value.value = try reader["Value"].readIfPresent() ?? 0.0
-        return value
-    }
-}
-
-extension ForecastClientTypes.TimeSeriesReplacementsDataSource {
-
-    static func write(value: ForecastClientTypes.TimeSeriesReplacementsDataSource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Format"].write(value.format)
         try writer["S3Config"].write(value.s3Config, with: ForecastClientTypes.S3Config.write(value:to:))
-        try writer["Schema"].write(value.schema, with: ForecastClientTypes.Schema.write(value:to:))
-        try writer["TimestampFormat"].write(value.timestampFormat)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ForecastClientTypes.TimeSeriesReplacementsDataSource {
+    static func read(from reader: SmithyJSON.Reader) throws -> ForecastClientTypes.DataDestination {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ForecastClientTypes.TimeSeriesReplacementsDataSource()
+        var value = ForecastClientTypes.DataDestination()
         value.s3Config = try reader["S3Config"].readIfPresent(with: ForecastClientTypes.S3Config.read(from:))
-        value.schema = try reader["Schema"].readIfPresent(with: ForecastClientTypes.Schema.read(from:))
-        value.format = try reader["Format"].readIfPresent()
-        value.timestampFormat = try reader["TimestampFormat"].readIfPresent()
-        return value
-    }
-}
-
-extension ForecastClientTypes.EvaluationResult {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ForecastClientTypes.EvaluationResult {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ForecastClientTypes.EvaluationResult()
-        value.algorithmArn = try reader["AlgorithmArn"].readIfPresent()
-        value.testWindows = try reader["TestWindows"].readListIfPresent(memberReadingClosure: ForecastClientTypes.WindowSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension ForecastClientTypes.WindowSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ForecastClientTypes.WindowSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ForecastClientTypes.WindowSummary()
-        value.testWindowStart = try reader["TestWindowStart"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.testWindowEnd = try reader["TestWindowEnd"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.itemCount = try reader["ItemCount"].readIfPresent()
-        value.evaluationType = try reader["EvaluationType"].readIfPresent()
-        value.metrics = try reader["Metrics"].readIfPresent(with: ForecastClientTypes.Metrics.read(from:))
-        return value
-    }
-}
-
-extension ForecastClientTypes.Metrics {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ForecastClientTypes.Metrics {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ForecastClientTypes.Metrics()
-        value.rmse = try reader["RMSE"].readIfPresent()
-        value.weightedQuantileLosses = try reader["WeightedQuantileLosses"].readListIfPresent(memberReadingClosure: ForecastClientTypes.WeightedQuantileLoss.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.errorMetrics = try reader["ErrorMetrics"].readListIfPresent(memberReadingClosure: ForecastClientTypes.ErrorMetric.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.averageWeightedQuantileLoss = try reader["AverageWeightedQuantileLoss"].readIfPresent()
-        return value
-    }
-}
-
-extension ForecastClientTypes.ErrorMetric {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ForecastClientTypes.ErrorMetric {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ForecastClientTypes.ErrorMetric()
-        value.forecastType = try reader["ForecastType"].readIfPresent()
-        value.wape = try reader["WAPE"].readIfPresent()
-        value.rmse = try reader["RMSE"].readIfPresent()
-        value.mase = try reader["MASE"].readIfPresent()
-        value.mape = try reader["MAPE"].readIfPresent()
-        return value
-    }
-}
-
-extension ForecastClientTypes.WeightedQuantileLoss {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ForecastClientTypes.WeightedQuantileLoss {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ForecastClientTypes.WeightedQuantileLoss()
-        value.quantile = try reader["Quantile"].readIfPresent()
-        value.lossValue = try reader["LossValue"].readIfPresent()
         return value
     }
 }
@@ -9781,19 +9249,93 @@ extension ForecastClientTypes.DatasetSummary {
     }
 }
 
-extension ForecastClientTypes.ExplainabilitySummary {
+extension ForecastClientTypes.DataSource {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ForecastClientTypes.ExplainabilitySummary {
+    static func write(value: ForecastClientTypes.DataSource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["S3Config"].write(value.s3Config, with: ForecastClientTypes.S3Config.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ForecastClientTypes.DataSource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ForecastClientTypes.ExplainabilitySummary()
-        value.explainabilityArn = try reader["ExplainabilityArn"].readIfPresent()
-        value.explainabilityName = try reader["ExplainabilityName"].readIfPresent()
-        value.resourceArn = try reader["ResourceArn"].readIfPresent()
-        value.explainabilityConfig = try reader["ExplainabilityConfig"].readIfPresent(with: ForecastClientTypes.ExplainabilityConfig.read(from:))
-        value.status = try reader["Status"].readIfPresent()
-        value.message = try reader["Message"].readIfPresent()
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastModificationTime = try reader["LastModificationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        var value = ForecastClientTypes.DataSource()
+        value.s3Config = try reader["S3Config"].readIfPresent(with: ForecastClientTypes.S3Config.read(from:))
+        return value
+    }
+}
+
+extension ForecastClientTypes.EncryptionConfig {
+
+    static func write(value: ForecastClientTypes.EncryptionConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["KMSKeyArn"].write(value.kmsKeyArn)
+        try writer["RoleArn"].write(value.roleArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ForecastClientTypes.EncryptionConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ForecastClientTypes.EncryptionConfig()
+        value.roleArn = try reader["RoleArn"].readIfPresent() ?? ""
+        value.kmsKeyArn = try reader["KMSKeyArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension ForecastClientTypes.ErrorMetric {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ForecastClientTypes.ErrorMetric {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ForecastClientTypes.ErrorMetric()
+        value.forecastType = try reader["ForecastType"].readIfPresent()
+        value.wape = try reader["WAPE"].readIfPresent()
+        value.rmse = try reader["RMSE"].readIfPresent()
+        value.mase = try reader["MASE"].readIfPresent()
+        value.mape = try reader["MAPE"].readIfPresent()
+        return value
+    }
+}
+
+extension ForecastClientTypes.EvaluationParameters {
+
+    static func write(value: ForecastClientTypes.EvaluationParameters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["BackTestWindowOffset"].write(value.backTestWindowOffset)
+        try writer["NumberOfBacktestWindows"].write(value.numberOfBacktestWindows)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ForecastClientTypes.EvaluationParameters {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ForecastClientTypes.EvaluationParameters()
+        value.numberOfBacktestWindows = try reader["NumberOfBacktestWindows"].readIfPresent()
+        value.backTestWindowOffset = try reader["BackTestWindowOffset"].readIfPresent()
+        return value
+    }
+}
+
+extension ForecastClientTypes.EvaluationResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ForecastClientTypes.EvaluationResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ForecastClientTypes.EvaluationResult()
+        value.algorithmArn = try reader["AlgorithmArn"].readIfPresent()
+        value.testWindows = try reader["TestWindows"].readListIfPresent(memberReadingClosure: ForecastClientTypes.WindowSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ForecastClientTypes.ExplainabilityConfig {
+
+    static func write(value: ForecastClientTypes.ExplainabilityConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["TimePointGranularity"].write(value.timePointGranularity)
+        try writer["TimeSeriesGranularity"].write(value.timeSeriesGranularity)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ForecastClientTypes.ExplainabilityConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ForecastClientTypes.ExplainabilityConfig()
+        value.timeSeriesGranularity = try reader["TimeSeriesGranularity"].readIfPresent() ?? .sdkUnknown("")
+        value.timePointGranularity = try reader["TimePointGranularity"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -9811,6 +9353,97 @@ extension ForecastClientTypes.ExplainabilityExportSummary {
         value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.lastModificationTime = try reader["LastModificationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
+    }
+}
+
+extension ForecastClientTypes.ExplainabilityInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ForecastClientTypes.ExplainabilityInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ForecastClientTypes.ExplainabilityInfo()
+        value.explainabilityArn = try reader["ExplainabilityArn"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        return value
+    }
+}
+
+extension ForecastClientTypes.ExplainabilitySummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ForecastClientTypes.ExplainabilitySummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ForecastClientTypes.ExplainabilitySummary()
+        value.explainabilityArn = try reader["ExplainabilityArn"].readIfPresent()
+        value.explainabilityName = try reader["ExplainabilityName"].readIfPresent()
+        value.resourceArn = try reader["ResourceArn"].readIfPresent()
+        value.explainabilityConfig = try reader["ExplainabilityConfig"].readIfPresent(with: ForecastClientTypes.ExplainabilityConfig.read(from:))
+        value.status = try reader["Status"].readIfPresent()
+        value.message = try reader["Message"].readIfPresent()
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastModificationTime = try reader["LastModificationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension ForecastClientTypes.Featurization {
+
+    static func write(value: ForecastClientTypes.Featurization?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AttributeName"].write(value.attributeName)
+        try writer["FeaturizationPipeline"].writeList(value.featurizationPipeline, memberWritingClosure: ForecastClientTypes.FeaturizationMethod.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ForecastClientTypes.Featurization {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ForecastClientTypes.Featurization()
+        value.attributeName = try reader["AttributeName"].readIfPresent() ?? ""
+        value.featurizationPipeline = try reader["FeaturizationPipeline"].readListIfPresent(memberReadingClosure: ForecastClientTypes.FeaturizationMethod.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ForecastClientTypes.FeaturizationConfig {
+
+    static func write(value: ForecastClientTypes.FeaturizationConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Featurizations"].writeList(value.featurizations, memberWritingClosure: ForecastClientTypes.Featurization.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ForecastDimensions"].writeList(value.forecastDimensions, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ForecastFrequency"].write(value.forecastFrequency)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ForecastClientTypes.FeaturizationConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ForecastClientTypes.FeaturizationConfig()
+        value.forecastFrequency = try reader["ForecastFrequency"].readIfPresent() ?? ""
+        value.forecastDimensions = try reader["ForecastDimensions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.featurizations = try reader["Featurizations"].readListIfPresent(memberReadingClosure: ForecastClientTypes.Featurization.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ForecastClientTypes.FeaturizationMethod {
+
+    static func write(value: ForecastClientTypes.FeaturizationMethod?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FeaturizationMethodName"].write(value.featurizationMethodName)
+        try writer["FeaturizationMethodParameters"].writeMap(value.featurizationMethodParameters, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ForecastClientTypes.FeaturizationMethod {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ForecastClientTypes.FeaturizationMethod()
+        value.featurizationMethodName = try reader["FeaturizationMethodName"].readIfPresent() ?? .sdkUnknown("")
+        value.featurizationMethodParameters = try reader["FeaturizationMethodParameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension ForecastClientTypes.Filter {
+
+    static func write(value: ForecastClientTypes.Filter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Condition"].write(value.condition)
+        try writer["Key"].write(value.key)
+        try writer["Value"].write(value.value)
     }
 }
 
@@ -9848,22 +9481,55 @@ extension ForecastClientTypes.ForecastSummary {
     }
 }
 
-extension ForecastClientTypes.PredictorMonitorEvaluation {
+extension ForecastClientTypes.HyperParameterTuningJobConfig {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ForecastClientTypes.PredictorMonitorEvaluation {
+    static func write(value: ForecastClientTypes.HyperParameterTuningJobConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ParameterRanges"].write(value.parameterRanges, with: ForecastClientTypes.ParameterRanges.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ForecastClientTypes.HyperParameterTuningJobConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ForecastClientTypes.PredictorMonitorEvaluation()
-        value.resourceArn = try reader["ResourceArn"].readIfPresent()
-        value.monitorArn = try reader["MonitorArn"].readIfPresent()
-        value.evaluationTime = try reader["EvaluationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.evaluationState = try reader["EvaluationState"].readIfPresent()
-        value.windowStartDatetime = try reader["WindowStartDatetime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.windowEndDatetime = try reader["WindowEndDatetime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.predictorEvent = try reader["PredictorEvent"].readIfPresent(with: ForecastClientTypes.PredictorEvent.read(from:))
-        value.monitorDataSource = try reader["MonitorDataSource"].readIfPresent(with: ForecastClientTypes.MonitorDataSource.read(from:))
-        value.metricResults = try reader["MetricResults"].readListIfPresent(memberReadingClosure: ForecastClientTypes.MetricResult.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.numItemsEvaluated = try reader["NumItemsEvaluated"].readIfPresent()
-        value.message = try reader["Message"].readIfPresent()
+        var value = ForecastClientTypes.HyperParameterTuningJobConfig()
+        value.parameterRanges = try reader["ParameterRanges"].readIfPresent(with: ForecastClientTypes.ParameterRanges.read(from:))
+        return value
+    }
+}
+
+extension ForecastClientTypes.InputDataConfig {
+
+    static func write(value: ForecastClientTypes.InputDataConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DatasetGroupArn"].write(value.datasetGroupArn)
+        try writer["SupplementaryFeatures"].writeList(value.supplementaryFeatures, memberWritingClosure: ForecastClientTypes.SupplementaryFeature.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ForecastClientTypes.InputDataConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ForecastClientTypes.InputDataConfig()
+        value.datasetGroupArn = try reader["DatasetGroupArn"].readIfPresent() ?? ""
+        value.supplementaryFeatures = try reader["SupplementaryFeatures"].readListIfPresent(memberReadingClosure: ForecastClientTypes.SupplementaryFeature.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ForecastClientTypes.IntegerParameterRange {
+
+    static func write(value: ForecastClientTypes.IntegerParameterRange?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MaxValue"].write(value.maxValue)
+        try writer["MinValue"].write(value.minValue)
+        try writer["Name"].write(value.name)
+        try writer["ScalingType"].write(value.scalingType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ForecastClientTypes.IntegerParameterRange {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ForecastClientTypes.IntegerParameterRange()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.maxValue = try reader["MaxValue"].readIfPresent() ?? 0
+        value.minValue = try reader["MinValue"].readIfPresent() ?? 0
+        value.scalingType = try reader["ScalingType"].readIfPresent()
         return value
     }
 }
@@ -9879,6 +9545,27 @@ extension ForecastClientTypes.MetricResult {
     }
 }
 
+extension ForecastClientTypes.Metrics {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ForecastClientTypes.Metrics {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ForecastClientTypes.Metrics()
+        value.rmse = try reader["RMSE"].readIfPresent()
+        value.weightedQuantileLosses = try reader["WeightedQuantileLosses"].readListIfPresent(memberReadingClosure: ForecastClientTypes.WeightedQuantileLoss.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.errorMetrics = try reader["ErrorMetrics"].readListIfPresent(memberReadingClosure: ForecastClientTypes.ErrorMetric.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.averageWeightedQuantileLoss = try reader["AverageWeightedQuantileLoss"].readIfPresent()
+        return value
+    }
+}
+
+extension ForecastClientTypes.MonitorConfig {
+
+    static func write(value: ForecastClientTypes.MonitorConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MonitorName"].write(value.monitorName)
+    }
+}
+
 extension ForecastClientTypes.MonitorDataSource {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ForecastClientTypes.MonitorDataSource {
@@ -9891,13 +9578,13 @@ extension ForecastClientTypes.MonitorDataSource {
     }
 }
 
-extension ForecastClientTypes.PredictorEvent {
+extension ForecastClientTypes.MonitorInfo {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ForecastClientTypes.PredictorEvent {
+    static func read(from reader: SmithyJSON.Reader) throws -> ForecastClientTypes.MonitorInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ForecastClientTypes.PredictorEvent()
-        value.detail = try reader["Detail"].readIfPresent()
-        value.datetime = try reader["Datetime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        var value = ForecastClientTypes.MonitorInfo()
+        value.monitorArn = try reader["MonitorArn"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
         return value
     }
 }
@@ -9917,6 +9604,25 @@ extension ForecastClientTypes.MonitorSummary {
     }
 }
 
+extension ForecastClientTypes.ParameterRanges {
+
+    static func write(value: ForecastClientTypes.ParameterRanges?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CategoricalParameterRanges"].writeList(value.categoricalParameterRanges, memberWritingClosure: ForecastClientTypes.CategoricalParameterRange.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ContinuousParameterRanges"].writeList(value.continuousParameterRanges, memberWritingClosure: ForecastClientTypes.ContinuousParameterRange.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["IntegerParameterRanges"].writeList(value.integerParameterRanges, memberWritingClosure: ForecastClientTypes.IntegerParameterRange.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ForecastClientTypes.ParameterRanges {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ForecastClientTypes.ParameterRanges()
+        value.categoricalParameterRanges = try reader["CategoricalParameterRanges"].readListIfPresent(memberReadingClosure: ForecastClientTypes.CategoricalParameterRange.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.continuousParameterRanges = try reader["ContinuousParameterRanges"].readListIfPresent(memberReadingClosure: ForecastClientTypes.ContinuousParameterRange.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.integerParameterRanges = try reader["IntegerParameterRanges"].readListIfPresent(memberReadingClosure: ForecastClientTypes.IntegerParameterRange.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension ForecastClientTypes.PredictorBacktestExportJobSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ForecastClientTypes.PredictorBacktestExportJobSummary {
@@ -9929,6 +9635,68 @@ extension ForecastClientTypes.PredictorBacktestExportJobSummary {
         value.message = try reader["Message"].readIfPresent()
         value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.lastModificationTime = try reader["LastModificationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension ForecastClientTypes.PredictorBaseline {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ForecastClientTypes.PredictorBaseline {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ForecastClientTypes.PredictorBaseline()
+        value.baselineMetrics = try reader["BaselineMetrics"].readListIfPresent(memberReadingClosure: ForecastClientTypes.BaselineMetric.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ForecastClientTypes.PredictorEvent {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ForecastClientTypes.PredictorEvent {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ForecastClientTypes.PredictorEvent()
+        value.detail = try reader["Detail"].readIfPresent()
+        value.datetime = try reader["Datetime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension ForecastClientTypes.PredictorExecution {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ForecastClientTypes.PredictorExecution {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ForecastClientTypes.PredictorExecution()
+        value.algorithmArn = try reader["AlgorithmArn"].readIfPresent()
+        value.testWindows = try reader["TestWindows"].readListIfPresent(memberReadingClosure: ForecastClientTypes.TestWindowSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ForecastClientTypes.PredictorExecutionDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ForecastClientTypes.PredictorExecutionDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ForecastClientTypes.PredictorExecutionDetails()
+        value.predictorExecutions = try reader["PredictorExecutions"].readListIfPresent(memberReadingClosure: ForecastClientTypes.PredictorExecution.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ForecastClientTypes.PredictorMonitorEvaluation {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ForecastClientTypes.PredictorMonitorEvaluation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ForecastClientTypes.PredictorMonitorEvaluation()
+        value.resourceArn = try reader["ResourceArn"].readIfPresent()
+        value.monitorArn = try reader["MonitorArn"].readIfPresent()
+        value.evaluationTime = try reader["EvaluationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.evaluationState = try reader["EvaluationState"].readIfPresent()
+        value.windowStartDatetime = try reader["WindowStartDatetime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.windowEndDatetime = try reader["WindowEndDatetime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.predictorEvent = try reader["PredictorEvent"].readIfPresent(with: ForecastClientTypes.PredictorEvent.read(from:))
+        value.monitorDataSource = try reader["MonitorDataSource"].readIfPresent(with: ForecastClientTypes.MonitorDataSource.read(from:))
+        value.metricResults = try reader["MetricResults"].readListIfPresent(memberReadingClosure: ForecastClientTypes.MetricResult.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.numItemsEvaluated = try reader["NumItemsEvaluated"].readIfPresent()
+        value.message = try reader["Message"].readIfPresent()
         return value
     }
 }
@@ -9951,6 +9719,106 @@ extension ForecastClientTypes.PredictorSummary {
     }
 }
 
+extension ForecastClientTypes.ReferencePredictorSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ForecastClientTypes.ReferencePredictorSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ForecastClientTypes.ReferencePredictorSummary()
+        value.arn = try reader["Arn"].readIfPresent()
+        value.state = try reader["State"].readIfPresent()
+        return value
+    }
+}
+
+extension ForecastClientTypes.S3Config {
+
+    static func write(value: ForecastClientTypes.S3Config?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["KMSKeyArn"].write(value.kmsKeyArn)
+        try writer["Path"].write(value.path)
+        try writer["RoleArn"].write(value.roleArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ForecastClientTypes.S3Config {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ForecastClientTypes.S3Config()
+        value.path = try reader["Path"].readIfPresent() ?? ""
+        value.roleArn = try reader["RoleArn"].readIfPresent() ?? ""
+        value.kmsKeyArn = try reader["KMSKeyArn"].readIfPresent()
+        return value
+    }
+}
+
+extension ForecastClientTypes.Schema {
+
+    static func write(value: ForecastClientTypes.Schema?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Attributes"].writeList(value.attributes, memberWritingClosure: ForecastClientTypes.SchemaAttribute.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ForecastClientTypes.Schema {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ForecastClientTypes.Schema()
+        value.attributes = try reader["Attributes"].readListIfPresent(memberReadingClosure: ForecastClientTypes.SchemaAttribute.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ForecastClientTypes.SchemaAttribute {
+
+    static func write(value: ForecastClientTypes.SchemaAttribute?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AttributeName"].write(value.attributeName)
+        try writer["AttributeType"].write(value.attributeType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ForecastClientTypes.SchemaAttribute {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ForecastClientTypes.SchemaAttribute()
+        value.attributeName = try reader["AttributeName"].readIfPresent()
+        value.attributeType = try reader["AttributeType"].readIfPresent()
+        return value
+    }
+}
+
+extension ForecastClientTypes.Statistics {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ForecastClientTypes.Statistics {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ForecastClientTypes.Statistics()
+        value.count = try reader["Count"].readIfPresent()
+        value.countDistinct = try reader["CountDistinct"].readIfPresent()
+        value.countNull = try reader["CountNull"].readIfPresent()
+        value.countNan = try reader["CountNan"].readIfPresent()
+        value.min = try reader["Min"].readIfPresent()
+        value.max = try reader["Max"].readIfPresent()
+        value.avg = try reader["Avg"].readIfPresent()
+        value.stddev = try reader["Stddev"].readIfPresent()
+        value.countLong = try reader["CountLong"].readIfPresent()
+        value.countDistinctLong = try reader["CountDistinctLong"].readIfPresent()
+        value.countNullLong = try reader["CountNullLong"].readIfPresent()
+        value.countNanLong = try reader["CountNanLong"].readIfPresent()
+        return value
+    }
+}
+
+extension ForecastClientTypes.SupplementaryFeature {
+
+    static func write(value: ForecastClientTypes.SupplementaryFeature?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Name"].write(value.name)
+        try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ForecastClientTypes.SupplementaryFeature {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ForecastClientTypes.SupplementaryFeature()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension ForecastClientTypes.Tag {
 
     static func write(value: ForecastClientTypes.Tag?, to writer: SmithyJSON.Writer) throws {
@@ -9964,6 +9832,142 @@ extension ForecastClientTypes.Tag {
         var value = ForecastClientTypes.Tag()
         value.key = try reader["Key"].readIfPresent() ?? ""
         value.value = try reader["Value"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension ForecastClientTypes.TestWindowSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ForecastClientTypes.TestWindowSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ForecastClientTypes.TestWindowSummary()
+        value.testWindowStart = try reader["TestWindowStart"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.testWindowEnd = try reader["TestWindowEnd"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.status = try reader["Status"].readIfPresent()
+        value.message = try reader["Message"].readIfPresent()
+        return value
+    }
+}
+
+extension ForecastClientTypes.TimeAlignmentBoundary {
+
+    static func write(value: ForecastClientTypes.TimeAlignmentBoundary?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DayOfMonth"].write(value.dayOfMonth)
+        try writer["DayOfWeek"].write(value.dayOfWeek)
+        try writer["Hour"].write(value.hour)
+        try writer["Month"].write(value.month)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ForecastClientTypes.TimeAlignmentBoundary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ForecastClientTypes.TimeAlignmentBoundary()
+        value.month = try reader["Month"].readIfPresent()
+        value.dayOfMonth = try reader["DayOfMonth"].readIfPresent()
+        value.dayOfWeek = try reader["DayOfWeek"].readIfPresent()
+        value.hour = try reader["Hour"].readIfPresent()
+        return value
+    }
+}
+
+extension ForecastClientTypes.TimeSeriesCondition {
+
+    static func write(value: ForecastClientTypes.TimeSeriesCondition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AttributeName"].write(value.attributeName)
+        try writer["AttributeValue"].write(value.attributeValue)
+        try writer["Condition"].write(value.condition)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ForecastClientTypes.TimeSeriesCondition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ForecastClientTypes.TimeSeriesCondition()
+        value.attributeName = try reader["AttributeName"].readIfPresent() ?? ""
+        value.attributeValue = try reader["AttributeValue"].readIfPresent() ?? ""
+        value.condition = try reader["Condition"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension ForecastClientTypes.TimeSeriesIdentifiers {
+
+    static func write(value: ForecastClientTypes.TimeSeriesIdentifiers?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DataSource"].write(value.dataSource, with: ForecastClientTypes.DataSource.write(value:to:))
+        try writer["Format"].write(value.format)
+        try writer["Schema"].write(value.schema, with: ForecastClientTypes.Schema.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ForecastClientTypes.TimeSeriesIdentifiers {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ForecastClientTypes.TimeSeriesIdentifiers()
+        value.dataSource = try reader["DataSource"].readIfPresent(with: ForecastClientTypes.DataSource.read(from:))
+        value.schema = try reader["Schema"].readIfPresent(with: ForecastClientTypes.Schema.read(from:))
+        value.format = try reader["Format"].readIfPresent()
+        return value
+    }
+}
+
+extension ForecastClientTypes.TimeSeriesReplacementsDataSource {
+
+    static func write(value: ForecastClientTypes.TimeSeriesReplacementsDataSource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Format"].write(value.format)
+        try writer["S3Config"].write(value.s3Config, with: ForecastClientTypes.S3Config.write(value:to:))
+        try writer["Schema"].write(value.schema, with: ForecastClientTypes.Schema.write(value:to:))
+        try writer["TimestampFormat"].write(value.timestampFormat)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ForecastClientTypes.TimeSeriesReplacementsDataSource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ForecastClientTypes.TimeSeriesReplacementsDataSource()
+        value.s3Config = try reader["S3Config"].readIfPresent(with: ForecastClientTypes.S3Config.read(from:))
+        value.schema = try reader["Schema"].readIfPresent(with: ForecastClientTypes.Schema.read(from:))
+        value.format = try reader["Format"].readIfPresent()
+        value.timestampFormat = try reader["TimestampFormat"].readIfPresent()
+        return value
+    }
+}
+
+extension ForecastClientTypes.TimeSeriesSelector {
+
+    static func write(value: ForecastClientTypes.TimeSeriesSelector?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["TimeSeriesIdentifiers"].write(value.timeSeriesIdentifiers, with: ForecastClientTypes.TimeSeriesIdentifiers.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ForecastClientTypes.TimeSeriesSelector {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ForecastClientTypes.TimeSeriesSelector()
+        value.timeSeriesIdentifiers = try reader["TimeSeriesIdentifiers"].readIfPresent(with: ForecastClientTypes.TimeSeriesIdentifiers.read(from:))
+        return value
+    }
+}
+
+extension ForecastClientTypes.TimeSeriesTransformation {
+
+    static func write(value: ForecastClientTypes.TimeSeriesTransformation?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Action"].write(value.action, with: ForecastClientTypes.Action.write(value:to:))
+        try writer["TimeSeriesConditions"].writeList(value.timeSeriesConditions, memberWritingClosure: ForecastClientTypes.TimeSeriesCondition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ForecastClientTypes.TimeSeriesTransformation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ForecastClientTypes.TimeSeriesTransformation()
+        value.action = try reader["Action"].readIfPresent(with: ForecastClientTypes.Action.read(from:))
+        value.timeSeriesConditions = try reader["TimeSeriesConditions"].readListIfPresent(memberReadingClosure: ForecastClientTypes.TimeSeriesCondition.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension ForecastClientTypes.WeightedQuantileLoss {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ForecastClientTypes.WeightedQuantileLoss {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ForecastClientTypes.WeightedQuantileLoss()
+        value.quantile = try reader["Quantile"].readIfPresent()
+        value.lossValue = try reader["LossValue"].readIfPresent()
         return value
     }
 }
@@ -10017,21 +10021,17 @@ extension ForecastClientTypes.WhatIfForecastSummary {
     }
 }
 
-extension ForecastClientTypes.MonitorConfig {
+extension ForecastClientTypes.WindowSummary {
 
-    static func write(value: ForecastClientTypes.MonitorConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["MonitorName"].write(value.monitorName)
-    }
-}
-
-extension ForecastClientTypes.Filter {
-
-    static func write(value: ForecastClientTypes.Filter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Condition"].write(value.condition)
-        try writer["Key"].write(value.key)
-        try writer["Value"].write(value.value)
+    static func read(from reader: SmithyJSON.Reader) throws -> ForecastClientTypes.WindowSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ForecastClientTypes.WindowSummary()
+        value.testWindowStart = try reader["TestWindowStart"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.testWindowEnd = try reader["TestWindowEnd"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.itemCount = try reader["ItemCount"].readIfPresent()
+        value.evaluationType = try reader["EvaluationType"].readIfPresent()
+        value.metrics = try reader["Metrics"].readIfPresent(with: ForecastClientTypes.Metrics.read(from:))
+        return value
     }
 }
 

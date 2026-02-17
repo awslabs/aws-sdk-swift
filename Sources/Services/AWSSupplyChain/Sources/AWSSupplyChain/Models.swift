@@ -4418,6 +4418,371 @@ extension ResourceNotFoundException {
     }
 }
 
+extension SupplyChainClientTypes.BillOfMaterialsImportJob {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SupplyChainClientTypes.BillOfMaterialsImportJob {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SupplyChainClientTypes.BillOfMaterialsImportJob()
+        value.instanceId = try reader["instanceId"].readIfPresent() ?? ""
+        value.jobId = try reader["jobId"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.s3uri = try reader["s3uri"].readIfPresent() ?? ""
+        value.message = try reader["message"].readIfPresent()
+        return value
+    }
+}
+
+extension SupplyChainClientTypes.DataIntegrationEvent {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SupplyChainClientTypes.DataIntegrationEvent {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SupplyChainClientTypes.DataIntegrationEvent()
+        value.instanceId = try reader["instanceId"].readIfPresent() ?? ""
+        value.eventId = try reader["eventId"].readIfPresent() ?? ""
+        value.eventType = try reader["eventType"].readIfPresent() ?? .sdkUnknown("")
+        value.eventGroupId = try reader["eventGroupId"].readIfPresent() ?? ""
+        value.eventTimestamp = try reader["eventTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.datasetTargetDetails = try reader["datasetTargetDetails"].readIfPresent(with: SupplyChainClientTypes.DataIntegrationEventDatasetTargetDetails.read(from:))
+        return value
+    }
+}
+
+extension SupplyChainClientTypes.DataIntegrationEventDatasetLoadExecutionDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SupplyChainClientTypes.DataIntegrationEventDatasetLoadExecutionDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SupplyChainClientTypes.DataIntegrationEventDatasetLoadExecutionDetails()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.message = try reader["message"].readIfPresent()
+        return value
+    }
+}
+
+extension SupplyChainClientTypes.DataIntegrationEventDatasetTargetConfiguration {
+
+    static func write(value: SupplyChainClientTypes.DataIntegrationEventDatasetTargetConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["datasetIdentifier"].write(value.datasetIdentifier)
+        try writer["operationType"].write(value.operationType)
+    }
+}
+
+extension SupplyChainClientTypes.DataIntegrationEventDatasetTargetDetails {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SupplyChainClientTypes.DataIntegrationEventDatasetTargetDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SupplyChainClientTypes.DataIntegrationEventDatasetTargetDetails()
+        value.datasetIdentifier = try reader["datasetIdentifier"].readIfPresent() ?? ""
+        value.operationType = try reader["operationType"].readIfPresent() ?? .sdkUnknown("")
+        value.datasetLoadExecution = try reader["datasetLoadExecution"].readIfPresent(with: SupplyChainClientTypes.DataIntegrationEventDatasetLoadExecutionDetails.read(from:))
+        return value
+    }
+}
+
+extension SupplyChainClientTypes.DataIntegrationFlow {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SupplyChainClientTypes.DataIntegrationFlow {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SupplyChainClientTypes.DataIntegrationFlow()
+        value.instanceId = try reader["instanceId"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.sources = try reader["sources"].readListIfPresent(memberReadingClosure: SupplyChainClientTypes.DataIntegrationFlowSource.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.transformation = try reader["transformation"].readIfPresent(with: SupplyChainClientTypes.DataIntegrationFlowTransformation.read(from:))
+        value.target = try reader["target"].readIfPresent(with: SupplyChainClientTypes.DataIntegrationFlowTarget.read(from:))
+        value.createdTime = try reader["createdTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastModifiedTime = try reader["lastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension SupplyChainClientTypes.DataIntegrationFlowDatasetOptions {
+
+    static func write(value: SupplyChainClientTypes.DataIntegrationFlowDatasetOptions?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["dedupeRecords"].write(value.dedupeRecords)
+        try writer["dedupeStrategy"].write(value.dedupeStrategy, with: SupplyChainClientTypes.DataIntegrationFlowDedupeStrategy.write(value:to:))
+        try writer["loadType"].write(value.loadType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SupplyChainClientTypes.DataIntegrationFlowDatasetOptions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SupplyChainClientTypes.DataIntegrationFlowDatasetOptions()
+        value.loadType = try reader["loadType"].readIfPresent()
+        value.dedupeRecords = try reader["dedupeRecords"].readIfPresent()
+        value.dedupeStrategy = try reader["dedupeStrategy"].readIfPresent(with: SupplyChainClientTypes.DataIntegrationFlowDedupeStrategy.read(from:))
+        return value
+    }
+}
+
+extension SupplyChainClientTypes.DataIntegrationFlowDatasetSource {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SupplyChainClientTypes.DataIntegrationFlowDatasetSource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SupplyChainClientTypes.DataIntegrationFlowDatasetSource()
+        value.datasetIdentifier = try reader["datasetIdentifier"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension SupplyChainClientTypes.DataIntegrationFlowDatasetSourceConfiguration {
+
+    static func write(value: SupplyChainClientTypes.DataIntegrationFlowDatasetSourceConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["datasetIdentifier"].write(value.datasetIdentifier)
+        try writer["options"].write(value.options, with: SupplyChainClientTypes.DataIntegrationFlowDatasetOptions.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SupplyChainClientTypes.DataIntegrationFlowDatasetSourceConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SupplyChainClientTypes.DataIntegrationFlowDatasetSourceConfiguration()
+        value.datasetIdentifier = try reader["datasetIdentifier"].readIfPresent() ?? ""
+        value.options = try reader["options"].readIfPresent(with: SupplyChainClientTypes.DataIntegrationFlowDatasetOptions.read(from:))
+        return value
+    }
+}
+
+extension SupplyChainClientTypes.DataIntegrationFlowDatasetTargetConfiguration {
+
+    static func write(value: SupplyChainClientTypes.DataIntegrationFlowDatasetTargetConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["datasetIdentifier"].write(value.datasetIdentifier)
+        try writer["options"].write(value.options, with: SupplyChainClientTypes.DataIntegrationFlowDatasetOptions.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SupplyChainClientTypes.DataIntegrationFlowDatasetTargetConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SupplyChainClientTypes.DataIntegrationFlowDatasetTargetConfiguration()
+        value.datasetIdentifier = try reader["datasetIdentifier"].readIfPresent() ?? ""
+        value.options = try reader["options"].readIfPresent(with: SupplyChainClientTypes.DataIntegrationFlowDatasetOptions.read(from:))
+        return value
+    }
+}
+
+extension SupplyChainClientTypes.DataIntegrationFlowDedupeStrategy {
+
+    static func write(value: SupplyChainClientTypes.DataIntegrationFlowDedupeStrategy?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["fieldPriority"].write(value.fieldPriority, with: SupplyChainClientTypes.DataIntegrationFlowFieldPriorityDedupeStrategyConfiguration.write(value:to:))
+        try writer["type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SupplyChainClientTypes.DataIntegrationFlowDedupeStrategy {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SupplyChainClientTypes.DataIntegrationFlowDedupeStrategy()
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.fieldPriority = try reader["fieldPriority"].readIfPresent(with: SupplyChainClientTypes.DataIntegrationFlowFieldPriorityDedupeStrategyConfiguration.read(from:))
+        return value
+    }
+}
+
+extension SupplyChainClientTypes.DataIntegrationFlowExecution {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SupplyChainClientTypes.DataIntegrationFlowExecution {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SupplyChainClientTypes.DataIntegrationFlowExecution()
+        value.instanceId = try reader["instanceId"].readIfPresent() ?? ""
+        value.flowName = try reader["flowName"].readIfPresent() ?? ""
+        value.executionId = try reader["executionId"].readIfPresent() ?? ""
+        value.status = try reader["status"].readIfPresent()
+        value.sourceInfo = try reader["sourceInfo"].readIfPresent(with: SupplyChainClientTypes.DataIntegrationFlowExecutionSourceInfo.read(from:))
+        value.message = try reader["message"].readIfPresent()
+        value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.endTime = try reader["endTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.outputMetadata = try reader["outputMetadata"].readIfPresent(with: SupplyChainClientTypes.DataIntegrationFlowExecutionOutputMetadata.read(from:))
+        return value
+    }
+}
+
+extension SupplyChainClientTypes.DataIntegrationFlowExecutionOutputMetadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SupplyChainClientTypes.DataIntegrationFlowExecutionOutputMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SupplyChainClientTypes.DataIntegrationFlowExecutionOutputMetadata()
+        value.diagnosticReportsRootS3URI = try reader["diagnosticReportsRootS3URI"].readIfPresent()
+        return value
+    }
+}
+
+extension SupplyChainClientTypes.DataIntegrationFlowExecutionSourceInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SupplyChainClientTypes.DataIntegrationFlowExecutionSourceInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SupplyChainClientTypes.DataIntegrationFlowExecutionSourceInfo()
+        value.sourceType = try reader["sourceType"].readIfPresent() ?? .sdkUnknown("")
+        value.s3Source = try reader["s3Source"].readIfPresent(with: SupplyChainClientTypes.DataIntegrationFlowS3Source.read(from:))
+        value.datasetSource = try reader["datasetSource"].readIfPresent(with: SupplyChainClientTypes.DataIntegrationFlowDatasetSource.read(from:))
+        return value
+    }
+}
+
+extension SupplyChainClientTypes.DataIntegrationFlowFieldPriorityDedupeField {
+
+    static func write(value: SupplyChainClientTypes.DataIntegrationFlowFieldPriorityDedupeField?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["name"].write(value.name)
+        try writer["sortOrder"].write(value.sortOrder)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SupplyChainClientTypes.DataIntegrationFlowFieldPriorityDedupeField {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SupplyChainClientTypes.DataIntegrationFlowFieldPriorityDedupeField()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.sortOrder = try reader["sortOrder"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension SupplyChainClientTypes.DataIntegrationFlowFieldPriorityDedupeStrategyConfiguration {
+
+    static func write(value: SupplyChainClientTypes.DataIntegrationFlowFieldPriorityDedupeStrategyConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["fields"].writeList(value.fields, memberWritingClosure: SupplyChainClientTypes.DataIntegrationFlowFieldPriorityDedupeField.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SupplyChainClientTypes.DataIntegrationFlowFieldPriorityDedupeStrategyConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SupplyChainClientTypes.DataIntegrationFlowFieldPriorityDedupeStrategyConfiguration()
+        value.fields = try reader["fields"].readListIfPresent(memberReadingClosure: SupplyChainClientTypes.DataIntegrationFlowFieldPriorityDedupeField.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension SupplyChainClientTypes.DataIntegrationFlowS3Options {
+
+    static func write(value: SupplyChainClientTypes.DataIntegrationFlowS3Options?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["fileType"].write(value.fileType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SupplyChainClientTypes.DataIntegrationFlowS3Options {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SupplyChainClientTypes.DataIntegrationFlowS3Options()
+        value.fileType = try reader["fileType"].readIfPresent()
+        return value
+    }
+}
+
+extension SupplyChainClientTypes.DataIntegrationFlowS3Source {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SupplyChainClientTypes.DataIntegrationFlowS3Source {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SupplyChainClientTypes.DataIntegrationFlowS3Source()
+        value.bucketName = try reader["bucketName"].readIfPresent() ?? ""
+        value.key = try reader["key"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension SupplyChainClientTypes.DataIntegrationFlowS3SourceConfiguration {
+
+    static func write(value: SupplyChainClientTypes.DataIntegrationFlowS3SourceConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["bucketName"].write(value.bucketName)
+        try writer["options"].write(value.options, with: SupplyChainClientTypes.DataIntegrationFlowS3Options.write(value:to:))
+        try writer["prefix"].write(value.`prefix`)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SupplyChainClientTypes.DataIntegrationFlowS3SourceConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SupplyChainClientTypes.DataIntegrationFlowS3SourceConfiguration()
+        value.bucketName = try reader["bucketName"].readIfPresent() ?? ""
+        value.`prefix` = try reader["prefix"].readIfPresent() ?? ""
+        value.options = try reader["options"].readIfPresent(with: SupplyChainClientTypes.DataIntegrationFlowS3Options.read(from:))
+        return value
+    }
+}
+
+extension SupplyChainClientTypes.DataIntegrationFlowS3TargetConfiguration {
+
+    static func write(value: SupplyChainClientTypes.DataIntegrationFlowS3TargetConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["bucketName"].write(value.bucketName)
+        try writer["options"].write(value.options, with: SupplyChainClientTypes.DataIntegrationFlowS3Options.write(value:to:))
+        try writer["prefix"].write(value.`prefix`)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SupplyChainClientTypes.DataIntegrationFlowS3TargetConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SupplyChainClientTypes.DataIntegrationFlowS3TargetConfiguration()
+        value.bucketName = try reader["bucketName"].readIfPresent() ?? ""
+        value.`prefix` = try reader["prefix"].readIfPresent() ?? ""
+        value.options = try reader["options"].readIfPresent(with: SupplyChainClientTypes.DataIntegrationFlowS3Options.read(from:))
+        return value
+    }
+}
+
+extension SupplyChainClientTypes.DataIntegrationFlowSource {
+
+    static func write(value: SupplyChainClientTypes.DataIntegrationFlowSource?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["datasetSource"].write(value.datasetSource, with: SupplyChainClientTypes.DataIntegrationFlowDatasetSourceConfiguration.write(value:to:))
+        try writer["s3Source"].write(value.s3Source, with: SupplyChainClientTypes.DataIntegrationFlowS3SourceConfiguration.write(value:to:))
+        try writer["sourceName"].write(value.sourceName)
+        try writer["sourceType"].write(value.sourceType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SupplyChainClientTypes.DataIntegrationFlowSource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SupplyChainClientTypes.DataIntegrationFlowSource()
+        value.sourceType = try reader["sourceType"].readIfPresent() ?? .sdkUnknown("")
+        value.sourceName = try reader["sourceName"].readIfPresent() ?? ""
+        value.s3Source = try reader["s3Source"].readIfPresent(with: SupplyChainClientTypes.DataIntegrationFlowS3SourceConfiguration.read(from:))
+        value.datasetSource = try reader["datasetSource"].readIfPresent(with: SupplyChainClientTypes.DataIntegrationFlowDatasetSourceConfiguration.read(from:))
+        return value
+    }
+}
+
+extension SupplyChainClientTypes.DataIntegrationFlowSQLTransformationConfiguration {
+
+    static func write(value: SupplyChainClientTypes.DataIntegrationFlowSQLTransformationConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["query"].write(value.query)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SupplyChainClientTypes.DataIntegrationFlowSQLTransformationConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SupplyChainClientTypes.DataIntegrationFlowSQLTransformationConfiguration()
+        value.query = try reader["query"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension SupplyChainClientTypes.DataIntegrationFlowTarget {
+
+    static func write(value: SupplyChainClientTypes.DataIntegrationFlowTarget?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["datasetTarget"].write(value.datasetTarget, with: SupplyChainClientTypes.DataIntegrationFlowDatasetTargetConfiguration.write(value:to:))
+        try writer["s3Target"].write(value.s3Target, with: SupplyChainClientTypes.DataIntegrationFlowS3TargetConfiguration.write(value:to:))
+        try writer["targetType"].write(value.targetType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SupplyChainClientTypes.DataIntegrationFlowTarget {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SupplyChainClientTypes.DataIntegrationFlowTarget()
+        value.targetType = try reader["targetType"].readIfPresent() ?? .sdkUnknown("")
+        value.s3Target = try reader["s3Target"].readIfPresent(with: SupplyChainClientTypes.DataIntegrationFlowS3TargetConfiguration.read(from:))
+        value.datasetTarget = try reader["datasetTarget"].readIfPresent(with: SupplyChainClientTypes.DataIntegrationFlowDatasetTargetConfiguration.read(from:))
+        return value
+    }
+}
+
+extension SupplyChainClientTypes.DataIntegrationFlowTransformation {
+
+    static func write(value: SupplyChainClientTypes.DataIntegrationFlowTransformation?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["sqlTransformation"].write(value.sqlTransformation, with: SupplyChainClientTypes.DataIntegrationFlowSQLTransformationConfiguration.write(value:to:))
+        try writer["transformationType"].write(value.transformationType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SupplyChainClientTypes.DataIntegrationFlowTransformation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SupplyChainClientTypes.DataIntegrationFlowTransformation()
+        value.transformationType = try reader["transformationType"].readIfPresent() ?? .sdkUnknown("")
+        value.sqlTransformation = try reader["sqlTransformation"].readIfPresent(with: SupplyChainClientTypes.DataIntegrationFlowSQLTransformationConfiguration.read(from:))
+        return value
+    }
+}
+
 extension SupplyChainClientTypes.DataLakeDataset {
 
     static func read(from reader: SmithyJSON.Reader) throws -> SupplyChainClientTypes.DataLakeDataset {
@@ -4432,21 +4797,6 @@ extension SupplyChainClientTypes.DataLakeDataset {
         value.partitionSpec = try reader["partitionSpec"].readIfPresent(with: SupplyChainClientTypes.DataLakeDatasetPartitionSpec.read(from:))
         value.createdTime = try reader["createdTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.lastModifiedTime = try reader["lastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        return value
-    }
-}
-
-extension SupplyChainClientTypes.DataLakeDatasetPartitionSpec {
-
-    static func write(value: SupplyChainClientTypes.DataLakeDatasetPartitionSpec?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["fields"].writeList(value.fields, memberWritingClosure: SupplyChainClientTypes.DataLakeDatasetPartitionField.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SupplyChainClientTypes.DataLakeDatasetPartitionSpec {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SupplyChainClientTypes.DataLakeDatasetPartitionSpec()
-        value.fields = try reader["fields"].readListIfPresent(memberReadingClosure: SupplyChainClientTypes.DataLakeDatasetPartitionField.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -4483,21 +4833,17 @@ extension SupplyChainClientTypes.DataLakeDatasetPartitionFieldTransform {
     }
 }
 
-extension SupplyChainClientTypes.DataLakeDatasetSchema {
+extension SupplyChainClientTypes.DataLakeDatasetPartitionSpec {
 
-    static func write(value: SupplyChainClientTypes.DataLakeDatasetSchema?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: SupplyChainClientTypes.DataLakeDatasetPartitionSpec?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["fields"].writeList(value.fields, memberWritingClosure: SupplyChainClientTypes.DataLakeDatasetSchemaField.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["name"].write(value.name)
-        try writer["primaryKeys"].writeList(value.primaryKeys, memberWritingClosure: SupplyChainClientTypes.DataLakeDatasetPrimaryKeyField.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["fields"].writeList(value.fields, memberWritingClosure: SupplyChainClientTypes.DataLakeDatasetPartitionField.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SupplyChainClientTypes.DataLakeDatasetSchema {
+    static func read(from reader: SmithyJSON.Reader) throws -> SupplyChainClientTypes.DataLakeDatasetPartitionSpec {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SupplyChainClientTypes.DataLakeDatasetSchema()
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.fields = try reader["fields"].readListIfPresent(memberReadingClosure: SupplyChainClientTypes.DataLakeDatasetSchemaField.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.primaryKeys = try reader["primaryKeys"].readListIfPresent(memberReadingClosure: SupplyChainClientTypes.DataLakeDatasetPrimaryKeyField.read(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = SupplyChainClientTypes.DataLakeDatasetPartitionSpec()
+        value.fields = try reader["fields"].readListIfPresent(memberReadingClosure: SupplyChainClientTypes.DataLakeDatasetPartitionField.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -4513,6 +4859,25 @@ extension SupplyChainClientTypes.DataLakeDatasetPrimaryKeyField {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = SupplyChainClientTypes.DataLakeDatasetPrimaryKeyField()
         value.name = try reader["name"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension SupplyChainClientTypes.DataLakeDatasetSchema {
+
+    static func write(value: SupplyChainClientTypes.DataLakeDatasetSchema?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["fields"].writeList(value.fields, memberWritingClosure: SupplyChainClientTypes.DataLakeDatasetSchemaField.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["name"].write(value.name)
+        try writer["primaryKeys"].writeList(value.primaryKeys, memberWritingClosure: SupplyChainClientTypes.DataLakeDatasetPrimaryKeyField.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SupplyChainClientTypes.DataLakeDatasetSchema {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SupplyChainClientTypes.DataLakeDatasetSchema()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.fields = try reader["fields"].readListIfPresent(memberReadingClosure: SupplyChainClientTypes.DataLakeDatasetSchemaField.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.primaryKeys = try reader["primaryKeys"].readListIfPresent(memberReadingClosure: SupplyChainClientTypes.DataLakeDatasetPrimaryKeyField.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -4568,371 +4933,6 @@ extension SupplyChainClientTypes.Instance {
         value.kmsKeyArn = try reader["kmsKeyArn"].readIfPresent()
         value.versionNumber = try reader["versionNumber"].readIfPresent()
         return value
-    }
-}
-
-extension SupplyChainClientTypes.BillOfMaterialsImportJob {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SupplyChainClientTypes.BillOfMaterialsImportJob {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SupplyChainClientTypes.BillOfMaterialsImportJob()
-        value.instanceId = try reader["instanceId"].readIfPresent() ?? ""
-        value.jobId = try reader["jobId"].readIfPresent() ?? ""
-        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
-        value.s3uri = try reader["s3uri"].readIfPresent() ?? ""
-        value.message = try reader["message"].readIfPresent()
-        return value
-    }
-}
-
-extension SupplyChainClientTypes.DataIntegrationEvent {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SupplyChainClientTypes.DataIntegrationEvent {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SupplyChainClientTypes.DataIntegrationEvent()
-        value.instanceId = try reader["instanceId"].readIfPresent() ?? ""
-        value.eventId = try reader["eventId"].readIfPresent() ?? ""
-        value.eventType = try reader["eventType"].readIfPresent() ?? .sdkUnknown("")
-        value.eventGroupId = try reader["eventGroupId"].readIfPresent() ?? ""
-        value.eventTimestamp = try reader["eventTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.datasetTargetDetails = try reader["datasetTargetDetails"].readIfPresent(with: SupplyChainClientTypes.DataIntegrationEventDatasetTargetDetails.read(from:))
-        return value
-    }
-}
-
-extension SupplyChainClientTypes.DataIntegrationEventDatasetTargetDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SupplyChainClientTypes.DataIntegrationEventDatasetTargetDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SupplyChainClientTypes.DataIntegrationEventDatasetTargetDetails()
-        value.datasetIdentifier = try reader["datasetIdentifier"].readIfPresent() ?? ""
-        value.operationType = try reader["operationType"].readIfPresent() ?? .sdkUnknown("")
-        value.datasetLoadExecution = try reader["datasetLoadExecution"].readIfPresent(with: SupplyChainClientTypes.DataIntegrationEventDatasetLoadExecutionDetails.read(from:))
-        return value
-    }
-}
-
-extension SupplyChainClientTypes.DataIntegrationEventDatasetLoadExecutionDetails {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SupplyChainClientTypes.DataIntegrationEventDatasetLoadExecutionDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SupplyChainClientTypes.DataIntegrationEventDatasetLoadExecutionDetails()
-        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
-        value.message = try reader["message"].readIfPresent()
-        return value
-    }
-}
-
-extension SupplyChainClientTypes.DataIntegrationFlow {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SupplyChainClientTypes.DataIntegrationFlow {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SupplyChainClientTypes.DataIntegrationFlow()
-        value.instanceId = try reader["instanceId"].readIfPresent() ?? ""
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.sources = try reader["sources"].readListIfPresent(memberReadingClosure: SupplyChainClientTypes.DataIntegrationFlowSource.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.transformation = try reader["transformation"].readIfPresent(with: SupplyChainClientTypes.DataIntegrationFlowTransformation.read(from:))
-        value.target = try reader["target"].readIfPresent(with: SupplyChainClientTypes.DataIntegrationFlowTarget.read(from:))
-        value.createdTime = try reader["createdTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.lastModifiedTime = try reader["lastModifiedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        return value
-    }
-}
-
-extension SupplyChainClientTypes.DataIntegrationFlowTarget {
-
-    static func write(value: SupplyChainClientTypes.DataIntegrationFlowTarget?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["datasetTarget"].write(value.datasetTarget, with: SupplyChainClientTypes.DataIntegrationFlowDatasetTargetConfiguration.write(value:to:))
-        try writer["s3Target"].write(value.s3Target, with: SupplyChainClientTypes.DataIntegrationFlowS3TargetConfiguration.write(value:to:))
-        try writer["targetType"].write(value.targetType)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SupplyChainClientTypes.DataIntegrationFlowTarget {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SupplyChainClientTypes.DataIntegrationFlowTarget()
-        value.targetType = try reader["targetType"].readIfPresent() ?? .sdkUnknown("")
-        value.s3Target = try reader["s3Target"].readIfPresent(with: SupplyChainClientTypes.DataIntegrationFlowS3TargetConfiguration.read(from:))
-        value.datasetTarget = try reader["datasetTarget"].readIfPresent(with: SupplyChainClientTypes.DataIntegrationFlowDatasetTargetConfiguration.read(from:))
-        return value
-    }
-}
-
-extension SupplyChainClientTypes.DataIntegrationFlowDatasetTargetConfiguration {
-
-    static func write(value: SupplyChainClientTypes.DataIntegrationFlowDatasetTargetConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["datasetIdentifier"].write(value.datasetIdentifier)
-        try writer["options"].write(value.options, with: SupplyChainClientTypes.DataIntegrationFlowDatasetOptions.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SupplyChainClientTypes.DataIntegrationFlowDatasetTargetConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SupplyChainClientTypes.DataIntegrationFlowDatasetTargetConfiguration()
-        value.datasetIdentifier = try reader["datasetIdentifier"].readIfPresent() ?? ""
-        value.options = try reader["options"].readIfPresent(with: SupplyChainClientTypes.DataIntegrationFlowDatasetOptions.read(from:))
-        return value
-    }
-}
-
-extension SupplyChainClientTypes.DataIntegrationFlowDatasetOptions {
-
-    static func write(value: SupplyChainClientTypes.DataIntegrationFlowDatasetOptions?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["dedupeRecords"].write(value.dedupeRecords)
-        try writer["dedupeStrategy"].write(value.dedupeStrategy, with: SupplyChainClientTypes.DataIntegrationFlowDedupeStrategy.write(value:to:))
-        try writer["loadType"].write(value.loadType)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SupplyChainClientTypes.DataIntegrationFlowDatasetOptions {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SupplyChainClientTypes.DataIntegrationFlowDatasetOptions()
-        value.loadType = try reader["loadType"].readIfPresent()
-        value.dedupeRecords = try reader["dedupeRecords"].readIfPresent()
-        value.dedupeStrategy = try reader["dedupeStrategy"].readIfPresent(with: SupplyChainClientTypes.DataIntegrationFlowDedupeStrategy.read(from:))
-        return value
-    }
-}
-
-extension SupplyChainClientTypes.DataIntegrationFlowDedupeStrategy {
-
-    static func write(value: SupplyChainClientTypes.DataIntegrationFlowDedupeStrategy?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["fieldPriority"].write(value.fieldPriority, with: SupplyChainClientTypes.DataIntegrationFlowFieldPriorityDedupeStrategyConfiguration.write(value:to:))
-        try writer["type"].write(value.type)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SupplyChainClientTypes.DataIntegrationFlowDedupeStrategy {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SupplyChainClientTypes.DataIntegrationFlowDedupeStrategy()
-        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
-        value.fieldPriority = try reader["fieldPriority"].readIfPresent(with: SupplyChainClientTypes.DataIntegrationFlowFieldPriorityDedupeStrategyConfiguration.read(from:))
-        return value
-    }
-}
-
-extension SupplyChainClientTypes.DataIntegrationFlowFieldPriorityDedupeStrategyConfiguration {
-
-    static func write(value: SupplyChainClientTypes.DataIntegrationFlowFieldPriorityDedupeStrategyConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["fields"].writeList(value.fields, memberWritingClosure: SupplyChainClientTypes.DataIntegrationFlowFieldPriorityDedupeField.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SupplyChainClientTypes.DataIntegrationFlowFieldPriorityDedupeStrategyConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SupplyChainClientTypes.DataIntegrationFlowFieldPriorityDedupeStrategyConfiguration()
-        value.fields = try reader["fields"].readListIfPresent(memberReadingClosure: SupplyChainClientTypes.DataIntegrationFlowFieldPriorityDedupeField.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension SupplyChainClientTypes.DataIntegrationFlowFieldPriorityDedupeField {
-
-    static func write(value: SupplyChainClientTypes.DataIntegrationFlowFieldPriorityDedupeField?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["name"].write(value.name)
-        try writer["sortOrder"].write(value.sortOrder)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SupplyChainClientTypes.DataIntegrationFlowFieldPriorityDedupeField {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SupplyChainClientTypes.DataIntegrationFlowFieldPriorityDedupeField()
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.sortOrder = try reader["sortOrder"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension SupplyChainClientTypes.DataIntegrationFlowS3TargetConfiguration {
-
-    static func write(value: SupplyChainClientTypes.DataIntegrationFlowS3TargetConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["bucketName"].write(value.bucketName)
-        try writer["options"].write(value.options, with: SupplyChainClientTypes.DataIntegrationFlowS3Options.write(value:to:))
-        try writer["prefix"].write(value.`prefix`)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SupplyChainClientTypes.DataIntegrationFlowS3TargetConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SupplyChainClientTypes.DataIntegrationFlowS3TargetConfiguration()
-        value.bucketName = try reader["bucketName"].readIfPresent() ?? ""
-        value.`prefix` = try reader["prefix"].readIfPresent() ?? ""
-        value.options = try reader["options"].readIfPresent(with: SupplyChainClientTypes.DataIntegrationFlowS3Options.read(from:))
-        return value
-    }
-}
-
-extension SupplyChainClientTypes.DataIntegrationFlowS3Options {
-
-    static func write(value: SupplyChainClientTypes.DataIntegrationFlowS3Options?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["fileType"].write(value.fileType)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SupplyChainClientTypes.DataIntegrationFlowS3Options {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SupplyChainClientTypes.DataIntegrationFlowS3Options()
-        value.fileType = try reader["fileType"].readIfPresent()
-        return value
-    }
-}
-
-extension SupplyChainClientTypes.DataIntegrationFlowTransformation {
-
-    static func write(value: SupplyChainClientTypes.DataIntegrationFlowTransformation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["sqlTransformation"].write(value.sqlTransformation, with: SupplyChainClientTypes.DataIntegrationFlowSQLTransformationConfiguration.write(value:to:))
-        try writer["transformationType"].write(value.transformationType)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SupplyChainClientTypes.DataIntegrationFlowTransformation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SupplyChainClientTypes.DataIntegrationFlowTransformation()
-        value.transformationType = try reader["transformationType"].readIfPresent() ?? .sdkUnknown("")
-        value.sqlTransformation = try reader["sqlTransformation"].readIfPresent(with: SupplyChainClientTypes.DataIntegrationFlowSQLTransformationConfiguration.read(from:))
-        return value
-    }
-}
-
-extension SupplyChainClientTypes.DataIntegrationFlowSQLTransformationConfiguration {
-
-    static func write(value: SupplyChainClientTypes.DataIntegrationFlowSQLTransformationConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["query"].write(value.query)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SupplyChainClientTypes.DataIntegrationFlowSQLTransformationConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SupplyChainClientTypes.DataIntegrationFlowSQLTransformationConfiguration()
-        value.query = try reader["query"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension SupplyChainClientTypes.DataIntegrationFlowSource {
-
-    static func write(value: SupplyChainClientTypes.DataIntegrationFlowSource?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["datasetSource"].write(value.datasetSource, with: SupplyChainClientTypes.DataIntegrationFlowDatasetSourceConfiguration.write(value:to:))
-        try writer["s3Source"].write(value.s3Source, with: SupplyChainClientTypes.DataIntegrationFlowS3SourceConfiguration.write(value:to:))
-        try writer["sourceName"].write(value.sourceName)
-        try writer["sourceType"].write(value.sourceType)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SupplyChainClientTypes.DataIntegrationFlowSource {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SupplyChainClientTypes.DataIntegrationFlowSource()
-        value.sourceType = try reader["sourceType"].readIfPresent() ?? .sdkUnknown("")
-        value.sourceName = try reader["sourceName"].readIfPresent() ?? ""
-        value.s3Source = try reader["s3Source"].readIfPresent(with: SupplyChainClientTypes.DataIntegrationFlowS3SourceConfiguration.read(from:))
-        value.datasetSource = try reader["datasetSource"].readIfPresent(with: SupplyChainClientTypes.DataIntegrationFlowDatasetSourceConfiguration.read(from:))
-        return value
-    }
-}
-
-extension SupplyChainClientTypes.DataIntegrationFlowDatasetSourceConfiguration {
-
-    static func write(value: SupplyChainClientTypes.DataIntegrationFlowDatasetSourceConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["datasetIdentifier"].write(value.datasetIdentifier)
-        try writer["options"].write(value.options, with: SupplyChainClientTypes.DataIntegrationFlowDatasetOptions.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SupplyChainClientTypes.DataIntegrationFlowDatasetSourceConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SupplyChainClientTypes.DataIntegrationFlowDatasetSourceConfiguration()
-        value.datasetIdentifier = try reader["datasetIdentifier"].readIfPresent() ?? ""
-        value.options = try reader["options"].readIfPresent(with: SupplyChainClientTypes.DataIntegrationFlowDatasetOptions.read(from:))
-        return value
-    }
-}
-
-extension SupplyChainClientTypes.DataIntegrationFlowS3SourceConfiguration {
-
-    static func write(value: SupplyChainClientTypes.DataIntegrationFlowS3SourceConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["bucketName"].write(value.bucketName)
-        try writer["options"].write(value.options, with: SupplyChainClientTypes.DataIntegrationFlowS3Options.write(value:to:))
-        try writer["prefix"].write(value.`prefix`)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SupplyChainClientTypes.DataIntegrationFlowS3SourceConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SupplyChainClientTypes.DataIntegrationFlowS3SourceConfiguration()
-        value.bucketName = try reader["bucketName"].readIfPresent() ?? ""
-        value.`prefix` = try reader["prefix"].readIfPresent() ?? ""
-        value.options = try reader["options"].readIfPresent(with: SupplyChainClientTypes.DataIntegrationFlowS3Options.read(from:))
-        return value
-    }
-}
-
-extension SupplyChainClientTypes.DataIntegrationFlowExecution {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SupplyChainClientTypes.DataIntegrationFlowExecution {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SupplyChainClientTypes.DataIntegrationFlowExecution()
-        value.instanceId = try reader["instanceId"].readIfPresent() ?? ""
-        value.flowName = try reader["flowName"].readIfPresent() ?? ""
-        value.executionId = try reader["executionId"].readIfPresent() ?? ""
-        value.status = try reader["status"].readIfPresent()
-        value.sourceInfo = try reader["sourceInfo"].readIfPresent(with: SupplyChainClientTypes.DataIntegrationFlowExecutionSourceInfo.read(from:))
-        value.message = try reader["message"].readIfPresent()
-        value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.endTime = try reader["endTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.outputMetadata = try reader["outputMetadata"].readIfPresent(with: SupplyChainClientTypes.DataIntegrationFlowExecutionOutputMetadata.read(from:))
-        return value
-    }
-}
-
-extension SupplyChainClientTypes.DataIntegrationFlowExecutionOutputMetadata {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SupplyChainClientTypes.DataIntegrationFlowExecutionOutputMetadata {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SupplyChainClientTypes.DataIntegrationFlowExecutionOutputMetadata()
-        value.diagnosticReportsRootS3URI = try reader["diagnosticReportsRootS3URI"].readIfPresent()
-        return value
-    }
-}
-
-extension SupplyChainClientTypes.DataIntegrationFlowExecutionSourceInfo {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SupplyChainClientTypes.DataIntegrationFlowExecutionSourceInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SupplyChainClientTypes.DataIntegrationFlowExecutionSourceInfo()
-        value.sourceType = try reader["sourceType"].readIfPresent() ?? .sdkUnknown("")
-        value.s3Source = try reader["s3Source"].readIfPresent(with: SupplyChainClientTypes.DataIntegrationFlowS3Source.read(from:))
-        value.datasetSource = try reader["datasetSource"].readIfPresent(with: SupplyChainClientTypes.DataIntegrationFlowDatasetSource.read(from:))
-        return value
-    }
-}
-
-extension SupplyChainClientTypes.DataIntegrationFlowDatasetSource {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SupplyChainClientTypes.DataIntegrationFlowDatasetSource {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SupplyChainClientTypes.DataIntegrationFlowDatasetSource()
-        value.datasetIdentifier = try reader["datasetIdentifier"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension SupplyChainClientTypes.DataIntegrationFlowS3Source {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SupplyChainClientTypes.DataIntegrationFlowS3Source {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SupplyChainClientTypes.DataIntegrationFlowS3Source()
-        value.bucketName = try reader["bucketName"].readIfPresent() ?? ""
-        value.key = try reader["key"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension SupplyChainClientTypes.DataIntegrationEventDatasetTargetConfiguration {
-
-    static func write(value: SupplyChainClientTypes.DataIntegrationEventDatasetTargetConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["datasetIdentifier"].write(value.datasetIdentifier)
-        try writer["operationType"].write(value.operationType)
     }
 }
 

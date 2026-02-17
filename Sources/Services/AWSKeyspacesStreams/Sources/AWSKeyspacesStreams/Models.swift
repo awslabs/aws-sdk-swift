@@ -1086,51 +1086,23 @@ extension ValidationException {
     }
 }
 
-extension KeyspacesStreamsClientTypes.Record {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KeyspacesStreamsClientTypes.Record {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KeyspacesStreamsClientTypes.Record()
-        value.eventVersion = try reader["eventVersion"].readIfPresent()
-        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.origin = try reader["origin"].readIfPresent()
-        value.partitionKeys = try reader["partitionKeys"].readMapIfPresent(valueReadingClosure: KeyspacesStreamsClientTypes.KeyspacesCellValue.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.clusteringKeys = try reader["clusteringKeys"].readMapIfPresent(valueReadingClosure: KeyspacesStreamsClientTypes.KeyspacesCellValue.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.newImage = try reader["newImage"].readIfPresent(with: KeyspacesStreamsClientTypes.KeyspacesRow.read(from:))
-        value.oldImage = try reader["oldImage"].readIfPresent(with: KeyspacesStreamsClientTypes.KeyspacesRow.read(from:))
-        value.sequenceNumber = try reader["sequenceNumber"].readIfPresent()
-        return value
-    }
-}
-
-extension KeyspacesStreamsClientTypes.KeyspacesRow {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KeyspacesStreamsClientTypes.KeyspacesRow {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KeyspacesStreamsClientTypes.KeyspacesRow()
-        value.valueCells = try reader["valueCells"].readMapIfPresent(valueReadingClosure: KeyspacesStreamsClientTypes.KeyspacesCell.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.staticCells = try reader["staticCells"].readMapIfPresent(valueReadingClosure: KeyspacesStreamsClientTypes.KeyspacesCell.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.rowMetadata = try reader["rowMetadata"].readIfPresent(with: KeyspacesStreamsClientTypes.KeyspacesMetadata.read(from:))
-        return value
-    }
-}
-
-extension KeyspacesStreamsClientTypes.KeyspacesMetadata {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KeyspacesStreamsClientTypes.KeyspacesMetadata {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KeyspacesStreamsClientTypes.KeyspacesMetadata()
-        value.expirationTime = try reader["expirationTime"].readIfPresent()
-        value.writeTime = try reader["writeTime"].readIfPresent()
-        return value
-    }
-}
-
 extension KeyspacesStreamsClientTypes.KeyspacesCell {
 
     static func read(from reader: SmithyJSON.Reader) throws -> KeyspacesStreamsClientTypes.KeyspacesCell {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = KeyspacesStreamsClientTypes.KeyspacesCell()
+        value.value = try reader["value"].readIfPresent(with: KeyspacesStreamsClientTypes.KeyspacesCellValue.read(from:))
+        value.metadata = try reader["metadata"].readIfPresent(with: KeyspacesStreamsClientTypes.KeyspacesMetadata.read(from:))
+        return value
+    }
+}
+
+extension KeyspacesStreamsClientTypes.KeyspacesCellMapDefinition {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KeyspacesStreamsClientTypes.KeyspacesCellMapDefinition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KeyspacesStreamsClientTypes.KeyspacesCellMapDefinition()
+        value.key = try reader["key"].readIfPresent(with: KeyspacesStreamsClientTypes.KeyspacesCellValue.read(from:))
         value.value = try reader["value"].readIfPresent(with: KeyspacesStreamsClientTypes.KeyspacesCellValue.read(from:))
         value.metadata = try reader["metadata"].readIfPresent(with: KeyspacesStreamsClientTypes.KeyspacesMetadata.read(from:))
         return value
@@ -1199,14 +1171,53 @@ extension KeyspacesStreamsClientTypes.KeyspacesCellValue {
     }
 }
 
-extension KeyspacesStreamsClientTypes.KeyspacesCellMapDefinition {
+extension KeyspacesStreamsClientTypes.KeyspacesMetadata {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> KeyspacesStreamsClientTypes.KeyspacesCellMapDefinition {
+    static func read(from reader: SmithyJSON.Reader) throws -> KeyspacesStreamsClientTypes.KeyspacesMetadata {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KeyspacesStreamsClientTypes.KeyspacesCellMapDefinition()
-        value.key = try reader["key"].readIfPresent(with: KeyspacesStreamsClientTypes.KeyspacesCellValue.read(from:))
-        value.value = try reader["value"].readIfPresent(with: KeyspacesStreamsClientTypes.KeyspacesCellValue.read(from:))
-        value.metadata = try reader["metadata"].readIfPresent(with: KeyspacesStreamsClientTypes.KeyspacesMetadata.read(from:))
+        var value = KeyspacesStreamsClientTypes.KeyspacesMetadata()
+        value.expirationTime = try reader["expirationTime"].readIfPresent()
+        value.writeTime = try reader["writeTime"].readIfPresent()
+        return value
+    }
+}
+
+extension KeyspacesStreamsClientTypes.KeyspacesRow {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KeyspacesStreamsClientTypes.KeyspacesRow {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KeyspacesStreamsClientTypes.KeyspacesRow()
+        value.valueCells = try reader["valueCells"].readMapIfPresent(valueReadingClosure: KeyspacesStreamsClientTypes.KeyspacesCell.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.staticCells = try reader["staticCells"].readMapIfPresent(valueReadingClosure: KeyspacesStreamsClientTypes.KeyspacesCell.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.rowMetadata = try reader["rowMetadata"].readIfPresent(with: KeyspacesStreamsClientTypes.KeyspacesMetadata.read(from:))
+        return value
+    }
+}
+
+extension KeyspacesStreamsClientTypes.Record {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KeyspacesStreamsClientTypes.Record {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KeyspacesStreamsClientTypes.Record()
+        value.eventVersion = try reader["eventVersion"].readIfPresent()
+        value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.origin = try reader["origin"].readIfPresent()
+        value.partitionKeys = try reader["partitionKeys"].readMapIfPresent(valueReadingClosure: KeyspacesStreamsClientTypes.KeyspacesCellValue.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.clusteringKeys = try reader["clusteringKeys"].readMapIfPresent(valueReadingClosure: KeyspacesStreamsClientTypes.KeyspacesCellValue.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.newImage = try reader["newImage"].readIfPresent(with: KeyspacesStreamsClientTypes.KeyspacesRow.read(from:))
+        value.oldImage = try reader["oldImage"].readIfPresent(with: KeyspacesStreamsClientTypes.KeyspacesRow.read(from:))
+        value.sequenceNumber = try reader["sequenceNumber"].readIfPresent()
+        return value
+    }
+}
+
+extension KeyspacesStreamsClientTypes.SequenceNumberRange {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KeyspacesStreamsClientTypes.SequenceNumberRange {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KeyspacesStreamsClientTypes.SequenceNumberRange()
+        value.startingSequenceNumber = try reader["startingSequenceNumber"].readIfPresent()
+        value.endingSequenceNumber = try reader["endingSequenceNumber"].readIfPresent()
         return value
     }
 }
@@ -1223,14 +1234,12 @@ extension KeyspacesStreamsClientTypes.Shard {
     }
 }
 
-extension KeyspacesStreamsClientTypes.SequenceNumberRange {
+extension KeyspacesStreamsClientTypes.ShardFilter {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> KeyspacesStreamsClientTypes.SequenceNumberRange {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KeyspacesStreamsClientTypes.SequenceNumberRange()
-        value.startingSequenceNumber = try reader["startingSequenceNumber"].readIfPresent()
-        value.endingSequenceNumber = try reader["endingSequenceNumber"].readIfPresent()
-        return value
+    static func write(value: KeyspacesStreamsClientTypes.ShardFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["shardId"].write(value.shardId)
+        try writer["type"].write(value.type)
     }
 }
 
@@ -1244,15 +1253,6 @@ extension KeyspacesStreamsClientTypes.Stream {
         value.tableName = try reader["tableName"].readIfPresent() ?? ""
         value.streamLabel = try reader["streamLabel"].readIfPresent() ?? ""
         return value
-    }
-}
-
-extension KeyspacesStreamsClientTypes.ShardFilter {
-
-    static func write(value: KeyspacesStreamsClientTypes.ShardFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["shardId"].write(value.shardId)
-        try writer["type"].write(value.type)
     }
 }
 

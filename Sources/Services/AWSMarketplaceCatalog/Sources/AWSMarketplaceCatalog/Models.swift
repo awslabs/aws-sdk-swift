@@ -4390,17 +4390,76 @@ extension ServiceQuotaExceededException {
     }
 }
 
-extension MarketplaceCatalogClientTypes.EntityDetail {
+extension MarketplaceCatalogClientTypes.AmiProductEntityIdFilter {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.EntityDetail {
+    static func write(value: MarketplaceCatalogClientTypes.AmiProductEntityIdFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ValueList"].writeList(value.valueList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension MarketplaceCatalogClientTypes.AmiProductFilters {
+
+    static func write(value: MarketplaceCatalogClientTypes.AmiProductFilters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["EntityId"].write(value.entityId, with: MarketplaceCatalogClientTypes.AmiProductEntityIdFilter.write(value:to:))
+        try writer["LastModifiedDate"].write(value.lastModifiedDate, with: MarketplaceCatalogClientTypes.AmiProductLastModifiedDateFilter.write(value:to:))
+        try writer["ProductTitle"].write(value.productTitle, with: MarketplaceCatalogClientTypes.AmiProductTitleFilter.write(value:to:))
+        try writer["Visibility"].write(value.visibility, with: MarketplaceCatalogClientTypes.AmiProductVisibilityFilter.write(value:to:))
+    }
+}
+
+extension MarketplaceCatalogClientTypes.AmiProductLastModifiedDateFilter {
+
+    static func write(value: MarketplaceCatalogClientTypes.AmiProductLastModifiedDateFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DateRange"].write(value.dateRange, with: MarketplaceCatalogClientTypes.AmiProductLastModifiedDateFilterDateRange.write(value:to:))
+    }
+}
+
+extension MarketplaceCatalogClientTypes.AmiProductLastModifiedDateFilterDateRange {
+
+    static func write(value: MarketplaceCatalogClientTypes.AmiProductLastModifiedDateFilterDateRange?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AfterValue"].write(value.afterValue)
+        try writer["BeforeValue"].write(value.beforeValue)
+    }
+}
+
+extension MarketplaceCatalogClientTypes.AmiProductSort {
+
+    static func write(value: MarketplaceCatalogClientTypes.AmiProductSort?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["SortBy"].write(value.sortBy)
+        try writer["SortOrder"].write(value.sortOrder)
+    }
+}
+
+extension MarketplaceCatalogClientTypes.AmiProductSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.AmiProductSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MarketplaceCatalogClientTypes.EntityDetail()
-        value.entityType = try reader["EntityType"].readIfPresent()
-        value.entityArn = try reader["EntityArn"].readIfPresent()
-        value.entityIdentifier = try reader["EntityIdentifier"].readIfPresent()
-        value.lastModifiedDate = try reader["LastModifiedDate"].readIfPresent()
-        value.detailsDocument = try reader["DetailsDocument"].readIfPresent()
+        var value = MarketplaceCatalogClientTypes.AmiProductSummary()
+        value.productTitle = try reader["ProductTitle"].readIfPresent()
+        value.visibility = try reader["Visibility"].readIfPresent()
         return value
+    }
+}
+
+extension MarketplaceCatalogClientTypes.AmiProductTitleFilter {
+
+    static func write(value: MarketplaceCatalogClientTypes.AmiProductTitleFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ValueList"].writeList(value.valueList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["WildCardValue"].write(value.wildCardValue)
+    }
+}
+
+extension MarketplaceCatalogClientTypes.AmiProductVisibilityFilter {
+
+    static func write(value: MarketplaceCatalogClientTypes.AmiProductVisibilityFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ValueList"].writeList(value.valueList, memberWritingClosure: SmithyReadWrite.WritingClosureBox<MarketplaceCatalogClientTypes.AmiProductVisibilityString>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -4411,6 +4470,36 @@ extension MarketplaceCatalogClientTypes.BatchDescribeErrorDetail {
         var value = MarketplaceCatalogClientTypes.BatchDescribeErrorDetail()
         value.errorCode = try reader["ErrorCode"].readIfPresent()
         value.errorMessage = try reader["ErrorMessage"].readIfPresent()
+        return value
+    }
+}
+
+extension MarketplaceCatalogClientTypes.Change {
+
+    static func write(value: MarketplaceCatalogClientTypes.Change?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ChangeName"].write(value.changeName)
+        try writer["ChangeType"].write(value.changeType)
+        try writer["Details"].write(value.details)
+        try writer["DetailsDocument"].write(value.detailsDocument)
+        try writer["Entity"].write(value.entity, with: MarketplaceCatalogClientTypes.Entity.write(value:to:))
+        try writer["EntityTags"].writeList(value.entityTags, memberWritingClosure: MarketplaceCatalogClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension MarketplaceCatalogClientTypes.ChangeSetSummaryListItem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.ChangeSetSummaryListItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MarketplaceCatalogClientTypes.ChangeSetSummaryListItem()
+        value.changeSetId = try reader["ChangeSetId"].readIfPresent()
+        value.changeSetArn = try reader["ChangeSetArn"].readIfPresent()
+        value.changeSetName = try reader["ChangeSetName"].readIfPresent()
+        value.startTime = try reader["StartTime"].readIfPresent()
+        value.endTime = try reader["EndTime"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.entityIdList = try reader["EntityIdList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.failureCode = try reader["FailureCode"].readIfPresent()
         return value
     }
 }
@@ -4430,14 +4519,149 @@ extension MarketplaceCatalogClientTypes.ChangeSummary {
     }
 }
 
-extension MarketplaceCatalogClientTypes.ErrorDetail {
+extension MarketplaceCatalogClientTypes.ContainerProductEntityIdFilter {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.ErrorDetail {
+    static func write(value: MarketplaceCatalogClientTypes.ContainerProductEntityIdFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ValueList"].writeList(value.valueList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension MarketplaceCatalogClientTypes.ContainerProductFilters {
+
+    static func write(value: MarketplaceCatalogClientTypes.ContainerProductFilters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["EntityId"].write(value.entityId, with: MarketplaceCatalogClientTypes.ContainerProductEntityIdFilter.write(value:to:))
+        try writer["LastModifiedDate"].write(value.lastModifiedDate, with: MarketplaceCatalogClientTypes.ContainerProductLastModifiedDateFilter.write(value:to:))
+        try writer["ProductTitle"].write(value.productTitle, with: MarketplaceCatalogClientTypes.ContainerProductTitleFilter.write(value:to:))
+        try writer["Visibility"].write(value.visibility, with: MarketplaceCatalogClientTypes.ContainerProductVisibilityFilter.write(value:to:))
+    }
+}
+
+extension MarketplaceCatalogClientTypes.ContainerProductLastModifiedDateFilter {
+
+    static func write(value: MarketplaceCatalogClientTypes.ContainerProductLastModifiedDateFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DateRange"].write(value.dateRange, with: MarketplaceCatalogClientTypes.ContainerProductLastModifiedDateFilterDateRange.write(value:to:))
+    }
+}
+
+extension MarketplaceCatalogClientTypes.ContainerProductLastModifiedDateFilterDateRange {
+
+    static func write(value: MarketplaceCatalogClientTypes.ContainerProductLastModifiedDateFilterDateRange?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AfterValue"].write(value.afterValue)
+        try writer["BeforeValue"].write(value.beforeValue)
+    }
+}
+
+extension MarketplaceCatalogClientTypes.ContainerProductSort {
+
+    static func write(value: MarketplaceCatalogClientTypes.ContainerProductSort?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["SortBy"].write(value.sortBy)
+        try writer["SortOrder"].write(value.sortOrder)
+    }
+}
+
+extension MarketplaceCatalogClientTypes.ContainerProductSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.ContainerProductSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MarketplaceCatalogClientTypes.ErrorDetail()
-        value.errorCode = try reader["ErrorCode"].readIfPresent()
-        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
+        var value = MarketplaceCatalogClientTypes.ContainerProductSummary()
+        value.productTitle = try reader["ProductTitle"].readIfPresent()
+        value.visibility = try reader["Visibility"].readIfPresent()
         return value
+    }
+}
+
+extension MarketplaceCatalogClientTypes.ContainerProductTitleFilter {
+
+    static func write(value: MarketplaceCatalogClientTypes.ContainerProductTitleFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ValueList"].writeList(value.valueList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["WildCardValue"].write(value.wildCardValue)
+    }
+}
+
+extension MarketplaceCatalogClientTypes.ContainerProductVisibilityFilter {
+
+    static func write(value: MarketplaceCatalogClientTypes.ContainerProductVisibilityFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ValueList"].writeList(value.valueList, memberWritingClosure: SmithyReadWrite.WritingClosureBox<MarketplaceCatalogClientTypes.ContainerProductVisibilityString>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension MarketplaceCatalogClientTypes.DataProductEntityIdFilter {
+
+    static func write(value: MarketplaceCatalogClientTypes.DataProductEntityIdFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ValueList"].writeList(value.valueList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension MarketplaceCatalogClientTypes.DataProductFilters {
+
+    static func write(value: MarketplaceCatalogClientTypes.DataProductFilters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["EntityId"].write(value.entityId, with: MarketplaceCatalogClientTypes.DataProductEntityIdFilter.write(value:to:))
+        try writer["LastModifiedDate"].write(value.lastModifiedDate, with: MarketplaceCatalogClientTypes.DataProductLastModifiedDateFilter.write(value:to:))
+        try writer["ProductTitle"].write(value.productTitle, with: MarketplaceCatalogClientTypes.DataProductTitleFilter.write(value:to:))
+        try writer["Visibility"].write(value.visibility, with: MarketplaceCatalogClientTypes.DataProductVisibilityFilter.write(value:to:))
+    }
+}
+
+extension MarketplaceCatalogClientTypes.DataProductLastModifiedDateFilter {
+
+    static func write(value: MarketplaceCatalogClientTypes.DataProductLastModifiedDateFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DateRange"].write(value.dateRange, with: MarketplaceCatalogClientTypes.DataProductLastModifiedDateFilterDateRange.write(value:to:))
+    }
+}
+
+extension MarketplaceCatalogClientTypes.DataProductLastModifiedDateFilterDateRange {
+
+    static func write(value: MarketplaceCatalogClientTypes.DataProductLastModifiedDateFilterDateRange?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AfterValue"].write(value.afterValue)
+        try writer["BeforeValue"].write(value.beforeValue)
+    }
+}
+
+extension MarketplaceCatalogClientTypes.DataProductSort {
+
+    static func write(value: MarketplaceCatalogClientTypes.DataProductSort?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["SortBy"].write(value.sortBy)
+        try writer["SortOrder"].write(value.sortOrder)
+    }
+}
+
+extension MarketplaceCatalogClientTypes.DataProductSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.DataProductSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MarketplaceCatalogClientTypes.DataProductSummary()
+        value.productTitle = try reader["ProductTitle"].readIfPresent()
+        value.visibility = try reader["Visibility"].readIfPresent()
+        return value
+    }
+}
+
+extension MarketplaceCatalogClientTypes.DataProductTitleFilter {
+
+    static func write(value: MarketplaceCatalogClientTypes.DataProductTitleFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ValueList"].writeList(value.valueList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["WildCardValue"].write(value.wildCardValue)
+    }
+}
+
+extension MarketplaceCatalogClientTypes.DataProductVisibilityFilter {
+
+    static func write(value: MarketplaceCatalogClientTypes.DataProductVisibilityFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ValueList"].writeList(value.valueList, memberWritingClosure: SmithyReadWrite.WritingClosureBox<MarketplaceCatalogClientTypes.DataProductVisibilityString>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -4458,20 +4682,26 @@ extension MarketplaceCatalogClientTypes.Entity {
     }
 }
 
-extension MarketplaceCatalogClientTypes.ChangeSetSummaryListItem {
+extension MarketplaceCatalogClientTypes.EntityDetail {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.ChangeSetSummaryListItem {
+    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.EntityDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MarketplaceCatalogClientTypes.ChangeSetSummaryListItem()
-        value.changeSetId = try reader["ChangeSetId"].readIfPresent()
-        value.changeSetArn = try reader["ChangeSetArn"].readIfPresent()
-        value.changeSetName = try reader["ChangeSetName"].readIfPresent()
-        value.startTime = try reader["StartTime"].readIfPresent()
-        value.endTime = try reader["EndTime"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.entityIdList = try reader["EntityIdList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.failureCode = try reader["FailureCode"].readIfPresent()
+        var value = MarketplaceCatalogClientTypes.EntityDetail()
+        value.entityType = try reader["EntityType"].readIfPresent()
+        value.entityArn = try reader["EntityArn"].readIfPresent()
+        value.entityIdentifier = try reader["EntityIdentifier"].readIfPresent()
+        value.lastModifiedDate = try reader["LastModifiedDate"].readIfPresent()
+        value.detailsDocument = try reader["DetailsDocument"].readIfPresent()
         return value
+    }
+}
+
+extension MarketplaceCatalogClientTypes.EntityRequest {
+
+    static func write(value: MarketplaceCatalogClientTypes.EntityRequest?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Catalog"].write(value.catalog)
+        try writer["EntityId"].write(value.entityId)
     }
 }
 
@@ -4495,157 +4725,6 @@ extension MarketplaceCatalogClientTypes.EntitySummary {
         value.machineLearningProductSummary = try reader["MachineLearningProductSummary"].readIfPresent(with: MarketplaceCatalogClientTypes.MachineLearningProductSummary.read(from:))
         value.offerSetSummary = try reader["OfferSetSummary"].readIfPresent(with: MarketplaceCatalogClientTypes.OfferSetSummary.read(from:))
         return value
-    }
-}
-
-extension MarketplaceCatalogClientTypes.OfferSetSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.OfferSetSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MarketplaceCatalogClientTypes.OfferSetSummary()
-        value.name = try reader["Name"].readIfPresent()
-        value.state = try reader["State"].readIfPresent()
-        value.releaseDate = try reader["ReleaseDate"].readIfPresent()
-        value.associatedOfferIds = try reader["AssociatedOfferIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.solutionId = try reader["SolutionId"].readIfPresent()
-        return value
-    }
-}
-
-extension MarketplaceCatalogClientTypes.MachineLearningProductSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.MachineLearningProductSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MarketplaceCatalogClientTypes.MachineLearningProductSummary()
-        value.productTitle = try reader["ProductTitle"].readIfPresent()
-        value.visibility = try reader["Visibility"].readIfPresent()
-        return value
-    }
-}
-
-extension MarketplaceCatalogClientTypes.ResaleAuthorizationSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.ResaleAuthorizationSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MarketplaceCatalogClientTypes.ResaleAuthorizationSummary()
-        value.name = try reader["Name"].readIfPresent()
-        value.productId = try reader["ProductId"].readIfPresent()
-        value.productName = try reader["ProductName"].readIfPresent()
-        value.manufacturerAccountId = try reader["ManufacturerAccountId"].readIfPresent()
-        value.manufacturerLegalName = try reader["ManufacturerLegalName"].readIfPresent()
-        value.resellerAccountID = try reader["ResellerAccountID"].readIfPresent()
-        value.resellerLegalName = try reader["ResellerLegalName"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.offerExtendedStatus = try reader["OfferExtendedStatus"].readIfPresent()
-        value.createdDate = try reader["CreatedDate"].readIfPresent()
-        value.availabilityEndDate = try reader["AvailabilityEndDate"].readIfPresent()
-        return value
-    }
-}
-
-extension MarketplaceCatalogClientTypes.OfferSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.OfferSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MarketplaceCatalogClientTypes.OfferSummary()
-        value.name = try reader["Name"].readIfPresent()
-        value.productId = try reader["ProductId"].readIfPresent()
-        value.resaleAuthorizationId = try reader["ResaleAuthorizationId"].readIfPresent()
-        value.releaseDate = try reader["ReleaseDate"].readIfPresent()
-        value.availabilityEndDate = try reader["AvailabilityEndDate"].readIfPresent()
-        value.buyerAccounts = try reader["BuyerAccounts"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.state = try reader["State"].readIfPresent()
-        value.targeting = try reader["Targeting"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<MarketplaceCatalogClientTypes.OfferTargetingString>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.offerSetId = try reader["OfferSetId"].readIfPresent()
-        return value
-    }
-}
-
-extension MarketplaceCatalogClientTypes.SaaSProductSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.SaaSProductSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MarketplaceCatalogClientTypes.SaaSProductSummary()
-        value.productTitle = try reader["ProductTitle"].readIfPresent()
-        value.visibility = try reader["Visibility"].readIfPresent()
-        return value
-    }
-}
-
-extension MarketplaceCatalogClientTypes.DataProductSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.DataProductSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MarketplaceCatalogClientTypes.DataProductSummary()
-        value.productTitle = try reader["ProductTitle"].readIfPresent()
-        value.visibility = try reader["Visibility"].readIfPresent()
-        return value
-    }
-}
-
-extension MarketplaceCatalogClientTypes.ContainerProductSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.ContainerProductSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MarketplaceCatalogClientTypes.ContainerProductSummary()
-        value.productTitle = try reader["ProductTitle"].readIfPresent()
-        value.visibility = try reader["Visibility"].readIfPresent()
-        return value
-    }
-}
-
-extension MarketplaceCatalogClientTypes.AmiProductSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.AmiProductSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MarketplaceCatalogClientTypes.AmiProductSummary()
-        value.productTitle = try reader["ProductTitle"].readIfPresent()
-        value.visibility = try reader["Visibility"].readIfPresent()
-        return value
-    }
-}
-
-extension MarketplaceCatalogClientTypes.Tag {
-
-    static func write(value: MarketplaceCatalogClientTypes.Tag?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Key"].write(value.key)
-        try writer["Value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.Tag {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MarketplaceCatalogClientTypes.Tag()
-        value.key = try reader["Key"].readIfPresent() ?? ""
-        value.value = try reader["Value"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension MarketplaceCatalogClientTypes.EntityRequest {
-
-    static func write(value: MarketplaceCatalogClientTypes.EntityRequest?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Catalog"].write(value.catalog)
-        try writer["EntityId"].write(value.entityId)
-    }
-}
-
-extension MarketplaceCatalogClientTypes.Filter {
-
-    static func write(value: MarketplaceCatalogClientTypes.Filter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-        try writer["ValueList"].writeList(value.valueList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension MarketplaceCatalogClientTypes.Sort {
-
-    static func write(value: MarketplaceCatalogClientTypes.Sort?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["SortBy"].write(value.sortBy)
-        try writer["SortOrder"].write(value.sortOrder)
     }
 }
 
@@ -4676,6 +4755,252 @@ extension MarketplaceCatalogClientTypes.EntityTypeFilters {
     }
 }
 
+extension MarketplaceCatalogClientTypes.EntityTypeSort {
+
+    static func write(value: MarketplaceCatalogClientTypes.EntityTypeSort?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .amiproductsort(amiproductsort):
+                try writer["AmiProductSort"].write(amiproductsort, with: MarketplaceCatalogClientTypes.AmiProductSort.write(value:to:))
+            case let .containerproductsort(containerproductsort):
+                try writer["ContainerProductSort"].write(containerproductsort, with: MarketplaceCatalogClientTypes.ContainerProductSort.write(value:to:))
+            case let .dataproductsort(dataproductsort):
+                try writer["DataProductSort"].write(dataproductsort, with: MarketplaceCatalogClientTypes.DataProductSort.write(value:to:))
+            case let .machinelearningproductsort(machinelearningproductsort):
+                try writer["MachineLearningProductSort"].write(machinelearningproductsort, with: MarketplaceCatalogClientTypes.MachineLearningProductSort.write(value:to:))
+            case let .offersetsort(offersetsort):
+                try writer["OfferSetSort"].write(offersetsort, with: MarketplaceCatalogClientTypes.OfferSetSort.write(value:to:))
+            case let .offersort(offersort):
+                try writer["OfferSort"].write(offersort, with: MarketplaceCatalogClientTypes.OfferSort.write(value:to:))
+            case let .resaleauthorizationsort(resaleauthorizationsort):
+                try writer["ResaleAuthorizationSort"].write(resaleauthorizationsort, with: MarketplaceCatalogClientTypes.ResaleAuthorizationSort.write(value:to:))
+            case let .saasproductsort(saasproductsort):
+                try writer["SaaSProductSort"].write(saasproductsort, with: MarketplaceCatalogClientTypes.SaaSProductSort.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension MarketplaceCatalogClientTypes.ErrorDetail {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.ErrorDetail {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MarketplaceCatalogClientTypes.ErrorDetail()
+        value.errorCode = try reader["ErrorCode"].readIfPresent()
+        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
+        return value
+    }
+}
+
+extension MarketplaceCatalogClientTypes.Filter {
+
+    static func write(value: MarketplaceCatalogClientTypes.Filter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Name"].write(value.name)
+        try writer["ValueList"].writeList(value.valueList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension MarketplaceCatalogClientTypes.MachineLearningProductEntityIdFilter {
+
+    static func write(value: MarketplaceCatalogClientTypes.MachineLearningProductEntityIdFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ValueList"].writeList(value.valueList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension MarketplaceCatalogClientTypes.MachineLearningProductFilters {
+
+    static func write(value: MarketplaceCatalogClientTypes.MachineLearningProductFilters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["EntityId"].write(value.entityId, with: MarketplaceCatalogClientTypes.MachineLearningProductEntityIdFilter.write(value:to:))
+        try writer["LastModifiedDate"].write(value.lastModifiedDate, with: MarketplaceCatalogClientTypes.MachineLearningProductLastModifiedDateFilter.write(value:to:))
+        try writer["ProductTitle"].write(value.productTitle, with: MarketplaceCatalogClientTypes.MachineLearningProductTitleFilter.write(value:to:))
+        try writer["Visibility"].write(value.visibility, with: MarketplaceCatalogClientTypes.MachineLearningProductVisibilityFilter.write(value:to:))
+    }
+}
+
+extension MarketplaceCatalogClientTypes.MachineLearningProductLastModifiedDateFilter {
+
+    static func write(value: MarketplaceCatalogClientTypes.MachineLearningProductLastModifiedDateFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DateRange"].write(value.dateRange, with: MarketplaceCatalogClientTypes.MachineLearningProductLastModifiedDateFilterDateRange.write(value:to:))
+    }
+}
+
+extension MarketplaceCatalogClientTypes.MachineLearningProductLastModifiedDateFilterDateRange {
+
+    static func write(value: MarketplaceCatalogClientTypes.MachineLearningProductLastModifiedDateFilterDateRange?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AfterValue"].write(value.afterValue)
+        try writer["BeforeValue"].write(value.beforeValue)
+    }
+}
+
+extension MarketplaceCatalogClientTypes.MachineLearningProductSort {
+
+    static func write(value: MarketplaceCatalogClientTypes.MachineLearningProductSort?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["SortBy"].write(value.sortBy)
+        try writer["SortOrder"].write(value.sortOrder)
+    }
+}
+
+extension MarketplaceCatalogClientTypes.MachineLearningProductSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.MachineLearningProductSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MarketplaceCatalogClientTypes.MachineLearningProductSummary()
+        value.productTitle = try reader["ProductTitle"].readIfPresent()
+        value.visibility = try reader["Visibility"].readIfPresent()
+        return value
+    }
+}
+
+extension MarketplaceCatalogClientTypes.MachineLearningProductTitleFilter {
+
+    static func write(value: MarketplaceCatalogClientTypes.MachineLearningProductTitleFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ValueList"].writeList(value.valueList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["WildCardValue"].write(value.wildCardValue)
+    }
+}
+
+extension MarketplaceCatalogClientTypes.MachineLearningProductVisibilityFilter {
+
+    static func write(value: MarketplaceCatalogClientTypes.MachineLearningProductVisibilityFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ValueList"].writeList(value.valueList, memberWritingClosure: SmithyReadWrite.WritingClosureBox<MarketplaceCatalogClientTypes.MachineLearningProductVisibilityString>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension MarketplaceCatalogClientTypes.OfferAvailabilityEndDateFilter {
+
+    static func write(value: MarketplaceCatalogClientTypes.OfferAvailabilityEndDateFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DateRange"].write(value.dateRange, with: MarketplaceCatalogClientTypes.OfferAvailabilityEndDateFilterDateRange.write(value:to:))
+    }
+}
+
+extension MarketplaceCatalogClientTypes.OfferAvailabilityEndDateFilterDateRange {
+
+    static func write(value: MarketplaceCatalogClientTypes.OfferAvailabilityEndDateFilterDateRange?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AfterValue"].write(value.afterValue)
+        try writer["BeforeValue"].write(value.beforeValue)
+    }
+}
+
+extension MarketplaceCatalogClientTypes.OfferBuyerAccountsFilter {
+
+    static func write(value: MarketplaceCatalogClientTypes.OfferBuyerAccountsFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["WildCardValue"].write(value.wildCardValue)
+    }
+}
+
+extension MarketplaceCatalogClientTypes.OfferEntityIdFilter {
+
+    static func write(value: MarketplaceCatalogClientTypes.OfferEntityIdFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ValueList"].writeList(value.valueList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension MarketplaceCatalogClientTypes.OfferFilters {
+
+    static func write(value: MarketplaceCatalogClientTypes.OfferFilters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AvailabilityEndDate"].write(value.availabilityEndDate, with: MarketplaceCatalogClientTypes.OfferAvailabilityEndDateFilter.write(value:to:))
+        try writer["BuyerAccounts"].write(value.buyerAccounts, with: MarketplaceCatalogClientTypes.OfferBuyerAccountsFilter.write(value:to:))
+        try writer["EntityId"].write(value.entityId, with: MarketplaceCatalogClientTypes.OfferEntityIdFilter.write(value:to:))
+        try writer["LastModifiedDate"].write(value.lastModifiedDate, with: MarketplaceCatalogClientTypes.OfferLastModifiedDateFilter.write(value:to:))
+        try writer["Name"].write(value.name, with: MarketplaceCatalogClientTypes.OfferNameFilter.write(value:to:))
+        try writer["OfferSetId"].write(value.offerSetId, with: MarketplaceCatalogClientTypes.OfferSetIdFilter.write(value:to:))
+        try writer["ProductId"].write(value.productId, with: MarketplaceCatalogClientTypes.OfferProductIdFilter.write(value:to:))
+        try writer["ReleaseDate"].write(value.releaseDate, with: MarketplaceCatalogClientTypes.OfferReleaseDateFilter.write(value:to:))
+        try writer["ResaleAuthorizationId"].write(value.resaleAuthorizationId, with: MarketplaceCatalogClientTypes.OfferResaleAuthorizationIdFilter.write(value:to:))
+        try writer["State"].write(value.state, with: MarketplaceCatalogClientTypes.OfferStateFilter.write(value:to:))
+        try writer["Targeting"].write(value.targeting, with: MarketplaceCatalogClientTypes.OfferTargetingFilter.write(value:to:))
+    }
+}
+
+extension MarketplaceCatalogClientTypes.OfferLastModifiedDateFilter {
+
+    static func write(value: MarketplaceCatalogClientTypes.OfferLastModifiedDateFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DateRange"].write(value.dateRange, with: MarketplaceCatalogClientTypes.OfferLastModifiedDateFilterDateRange.write(value:to:))
+    }
+}
+
+extension MarketplaceCatalogClientTypes.OfferLastModifiedDateFilterDateRange {
+
+    static func write(value: MarketplaceCatalogClientTypes.OfferLastModifiedDateFilterDateRange?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AfterValue"].write(value.afterValue)
+        try writer["BeforeValue"].write(value.beforeValue)
+    }
+}
+
+extension MarketplaceCatalogClientTypes.OfferNameFilter {
+
+    static func write(value: MarketplaceCatalogClientTypes.OfferNameFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ValueList"].writeList(value.valueList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["WildCardValue"].write(value.wildCardValue)
+    }
+}
+
+extension MarketplaceCatalogClientTypes.OfferProductIdFilter {
+
+    static func write(value: MarketplaceCatalogClientTypes.OfferProductIdFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ValueList"].writeList(value.valueList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension MarketplaceCatalogClientTypes.OfferReleaseDateFilter {
+
+    static func write(value: MarketplaceCatalogClientTypes.OfferReleaseDateFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DateRange"].write(value.dateRange, with: MarketplaceCatalogClientTypes.OfferReleaseDateFilterDateRange.write(value:to:))
+    }
+}
+
+extension MarketplaceCatalogClientTypes.OfferReleaseDateFilterDateRange {
+
+    static func write(value: MarketplaceCatalogClientTypes.OfferReleaseDateFilterDateRange?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AfterValue"].write(value.afterValue)
+        try writer["BeforeValue"].write(value.beforeValue)
+    }
+}
+
+extension MarketplaceCatalogClientTypes.OfferResaleAuthorizationIdFilter {
+
+    static func write(value: MarketplaceCatalogClientTypes.OfferResaleAuthorizationIdFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ValueList"].writeList(value.valueList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension MarketplaceCatalogClientTypes.OfferSetAssociatedOfferIdsFilter {
+
+    static func write(value: MarketplaceCatalogClientTypes.OfferSetAssociatedOfferIdsFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ValueList"].writeList(value.valueList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension MarketplaceCatalogClientTypes.OfferSetEntityIdFilter {
+
+    static func write(value: MarketplaceCatalogClientTypes.OfferSetEntityIdFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ValueList"].writeList(value.valueList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension MarketplaceCatalogClientTypes.OfferSetFilters {
 
     static func write(value: MarketplaceCatalogClientTypes.OfferSetFilters?, to writer: SmithyJSON.Writer) throws {
@@ -4687,6 +5012,14 @@ extension MarketplaceCatalogClientTypes.OfferSetFilters {
         try writer["ReleaseDate"].write(value.releaseDate, with: MarketplaceCatalogClientTypes.OfferSetReleaseDateFilter.write(value:to:))
         try writer["SolutionId"].write(value.solutionId, with: MarketplaceCatalogClientTypes.OfferSetSolutionIdFilter.write(value:to:))
         try writer["State"].write(value.state, with: MarketplaceCatalogClientTypes.OfferSetStateFilter.write(value:to:))
+    }
+}
+
+extension MarketplaceCatalogClientTypes.OfferSetIdFilter {
+
+    static func write(value: MarketplaceCatalogClientTypes.OfferSetIdFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ValueList"].writeList(value.valueList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -4707,17 +5040,9 @@ extension MarketplaceCatalogClientTypes.OfferSetLastModifiedDateFilterDateRange 
     }
 }
 
-extension MarketplaceCatalogClientTypes.OfferSetSolutionIdFilter {
+extension MarketplaceCatalogClientTypes.OfferSetNameFilter {
 
-    static func write(value: MarketplaceCatalogClientTypes.OfferSetSolutionIdFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ValueList"].writeList(value.valueList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension MarketplaceCatalogClientTypes.OfferSetAssociatedOfferIdsFilter {
-
-    static func write(value: MarketplaceCatalogClientTypes.OfferSetAssociatedOfferIdsFilter?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: MarketplaceCatalogClientTypes.OfferSetNameFilter?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["ValueList"].writeList(value.valueList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
@@ -4740,6 +5065,23 @@ extension MarketplaceCatalogClientTypes.OfferSetReleaseDateFilterDateRange {
     }
 }
 
+extension MarketplaceCatalogClientTypes.OfferSetSolutionIdFilter {
+
+    static func write(value: MarketplaceCatalogClientTypes.OfferSetSolutionIdFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ValueList"].writeList(value.valueList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension MarketplaceCatalogClientTypes.OfferSetSort {
+
+    static func write(value: MarketplaceCatalogClientTypes.OfferSetSort?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["SortBy"].write(value.sortBy)
+        try writer["SortOrder"].write(value.sortOrder)
+    }
+}
+
 extension MarketplaceCatalogClientTypes.OfferSetStateFilter {
 
     static func write(value: MarketplaceCatalogClientTypes.OfferSetStateFilter?, to writer: SmithyJSON.Writer) throws {
@@ -4748,70 +5090,102 @@ extension MarketplaceCatalogClientTypes.OfferSetStateFilter {
     }
 }
 
-extension MarketplaceCatalogClientTypes.OfferSetNameFilter {
+extension MarketplaceCatalogClientTypes.OfferSetSummary {
 
-    static func write(value: MarketplaceCatalogClientTypes.OfferSetNameFilter?, to writer: SmithyJSON.Writer) throws {
+    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.OfferSetSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MarketplaceCatalogClientTypes.OfferSetSummary()
+        value.name = try reader["Name"].readIfPresent()
+        value.state = try reader["State"].readIfPresent()
+        value.releaseDate = try reader["ReleaseDate"].readIfPresent()
+        value.associatedOfferIds = try reader["AssociatedOfferIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.solutionId = try reader["SolutionId"].readIfPresent()
+        return value
+    }
+}
+
+extension MarketplaceCatalogClientTypes.OfferSort {
+
+    static func write(value: MarketplaceCatalogClientTypes.OfferSort?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["SortBy"].write(value.sortBy)
+        try writer["SortOrder"].write(value.sortOrder)
+    }
+}
+
+extension MarketplaceCatalogClientTypes.OfferStateFilter {
+
+    static func write(value: MarketplaceCatalogClientTypes.OfferStateFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ValueList"].writeList(value.valueList, memberWritingClosure: SmithyReadWrite.WritingClosureBox<MarketplaceCatalogClientTypes.OfferStateString>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension MarketplaceCatalogClientTypes.OfferSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.OfferSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MarketplaceCatalogClientTypes.OfferSummary()
+        value.name = try reader["Name"].readIfPresent()
+        value.productId = try reader["ProductId"].readIfPresent()
+        value.resaleAuthorizationId = try reader["ResaleAuthorizationId"].readIfPresent()
+        value.releaseDate = try reader["ReleaseDate"].readIfPresent()
+        value.availabilityEndDate = try reader["AvailabilityEndDate"].readIfPresent()
+        value.buyerAccounts = try reader["BuyerAccounts"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.state = try reader["State"].readIfPresent()
+        value.targeting = try reader["Targeting"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<MarketplaceCatalogClientTypes.OfferTargetingString>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.offerSetId = try reader["OfferSetId"].readIfPresent()
+        return value
+    }
+}
+
+extension MarketplaceCatalogClientTypes.OfferTargetingFilter {
+
+    static func write(value: MarketplaceCatalogClientTypes.OfferTargetingFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ValueList"].writeList(value.valueList, memberWritingClosure: SmithyReadWrite.WritingClosureBox<MarketplaceCatalogClientTypes.OfferTargetingString>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension MarketplaceCatalogClientTypes.ResaleAuthorizationAvailabilityEndDateFilter {
+
+    static func write(value: MarketplaceCatalogClientTypes.ResaleAuthorizationAvailabilityEndDateFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DateRange"].write(value.dateRange, with: MarketplaceCatalogClientTypes.ResaleAuthorizationAvailabilityEndDateFilterDateRange.write(value:to:))
         try writer["ValueList"].writeList(value.valueList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
-extension MarketplaceCatalogClientTypes.OfferSetEntityIdFilter {
+extension MarketplaceCatalogClientTypes.ResaleAuthorizationAvailabilityEndDateFilterDateRange {
 
-    static func write(value: MarketplaceCatalogClientTypes.OfferSetEntityIdFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ValueList"].writeList(value.valueList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension MarketplaceCatalogClientTypes.MachineLearningProductFilters {
-
-    static func write(value: MarketplaceCatalogClientTypes.MachineLearningProductFilters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["EntityId"].write(value.entityId, with: MarketplaceCatalogClientTypes.MachineLearningProductEntityIdFilter.write(value:to:))
-        try writer["LastModifiedDate"].write(value.lastModifiedDate, with: MarketplaceCatalogClientTypes.MachineLearningProductLastModifiedDateFilter.write(value:to:))
-        try writer["ProductTitle"].write(value.productTitle, with: MarketplaceCatalogClientTypes.MachineLearningProductTitleFilter.write(value:to:))
-        try writer["Visibility"].write(value.visibility, with: MarketplaceCatalogClientTypes.MachineLearningProductVisibilityFilter.write(value:to:))
-    }
-}
-
-extension MarketplaceCatalogClientTypes.MachineLearningProductVisibilityFilter {
-
-    static func write(value: MarketplaceCatalogClientTypes.MachineLearningProductVisibilityFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ValueList"].writeList(value.valueList, memberWritingClosure: SmithyReadWrite.WritingClosureBox<MarketplaceCatalogClientTypes.MachineLearningProductVisibilityString>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension MarketplaceCatalogClientTypes.MachineLearningProductTitleFilter {
-
-    static func write(value: MarketplaceCatalogClientTypes.MachineLearningProductTitleFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ValueList"].writeList(value.valueList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["WildCardValue"].write(value.wildCardValue)
-    }
-}
-
-extension MarketplaceCatalogClientTypes.MachineLearningProductLastModifiedDateFilter {
-
-    static func write(value: MarketplaceCatalogClientTypes.MachineLearningProductLastModifiedDateFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DateRange"].write(value.dateRange, with: MarketplaceCatalogClientTypes.MachineLearningProductLastModifiedDateFilterDateRange.write(value:to:))
-    }
-}
-
-extension MarketplaceCatalogClientTypes.MachineLearningProductLastModifiedDateFilterDateRange {
-
-    static func write(value: MarketplaceCatalogClientTypes.MachineLearningProductLastModifiedDateFilterDateRange?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: MarketplaceCatalogClientTypes.ResaleAuthorizationAvailabilityEndDateFilterDateRange?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["AfterValue"].write(value.afterValue)
         try writer["BeforeValue"].write(value.beforeValue)
     }
 }
 
-extension MarketplaceCatalogClientTypes.MachineLearningProductEntityIdFilter {
+extension MarketplaceCatalogClientTypes.ResaleAuthorizationCreatedDateFilter {
 
-    static func write(value: MarketplaceCatalogClientTypes.MachineLearningProductEntityIdFilter?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: MarketplaceCatalogClientTypes.ResaleAuthorizationCreatedDateFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DateRange"].write(value.dateRange, with: MarketplaceCatalogClientTypes.ResaleAuthorizationCreatedDateFilterDateRange.write(value:to:))
+        try writer["ValueList"].writeList(value.valueList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension MarketplaceCatalogClientTypes.ResaleAuthorizationCreatedDateFilterDateRange {
+
+    static func write(value: MarketplaceCatalogClientTypes.ResaleAuthorizationCreatedDateFilterDateRange?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AfterValue"].write(value.afterValue)
+        try writer["BeforeValue"].write(value.beforeValue)
+    }
+}
+
+extension MarketplaceCatalogClientTypes.ResaleAuthorizationEntityIdFilter {
+
+    static func write(value: MarketplaceCatalogClientTypes.ResaleAuthorizationEntityIdFilter?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["ValueList"].writeList(value.valueList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
@@ -4854,34 +5228,9 @@ extension MarketplaceCatalogClientTypes.ResaleAuthorizationLastModifiedDateFilte
     }
 }
 
-extension MarketplaceCatalogClientTypes.ResaleAuthorizationOfferExtendedStatusFilter {
+extension MarketplaceCatalogClientTypes.ResaleAuthorizationManufacturerAccountIdFilter {
 
-    static func write(value: MarketplaceCatalogClientTypes.ResaleAuthorizationOfferExtendedStatusFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ValueList"].writeList(value.valueList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension MarketplaceCatalogClientTypes.ResaleAuthorizationStatusFilter {
-
-    static func write(value: MarketplaceCatalogClientTypes.ResaleAuthorizationStatusFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ValueList"].writeList(value.valueList, memberWritingClosure: SmithyReadWrite.WritingClosureBox<MarketplaceCatalogClientTypes.ResaleAuthorizationStatusString>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension MarketplaceCatalogClientTypes.ResaleAuthorizationResellerLegalNameFilter {
-
-    static func write(value: MarketplaceCatalogClientTypes.ResaleAuthorizationResellerLegalNameFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ValueList"].writeList(value.valueList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["WildCardValue"].write(value.wildCardValue)
-    }
-}
-
-extension MarketplaceCatalogClientTypes.ResaleAuthorizationResellerAccountIDFilter {
-
-    static func write(value: MarketplaceCatalogClientTypes.ResaleAuthorizationResellerAccountIDFilter?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: MarketplaceCatalogClientTypes.ResaleAuthorizationManufacturerAccountIdFilter?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["ValueList"].writeList(value.valueList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["WildCardValue"].write(value.wildCardValue)
@@ -4897,57 +5246,20 @@ extension MarketplaceCatalogClientTypes.ResaleAuthorizationManufacturerLegalName
     }
 }
 
-extension MarketplaceCatalogClientTypes.ResaleAuthorizationProductNameFilter {
+extension MarketplaceCatalogClientTypes.ResaleAuthorizationNameFilter {
 
-    static func write(value: MarketplaceCatalogClientTypes.ResaleAuthorizationProductNameFilter?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: MarketplaceCatalogClientTypes.ResaleAuthorizationNameFilter?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["ValueList"].writeList(value.valueList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["WildCardValue"].write(value.wildCardValue)
     }
 }
 
-extension MarketplaceCatalogClientTypes.ResaleAuthorizationManufacturerAccountIdFilter {
+extension MarketplaceCatalogClientTypes.ResaleAuthorizationOfferExtendedStatusFilter {
 
-    static func write(value: MarketplaceCatalogClientTypes.ResaleAuthorizationManufacturerAccountIdFilter?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: MarketplaceCatalogClientTypes.ResaleAuthorizationOfferExtendedStatusFilter?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["ValueList"].writeList(value.valueList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["WildCardValue"].write(value.wildCardValue)
-    }
-}
-
-extension MarketplaceCatalogClientTypes.ResaleAuthorizationAvailabilityEndDateFilter {
-
-    static func write(value: MarketplaceCatalogClientTypes.ResaleAuthorizationAvailabilityEndDateFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DateRange"].write(value.dateRange, with: MarketplaceCatalogClientTypes.ResaleAuthorizationAvailabilityEndDateFilterDateRange.write(value:to:))
-        try writer["ValueList"].writeList(value.valueList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension MarketplaceCatalogClientTypes.ResaleAuthorizationAvailabilityEndDateFilterDateRange {
-
-    static func write(value: MarketplaceCatalogClientTypes.ResaleAuthorizationAvailabilityEndDateFilterDateRange?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AfterValue"].write(value.afterValue)
-        try writer["BeforeValue"].write(value.beforeValue)
-    }
-}
-
-extension MarketplaceCatalogClientTypes.ResaleAuthorizationCreatedDateFilter {
-
-    static func write(value: MarketplaceCatalogClientTypes.ResaleAuthorizationCreatedDateFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DateRange"].write(value.dateRange, with: MarketplaceCatalogClientTypes.ResaleAuthorizationCreatedDateFilterDateRange.write(value:to:))
-        try writer["ValueList"].writeList(value.valueList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension MarketplaceCatalogClientTypes.ResaleAuthorizationCreatedDateFilterDateRange {
-
-    static func write(value: MarketplaceCatalogClientTypes.ResaleAuthorizationCreatedDateFilterDateRange?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AfterValue"].write(value.afterValue)
-        try writer["BeforeValue"].write(value.beforeValue)
     }
 }
 
@@ -4960,258 +5272,73 @@ extension MarketplaceCatalogClientTypes.ResaleAuthorizationProductIdFilter {
     }
 }
 
-extension MarketplaceCatalogClientTypes.ResaleAuthorizationNameFilter {
+extension MarketplaceCatalogClientTypes.ResaleAuthorizationProductNameFilter {
 
-    static func write(value: MarketplaceCatalogClientTypes.ResaleAuthorizationNameFilter?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: MarketplaceCatalogClientTypes.ResaleAuthorizationProductNameFilter?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["ValueList"].writeList(value.valueList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["WildCardValue"].write(value.wildCardValue)
     }
 }
 
-extension MarketplaceCatalogClientTypes.ResaleAuthorizationEntityIdFilter {
+extension MarketplaceCatalogClientTypes.ResaleAuthorizationResellerAccountIDFilter {
 
-    static func write(value: MarketplaceCatalogClientTypes.ResaleAuthorizationEntityIdFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ValueList"].writeList(value.valueList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension MarketplaceCatalogClientTypes.ContainerProductFilters {
-
-    static func write(value: MarketplaceCatalogClientTypes.ContainerProductFilters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["EntityId"].write(value.entityId, with: MarketplaceCatalogClientTypes.ContainerProductEntityIdFilter.write(value:to:))
-        try writer["LastModifiedDate"].write(value.lastModifiedDate, with: MarketplaceCatalogClientTypes.ContainerProductLastModifiedDateFilter.write(value:to:))
-        try writer["ProductTitle"].write(value.productTitle, with: MarketplaceCatalogClientTypes.ContainerProductTitleFilter.write(value:to:))
-        try writer["Visibility"].write(value.visibility, with: MarketplaceCatalogClientTypes.ContainerProductVisibilityFilter.write(value:to:))
-    }
-}
-
-extension MarketplaceCatalogClientTypes.ContainerProductVisibilityFilter {
-
-    static func write(value: MarketplaceCatalogClientTypes.ContainerProductVisibilityFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ValueList"].writeList(value.valueList, memberWritingClosure: SmithyReadWrite.WritingClosureBox<MarketplaceCatalogClientTypes.ContainerProductVisibilityString>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension MarketplaceCatalogClientTypes.ContainerProductTitleFilter {
-
-    static func write(value: MarketplaceCatalogClientTypes.ContainerProductTitleFilter?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: MarketplaceCatalogClientTypes.ResaleAuthorizationResellerAccountIDFilter?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["ValueList"].writeList(value.valueList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["WildCardValue"].write(value.wildCardValue)
     }
 }
 
-extension MarketplaceCatalogClientTypes.ContainerProductLastModifiedDateFilter {
+extension MarketplaceCatalogClientTypes.ResaleAuthorizationResellerLegalNameFilter {
 
-    static func write(value: MarketplaceCatalogClientTypes.ContainerProductLastModifiedDateFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DateRange"].write(value.dateRange, with: MarketplaceCatalogClientTypes.ContainerProductLastModifiedDateFilterDateRange.write(value:to:))
-    }
-}
-
-extension MarketplaceCatalogClientTypes.ContainerProductLastModifiedDateFilterDateRange {
-
-    static func write(value: MarketplaceCatalogClientTypes.ContainerProductLastModifiedDateFilterDateRange?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AfterValue"].write(value.afterValue)
-        try writer["BeforeValue"].write(value.beforeValue)
-    }
-}
-
-extension MarketplaceCatalogClientTypes.ContainerProductEntityIdFilter {
-
-    static func write(value: MarketplaceCatalogClientTypes.ContainerProductEntityIdFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ValueList"].writeList(value.valueList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension MarketplaceCatalogClientTypes.OfferFilters {
-
-    static func write(value: MarketplaceCatalogClientTypes.OfferFilters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AvailabilityEndDate"].write(value.availabilityEndDate, with: MarketplaceCatalogClientTypes.OfferAvailabilityEndDateFilter.write(value:to:))
-        try writer["BuyerAccounts"].write(value.buyerAccounts, with: MarketplaceCatalogClientTypes.OfferBuyerAccountsFilter.write(value:to:))
-        try writer["EntityId"].write(value.entityId, with: MarketplaceCatalogClientTypes.OfferEntityIdFilter.write(value:to:))
-        try writer["LastModifiedDate"].write(value.lastModifiedDate, with: MarketplaceCatalogClientTypes.OfferLastModifiedDateFilter.write(value:to:))
-        try writer["Name"].write(value.name, with: MarketplaceCatalogClientTypes.OfferNameFilter.write(value:to:))
-        try writer["OfferSetId"].write(value.offerSetId, with: MarketplaceCatalogClientTypes.OfferSetIdFilter.write(value:to:))
-        try writer["ProductId"].write(value.productId, with: MarketplaceCatalogClientTypes.OfferProductIdFilter.write(value:to:))
-        try writer["ReleaseDate"].write(value.releaseDate, with: MarketplaceCatalogClientTypes.OfferReleaseDateFilter.write(value:to:))
-        try writer["ResaleAuthorizationId"].write(value.resaleAuthorizationId, with: MarketplaceCatalogClientTypes.OfferResaleAuthorizationIdFilter.write(value:to:))
-        try writer["State"].write(value.state, with: MarketplaceCatalogClientTypes.OfferStateFilter.write(value:to:))
-        try writer["Targeting"].write(value.targeting, with: MarketplaceCatalogClientTypes.OfferTargetingFilter.write(value:to:))
-    }
-}
-
-extension MarketplaceCatalogClientTypes.OfferSetIdFilter {
-
-    static func write(value: MarketplaceCatalogClientTypes.OfferSetIdFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ValueList"].writeList(value.valueList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension MarketplaceCatalogClientTypes.OfferLastModifiedDateFilter {
-
-    static func write(value: MarketplaceCatalogClientTypes.OfferLastModifiedDateFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DateRange"].write(value.dateRange, with: MarketplaceCatalogClientTypes.OfferLastModifiedDateFilterDateRange.write(value:to:))
-    }
-}
-
-extension MarketplaceCatalogClientTypes.OfferLastModifiedDateFilterDateRange {
-
-    static func write(value: MarketplaceCatalogClientTypes.OfferLastModifiedDateFilterDateRange?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AfterValue"].write(value.afterValue)
-        try writer["BeforeValue"].write(value.beforeValue)
-    }
-}
-
-extension MarketplaceCatalogClientTypes.OfferTargetingFilter {
-
-    static func write(value: MarketplaceCatalogClientTypes.OfferTargetingFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ValueList"].writeList(value.valueList, memberWritingClosure: SmithyReadWrite.WritingClosureBox<MarketplaceCatalogClientTypes.OfferTargetingString>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension MarketplaceCatalogClientTypes.OfferStateFilter {
-
-    static func write(value: MarketplaceCatalogClientTypes.OfferStateFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ValueList"].writeList(value.valueList, memberWritingClosure: SmithyReadWrite.WritingClosureBox<MarketplaceCatalogClientTypes.OfferStateString>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension MarketplaceCatalogClientTypes.OfferBuyerAccountsFilter {
-
-    static func write(value: MarketplaceCatalogClientTypes.OfferBuyerAccountsFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["WildCardValue"].write(value.wildCardValue)
-    }
-}
-
-extension MarketplaceCatalogClientTypes.OfferAvailabilityEndDateFilter {
-
-    static func write(value: MarketplaceCatalogClientTypes.OfferAvailabilityEndDateFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DateRange"].write(value.dateRange, with: MarketplaceCatalogClientTypes.OfferAvailabilityEndDateFilterDateRange.write(value:to:))
-    }
-}
-
-extension MarketplaceCatalogClientTypes.OfferAvailabilityEndDateFilterDateRange {
-
-    static func write(value: MarketplaceCatalogClientTypes.OfferAvailabilityEndDateFilterDateRange?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AfterValue"].write(value.afterValue)
-        try writer["BeforeValue"].write(value.beforeValue)
-    }
-}
-
-extension MarketplaceCatalogClientTypes.OfferReleaseDateFilter {
-
-    static func write(value: MarketplaceCatalogClientTypes.OfferReleaseDateFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DateRange"].write(value.dateRange, with: MarketplaceCatalogClientTypes.OfferReleaseDateFilterDateRange.write(value:to:))
-    }
-}
-
-extension MarketplaceCatalogClientTypes.OfferReleaseDateFilterDateRange {
-
-    static func write(value: MarketplaceCatalogClientTypes.OfferReleaseDateFilterDateRange?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AfterValue"].write(value.afterValue)
-        try writer["BeforeValue"].write(value.beforeValue)
-    }
-}
-
-extension MarketplaceCatalogClientTypes.OfferResaleAuthorizationIdFilter {
-
-    static func write(value: MarketplaceCatalogClientTypes.OfferResaleAuthorizationIdFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ValueList"].writeList(value.valueList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension MarketplaceCatalogClientTypes.OfferProductIdFilter {
-
-    static func write(value: MarketplaceCatalogClientTypes.OfferProductIdFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ValueList"].writeList(value.valueList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension MarketplaceCatalogClientTypes.OfferNameFilter {
-
-    static func write(value: MarketplaceCatalogClientTypes.OfferNameFilter?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: MarketplaceCatalogClientTypes.ResaleAuthorizationResellerLegalNameFilter?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["ValueList"].writeList(value.valueList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["WildCardValue"].write(value.wildCardValue)
     }
 }
 
-extension MarketplaceCatalogClientTypes.OfferEntityIdFilter {
+extension MarketplaceCatalogClientTypes.ResaleAuthorizationSort {
 
-    static func write(value: MarketplaceCatalogClientTypes.OfferEntityIdFilter?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: MarketplaceCatalogClientTypes.ResaleAuthorizationSort?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["ValueList"].writeList(value.valueList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["SortBy"].write(value.sortBy)
+        try writer["SortOrder"].write(value.sortOrder)
     }
 }
 
-extension MarketplaceCatalogClientTypes.AmiProductFilters {
+extension MarketplaceCatalogClientTypes.ResaleAuthorizationStatusFilter {
 
-    static func write(value: MarketplaceCatalogClientTypes.AmiProductFilters?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: MarketplaceCatalogClientTypes.ResaleAuthorizationStatusFilter?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["EntityId"].write(value.entityId, with: MarketplaceCatalogClientTypes.AmiProductEntityIdFilter.write(value:to:))
-        try writer["LastModifiedDate"].write(value.lastModifiedDate, with: MarketplaceCatalogClientTypes.AmiProductLastModifiedDateFilter.write(value:to:))
-        try writer["ProductTitle"].write(value.productTitle, with: MarketplaceCatalogClientTypes.AmiProductTitleFilter.write(value:to:))
-        try writer["Visibility"].write(value.visibility, with: MarketplaceCatalogClientTypes.AmiProductVisibilityFilter.write(value:to:))
+        try writer["ValueList"].writeList(value.valueList, memberWritingClosure: SmithyReadWrite.WritingClosureBox<MarketplaceCatalogClientTypes.ResaleAuthorizationStatusString>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
-extension MarketplaceCatalogClientTypes.AmiProductVisibilityFilter {
+extension MarketplaceCatalogClientTypes.ResaleAuthorizationSummary {
 
-    static func write(value: MarketplaceCatalogClientTypes.AmiProductVisibilityFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ValueList"].writeList(value.valueList, memberWritingClosure: SmithyReadWrite.WritingClosureBox<MarketplaceCatalogClientTypes.AmiProductVisibilityString>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.ResaleAuthorizationSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MarketplaceCatalogClientTypes.ResaleAuthorizationSummary()
+        value.name = try reader["Name"].readIfPresent()
+        value.productId = try reader["ProductId"].readIfPresent()
+        value.productName = try reader["ProductName"].readIfPresent()
+        value.manufacturerAccountId = try reader["ManufacturerAccountId"].readIfPresent()
+        value.manufacturerLegalName = try reader["ManufacturerLegalName"].readIfPresent()
+        value.resellerAccountID = try reader["ResellerAccountID"].readIfPresent()
+        value.resellerLegalName = try reader["ResellerLegalName"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.offerExtendedStatus = try reader["OfferExtendedStatus"].readIfPresent()
+        value.createdDate = try reader["CreatedDate"].readIfPresent()
+        value.availabilityEndDate = try reader["AvailabilityEndDate"].readIfPresent()
+        return value
     }
 }
 
-extension MarketplaceCatalogClientTypes.AmiProductTitleFilter {
+extension MarketplaceCatalogClientTypes.SaaSProductEntityIdFilter {
 
-    static func write(value: MarketplaceCatalogClientTypes.AmiProductTitleFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ValueList"].writeList(value.valueList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["WildCardValue"].write(value.wildCardValue)
-    }
-}
-
-extension MarketplaceCatalogClientTypes.AmiProductLastModifiedDateFilter {
-
-    static func write(value: MarketplaceCatalogClientTypes.AmiProductLastModifiedDateFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DateRange"].write(value.dateRange, with: MarketplaceCatalogClientTypes.AmiProductLastModifiedDateFilterDateRange.write(value:to:))
-    }
-}
-
-extension MarketplaceCatalogClientTypes.AmiProductLastModifiedDateFilterDateRange {
-
-    static func write(value: MarketplaceCatalogClientTypes.AmiProductLastModifiedDateFilterDateRange?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AfterValue"].write(value.afterValue)
-        try writer["BeforeValue"].write(value.beforeValue)
-    }
-}
-
-extension MarketplaceCatalogClientTypes.AmiProductEntityIdFilter {
-
-    static func write(value: MarketplaceCatalogClientTypes.AmiProductEntityIdFilter?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: MarketplaceCatalogClientTypes.SaaSProductEntityIdFilter?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["ValueList"].writeList(value.valueList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
@@ -5245,11 +5372,23 @@ extension MarketplaceCatalogClientTypes.SaaSProductLastModifiedDateFilterDateRan
     }
 }
 
-extension MarketplaceCatalogClientTypes.SaaSProductVisibilityFilter {
+extension MarketplaceCatalogClientTypes.SaaSProductSort {
 
-    static func write(value: MarketplaceCatalogClientTypes.SaaSProductVisibilityFilter?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: MarketplaceCatalogClientTypes.SaaSProductSort?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["ValueList"].writeList(value.valueList, memberWritingClosure: SmithyReadWrite.WritingClosureBox<MarketplaceCatalogClientTypes.SaaSProductVisibilityString>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["SortBy"].write(value.sortBy)
+        try writer["SortOrder"].write(value.sortOrder)
+    }
+}
+
+extension MarketplaceCatalogClientTypes.SaaSProductSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.SaaSProductSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MarketplaceCatalogClientTypes.SaaSProductSummary()
+        value.productTitle = try reader["ProductTitle"].readIfPresent()
+        value.visibility = try reader["Visibility"].readIfPresent()
+        return value
     }
 }
 
@@ -5262,176 +5401,37 @@ extension MarketplaceCatalogClientTypes.SaaSProductTitleFilter {
     }
 }
 
-extension MarketplaceCatalogClientTypes.SaaSProductEntityIdFilter {
+extension MarketplaceCatalogClientTypes.SaaSProductVisibilityFilter {
 
-    static func write(value: MarketplaceCatalogClientTypes.SaaSProductEntityIdFilter?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: MarketplaceCatalogClientTypes.SaaSProductVisibilityFilter?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["ValueList"].writeList(value.valueList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ValueList"].writeList(value.valueList, memberWritingClosure: SmithyReadWrite.WritingClosureBox<MarketplaceCatalogClientTypes.SaaSProductVisibilityString>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
-extension MarketplaceCatalogClientTypes.DataProductFilters {
+extension MarketplaceCatalogClientTypes.Sort {
 
-    static func write(value: MarketplaceCatalogClientTypes.DataProductFilters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["EntityId"].write(value.entityId, with: MarketplaceCatalogClientTypes.DataProductEntityIdFilter.write(value:to:))
-        try writer["LastModifiedDate"].write(value.lastModifiedDate, with: MarketplaceCatalogClientTypes.DataProductLastModifiedDateFilter.write(value:to:))
-        try writer["ProductTitle"].write(value.productTitle, with: MarketplaceCatalogClientTypes.DataProductTitleFilter.write(value:to:))
-        try writer["Visibility"].write(value.visibility, with: MarketplaceCatalogClientTypes.DataProductVisibilityFilter.write(value:to:))
-    }
-}
-
-extension MarketplaceCatalogClientTypes.DataProductLastModifiedDateFilter {
-
-    static func write(value: MarketplaceCatalogClientTypes.DataProductLastModifiedDateFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DateRange"].write(value.dateRange, with: MarketplaceCatalogClientTypes.DataProductLastModifiedDateFilterDateRange.write(value:to:))
-    }
-}
-
-extension MarketplaceCatalogClientTypes.DataProductLastModifiedDateFilterDateRange {
-
-    static func write(value: MarketplaceCatalogClientTypes.DataProductLastModifiedDateFilterDateRange?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AfterValue"].write(value.afterValue)
-        try writer["BeforeValue"].write(value.beforeValue)
-    }
-}
-
-extension MarketplaceCatalogClientTypes.DataProductVisibilityFilter {
-
-    static func write(value: MarketplaceCatalogClientTypes.DataProductVisibilityFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ValueList"].writeList(value.valueList, memberWritingClosure: SmithyReadWrite.WritingClosureBox<MarketplaceCatalogClientTypes.DataProductVisibilityString>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension MarketplaceCatalogClientTypes.DataProductTitleFilter {
-
-    static func write(value: MarketplaceCatalogClientTypes.DataProductTitleFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ValueList"].writeList(value.valueList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["WildCardValue"].write(value.wildCardValue)
-    }
-}
-
-extension MarketplaceCatalogClientTypes.DataProductEntityIdFilter {
-
-    static func write(value: MarketplaceCatalogClientTypes.DataProductEntityIdFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ValueList"].writeList(value.valueList, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension MarketplaceCatalogClientTypes.EntityTypeSort {
-
-    static func write(value: MarketplaceCatalogClientTypes.EntityTypeSort?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .amiproductsort(amiproductsort):
-                try writer["AmiProductSort"].write(amiproductsort, with: MarketplaceCatalogClientTypes.AmiProductSort.write(value:to:))
-            case let .containerproductsort(containerproductsort):
-                try writer["ContainerProductSort"].write(containerproductsort, with: MarketplaceCatalogClientTypes.ContainerProductSort.write(value:to:))
-            case let .dataproductsort(dataproductsort):
-                try writer["DataProductSort"].write(dataproductsort, with: MarketplaceCatalogClientTypes.DataProductSort.write(value:to:))
-            case let .machinelearningproductsort(machinelearningproductsort):
-                try writer["MachineLearningProductSort"].write(machinelearningproductsort, with: MarketplaceCatalogClientTypes.MachineLearningProductSort.write(value:to:))
-            case let .offersetsort(offersetsort):
-                try writer["OfferSetSort"].write(offersetsort, with: MarketplaceCatalogClientTypes.OfferSetSort.write(value:to:))
-            case let .offersort(offersort):
-                try writer["OfferSort"].write(offersort, with: MarketplaceCatalogClientTypes.OfferSort.write(value:to:))
-            case let .resaleauthorizationsort(resaleauthorizationsort):
-                try writer["ResaleAuthorizationSort"].write(resaleauthorizationsort, with: MarketplaceCatalogClientTypes.ResaleAuthorizationSort.write(value:to:))
-            case let .saasproductsort(saasproductsort):
-                try writer["SaaSProductSort"].write(saasproductsort, with: MarketplaceCatalogClientTypes.SaaSProductSort.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-}
-
-extension MarketplaceCatalogClientTypes.OfferSetSort {
-
-    static func write(value: MarketplaceCatalogClientTypes.OfferSetSort?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: MarketplaceCatalogClientTypes.Sort?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["SortBy"].write(value.sortBy)
         try writer["SortOrder"].write(value.sortOrder)
     }
 }
 
-extension MarketplaceCatalogClientTypes.MachineLearningProductSort {
+extension MarketplaceCatalogClientTypes.Tag {
 
-    static func write(value: MarketplaceCatalogClientTypes.MachineLearningProductSort?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: MarketplaceCatalogClientTypes.Tag?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["SortBy"].write(value.sortBy)
-        try writer["SortOrder"].write(value.sortOrder)
+        try writer["Key"].write(value.key)
+        try writer["Value"].write(value.value)
     }
-}
 
-extension MarketplaceCatalogClientTypes.ResaleAuthorizationSort {
-
-    static func write(value: MarketplaceCatalogClientTypes.ResaleAuthorizationSort?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["SortBy"].write(value.sortBy)
-        try writer["SortOrder"].write(value.sortOrder)
-    }
-}
-
-extension MarketplaceCatalogClientTypes.ContainerProductSort {
-
-    static func write(value: MarketplaceCatalogClientTypes.ContainerProductSort?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["SortBy"].write(value.sortBy)
-        try writer["SortOrder"].write(value.sortOrder)
-    }
-}
-
-extension MarketplaceCatalogClientTypes.OfferSort {
-
-    static func write(value: MarketplaceCatalogClientTypes.OfferSort?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["SortBy"].write(value.sortBy)
-        try writer["SortOrder"].write(value.sortOrder)
-    }
-}
-
-extension MarketplaceCatalogClientTypes.AmiProductSort {
-
-    static func write(value: MarketplaceCatalogClientTypes.AmiProductSort?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["SortBy"].write(value.sortBy)
-        try writer["SortOrder"].write(value.sortOrder)
-    }
-}
-
-extension MarketplaceCatalogClientTypes.SaaSProductSort {
-
-    static func write(value: MarketplaceCatalogClientTypes.SaaSProductSort?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["SortBy"].write(value.sortBy)
-        try writer["SortOrder"].write(value.sortOrder)
-    }
-}
-
-extension MarketplaceCatalogClientTypes.DataProductSort {
-
-    static func write(value: MarketplaceCatalogClientTypes.DataProductSort?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["SortBy"].write(value.sortBy)
-        try writer["SortOrder"].write(value.sortOrder)
-    }
-}
-
-extension MarketplaceCatalogClientTypes.Change {
-
-    static func write(value: MarketplaceCatalogClientTypes.Change?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ChangeName"].write(value.changeName)
-        try writer["ChangeType"].write(value.changeType)
-        try writer["Details"].write(value.details)
-        try writer["DetailsDocument"].write(value.detailsDocument)
-        try writer["Entity"].write(value.entity, with: MarketplaceCatalogClientTypes.Entity.write(value:to:))
-        try writer["EntityTags"].writeList(value.entityTags, memberWritingClosure: MarketplaceCatalogClientTypes.Tag.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    static func read(from reader: SmithyJSON.Reader) throws -> MarketplaceCatalogClientTypes.Tag {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MarketplaceCatalogClientTypes.Tag()
+        value.key = try reader["Key"].readIfPresent() ?? ""
+        value.value = try reader["Value"].readIfPresent() ?? ""
+        return value
     }
 }
 

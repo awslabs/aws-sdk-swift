@@ -2569,6 +2569,25 @@ extension ResourceNotFoundException {
     }
 }
 
+extension MWAAServerlessClientTypes.DefinitionS3Location {
+
+    static func write(value: MWAAServerlessClientTypes.DefinitionS3Location?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Bucket"].write(value.bucket)
+        try writer["ObjectKey"].write(value.objectKey)
+        try writer["VersionId"].write(value.versionId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MWAAServerlessClientTypes.DefinitionS3Location {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MWAAServerlessClientTypes.DefinitionS3Location()
+        value.bucket = try reader["Bucket"].readIfPresent() ?? ""
+        value.objectKey = try reader["ObjectKey"].readIfPresent() ?? ""
+        value.versionId = try reader["VersionId"].readIfPresent()
+        return value
+    }
+}
+
 extension MWAAServerlessClientTypes.EncryptionConfiguration {
 
     static func write(value: MWAAServerlessClientTypes.EncryptionConfiguration?, to writer: SmithyJSON.Writer) throws {
@@ -2601,21 +2620,32 @@ extension MWAAServerlessClientTypes.LoggingConfiguration {
     }
 }
 
-extension MWAAServerlessClientTypes.DefinitionS3Location {
+extension MWAAServerlessClientTypes.NetworkConfiguration {
 
-    static func write(value: MWAAServerlessClientTypes.DefinitionS3Location?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: MWAAServerlessClientTypes.NetworkConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["Bucket"].write(value.bucket)
-        try writer["ObjectKey"].write(value.objectKey)
-        try writer["VersionId"].write(value.versionId)
+        try writer["SecurityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["SubnetIds"].writeList(value.subnetIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> MWAAServerlessClientTypes.DefinitionS3Location {
+    static func read(from reader: SmithyJSON.Reader) throws -> MWAAServerlessClientTypes.NetworkConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MWAAServerlessClientTypes.DefinitionS3Location()
-        value.bucket = try reader["Bucket"].readIfPresent() ?? ""
-        value.objectKey = try reader["ObjectKey"].readIfPresent() ?? ""
-        value.versionId = try reader["VersionId"].readIfPresent()
+        var value = MWAAServerlessClientTypes.NetworkConfiguration()
+        value.securityGroupIds = try reader["SecurityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.subnetIds = try reader["SubnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension MWAAServerlessClientTypes.RunDetailSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MWAAServerlessClientTypes.RunDetailSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MWAAServerlessClientTypes.RunDetailSummary()
+        value.status = try reader["Status"].readIfPresent()
+        value.createdOn = try reader["CreatedOn"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.startedAt = try reader["StartedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.endedAt = try reader["EndedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
     }
 }
@@ -2630,19 +2660,29 @@ extension MWAAServerlessClientTypes.ScheduleConfiguration {
     }
 }
 
-extension MWAAServerlessClientTypes.NetworkConfiguration {
+extension MWAAServerlessClientTypes.TaskInstanceSummary {
 
-    static func write(value: MWAAServerlessClientTypes.NetworkConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["SecurityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["SubnetIds"].writeList(value.subnetIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MWAAServerlessClientTypes.NetworkConfiguration {
+    static func read(from reader: SmithyJSON.Reader) throws -> MWAAServerlessClientTypes.TaskInstanceSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MWAAServerlessClientTypes.NetworkConfiguration()
-        value.securityGroupIds = try reader["SecurityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.subnetIds = try reader["SubnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = MWAAServerlessClientTypes.TaskInstanceSummary()
+        value.workflowArn = try reader["WorkflowArn"].readIfPresent()
+        value.workflowVersion = try reader["WorkflowVersion"].readIfPresent()
+        value.runId = try reader["RunId"].readIfPresent()
+        value.taskInstanceId = try reader["TaskInstanceId"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.durationInSeconds = try reader["DurationInSeconds"].readIfPresent()
+        value.operatorName = try reader["OperatorName"].readIfPresent()
+        return value
+    }
+}
+
+extension MWAAServerlessClientTypes.ValidationExceptionField {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MWAAServerlessClientTypes.ValidationExceptionField {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MWAAServerlessClientTypes.ValidationExceptionField()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.message = try reader["Message"].readIfPresent() ?? ""
         return value
     }
 }
@@ -2668,22 +2708,6 @@ extension MWAAServerlessClientTypes.WorkflowRunDetail {
     }
 }
 
-extension MWAAServerlessClientTypes.TaskInstanceSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MWAAServerlessClientTypes.TaskInstanceSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MWAAServerlessClientTypes.TaskInstanceSummary()
-        value.workflowArn = try reader["WorkflowArn"].readIfPresent()
-        value.workflowVersion = try reader["WorkflowVersion"].readIfPresent()
-        value.runId = try reader["RunId"].readIfPresent()
-        value.taskInstanceId = try reader["TaskInstanceId"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.durationInSeconds = try reader["DurationInSeconds"].readIfPresent()
-        value.operatorName = try reader["OperatorName"].readIfPresent()
-        return value
-    }
-}
-
 extension MWAAServerlessClientTypes.WorkflowRunSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> MWAAServerlessClientTypes.WorkflowRunSummary {
@@ -2694,19 +2718,6 @@ extension MWAAServerlessClientTypes.WorkflowRunSummary {
         value.workflowVersion = try reader["WorkflowVersion"].readIfPresent()
         value.runType = try reader["RunType"].readIfPresent()
         value.runDetailSummary = try reader["RunDetailSummary"].readIfPresent(with: MWAAServerlessClientTypes.RunDetailSummary.read(from:))
-        return value
-    }
-}
-
-extension MWAAServerlessClientTypes.RunDetailSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MWAAServerlessClientTypes.RunDetailSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MWAAServerlessClientTypes.RunDetailSummary()
-        value.status = try reader["Status"].readIfPresent()
-        value.createdOn = try reader["CreatedOn"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.startedAt = try reader["StartedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.endedAt = try reader["EndedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
     }
 }
@@ -2741,17 +2752,6 @@ extension MWAAServerlessClientTypes.WorkflowVersionSummary {
         value.definitionS3Location = try reader["DefinitionS3Location"].readIfPresent(with: MWAAServerlessClientTypes.DefinitionS3Location.read(from:))
         value.scheduleConfiguration = try reader["ScheduleConfiguration"].readIfPresent(with: MWAAServerlessClientTypes.ScheduleConfiguration.read(from:))
         value.triggerMode = try reader["TriggerMode"].readIfPresent()
-        return value
-    }
-}
-
-extension MWAAServerlessClientTypes.ValidationExceptionField {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MWAAServerlessClientTypes.ValidationExceptionField {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MWAAServerlessClientTypes.ValidationExceptionField()
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.message = try reader["Message"].readIfPresent() ?? ""
         return value
     }
 }

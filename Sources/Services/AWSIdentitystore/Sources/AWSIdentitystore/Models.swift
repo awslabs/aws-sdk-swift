@@ -2938,6 +2938,78 @@ extension ThrottlingException {
     }
 }
 
+extension IdentitystoreClientTypes.Address {
+
+    static func write(value: IdentitystoreClientTypes.Address?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Country"].write(value.country)
+        try writer["Formatted"].write(value.formatted)
+        try writer["Locality"].write(value.locality)
+        try writer["PostalCode"].write(value.postalCode)
+        try writer["Primary"].write(value.primary)
+        try writer["Region"].write(value.region)
+        try writer["StreetAddress"].write(value.streetAddress)
+        try writer["Type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IdentitystoreClientTypes.Address {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IdentitystoreClientTypes.Address()
+        value.streetAddress = try reader["StreetAddress"].readIfPresent()
+        value.locality = try reader["Locality"].readIfPresent()
+        value.region = try reader["Region"].readIfPresent()
+        value.postalCode = try reader["PostalCode"].readIfPresent()
+        value.country = try reader["Country"].readIfPresent()
+        value.formatted = try reader["Formatted"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent()
+        value.primary = try reader["Primary"].readIfPresent() ?? false
+        return value
+    }
+}
+
+extension IdentitystoreClientTypes.AlternateIdentifier {
+
+    static func write(value: IdentitystoreClientTypes.AlternateIdentifier?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .externalid(externalid):
+                try writer["ExternalId"].write(externalid, with: IdentitystoreClientTypes.ExternalId.write(value:to:))
+            case let .uniqueattribute(uniqueattribute):
+                try writer["UniqueAttribute"].write(uniqueattribute, with: IdentitystoreClientTypes.UniqueAttribute.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension IdentitystoreClientTypes.AttributeOperation {
+
+    static func write(value: IdentitystoreClientTypes.AttributeOperation?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AttributePath"].write(value.attributePath)
+        try writer["AttributeValue"].write(value.attributeValue)
+    }
+}
+
+extension IdentitystoreClientTypes.Email {
+
+    static func write(value: IdentitystoreClientTypes.Email?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Primary"].write(value.primary)
+        try writer["Type"].write(value.type)
+        try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IdentitystoreClientTypes.Email {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IdentitystoreClientTypes.Email()
+        value.value = try reader["Value"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent()
+        value.primary = try reader["Primary"].readIfPresent() ?? false
+        return value
+    }
+}
+
 extension IdentitystoreClientTypes.ExternalId {
 
     static func write(value: IdentitystoreClientTypes.ExternalId?, to writer: SmithyJSON.Writer) throws {
@@ -2951,6 +3023,62 @@ extension IdentitystoreClientTypes.ExternalId {
         var value = IdentitystoreClientTypes.ExternalId()
         value.issuer = try reader["Issuer"].readIfPresent() ?? ""
         value.id = try reader["Id"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension IdentitystoreClientTypes.Filter {
+
+    static func write(value: IdentitystoreClientTypes.Filter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AttributePath"].write(value.attributePath)
+        try writer["AttributeValue"].write(value.attributeValue)
+    }
+}
+
+extension IdentitystoreClientTypes.Group {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IdentitystoreClientTypes.Group {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IdentitystoreClientTypes.Group()
+        value.groupId = try reader["GroupId"].readIfPresent() ?? ""
+        value.displayName = try reader["DisplayName"].readIfPresent()
+        value.externalIds = try reader["ExternalIds"].readListIfPresent(memberReadingClosure: IdentitystoreClientTypes.ExternalId.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.description = try reader["Description"].readIfPresent()
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.createdBy = try reader["CreatedBy"].readIfPresent()
+        value.updatedBy = try reader["UpdatedBy"].readIfPresent()
+        value.identityStoreId = try reader["IdentityStoreId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension IdentitystoreClientTypes.GroupMembership {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IdentitystoreClientTypes.GroupMembership {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IdentitystoreClientTypes.GroupMembership()
+        value.identityStoreId = try reader["IdentityStoreId"].readIfPresent() ?? ""
+        value.membershipId = try reader["MembershipId"].readIfPresent()
+        value.groupId = try reader["GroupId"].readIfPresent()
+        value.memberId = try reader["MemberId"].readIfPresent(with: IdentitystoreClientTypes.MemberId.read(from:))
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.createdBy = try reader["CreatedBy"].readIfPresent()
+        value.updatedBy = try reader["UpdatedBy"].readIfPresent()
+        return value
+    }
+}
+
+extension IdentitystoreClientTypes.GroupMembershipExistenceResult {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> IdentitystoreClientTypes.GroupMembershipExistenceResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = IdentitystoreClientTypes.GroupMembershipExistenceResult()
+        value.groupId = try reader["GroupId"].readIfPresent()
+        value.memberId = try reader["MemberId"].readIfPresent(with: IdentitystoreClientTypes.MemberId.read(from:))
+        value.membershipExists = try reader["MembershipExists"].readIfPresent() ?? false
         return value
     }
 }
@@ -3000,54 +3128,6 @@ extension IdentitystoreClientTypes.Name {
         value.middleName = try reader["MiddleName"].readIfPresent()
         value.honorificPrefix = try reader["HonorificPrefix"].readIfPresent()
         value.honorificSuffix = try reader["HonorificSuffix"].readIfPresent()
-        return value
-    }
-}
-
-extension IdentitystoreClientTypes.Email {
-
-    static func write(value: IdentitystoreClientTypes.Email?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Primary"].write(value.primary)
-        try writer["Type"].write(value.type)
-        try writer["Value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IdentitystoreClientTypes.Email {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IdentitystoreClientTypes.Email()
-        value.value = try reader["Value"].readIfPresent()
-        value.type = try reader["Type"].readIfPresent()
-        value.primary = try reader["Primary"].readIfPresent() ?? false
-        return value
-    }
-}
-
-extension IdentitystoreClientTypes.Address {
-
-    static func write(value: IdentitystoreClientTypes.Address?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Country"].write(value.country)
-        try writer["Formatted"].write(value.formatted)
-        try writer["Locality"].write(value.locality)
-        try writer["PostalCode"].write(value.postalCode)
-        try writer["Primary"].write(value.primary)
-        try writer["Region"].write(value.region)
-        try writer["StreetAddress"].write(value.streetAddress)
-        try writer["Type"].write(value.type)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IdentitystoreClientTypes.Address {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IdentitystoreClientTypes.Address()
-        value.streetAddress = try reader["StreetAddress"].readIfPresent()
-        value.locality = try reader["Locality"].readIfPresent()
-        value.region = try reader["Region"].readIfPresent()
-        value.postalCode = try reader["PostalCode"].readIfPresent()
-        value.country = try reader["Country"].readIfPresent()
-        value.formatted = try reader["Formatted"].readIfPresent()
-        value.type = try reader["Type"].readIfPresent()
-        value.primary = try reader["Primary"].readIfPresent() ?? false
         return value
     }
 }
@@ -3111,50 +3191,12 @@ extension IdentitystoreClientTypes.Role {
     }
 }
 
-extension IdentitystoreClientTypes.GroupMembershipExistenceResult {
+extension IdentitystoreClientTypes.UniqueAttribute {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> IdentitystoreClientTypes.GroupMembershipExistenceResult {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IdentitystoreClientTypes.GroupMembershipExistenceResult()
-        value.groupId = try reader["GroupId"].readIfPresent()
-        value.memberId = try reader["MemberId"].readIfPresent(with: IdentitystoreClientTypes.MemberId.read(from:))
-        value.membershipExists = try reader["MembershipExists"].readIfPresent() ?? false
-        return value
-    }
-}
-
-extension IdentitystoreClientTypes.GroupMembership {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IdentitystoreClientTypes.GroupMembership {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IdentitystoreClientTypes.GroupMembership()
-        value.identityStoreId = try reader["IdentityStoreId"].readIfPresent() ?? ""
-        value.membershipId = try reader["MembershipId"].readIfPresent()
-        value.groupId = try reader["GroupId"].readIfPresent()
-        value.memberId = try reader["MemberId"].readIfPresent(with: IdentitystoreClientTypes.MemberId.read(from:))
-        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.createdBy = try reader["CreatedBy"].readIfPresent()
-        value.updatedBy = try reader["UpdatedBy"].readIfPresent()
-        return value
-    }
-}
-
-extension IdentitystoreClientTypes.Group {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> IdentitystoreClientTypes.Group {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = IdentitystoreClientTypes.Group()
-        value.groupId = try reader["GroupId"].readIfPresent() ?? ""
-        value.displayName = try reader["DisplayName"].readIfPresent()
-        value.externalIds = try reader["ExternalIds"].readListIfPresent(memberReadingClosure: IdentitystoreClientTypes.ExternalId.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.description = try reader["Description"].readIfPresent()
-        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.updatedAt = try reader["UpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.createdBy = try reader["CreatedBy"].readIfPresent()
-        value.updatedBy = try reader["UpdatedBy"].readIfPresent()
-        value.identityStoreId = try reader["IdentityStoreId"].readIfPresent() ?? ""
-        return value
+    static func write(value: IdentitystoreClientTypes.UniqueAttribute?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AttributePath"].write(value.attributePath)
+        try writer["AttributeValue"].write(value.attributeValue)
     }
 }
 
@@ -3190,48 +3232,6 @@ extension IdentitystoreClientTypes.User {
         value.updatedBy = try reader["UpdatedBy"].readIfPresent()
         value.extensions = try reader["Extensions"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readDocument(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         return value
-    }
-}
-
-extension IdentitystoreClientTypes.AlternateIdentifier {
-
-    static func write(value: IdentitystoreClientTypes.AlternateIdentifier?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .externalid(externalid):
-                try writer["ExternalId"].write(externalid, with: IdentitystoreClientTypes.ExternalId.write(value:to:))
-            case let .uniqueattribute(uniqueattribute):
-                try writer["UniqueAttribute"].write(uniqueattribute, with: IdentitystoreClientTypes.UniqueAttribute.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-}
-
-extension IdentitystoreClientTypes.UniqueAttribute {
-
-    static func write(value: IdentitystoreClientTypes.UniqueAttribute?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AttributePath"].write(value.attributePath)
-        try writer["AttributeValue"].write(value.attributeValue)
-    }
-}
-
-extension IdentitystoreClientTypes.Filter {
-
-    static func write(value: IdentitystoreClientTypes.Filter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AttributePath"].write(value.attributePath)
-        try writer["AttributeValue"].write(value.attributeValue)
-    }
-}
-
-extension IdentitystoreClientTypes.AttributeOperation {
-
-    static func write(value: IdentitystoreClientTypes.AttributeOperation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AttributePath"].write(value.attributePath)
-        try writer["AttributeValue"].write(value.attributeValue)
     }
 }
 

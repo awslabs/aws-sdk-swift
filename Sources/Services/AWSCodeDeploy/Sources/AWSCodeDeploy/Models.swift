@@ -10943,50 +10943,51 @@ extension MultipleIamArnsProvidedException {
     }
 }
 
-extension CodeDeployClientTypes.RevisionInfo {
+extension CodeDeployClientTypes.Alarm {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeDeployClientTypes.RevisionInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeDeployClientTypes.RevisionInfo()
-        value.revisionLocation = try reader["revisionLocation"].readIfPresent(with: CodeDeployClientTypes.RevisionLocation.read(from:))
-        value.genericRevisionInfo = try reader["genericRevisionInfo"].readIfPresent(with: CodeDeployClientTypes.GenericRevisionInfo.read(from:))
-        return value
-    }
-}
-
-extension CodeDeployClientTypes.GenericRevisionInfo {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeDeployClientTypes.GenericRevisionInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeDeployClientTypes.GenericRevisionInfo()
-        value.description = try reader["description"].readIfPresent()
-        value.deploymentGroups = try reader["deploymentGroups"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.firstUsedTime = try reader["firstUsedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastUsedTime = try reader["lastUsedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.registerTime = try reader["registerTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension CodeDeployClientTypes.RevisionLocation {
-
-    static func write(value: CodeDeployClientTypes.RevisionLocation?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: CodeDeployClientTypes.Alarm?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["appSpecContent"].write(value.appSpecContent, with: CodeDeployClientTypes.AppSpecContent.write(value:to:))
-        try writer["gitHubLocation"].write(value.gitHubLocation, with: CodeDeployClientTypes.GitHubLocation.write(value:to:))
-        try writer["revisionType"].write(value.revisionType)
-        try writer["s3Location"].write(value.s3Location, with: CodeDeployClientTypes.S3Location.write(value:to:))
-        try writer["string"].write(value.string, with: CodeDeployClientTypes.RawString.write(value:to:))
+        try writer["name"].write(value.name)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeDeployClientTypes.RevisionLocation {
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeDeployClientTypes.Alarm {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeDeployClientTypes.RevisionLocation()
-        value.revisionType = try reader["revisionType"].readIfPresent()
-        value.s3Location = try reader["s3Location"].readIfPresent(with: CodeDeployClientTypes.S3Location.read(from:))
-        value.gitHubLocation = try reader["gitHubLocation"].readIfPresent(with: CodeDeployClientTypes.GitHubLocation.read(from:))
-        value.string = try reader["string"].readIfPresent(with: CodeDeployClientTypes.RawString.read(from:))
-        value.appSpecContent = try reader["appSpecContent"].readIfPresent(with: CodeDeployClientTypes.AppSpecContent.read(from:))
+        var value = CodeDeployClientTypes.Alarm()
+        value.name = try reader["name"].readIfPresent()
+        return value
+    }
+}
+
+extension CodeDeployClientTypes.AlarmConfiguration {
+
+    static func write(value: CodeDeployClientTypes.AlarmConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["alarms"].writeList(value.alarms, memberWritingClosure: CodeDeployClientTypes.Alarm.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["enabled"].write(value.enabled)
+        try writer["ignorePollAlarmFailure"].write(value.ignorePollAlarmFailure)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeDeployClientTypes.AlarmConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CodeDeployClientTypes.AlarmConfiguration()
+        value.enabled = try reader["enabled"].readIfPresent() ?? false
+        value.ignorePollAlarmFailure = try reader["ignorePollAlarmFailure"].readIfPresent() ?? false
+        value.alarms = try reader["alarms"].readListIfPresent(memberReadingClosure: CodeDeployClientTypes.Alarm.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension CodeDeployClientTypes.ApplicationInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeDeployClientTypes.ApplicationInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CodeDeployClientTypes.ApplicationInfo()
+        value.applicationId = try reader["applicationId"].readIfPresent()
+        value.applicationName = try reader["applicationName"].readIfPresent()
+        value.createTime = try reader["createTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.linkedToGitHub = try reader["linkedToGitHub"].readIfPresent() ?? false
+        value.gitHubAccountName = try reader["gitHubAccountName"].readIfPresent()
+        value.computePlatform = try reader["computePlatform"].readIfPresent()
         return value
     }
 }
@@ -11008,74 +11009,99 @@ extension CodeDeployClientTypes.AppSpecContent {
     }
 }
 
-extension CodeDeployClientTypes.RawString {
+extension CodeDeployClientTypes.AutoRollbackConfiguration {
 
-    static func write(value: CodeDeployClientTypes.RawString?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: CodeDeployClientTypes.AutoRollbackConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["content"].write(value.content)
-        try writer["sha256"].write(value.sha256)
+        try writer["enabled"].write(value.enabled)
+        try writer["events"].writeList(value.events, memberWritingClosure: SmithyReadWrite.WritingClosureBox<CodeDeployClientTypes.AutoRollbackEvent>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeDeployClientTypes.RawString {
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeDeployClientTypes.AutoRollbackConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeDeployClientTypes.RawString()
-        value.content = try reader["content"].readIfPresent()
-        value.sha256 = try reader["sha256"].readIfPresent()
+        var value = CodeDeployClientTypes.AutoRollbackConfiguration()
+        value.enabled = try reader["enabled"].readIfPresent() ?? false
+        value.events = try reader["events"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<CodeDeployClientTypes.AutoRollbackEvent>().read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
 
-extension CodeDeployClientTypes.GitHubLocation {
+extension CodeDeployClientTypes.AutoScalingGroup {
 
-    static func write(value: CodeDeployClientTypes.GitHubLocation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["commitId"].write(value.commitId)
-        try writer["repository"].write(value.repository)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeDeployClientTypes.GitHubLocation {
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeDeployClientTypes.AutoScalingGroup {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeDeployClientTypes.GitHubLocation()
-        value.repository = try reader["repository"].readIfPresent()
-        value.commitId = try reader["commitId"].readIfPresent()
+        var value = CodeDeployClientTypes.AutoScalingGroup()
+        value.name = try reader["name"].readIfPresent()
+        value.hook = try reader["hook"].readIfPresent()
+        value.terminationHook = try reader["terminationHook"].readIfPresent()
         return value
     }
 }
 
-extension CodeDeployClientTypes.S3Location {
+extension CodeDeployClientTypes.BlueGreenDeploymentConfiguration {
 
-    static func write(value: CodeDeployClientTypes.S3Location?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: CodeDeployClientTypes.BlueGreenDeploymentConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["bucket"].write(value.bucket)
-        try writer["bundleType"].write(value.bundleType)
-        try writer["eTag"].write(value.eTag)
-        try writer["key"].write(value.key)
-        try writer["version"].write(value.version)
+        try writer["deploymentReadyOption"].write(value.deploymentReadyOption, with: CodeDeployClientTypes.DeploymentReadyOption.write(value:to:))
+        try writer["greenFleetProvisioningOption"].write(value.greenFleetProvisioningOption, with: CodeDeployClientTypes.GreenFleetProvisioningOption.write(value:to:))
+        try writer["terminateBlueInstancesOnDeploymentSuccess"].write(value.terminateBlueInstancesOnDeploymentSuccess, with: CodeDeployClientTypes.BlueInstanceTerminationOption.write(value:to:))
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeDeployClientTypes.S3Location {
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeDeployClientTypes.BlueGreenDeploymentConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeDeployClientTypes.S3Location()
-        value.bucket = try reader["bucket"].readIfPresent()
-        value.key = try reader["key"].readIfPresent()
-        value.bundleType = try reader["bundleType"].readIfPresent()
-        value.version = try reader["version"].readIfPresent()
-        value.eTag = try reader["eTag"].readIfPresent()
+        var value = CodeDeployClientTypes.BlueGreenDeploymentConfiguration()
+        value.terminateBlueInstancesOnDeploymentSuccess = try reader["terminateBlueInstancesOnDeploymentSuccess"].readIfPresent(with: CodeDeployClientTypes.BlueInstanceTerminationOption.read(from:))
+        value.deploymentReadyOption = try reader["deploymentReadyOption"].readIfPresent(with: CodeDeployClientTypes.DeploymentReadyOption.read(from:))
+        value.greenFleetProvisioningOption = try reader["greenFleetProvisioningOption"].readIfPresent(with: CodeDeployClientTypes.GreenFleetProvisioningOption.read(from:))
         return value
     }
 }
 
-extension CodeDeployClientTypes.ApplicationInfo {
+extension CodeDeployClientTypes.BlueInstanceTerminationOption {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeDeployClientTypes.ApplicationInfo {
+    static func write(value: CodeDeployClientTypes.BlueInstanceTerminationOption?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["action"].write(value.action)
+        try writer["terminationWaitTimeInMinutes"].write(value.terminationWaitTimeInMinutes)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeDeployClientTypes.BlueInstanceTerminationOption {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeDeployClientTypes.ApplicationInfo()
-        value.applicationId = try reader["applicationId"].readIfPresent()
-        value.applicationName = try reader["applicationName"].readIfPresent()
+        var value = CodeDeployClientTypes.BlueInstanceTerminationOption()
+        value.action = try reader["action"].readIfPresent()
+        value.terminationWaitTimeInMinutes = try reader["terminationWaitTimeInMinutes"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension CodeDeployClientTypes.CloudFormationTarget {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeDeployClientTypes.CloudFormationTarget {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CodeDeployClientTypes.CloudFormationTarget()
+        value.deploymentId = try reader["deploymentId"].readIfPresent()
+        value.targetId = try reader["targetId"].readIfPresent()
+        value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lifecycleEvents = try reader["lifecycleEvents"].readListIfPresent(memberReadingClosure: CodeDeployClientTypes.LifecycleEvent.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.status = try reader["status"].readIfPresent()
+        value.resourceType = try reader["resourceType"].readIfPresent()
+        value.targetVersionWeight = try reader["targetVersionWeight"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension CodeDeployClientTypes.DeploymentConfigInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeDeployClientTypes.DeploymentConfigInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CodeDeployClientTypes.DeploymentConfigInfo()
+        value.deploymentConfigId = try reader["deploymentConfigId"].readIfPresent()
+        value.deploymentConfigName = try reader["deploymentConfigName"].readIfPresent()
+        value.minimumHealthyHosts = try reader["minimumHealthyHosts"].readIfPresent(with: CodeDeployClientTypes.MinimumHealthyHosts.read(from:))
         value.createTime = try reader["createTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.linkedToGitHub = try reader["linkedToGitHub"].readIfPresent() ?? false
-        value.gitHubAccountName = try reader["gitHubAccountName"].readIfPresent()
         value.computePlatform = try reader["computePlatform"].readIfPresent()
+        value.trafficRoutingConfig = try reader["trafficRoutingConfig"].readIfPresent(with: CodeDeployClientTypes.TrafficRoutingConfig.read(from:))
+        value.zonalConfig = try reader["zonalConfig"].readIfPresent(with: CodeDeployClientTypes.ZonalConfig.read(from:))
         return value
     }
 }
@@ -11108,396 +11134,6 @@ extension CodeDeployClientTypes.DeploymentGroupInfo {
         value.computePlatform = try reader["computePlatform"].readIfPresent()
         value.ecsServices = try reader["ecsServices"].readListIfPresent(memberReadingClosure: CodeDeployClientTypes.ECSService.read(from:), memberNodeInfo: "member", isFlattened: false)
         value.terminationHookEnabled = try reader["terminationHookEnabled"].readIfPresent() ?? false
-        return value
-    }
-}
-
-extension CodeDeployClientTypes.ECSService {
-
-    static func write(value: CodeDeployClientTypes.ECSService?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["clusterName"].write(value.clusterName)
-        try writer["serviceName"].write(value.serviceName)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeDeployClientTypes.ECSService {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeDeployClientTypes.ECSService()
-        value.serviceName = try reader["serviceName"].readIfPresent()
-        value.clusterName = try reader["clusterName"].readIfPresent()
-        return value
-    }
-}
-
-extension CodeDeployClientTypes.OnPremisesTagSet {
-
-    static func write(value: CodeDeployClientTypes.OnPremisesTagSet?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["onPremisesTagSetList"].writeList(value.onPremisesTagSetList, memberWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: CodeDeployClientTypes.TagFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeDeployClientTypes.OnPremisesTagSet {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeDeployClientTypes.OnPremisesTagSet()
-        value.onPremisesTagSetList = try reader["onPremisesTagSetList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: CodeDeployClientTypes.TagFilter.read(from:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension CodeDeployClientTypes.TagFilter {
-
-    static func write(value: CodeDeployClientTypes.TagFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Key"].write(value.key)
-        try writer["Type"].write(value.type)
-        try writer["Value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeDeployClientTypes.TagFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeDeployClientTypes.TagFilter()
-        value.key = try reader["Key"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
-        value.type = try reader["Type"].readIfPresent()
-        return value
-    }
-}
-
-extension CodeDeployClientTypes.EC2TagSet {
-
-    static func write(value: CodeDeployClientTypes.EC2TagSet?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ec2TagSetList"].writeList(value.ec2TagSetList, memberWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: CodeDeployClientTypes.EC2TagFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeDeployClientTypes.EC2TagSet {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeDeployClientTypes.EC2TagSet()
-        value.ec2TagSetList = try reader["ec2TagSetList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: CodeDeployClientTypes.EC2TagFilter.read(from:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension CodeDeployClientTypes.EC2TagFilter {
-
-    static func write(value: CodeDeployClientTypes.EC2TagFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Key"].write(value.key)
-        try writer["Type"].write(value.type)
-        try writer["Value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeDeployClientTypes.EC2TagFilter {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeDeployClientTypes.EC2TagFilter()
-        value.key = try reader["Key"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
-        value.type = try reader["Type"].readIfPresent()
-        return value
-    }
-}
-
-extension CodeDeployClientTypes.LastDeploymentInfo {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeDeployClientTypes.LastDeploymentInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeDeployClientTypes.LastDeploymentInfo()
-        value.deploymentId = try reader["deploymentId"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.endTime = try reader["endTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.createTime = try reader["createTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension CodeDeployClientTypes.LoadBalancerInfo {
-
-    static func write(value: CodeDeployClientTypes.LoadBalancerInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["elbInfoList"].writeList(value.elbInfoList, memberWritingClosure: CodeDeployClientTypes.ELBInfo.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["targetGroupInfoList"].writeList(value.targetGroupInfoList, memberWritingClosure: CodeDeployClientTypes.TargetGroupInfo.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["targetGroupPairInfoList"].writeList(value.targetGroupPairInfoList, memberWritingClosure: CodeDeployClientTypes.TargetGroupPairInfo.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeDeployClientTypes.LoadBalancerInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeDeployClientTypes.LoadBalancerInfo()
-        value.elbInfoList = try reader["elbInfoList"].readListIfPresent(memberReadingClosure: CodeDeployClientTypes.ELBInfo.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.targetGroupInfoList = try reader["targetGroupInfoList"].readListIfPresent(memberReadingClosure: CodeDeployClientTypes.TargetGroupInfo.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.targetGroupPairInfoList = try reader["targetGroupPairInfoList"].readListIfPresent(memberReadingClosure: CodeDeployClientTypes.TargetGroupPairInfo.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension CodeDeployClientTypes.TargetGroupPairInfo {
-
-    static func write(value: CodeDeployClientTypes.TargetGroupPairInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["prodTrafficRoute"].write(value.prodTrafficRoute, with: CodeDeployClientTypes.TrafficRoute.write(value:to:))
-        try writer["targetGroups"].writeList(value.targetGroups, memberWritingClosure: CodeDeployClientTypes.TargetGroupInfo.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["testTrafficRoute"].write(value.testTrafficRoute, with: CodeDeployClientTypes.TrafficRoute.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeDeployClientTypes.TargetGroupPairInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeDeployClientTypes.TargetGroupPairInfo()
-        value.targetGroups = try reader["targetGroups"].readListIfPresent(memberReadingClosure: CodeDeployClientTypes.TargetGroupInfo.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.prodTrafficRoute = try reader["prodTrafficRoute"].readIfPresent(with: CodeDeployClientTypes.TrafficRoute.read(from:))
-        value.testTrafficRoute = try reader["testTrafficRoute"].readIfPresent(with: CodeDeployClientTypes.TrafficRoute.read(from:))
-        return value
-    }
-}
-
-extension CodeDeployClientTypes.TrafficRoute {
-
-    static func write(value: CodeDeployClientTypes.TrafficRoute?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["listenerArns"].writeList(value.listenerArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeDeployClientTypes.TrafficRoute {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeDeployClientTypes.TrafficRoute()
-        value.listenerArns = try reader["listenerArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension CodeDeployClientTypes.TargetGroupInfo {
-
-    static func write(value: CodeDeployClientTypes.TargetGroupInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["name"].write(value.name)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeDeployClientTypes.TargetGroupInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeDeployClientTypes.TargetGroupInfo()
-        value.name = try reader["name"].readIfPresent()
-        return value
-    }
-}
-
-extension CodeDeployClientTypes.ELBInfo {
-
-    static func write(value: CodeDeployClientTypes.ELBInfo?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["name"].write(value.name)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeDeployClientTypes.ELBInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeDeployClientTypes.ELBInfo()
-        value.name = try reader["name"].readIfPresent()
-        return value
-    }
-}
-
-extension CodeDeployClientTypes.BlueGreenDeploymentConfiguration {
-
-    static func write(value: CodeDeployClientTypes.BlueGreenDeploymentConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["deploymentReadyOption"].write(value.deploymentReadyOption, with: CodeDeployClientTypes.DeploymentReadyOption.write(value:to:))
-        try writer["greenFleetProvisioningOption"].write(value.greenFleetProvisioningOption, with: CodeDeployClientTypes.GreenFleetProvisioningOption.write(value:to:))
-        try writer["terminateBlueInstancesOnDeploymentSuccess"].write(value.terminateBlueInstancesOnDeploymentSuccess, with: CodeDeployClientTypes.BlueInstanceTerminationOption.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeDeployClientTypes.BlueGreenDeploymentConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeDeployClientTypes.BlueGreenDeploymentConfiguration()
-        value.terminateBlueInstancesOnDeploymentSuccess = try reader["terminateBlueInstancesOnDeploymentSuccess"].readIfPresent(with: CodeDeployClientTypes.BlueInstanceTerminationOption.read(from:))
-        value.deploymentReadyOption = try reader["deploymentReadyOption"].readIfPresent(with: CodeDeployClientTypes.DeploymentReadyOption.read(from:))
-        value.greenFleetProvisioningOption = try reader["greenFleetProvisioningOption"].readIfPresent(with: CodeDeployClientTypes.GreenFleetProvisioningOption.read(from:))
-        return value
-    }
-}
-
-extension CodeDeployClientTypes.GreenFleetProvisioningOption {
-
-    static func write(value: CodeDeployClientTypes.GreenFleetProvisioningOption?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["action"].write(value.action)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeDeployClientTypes.GreenFleetProvisioningOption {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeDeployClientTypes.GreenFleetProvisioningOption()
-        value.action = try reader["action"].readIfPresent()
-        return value
-    }
-}
-
-extension CodeDeployClientTypes.DeploymentReadyOption {
-
-    static func write(value: CodeDeployClientTypes.DeploymentReadyOption?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["actionOnTimeout"].write(value.actionOnTimeout)
-        try writer["waitTimeInMinutes"].write(value.waitTimeInMinutes)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeDeployClientTypes.DeploymentReadyOption {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeDeployClientTypes.DeploymentReadyOption()
-        value.actionOnTimeout = try reader["actionOnTimeout"].readIfPresent()
-        value.waitTimeInMinutes = try reader["waitTimeInMinutes"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension CodeDeployClientTypes.BlueInstanceTerminationOption {
-
-    static func write(value: CodeDeployClientTypes.BlueInstanceTerminationOption?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["action"].write(value.action)
-        try writer["terminationWaitTimeInMinutes"].write(value.terminationWaitTimeInMinutes)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeDeployClientTypes.BlueInstanceTerminationOption {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeDeployClientTypes.BlueInstanceTerminationOption()
-        value.action = try reader["action"].readIfPresent()
-        value.terminationWaitTimeInMinutes = try reader["terminationWaitTimeInMinutes"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension CodeDeployClientTypes.DeploymentStyle {
-
-    static func write(value: CodeDeployClientTypes.DeploymentStyle?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["deploymentOption"].write(value.deploymentOption)
-        try writer["deploymentType"].write(value.deploymentType)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeDeployClientTypes.DeploymentStyle {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeDeployClientTypes.DeploymentStyle()
-        value.deploymentType = try reader["deploymentType"].readIfPresent()
-        value.deploymentOption = try reader["deploymentOption"].readIfPresent()
-        return value
-    }
-}
-
-extension CodeDeployClientTypes.AutoRollbackConfiguration {
-
-    static func write(value: CodeDeployClientTypes.AutoRollbackConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["enabled"].write(value.enabled)
-        try writer["events"].writeList(value.events, memberWritingClosure: SmithyReadWrite.WritingClosureBox<CodeDeployClientTypes.AutoRollbackEvent>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeDeployClientTypes.AutoRollbackConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeDeployClientTypes.AutoRollbackConfiguration()
-        value.enabled = try reader["enabled"].readIfPresent() ?? false
-        value.events = try reader["events"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<CodeDeployClientTypes.AutoRollbackEvent>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension CodeDeployClientTypes.AlarmConfiguration {
-
-    static func write(value: CodeDeployClientTypes.AlarmConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["alarms"].writeList(value.alarms, memberWritingClosure: CodeDeployClientTypes.Alarm.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["enabled"].write(value.enabled)
-        try writer["ignorePollAlarmFailure"].write(value.ignorePollAlarmFailure)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeDeployClientTypes.AlarmConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeDeployClientTypes.AlarmConfiguration()
-        value.enabled = try reader["enabled"].readIfPresent() ?? false
-        value.ignorePollAlarmFailure = try reader["ignorePollAlarmFailure"].readIfPresent() ?? false
-        value.alarms = try reader["alarms"].readListIfPresent(memberReadingClosure: CodeDeployClientTypes.Alarm.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension CodeDeployClientTypes.Alarm {
-
-    static func write(value: CodeDeployClientTypes.Alarm?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["name"].write(value.name)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeDeployClientTypes.Alarm {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeDeployClientTypes.Alarm()
-        value.name = try reader["name"].readIfPresent()
-        return value
-    }
-}
-
-extension CodeDeployClientTypes.TriggerConfig {
-
-    static func write(value: CodeDeployClientTypes.TriggerConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["triggerEvents"].writeList(value.triggerEvents, memberWritingClosure: SmithyReadWrite.WritingClosureBox<CodeDeployClientTypes.TriggerEventType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["triggerName"].write(value.triggerName)
-        try writer["triggerTargetArn"].write(value.triggerTargetArn)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeDeployClientTypes.TriggerConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeDeployClientTypes.TriggerConfig()
-        value.triggerName = try reader["triggerName"].readIfPresent()
-        value.triggerTargetArn = try reader["triggerTargetArn"].readIfPresent()
-        value.triggerEvents = try reader["triggerEvents"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<CodeDeployClientTypes.TriggerEventType>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension CodeDeployClientTypes.AutoScalingGroup {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeDeployClientTypes.AutoScalingGroup {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeDeployClientTypes.AutoScalingGroup()
-        value.name = try reader["name"].readIfPresent()
-        value.hook = try reader["hook"].readIfPresent()
-        value.terminationHook = try reader["terminationHook"].readIfPresent()
-        return value
-    }
-}
-
-extension CodeDeployClientTypes.InstanceSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeDeployClientTypes.InstanceSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeDeployClientTypes.InstanceSummary()
-        value.deploymentId = try reader["deploymentId"].readIfPresent()
-        value.instanceId = try reader["instanceId"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lifecycleEvents = try reader["lifecycleEvents"].readListIfPresent(memberReadingClosure: CodeDeployClientTypes.LifecycleEvent.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.instanceType = try reader["instanceType"].readIfPresent()
-        return value
-    }
-}
-
-extension CodeDeployClientTypes.LifecycleEvent {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeDeployClientTypes.LifecycleEvent {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeDeployClientTypes.LifecycleEvent()
-        value.lifecycleEventName = try reader["lifecycleEventName"].readIfPresent()
-        value.diagnostics = try reader["diagnostics"].readIfPresent(with: CodeDeployClientTypes.Diagnostics.read(from:))
-        value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.endTime = try reader["endTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.status = try reader["status"].readIfPresent()
-        return value
-    }
-}
-
-extension CodeDeployClientTypes.Diagnostics {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeDeployClientTypes.Diagnostics {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeDeployClientTypes.Diagnostics()
-        value.errorCode = try reader["errorCode"].readIfPresent()
-        value.scriptName = try reader["scriptName"].readIfPresent()
-        value.message = try reader["message"].readIfPresent()
-        value.logTail = try reader["logTail"].readIfPresent()
         return value
     }
 }
@@ -11541,48 +11177,6 @@ extension CodeDeployClientTypes.DeploymentInfo {
     }
 }
 
-extension CodeDeployClientTypes.RelatedDeployments {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeDeployClientTypes.RelatedDeployments {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeDeployClientTypes.RelatedDeployments()
-        value.autoUpdateOutdatedInstancesRootDeploymentId = try reader["autoUpdateOutdatedInstancesRootDeploymentId"].readIfPresent()
-        value.autoUpdateOutdatedInstancesDeploymentIds = try reader["autoUpdateOutdatedInstancesDeploymentIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension CodeDeployClientTypes.TargetInstances {
-
-    static func write(value: CodeDeployClientTypes.TargetInstances?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["autoScalingGroups"].writeList(value.autoScalingGroups, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ec2TagSet"].write(value.ec2TagSet, with: CodeDeployClientTypes.EC2TagSet.write(value:to:))
-        try writer["tagFilters"].writeList(value.tagFilters, memberWritingClosure: CodeDeployClientTypes.EC2TagFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeDeployClientTypes.TargetInstances {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeDeployClientTypes.TargetInstances()
-        value.tagFilters = try reader["tagFilters"].readListIfPresent(memberReadingClosure: CodeDeployClientTypes.EC2TagFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.autoScalingGroups = try reader["autoScalingGroups"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.ec2TagSet = try reader["ec2TagSet"].readIfPresent(with: CodeDeployClientTypes.EC2TagSet.read(from:))
-        return value
-    }
-}
-
-extension CodeDeployClientTypes.RollbackInfo {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeDeployClientTypes.RollbackInfo {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeDeployClientTypes.RollbackInfo()
-        value.rollbackDeploymentId = try reader["rollbackDeploymentId"].readIfPresent()
-        value.rollbackTriggeringDeploymentId = try reader["rollbackTriggeringDeploymentId"].readIfPresent()
-        value.rollbackMessage = try reader["rollbackMessage"].readIfPresent()
-        return value
-    }
-}
-
 extension CodeDeployClientTypes.DeploymentOverview {
 
     static func read(from reader: SmithyJSON.Reader) throws -> CodeDeployClientTypes.DeploymentOverview {
@@ -11598,13 +11192,36 @@ extension CodeDeployClientTypes.DeploymentOverview {
     }
 }
 
-extension CodeDeployClientTypes.ErrorInformation {
+extension CodeDeployClientTypes.DeploymentReadyOption {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeDeployClientTypes.ErrorInformation {
+    static func write(value: CodeDeployClientTypes.DeploymentReadyOption?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["actionOnTimeout"].write(value.actionOnTimeout)
+        try writer["waitTimeInMinutes"].write(value.waitTimeInMinutes)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeDeployClientTypes.DeploymentReadyOption {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeDeployClientTypes.ErrorInformation()
-        value.code = try reader["code"].readIfPresent()
-        value.message = try reader["message"].readIfPresent()
+        var value = CodeDeployClientTypes.DeploymentReadyOption()
+        value.actionOnTimeout = try reader["actionOnTimeout"].readIfPresent()
+        value.waitTimeInMinutes = try reader["waitTimeInMinutes"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension CodeDeployClientTypes.DeploymentStyle {
+
+    static func write(value: CodeDeployClientTypes.DeploymentStyle?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["deploymentOption"].write(value.deploymentOption)
+        try writer["deploymentType"].write(value.deploymentType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeDeployClientTypes.DeploymentStyle {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CodeDeployClientTypes.DeploymentStyle()
+        value.deploymentType = try reader["deploymentType"].readIfPresent()
+        value.deploymentOption = try reader["deploymentOption"].readIfPresent()
         return value
     }
 }
@@ -11623,18 +11240,66 @@ extension CodeDeployClientTypes.DeploymentTarget {
     }
 }
 
-extension CodeDeployClientTypes.CloudFormationTarget {
+extension CodeDeployClientTypes.Diagnostics {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeDeployClientTypes.CloudFormationTarget {
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeDeployClientTypes.Diagnostics {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeDeployClientTypes.CloudFormationTarget()
-        value.deploymentId = try reader["deploymentId"].readIfPresent()
-        value.targetId = try reader["targetId"].readIfPresent()
-        value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lifecycleEvents = try reader["lifecycleEvents"].readListIfPresent(memberReadingClosure: CodeDeployClientTypes.LifecycleEvent.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.status = try reader["status"].readIfPresent()
-        value.resourceType = try reader["resourceType"].readIfPresent()
-        value.targetVersionWeight = try reader["targetVersionWeight"].readIfPresent() ?? 0
+        var value = CodeDeployClientTypes.Diagnostics()
+        value.errorCode = try reader["errorCode"].readIfPresent()
+        value.scriptName = try reader["scriptName"].readIfPresent()
+        value.message = try reader["message"].readIfPresent()
+        value.logTail = try reader["logTail"].readIfPresent()
+        return value
+    }
+}
+
+extension CodeDeployClientTypes.EC2TagFilter {
+
+    static func write(value: CodeDeployClientTypes.EC2TagFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Key"].write(value.key)
+        try writer["Type"].write(value.type)
+        try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeDeployClientTypes.EC2TagFilter {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CodeDeployClientTypes.EC2TagFilter()
+        value.key = try reader["Key"].readIfPresent()
+        value.value = try reader["Value"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent()
+        return value
+    }
+}
+
+extension CodeDeployClientTypes.EC2TagSet {
+
+    static func write(value: CodeDeployClientTypes.EC2TagSet?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ec2TagSetList"].writeList(value.ec2TagSetList, memberWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: CodeDeployClientTypes.EC2TagFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeDeployClientTypes.EC2TagSet {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CodeDeployClientTypes.EC2TagSet()
+        value.ec2TagSetList = try reader["ec2TagSetList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: CodeDeployClientTypes.EC2TagFilter.read(from:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension CodeDeployClientTypes.ECSService {
+
+    static func write(value: CodeDeployClientTypes.ECSService?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["clusterName"].write(value.clusterName)
+        try writer["serviceName"].write(value.serviceName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeDeployClientTypes.ECSService {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CodeDeployClientTypes.ECSService()
+        value.serviceName = try reader["serviceName"].readIfPresent()
+        value.clusterName = try reader["clusterName"].readIfPresent()
         return value
     }
 }
@@ -11672,32 +11337,105 @@ extension CodeDeployClientTypes.ECSTaskSet {
     }
 }
 
-extension CodeDeployClientTypes.LambdaTarget {
+extension CodeDeployClientTypes.ELBInfo {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeDeployClientTypes.LambdaTarget {
+    static func write(value: CodeDeployClientTypes.ELBInfo?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["name"].write(value.name)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeDeployClientTypes.ELBInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeDeployClientTypes.LambdaTarget()
-        value.deploymentId = try reader["deploymentId"].readIfPresent()
-        value.targetId = try reader["targetId"].readIfPresent()
-        value.targetArn = try reader["targetArn"].readIfPresent()
-        value.status = try reader["status"].readIfPresent()
-        value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lifecycleEvents = try reader["lifecycleEvents"].readListIfPresent(memberReadingClosure: CodeDeployClientTypes.LifecycleEvent.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.lambdaFunctionInfo = try reader["lambdaFunctionInfo"].readIfPresent(with: CodeDeployClientTypes.LambdaFunctionInfo.read(from:))
+        var value = CodeDeployClientTypes.ELBInfo()
+        value.name = try reader["name"].readIfPresent()
         return value
     }
 }
 
-extension CodeDeployClientTypes.LambdaFunctionInfo {
+extension CodeDeployClientTypes.ErrorInformation {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeDeployClientTypes.LambdaFunctionInfo {
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeDeployClientTypes.ErrorInformation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeDeployClientTypes.LambdaFunctionInfo()
-        value.functionName = try reader["functionName"].readIfPresent()
-        value.functionAlias = try reader["functionAlias"].readIfPresent()
-        value.currentVersion = try reader["currentVersion"].readIfPresent()
-        value.targetVersion = try reader["targetVersion"].readIfPresent()
-        value.targetVersionWeight = try reader["targetVersionWeight"].readIfPresent() ?? 0
+        var value = CodeDeployClientTypes.ErrorInformation()
+        value.code = try reader["code"].readIfPresent()
+        value.message = try reader["message"].readIfPresent()
+        return value
+    }
+}
+
+extension CodeDeployClientTypes.GenericRevisionInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeDeployClientTypes.GenericRevisionInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CodeDeployClientTypes.GenericRevisionInfo()
+        value.description = try reader["description"].readIfPresent()
+        value.deploymentGroups = try reader["deploymentGroups"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.firstUsedTime = try reader["firstUsedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastUsedTime = try reader["lastUsedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.registerTime = try reader["registerTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension CodeDeployClientTypes.GitHubLocation {
+
+    static func write(value: CodeDeployClientTypes.GitHubLocation?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["commitId"].write(value.commitId)
+        try writer["repository"].write(value.repository)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeDeployClientTypes.GitHubLocation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CodeDeployClientTypes.GitHubLocation()
+        value.repository = try reader["repository"].readIfPresent()
+        value.commitId = try reader["commitId"].readIfPresent()
+        return value
+    }
+}
+
+extension CodeDeployClientTypes.GreenFleetProvisioningOption {
+
+    static func write(value: CodeDeployClientTypes.GreenFleetProvisioningOption?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["action"].write(value.action)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeDeployClientTypes.GreenFleetProvisioningOption {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CodeDeployClientTypes.GreenFleetProvisioningOption()
+        value.action = try reader["action"].readIfPresent()
+        return value
+    }
+}
+
+extension CodeDeployClientTypes.InstanceInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeDeployClientTypes.InstanceInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CodeDeployClientTypes.InstanceInfo()
+        value.instanceName = try reader["instanceName"].readIfPresent()
+        value.iamSessionArn = try reader["iamSessionArn"].readIfPresent()
+        value.iamUserArn = try reader["iamUserArn"].readIfPresent()
+        value.instanceArn = try reader["instanceArn"].readIfPresent()
+        value.registerTime = try reader["registerTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.deregisterTime = try reader["deregisterTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.tags = try reader["tags"].readListIfPresent(memberReadingClosure: CodeDeployClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension CodeDeployClientTypes.InstanceSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeDeployClientTypes.InstanceSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CodeDeployClientTypes.InstanceSummary()
+        value.deploymentId = try reader["deploymentId"].readIfPresent()
+        value.instanceId = try reader["instanceId"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lifecycleEvents = try reader["lifecycleEvents"].readListIfPresent(memberReadingClosure: CodeDeployClientTypes.LifecycleEvent.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.instanceType = try reader["instanceType"].readIfPresent()
         return value
     }
 }
@@ -11718,18 +11456,224 @@ extension CodeDeployClientTypes.InstanceTarget {
     }
 }
 
-extension CodeDeployClientTypes.InstanceInfo {
+extension CodeDeployClientTypes.LambdaFunctionInfo {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeDeployClientTypes.InstanceInfo {
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeDeployClientTypes.LambdaFunctionInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeDeployClientTypes.InstanceInfo()
-        value.instanceName = try reader["instanceName"].readIfPresent()
-        value.iamSessionArn = try reader["iamSessionArn"].readIfPresent()
-        value.iamUserArn = try reader["iamUserArn"].readIfPresent()
-        value.instanceArn = try reader["instanceArn"].readIfPresent()
-        value.registerTime = try reader["registerTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.deregisterTime = try reader["deregisterTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.tags = try reader["tags"].readListIfPresent(memberReadingClosure: CodeDeployClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = CodeDeployClientTypes.LambdaFunctionInfo()
+        value.functionName = try reader["functionName"].readIfPresent()
+        value.functionAlias = try reader["functionAlias"].readIfPresent()
+        value.currentVersion = try reader["currentVersion"].readIfPresent()
+        value.targetVersion = try reader["targetVersion"].readIfPresent()
+        value.targetVersionWeight = try reader["targetVersionWeight"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension CodeDeployClientTypes.LambdaTarget {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeDeployClientTypes.LambdaTarget {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CodeDeployClientTypes.LambdaTarget()
+        value.deploymentId = try reader["deploymentId"].readIfPresent()
+        value.targetId = try reader["targetId"].readIfPresent()
+        value.targetArn = try reader["targetArn"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.lastUpdatedAt = try reader["lastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lifecycleEvents = try reader["lifecycleEvents"].readListIfPresent(memberReadingClosure: CodeDeployClientTypes.LifecycleEvent.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.lambdaFunctionInfo = try reader["lambdaFunctionInfo"].readIfPresent(with: CodeDeployClientTypes.LambdaFunctionInfo.read(from:))
+        return value
+    }
+}
+
+extension CodeDeployClientTypes.LastDeploymentInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeDeployClientTypes.LastDeploymentInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CodeDeployClientTypes.LastDeploymentInfo()
+        value.deploymentId = try reader["deploymentId"].readIfPresent()
+        value.status = try reader["status"].readIfPresent()
+        value.endTime = try reader["endTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.createTime = try reader["createTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension CodeDeployClientTypes.LifecycleEvent {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeDeployClientTypes.LifecycleEvent {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CodeDeployClientTypes.LifecycleEvent()
+        value.lifecycleEventName = try reader["lifecycleEventName"].readIfPresent()
+        value.diagnostics = try reader["diagnostics"].readIfPresent(with: CodeDeployClientTypes.Diagnostics.read(from:))
+        value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.endTime = try reader["endTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.status = try reader["status"].readIfPresent()
+        return value
+    }
+}
+
+extension CodeDeployClientTypes.LoadBalancerInfo {
+
+    static func write(value: CodeDeployClientTypes.LoadBalancerInfo?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["elbInfoList"].writeList(value.elbInfoList, memberWritingClosure: CodeDeployClientTypes.ELBInfo.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["targetGroupInfoList"].writeList(value.targetGroupInfoList, memberWritingClosure: CodeDeployClientTypes.TargetGroupInfo.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["targetGroupPairInfoList"].writeList(value.targetGroupPairInfoList, memberWritingClosure: CodeDeployClientTypes.TargetGroupPairInfo.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeDeployClientTypes.LoadBalancerInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CodeDeployClientTypes.LoadBalancerInfo()
+        value.elbInfoList = try reader["elbInfoList"].readListIfPresent(memberReadingClosure: CodeDeployClientTypes.ELBInfo.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.targetGroupInfoList = try reader["targetGroupInfoList"].readListIfPresent(memberReadingClosure: CodeDeployClientTypes.TargetGroupInfo.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.targetGroupPairInfoList = try reader["targetGroupPairInfoList"].readListIfPresent(memberReadingClosure: CodeDeployClientTypes.TargetGroupPairInfo.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension CodeDeployClientTypes.MinimumHealthyHosts {
+
+    static func write(value: CodeDeployClientTypes.MinimumHealthyHosts?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["type"].write(value.type)
+        try writer["value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeDeployClientTypes.MinimumHealthyHosts {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CodeDeployClientTypes.MinimumHealthyHosts()
+        value.type = try reader["type"].readIfPresent()
+        value.value = try reader["value"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension CodeDeployClientTypes.MinimumHealthyHostsPerZone {
+
+    static func write(value: CodeDeployClientTypes.MinimumHealthyHostsPerZone?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["type"].write(value.type)
+        try writer["value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeDeployClientTypes.MinimumHealthyHostsPerZone {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CodeDeployClientTypes.MinimumHealthyHostsPerZone()
+        value.type = try reader["type"].readIfPresent()
+        value.value = try reader["value"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension CodeDeployClientTypes.OnPremisesTagSet {
+
+    static func write(value: CodeDeployClientTypes.OnPremisesTagSet?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["onPremisesTagSetList"].writeList(value.onPremisesTagSetList, memberWritingClosure: SmithyReadWrite.listWritingClosure(memberWritingClosure: CodeDeployClientTypes.TagFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeDeployClientTypes.OnPremisesTagSet {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CodeDeployClientTypes.OnPremisesTagSet()
+        value.onPremisesTagSetList = try reader["onPremisesTagSetList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.listReadingClosure(memberReadingClosure: CodeDeployClientTypes.TagFilter.read(from:), memberNodeInfo: "member", isFlattened: false), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension CodeDeployClientTypes.RawString {
+
+    static func write(value: CodeDeployClientTypes.RawString?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["content"].write(value.content)
+        try writer["sha256"].write(value.sha256)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeDeployClientTypes.RawString {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CodeDeployClientTypes.RawString()
+        value.content = try reader["content"].readIfPresent()
+        value.sha256 = try reader["sha256"].readIfPresent()
+        return value
+    }
+}
+
+extension CodeDeployClientTypes.RelatedDeployments {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeDeployClientTypes.RelatedDeployments {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CodeDeployClientTypes.RelatedDeployments()
+        value.autoUpdateOutdatedInstancesRootDeploymentId = try reader["autoUpdateOutdatedInstancesRootDeploymentId"].readIfPresent()
+        value.autoUpdateOutdatedInstancesDeploymentIds = try reader["autoUpdateOutdatedInstancesDeploymentIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension CodeDeployClientTypes.RevisionInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeDeployClientTypes.RevisionInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CodeDeployClientTypes.RevisionInfo()
+        value.revisionLocation = try reader["revisionLocation"].readIfPresent(with: CodeDeployClientTypes.RevisionLocation.read(from:))
+        value.genericRevisionInfo = try reader["genericRevisionInfo"].readIfPresent(with: CodeDeployClientTypes.GenericRevisionInfo.read(from:))
+        return value
+    }
+}
+
+extension CodeDeployClientTypes.RevisionLocation {
+
+    static func write(value: CodeDeployClientTypes.RevisionLocation?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["appSpecContent"].write(value.appSpecContent, with: CodeDeployClientTypes.AppSpecContent.write(value:to:))
+        try writer["gitHubLocation"].write(value.gitHubLocation, with: CodeDeployClientTypes.GitHubLocation.write(value:to:))
+        try writer["revisionType"].write(value.revisionType)
+        try writer["s3Location"].write(value.s3Location, with: CodeDeployClientTypes.S3Location.write(value:to:))
+        try writer["string"].write(value.string, with: CodeDeployClientTypes.RawString.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeDeployClientTypes.RevisionLocation {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CodeDeployClientTypes.RevisionLocation()
+        value.revisionType = try reader["revisionType"].readIfPresent()
+        value.s3Location = try reader["s3Location"].readIfPresent(with: CodeDeployClientTypes.S3Location.read(from:))
+        value.gitHubLocation = try reader["gitHubLocation"].readIfPresent(with: CodeDeployClientTypes.GitHubLocation.read(from:))
+        value.string = try reader["string"].readIfPresent(with: CodeDeployClientTypes.RawString.read(from:))
+        value.appSpecContent = try reader["appSpecContent"].readIfPresent(with: CodeDeployClientTypes.AppSpecContent.read(from:))
+        return value
+    }
+}
+
+extension CodeDeployClientTypes.RollbackInfo {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeDeployClientTypes.RollbackInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CodeDeployClientTypes.RollbackInfo()
+        value.rollbackDeploymentId = try reader["rollbackDeploymentId"].readIfPresent()
+        value.rollbackTriggeringDeploymentId = try reader["rollbackTriggeringDeploymentId"].readIfPresent()
+        value.rollbackMessage = try reader["rollbackMessage"].readIfPresent()
+        return value
+    }
+}
+
+extension CodeDeployClientTypes.S3Location {
+
+    static func write(value: CodeDeployClientTypes.S3Location?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["bucket"].write(value.bucket)
+        try writer["bundleType"].write(value.bundleType)
+        try writer["eTag"].write(value.eTag)
+        try writer["key"].write(value.key)
+        try writer["version"].write(value.version)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeDeployClientTypes.S3Location {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CodeDeployClientTypes.S3Location()
+        value.bucket = try reader["bucket"].readIfPresent()
+        value.key = try reader["key"].readIfPresent()
+        value.bundleType = try reader["bundleType"].readIfPresent()
+        value.version = try reader["version"].readIfPresent()
+        value.eTag = try reader["eTag"].readIfPresent()
         return value
     }
 }
@@ -11751,54 +11695,132 @@ extension CodeDeployClientTypes.Tag {
     }
 }
 
-extension CodeDeployClientTypes.DeploymentConfigInfo {
+extension CodeDeployClientTypes.TagFilter {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeDeployClientTypes.DeploymentConfigInfo {
+    static func write(value: CodeDeployClientTypes.TagFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Key"].write(value.key)
+        try writer["Type"].write(value.type)
+        try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeDeployClientTypes.TagFilter {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeDeployClientTypes.DeploymentConfigInfo()
-        value.deploymentConfigId = try reader["deploymentConfigId"].readIfPresent()
-        value.deploymentConfigName = try reader["deploymentConfigName"].readIfPresent()
-        value.minimumHealthyHosts = try reader["minimumHealthyHosts"].readIfPresent(with: CodeDeployClientTypes.MinimumHealthyHosts.read(from:))
-        value.createTime = try reader["createTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.computePlatform = try reader["computePlatform"].readIfPresent()
-        value.trafficRoutingConfig = try reader["trafficRoutingConfig"].readIfPresent(with: CodeDeployClientTypes.TrafficRoutingConfig.read(from:))
-        value.zonalConfig = try reader["zonalConfig"].readIfPresent(with: CodeDeployClientTypes.ZonalConfig.read(from:))
+        var value = CodeDeployClientTypes.TagFilter()
+        value.key = try reader["Key"].readIfPresent()
+        value.value = try reader["Value"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent()
         return value
     }
 }
 
-extension CodeDeployClientTypes.ZonalConfig {
+extension CodeDeployClientTypes.TargetGroupInfo {
 
-    static func write(value: CodeDeployClientTypes.ZonalConfig?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: CodeDeployClientTypes.TargetGroupInfo?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["firstZoneMonitorDurationInSeconds"].write(value.firstZoneMonitorDurationInSeconds)
-        try writer["minimumHealthyHostsPerZone"].write(value.minimumHealthyHostsPerZone, with: CodeDeployClientTypes.MinimumHealthyHostsPerZone.write(value:to:))
-        try writer["monitorDurationInSeconds"].write(value.monitorDurationInSeconds)
+        try writer["name"].write(value.name)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeDeployClientTypes.ZonalConfig {
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeDeployClientTypes.TargetGroupInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeDeployClientTypes.ZonalConfig()
-        value.firstZoneMonitorDurationInSeconds = try reader["firstZoneMonitorDurationInSeconds"].readIfPresent()
-        value.monitorDurationInSeconds = try reader["monitorDurationInSeconds"].readIfPresent()
-        value.minimumHealthyHostsPerZone = try reader["minimumHealthyHostsPerZone"].readIfPresent(with: CodeDeployClientTypes.MinimumHealthyHostsPerZone.read(from:))
+        var value = CodeDeployClientTypes.TargetGroupInfo()
+        value.name = try reader["name"].readIfPresent()
         return value
     }
 }
 
-extension CodeDeployClientTypes.MinimumHealthyHostsPerZone {
+extension CodeDeployClientTypes.TargetGroupPairInfo {
 
-    static func write(value: CodeDeployClientTypes.MinimumHealthyHostsPerZone?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: CodeDeployClientTypes.TargetGroupPairInfo?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["type"].write(value.type)
-        try writer["value"].write(value.value)
+        try writer["prodTrafficRoute"].write(value.prodTrafficRoute, with: CodeDeployClientTypes.TrafficRoute.write(value:to:))
+        try writer["targetGroups"].writeList(value.targetGroups, memberWritingClosure: CodeDeployClientTypes.TargetGroupInfo.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["testTrafficRoute"].write(value.testTrafficRoute, with: CodeDeployClientTypes.TrafficRoute.write(value:to:))
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeDeployClientTypes.MinimumHealthyHostsPerZone {
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeDeployClientTypes.TargetGroupPairInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeDeployClientTypes.MinimumHealthyHostsPerZone()
-        value.type = try reader["type"].readIfPresent()
-        value.value = try reader["value"].readIfPresent() ?? 0
+        var value = CodeDeployClientTypes.TargetGroupPairInfo()
+        value.targetGroups = try reader["targetGroups"].readListIfPresent(memberReadingClosure: CodeDeployClientTypes.TargetGroupInfo.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.prodTrafficRoute = try reader["prodTrafficRoute"].readIfPresent(with: CodeDeployClientTypes.TrafficRoute.read(from:))
+        value.testTrafficRoute = try reader["testTrafficRoute"].readIfPresent(with: CodeDeployClientTypes.TrafficRoute.read(from:))
+        return value
+    }
+}
+
+extension CodeDeployClientTypes.TargetInstances {
+
+    static func write(value: CodeDeployClientTypes.TargetInstances?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["autoScalingGroups"].writeList(value.autoScalingGroups, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ec2TagSet"].write(value.ec2TagSet, with: CodeDeployClientTypes.EC2TagSet.write(value:to:))
+        try writer["tagFilters"].writeList(value.tagFilters, memberWritingClosure: CodeDeployClientTypes.EC2TagFilter.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeDeployClientTypes.TargetInstances {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CodeDeployClientTypes.TargetInstances()
+        value.tagFilters = try reader["tagFilters"].readListIfPresent(memberReadingClosure: CodeDeployClientTypes.EC2TagFilter.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.autoScalingGroups = try reader["autoScalingGroups"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.ec2TagSet = try reader["ec2TagSet"].readIfPresent(with: CodeDeployClientTypes.EC2TagSet.read(from:))
+        return value
+    }
+}
+
+extension CodeDeployClientTypes.TimeBasedCanary {
+
+    static func write(value: CodeDeployClientTypes.TimeBasedCanary?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["canaryInterval"].write(value.canaryInterval)
+        try writer["canaryPercentage"].write(value.canaryPercentage)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeDeployClientTypes.TimeBasedCanary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CodeDeployClientTypes.TimeBasedCanary()
+        value.canaryPercentage = try reader["canaryPercentage"].readIfPresent() ?? 0
+        value.canaryInterval = try reader["canaryInterval"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension CodeDeployClientTypes.TimeBasedLinear {
+
+    static func write(value: CodeDeployClientTypes.TimeBasedLinear?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["linearInterval"].write(value.linearInterval)
+        try writer["linearPercentage"].write(value.linearPercentage)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeDeployClientTypes.TimeBasedLinear {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CodeDeployClientTypes.TimeBasedLinear()
+        value.linearPercentage = try reader["linearPercentage"].readIfPresent() ?? 0
+        value.linearInterval = try reader["linearInterval"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension CodeDeployClientTypes.TimeRange {
+
+    static func write(value: CodeDeployClientTypes.TimeRange?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["end"].writeTimestamp(value.end, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["start"].writeTimestamp(value.start, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+    }
+}
+
+extension CodeDeployClientTypes.TrafficRoute {
+
+    static func write(value: CodeDeployClientTypes.TrafficRoute?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["listenerArns"].writeList(value.listenerArns, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeDeployClientTypes.TrafficRoute {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CodeDeployClientTypes.TrafficRoute()
+        value.listenerArns = try reader["listenerArns"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -11822,63 +11844,41 @@ extension CodeDeployClientTypes.TrafficRoutingConfig {
     }
 }
 
-extension CodeDeployClientTypes.TimeBasedLinear {
+extension CodeDeployClientTypes.TriggerConfig {
 
-    static func write(value: CodeDeployClientTypes.TimeBasedLinear?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: CodeDeployClientTypes.TriggerConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["linearInterval"].write(value.linearInterval)
-        try writer["linearPercentage"].write(value.linearPercentage)
+        try writer["triggerEvents"].writeList(value.triggerEvents, memberWritingClosure: SmithyReadWrite.WritingClosureBox<CodeDeployClientTypes.TriggerEventType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["triggerName"].write(value.triggerName)
+        try writer["triggerTargetArn"].write(value.triggerTargetArn)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeDeployClientTypes.TimeBasedLinear {
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeDeployClientTypes.TriggerConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeDeployClientTypes.TimeBasedLinear()
-        value.linearPercentage = try reader["linearPercentage"].readIfPresent() ?? 0
-        value.linearInterval = try reader["linearInterval"].readIfPresent() ?? 0
+        var value = CodeDeployClientTypes.TriggerConfig()
+        value.triggerName = try reader["triggerName"].readIfPresent()
+        value.triggerTargetArn = try reader["triggerTargetArn"].readIfPresent()
+        value.triggerEvents = try reader["triggerEvents"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<CodeDeployClientTypes.TriggerEventType>().read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
 
-extension CodeDeployClientTypes.TimeBasedCanary {
+extension CodeDeployClientTypes.ZonalConfig {
 
-    static func write(value: CodeDeployClientTypes.TimeBasedCanary?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: CodeDeployClientTypes.ZonalConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["canaryInterval"].write(value.canaryInterval)
-        try writer["canaryPercentage"].write(value.canaryPercentage)
+        try writer["firstZoneMonitorDurationInSeconds"].write(value.firstZoneMonitorDurationInSeconds)
+        try writer["minimumHealthyHostsPerZone"].write(value.minimumHealthyHostsPerZone, with: CodeDeployClientTypes.MinimumHealthyHostsPerZone.write(value:to:))
+        try writer["monitorDurationInSeconds"].write(value.monitorDurationInSeconds)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeDeployClientTypes.TimeBasedCanary {
+    static func read(from reader: SmithyJSON.Reader) throws -> CodeDeployClientTypes.ZonalConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeDeployClientTypes.TimeBasedCanary()
-        value.canaryPercentage = try reader["canaryPercentage"].readIfPresent() ?? 0
-        value.canaryInterval = try reader["canaryInterval"].readIfPresent() ?? 0
+        var value = CodeDeployClientTypes.ZonalConfig()
+        value.firstZoneMonitorDurationInSeconds = try reader["firstZoneMonitorDurationInSeconds"].readIfPresent()
+        value.monitorDurationInSeconds = try reader["monitorDurationInSeconds"].readIfPresent()
+        value.minimumHealthyHostsPerZone = try reader["minimumHealthyHostsPerZone"].readIfPresent(with: CodeDeployClientTypes.MinimumHealthyHostsPerZone.read(from:))
         return value
-    }
-}
-
-extension CodeDeployClientTypes.MinimumHealthyHosts {
-
-    static func write(value: CodeDeployClientTypes.MinimumHealthyHosts?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["type"].write(value.type)
-        try writer["value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CodeDeployClientTypes.MinimumHealthyHosts {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CodeDeployClientTypes.MinimumHealthyHosts()
-        value.type = try reader["type"].readIfPresent()
-        value.value = try reader["value"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension CodeDeployClientTypes.TimeRange {
-
-    static func write(value: CodeDeployClientTypes.TimeRange?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["end"].writeTimestamp(value.end, format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        try writer["start"].writeTimestamp(value.start, format: SmithyTimestamps.TimestampFormat.epochSeconds)
     }
 }
 

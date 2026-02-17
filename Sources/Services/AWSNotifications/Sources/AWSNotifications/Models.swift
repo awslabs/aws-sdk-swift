@@ -5972,50 +5972,6 @@ extension ValidationException {
     }
 }
 
-extension NotificationsClientTypes.EventRuleStatusSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NotificationsClientTypes.EventRuleStatusSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NotificationsClientTypes.EventRuleStatusSummary()
-        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
-        value.reason = try reader["reason"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension NotificationsClientTypes.NotificationHubStatusSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NotificationsClientTypes.NotificationHubStatusSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NotificationsClientTypes.NotificationHubStatusSummary()
-        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
-        value.reason = try reader["reason"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension NotificationsClientTypes.ManagedNotificationChildEvent {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NotificationsClientTypes.ManagedNotificationChildEvent {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NotificationsClientTypes.ManagedNotificationChildEvent()
-        value.schemaVersion = try reader["schemaVersion"].readIfPresent() ?? .sdkUnknown("")
-        value.id = try reader["id"].readIfPresent() ?? ""
-        value.messageComponents = try reader["messageComponents"].readIfPresent(with: NotificationsClientTypes.MessageComponents.read(from:))
-        value.sourceEventDetailUrl = try reader["sourceEventDetailUrl"].readIfPresent()
-        value.sourceEventDetailUrlDisplayText = try reader["sourceEventDetailUrlDisplayText"].readIfPresent()
-        value.notificationType = try reader["notificationType"].readIfPresent() ?? .sdkUnknown("")
-        value.eventStatus = try reader["eventStatus"].readIfPresent()
-        value.aggregateManagedNotificationEventArn = try reader["aggregateManagedNotificationEventArn"].readIfPresent() ?? ""
-        value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.endTime = try reader["endTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.textParts = try reader["textParts"].readMapIfPresent(valueReadingClosure: NotificationsClientTypes.TextPartValue.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
-        value.organizationalUnitId = try reader["organizationalUnitId"].readIfPresent()
-        value.aggregationDetail = try reader["aggregationDetail"].readIfPresent(with: NotificationsClientTypes.AggregationDetail.read(from:))
-        return value
-    }
-}
-
 extension NotificationsClientTypes.AggregationDetail {
 
     static func read(from reader: SmithyJSON.Reader) throws -> NotificationsClientTypes.AggregationDetail {
@@ -6026,72 +5982,13 @@ extension NotificationsClientTypes.AggregationDetail {
     }
 }
 
-extension NotificationsClientTypes.SummarizationDimensionDetail {
+extension NotificationsClientTypes.AggregationKey {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> NotificationsClientTypes.SummarizationDimensionDetail {
+    static func read(from reader: SmithyJSON.Reader) throws -> NotificationsClientTypes.AggregationKey {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NotificationsClientTypes.SummarizationDimensionDetail()
+        var value = NotificationsClientTypes.AggregationKey()
         value.name = try reader["name"].readIfPresent() ?? ""
         value.value = try reader["value"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension NotificationsClientTypes.TextPartValue {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NotificationsClientTypes.TextPartValue {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NotificationsClientTypes.TextPartValue()
-        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
-        value.displayText = try reader["displayText"].readIfPresent()
-        value.textByLocale = try reader["textByLocale"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.url = try reader["url"].readIfPresent()
-        return value
-    }
-}
-
-extension NotificationsClientTypes.MessageComponents {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NotificationsClientTypes.MessageComponents {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NotificationsClientTypes.MessageComponents()
-        value.headline = try reader["headline"].readIfPresent()
-        value.paragraphSummary = try reader["paragraphSummary"].readIfPresent()
-        value.completeDescription = try reader["completeDescription"].readIfPresent()
-        value.dimensions = try reader["dimensions"].readListIfPresent(memberReadingClosure: NotificationsClientTypes.Dimension.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension NotificationsClientTypes.Dimension {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NotificationsClientTypes.Dimension {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NotificationsClientTypes.Dimension()
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.value = try reader["value"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension NotificationsClientTypes.ManagedNotificationEvent {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NotificationsClientTypes.ManagedNotificationEvent {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NotificationsClientTypes.ManagedNotificationEvent()
-        value.schemaVersion = try reader["schemaVersion"].readIfPresent() ?? .sdkUnknown("")
-        value.id = try reader["id"].readIfPresent() ?? ""
-        value.messageComponents = try reader["messageComponents"].readIfPresent(with: NotificationsClientTypes.MessageComponents.read(from:))
-        value.sourceEventDetailUrl = try reader["sourceEventDetailUrl"].readIfPresent()
-        value.sourceEventDetailUrlDisplayText = try reader["sourceEventDetailUrlDisplayText"].readIfPresent()
-        value.notificationType = try reader["notificationType"].readIfPresent() ?? .sdkUnknown("")
-        value.eventStatus = try reader["eventStatus"].readIfPresent()
-        value.aggregationEventType = try reader["aggregationEventType"].readIfPresent()
-        value.aggregationSummary = try reader["aggregationSummary"].readIfPresent(with: NotificationsClientTypes.AggregationSummary.read(from:))
-        value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.endTime = try reader["endTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.textParts = try reader["textParts"].readMapIfPresent(valueReadingClosure: NotificationsClientTypes.TextPartValue.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
-        value.organizationalUnitId = try reader["organizationalUnitId"].readIfPresent()
         return value
     }
 }
@@ -6111,103 +6008,24 @@ extension NotificationsClientTypes.AggregationSummary {
     }
 }
 
-extension NotificationsClientTypes.SummarizationDimensionOverview {
+extension NotificationsClientTypes.Dimension {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> NotificationsClientTypes.SummarizationDimensionOverview {
+    static func read(from reader: SmithyJSON.Reader) throws -> NotificationsClientTypes.Dimension {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NotificationsClientTypes.SummarizationDimensionOverview()
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.count = try reader["count"].readIfPresent() ?? 0
-        value.sampleValues = try reader["sampleValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension NotificationsClientTypes.AggregationKey {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NotificationsClientTypes.AggregationKey {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NotificationsClientTypes.AggregationKey()
+        var value = NotificationsClientTypes.Dimension()
         value.name = try reader["name"].readIfPresent() ?? ""
         value.value = try reader["value"].readIfPresent() ?? ""
         return value
     }
 }
 
-extension NotificationsClientTypes.NotificationEventSchema {
+extension NotificationsClientTypes.EventRuleStatusSummary {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> NotificationsClientTypes.NotificationEventSchema {
+    static func read(from reader: SmithyJSON.Reader) throws -> NotificationsClientTypes.EventRuleStatusSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NotificationsClientTypes.NotificationEventSchema()
-        value.schemaVersion = try reader["schemaVersion"].readIfPresent() ?? .sdkUnknown("")
-        value.id = try reader["id"].readIfPresent() ?? ""
-        value.sourceEventMetadata = try reader["sourceEventMetadata"].readIfPresent(with: NotificationsClientTypes.SourceEventMetadata.read(from:))
-        value.messageComponents = try reader["messageComponents"].readIfPresent(with: NotificationsClientTypes.MessageComponents.read(from:))
-        value.sourceEventDetailUrl = try reader["sourceEventDetailUrl"].readIfPresent()
-        value.sourceEventDetailUrlDisplayText = try reader["sourceEventDetailUrlDisplayText"].readIfPresent()
-        value.notificationType = try reader["notificationType"].readIfPresent() ?? .sdkUnknown("")
-        value.eventStatus = try reader["eventStatus"].readIfPresent()
-        value.aggregationEventType = try reader["aggregationEventType"].readIfPresent()
-        value.aggregateNotificationEventArn = try reader["aggregateNotificationEventArn"].readIfPresent()
-        value.aggregationSummary = try reader["aggregationSummary"].readIfPresent(with: NotificationsClientTypes.AggregationSummary.read(from:))
-        value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.endTime = try reader["endTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.textParts = try reader["textParts"].readMapIfPresent(valueReadingClosure: NotificationsClientTypes.TextPartValue.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
-        value.media = try reader["media"].readListIfPresent(memberReadingClosure: NotificationsClientTypes.MediaElement.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.organizationalUnitId = try reader["organizationalUnitId"].readIfPresent()
-        return value
-    }
-}
-
-extension NotificationsClientTypes.MediaElement {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NotificationsClientTypes.MediaElement {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NotificationsClientTypes.MediaElement()
-        value.mediaId = try reader["mediaId"].readIfPresent() ?? ""
-        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
-        value.url = try reader["url"].readIfPresent() ?? ""
-        value.caption = try reader["caption"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension NotificationsClientTypes.SourceEventMetadata {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NotificationsClientTypes.SourceEventMetadata {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NotificationsClientTypes.SourceEventMetadata()
-        value.eventTypeVersion = try reader["eventTypeVersion"].readIfPresent() ?? ""
-        value.sourceEventId = try reader["sourceEventId"].readIfPresent() ?? ""
-        value.eventOriginRegion = try reader["eventOriginRegion"].readIfPresent()
-        value.relatedAccount = try reader["relatedAccount"].readIfPresent() ?? ""
-        value.source = try reader["source"].readIfPresent() ?? ""
-        value.eventOccurrenceTime = try reader["eventOccurrenceTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.eventType = try reader["eventType"].readIfPresent() ?? ""
-        value.relatedResources = try reader["relatedResources"].readListIfPresent(memberReadingClosure: NotificationsClientTypes.Resource.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension NotificationsClientTypes.Resource {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NotificationsClientTypes.Resource {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NotificationsClientTypes.Resource()
-        value.id = try reader["id"].readIfPresent()
-        value.arn = try reader["arn"].readIfPresent()
-        value.detailUrl = try reader["detailUrl"].readIfPresent()
-        value.tags = try reader["tags"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension NotificationsClientTypes.NotificationsAccessForOrganization {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NotificationsClientTypes.NotificationsAccessForOrganization {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NotificationsClientTypes.NotificationsAccessForOrganization()
-        value.accessStatus = try reader["accessStatus"].readIfPresent() ?? .sdkUnknown("")
+        var value = NotificationsClientTypes.EventRuleStatusSummary()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.reason = try reader["reason"].readIfPresent() ?? ""
         return value
     }
 }
@@ -6238,6 +6056,28 @@ extension NotificationsClientTypes.ManagedNotificationChannelAssociationSummary 
         value.channelIdentifier = try reader["channelIdentifier"].readIfPresent() ?? ""
         value.channelType = try reader["channelType"].readIfPresent() ?? .sdkUnknown("")
         value.overrideOption = try reader["overrideOption"].readIfPresent()
+        return value
+    }
+}
+
+extension NotificationsClientTypes.ManagedNotificationChildEvent {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NotificationsClientTypes.ManagedNotificationChildEvent {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NotificationsClientTypes.ManagedNotificationChildEvent()
+        value.schemaVersion = try reader["schemaVersion"].readIfPresent() ?? .sdkUnknown("")
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.messageComponents = try reader["messageComponents"].readIfPresent(with: NotificationsClientTypes.MessageComponents.read(from:))
+        value.sourceEventDetailUrl = try reader["sourceEventDetailUrl"].readIfPresent()
+        value.sourceEventDetailUrlDisplayText = try reader["sourceEventDetailUrlDisplayText"].readIfPresent()
+        value.notificationType = try reader["notificationType"].readIfPresent() ?? .sdkUnknown("")
+        value.eventStatus = try reader["eventStatus"].readIfPresent()
+        value.aggregateManagedNotificationEventArn = try reader["aggregateManagedNotificationEventArn"].readIfPresent() ?? ""
+        value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.endTime = try reader["endTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.textParts = try reader["textParts"].readMapIfPresent(valueReadingClosure: NotificationsClientTypes.TextPartValue.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
+        value.organizationalUnitId = try reader["organizationalUnitId"].readIfPresent()
+        value.aggregationDetail = try reader["aggregationDetail"].readIfPresent(with: NotificationsClientTypes.AggregationDetail.read(from:))
         return value
     }
 }
@@ -6273,28 +6113,6 @@ extension NotificationsClientTypes.ManagedNotificationChildEventSummary {
     }
 }
 
-extension NotificationsClientTypes.MessageComponentsSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NotificationsClientTypes.MessageComponentsSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NotificationsClientTypes.MessageComponentsSummary()
-        value.headline = try reader["headline"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension NotificationsClientTypes.ManagedSourceEventMetadataSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> NotificationsClientTypes.ManagedSourceEventMetadataSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NotificationsClientTypes.ManagedSourceEventMetadataSummary()
-        value.eventOriginRegion = try reader["eventOriginRegion"].readIfPresent()
-        value.source = try reader["source"].readIfPresent() ?? ""
-        value.eventType = try reader["eventType"].readIfPresent() ?? ""
-        return value
-    }
-}
-
 extension NotificationsClientTypes.ManagedNotificationConfigurationStructure {
 
     static func read(from reader: SmithyJSON.Reader) throws -> NotificationsClientTypes.ManagedNotificationConfigurationStructure {
@@ -6303,6 +6121,28 @@ extension NotificationsClientTypes.ManagedNotificationConfigurationStructure {
         value.arn = try reader["arn"].readIfPresent() ?? ""
         value.name = try reader["name"].readIfPresent() ?? ""
         value.description = try reader["description"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension NotificationsClientTypes.ManagedNotificationEvent {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NotificationsClientTypes.ManagedNotificationEvent {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NotificationsClientTypes.ManagedNotificationEvent()
+        value.schemaVersion = try reader["schemaVersion"].readIfPresent() ?? .sdkUnknown("")
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.messageComponents = try reader["messageComponents"].readIfPresent(with: NotificationsClientTypes.MessageComponents.read(from:))
+        value.sourceEventDetailUrl = try reader["sourceEventDetailUrl"].readIfPresent()
+        value.sourceEventDetailUrlDisplayText = try reader["sourceEventDetailUrlDisplayText"].readIfPresent()
+        value.notificationType = try reader["notificationType"].readIfPresent() ?? .sdkUnknown("")
+        value.eventStatus = try reader["eventStatus"].readIfPresent()
+        value.aggregationEventType = try reader["aggregationEventType"].readIfPresent()
+        value.aggregationSummary = try reader["aggregationSummary"].readIfPresent(with: NotificationsClientTypes.AggregationSummary.read(from:))
+        value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.endTime = try reader["endTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.textParts = try reader["textParts"].readMapIfPresent(valueReadingClosure: NotificationsClientTypes.TextPartValue.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
+        value.organizationalUnitId = try reader["organizationalUnitId"].readIfPresent()
         return value
     }
 }
@@ -6339,6 +6179,31 @@ extension NotificationsClientTypes.ManagedNotificationEventSummary {
     }
 }
 
+extension NotificationsClientTypes.ManagedSourceEventMetadataSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NotificationsClientTypes.ManagedSourceEventMetadataSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NotificationsClientTypes.ManagedSourceEventMetadataSummary()
+        value.eventOriginRegion = try reader["eventOriginRegion"].readIfPresent()
+        value.source = try reader["source"].readIfPresent() ?? ""
+        value.eventType = try reader["eventType"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension NotificationsClientTypes.MediaElement {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NotificationsClientTypes.MediaElement {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NotificationsClientTypes.MediaElement()
+        value.mediaId = try reader["mediaId"].readIfPresent() ?? ""
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.url = try reader["url"].readIfPresent() ?? ""
+        value.caption = try reader["caption"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension NotificationsClientTypes.MemberAccount {
 
     static func read(from reader: SmithyJSON.Reader) throws -> NotificationsClientTypes.MemberAccount {
@@ -6349,6 +6214,29 @@ extension NotificationsClientTypes.MemberAccount {
         value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         value.statusReason = try reader["statusReason"].readIfPresent() ?? ""
         value.organizationalUnitId = try reader["organizationalUnitId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension NotificationsClientTypes.MessageComponents {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NotificationsClientTypes.MessageComponents {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NotificationsClientTypes.MessageComponents()
+        value.headline = try reader["headline"].readIfPresent()
+        value.paragraphSummary = try reader["paragraphSummary"].readIfPresent()
+        value.completeDescription = try reader["completeDescription"].readIfPresent()
+        value.dimensions = try reader["dimensions"].readListIfPresent(memberReadingClosure: NotificationsClientTypes.Dimension.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension NotificationsClientTypes.MessageComponentsSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NotificationsClientTypes.MessageComponentsSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NotificationsClientTypes.MessageComponentsSummary()
+        value.headline = try reader["headline"].readIfPresent() ?? ""
         return value
     }
 }
@@ -6387,6 +6275,31 @@ extension NotificationsClientTypes.NotificationEventOverview {
     }
 }
 
+extension NotificationsClientTypes.NotificationEventSchema {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NotificationsClientTypes.NotificationEventSchema {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NotificationsClientTypes.NotificationEventSchema()
+        value.schemaVersion = try reader["schemaVersion"].readIfPresent() ?? .sdkUnknown("")
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.sourceEventMetadata = try reader["sourceEventMetadata"].readIfPresent(with: NotificationsClientTypes.SourceEventMetadata.read(from:))
+        value.messageComponents = try reader["messageComponents"].readIfPresent(with: NotificationsClientTypes.MessageComponents.read(from:))
+        value.sourceEventDetailUrl = try reader["sourceEventDetailUrl"].readIfPresent()
+        value.sourceEventDetailUrlDisplayText = try reader["sourceEventDetailUrlDisplayText"].readIfPresent()
+        value.notificationType = try reader["notificationType"].readIfPresent() ?? .sdkUnknown("")
+        value.eventStatus = try reader["eventStatus"].readIfPresent()
+        value.aggregationEventType = try reader["aggregationEventType"].readIfPresent()
+        value.aggregateNotificationEventArn = try reader["aggregateNotificationEventArn"].readIfPresent()
+        value.aggregationSummary = try reader["aggregationSummary"].readIfPresent(with: NotificationsClientTypes.AggregationSummary.read(from:))
+        value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.endTime = try reader["endTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.textParts = try reader["textParts"].readMapIfPresent(valueReadingClosure: NotificationsClientTypes.TextPartValue.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
+        value.media = try reader["media"].readListIfPresent(memberReadingClosure: NotificationsClientTypes.MediaElement.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.organizationalUnitId = try reader["organizationalUnitId"].readIfPresent()
+        return value
+    }
+}
+
 extension NotificationsClientTypes.NotificationEventSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> NotificationsClientTypes.NotificationEventSummary {
@@ -6397,6 +6310,70 @@ extension NotificationsClientTypes.NotificationEventSummary {
         value.messageComponents = try reader["messageComponents"].readIfPresent(with: NotificationsClientTypes.MessageComponentsSummary.read(from:))
         value.eventStatus = try reader["eventStatus"].readIfPresent() ?? .sdkUnknown("")
         value.notificationType = try reader["notificationType"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension NotificationsClientTypes.NotificationHubOverview {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NotificationsClientTypes.NotificationHubOverview {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NotificationsClientTypes.NotificationHubOverview()
+        value.notificationHubRegion = try reader["notificationHubRegion"].readIfPresent() ?? ""
+        value.statusSummary = try reader["statusSummary"].readIfPresent(with: NotificationsClientTypes.NotificationHubStatusSummary.read(from:))
+        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastActivationTime = try reader["lastActivationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        return value
+    }
+}
+
+extension NotificationsClientTypes.NotificationHubStatusSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NotificationsClientTypes.NotificationHubStatusSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NotificationsClientTypes.NotificationHubStatusSummary()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.reason = try reader["reason"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension NotificationsClientTypes.NotificationsAccessForOrganization {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NotificationsClientTypes.NotificationsAccessForOrganization {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NotificationsClientTypes.NotificationsAccessForOrganization()
+        value.accessStatus = try reader["accessStatus"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension NotificationsClientTypes.Resource {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NotificationsClientTypes.Resource {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NotificationsClientTypes.Resource()
+        value.id = try reader["id"].readIfPresent()
+        value.arn = try reader["arn"].readIfPresent()
+        value.detailUrl = try reader["detailUrl"].readIfPresent()
+        value.tags = try reader["tags"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension NotificationsClientTypes.SourceEventMetadata {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NotificationsClientTypes.SourceEventMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NotificationsClientTypes.SourceEventMetadata()
+        value.eventTypeVersion = try reader["eventTypeVersion"].readIfPresent() ?? ""
+        value.sourceEventId = try reader["sourceEventId"].readIfPresent() ?? ""
+        value.eventOriginRegion = try reader["eventOriginRegion"].readIfPresent()
+        value.relatedAccount = try reader["relatedAccount"].readIfPresent() ?? ""
+        value.source = try reader["source"].readIfPresent() ?? ""
+        value.eventOccurrenceTime = try reader["eventOccurrenceTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.eventType = try reader["eventType"].readIfPresent() ?? ""
+        value.relatedResources = try reader["relatedResources"].readListIfPresent(memberReadingClosure: NotificationsClientTypes.Resource.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -6413,15 +6390,38 @@ extension NotificationsClientTypes.SourceEventMetadataSummary {
     }
 }
 
-extension NotificationsClientTypes.NotificationHubOverview {
+extension NotificationsClientTypes.SummarizationDimensionDetail {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> NotificationsClientTypes.NotificationHubOverview {
+    static func read(from reader: SmithyJSON.Reader) throws -> NotificationsClientTypes.SummarizationDimensionDetail {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = NotificationsClientTypes.NotificationHubOverview()
-        value.notificationHubRegion = try reader["notificationHubRegion"].readIfPresent() ?? ""
-        value.statusSummary = try reader["statusSummary"].readIfPresent(with: NotificationsClientTypes.NotificationHubStatusSummary.read(from:))
-        value.creationTime = try reader["creationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.lastActivationTime = try reader["lastActivationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        var value = NotificationsClientTypes.SummarizationDimensionDetail()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.value = try reader["value"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension NotificationsClientTypes.SummarizationDimensionOverview {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NotificationsClientTypes.SummarizationDimensionOverview {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NotificationsClientTypes.SummarizationDimensionOverview()
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.count = try reader["count"].readIfPresent() ?? 0
+        value.sampleValues = try reader["sampleValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension NotificationsClientTypes.TextPartValue {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> NotificationsClientTypes.TextPartValue {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = NotificationsClientTypes.TextPartValue()
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        value.displayText = try reader["displayText"].readIfPresent()
+        value.textByLocale = try reader["textByLocale"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.url = try reader["url"].readIfPresent()
         return value
     }
 }

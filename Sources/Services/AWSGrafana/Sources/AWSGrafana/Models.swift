@@ -3695,37 +3695,89 @@ extension ServiceQuotaExceededException {
     }
 }
 
-extension GrafanaClientTypes.WorkspaceDescription {
+extension GrafanaClientTypes.AssertionAttributes {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GrafanaClientTypes.WorkspaceDescription {
+    static func write(value: GrafanaClientTypes.AssertionAttributes?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["email"].write(value.email)
+        try writer["groups"].write(value.groups)
+        try writer["login"].write(value.login)
+        try writer["name"].write(value.name)
+        try writer["org"].write(value.org)
+        try writer["role"].write(value.role)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GrafanaClientTypes.AssertionAttributes {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GrafanaClientTypes.WorkspaceDescription()
-        value.accountAccessType = try reader["accountAccessType"].readIfPresent()
-        value.created = try reader["created"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.dataSources = try reader["dataSources"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<GrafanaClientTypes.DataSourceType>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.description = try reader["description"].readIfPresent()
-        value.endpoint = try reader["endpoint"].readIfPresent() ?? ""
-        value.grafanaVersion = try reader["grafanaVersion"].readIfPresent() ?? ""
-        value.id = try reader["id"].readIfPresent() ?? ""
-        value.modified = try reader["modified"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        var value = GrafanaClientTypes.AssertionAttributes()
         value.name = try reader["name"].readIfPresent()
-        value.organizationRoleName = try reader["organizationRoleName"].readIfPresent()
-        value.notificationDestinations = try reader["notificationDestinations"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<GrafanaClientTypes.NotificationDestinationType>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.organizationalUnits = try reader["organizationalUnits"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.permissionType = try reader["permissionType"].readIfPresent()
-        value.stackSetName = try reader["stackSetName"].readIfPresent()
-        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
-        value.workspaceRoleArn = try reader["workspaceRoleArn"].readIfPresent()
-        value.licenseType = try reader["licenseType"].readIfPresent()
-        value.freeTrialConsumed = try reader["freeTrialConsumed"].readIfPresent()
-        value.licenseExpiration = try reader["licenseExpiration"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.freeTrialExpiration = try reader["freeTrialExpiration"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.authentication = try reader["authentication"].readIfPresent(with: GrafanaClientTypes.AuthenticationSummary.read(from:))
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.vpcConfiguration = try reader["vpcConfiguration"].readIfPresent(with: GrafanaClientTypes.VpcConfiguration.read(from:))
-        value.networkAccessControl = try reader["networkAccessControl"].readIfPresent(with: GrafanaClientTypes.NetworkAccessConfiguration.read(from:))
-        value.grafanaToken = try reader["grafanaToken"].readIfPresent()
+        value.login = try reader["login"].readIfPresent()
+        value.email = try reader["email"].readIfPresent()
+        value.groups = try reader["groups"].readIfPresent()
+        value.role = try reader["role"].readIfPresent()
+        value.org = try reader["org"].readIfPresent()
         return value
+    }
+}
+
+extension GrafanaClientTypes.AuthenticationDescription {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GrafanaClientTypes.AuthenticationDescription {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GrafanaClientTypes.AuthenticationDescription()
+        value.providers = try reader["providers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<GrafanaClientTypes.AuthenticationProviderTypes>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.saml = try reader["saml"].readIfPresent(with: GrafanaClientTypes.SamlAuthentication.read(from:))
+        value.awsSso = try reader["awsSso"].readIfPresent(with: GrafanaClientTypes.AwsSsoAuthentication.read(from:))
+        return value
+    }
+}
+
+extension GrafanaClientTypes.AuthenticationSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GrafanaClientTypes.AuthenticationSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GrafanaClientTypes.AuthenticationSummary()
+        value.providers = try reader["providers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<GrafanaClientTypes.AuthenticationProviderTypes>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.samlConfigurationStatus = try reader["samlConfigurationStatus"].readIfPresent()
+        return value
+    }
+}
+
+extension GrafanaClientTypes.AwsSsoAuthentication {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GrafanaClientTypes.AwsSsoAuthentication {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GrafanaClientTypes.AwsSsoAuthentication()
+        value.ssoClientId = try reader["ssoClientId"].readIfPresent()
+        return value
+    }
+}
+
+extension GrafanaClientTypes.IdpMetadata {
+
+    static func write(value: GrafanaClientTypes.IdpMetadata?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .url(url):
+                try writer["url"].write(url)
+            case let .xml(xml):
+                try writer["xml"].write(xml)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GrafanaClientTypes.IdpMetadata {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "url":
+                return .url(try reader["url"].read())
+            case "xml":
+                return .xml(try reader["xml"].read())
+            default:
+                return .sdkUnknown(name ?? "")
+        }
     }
 }
 
@@ -3746,64 +3798,30 @@ extension GrafanaClientTypes.NetworkAccessConfiguration {
     }
 }
 
-extension GrafanaClientTypes.VpcConfiguration {
+extension GrafanaClientTypes.PermissionEntry {
 
-    static func write(value: GrafanaClientTypes.VpcConfiguration?, to writer: SmithyJSON.Writer) throws {
+    static func read(from reader: SmithyJSON.Reader) throws -> GrafanaClientTypes.PermissionEntry {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GrafanaClientTypes.PermissionEntry()
+        value.user = try reader["user"].readIfPresent(with: GrafanaClientTypes.User.read(from:))
+        value.role = try reader["role"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension GrafanaClientTypes.RoleValues {
+
+    static func write(value: GrafanaClientTypes.RoleValues?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["securityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["subnetIds"].writeList(value.subnetIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["admin"].writeList(value.admin, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["editor"].writeList(value.editor, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> GrafanaClientTypes.VpcConfiguration {
+    static func read(from reader: SmithyJSON.Reader) throws -> GrafanaClientTypes.RoleValues {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GrafanaClientTypes.VpcConfiguration()
-        value.securityGroupIds = try reader["securityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.subnetIds = try reader["subnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension GrafanaClientTypes.AuthenticationSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GrafanaClientTypes.AuthenticationSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GrafanaClientTypes.AuthenticationSummary()
-        value.providers = try reader["providers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<GrafanaClientTypes.AuthenticationProviderTypes>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.samlConfigurationStatus = try reader["samlConfigurationStatus"].readIfPresent()
-        return value
-    }
-}
-
-extension GrafanaClientTypes.ServiceAccountTokenSummaryWithKey {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GrafanaClientTypes.ServiceAccountTokenSummaryWithKey {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GrafanaClientTypes.ServiceAccountTokenSummaryWithKey()
-        value.id = try reader["id"].readIfPresent() ?? ""
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.key = try reader["key"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension GrafanaClientTypes.AuthenticationDescription {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GrafanaClientTypes.AuthenticationDescription {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GrafanaClientTypes.AuthenticationDescription()
-        value.providers = try reader["providers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<GrafanaClientTypes.AuthenticationProviderTypes>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.saml = try reader["saml"].readIfPresent(with: GrafanaClientTypes.SamlAuthentication.read(from:))
-        value.awsSso = try reader["awsSso"].readIfPresent(with: GrafanaClientTypes.AwsSsoAuthentication.read(from:))
-        return value
-    }
-}
-
-extension GrafanaClientTypes.AwsSsoAuthentication {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GrafanaClientTypes.AwsSsoAuthentication {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GrafanaClientTypes.AwsSsoAuthentication()
-        value.ssoClientId = try reader["ssoClientId"].readIfPresent()
+        var value = GrafanaClientTypes.RoleValues()
+        value.editor = try reader["editor"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.admin = try reader["admin"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -3842,126 +3860,6 @@ extension GrafanaClientTypes.SamlConfiguration {
     }
 }
 
-extension GrafanaClientTypes.RoleValues {
-
-    static func write(value: GrafanaClientTypes.RoleValues?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["admin"].writeList(value.admin, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["editor"].writeList(value.editor, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GrafanaClientTypes.RoleValues {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GrafanaClientTypes.RoleValues()
-        value.editor = try reader["editor"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.admin = try reader["admin"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension GrafanaClientTypes.AssertionAttributes {
-
-    static func write(value: GrafanaClientTypes.AssertionAttributes?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["email"].write(value.email)
-        try writer["groups"].write(value.groups)
-        try writer["login"].write(value.login)
-        try writer["name"].write(value.name)
-        try writer["org"].write(value.org)
-        try writer["role"].write(value.role)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GrafanaClientTypes.AssertionAttributes {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GrafanaClientTypes.AssertionAttributes()
-        value.name = try reader["name"].readIfPresent()
-        value.login = try reader["login"].readIfPresent()
-        value.email = try reader["email"].readIfPresent()
-        value.groups = try reader["groups"].readIfPresent()
-        value.role = try reader["role"].readIfPresent()
-        value.org = try reader["org"].readIfPresent()
-        return value
-    }
-}
-
-extension GrafanaClientTypes.IdpMetadata {
-
-    static func write(value: GrafanaClientTypes.IdpMetadata?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .url(url):
-                try writer["url"].write(url)
-            case let .xml(xml):
-                try writer["xml"].write(xml)
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GrafanaClientTypes.IdpMetadata {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "url":
-                return .url(try reader["url"].read())
-            case "xml":
-                return .xml(try reader["xml"].read())
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension GrafanaClientTypes.PermissionEntry {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GrafanaClientTypes.PermissionEntry {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GrafanaClientTypes.PermissionEntry()
-        value.user = try reader["user"].readIfPresent(with: GrafanaClientTypes.User.read(from:))
-        value.role = try reader["role"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension GrafanaClientTypes.User {
-
-    static func write(value: GrafanaClientTypes.User?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["id"].write(value.id)
-        try writer["type"].write(value.type)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GrafanaClientTypes.User {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GrafanaClientTypes.User()
-        value.id = try reader["id"].readIfPresent() ?? ""
-        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension GrafanaClientTypes.WorkspaceSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> GrafanaClientTypes.WorkspaceSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = GrafanaClientTypes.WorkspaceSummary()
-        value.created = try reader["created"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.description = try reader["description"].readIfPresent()
-        value.endpoint = try reader["endpoint"].readIfPresent() ?? ""
-        value.grafanaVersion = try reader["grafanaVersion"].readIfPresent() ?? ""
-        value.id = try reader["id"].readIfPresent() ?? ""
-        value.modified = try reader["modified"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.name = try reader["name"].readIfPresent()
-        value.notificationDestinations = try reader["notificationDestinations"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<GrafanaClientTypes.NotificationDestinationType>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
-        value.authentication = try reader["authentication"].readIfPresent(with: GrafanaClientTypes.AuthenticationSummary.read(from:))
-        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.licenseType = try reader["licenseType"].readIfPresent()
-        value.grafanaToken = try reader["grafanaToken"].readIfPresent()
-        return value
-    }
-}
-
 extension GrafanaClientTypes.ServiceAccountSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> GrafanaClientTypes.ServiceAccountSummary {
@@ -3985,6 +3883,18 @@ extension GrafanaClientTypes.ServiceAccountTokenSummary {
         value.createdAt = try reader["createdAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.expiresAt = try reader["expiresAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         value.lastUsedAt = try reader["lastUsedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension GrafanaClientTypes.ServiceAccountTokenSummaryWithKey {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GrafanaClientTypes.ServiceAccountTokenSummaryWithKey {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GrafanaClientTypes.ServiceAccountTokenSummaryWithKey()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.key = try reader["key"].readIfPresent() ?? ""
         return value
     }
 }
@@ -4020,6 +3930,23 @@ extension GrafanaClientTypes.UpdateInstruction {
     }
 }
 
+extension GrafanaClientTypes.User {
+
+    static func write(value: GrafanaClientTypes.User?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["id"].write(value.id)
+        try writer["type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GrafanaClientTypes.User {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GrafanaClientTypes.User()
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.type = try reader["type"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
 extension GrafanaClientTypes.ValidationExceptionField {
 
     static func read(from reader: SmithyJSON.Reader) throws -> GrafanaClientTypes.ValidationExceptionField {
@@ -4027,6 +3954,79 @@ extension GrafanaClientTypes.ValidationExceptionField {
         var value = GrafanaClientTypes.ValidationExceptionField()
         value.name = try reader["name"].readIfPresent() ?? ""
         value.message = try reader["message"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension GrafanaClientTypes.VpcConfiguration {
+
+    static func write(value: GrafanaClientTypes.VpcConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["securityGroupIds"].writeList(value.securityGroupIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["subnetIds"].writeList(value.subnetIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GrafanaClientTypes.VpcConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GrafanaClientTypes.VpcConfiguration()
+        value.securityGroupIds = try reader["securityGroupIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.subnetIds = try reader["subnetIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension GrafanaClientTypes.WorkspaceDescription {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GrafanaClientTypes.WorkspaceDescription {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GrafanaClientTypes.WorkspaceDescription()
+        value.accountAccessType = try reader["accountAccessType"].readIfPresent()
+        value.created = try reader["created"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.dataSources = try reader["dataSources"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<GrafanaClientTypes.DataSourceType>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.description = try reader["description"].readIfPresent()
+        value.endpoint = try reader["endpoint"].readIfPresent() ?? ""
+        value.grafanaVersion = try reader["grafanaVersion"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.modified = try reader["modified"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.name = try reader["name"].readIfPresent()
+        value.organizationRoleName = try reader["organizationRoleName"].readIfPresent()
+        value.notificationDestinations = try reader["notificationDestinations"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<GrafanaClientTypes.NotificationDestinationType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.organizationalUnits = try reader["organizationalUnits"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.permissionType = try reader["permissionType"].readIfPresent()
+        value.stackSetName = try reader["stackSetName"].readIfPresent()
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.workspaceRoleArn = try reader["workspaceRoleArn"].readIfPresent()
+        value.licenseType = try reader["licenseType"].readIfPresent()
+        value.freeTrialConsumed = try reader["freeTrialConsumed"].readIfPresent()
+        value.licenseExpiration = try reader["licenseExpiration"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.freeTrialExpiration = try reader["freeTrialExpiration"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.authentication = try reader["authentication"].readIfPresent(with: GrafanaClientTypes.AuthenticationSummary.read(from:))
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.vpcConfiguration = try reader["vpcConfiguration"].readIfPresent(with: GrafanaClientTypes.VpcConfiguration.read(from:))
+        value.networkAccessControl = try reader["networkAccessControl"].readIfPresent(with: GrafanaClientTypes.NetworkAccessConfiguration.read(from:))
+        value.grafanaToken = try reader["grafanaToken"].readIfPresent()
+        return value
+    }
+}
+
+extension GrafanaClientTypes.WorkspaceSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> GrafanaClientTypes.WorkspaceSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = GrafanaClientTypes.WorkspaceSummary()
+        value.created = try reader["created"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.description = try reader["description"].readIfPresent()
+        value.endpoint = try reader["endpoint"].readIfPresent() ?? ""
+        value.grafanaVersion = try reader["grafanaVersion"].readIfPresent() ?? ""
+        value.id = try reader["id"].readIfPresent() ?? ""
+        value.modified = try reader["modified"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.name = try reader["name"].readIfPresent()
+        value.notificationDestinations = try reader["notificationDestinations"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<GrafanaClientTypes.NotificationDestinationType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        value.authentication = try reader["authentication"].readIfPresent(with: GrafanaClientTypes.AuthenticationSummary.read(from:))
+        value.tags = try reader["tags"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.licenseType = try reader["licenseType"].readIfPresent()
+        value.grafanaToken = try reader["grafanaToken"].readIfPresent()
         return value
     }
 }

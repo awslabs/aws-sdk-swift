@@ -1119,14 +1119,37 @@ extension FreeTierClientTypes.ActivityReward {
     }
 }
 
-extension FreeTierClientTypes.MonetaryAmount {
+extension FreeTierClientTypes.ActivitySummary {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> FreeTierClientTypes.MonetaryAmount {
+    static func read(from reader: SmithyJSON.Reader) throws -> FreeTierClientTypes.ActivitySummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FreeTierClientTypes.MonetaryAmount()
-        value.amount = try reader["amount"].readIfPresent() ?? 0
-        value.unit = try reader["unit"].readIfPresent() ?? .sdkUnknown("")
+        var value = FreeTierClientTypes.ActivitySummary()
+        value.activityId = try reader["activityId"].readIfPresent() ?? ""
+        value.title = try reader["title"].readIfPresent() ?? ""
+        value.reward = try reader["reward"].readIfPresent(with: FreeTierClientTypes.ActivityReward.read(from:))
+        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
         return value
+    }
+}
+
+extension FreeTierClientTypes.DimensionValues {
+
+    static func write(value: FreeTierClientTypes.DimensionValues?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Key"].write(value.key)
+        try writer["MatchOptions"].writeList(value.matchOptions, memberWritingClosure: SmithyReadWrite.WritingClosureBox<FreeTierClientTypes.MatchOption>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension FreeTierClientTypes.Expression {
+
+    static func write(value: FreeTierClientTypes.Expression?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["And"].writeList(value.and, memberWritingClosure: FreeTierClientTypes.Expression.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Dimensions"].write(value.dimensions, with: FreeTierClientTypes.DimensionValues.write(value:to:))
+        try writer["Not"].write(value.not, with: FreeTierClientTypes.Expression.write(value:to:))
+        try writer["Or"].writeList(value.or, memberWritingClosure: FreeTierClientTypes.Expression.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -1149,37 +1172,14 @@ extension FreeTierClientTypes.FreeTierUsage {
     }
 }
 
-extension FreeTierClientTypes.ActivitySummary {
+extension FreeTierClientTypes.MonetaryAmount {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> FreeTierClientTypes.ActivitySummary {
+    static func read(from reader: SmithyJSON.Reader) throws -> FreeTierClientTypes.MonetaryAmount {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = FreeTierClientTypes.ActivitySummary()
-        value.activityId = try reader["activityId"].readIfPresent() ?? ""
-        value.title = try reader["title"].readIfPresent() ?? ""
-        value.reward = try reader["reward"].readIfPresent(with: FreeTierClientTypes.ActivityReward.read(from:))
-        value.status = try reader["status"].readIfPresent() ?? .sdkUnknown("")
+        var value = FreeTierClientTypes.MonetaryAmount()
+        value.amount = try reader["amount"].readIfPresent() ?? 0
+        value.unit = try reader["unit"].readIfPresent() ?? .sdkUnknown("")
         return value
-    }
-}
-
-extension FreeTierClientTypes.Expression {
-
-    static func write(value: FreeTierClientTypes.Expression?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["And"].writeList(value.and, memberWritingClosure: FreeTierClientTypes.Expression.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Dimensions"].write(value.dimensions, with: FreeTierClientTypes.DimensionValues.write(value:to:))
-        try writer["Not"].write(value.not, with: FreeTierClientTypes.Expression.write(value:to:))
-        try writer["Or"].writeList(value.or, memberWritingClosure: FreeTierClientTypes.Expression.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension FreeTierClientTypes.DimensionValues {
-
-    static func write(value: FreeTierClientTypes.DimensionValues?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Key"].write(value.key)
-        try writer["MatchOptions"].writeList(value.matchOptions, memberWritingClosure: SmithyReadWrite.WritingClosureBox<FreeTierClientTypes.MatchOption>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 

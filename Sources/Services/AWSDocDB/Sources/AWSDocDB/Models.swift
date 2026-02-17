@@ -8973,87 +8973,59 @@ extension InvalidRestoreFault {
     }
 }
 
-extension DocDBClientTypes.EventSubscription {
+extension DocDBClientTypes.AvailabilityZone {
 
-    static func read(from reader: SmithyXML.Reader) throws -> DocDBClientTypes.EventSubscription {
+    static func read(from reader: SmithyXML.Reader) throws -> DocDBClientTypes.AvailabilityZone {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DocDBClientTypes.EventSubscription()
-        value.customerAwsId = try reader["CustomerAwsId"].readIfPresent()
-        value.custSubscriptionId = try reader["CustSubscriptionId"].readIfPresent()
-        value.snsTopicArn = try reader["SnsTopicArn"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.subscriptionCreationTime = try reader["SubscriptionCreationTime"].readIfPresent()
-        value.sourceType = try reader["SourceType"].readIfPresent()
-        value.sourceIdsList = try reader["SourceIdsList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "SourceId", isFlattened: false)
-        value.eventCategoriesList = try reader["EventCategoriesList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "EventCategory", isFlattened: false)
-        value.enabled = try reader["Enabled"].readIfPresent()
-        value.eventSubscriptionArn = try reader["EventSubscriptionArn"].readIfPresent()
+        var value = DocDBClientTypes.AvailabilityZone()
+        value.name = try reader["Name"].readIfPresent()
         return value
     }
 }
 
-extension DocDBClientTypes.ResourcePendingMaintenanceActions {
+extension DocDBClientTypes.Certificate {
 
-    static func read(from reader: SmithyXML.Reader) throws -> DocDBClientTypes.ResourcePendingMaintenanceActions {
+    static func read(from reader: SmithyXML.Reader) throws -> DocDBClientTypes.Certificate {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DocDBClientTypes.ResourcePendingMaintenanceActions()
-        value.resourceIdentifier = try reader["ResourceIdentifier"].readIfPresent()
-        value.pendingMaintenanceActionDetails = try reader["PendingMaintenanceActionDetails"].readListIfPresent(memberReadingClosure: DocDBClientTypes.PendingMaintenanceAction.read(from:), memberNodeInfo: "PendingMaintenanceAction", isFlattened: false)
+        var value = DocDBClientTypes.Certificate()
+        value.certificateIdentifier = try reader["CertificateIdentifier"].readIfPresent()
+        value.certificateType = try reader["CertificateType"].readIfPresent()
+        value.thumbprint = try reader["Thumbprint"].readIfPresent()
+        value.validFrom = try reader["ValidFrom"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.validTill = try reader["ValidTill"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.certificateArn = try reader["CertificateArn"].readIfPresent()
         return value
     }
 }
 
-extension DocDBClientTypes.PendingMaintenanceAction {
+extension DocDBClientTypes.CertificateDetails {
 
-    static func read(from reader: SmithyXML.Reader) throws -> DocDBClientTypes.PendingMaintenanceAction {
+    static func read(from reader: SmithyXML.Reader) throws -> DocDBClientTypes.CertificateDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DocDBClientTypes.PendingMaintenanceAction()
-        value.action = try reader["Action"].readIfPresent()
-        value.autoAppliedAfterDate = try reader["AutoAppliedAfterDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.forcedApplyDate = try reader["ForcedApplyDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.optInStatus = try reader["OptInStatus"].readIfPresent()
-        value.currentApplyDate = try reader["CurrentApplyDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.description = try reader["Description"].readIfPresent()
+        var value = DocDBClientTypes.CertificateDetails()
+        value.caIdentifier = try reader["CAIdentifier"].readIfPresent()
+        value.validTill = try reader["ValidTill"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         return value
     }
 }
 
-extension DocDBClientTypes.DBClusterParameterGroup {
+extension DocDBClientTypes.CloudwatchLogsExportConfiguration {
 
-    static func read(from reader: SmithyXML.Reader) throws -> DocDBClientTypes.DBClusterParameterGroup {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DocDBClientTypes.DBClusterParameterGroup()
-        value.dbClusterParameterGroupName = try reader["DBClusterParameterGroupName"].readIfPresent()
-        value.dbParameterGroupFamily = try reader["DBParameterGroupFamily"].readIfPresent()
-        value.description = try reader["Description"].readIfPresent()
-        value.dbClusterParameterGroupArn = try reader["DBClusterParameterGroupArn"].readIfPresent()
-        return value
+    static func write(value: DocDBClientTypes.CloudwatchLogsExportConfiguration?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["DisableLogTypes"].writeList(value.disableLogTypes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["EnableLogTypes"].writeList(value.enableLogTypes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
-extension DocDBClientTypes.DBClusterSnapshot {
+extension DocDBClientTypes.ClusterMasterUserSecret {
 
-    static func read(from reader: SmithyXML.Reader) throws -> DocDBClientTypes.DBClusterSnapshot {
+    static func read(from reader: SmithyXML.Reader) throws -> DocDBClientTypes.ClusterMasterUserSecret {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DocDBClientTypes.DBClusterSnapshot()
-        value.availabilityZones = try reader["AvailabilityZones"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "AvailabilityZone", isFlattened: false)
-        value.dbClusterSnapshotIdentifier = try reader["DBClusterSnapshotIdentifier"].readIfPresent()
-        value.dbClusterIdentifier = try reader["DBClusterIdentifier"].readIfPresent()
-        value.snapshotCreateTime = try reader["SnapshotCreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.engine = try reader["Engine"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.port = try reader["Port"].readIfPresent()
-        value.vpcId = try reader["VpcId"].readIfPresent()
-        value.clusterCreateTime = try reader["ClusterCreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.masterUsername = try reader["MasterUsername"].readIfPresent()
-        value.engineVersion = try reader["EngineVersion"].readIfPresent()
-        value.snapshotType = try reader["SnapshotType"].readIfPresent()
-        value.percentProgress = try reader["PercentProgress"].readIfPresent()
-        value.storageEncrypted = try reader["StorageEncrypted"].readIfPresent()
+        var value = DocDBClientTypes.ClusterMasterUserSecret()
+        value.secretArn = try reader["SecretArn"].readIfPresent()
+        value.secretStatus = try reader["SecretStatus"].readIfPresent()
         value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
-        value.dbClusterSnapshotArn = try reader["DBClusterSnapshotArn"].readIfPresent()
-        value.sourceDBClusterSnapshotArn = try reader["SourceDBClusterSnapshotArn"].readIfPresent()
-        value.storageType = try reader["StorageType"].readIfPresent()
         return value
     }
 }
@@ -9104,25 +9076,28 @@ extension DocDBClientTypes.DBCluster {
     }
 }
 
-extension DocDBClientTypes.ClusterMasterUserSecret {
+extension DocDBClientTypes.DBClusterMember {
 
-    static func read(from reader: SmithyXML.Reader) throws -> DocDBClientTypes.ClusterMasterUserSecret {
+    static func read(from reader: SmithyXML.Reader) throws -> DocDBClientTypes.DBClusterMember {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DocDBClientTypes.ClusterMasterUserSecret()
-        value.secretArn = try reader["SecretArn"].readIfPresent()
-        value.secretStatus = try reader["SecretStatus"].readIfPresent()
-        value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
+        var value = DocDBClientTypes.DBClusterMember()
+        value.dbInstanceIdentifier = try reader["DBInstanceIdentifier"].readIfPresent()
+        value.isClusterWriter = try reader["IsClusterWriter"].readIfPresent()
+        value.dbClusterParameterGroupStatus = try reader["DBClusterParameterGroupStatus"].readIfPresent()
+        value.promotionTier = try reader["PromotionTier"].readIfPresent()
         return value
     }
 }
 
-extension DocDBClientTypes.ServerlessV2ScalingConfigurationInfo {
+extension DocDBClientTypes.DBClusterParameterGroup {
 
-    static func read(from reader: SmithyXML.Reader) throws -> DocDBClientTypes.ServerlessV2ScalingConfigurationInfo {
+    static func read(from reader: SmithyXML.Reader) throws -> DocDBClientTypes.DBClusterParameterGroup {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DocDBClientTypes.ServerlessV2ScalingConfigurationInfo()
-        value.minCapacity = try reader["MinCapacity"].readIfPresent()
-        value.maxCapacity = try reader["MaxCapacity"].readIfPresent()
+        var value = DocDBClientTypes.DBClusterParameterGroup()
+        value.dbClusterParameterGroupName = try reader["DBClusterParameterGroupName"].readIfPresent()
+        value.dbParameterGroupFamily = try reader["DBParameterGroupFamily"].readIfPresent()
+        value.description = try reader["Description"].readIfPresent()
+        value.dbClusterParameterGroupArn = try reader["DBClusterParameterGroupArn"].readIfPresent()
         return value
     }
 }
@@ -9138,26 +9113,71 @@ extension DocDBClientTypes.DBClusterRole {
     }
 }
 
-extension DocDBClientTypes.VpcSecurityGroupMembership {
+extension DocDBClientTypes.DBClusterSnapshot {
 
-    static func read(from reader: SmithyXML.Reader) throws -> DocDBClientTypes.VpcSecurityGroupMembership {
+    static func read(from reader: SmithyXML.Reader) throws -> DocDBClientTypes.DBClusterSnapshot {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DocDBClientTypes.VpcSecurityGroupMembership()
-        value.vpcSecurityGroupId = try reader["VpcSecurityGroupId"].readIfPresent()
+        var value = DocDBClientTypes.DBClusterSnapshot()
+        value.availabilityZones = try reader["AvailabilityZones"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "AvailabilityZone", isFlattened: false)
+        value.dbClusterSnapshotIdentifier = try reader["DBClusterSnapshotIdentifier"].readIfPresent()
+        value.dbClusterIdentifier = try reader["DBClusterIdentifier"].readIfPresent()
+        value.snapshotCreateTime = try reader["SnapshotCreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.engine = try reader["Engine"].readIfPresent()
         value.status = try reader["Status"].readIfPresent()
+        value.port = try reader["Port"].readIfPresent()
+        value.vpcId = try reader["VpcId"].readIfPresent()
+        value.clusterCreateTime = try reader["ClusterCreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.masterUsername = try reader["MasterUsername"].readIfPresent()
+        value.engineVersion = try reader["EngineVersion"].readIfPresent()
+        value.snapshotType = try reader["SnapshotType"].readIfPresent()
+        value.percentProgress = try reader["PercentProgress"].readIfPresent()
+        value.storageEncrypted = try reader["StorageEncrypted"].readIfPresent()
+        value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
+        value.dbClusterSnapshotArn = try reader["DBClusterSnapshotArn"].readIfPresent()
+        value.sourceDBClusterSnapshotArn = try reader["SourceDBClusterSnapshotArn"].readIfPresent()
+        value.storageType = try reader["StorageType"].readIfPresent()
         return value
     }
 }
 
-extension DocDBClientTypes.DBClusterMember {
+extension DocDBClientTypes.DBClusterSnapshotAttribute {
 
-    static func read(from reader: SmithyXML.Reader) throws -> DocDBClientTypes.DBClusterMember {
+    static func read(from reader: SmithyXML.Reader) throws -> DocDBClientTypes.DBClusterSnapshotAttribute {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DocDBClientTypes.DBClusterMember()
-        value.dbInstanceIdentifier = try reader["DBInstanceIdentifier"].readIfPresent()
-        value.isClusterWriter = try reader["IsClusterWriter"].readIfPresent()
-        value.dbClusterParameterGroupStatus = try reader["DBClusterParameterGroupStatus"].readIfPresent()
-        value.promotionTier = try reader["PromotionTier"].readIfPresent()
+        var value = DocDBClientTypes.DBClusterSnapshotAttribute()
+        value.attributeName = try reader["AttributeName"].readIfPresent()
+        value.attributeValues = try reader["AttributeValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "AttributeValue", isFlattened: false)
+        return value
+    }
+}
+
+extension DocDBClientTypes.DBClusterSnapshotAttributesResult {
+
+    static func read(from reader: SmithyXML.Reader) throws -> DocDBClientTypes.DBClusterSnapshotAttributesResult {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DocDBClientTypes.DBClusterSnapshotAttributesResult()
+        value.dbClusterSnapshotIdentifier = try reader["DBClusterSnapshotIdentifier"].readIfPresent()
+        value.dbClusterSnapshotAttributes = try reader["DBClusterSnapshotAttributes"].readListIfPresent(memberReadingClosure: DocDBClientTypes.DBClusterSnapshotAttribute.read(from:), memberNodeInfo: "DBClusterSnapshotAttribute", isFlattened: false)
+        return value
+    }
+}
+
+extension DocDBClientTypes.DBEngineVersion {
+
+    static func read(from reader: SmithyXML.Reader) throws -> DocDBClientTypes.DBEngineVersion {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DocDBClientTypes.DBEngineVersion()
+        value.engine = try reader["Engine"].readIfPresent()
+        value.engineVersion = try reader["EngineVersion"].readIfPresent()
+        value.dbParameterGroupFamily = try reader["DBParameterGroupFamily"].readIfPresent()
+        value.dbEngineDescription = try reader["DBEngineDescription"].readIfPresent()
+        value.dbEngineVersionDescription = try reader["DBEngineVersionDescription"].readIfPresent()
+        value.validUpgradeTarget = try reader["ValidUpgradeTarget"].readListIfPresent(memberReadingClosure: DocDBClientTypes.UpgradeTarget.read(from:), memberNodeInfo: "UpgradeTarget", isFlattened: false)
+        value.exportableLogTypes = try reader["ExportableLogTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.supportsLogExportsToCloudwatchLogs = try reader["SupportsLogExportsToCloudwatchLogs"].readIfPresent()
+        value.supportedCACertificateIdentifiers = try reader["SupportedCACertificateIdentifiers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.supportsCertificateRotationWithoutRestart = try reader["SupportsCertificateRotationWithoutRestart"].readIfPresent()
+        value.serverlessV2FeaturesSupport = try reader["ServerlessV2FeaturesSupport"].readIfPresent(with: DocDBClientTypes.ServerlessV2FeaturesSupport.read(from:))
         return value
     }
 }
@@ -9201,17 +9221,6 @@ extension DocDBClientTypes.DBInstance {
     }
 }
 
-extension DocDBClientTypes.CertificateDetails {
-
-    static func read(from reader: SmithyXML.Reader) throws -> DocDBClientTypes.CertificateDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DocDBClientTypes.CertificateDetails()
-        value.caIdentifier = try reader["CAIdentifier"].readIfPresent()
-        value.validTill = try reader["ValidTill"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        return value
-    }
-}
-
 extension DocDBClientTypes.DBInstanceStatusInfo {
 
     static func read(from reader: SmithyXML.Reader) throws -> DocDBClientTypes.DBInstanceStatusInfo {
@@ -9221,40 +9230,6 @@ extension DocDBClientTypes.DBInstanceStatusInfo {
         value.normal = try reader["Normal"].readIfPresent()
         value.status = try reader["Status"].readIfPresent()
         value.message = try reader["Message"].readIfPresent()
-        return value
-    }
-}
-
-extension DocDBClientTypes.PendingModifiedValues {
-
-    static func read(from reader: SmithyXML.Reader) throws -> DocDBClientTypes.PendingModifiedValues {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DocDBClientTypes.PendingModifiedValues()
-        value.dbInstanceClass = try reader["DBInstanceClass"].readIfPresent()
-        value.allocatedStorage = try reader["AllocatedStorage"].readIfPresent()
-        value.masterUserPassword = try reader["MasterUserPassword"].readIfPresent()
-        value.port = try reader["Port"].readIfPresent()
-        value.backupRetentionPeriod = try reader["BackupRetentionPeriod"].readIfPresent()
-        value.multiAZ = try reader["MultiAZ"].readIfPresent()
-        value.engineVersion = try reader["EngineVersion"].readIfPresent()
-        value.licenseModel = try reader["LicenseModel"].readIfPresent()
-        value.iops = try reader["Iops"].readIfPresent()
-        value.dbInstanceIdentifier = try reader["DBInstanceIdentifier"].readIfPresent()
-        value.storageType = try reader["StorageType"].readIfPresent()
-        value.caCertificateIdentifier = try reader["CACertificateIdentifier"].readIfPresent()
-        value.dbSubnetGroupName = try reader["DBSubnetGroupName"].readIfPresent()
-        value.pendingCloudwatchLogsExports = try reader["PendingCloudwatchLogsExports"].readIfPresent(with: DocDBClientTypes.PendingCloudwatchLogsExports.read(from:))
-        return value
-    }
-}
-
-extension DocDBClientTypes.PendingCloudwatchLogsExports {
-
-    static func read(from reader: SmithyXML.Reader) throws -> DocDBClientTypes.PendingCloudwatchLogsExports {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DocDBClientTypes.PendingCloudwatchLogsExports()
-        value.logTypesToEnable = try reader["LogTypesToEnable"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.logTypesToDisable = try reader["LogTypesToDisable"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -9275,28 +9250,6 @@ extension DocDBClientTypes.DBSubnetGroup {
     }
 }
 
-extension DocDBClientTypes.Subnet {
-
-    static func read(from reader: SmithyXML.Reader) throws -> DocDBClientTypes.Subnet {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DocDBClientTypes.Subnet()
-        value.subnetIdentifier = try reader["SubnetIdentifier"].readIfPresent()
-        value.subnetAvailabilityZone = try reader["SubnetAvailabilityZone"].readIfPresent(with: DocDBClientTypes.AvailabilityZone.read(from:))
-        value.subnetStatus = try reader["SubnetStatus"].readIfPresent()
-        return value
-    }
-}
-
-extension DocDBClientTypes.AvailabilityZone {
-
-    static func read(from reader: SmithyXML.Reader) throws -> DocDBClientTypes.AvailabilityZone {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DocDBClientTypes.AvailabilityZone()
-        value.name = try reader["Name"].readIfPresent()
-        return value
-    }
-}
-
 extension DocDBClientTypes.Endpoint {
 
     static func read(from reader: SmithyXML.Reader) throws -> DocDBClientTypes.Endpoint {
@@ -9306,6 +9259,85 @@ extension DocDBClientTypes.Endpoint {
         value.port = try reader["Port"].readIfPresent()
         value.hostedZoneId = try reader["HostedZoneId"].readIfPresent()
         return value
+    }
+}
+
+extension DocDBClientTypes.EngineDefaults {
+
+    static func read(from reader: SmithyXML.Reader) throws -> DocDBClientTypes.EngineDefaults {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DocDBClientTypes.EngineDefaults()
+        value.dbParameterGroupFamily = try reader["DBParameterGroupFamily"].readIfPresent()
+        value.marker = try reader["Marker"].readIfPresent()
+        value.parameters = try reader["Parameters"].readListIfPresent(memberReadingClosure: DocDBClientTypes.Parameter.read(from:), memberNodeInfo: "Parameter", isFlattened: false)
+        return value
+    }
+}
+
+extension DocDBClientTypes.Event {
+
+    static func read(from reader: SmithyXML.Reader) throws -> DocDBClientTypes.Event {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DocDBClientTypes.Event()
+        value.sourceIdentifier = try reader["SourceIdentifier"].readIfPresent()
+        value.sourceType = try reader["SourceType"].readIfPresent()
+        value.message = try reader["Message"].readIfPresent()
+        value.eventCategories = try reader["EventCategories"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "EventCategory", isFlattened: false)
+        value.date = try reader["Date"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.sourceArn = try reader["SourceArn"].readIfPresent()
+        return value
+    }
+}
+
+extension DocDBClientTypes.EventCategoriesMap {
+
+    static func read(from reader: SmithyXML.Reader) throws -> DocDBClientTypes.EventCategoriesMap {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DocDBClientTypes.EventCategoriesMap()
+        value.sourceType = try reader["SourceType"].readIfPresent()
+        value.eventCategories = try reader["EventCategories"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "EventCategory", isFlattened: false)
+        return value
+    }
+}
+
+extension DocDBClientTypes.EventSubscription {
+
+    static func read(from reader: SmithyXML.Reader) throws -> DocDBClientTypes.EventSubscription {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DocDBClientTypes.EventSubscription()
+        value.customerAwsId = try reader["CustomerAwsId"].readIfPresent()
+        value.custSubscriptionId = try reader["CustSubscriptionId"].readIfPresent()
+        value.snsTopicArn = try reader["SnsTopicArn"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.subscriptionCreationTime = try reader["SubscriptionCreationTime"].readIfPresent()
+        value.sourceType = try reader["SourceType"].readIfPresent()
+        value.sourceIdsList = try reader["SourceIdsList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "SourceId", isFlattened: false)
+        value.eventCategoriesList = try reader["EventCategoriesList"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "EventCategory", isFlattened: false)
+        value.enabled = try reader["Enabled"].readIfPresent()
+        value.eventSubscriptionArn = try reader["EventSubscriptionArn"].readIfPresent()
+        return value
+    }
+}
+
+extension DocDBClientTypes.FailoverState {
+
+    static func read(from reader: SmithyXML.Reader) throws -> DocDBClientTypes.FailoverState {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DocDBClientTypes.FailoverState()
+        value.status = try reader["Status"].readIfPresent()
+        value.fromDbClusterArn = try reader["FromDbClusterArn"].readIfPresent()
+        value.toDbClusterArn = try reader["ToDbClusterArn"].readIfPresent()
+        value.isDataLossAllowed = try reader["IsDataLossAllowed"].readIfPresent()
+        return value
+    }
+}
+
+extension DocDBClientTypes.Filter {
+
+    static func write(value: DocDBClientTypes.Filter?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["Name"].write(value.name)
+        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "Value", isFlattened: false)
     }
 }
 
@@ -9330,36 +9362,6 @@ extension DocDBClientTypes.GlobalCluster {
     }
 }
 
-extension DocDBClientTypes.Tag {
-
-    static func write(value: DocDBClientTypes.Tag?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Key"].write(value.key)
-        try writer["Value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyXML.Reader) throws -> DocDBClientTypes.Tag {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DocDBClientTypes.Tag()
-        value.key = try reader["Key"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
-        return value
-    }
-}
-
-extension DocDBClientTypes.FailoverState {
-
-    static func read(from reader: SmithyXML.Reader) throws -> DocDBClientTypes.FailoverState {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DocDBClientTypes.FailoverState()
-        value.status = try reader["Status"].readIfPresent()
-        value.fromDbClusterArn = try reader["FromDbClusterArn"].readIfPresent()
-        value.toDbClusterArn = try reader["ToDbClusterArn"].readIfPresent()
-        value.isDataLossAllowed = try reader["IsDataLossAllowed"].readIfPresent()
-        return value
-    }
-}
-
 extension DocDBClientTypes.GlobalClusterMember {
 
     static func read(from reader: SmithyXML.Reader) throws -> DocDBClientTypes.GlobalClusterMember {
@@ -9373,17 +9375,18 @@ extension DocDBClientTypes.GlobalClusterMember {
     }
 }
 
-extension DocDBClientTypes.Certificate {
+extension DocDBClientTypes.OrderableDBInstanceOption {
 
-    static func read(from reader: SmithyXML.Reader) throws -> DocDBClientTypes.Certificate {
+    static func read(from reader: SmithyXML.Reader) throws -> DocDBClientTypes.OrderableDBInstanceOption {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DocDBClientTypes.Certificate()
-        value.certificateIdentifier = try reader["CertificateIdentifier"].readIfPresent()
-        value.certificateType = try reader["CertificateType"].readIfPresent()
-        value.thumbprint = try reader["Thumbprint"].readIfPresent()
-        value.validFrom = try reader["ValidFrom"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.validTill = try reader["ValidTill"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.certificateArn = try reader["CertificateArn"].readIfPresent()
+        var value = DocDBClientTypes.OrderableDBInstanceOption()
+        value.engine = try reader["Engine"].readIfPresent()
+        value.engineVersion = try reader["EngineVersion"].readIfPresent()
+        value.dbInstanceClass = try reader["DBInstanceClass"].readIfPresent()
+        value.licenseModel = try reader["LicenseModel"].readIfPresent()
+        value.availabilityZones = try reader["AvailabilityZones"].readListIfPresent(memberReadingClosure: DocDBClientTypes.AvailabilityZone.read(from:), memberNodeInfo: "AvailabilityZone", isFlattened: false)
+        value.vpc = try reader["Vpc"].readIfPresent()
+        value.storageType = try reader["StorageType"].readIfPresent()
         return value
     }
 }
@@ -9421,44 +9424,62 @@ extension DocDBClientTypes.Parameter {
     }
 }
 
-extension DocDBClientTypes.DBClusterSnapshotAttributesResult {
+extension DocDBClientTypes.PendingCloudwatchLogsExports {
 
-    static func read(from reader: SmithyXML.Reader) throws -> DocDBClientTypes.DBClusterSnapshotAttributesResult {
+    static func read(from reader: SmithyXML.Reader) throws -> DocDBClientTypes.PendingCloudwatchLogsExports {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DocDBClientTypes.DBClusterSnapshotAttributesResult()
-        value.dbClusterSnapshotIdentifier = try reader["DBClusterSnapshotIdentifier"].readIfPresent()
-        value.dbClusterSnapshotAttributes = try reader["DBClusterSnapshotAttributes"].readListIfPresent(memberReadingClosure: DocDBClientTypes.DBClusterSnapshotAttribute.read(from:), memberNodeInfo: "DBClusterSnapshotAttribute", isFlattened: false)
+        var value = DocDBClientTypes.PendingCloudwatchLogsExports()
+        value.logTypesToEnable = try reader["LogTypesToEnable"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.logTypesToDisable = try reader["LogTypesToDisable"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
 
-extension DocDBClientTypes.DBClusterSnapshotAttribute {
+extension DocDBClientTypes.PendingMaintenanceAction {
 
-    static func read(from reader: SmithyXML.Reader) throws -> DocDBClientTypes.DBClusterSnapshotAttribute {
+    static func read(from reader: SmithyXML.Reader) throws -> DocDBClientTypes.PendingMaintenanceAction {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DocDBClientTypes.DBClusterSnapshotAttribute()
-        value.attributeName = try reader["AttributeName"].readIfPresent()
-        value.attributeValues = try reader["AttributeValues"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "AttributeValue", isFlattened: false)
+        var value = DocDBClientTypes.PendingMaintenanceAction()
+        value.action = try reader["Action"].readIfPresent()
+        value.autoAppliedAfterDate = try reader["AutoAppliedAfterDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.forcedApplyDate = try reader["ForcedApplyDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.optInStatus = try reader["OptInStatus"].readIfPresent()
+        value.currentApplyDate = try reader["CurrentApplyDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.description = try reader["Description"].readIfPresent()
         return value
     }
 }
 
-extension DocDBClientTypes.DBEngineVersion {
+extension DocDBClientTypes.PendingModifiedValues {
 
-    static func read(from reader: SmithyXML.Reader) throws -> DocDBClientTypes.DBEngineVersion {
+    static func read(from reader: SmithyXML.Reader) throws -> DocDBClientTypes.PendingModifiedValues {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DocDBClientTypes.DBEngineVersion()
-        value.engine = try reader["Engine"].readIfPresent()
+        var value = DocDBClientTypes.PendingModifiedValues()
+        value.dbInstanceClass = try reader["DBInstanceClass"].readIfPresent()
+        value.allocatedStorage = try reader["AllocatedStorage"].readIfPresent()
+        value.masterUserPassword = try reader["MasterUserPassword"].readIfPresent()
+        value.port = try reader["Port"].readIfPresent()
+        value.backupRetentionPeriod = try reader["BackupRetentionPeriod"].readIfPresent()
+        value.multiAZ = try reader["MultiAZ"].readIfPresent()
         value.engineVersion = try reader["EngineVersion"].readIfPresent()
-        value.dbParameterGroupFamily = try reader["DBParameterGroupFamily"].readIfPresent()
-        value.dbEngineDescription = try reader["DBEngineDescription"].readIfPresent()
-        value.dbEngineVersionDescription = try reader["DBEngineVersionDescription"].readIfPresent()
-        value.validUpgradeTarget = try reader["ValidUpgradeTarget"].readListIfPresent(memberReadingClosure: DocDBClientTypes.UpgradeTarget.read(from:), memberNodeInfo: "UpgradeTarget", isFlattened: false)
-        value.exportableLogTypes = try reader["ExportableLogTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.supportsLogExportsToCloudwatchLogs = try reader["SupportsLogExportsToCloudwatchLogs"].readIfPresent()
-        value.supportedCACertificateIdentifiers = try reader["SupportedCACertificateIdentifiers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.supportsCertificateRotationWithoutRestart = try reader["SupportsCertificateRotationWithoutRestart"].readIfPresent()
-        value.serverlessV2FeaturesSupport = try reader["ServerlessV2FeaturesSupport"].readIfPresent(with: DocDBClientTypes.ServerlessV2FeaturesSupport.read(from:))
+        value.licenseModel = try reader["LicenseModel"].readIfPresent()
+        value.iops = try reader["Iops"].readIfPresent()
+        value.dbInstanceIdentifier = try reader["DBInstanceIdentifier"].readIfPresent()
+        value.storageType = try reader["StorageType"].readIfPresent()
+        value.caCertificateIdentifier = try reader["CACertificateIdentifier"].readIfPresent()
+        value.dbSubnetGroupName = try reader["DBSubnetGroupName"].readIfPresent()
+        value.pendingCloudwatchLogsExports = try reader["PendingCloudwatchLogsExports"].readIfPresent(with: DocDBClientTypes.PendingCloudwatchLogsExports.read(from:))
+        return value
+    }
+}
+
+extension DocDBClientTypes.ResourcePendingMaintenanceActions {
+
+    static func read(from reader: SmithyXML.Reader) throws -> DocDBClientTypes.ResourcePendingMaintenanceActions {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DocDBClientTypes.ResourcePendingMaintenanceActions()
+        value.resourceIdentifier = try reader["ResourceIdentifier"].readIfPresent()
+        value.pendingMaintenanceActionDetails = try reader["PendingMaintenanceActionDetails"].readListIfPresent(memberReadingClosure: DocDBClientTypes.PendingMaintenanceAction.read(from:), memberNodeInfo: "PendingMaintenanceAction", isFlattened: false)
         return value
     }
 }
@@ -9470,6 +9491,55 @@ extension DocDBClientTypes.ServerlessV2FeaturesSupport {
         var value = DocDBClientTypes.ServerlessV2FeaturesSupport()
         value.minCapacity = try reader["MinCapacity"].readIfPresent()
         value.maxCapacity = try reader["MaxCapacity"].readIfPresent()
+        return value
+    }
+}
+
+extension DocDBClientTypes.ServerlessV2ScalingConfiguration {
+
+    static func write(value: DocDBClientTypes.ServerlessV2ScalingConfiguration?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["MaxCapacity"].write(value.maxCapacity)
+        try writer["MinCapacity"].write(value.minCapacity)
+    }
+}
+
+extension DocDBClientTypes.ServerlessV2ScalingConfigurationInfo {
+
+    static func read(from reader: SmithyXML.Reader) throws -> DocDBClientTypes.ServerlessV2ScalingConfigurationInfo {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DocDBClientTypes.ServerlessV2ScalingConfigurationInfo()
+        value.minCapacity = try reader["MinCapacity"].readIfPresent()
+        value.maxCapacity = try reader["MaxCapacity"].readIfPresent()
+        return value
+    }
+}
+
+extension DocDBClientTypes.Subnet {
+
+    static func read(from reader: SmithyXML.Reader) throws -> DocDBClientTypes.Subnet {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DocDBClientTypes.Subnet()
+        value.subnetIdentifier = try reader["SubnetIdentifier"].readIfPresent()
+        value.subnetAvailabilityZone = try reader["SubnetAvailabilityZone"].readIfPresent(with: DocDBClientTypes.AvailabilityZone.read(from:))
+        value.subnetStatus = try reader["SubnetStatus"].readIfPresent()
+        return value
+    }
+}
+
+extension DocDBClientTypes.Tag {
+
+    static func write(value: DocDBClientTypes.Tag?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["Key"].write(value.key)
+        try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyXML.Reader) throws -> DocDBClientTypes.Tag {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = DocDBClientTypes.Tag()
+        value.key = try reader["Key"].readIfPresent()
+        value.value = try reader["Value"].readIfPresent()
         return value
     }
 }
@@ -9488,84 +9558,14 @@ extension DocDBClientTypes.UpgradeTarget {
     }
 }
 
-extension DocDBClientTypes.EngineDefaults {
+extension DocDBClientTypes.VpcSecurityGroupMembership {
 
-    static func read(from reader: SmithyXML.Reader) throws -> DocDBClientTypes.EngineDefaults {
+    static func read(from reader: SmithyXML.Reader) throws -> DocDBClientTypes.VpcSecurityGroupMembership {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DocDBClientTypes.EngineDefaults()
-        value.dbParameterGroupFamily = try reader["DBParameterGroupFamily"].readIfPresent()
-        value.marker = try reader["Marker"].readIfPresent()
-        value.parameters = try reader["Parameters"].readListIfPresent(memberReadingClosure: DocDBClientTypes.Parameter.read(from:), memberNodeInfo: "Parameter", isFlattened: false)
+        var value = DocDBClientTypes.VpcSecurityGroupMembership()
+        value.vpcSecurityGroupId = try reader["VpcSecurityGroupId"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
         return value
-    }
-}
-
-extension DocDBClientTypes.EventCategoriesMap {
-
-    static func read(from reader: SmithyXML.Reader) throws -> DocDBClientTypes.EventCategoriesMap {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DocDBClientTypes.EventCategoriesMap()
-        value.sourceType = try reader["SourceType"].readIfPresent()
-        value.eventCategories = try reader["EventCategories"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "EventCategory", isFlattened: false)
-        return value
-    }
-}
-
-extension DocDBClientTypes.Event {
-
-    static func read(from reader: SmithyXML.Reader) throws -> DocDBClientTypes.Event {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DocDBClientTypes.Event()
-        value.sourceIdentifier = try reader["SourceIdentifier"].readIfPresent()
-        value.sourceType = try reader["SourceType"].readIfPresent()
-        value.message = try reader["Message"].readIfPresent()
-        value.eventCategories = try reader["EventCategories"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "EventCategory", isFlattened: false)
-        value.date = try reader["Date"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.sourceArn = try reader["SourceArn"].readIfPresent()
-        return value
-    }
-}
-
-extension DocDBClientTypes.OrderableDBInstanceOption {
-
-    static func read(from reader: SmithyXML.Reader) throws -> DocDBClientTypes.OrderableDBInstanceOption {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = DocDBClientTypes.OrderableDBInstanceOption()
-        value.engine = try reader["Engine"].readIfPresent()
-        value.engineVersion = try reader["EngineVersion"].readIfPresent()
-        value.dbInstanceClass = try reader["DBInstanceClass"].readIfPresent()
-        value.licenseModel = try reader["LicenseModel"].readIfPresent()
-        value.availabilityZones = try reader["AvailabilityZones"].readListIfPresent(memberReadingClosure: DocDBClientTypes.AvailabilityZone.read(from:), memberNodeInfo: "AvailabilityZone", isFlattened: false)
-        value.vpc = try reader["Vpc"].readIfPresent()
-        value.storageType = try reader["StorageType"].readIfPresent()
-        return value
-    }
-}
-
-extension DocDBClientTypes.ServerlessV2ScalingConfiguration {
-
-    static func write(value: DocDBClientTypes.ServerlessV2ScalingConfiguration?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["MaxCapacity"].write(value.maxCapacity)
-        try writer["MinCapacity"].write(value.minCapacity)
-    }
-}
-
-extension DocDBClientTypes.Filter {
-
-    static func write(value: DocDBClientTypes.Filter?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["Name"].write(value.name)
-        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "Value", isFlattened: false)
-    }
-}
-
-extension DocDBClientTypes.CloudwatchLogsExportConfiguration {
-
-    static func write(value: DocDBClientTypes.CloudwatchLogsExportConfiguration?, to writer: SmithyFormURL.Writer) throws {
-        guard let value else { return }
-        try writer["DisableLogTypes"].writeList(value.disableLogTypes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["EnableLogTypes"].writeList(value.enableLogTypes, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 

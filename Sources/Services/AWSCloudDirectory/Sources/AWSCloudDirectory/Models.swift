@@ -9953,23 +9953,38 @@ extension IncompatibleSchemaException {
     }
 }
 
-extension CloudDirectoryClientTypes.TypedLinkSpecifier {
+extension CloudDirectoryClientTypes.AttributeKey {
 
-    static func write(value: CloudDirectoryClientTypes.TypedLinkSpecifier?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: CloudDirectoryClientTypes.AttributeKey?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["IdentityAttributeValues"].writeList(value.identityAttributeValues, memberWritingClosure: CloudDirectoryClientTypes.AttributeNameAndValue.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["SourceObjectReference"].write(value.sourceObjectReference, with: CloudDirectoryClientTypes.ObjectReference.write(value:to:))
-        try writer["TargetObjectReference"].write(value.targetObjectReference, with: CloudDirectoryClientTypes.ObjectReference.write(value:to:))
-        try writer["TypedLinkFacet"].write(value.typedLinkFacet, with: CloudDirectoryClientTypes.TypedLinkSchemaAndFacetName.write(value:to:))
+        try writer["FacetName"].write(value.facetName)
+        try writer["Name"].write(value.name)
+        try writer["SchemaArn"].write(value.schemaArn)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> CloudDirectoryClientTypes.TypedLinkSpecifier {
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudDirectoryClientTypes.AttributeKey {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudDirectoryClientTypes.TypedLinkSpecifier()
-        value.typedLinkFacet = try reader["TypedLinkFacet"].readIfPresent(with: CloudDirectoryClientTypes.TypedLinkSchemaAndFacetName.read(from:))
-        value.sourceObjectReference = try reader["SourceObjectReference"].readIfPresent(with: CloudDirectoryClientTypes.ObjectReference.read(from:))
-        value.targetObjectReference = try reader["TargetObjectReference"].readIfPresent(with: CloudDirectoryClientTypes.ObjectReference.read(from:))
-        value.identityAttributeValues = try reader["IdentityAttributeValues"].readListIfPresent(memberReadingClosure: CloudDirectoryClientTypes.AttributeNameAndValue.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        var value = CloudDirectoryClientTypes.AttributeKey()
+        value.schemaArn = try reader["SchemaArn"].readIfPresent() ?? ""
+        value.facetName = try reader["FacetName"].readIfPresent() ?? ""
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension CloudDirectoryClientTypes.AttributeKeyAndValue {
+
+    static func write(value: CloudDirectoryClientTypes.AttributeKeyAndValue?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Key"].write(value.key, with: CloudDirectoryClientTypes.AttributeKey.write(value:to:))
+        try writer["Value"].write(value.value, with: CloudDirectoryClientTypes.TypedAttributeValue.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudDirectoryClientTypes.AttributeKeyAndValue {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudDirectoryClientTypes.AttributeKeyAndValue()
+        value.key = try reader["Key"].readIfPresent(with: CloudDirectoryClientTypes.AttributeKey.read(from:))
+        value.value = try reader["Value"].readIfPresent(with: CloudDirectoryClientTypes.TypedAttributeValue.read(from:))
         return value
     }
 }
@@ -9991,85 +10006,524 @@ extension CloudDirectoryClientTypes.AttributeNameAndValue {
     }
 }
 
-extension CloudDirectoryClientTypes.TypedAttributeValue {
+extension CloudDirectoryClientTypes.BatchAddFacetToObject {
 
-    static func write(value: CloudDirectoryClientTypes.TypedAttributeValue?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: CloudDirectoryClientTypes.BatchAddFacetToObject?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        switch value {
-            case let .binaryvalue(binaryvalue):
-                try writer["BinaryValue"].write(binaryvalue)
-            case let .booleanvalue(booleanvalue):
-                try writer["BooleanValue"].write(booleanvalue)
-            case let .datetimevalue(datetimevalue):
-                try writer["DatetimeValue"].writeTimestamp(datetimevalue, format: SmithyTimestamps.TimestampFormat.epochSeconds)
-            case let .numbervalue(numbervalue):
-                try writer["NumberValue"].write(numbervalue)
-            case let .stringvalue(stringvalue):
-                try writer["StringValue"].write(stringvalue)
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CloudDirectoryClientTypes.TypedAttributeValue {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "StringValue":
-                return .stringvalue(try reader["StringValue"].read())
-            case "BinaryValue":
-                return .binaryvalue(try reader["BinaryValue"].read())
-            case "BooleanValue":
-                return .booleanvalue(try reader["BooleanValue"].read())
-            case "NumberValue":
-                return .numbervalue(try reader["NumberValue"].read())
-            case "DatetimeValue":
-                return .datetimevalue(try reader["DatetimeValue"].readTimestamp(format: SmithyTimestamps.TimestampFormat.epochSeconds))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
+        try writer["ObjectAttributeList"].writeList(value.objectAttributeList, memberWritingClosure: CloudDirectoryClientTypes.AttributeKeyAndValue.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ObjectReference"].write(value.objectReference, with: CloudDirectoryClientTypes.ObjectReference.write(value:to:))
+        try writer["SchemaFacet"].write(value.schemaFacet, with: CloudDirectoryClientTypes.SchemaFacet.write(value:to:))
     }
 }
 
-extension CloudDirectoryClientTypes.ObjectReference {
+extension CloudDirectoryClientTypes.BatchAddFacetToObjectResponse {
 
-    static func write(value: CloudDirectoryClientTypes.ObjectReference?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Selector"].write(value.selector)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CloudDirectoryClientTypes.ObjectReference {
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudDirectoryClientTypes.BatchAddFacetToObjectResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudDirectoryClientTypes.ObjectReference()
-        value.selector = try reader["Selector"].readIfPresent()
+        return CloudDirectoryClientTypes.BatchAddFacetToObjectResponse()
+    }
+}
+
+extension CloudDirectoryClientTypes.BatchAttachObject {
+
+    static func write(value: CloudDirectoryClientTypes.BatchAttachObject?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ChildReference"].write(value.childReference, with: CloudDirectoryClientTypes.ObjectReference.write(value:to:))
+        try writer["LinkName"].write(value.linkName)
+        try writer["ParentReference"].write(value.parentReference, with: CloudDirectoryClientTypes.ObjectReference.write(value:to:))
+    }
+}
+
+extension CloudDirectoryClientTypes.BatchAttachObjectResponse {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudDirectoryClientTypes.BatchAttachObjectResponse {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudDirectoryClientTypes.BatchAttachObjectResponse()
+        value.attachedObjectIdentifier = try reader["attachedObjectIdentifier"].readIfPresent()
         return value
     }
 }
 
-extension CloudDirectoryClientTypes.TypedLinkSchemaAndFacetName {
+extension CloudDirectoryClientTypes.BatchAttachPolicy {
 
-    static func write(value: CloudDirectoryClientTypes.TypedLinkSchemaAndFacetName?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: CloudDirectoryClientTypes.BatchAttachPolicy?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["SchemaArn"].write(value.schemaArn)
-        try writer["TypedLinkName"].write(value.typedLinkName)
+        try writer["ObjectReference"].write(value.objectReference, with: CloudDirectoryClientTypes.ObjectReference.write(value:to:))
+        try writer["PolicyReference"].write(value.policyReference, with: CloudDirectoryClientTypes.ObjectReference.write(value:to:))
     }
+}
 
-    static func read(from reader: SmithyJSON.Reader) throws -> CloudDirectoryClientTypes.TypedLinkSchemaAndFacetName {
+extension CloudDirectoryClientTypes.BatchAttachPolicyResponse {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudDirectoryClientTypes.BatchAttachPolicyResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudDirectoryClientTypes.TypedLinkSchemaAndFacetName()
-        value.schemaArn = try reader["SchemaArn"].readIfPresent() ?? ""
-        value.typedLinkName = try reader["TypedLinkName"].readIfPresent() ?? ""
+        return CloudDirectoryClientTypes.BatchAttachPolicyResponse()
+    }
+}
+
+extension CloudDirectoryClientTypes.BatchAttachToIndex {
+
+    static func write(value: CloudDirectoryClientTypes.BatchAttachToIndex?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["IndexReference"].write(value.indexReference, with: CloudDirectoryClientTypes.ObjectReference.write(value:to:))
+        try writer["TargetReference"].write(value.targetReference, with: CloudDirectoryClientTypes.ObjectReference.write(value:to:))
+    }
+}
+
+extension CloudDirectoryClientTypes.BatchAttachToIndexResponse {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudDirectoryClientTypes.BatchAttachToIndexResponse {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudDirectoryClientTypes.BatchAttachToIndexResponse()
+        value.attachedObjectIdentifier = try reader["AttachedObjectIdentifier"].readIfPresent()
         return value
     }
 }
 
-extension CloudDirectoryClientTypes.BatchReadOperationResponse {
+extension CloudDirectoryClientTypes.BatchAttachTypedLink {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> CloudDirectoryClientTypes.BatchReadOperationResponse {
+    static func write(value: CloudDirectoryClientTypes.BatchAttachTypedLink?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Attributes"].writeList(value.attributes, memberWritingClosure: CloudDirectoryClientTypes.AttributeNameAndValue.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["SourceObjectReference"].write(value.sourceObjectReference, with: CloudDirectoryClientTypes.ObjectReference.write(value:to:))
+        try writer["TargetObjectReference"].write(value.targetObjectReference, with: CloudDirectoryClientTypes.ObjectReference.write(value:to:))
+        try writer["TypedLinkFacet"].write(value.typedLinkFacet, with: CloudDirectoryClientTypes.TypedLinkSchemaAndFacetName.write(value:to:))
+    }
+}
+
+extension CloudDirectoryClientTypes.BatchAttachTypedLinkResponse {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudDirectoryClientTypes.BatchAttachTypedLinkResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudDirectoryClientTypes.BatchReadOperationResponse()
-        value.successfulResponse = try reader["SuccessfulResponse"].readIfPresent(with: CloudDirectoryClientTypes.BatchReadSuccessfulResponse.read(from:))
-        value.exceptionResponse = try reader["ExceptionResponse"].readIfPresent(with: CloudDirectoryClientTypes.BatchReadException.read(from:))
+        var value = CloudDirectoryClientTypes.BatchAttachTypedLinkResponse()
+        value.typedLinkSpecifier = try reader["TypedLinkSpecifier"].readIfPresent(with: CloudDirectoryClientTypes.TypedLinkSpecifier.read(from:))
+        return value
+    }
+}
+
+extension CloudDirectoryClientTypes.BatchCreateIndex {
+
+    static func write(value: CloudDirectoryClientTypes.BatchCreateIndex?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["BatchReferenceName"].write(value.batchReferenceName)
+        try writer["IsUnique"].write(value.isUnique)
+        try writer["LinkName"].write(value.linkName)
+        try writer["OrderedIndexedAttributeList"].writeList(value.orderedIndexedAttributeList, memberWritingClosure: CloudDirectoryClientTypes.AttributeKey.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ParentReference"].write(value.parentReference, with: CloudDirectoryClientTypes.ObjectReference.write(value:to:))
+    }
+}
+
+extension CloudDirectoryClientTypes.BatchCreateIndexResponse {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudDirectoryClientTypes.BatchCreateIndexResponse {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudDirectoryClientTypes.BatchCreateIndexResponse()
+        value.objectIdentifier = try reader["ObjectIdentifier"].readIfPresent()
+        return value
+    }
+}
+
+extension CloudDirectoryClientTypes.BatchCreateObject {
+
+    static func write(value: CloudDirectoryClientTypes.BatchCreateObject?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["BatchReferenceName"].write(value.batchReferenceName)
+        try writer["LinkName"].write(value.linkName)
+        try writer["ObjectAttributeList"].writeList(value.objectAttributeList, memberWritingClosure: CloudDirectoryClientTypes.AttributeKeyAndValue.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ParentReference"].write(value.parentReference, with: CloudDirectoryClientTypes.ObjectReference.write(value:to:))
+        try writer["SchemaFacet"].writeList(value.schemaFacet, memberWritingClosure: CloudDirectoryClientTypes.SchemaFacet.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension CloudDirectoryClientTypes.BatchCreateObjectResponse {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudDirectoryClientTypes.BatchCreateObjectResponse {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudDirectoryClientTypes.BatchCreateObjectResponse()
+        value.objectIdentifier = try reader["ObjectIdentifier"].readIfPresent()
+        return value
+    }
+}
+
+extension CloudDirectoryClientTypes.BatchDeleteObject {
+
+    static func write(value: CloudDirectoryClientTypes.BatchDeleteObject?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ObjectReference"].write(value.objectReference, with: CloudDirectoryClientTypes.ObjectReference.write(value:to:))
+    }
+}
+
+extension CloudDirectoryClientTypes.BatchDeleteObjectResponse {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudDirectoryClientTypes.BatchDeleteObjectResponse {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        return CloudDirectoryClientTypes.BatchDeleteObjectResponse()
+    }
+}
+
+extension CloudDirectoryClientTypes.BatchDetachFromIndex {
+
+    static func write(value: CloudDirectoryClientTypes.BatchDetachFromIndex?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["IndexReference"].write(value.indexReference, with: CloudDirectoryClientTypes.ObjectReference.write(value:to:))
+        try writer["TargetReference"].write(value.targetReference, with: CloudDirectoryClientTypes.ObjectReference.write(value:to:))
+    }
+}
+
+extension CloudDirectoryClientTypes.BatchDetachFromIndexResponse {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudDirectoryClientTypes.BatchDetachFromIndexResponse {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudDirectoryClientTypes.BatchDetachFromIndexResponse()
+        value.detachedObjectIdentifier = try reader["DetachedObjectIdentifier"].readIfPresent()
+        return value
+    }
+}
+
+extension CloudDirectoryClientTypes.BatchDetachObject {
+
+    static func write(value: CloudDirectoryClientTypes.BatchDetachObject?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["BatchReferenceName"].write(value.batchReferenceName)
+        try writer["LinkName"].write(value.linkName)
+        try writer["ParentReference"].write(value.parentReference, with: CloudDirectoryClientTypes.ObjectReference.write(value:to:))
+    }
+}
+
+extension CloudDirectoryClientTypes.BatchDetachObjectResponse {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudDirectoryClientTypes.BatchDetachObjectResponse {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudDirectoryClientTypes.BatchDetachObjectResponse()
+        value.detachedObjectIdentifier = try reader["detachedObjectIdentifier"].readIfPresent()
+        return value
+    }
+}
+
+extension CloudDirectoryClientTypes.BatchDetachPolicy {
+
+    static func write(value: CloudDirectoryClientTypes.BatchDetachPolicy?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ObjectReference"].write(value.objectReference, with: CloudDirectoryClientTypes.ObjectReference.write(value:to:))
+        try writer["PolicyReference"].write(value.policyReference, with: CloudDirectoryClientTypes.ObjectReference.write(value:to:))
+    }
+}
+
+extension CloudDirectoryClientTypes.BatchDetachPolicyResponse {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudDirectoryClientTypes.BatchDetachPolicyResponse {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        return CloudDirectoryClientTypes.BatchDetachPolicyResponse()
+    }
+}
+
+extension CloudDirectoryClientTypes.BatchDetachTypedLink {
+
+    static func write(value: CloudDirectoryClientTypes.BatchDetachTypedLink?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["TypedLinkSpecifier"].write(value.typedLinkSpecifier, with: CloudDirectoryClientTypes.TypedLinkSpecifier.write(value:to:))
+    }
+}
+
+extension CloudDirectoryClientTypes.BatchDetachTypedLinkResponse {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudDirectoryClientTypes.BatchDetachTypedLinkResponse {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        return CloudDirectoryClientTypes.BatchDetachTypedLinkResponse()
+    }
+}
+
+extension CloudDirectoryClientTypes.BatchGetLinkAttributes {
+
+    static func write(value: CloudDirectoryClientTypes.BatchGetLinkAttributes?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AttributeNames"].writeList(value.attributeNames, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["TypedLinkSpecifier"].write(value.typedLinkSpecifier, with: CloudDirectoryClientTypes.TypedLinkSpecifier.write(value:to:))
+    }
+}
+
+extension CloudDirectoryClientTypes.BatchGetLinkAttributesResponse {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudDirectoryClientTypes.BatchGetLinkAttributesResponse {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudDirectoryClientTypes.BatchGetLinkAttributesResponse()
+        value.attributes = try reader["Attributes"].readListIfPresent(memberReadingClosure: CloudDirectoryClientTypes.AttributeKeyAndValue.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension CloudDirectoryClientTypes.BatchGetObjectAttributes {
+
+    static func write(value: CloudDirectoryClientTypes.BatchGetObjectAttributes?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AttributeNames"].writeList(value.attributeNames, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ObjectReference"].write(value.objectReference, with: CloudDirectoryClientTypes.ObjectReference.write(value:to:))
+        try writer["SchemaFacet"].write(value.schemaFacet, with: CloudDirectoryClientTypes.SchemaFacet.write(value:to:))
+    }
+}
+
+extension CloudDirectoryClientTypes.BatchGetObjectAttributesResponse {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudDirectoryClientTypes.BatchGetObjectAttributesResponse {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudDirectoryClientTypes.BatchGetObjectAttributesResponse()
+        value.attributes = try reader["Attributes"].readListIfPresent(memberReadingClosure: CloudDirectoryClientTypes.AttributeKeyAndValue.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension CloudDirectoryClientTypes.BatchGetObjectInformation {
+
+    static func write(value: CloudDirectoryClientTypes.BatchGetObjectInformation?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ObjectReference"].write(value.objectReference, with: CloudDirectoryClientTypes.ObjectReference.write(value:to:))
+    }
+}
+
+extension CloudDirectoryClientTypes.BatchGetObjectInformationResponse {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudDirectoryClientTypes.BatchGetObjectInformationResponse {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudDirectoryClientTypes.BatchGetObjectInformationResponse()
+        value.schemaFacets = try reader["SchemaFacets"].readListIfPresent(memberReadingClosure: CloudDirectoryClientTypes.SchemaFacet.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.objectIdentifier = try reader["ObjectIdentifier"].readIfPresent()
+        return value
+    }
+}
+
+extension CloudDirectoryClientTypes.BatchListAttachedIndices {
+
+    static func write(value: CloudDirectoryClientTypes.BatchListAttachedIndices?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["TargetReference"].write(value.targetReference, with: CloudDirectoryClientTypes.ObjectReference.write(value:to:))
+    }
+}
+
+extension CloudDirectoryClientTypes.BatchListAttachedIndicesResponse {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudDirectoryClientTypes.BatchListAttachedIndicesResponse {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudDirectoryClientTypes.BatchListAttachedIndicesResponse()
+        value.indexAttachments = try reader["IndexAttachments"].readListIfPresent(memberReadingClosure: CloudDirectoryClientTypes.IndexAttachment.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension CloudDirectoryClientTypes.BatchListIncomingTypedLinks {
+
+    static func write(value: CloudDirectoryClientTypes.BatchListIncomingTypedLinks?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FilterAttributeRanges"].writeList(value.filterAttributeRanges, memberWritingClosure: CloudDirectoryClientTypes.TypedLinkAttributeRange.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["FilterTypedLink"].write(value.filterTypedLink, with: CloudDirectoryClientTypes.TypedLinkSchemaAndFacetName.write(value:to:))
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["ObjectReference"].write(value.objectReference, with: CloudDirectoryClientTypes.ObjectReference.write(value:to:))
+    }
+}
+
+extension CloudDirectoryClientTypes.BatchListIncomingTypedLinksResponse {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudDirectoryClientTypes.BatchListIncomingTypedLinksResponse {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudDirectoryClientTypes.BatchListIncomingTypedLinksResponse()
+        value.linkSpecifiers = try reader["LinkSpecifiers"].readListIfPresent(memberReadingClosure: CloudDirectoryClientTypes.TypedLinkSpecifier.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension CloudDirectoryClientTypes.BatchListIndex {
+
+    static func write(value: CloudDirectoryClientTypes.BatchListIndex?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["IndexReference"].write(value.indexReference, with: CloudDirectoryClientTypes.ObjectReference.write(value:to:))
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["RangesOnIndexedValues"].writeList(value.rangesOnIndexedValues, memberWritingClosure: CloudDirectoryClientTypes.ObjectAttributeRange.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension CloudDirectoryClientTypes.BatchListIndexResponse {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudDirectoryClientTypes.BatchListIndexResponse {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudDirectoryClientTypes.BatchListIndexResponse()
+        value.indexAttachments = try reader["IndexAttachments"].readListIfPresent(memberReadingClosure: CloudDirectoryClientTypes.IndexAttachment.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension CloudDirectoryClientTypes.BatchListObjectAttributes {
+
+    static func write(value: CloudDirectoryClientTypes.BatchListObjectAttributes?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FacetFilter"].write(value.facetFilter, with: CloudDirectoryClientTypes.SchemaFacet.write(value:to:))
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["ObjectReference"].write(value.objectReference, with: CloudDirectoryClientTypes.ObjectReference.write(value:to:))
+    }
+}
+
+extension CloudDirectoryClientTypes.BatchListObjectAttributesResponse {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudDirectoryClientTypes.BatchListObjectAttributesResponse {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudDirectoryClientTypes.BatchListObjectAttributesResponse()
+        value.attributes = try reader["Attributes"].readListIfPresent(memberReadingClosure: CloudDirectoryClientTypes.AttributeKeyAndValue.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension CloudDirectoryClientTypes.BatchListObjectChildren {
+
+    static func write(value: CloudDirectoryClientTypes.BatchListObjectChildren?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["ObjectReference"].write(value.objectReference, with: CloudDirectoryClientTypes.ObjectReference.write(value:to:))
+    }
+}
+
+extension CloudDirectoryClientTypes.BatchListObjectChildrenResponse {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudDirectoryClientTypes.BatchListObjectChildrenResponse {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudDirectoryClientTypes.BatchListObjectChildrenResponse()
+        value.children = try reader["Children"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension CloudDirectoryClientTypes.BatchListObjectParentPaths {
+
+    static func write(value: CloudDirectoryClientTypes.BatchListObjectParentPaths?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["ObjectReference"].write(value.objectReference, with: CloudDirectoryClientTypes.ObjectReference.write(value:to:))
+    }
+}
+
+extension CloudDirectoryClientTypes.BatchListObjectParentPathsResponse {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudDirectoryClientTypes.BatchListObjectParentPathsResponse {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudDirectoryClientTypes.BatchListObjectParentPathsResponse()
+        value.pathToObjectIdentifiersList = try reader["PathToObjectIdentifiersList"].readListIfPresent(memberReadingClosure: CloudDirectoryClientTypes.PathToObjectIdentifiers.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension CloudDirectoryClientTypes.BatchListObjectParents {
+
+    static func write(value: CloudDirectoryClientTypes.BatchListObjectParents?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["ObjectReference"].write(value.objectReference, with: CloudDirectoryClientTypes.ObjectReference.write(value:to:))
+    }
+}
+
+extension CloudDirectoryClientTypes.BatchListObjectParentsResponse {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudDirectoryClientTypes.BatchListObjectParentsResponse {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudDirectoryClientTypes.BatchListObjectParentsResponse()
+        value.parentLinks = try reader["ParentLinks"].readListIfPresent(memberReadingClosure: CloudDirectoryClientTypes.ObjectIdentifierAndLinkNameTuple.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension CloudDirectoryClientTypes.BatchListObjectPolicies {
+
+    static func write(value: CloudDirectoryClientTypes.BatchListObjectPolicies?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["ObjectReference"].write(value.objectReference, with: CloudDirectoryClientTypes.ObjectReference.write(value:to:))
+    }
+}
+
+extension CloudDirectoryClientTypes.BatchListObjectPoliciesResponse {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudDirectoryClientTypes.BatchListObjectPoliciesResponse {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudDirectoryClientTypes.BatchListObjectPoliciesResponse()
+        value.attachedPolicyIds = try reader["AttachedPolicyIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension CloudDirectoryClientTypes.BatchListOutgoingTypedLinks {
+
+    static func write(value: CloudDirectoryClientTypes.BatchListOutgoingTypedLinks?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FilterAttributeRanges"].writeList(value.filterAttributeRanges, memberWritingClosure: CloudDirectoryClientTypes.TypedLinkAttributeRange.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["FilterTypedLink"].write(value.filterTypedLink, with: CloudDirectoryClientTypes.TypedLinkSchemaAndFacetName.write(value:to:))
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["ObjectReference"].write(value.objectReference, with: CloudDirectoryClientTypes.ObjectReference.write(value:to:))
+    }
+}
+
+extension CloudDirectoryClientTypes.BatchListOutgoingTypedLinksResponse {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudDirectoryClientTypes.BatchListOutgoingTypedLinksResponse {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudDirectoryClientTypes.BatchListOutgoingTypedLinksResponse()
+        value.typedLinkSpecifiers = try reader["TypedLinkSpecifiers"].readListIfPresent(memberReadingClosure: CloudDirectoryClientTypes.TypedLinkSpecifier.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension CloudDirectoryClientTypes.BatchListPolicyAttachments {
+
+    static func write(value: CloudDirectoryClientTypes.BatchListPolicyAttachments?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["PolicyReference"].write(value.policyReference, with: CloudDirectoryClientTypes.ObjectReference.write(value:to:))
+    }
+}
+
+extension CloudDirectoryClientTypes.BatchListPolicyAttachmentsResponse {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudDirectoryClientTypes.BatchListPolicyAttachmentsResponse {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudDirectoryClientTypes.BatchListPolicyAttachmentsResponse()
+        value.objectIdentifiers = try reader["ObjectIdentifiers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["NextToken"].readIfPresent()
+        return value
+    }
+}
+
+extension CloudDirectoryClientTypes.BatchLookupPolicy {
+
+    static func write(value: CloudDirectoryClientTypes.BatchLookupPolicy?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MaxResults"].write(value.maxResults)
+        try writer["NextToken"].write(value.nextToken)
+        try writer["ObjectReference"].write(value.objectReference, with: CloudDirectoryClientTypes.ObjectReference.write(value:to:))
+    }
+}
+
+extension CloudDirectoryClientTypes.BatchLookupPolicyResponse {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudDirectoryClientTypes.BatchLookupPolicyResponse {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudDirectoryClientTypes.BatchLookupPolicyResponse()
+        value.policyToPathList = try reader["PolicyToPathList"].readListIfPresent(memberReadingClosure: CloudDirectoryClientTypes.PolicyToPath.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.nextToken = try reader["NextToken"].readIfPresent()
         return value
     }
 }
@@ -10081,6 +10535,38 @@ extension CloudDirectoryClientTypes.BatchReadException {
         var value = CloudDirectoryClientTypes.BatchReadException()
         value.type = try reader["Type"].readIfPresent()
         value.message = try reader["Message"].readIfPresent()
+        return value
+    }
+}
+
+extension CloudDirectoryClientTypes.BatchReadOperation {
+
+    static func write(value: CloudDirectoryClientTypes.BatchReadOperation?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["GetLinkAttributes"].write(value.getLinkAttributes, with: CloudDirectoryClientTypes.BatchGetLinkAttributes.write(value:to:))
+        try writer["GetObjectAttributes"].write(value.getObjectAttributes, with: CloudDirectoryClientTypes.BatchGetObjectAttributes.write(value:to:))
+        try writer["GetObjectInformation"].write(value.getObjectInformation, with: CloudDirectoryClientTypes.BatchGetObjectInformation.write(value:to:))
+        try writer["ListAttachedIndices"].write(value.listAttachedIndices, with: CloudDirectoryClientTypes.BatchListAttachedIndices.write(value:to:))
+        try writer["ListIncomingTypedLinks"].write(value.listIncomingTypedLinks, with: CloudDirectoryClientTypes.BatchListIncomingTypedLinks.write(value:to:))
+        try writer["ListIndex"].write(value.listIndex, with: CloudDirectoryClientTypes.BatchListIndex.write(value:to:))
+        try writer["ListObjectAttributes"].write(value.listObjectAttributes, with: CloudDirectoryClientTypes.BatchListObjectAttributes.write(value:to:))
+        try writer["ListObjectChildren"].write(value.listObjectChildren, with: CloudDirectoryClientTypes.BatchListObjectChildren.write(value:to:))
+        try writer["ListObjectParentPaths"].write(value.listObjectParentPaths, with: CloudDirectoryClientTypes.BatchListObjectParentPaths.write(value:to:))
+        try writer["ListObjectParents"].write(value.listObjectParents, with: CloudDirectoryClientTypes.BatchListObjectParents.write(value:to:))
+        try writer["ListObjectPolicies"].write(value.listObjectPolicies, with: CloudDirectoryClientTypes.BatchListObjectPolicies.write(value:to:))
+        try writer["ListOutgoingTypedLinks"].write(value.listOutgoingTypedLinks, with: CloudDirectoryClientTypes.BatchListOutgoingTypedLinks.write(value:to:))
+        try writer["ListPolicyAttachments"].write(value.listPolicyAttachments, with: CloudDirectoryClientTypes.BatchListPolicyAttachments.write(value:to:))
+        try writer["LookupPolicy"].write(value.lookupPolicy, with: CloudDirectoryClientTypes.BatchLookupPolicy.write(value:to:))
+    }
+}
+
+extension CloudDirectoryClientTypes.BatchReadOperationResponse {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudDirectoryClientTypes.BatchReadOperationResponse {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudDirectoryClientTypes.BatchReadOperationResponse()
+        value.successfulResponse = try reader["SuccessfulResponse"].readIfPresent(with: CloudDirectoryClientTypes.BatchReadSuccessfulResponse.read(from:))
+        value.exceptionResponse = try reader["ExceptionResponse"].readIfPresent(with: CloudDirectoryClientTypes.BatchReadException.read(from:))
         return value
     }
 }
@@ -10108,264 +10594,78 @@ extension CloudDirectoryClientTypes.BatchReadSuccessfulResponse {
     }
 }
 
-extension CloudDirectoryClientTypes.BatchListObjectParentsResponse {
+extension CloudDirectoryClientTypes.BatchRemoveFacetFromObject {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> CloudDirectoryClientTypes.BatchListObjectParentsResponse {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudDirectoryClientTypes.BatchListObjectParentsResponse()
-        value.parentLinks = try reader["ParentLinks"].readListIfPresent(memberReadingClosure: CloudDirectoryClientTypes.ObjectIdentifierAndLinkNameTuple.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.nextToken = try reader["NextToken"].readIfPresent()
-        return value
-    }
-}
-
-extension CloudDirectoryClientTypes.ObjectIdentifierAndLinkNameTuple {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CloudDirectoryClientTypes.ObjectIdentifierAndLinkNameTuple {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudDirectoryClientTypes.ObjectIdentifierAndLinkNameTuple()
-        value.objectIdentifier = try reader["ObjectIdentifier"].readIfPresent()
-        value.linkName = try reader["LinkName"].readIfPresent()
-        return value
-    }
-}
-
-extension CloudDirectoryClientTypes.BatchGetLinkAttributesResponse {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CloudDirectoryClientTypes.BatchGetLinkAttributesResponse {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudDirectoryClientTypes.BatchGetLinkAttributesResponse()
-        value.attributes = try reader["Attributes"].readListIfPresent(memberReadingClosure: CloudDirectoryClientTypes.AttributeKeyAndValue.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension CloudDirectoryClientTypes.AttributeKeyAndValue {
-
-    static func write(value: CloudDirectoryClientTypes.AttributeKeyAndValue?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: CloudDirectoryClientTypes.BatchRemoveFacetFromObject?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["Key"].write(value.key, with: CloudDirectoryClientTypes.AttributeKey.write(value:to:))
-        try writer["Value"].write(value.value, with: CloudDirectoryClientTypes.TypedAttributeValue.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CloudDirectoryClientTypes.AttributeKeyAndValue {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudDirectoryClientTypes.AttributeKeyAndValue()
-        value.key = try reader["Key"].readIfPresent(with: CloudDirectoryClientTypes.AttributeKey.read(from:))
-        value.value = try reader["Value"].readIfPresent(with: CloudDirectoryClientTypes.TypedAttributeValue.read(from:))
-        return value
+        try writer["ObjectReference"].write(value.objectReference, with: CloudDirectoryClientTypes.ObjectReference.write(value:to:))
+        try writer["SchemaFacet"].write(value.schemaFacet, with: CloudDirectoryClientTypes.SchemaFacet.write(value:to:))
     }
 }
 
-extension CloudDirectoryClientTypes.AttributeKey {
+extension CloudDirectoryClientTypes.BatchRemoveFacetFromObjectResponse {
 
-    static func write(value: CloudDirectoryClientTypes.AttributeKey?, to writer: SmithyJSON.Writer) throws {
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudDirectoryClientTypes.BatchRemoveFacetFromObjectResponse {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        return CloudDirectoryClientTypes.BatchRemoveFacetFromObjectResponse()
+    }
+}
+
+extension CloudDirectoryClientTypes.BatchUpdateLinkAttributes {
+
+    static func write(value: CloudDirectoryClientTypes.BatchUpdateLinkAttributes?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["FacetName"].write(value.facetName)
-        try writer["Name"].write(value.name)
-        try writer["SchemaArn"].write(value.schemaArn)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CloudDirectoryClientTypes.AttributeKey {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudDirectoryClientTypes.AttributeKey()
-        value.schemaArn = try reader["SchemaArn"].readIfPresent() ?? ""
-        value.facetName = try reader["FacetName"].readIfPresent() ?? ""
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        return value
+        try writer["AttributeUpdates"].writeList(value.attributeUpdates, memberWritingClosure: CloudDirectoryClientTypes.LinkAttributeUpdate.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["TypedLinkSpecifier"].write(value.typedLinkSpecifier, with: CloudDirectoryClientTypes.TypedLinkSpecifier.write(value:to:))
     }
 }
 
-extension CloudDirectoryClientTypes.BatchListIncomingTypedLinksResponse {
+extension CloudDirectoryClientTypes.BatchUpdateLinkAttributesResponse {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> CloudDirectoryClientTypes.BatchListIncomingTypedLinksResponse {
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudDirectoryClientTypes.BatchUpdateLinkAttributesResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudDirectoryClientTypes.BatchListIncomingTypedLinksResponse()
-        value.linkSpecifiers = try reader["LinkSpecifiers"].readListIfPresent(memberReadingClosure: CloudDirectoryClientTypes.TypedLinkSpecifier.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.nextToken = try reader["NextToken"].readIfPresent()
-        return value
+        return CloudDirectoryClientTypes.BatchUpdateLinkAttributesResponse()
     }
 }
 
-extension CloudDirectoryClientTypes.BatchListOutgoingTypedLinksResponse {
+extension CloudDirectoryClientTypes.BatchUpdateObjectAttributes {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> CloudDirectoryClientTypes.BatchListOutgoingTypedLinksResponse {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudDirectoryClientTypes.BatchListOutgoingTypedLinksResponse()
-        value.typedLinkSpecifiers = try reader["TypedLinkSpecifiers"].readListIfPresent(memberReadingClosure: CloudDirectoryClientTypes.TypedLinkSpecifier.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.nextToken = try reader["NextToken"].readIfPresent()
-        return value
-    }
-}
-
-extension CloudDirectoryClientTypes.BatchListIndexResponse {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CloudDirectoryClientTypes.BatchListIndexResponse {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudDirectoryClientTypes.BatchListIndexResponse()
-        value.indexAttachments = try reader["IndexAttachments"].readListIfPresent(memberReadingClosure: CloudDirectoryClientTypes.IndexAttachment.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.nextToken = try reader["NextToken"].readIfPresent()
-        return value
-    }
-}
-
-extension CloudDirectoryClientTypes.IndexAttachment {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CloudDirectoryClientTypes.IndexAttachment {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudDirectoryClientTypes.IndexAttachment()
-        value.indexedAttributes = try reader["IndexedAttributes"].readListIfPresent(memberReadingClosure: CloudDirectoryClientTypes.AttributeKeyAndValue.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.objectIdentifier = try reader["ObjectIdentifier"].readIfPresent()
-        return value
-    }
-}
-
-extension CloudDirectoryClientTypes.BatchLookupPolicyResponse {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CloudDirectoryClientTypes.BatchLookupPolicyResponse {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudDirectoryClientTypes.BatchLookupPolicyResponse()
-        value.policyToPathList = try reader["PolicyToPathList"].readListIfPresent(memberReadingClosure: CloudDirectoryClientTypes.PolicyToPath.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.nextToken = try reader["NextToken"].readIfPresent()
-        return value
-    }
-}
-
-extension CloudDirectoryClientTypes.PolicyToPath {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CloudDirectoryClientTypes.PolicyToPath {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudDirectoryClientTypes.PolicyToPath()
-        value.path = try reader["Path"].readIfPresent()
-        value.policies = try reader["Policies"].readListIfPresent(memberReadingClosure: CloudDirectoryClientTypes.PolicyAttachment.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension CloudDirectoryClientTypes.PolicyAttachment {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CloudDirectoryClientTypes.PolicyAttachment {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudDirectoryClientTypes.PolicyAttachment()
-        value.policyId = try reader["PolicyId"].readIfPresent()
-        value.objectIdentifier = try reader["ObjectIdentifier"].readIfPresent()
-        value.policyType = try reader["PolicyType"].readIfPresent()
-        return value
-    }
-}
-
-extension CloudDirectoryClientTypes.BatchListPolicyAttachmentsResponse {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CloudDirectoryClientTypes.BatchListPolicyAttachmentsResponse {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudDirectoryClientTypes.BatchListPolicyAttachmentsResponse()
-        value.objectIdentifiers = try reader["ObjectIdentifiers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.nextToken = try reader["NextToken"].readIfPresent()
-        return value
-    }
-}
-
-extension CloudDirectoryClientTypes.BatchListObjectPoliciesResponse {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CloudDirectoryClientTypes.BatchListObjectPoliciesResponse {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudDirectoryClientTypes.BatchListObjectPoliciesResponse()
-        value.attachedPolicyIds = try reader["AttachedPolicyIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.nextToken = try reader["NextToken"].readIfPresent()
-        return value
-    }
-}
-
-extension CloudDirectoryClientTypes.BatchListObjectParentPathsResponse {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CloudDirectoryClientTypes.BatchListObjectParentPathsResponse {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudDirectoryClientTypes.BatchListObjectParentPathsResponse()
-        value.pathToObjectIdentifiersList = try reader["PathToObjectIdentifiersList"].readListIfPresent(memberReadingClosure: CloudDirectoryClientTypes.PathToObjectIdentifiers.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.nextToken = try reader["NextToken"].readIfPresent()
-        return value
-    }
-}
-
-extension CloudDirectoryClientTypes.PathToObjectIdentifiers {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CloudDirectoryClientTypes.PathToObjectIdentifiers {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudDirectoryClientTypes.PathToObjectIdentifiers()
-        value.path = try reader["Path"].readIfPresent()
-        value.objectIdentifiers = try reader["ObjectIdentifiers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension CloudDirectoryClientTypes.BatchListAttachedIndicesResponse {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CloudDirectoryClientTypes.BatchListAttachedIndicesResponse {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudDirectoryClientTypes.BatchListAttachedIndicesResponse()
-        value.indexAttachments = try reader["IndexAttachments"].readListIfPresent(memberReadingClosure: CloudDirectoryClientTypes.IndexAttachment.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.nextToken = try reader["NextToken"].readIfPresent()
-        return value
-    }
-}
-
-extension CloudDirectoryClientTypes.BatchGetObjectAttributesResponse {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CloudDirectoryClientTypes.BatchGetObjectAttributesResponse {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudDirectoryClientTypes.BatchGetObjectAttributesResponse()
-        value.attributes = try reader["Attributes"].readListIfPresent(memberReadingClosure: CloudDirectoryClientTypes.AttributeKeyAndValue.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension CloudDirectoryClientTypes.BatchGetObjectInformationResponse {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CloudDirectoryClientTypes.BatchGetObjectInformationResponse {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudDirectoryClientTypes.BatchGetObjectInformationResponse()
-        value.schemaFacets = try reader["SchemaFacets"].readListIfPresent(memberReadingClosure: CloudDirectoryClientTypes.SchemaFacet.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.objectIdentifier = try reader["ObjectIdentifier"].readIfPresent()
-        return value
-    }
-}
-
-extension CloudDirectoryClientTypes.SchemaFacet {
-
-    static func write(value: CloudDirectoryClientTypes.SchemaFacet?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: CloudDirectoryClientTypes.BatchUpdateObjectAttributes?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["FacetName"].write(value.facetName)
-        try writer["SchemaArn"].write(value.schemaArn)
+        try writer["AttributeUpdates"].writeList(value.attributeUpdates, memberWritingClosure: CloudDirectoryClientTypes.ObjectAttributeUpdate.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ObjectReference"].write(value.objectReference, with: CloudDirectoryClientTypes.ObjectReference.write(value:to:))
     }
+}
 
-    static func read(from reader: SmithyJSON.Reader) throws -> CloudDirectoryClientTypes.SchemaFacet {
+extension CloudDirectoryClientTypes.BatchUpdateObjectAttributesResponse {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudDirectoryClientTypes.BatchUpdateObjectAttributesResponse {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudDirectoryClientTypes.SchemaFacet()
-        value.schemaArn = try reader["SchemaArn"].readIfPresent()
-        value.facetName = try reader["FacetName"].readIfPresent()
+        var value = CloudDirectoryClientTypes.BatchUpdateObjectAttributesResponse()
+        value.objectIdentifier = try reader["ObjectIdentifier"].readIfPresent()
         return value
     }
 }
 
-extension CloudDirectoryClientTypes.BatchListObjectChildrenResponse {
+extension CloudDirectoryClientTypes.BatchWriteOperation {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> CloudDirectoryClientTypes.BatchListObjectChildrenResponse {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudDirectoryClientTypes.BatchListObjectChildrenResponse()
-        value.children = try reader["Children"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        value.nextToken = try reader["NextToken"].readIfPresent()
-        return value
-    }
-}
-
-extension CloudDirectoryClientTypes.BatchListObjectAttributesResponse {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CloudDirectoryClientTypes.BatchListObjectAttributesResponse {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudDirectoryClientTypes.BatchListObjectAttributesResponse()
-        value.attributes = try reader["Attributes"].readListIfPresent(memberReadingClosure: CloudDirectoryClientTypes.AttributeKeyAndValue.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.nextToken = try reader["NextToken"].readIfPresent()
-        return value
+    static func write(value: CloudDirectoryClientTypes.BatchWriteOperation?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AddFacetToObject"].write(value.addFacetToObject, with: CloudDirectoryClientTypes.BatchAddFacetToObject.write(value:to:))
+        try writer["AttachObject"].write(value.attachObject, with: CloudDirectoryClientTypes.BatchAttachObject.write(value:to:))
+        try writer["AttachPolicy"].write(value.attachPolicy, with: CloudDirectoryClientTypes.BatchAttachPolicy.write(value:to:))
+        try writer["AttachToIndex"].write(value.attachToIndex, with: CloudDirectoryClientTypes.BatchAttachToIndex.write(value:to:))
+        try writer["AttachTypedLink"].write(value.attachTypedLink, with: CloudDirectoryClientTypes.BatchAttachTypedLink.write(value:to:))
+        try writer["CreateIndex"].write(value.createIndex, with: CloudDirectoryClientTypes.BatchCreateIndex.write(value:to:))
+        try writer["CreateObject"].write(value.createObject, with: CloudDirectoryClientTypes.BatchCreateObject.write(value:to:))
+        try writer["DeleteObject"].write(value.deleteObject, with: CloudDirectoryClientTypes.BatchDeleteObject.write(value:to:))
+        try writer["DetachFromIndex"].write(value.detachFromIndex, with: CloudDirectoryClientTypes.BatchDetachFromIndex.write(value:to:))
+        try writer["DetachObject"].write(value.detachObject, with: CloudDirectoryClientTypes.BatchDetachObject.write(value:to:))
+        try writer["DetachPolicy"].write(value.detachPolicy, with: CloudDirectoryClientTypes.BatchDetachPolicy.write(value:to:))
+        try writer["DetachTypedLink"].write(value.detachTypedLink, with: CloudDirectoryClientTypes.BatchDetachTypedLink.write(value:to:))
+        try writer["RemoveFacetFromObject"].write(value.removeFacetFromObject, with: CloudDirectoryClientTypes.BatchRemoveFacetFromObject.write(value:to:))
+        try writer["UpdateLinkAttributes"].write(value.updateLinkAttributes, with: CloudDirectoryClientTypes.BatchUpdateLinkAttributes.write(value:to:))
+        try writer["UpdateObjectAttributes"].write(value.updateObjectAttributes, with: CloudDirectoryClientTypes.BatchUpdateObjectAttributes.write(value:to:))
     }
 }
 
@@ -10389,142 +10689,6 @@ extension CloudDirectoryClientTypes.BatchWriteOperationResponse {
         value.attachTypedLink = try reader["AttachTypedLink"].readIfPresent(with: CloudDirectoryClientTypes.BatchAttachTypedLinkResponse.read(from:))
         value.detachTypedLink = try reader["DetachTypedLink"].readIfPresent(with: CloudDirectoryClientTypes.BatchDetachTypedLinkResponse.read(from:))
         value.updateLinkAttributes = try reader["UpdateLinkAttributes"].readIfPresent(with: CloudDirectoryClientTypes.BatchUpdateLinkAttributesResponse.read(from:))
-        return value
-    }
-}
-
-extension CloudDirectoryClientTypes.BatchUpdateLinkAttributesResponse {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CloudDirectoryClientTypes.BatchUpdateLinkAttributesResponse {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        return CloudDirectoryClientTypes.BatchUpdateLinkAttributesResponse()
-    }
-}
-
-extension CloudDirectoryClientTypes.BatchDetachTypedLinkResponse {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CloudDirectoryClientTypes.BatchDetachTypedLinkResponse {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        return CloudDirectoryClientTypes.BatchDetachTypedLinkResponse()
-    }
-}
-
-extension CloudDirectoryClientTypes.BatchAttachTypedLinkResponse {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CloudDirectoryClientTypes.BatchAttachTypedLinkResponse {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudDirectoryClientTypes.BatchAttachTypedLinkResponse()
-        value.typedLinkSpecifier = try reader["TypedLinkSpecifier"].readIfPresent(with: CloudDirectoryClientTypes.TypedLinkSpecifier.read(from:))
-        return value
-    }
-}
-
-extension CloudDirectoryClientTypes.BatchDetachFromIndexResponse {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CloudDirectoryClientTypes.BatchDetachFromIndexResponse {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudDirectoryClientTypes.BatchDetachFromIndexResponse()
-        value.detachedObjectIdentifier = try reader["DetachedObjectIdentifier"].readIfPresent()
-        return value
-    }
-}
-
-extension CloudDirectoryClientTypes.BatchAttachToIndexResponse {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CloudDirectoryClientTypes.BatchAttachToIndexResponse {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudDirectoryClientTypes.BatchAttachToIndexResponse()
-        value.attachedObjectIdentifier = try reader["AttachedObjectIdentifier"].readIfPresent()
-        return value
-    }
-}
-
-extension CloudDirectoryClientTypes.BatchCreateIndexResponse {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CloudDirectoryClientTypes.BatchCreateIndexResponse {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudDirectoryClientTypes.BatchCreateIndexResponse()
-        value.objectIdentifier = try reader["ObjectIdentifier"].readIfPresent()
-        return value
-    }
-}
-
-extension CloudDirectoryClientTypes.BatchDetachPolicyResponse {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CloudDirectoryClientTypes.BatchDetachPolicyResponse {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        return CloudDirectoryClientTypes.BatchDetachPolicyResponse()
-    }
-}
-
-extension CloudDirectoryClientTypes.BatchAttachPolicyResponse {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CloudDirectoryClientTypes.BatchAttachPolicyResponse {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        return CloudDirectoryClientTypes.BatchAttachPolicyResponse()
-    }
-}
-
-extension CloudDirectoryClientTypes.BatchRemoveFacetFromObjectResponse {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CloudDirectoryClientTypes.BatchRemoveFacetFromObjectResponse {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        return CloudDirectoryClientTypes.BatchRemoveFacetFromObjectResponse()
-    }
-}
-
-extension CloudDirectoryClientTypes.BatchAddFacetToObjectResponse {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CloudDirectoryClientTypes.BatchAddFacetToObjectResponse {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        return CloudDirectoryClientTypes.BatchAddFacetToObjectResponse()
-    }
-}
-
-extension CloudDirectoryClientTypes.BatchDeleteObjectResponse {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CloudDirectoryClientTypes.BatchDeleteObjectResponse {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        return CloudDirectoryClientTypes.BatchDeleteObjectResponse()
-    }
-}
-
-extension CloudDirectoryClientTypes.BatchUpdateObjectAttributesResponse {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CloudDirectoryClientTypes.BatchUpdateObjectAttributesResponse {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudDirectoryClientTypes.BatchUpdateObjectAttributesResponse()
-        value.objectIdentifier = try reader["ObjectIdentifier"].readIfPresent()
-        return value
-    }
-}
-
-extension CloudDirectoryClientTypes.BatchDetachObjectResponse {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CloudDirectoryClientTypes.BatchDetachObjectResponse {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudDirectoryClientTypes.BatchDetachObjectResponse()
-        value.detachedObjectIdentifier = try reader["detachedObjectIdentifier"].readIfPresent()
-        return value
-    }
-}
-
-extension CloudDirectoryClientTypes.BatchAttachObjectResponse {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CloudDirectoryClientTypes.BatchAttachObjectResponse {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudDirectoryClientTypes.BatchAttachObjectResponse()
-        value.attachedObjectIdentifier = try reader["attachedObjectIdentifier"].readIfPresent()
-        return value
-    }
-}
-
-extension CloudDirectoryClientTypes.BatchCreateObjectResponse {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CloudDirectoryClientTypes.BatchCreateObjectResponse {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudDirectoryClientTypes.BatchCreateObjectResponse()
-        value.objectIdentifier = try reader["ObjectIdentifier"].readIfPresent()
         return value
     }
 }
@@ -10575,23 +10739,6 @@ extension CloudDirectoryClientTypes.FacetAttribute {
     }
 }
 
-extension CloudDirectoryClientTypes.FacetAttributeReference {
-
-    static func write(value: CloudDirectoryClientTypes.FacetAttributeReference?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["TargetAttributeName"].write(value.targetAttributeName)
-        try writer["TargetFacetName"].write(value.targetFacetName)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> CloudDirectoryClientTypes.FacetAttributeReference {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = CloudDirectoryClientTypes.FacetAttributeReference()
-        value.targetFacetName = try reader["TargetFacetName"].readIfPresent() ?? ""
-        value.targetAttributeName = try reader["TargetAttributeName"].readIfPresent() ?? ""
-        return value
-    }
-}
-
 extension CloudDirectoryClientTypes.FacetAttributeDefinition {
 
     static func write(value: CloudDirectoryClientTypes.FacetAttributeDefinition?, to writer: SmithyJSON.Writer) throws {
@@ -10613,6 +10760,148 @@ extension CloudDirectoryClientTypes.FacetAttributeDefinition {
     }
 }
 
+extension CloudDirectoryClientTypes.FacetAttributeReference {
+
+    static func write(value: CloudDirectoryClientTypes.FacetAttributeReference?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["TargetAttributeName"].write(value.targetAttributeName)
+        try writer["TargetFacetName"].write(value.targetFacetName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudDirectoryClientTypes.FacetAttributeReference {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudDirectoryClientTypes.FacetAttributeReference()
+        value.targetFacetName = try reader["TargetFacetName"].readIfPresent() ?? ""
+        value.targetAttributeName = try reader["TargetAttributeName"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension CloudDirectoryClientTypes.FacetAttributeUpdate {
+
+    static func write(value: CloudDirectoryClientTypes.FacetAttributeUpdate?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Action"].write(value.action)
+        try writer["Attribute"].write(value.attribute, with: CloudDirectoryClientTypes.FacetAttribute.write(value:to:))
+    }
+}
+
+extension CloudDirectoryClientTypes.IndexAttachment {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudDirectoryClientTypes.IndexAttachment {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudDirectoryClientTypes.IndexAttachment()
+        value.indexedAttributes = try reader["IndexedAttributes"].readListIfPresent(memberReadingClosure: CloudDirectoryClientTypes.AttributeKeyAndValue.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.objectIdentifier = try reader["ObjectIdentifier"].readIfPresent()
+        return value
+    }
+}
+
+extension CloudDirectoryClientTypes.LinkAttributeAction {
+
+    static func write(value: CloudDirectoryClientTypes.LinkAttributeAction?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AttributeActionType"].write(value.attributeActionType)
+        try writer["AttributeUpdateValue"].write(value.attributeUpdateValue, with: CloudDirectoryClientTypes.TypedAttributeValue.write(value:to:))
+    }
+}
+
+extension CloudDirectoryClientTypes.LinkAttributeUpdate {
+
+    static func write(value: CloudDirectoryClientTypes.LinkAttributeUpdate?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AttributeAction"].write(value.attributeAction, with: CloudDirectoryClientTypes.LinkAttributeAction.write(value:to:))
+        try writer["AttributeKey"].write(value.attributeKey, with: CloudDirectoryClientTypes.AttributeKey.write(value:to:))
+    }
+}
+
+extension CloudDirectoryClientTypes.ObjectAttributeAction {
+
+    static func write(value: CloudDirectoryClientTypes.ObjectAttributeAction?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ObjectAttributeActionType"].write(value.objectAttributeActionType)
+        try writer["ObjectAttributeUpdateValue"].write(value.objectAttributeUpdateValue, with: CloudDirectoryClientTypes.TypedAttributeValue.write(value:to:))
+    }
+}
+
+extension CloudDirectoryClientTypes.ObjectAttributeRange {
+
+    static func write(value: CloudDirectoryClientTypes.ObjectAttributeRange?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AttributeKey"].write(value.attributeKey, with: CloudDirectoryClientTypes.AttributeKey.write(value:to:))
+        try writer["Range"].write(value.range, with: CloudDirectoryClientTypes.TypedAttributeValueRange.write(value:to:))
+    }
+}
+
+extension CloudDirectoryClientTypes.ObjectAttributeUpdate {
+
+    static func write(value: CloudDirectoryClientTypes.ObjectAttributeUpdate?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ObjectAttributeAction"].write(value.objectAttributeAction, with: CloudDirectoryClientTypes.ObjectAttributeAction.write(value:to:))
+        try writer["ObjectAttributeKey"].write(value.objectAttributeKey, with: CloudDirectoryClientTypes.AttributeKey.write(value:to:))
+    }
+}
+
+extension CloudDirectoryClientTypes.ObjectIdentifierAndLinkNameTuple {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudDirectoryClientTypes.ObjectIdentifierAndLinkNameTuple {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudDirectoryClientTypes.ObjectIdentifierAndLinkNameTuple()
+        value.objectIdentifier = try reader["ObjectIdentifier"].readIfPresent()
+        value.linkName = try reader["LinkName"].readIfPresent()
+        return value
+    }
+}
+
+extension CloudDirectoryClientTypes.ObjectReference {
+
+    static func write(value: CloudDirectoryClientTypes.ObjectReference?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Selector"].write(value.selector)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudDirectoryClientTypes.ObjectReference {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudDirectoryClientTypes.ObjectReference()
+        value.selector = try reader["Selector"].readIfPresent()
+        return value
+    }
+}
+
+extension CloudDirectoryClientTypes.PathToObjectIdentifiers {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudDirectoryClientTypes.PathToObjectIdentifiers {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudDirectoryClientTypes.PathToObjectIdentifiers()
+        value.path = try reader["Path"].readIfPresent()
+        value.objectIdentifiers = try reader["ObjectIdentifiers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension CloudDirectoryClientTypes.PolicyAttachment {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudDirectoryClientTypes.PolicyAttachment {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudDirectoryClientTypes.PolicyAttachment()
+        value.policyId = try reader["PolicyId"].readIfPresent()
+        value.objectIdentifier = try reader["ObjectIdentifier"].readIfPresent()
+        value.policyType = try reader["PolicyType"].readIfPresent()
+        return value
+    }
+}
+
+extension CloudDirectoryClientTypes.PolicyToPath {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudDirectoryClientTypes.PolicyToPath {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudDirectoryClientTypes.PolicyToPath()
+        value.path = try reader["Path"].readIfPresent()
+        value.policies = try reader["Policies"].readListIfPresent(memberReadingClosure: CloudDirectoryClientTypes.PolicyAttachment.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension CloudDirectoryClientTypes.Rule {
 
     static func write(value: CloudDirectoryClientTypes.Rule?, to writer: SmithyJSON.Writer) throws {
@@ -10626,6 +10915,23 @@ extension CloudDirectoryClientTypes.Rule {
         var value = CloudDirectoryClientTypes.Rule()
         value.type = try reader["Type"].readIfPresent()
         value.parameters = try reader["Parameters"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension CloudDirectoryClientTypes.SchemaFacet {
+
+    static func write(value: CloudDirectoryClientTypes.SchemaFacet?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FacetName"].write(value.facetName)
+        try writer["SchemaArn"].write(value.schemaArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudDirectoryClientTypes.SchemaFacet {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudDirectoryClientTypes.SchemaFacet()
+        value.schemaArn = try reader["SchemaArn"].readIfPresent()
+        value.facetName = try reader["FacetName"].readIfPresent()
         return value
     }
 }
@@ -10644,6 +10950,57 @@ extension CloudDirectoryClientTypes.Tag {
         value.key = try reader["Key"].readIfPresent()
         value.value = try reader["Value"].readIfPresent()
         return value
+    }
+}
+
+extension CloudDirectoryClientTypes.TypedAttributeValue {
+
+    static func write(value: CloudDirectoryClientTypes.TypedAttributeValue?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .binaryvalue(binaryvalue):
+                try writer["BinaryValue"].write(binaryvalue)
+            case let .booleanvalue(booleanvalue):
+                try writer["BooleanValue"].write(booleanvalue)
+            case let .datetimevalue(datetimevalue):
+                try writer["DatetimeValue"].writeTimestamp(datetimevalue, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+            case let .numbervalue(numbervalue):
+                try writer["NumberValue"].write(numbervalue)
+            case let .stringvalue(stringvalue):
+                try writer["StringValue"].write(stringvalue)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudDirectoryClientTypes.TypedAttributeValue {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "StringValue":
+                return .stringvalue(try reader["StringValue"].read())
+            case "BinaryValue":
+                return .binaryvalue(try reader["BinaryValue"].read())
+            case "BooleanValue":
+                return .booleanvalue(try reader["BooleanValue"].read())
+            case "NumberValue":
+                return .numbervalue(try reader["NumberValue"].read())
+            case "DatetimeValue":
+                return .datetimevalue(try reader["DatetimeValue"].readTimestamp(format: SmithyTimestamps.TimestampFormat.epochSeconds))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension CloudDirectoryClientTypes.TypedAttributeValueRange {
+
+    static func write(value: CloudDirectoryClientTypes.TypedAttributeValueRange?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["EndMode"].write(value.endMode)
+        try writer["EndValue"].write(value.endValue, with: CloudDirectoryClientTypes.TypedAttributeValue.write(value:to:))
+        try writer["StartMode"].write(value.startMode)
+        try writer["StartValue"].write(value.startValue, with: CloudDirectoryClientTypes.TypedAttributeValue.write(value:to:))
     }
 }
 
@@ -10672,398 +11029,12 @@ extension CloudDirectoryClientTypes.TypedLinkAttributeDefinition {
     }
 }
 
-extension CloudDirectoryClientTypes.BatchReadOperation {
-
-    static func write(value: CloudDirectoryClientTypes.BatchReadOperation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["GetLinkAttributes"].write(value.getLinkAttributes, with: CloudDirectoryClientTypes.BatchGetLinkAttributes.write(value:to:))
-        try writer["GetObjectAttributes"].write(value.getObjectAttributes, with: CloudDirectoryClientTypes.BatchGetObjectAttributes.write(value:to:))
-        try writer["GetObjectInformation"].write(value.getObjectInformation, with: CloudDirectoryClientTypes.BatchGetObjectInformation.write(value:to:))
-        try writer["ListAttachedIndices"].write(value.listAttachedIndices, with: CloudDirectoryClientTypes.BatchListAttachedIndices.write(value:to:))
-        try writer["ListIncomingTypedLinks"].write(value.listIncomingTypedLinks, with: CloudDirectoryClientTypes.BatchListIncomingTypedLinks.write(value:to:))
-        try writer["ListIndex"].write(value.listIndex, with: CloudDirectoryClientTypes.BatchListIndex.write(value:to:))
-        try writer["ListObjectAttributes"].write(value.listObjectAttributes, with: CloudDirectoryClientTypes.BatchListObjectAttributes.write(value:to:))
-        try writer["ListObjectChildren"].write(value.listObjectChildren, with: CloudDirectoryClientTypes.BatchListObjectChildren.write(value:to:))
-        try writer["ListObjectParentPaths"].write(value.listObjectParentPaths, with: CloudDirectoryClientTypes.BatchListObjectParentPaths.write(value:to:))
-        try writer["ListObjectParents"].write(value.listObjectParents, with: CloudDirectoryClientTypes.BatchListObjectParents.write(value:to:))
-        try writer["ListObjectPolicies"].write(value.listObjectPolicies, with: CloudDirectoryClientTypes.BatchListObjectPolicies.write(value:to:))
-        try writer["ListOutgoingTypedLinks"].write(value.listOutgoingTypedLinks, with: CloudDirectoryClientTypes.BatchListOutgoingTypedLinks.write(value:to:))
-        try writer["ListPolicyAttachments"].write(value.listPolicyAttachments, with: CloudDirectoryClientTypes.BatchListPolicyAttachments.write(value:to:))
-        try writer["LookupPolicy"].write(value.lookupPolicy, with: CloudDirectoryClientTypes.BatchLookupPolicy.write(value:to:))
-    }
-}
-
-extension CloudDirectoryClientTypes.BatchGetLinkAttributes {
-
-    static func write(value: CloudDirectoryClientTypes.BatchGetLinkAttributes?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AttributeNames"].writeList(value.attributeNames, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["TypedLinkSpecifier"].write(value.typedLinkSpecifier, with: CloudDirectoryClientTypes.TypedLinkSpecifier.write(value:to:))
-    }
-}
-
-extension CloudDirectoryClientTypes.BatchListIncomingTypedLinks {
-
-    static func write(value: CloudDirectoryClientTypes.BatchListIncomingTypedLinks?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["FilterAttributeRanges"].writeList(value.filterAttributeRanges, memberWritingClosure: CloudDirectoryClientTypes.TypedLinkAttributeRange.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["FilterTypedLink"].write(value.filterTypedLink, with: CloudDirectoryClientTypes.TypedLinkSchemaAndFacetName.write(value:to:))
-        try writer["MaxResults"].write(value.maxResults)
-        try writer["NextToken"].write(value.nextToken)
-        try writer["ObjectReference"].write(value.objectReference, with: CloudDirectoryClientTypes.ObjectReference.write(value:to:))
-    }
-}
-
 extension CloudDirectoryClientTypes.TypedLinkAttributeRange {
 
     static func write(value: CloudDirectoryClientTypes.TypedLinkAttributeRange?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["AttributeName"].write(value.attributeName)
         try writer["Range"].write(value.range, with: CloudDirectoryClientTypes.TypedAttributeValueRange.write(value:to:))
-    }
-}
-
-extension CloudDirectoryClientTypes.TypedAttributeValueRange {
-
-    static func write(value: CloudDirectoryClientTypes.TypedAttributeValueRange?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["EndMode"].write(value.endMode)
-        try writer["EndValue"].write(value.endValue, with: CloudDirectoryClientTypes.TypedAttributeValue.write(value:to:))
-        try writer["StartMode"].write(value.startMode)
-        try writer["StartValue"].write(value.startValue, with: CloudDirectoryClientTypes.TypedAttributeValue.write(value:to:))
-    }
-}
-
-extension CloudDirectoryClientTypes.BatchListOutgoingTypedLinks {
-
-    static func write(value: CloudDirectoryClientTypes.BatchListOutgoingTypedLinks?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["FilterAttributeRanges"].writeList(value.filterAttributeRanges, memberWritingClosure: CloudDirectoryClientTypes.TypedLinkAttributeRange.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["FilterTypedLink"].write(value.filterTypedLink, with: CloudDirectoryClientTypes.TypedLinkSchemaAndFacetName.write(value:to:))
-        try writer["MaxResults"].write(value.maxResults)
-        try writer["NextToken"].write(value.nextToken)
-        try writer["ObjectReference"].write(value.objectReference, with: CloudDirectoryClientTypes.ObjectReference.write(value:to:))
-    }
-}
-
-extension CloudDirectoryClientTypes.BatchListIndex {
-
-    static func write(value: CloudDirectoryClientTypes.BatchListIndex?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["IndexReference"].write(value.indexReference, with: CloudDirectoryClientTypes.ObjectReference.write(value:to:))
-        try writer["MaxResults"].write(value.maxResults)
-        try writer["NextToken"].write(value.nextToken)
-        try writer["RangesOnIndexedValues"].writeList(value.rangesOnIndexedValues, memberWritingClosure: CloudDirectoryClientTypes.ObjectAttributeRange.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension CloudDirectoryClientTypes.ObjectAttributeRange {
-
-    static func write(value: CloudDirectoryClientTypes.ObjectAttributeRange?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AttributeKey"].write(value.attributeKey, with: CloudDirectoryClientTypes.AttributeKey.write(value:to:))
-        try writer["Range"].write(value.range, with: CloudDirectoryClientTypes.TypedAttributeValueRange.write(value:to:))
-    }
-}
-
-extension CloudDirectoryClientTypes.BatchLookupPolicy {
-
-    static func write(value: CloudDirectoryClientTypes.BatchLookupPolicy?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["MaxResults"].write(value.maxResults)
-        try writer["NextToken"].write(value.nextToken)
-        try writer["ObjectReference"].write(value.objectReference, with: CloudDirectoryClientTypes.ObjectReference.write(value:to:))
-    }
-}
-
-extension CloudDirectoryClientTypes.BatchListPolicyAttachments {
-
-    static func write(value: CloudDirectoryClientTypes.BatchListPolicyAttachments?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["MaxResults"].write(value.maxResults)
-        try writer["NextToken"].write(value.nextToken)
-        try writer["PolicyReference"].write(value.policyReference, with: CloudDirectoryClientTypes.ObjectReference.write(value:to:))
-    }
-}
-
-extension CloudDirectoryClientTypes.BatchListObjectPolicies {
-
-    static func write(value: CloudDirectoryClientTypes.BatchListObjectPolicies?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["MaxResults"].write(value.maxResults)
-        try writer["NextToken"].write(value.nextToken)
-        try writer["ObjectReference"].write(value.objectReference, with: CloudDirectoryClientTypes.ObjectReference.write(value:to:))
-    }
-}
-
-extension CloudDirectoryClientTypes.BatchListObjectParents {
-
-    static func write(value: CloudDirectoryClientTypes.BatchListObjectParents?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["MaxResults"].write(value.maxResults)
-        try writer["NextToken"].write(value.nextToken)
-        try writer["ObjectReference"].write(value.objectReference, with: CloudDirectoryClientTypes.ObjectReference.write(value:to:))
-    }
-}
-
-extension CloudDirectoryClientTypes.BatchGetObjectAttributes {
-
-    static func write(value: CloudDirectoryClientTypes.BatchGetObjectAttributes?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AttributeNames"].writeList(value.attributeNames, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ObjectReference"].write(value.objectReference, with: CloudDirectoryClientTypes.ObjectReference.write(value:to:))
-        try writer["SchemaFacet"].write(value.schemaFacet, with: CloudDirectoryClientTypes.SchemaFacet.write(value:to:))
-    }
-}
-
-extension CloudDirectoryClientTypes.BatchGetObjectInformation {
-
-    static func write(value: CloudDirectoryClientTypes.BatchGetObjectInformation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ObjectReference"].write(value.objectReference, with: CloudDirectoryClientTypes.ObjectReference.write(value:to:))
-    }
-}
-
-extension CloudDirectoryClientTypes.BatchListObjectParentPaths {
-
-    static func write(value: CloudDirectoryClientTypes.BatchListObjectParentPaths?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["MaxResults"].write(value.maxResults)
-        try writer["NextToken"].write(value.nextToken)
-        try writer["ObjectReference"].write(value.objectReference, with: CloudDirectoryClientTypes.ObjectReference.write(value:to:))
-    }
-}
-
-extension CloudDirectoryClientTypes.BatchListAttachedIndices {
-
-    static func write(value: CloudDirectoryClientTypes.BatchListAttachedIndices?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["MaxResults"].write(value.maxResults)
-        try writer["NextToken"].write(value.nextToken)
-        try writer["TargetReference"].write(value.targetReference, with: CloudDirectoryClientTypes.ObjectReference.write(value:to:))
-    }
-}
-
-extension CloudDirectoryClientTypes.BatchListObjectChildren {
-
-    static func write(value: CloudDirectoryClientTypes.BatchListObjectChildren?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["MaxResults"].write(value.maxResults)
-        try writer["NextToken"].write(value.nextToken)
-        try writer["ObjectReference"].write(value.objectReference, with: CloudDirectoryClientTypes.ObjectReference.write(value:to:))
-    }
-}
-
-extension CloudDirectoryClientTypes.BatchListObjectAttributes {
-
-    static func write(value: CloudDirectoryClientTypes.BatchListObjectAttributes?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["FacetFilter"].write(value.facetFilter, with: CloudDirectoryClientTypes.SchemaFacet.write(value:to:))
-        try writer["MaxResults"].write(value.maxResults)
-        try writer["NextToken"].write(value.nextToken)
-        try writer["ObjectReference"].write(value.objectReference, with: CloudDirectoryClientTypes.ObjectReference.write(value:to:))
-    }
-}
-
-extension CloudDirectoryClientTypes.BatchWriteOperation {
-
-    static func write(value: CloudDirectoryClientTypes.BatchWriteOperation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AddFacetToObject"].write(value.addFacetToObject, with: CloudDirectoryClientTypes.BatchAddFacetToObject.write(value:to:))
-        try writer["AttachObject"].write(value.attachObject, with: CloudDirectoryClientTypes.BatchAttachObject.write(value:to:))
-        try writer["AttachPolicy"].write(value.attachPolicy, with: CloudDirectoryClientTypes.BatchAttachPolicy.write(value:to:))
-        try writer["AttachToIndex"].write(value.attachToIndex, with: CloudDirectoryClientTypes.BatchAttachToIndex.write(value:to:))
-        try writer["AttachTypedLink"].write(value.attachTypedLink, with: CloudDirectoryClientTypes.BatchAttachTypedLink.write(value:to:))
-        try writer["CreateIndex"].write(value.createIndex, with: CloudDirectoryClientTypes.BatchCreateIndex.write(value:to:))
-        try writer["CreateObject"].write(value.createObject, with: CloudDirectoryClientTypes.BatchCreateObject.write(value:to:))
-        try writer["DeleteObject"].write(value.deleteObject, with: CloudDirectoryClientTypes.BatchDeleteObject.write(value:to:))
-        try writer["DetachFromIndex"].write(value.detachFromIndex, with: CloudDirectoryClientTypes.BatchDetachFromIndex.write(value:to:))
-        try writer["DetachObject"].write(value.detachObject, with: CloudDirectoryClientTypes.BatchDetachObject.write(value:to:))
-        try writer["DetachPolicy"].write(value.detachPolicy, with: CloudDirectoryClientTypes.BatchDetachPolicy.write(value:to:))
-        try writer["DetachTypedLink"].write(value.detachTypedLink, with: CloudDirectoryClientTypes.BatchDetachTypedLink.write(value:to:))
-        try writer["RemoveFacetFromObject"].write(value.removeFacetFromObject, with: CloudDirectoryClientTypes.BatchRemoveFacetFromObject.write(value:to:))
-        try writer["UpdateLinkAttributes"].write(value.updateLinkAttributes, with: CloudDirectoryClientTypes.BatchUpdateLinkAttributes.write(value:to:))
-        try writer["UpdateObjectAttributes"].write(value.updateObjectAttributes, with: CloudDirectoryClientTypes.BatchUpdateObjectAttributes.write(value:to:))
-    }
-}
-
-extension CloudDirectoryClientTypes.BatchUpdateLinkAttributes {
-
-    static func write(value: CloudDirectoryClientTypes.BatchUpdateLinkAttributes?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AttributeUpdates"].writeList(value.attributeUpdates, memberWritingClosure: CloudDirectoryClientTypes.LinkAttributeUpdate.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["TypedLinkSpecifier"].write(value.typedLinkSpecifier, with: CloudDirectoryClientTypes.TypedLinkSpecifier.write(value:to:))
-    }
-}
-
-extension CloudDirectoryClientTypes.LinkAttributeUpdate {
-
-    static func write(value: CloudDirectoryClientTypes.LinkAttributeUpdate?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AttributeAction"].write(value.attributeAction, with: CloudDirectoryClientTypes.LinkAttributeAction.write(value:to:))
-        try writer["AttributeKey"].write(value.attributeKey, with: CloudDirectoryClientTypes.AttributeKey.write(value:to:))
-    }
-}
-
-extension CloudDirectoryClientTypes.LinkAttributeAction {
-
-    static func write(value: CloudDirectoryClientTypes.LinkAttributeAction?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AttributeActionType"].write(value.attributeActionType)
-        try writer["AttributeUpdateValue"].write(value.attributeUpdateValue, with: CloudDirectoryClientTypes.TypedAttributeValue.write(value:to:))
-    }
-}
-
-extension CloudDirectoryClientTypes.BatchDetachTypedLink {
-
-    static func write(value: CloudDirectoryClientTypes.BatchDetachTypedLink?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["TypedLinkSpecifier"].write(value.typedLinkSpecifier, with: CloudDirectoryClientTypes.TypedLinkSpecifier.write(value:to:))
-    }
-}
-
-extension CloudDirectoryClientTypes.BatchAttachTypedLink {
-
-    static func write(value: CloudDirectoryClientTypes.BatchAttachTypedLink?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Attributes"].writeList(value.attributes, memberWritingClosure: CloudDirectoryClientTypes.AttributeNameAndValue.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["SourceObjectReference"].write(value.sourceObjectReference, with: CloudDirectoryClientTypes.ObjectReference.write(value:to:))
-        try writer["TargetObjectReference"].write(value.targetObjectReference, with: CloudDirectoryClientTypes.ObjectReference.write(value:to:))
-        try writer["TypedLinkFacet"].write(value.typedLinkFacet, with: CloudDirectoryClientTypes.TypedLinkSchemaAndFacetName.write(value:to:))
-    }
-}
-
-extension CloudDirectoryClientTypes.BatchDetachFromIndex {
-
-    static func write(value: CloudDirectoryClientTypes.BatchDetachFromIndex?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["IndexReference"].write(value.indexReference, with: CloudDirectoryClientTypes.ObjectReference.write(value:to:))
-        try writer["TargetReference"].write(value.targetReference, with: CloudDirectoryClientTypes.ObjectReference.write(value:to:))
-    }
-}
-
-extension CloudDirectoryClientTypes.BatchAttachToIndex {
-
-    static func write(value: CloudDirectoryClientTypes.BatchAttachToIndex?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["IndexReference"].write(value.indexReference, with: CloudDirectoryClientTypes.ObjectReference.write(value:to:))
-        try writer["TargetReference"].write(value.targetReference, with: CloudDirectoryClientTypes.ObjectReference.write(value:to:))
-    }
-}
-
-extension CloudDirectoryClientTypes.BatchCreateIndex {
-
-    static func write(value: CloudDirectoryClientTypes.BatchCreateIndex?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BatchReferenceName"].write(value.batchReferenceName)
-        try writer["IsUnique"].write(value.isUnique)
-        try writer["LinkName"].write(value.linkName)
-        try writer["OrderedIndexedAttributeList"].writeList(value.orderedIndexedAttributeList, memberWritingClosure: CloudDirectoryClientTypes.AttributeKey.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ParentReference"].write(value.parentReference, with: CloudDirectoryClientTypes.ObjectReference.write(value:to:))
-    }
-}
-
-extension CloudDirectoryClientTypes.BatchDetachPolicy {
-
-    static func write(value: CloudDirectoryClientTypes.BatchDetachPolicy?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ObjectReference"].write(value.objectReference, with: CloudDirectoryClientTypes.ObjectReference.write(value:to:))
-        try writer["PolicyReference"].write(value.policyReference, with: CloudDirectoryClientTypes.ObjectReference.write(value:to:))
-    }
-}
-
-extension CloudDirectoryClientTypes.BatchAttachPolicy {
-
-    static func write(value: CloudDirectoryClientTypes.BatchAttachPolicy?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ObjectReference"].write(value.objectReference, with: CloudDirectoryClientTypes.ObjectReference.write(value:to:))
-        try writer["PolicyReference"].write(value.policyReference, with: CloudDirectoryClientTypes.ObjectReference.write(value:to:))
-    }
-}
-
-extension CloudDirectoryClientTypes.BatchRemoveFacetFromObject {
-
-    static func write(value: CloudDirectoryClientTypes.BatchRemoveFacetFromObject?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ObjectReference"].write(value.objectReference, with: CloudDirectoryClientTypes.ObjectReference.write(value:to:))
-        try writer["SchemaFacet"].write(value.schemaFacet, with: CloudDirectoryClientTypes.SchemaFacet.write(value:to:))
-    }
-}
-
-extension CloudDirectoryClientTypes.BatchAddFacetToObject {
-
-    static func write(value: CloudDirectoryClientTypes.BatchAddFacetToObject?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ObjectAttributeList"].writeList(value.objectAttributeList, memberWritingClosure: CloudDirectoryClientTypes.AttributeKeyAndValue.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ObjectReference"].write(value.objectReference, with: CloudDirectoryClientTypes.ObjectReference.write(value:to:))
-        try writer["SchemaFacet"].write(value.schemaFacet, with: CloudDirectoryClientTypes.SchemaFacet.write(value:to:))
-    }
-}
-
-extension CloudDirectoryClientTypes.BatchDeleteObject {
-
-    static func write(value: CloudDirectoryClientTypes.BatchDeleteObject?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ObjectReference"].write(value.objectReference, with: CloudDirectoryClientTypes.ObjectReference.write(value:to:))
-    }
-}
-
-extension CloudDirectoryClientTypes.BatchUpdateObjectAttributes {
-
-    static func write(value: CloudDirectoryClientTypes.BatchUpdateObjectAttributes?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AttributeUpdates"].writeList(value.attributeUpdates, memberWritingClosure: CloudDirectoryClientTypes.ObjectAttributeUpdate.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ObjectReference"].write(value.objectReference, with: CloudDirectoryClientTypes.ObjectReference.write(value:to:))
-    }
-}
-
-extension CloudDirectoryClientTypes.ObjectAttributeUpdate {
-
-    static func write(value: CloudDirectoryClientTypes.ObjectAttributeUpdate?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ObjectAttributeAction"].write(value.objectAttributeAction, with: CloudDirectoryClientTypes.ObjectAttributeAction.write(value:to:))
-        try writer["ObjectAttributeKey"].write(value.objectAttributeKey, with: CloudDirectoryClientTypes.AttributeKey.write(value:to:))
-    }
-}
-
-extension CloudDirectoryClientTypes.ObjectAttributeAction {
-
-    static func write(value: CloudDirectoryClientTypes.ObjectAttributeAction?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ObjectAttributeActionType"].write(value.objectAttributeActionType)
-        try writer["ObjectAttributeUpdateValue"].write(value.objectAttributeUpdateValue, with: CloudDirectoryClientTypes.TypedAttributeValue.write(value:to:))
-    }
-}
-
-extension CloudDirectoryClientTypes.BatchDetachObject {
-
-    static func write(value: CloudDirectoryClientTypes.BatchDetachObject?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BatchReferenceName"].write(value.batchReferenceName)
-        try writer["LinkName"].write(value.linkName)
-        try writer["ParentReference"].write(value.parentReference, with: CloudDirectoryClientTypes.ObjectReference.write(value:to:))
-    }
-}
-
-extension CloudDirectoryClientTypes.BatchAttachObject {
-
-    static func write(value: CloudDirectoryClientTypes.BatchAttachObject?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ChildReference"].write(value.childReference, with: CloudDirectoryClientTypes.ObjectReference.write(value:to:))
-        try writer["LinkName"].write(value.linkName)
-        try writer["ParentReference"].write(value.parentReference, with: CloudDirectoryClientTypes.ObjectReference.write(value:to:))
-    }
-}
-
-extension CloudDirectoryClientTypes.BatchCreateObject {
-
-    static func write(value: CloudDirectoryClientTypes.BatchCreateObject?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BatchReferenceName"].write(value.batchReferenceName)
-        try writer["LinkName"].write(value.linkName)
-        try writer["ObjectAttributeList"].writeList(value.objectAttributeList, memberWritingClosure: CloudDirectoryClientTypes.AttributeKeyAndValue.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ParentReference"].write(value.parentReference, with: CloudDirectoryClientTypes.ObjectReference.write(value:to:))
-        try writer["SchemaFacet"].writeList(value.schemaFacet, memberWritingClosure: CloudDirectoryClientTypes.SchemaFacet.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -11077,21 +11048,50 @@ extension CloudDirectoryClientTypes.TypedLinkFacet {
     }
 }
 
-extension CloudDirectoryClientTypes.FacetAttributeUpdate {
-
-    static func write(value: CloudDirectoryClientTypes.FacetAttributeUpdate?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Action"].write(value.action)
-        try writer["Attribute"].write(value.attribute, with: CloudDirectoryClientTypes.FacetAttribute.write(value:to:))
-    }
-}
-
 extension CloudDirectoryClientTypes.TypedLinkFacetAttributeUpdate {
 
     static func write(value: CloudDirectoryClientTypes.TypedLinkFacetAttributeUpdate?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Action"].write(value.action)
         try writer["Attribute"].write(value.attribute, with: CloudDirectoryClientTypes.TypedLinkAttributeDefinition.write(value:to:))
+    }
+}
+
+extension CloudDirectoryClientTypes.TypedLinkSchemaAndFacetName {
+
+    static func write(value: CloudDirectoryClientTypes.TypedLinkSchemaAndFacetName?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["SchemaArn"].write(value.schemaArn)
+        try writer["TypedLinkName"].write(value.typedLinkName)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudDirectoryClientTypes.TypedLinkSchemaAndFacetName {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudDirectoryClientTypes.TypedLinkSchemaAndFacetName()
+        value.schemaArn = try reader["SchemaArn"].readIfPresent() ?? ""
+        value.typedLinkName = try reader["TypedLinkName"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension CloudDirectoryClientTypes.TypedLinkSpecifier {
+
+    static func write(value: CloudDirectoryClientTypes.TypedLinkSpecifier?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["IdentityAttributeValues"].writeList(value.identityAttributeValues, memberWritingClosure: CloudDirectoryClientTypes.AttributeNameAndValue.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["SourceObjectReference"].write(value.sourceObjectReference, with: CloudDirectoryClientTypes.ObjectReference.write(value:to:))
+        try writer["TargetObjectReference"].write(value.targetObjectReference, with: CloudDirectoryClientTypes.ObjectReference.write(value:to:))
+        try writer["TypedLinkFacet"].write(value.typedLinkFacet, with: CloudDirectoryClientTypes.TypedLinkSchemaAndFacetName.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> CloudDirectoryClientTypes.TypedLinkSpecifier {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = CloudDirectoryClientTypes.TypedLinkSpecifier()
+        value.typedLinkFacet = try reader["TypedLinkFacet"].readIfPresent(with: CloudDirectoryClientTypes.TypedLinkSchemaAndFacetName.read(from:))
+        value.sourceObjectReference = try reader["SourceObjectReference"].readIfPresent(with: CloudDirectoryClientTypes.ObjectReference.read(from:))
+        value.targetObjectReference = try reader["TargetObjectReference"].readIfPresent(with: CloudDirectoryClientTypes.ObjectReference.read(from:))
+        value.identityAttributeValues = try reader["IdentityAttributeValues"].readListIfPresent(memberReadingClosure: CloudDirectoryClientTypes.AttributeNameAndValue.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
     }
 }
 

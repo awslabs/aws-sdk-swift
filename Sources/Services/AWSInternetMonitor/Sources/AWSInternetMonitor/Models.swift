@@ -2907,66 +2907,6 @@ extension ResourceNotFoundException {
     }
 }
 
-extension InternetMonitorClientTypes.ImpactedLocation {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> InternetMonitorClientTypes.ImpactedLocation {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = InternetMonitorClientTypes.ImpactedLocation()
-        value.asName = try reader["ASName"].readIfPresent() ?? ""
-        value.asNumber = try reader["ASNumber"].readIfPresent() ?? 0
-        value.country = try reader["Country"].readIfPresent() ?? ""
-        value.subdivision = try reader["Subdivision"].readIfPresent()
-        value.metro = try reader["Metro"].readIfPresent()
-        value.city = try reader["City"].readIfPresent()
-        value.latitude = try reader["Latitude"].readIfPresent()
-        value.longitude = try reader["Longitude"].readIfPresent()
-        value.countryCode = try reader["CountryCode"].readIfPresent()
-        value.subdivisionCode = try reader["SubdivisionCode"].readIfPresent()
-        value.serviceLocation = try reader["ServiceLocation"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
-        value.causedBy = try reader["CausedBy"].readIfPresent(with: InternetMonitorClientTypes.NetworkImpairment.read(from:))
-        value.internetHealth = try reader["InternetHealth"].readIfPresent(with: InternetMonitorClientTypes.InternetHealth.read(from:))
-        value.ipv4Prefixes = try reader["Ipv4Prefixes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension InternetMonitorClientTypes.InternetHealth {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> InternetMonitorClientTypes.InternetHealth {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = InternetMonitorClientTypes.InternetHealth()
-        value.availability = try reader["Availability"].readIfPresent(with: InternetMonitorClientTypes.AvailabilityMeasurement.read(from:))
-        value.performance = try reader["Performance"].readIfPresent(with: InternetMonitorClientTypes.PerformanceMeasurement.read(from:))
-        return value
-    }
-}
-
-extension InternetMonitorClientTypes.PerformanceMeasurement {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> InternetMonitorClientTypes.PerformanceMeasurement {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = InternetMonitorClientTypes.PerformanceMeasurement()
-        value.experienceScore = try reader["ExperienceScore"].readIfPresent()
-        value.percentOfTotalTrafficImpacted = try reader["PercentOfTotalTrafficImpacted"].readIfPresent()
-        value.percentOfClientLocationImpacted = try reader["PercentOfClientLocationImpacted"].readIfPresent()
-        value.roundTripTime = try reader["RoundTripTime"].readIfPresent(with: InternetMonitorClientTypes.RoundTripTime.read(from:))
-        return value
-    }
-}
-
-extension InternetMonitorClientTypes.RoundTripTime {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> InternetMonitorClientTypes.RoundTripTime {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = InternetMonitorClientTypes.RoundTripTime()
-        value.p50 = try reader["P50"].readIfPresent()
-        value.p90 = try reader["P90"].readIfPresent()
-        value.p95 = try reader["P95"].readIfPresent()
-        return value
-    }
-}
-
 extension InternetMonitorClientTypes.AvailabilityMeasurement {
 
     static func read(from reader: SmithyJSON.Reader) throws -> InternetMonitorClientTypes.AvailabilityMeasurement {
@@ -2975,29 +2915,6 @@ extension InternetMonitorClientTypes.AvailabilityMeasurement {
         value.experienceScore = try reader["ExperienceScore"].readIfPresent()
         value.percentOfTotalTrafficImpacted = try reader["PercentOfTotalTrafficImpacted"].readIfPresent()
         value.percentOfClientLocationImpacted = try reader["PercentOfClientLocationImpacted"].readIfPresent()
-        return value
-    }
-}
-
-extension InternetMonitorClientTypes.NetworkImpairment {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> InternetMonitorClientTypes.NetworkImpairment {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = InternetMonitorClientTypes.NetworkImpairment()
-        value.networks = try reader["Networks"].readListIfPresent(memberReadingClosure: InternetMonitorClientTypes.Network.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.asPath = try reader["AsPath"].readListIfPresent(memberReadingClosure: InternetMonitorClientTypes.Network.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.networkEventType = try reader["NetworkEventType"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension InternetMonitorClientTypes.Network {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> InternetMonitorClientTypes.Network {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = InternetMonitorClientTypes.Network()
-        value.asName = try reader["ASName"].readIfPresent() ?? ""
-        value.asNumber = try reader["ASNumber"].readIfPresent() ?? 0
         return value
     }
 }
@@ -3019,36 +2936,32 @@ extension InternetMonitorClientTypes.ClientLocation {
     }
 }
 
-extension InternetMonitorClientTypes.InternetMeasurementsLogDelivery {
+extension InternetMonitorClientTypes.FilterParameter {
 
-    static func write(value: InternetMonitorClientTypes.InternetMeasurementsLogDelivery?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: InternetMonitorClientTypes.FilterParameter?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["S3Config"].write(value.s3Config, with: InternetMonitorClientTypes.S3Config.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> InternetMonitorClientTypes.InternetMeasurementsLogDelivery {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = InternetMonitorClientTypes.InternetMeasurementsLogDelivery()
-        value.s3Config = try reader["S3Config"].readIfPresent(with: InternetMonitorClientTypes.S3Config.read(from:))
-        return value
+        try writer["Field"].write(value.field)
+        try writer["Operator"].write(value.`operator`)
+        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
-extension InternetMonitorClientTypes.S3Config {
+extension InternetMonitorClientTypes.HealthEvent {
 
-    static func write(value: InternetMonitorClientTypes.S3Config?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BucketName"].write(value.bucketName)
-        try writer["BucketPrefix"].write(value.bucketPrefix)
-        try writer["LogDeliveryStatus"].write(value.logDeliveryStatus)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> InternetMonitorClientTypes.S3Config {
+    static func read(from reader: SmithyJSON.Reader) throws -> InternetMonitorClientTypes.HealthEvent {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = InternetMonitorClientTypes.S3Config()
-        value.bucketName = try reader["BucketName"].readIfPresent()
-        value.bucketPrefix = try reader["BucketPrefix"].readIfPresent()
-        value.logDeliveryStatus = try reader["LogDeliveryStatus"].readIfPresent()
+        var value = InternetMonitorClientTypes.HealthEvent()
+        value.eventArn = try reader["EventArn"].readIfPresent() ?? ""
+        value.eventId = try reader["EventId"].readIfPresent() ?? ""
+        value.startedAt = try reader["StartedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.endedAt = try reader["EndedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.lastUpdatedAt = try reader["LastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.impactedLocations = try reader["ImpactedLocations"].readListIfPresent(memberReadingClosure: InternetMonitorClientTypes.ImpactedLocation.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.percentOfTotalTrafficImpacted = try reader["PercentOfTotalTrafficImpacted"].readIfPresent()
+        value.impactType = try reader["ImpactType"].readIfPresent() ?? .sdkUnknown("")
+        value.healthScoreThreshold = try reader["HealthScoreThreshold"].readIfPresent() ?? 0
         return value
     }
 }
@@ -3074,52 +2987,26 @@ extension InternetMonitorClientTypes.HealthEventsConfig {
     }
 }
 
-extension InternetMonitorClientTypes.LocalHealthEventsConfig {
+extension InternetMonitorClientTypes.ImpactedLocation {
 
-    static func write(value: InternetMonitorClientTypes.LocalHealthEventsConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["HealthScoreThreshold"].write(value.healthScoreThreshold)
-        try writer["MinTrafficImpact"].write(value.minTrafficImpact)
-        try writer["Status"].write(value.status)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> InternetMonitorClientTypes.LocalHealthEventsConfig {
+    static func read(from reader: SmithyJSON.Reader) throws -> InternetMonitorClientTypes.ImpactedLocation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = InternetMonitorClientTypes.LocalHealthEventsConfig()
-        value.status = try reader["Status"].readIfPresent()
-        value.healthScoreThreshold = try reader["HealthScoreThreshold"].readIfPresent() ?? 0
-        value.minTrafficImpact = try reader["MinTrafficImpact"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension InternetMonitorClientTypes.QueryField {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> InternetMonitorClientTypes.QueryField {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = InternetMonitorClientTypes.QueryField()
-        value.name = try reader["Name"].readIfPresent()
-        value.type = try reader["Type"].readIfPresent()
-        return value
-    }
-}
-
-extension InternetMonitorClientTypes.HealthEvent {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> InternetMonitorClientTypes.HealthEvent {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = InternetMonitorClientTypes.HealthEvent()
-        value.eventArn = try reader["EventArn"].readIfPresent() ?? ""
-        value.eventId = try reader["EventId"].readIfPresent() ?? ""
-        value.startedAt = try reader["StartedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.endedAt = try reader["EndedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.lastUpdatedAt = try reader["LastUpdatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.impactedLocations = try reader["ImpactedLocations"].readListIfPresent(memberReadingClosure: InternetMonitorClientTypes.ImpactedLocation.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        var value = InternetMonitorClientTypes.ImpactedLocation()
+        value.asName = try reader["ASName"].readIfPresent() ?? ""
+        value.asNumber = try reader["ASNumber"].readIfPresent() ?? 0
+        value.country = try reader["Country"].readIfPresent() ?? ""
+        value.subdivision = try reader["Subdivision"].readIfPresent()
+        value.metro = try reader["Metro"].readIfPresent()
+        value.city = try reader["City"].readIfPresent()
+        value.latitude = try reader["Latitude"].readIfPresent()
+        value.longitude = try reader["Longitude"].readIfPresent()
+        value.countryCode = try reader["CountryCode"].readIfPresent()
+        value.subdivisionCode = try reader["SubdivisionCode"].readIfPresent()
+        value.serviceLocation = try reader["ServiceLocation"].readIfPresent()
         value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
-        value.percentOfTotalTrafficImpacted = try reader["PercentOfTotalTrafficImpacted"].readIfPresent()
-        value.impactType = try reader["ImpactType"].readIfPresent() ?? .sdkUnknown("")
-        value.healthScoreThreshold = try reader["HealthScoreThreshold"].readIfPresent() ?? 0
+        value.causedBy = try reader["CausedBy"].readIfPresent(with: InternetMonitorClientTypes.NetworkImpairment.read(from:))
+        value.internetHealth = try reader["InternetHealth"].readIfPresent(with: InternetMonitorClientTypes.InternetHealth.read(from:))
+        value.ipv4Prefixes = try reader["Ipv4Prefixes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -3140,6 +3027,51 @@ extension InternetMonitorClientTypes.InternetEventSummary {
     }
 }
 
+extension InternetMonitorClientTypes.InternetHealth {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> InternetMonitorClientTypes.InternetHealth {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = InternetMonitorClientTypes.InternetHealth()
+        value.availability = try reader["Availability"].readIfPresent(with: InternetMonitorClientTypes.AvailabilityMeasurement.read(from:))
+        value.performance = try reader["Performance"].readIfPresent(with: InternetMonitorClientTypes.PerformanceMeasurement.read(from:))
+        return value
+    }
+}
+
+extension InternetMonitorClientTypes.InternetMeasurementsLogDelivery {
+
+    static func write(value: InternetMonitorClientTypes.InternetMeasurementsLogDelivery?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["S3Config"].write(value.s3Config, with: InternetMonitorClientTypes.S3Config.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> InternetMonitorClientTypes.InternetMeasurementsLogDelivery {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = InternetMonitorClientTypes.InternetMeasurementsLogDelivery()
+        value.s3Config = try reader["S3Config"].readIfPresent(with: InternetMonitorClientTypes.S3Config.read(from:))
+        return value
+    }
+}
+
+extension InternetMonitorClientTypes.LocalHealthEventsConfig {
+
+    static func write(value: InternetMonitorClientTypes.LocalHealthEventsConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["HealthScoreThreshold"].write(value.healthScoreThreshold)
+        try writer["MinTrafficImpact"].write(value.minTrafficImpact)
+        try writer["Status"].write(value.status)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> InternetMonitorClientTypes.LocalHealthEventsConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = InternetMonitorClientTypes.LocalHealthEventsConfig()
+        value.status = try reader["Status"].readIfPresent()
+        value.healthScoreThreshold = try reader["HealthScoreThreshold"].readIfPresent() ?? 0
+        value.minTrafficImpact = try reader["MinTrafficImpact"].readIfPresent() ?? 0
+        return value
+    }
+}
+
 extension InternetMonitorClientTypes.Monitor {
 
     static func read(from reader: SmithyJSON.Reader) throws -> InternetMonitorClientTypes.Monitor {
@@ -3153,13 +3085,81 @@ extension InternetMonitorClientTypes.Monitor {
     }
 }
 
-extension InternetMonitorClientTypes.FilterParameter {
+extension InternetMonitorClientTypes.Network {
 
-    static func write(value: InternetMonitorClientTypes.FilterParameter?, to writer: SmithyJSON.Writer) throws {
+    static func read(from reader: SmithyJSON.Reader) throws -> InternetMonitorClientTypes.Network {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = InternetMonitorClientTypes.Network()
+        value.asName = try reader["ASName"].readIfPresent() ?? ""
+        value.asNumber = try reader["ASNumber"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension InternetMonitorClientTypes.NetworkImpairment {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> InternetMonitorClientTypes.NetworkImpairment {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = InternetMonitorClientTypes.NetworkImpairment()
+        value.networks = try reader["Networks"].readListIfPresent(memberReadingClosure: InternetMonitorClientTypes.Network.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.asPath = try reader["AsPath"].readListIfPresent(memberReadingClosure: InternetMonitorClientTypes.Network.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.networkEventType = try reader["NetworkEventType"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension InternetMonitorClientTypes.PerformanceMeasurement {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> InternetMonitorClientTypes.PerformanceMeasurement {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = InternetMonitorClientTypes.PerformanceMeasurement()
+        value.experienceScore = try reader["ExperienceScore"].readIfPresent()
+        value.percentOfTotalTrafficImpacted = try reader["PercentOfTotalTrafficImpacted"].readIfPresent()
+        value.percentOfClientLocationImpacted = try reader["PercentOfClientLocationImpacted"].readIfPresent()
+        value.roundTripTime = try reader["RoundTripTime"].readIfPresent(with: InternetMonitorClientTypes.RoundTripTime.read(from:))
+        return value
+    }
+}
+
+extension InternetMonitorClientTypes.QueryField {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> InternetMonitorClientTypes.QueryField {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = InternetMonitorClientTypes.QueryField()
+        value.name = try reader["Name"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent()
+        return value
+    }
+}
+
+extension InternetMonitorClientTypes.RoundTripTime {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> InternetMonitorClientTypes.RoundTripTime {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = InternetMonitorClientTypes.RoundTripTime()
+        value.p50 = try reader["P50"].readIfPresent()
+        value.p90 = try reader["P90"].readIfPresent()
+        value.p95 = try reader["P95"].readIfPresent()
+        return value
+    }
+}
+
+extension InternetMonitorClientTypes.S3Config {
+
+    static func write(value: InternetMonitorClientTypes.S3Config?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["Field"].write(value.field)
-        try writer["Operator"].write(value.`operator`)
-        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["BucketName"].write(value.bucketName)
+        try writer["BucketPrefix"].write(value.bucketPrefix)
+        try writer["LogDeliveryStatus"].write(value.logDeliveryStatus)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> InternetMonitorClientTypes.S3Config {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = InternetMonitorClientTypes.S3Config()
+        value.bucketName = try reader["BucketName"].readIfPresent()
+        value.bucketPrefix = try reader["BucketPrefix"].readIfPresent()
+        value.logDeliveryStatus = try reader["LogDeliveryStatus"].readIfPresent()
+        return value
     }
 }
 

@@ -10041,6 +10041,31 @@ extension WAFSubscriptionNotFoundException {
     }
 }
 
+extension WAFRegionalClientTypes.ActivatedRule {
+
+    static func write(value: WAFRegionalClientTypes.ActivatedRule?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Action"].write(value.action, with: WAFRegionalClientTypes.WafAction.write(value:to:))
+        try writer["ExcludedRules"].writeList(value.excludedRules, memberWritingClosure: WAFRegionalClientTypes.ExcludedRule.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["OverrideAction"].write(value.overrideAction, with: WAFRegionalClientTypes.WafOverrideAction.write(value:to:))
+        try writer["Priority"].write(value.priority)
+        try writer["RuleId"].write(value.ruleId)
+        try writer["Type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFRegionalClientTypes.ActivatedRule {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFRegionalClientTypes.ActivatedRule()
+        value.priority = try reader["Priority"].readIfPresent() ?? 0
+        value.ruleId = try reader["RuleId"].readIfPresent() ?? ""
+        value.action = try reader["Action"].readIfPresent(with: WAFRegionalClientTypes.WafAction.read(from:))
+        value.overrideAction = try reader["OverrideAction"].readIfPresent(with: WAFRegionalClientTypes.WafOverrideAction.read(from:))
+        value.type = try reader["Type"].readIfPresent()
+        value.excludedRules = try reader["ExcludedRules"].readListIfPresent(memberReadingClosure: WAFRegionalClientTypes.ExcludedRule.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension WAFRegionalClientTypes.ByteMatchSet {
 
     static func read(from reader: SmithyJSON.Reader) throws -> WAFRegionalClientTypes.ByteMatchSet {
@@ -10050,6 +10075,26 @@ extension WAFRegionalClientTypes.ByteMatchSet {
         value.name = try reader["Name"].readIfPresent()
         value.byteMatchTuples = try reader["ByteMatchTuples"].readListIfPresent(memberReadingClosure: WAFRegionalClientTypes.ByteMatchTuple.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
+    }
+}
+
+extension WAFRegionalClientTypes.ByteMatchSetSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFRegionalClientTypes.ByteMatchSetSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFRegionalClientTypes.ByteMatchSetSummary()
+        value.byteMatchSetId = try reader["ByteMatchSetId"].readIfPresent() ?? ""
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension WAFRegionalClientTypes.ByteMatchSetUpdate {
+
+    static func write(value: WAFRegionalClientTypes.ByteMatchSetUpdate?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Action"].write(value.action)
+        try writer["ByteMatchTuple"].write(value.byteMatchTuple, with: WAFRegionalClientTypes.ByteMatchTuple.write(value:to:))
     }
 }
 
@@ -10074,6 +10119,21 @@ extension WAFRegionalClientTypes.ByteMatchTuple {
     }
 }
 
+extension WAFRegionalClientTypes.ExcludedRule {
+
+    static func write(value: WAFRegionalClientTypes.ExcludedRule?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["RuleId"].write(value.ruleId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFRegionalClientTypes.ExcludedRule {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFRegionalClientTypes.ExcludedRule()
+        value.ruleId = try reader["RuleId"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension WAFRegionalClientTypes.FieldToMatch {
 
     static func write(value: WAFRegionalClientTypes.FieldToMatch?, to writer: SmithyJSON.Writer) throws {
@@ -10091,18 +10151,6 @@ extension WAFRegionalClientTypes.FieldToMatch {
     }
 }
 
-extension WAFRegionalClientTypes.GeoMatchSet {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFRegionalClientTypes.GeoMatchSet {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFRegionalClientTypes.GeoMatchSet()
-        value.geoMatchSetId = try reader["GeoMatchSetId"].readIfPresent() ?? ""
-        value.name = try reader["Name"].readIfPresent()
-        value.geoMatchConstraints = try reader["GeoMatchConstraints"].readListIfPresent(memberReadingClosure: WAFRegionalClientTypes.GeoMatchConstraint.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
 extension WAFRegionalClientTypes.GeoMatchConstraint {
 
     static func write(value: WAFRegionalClientTypes.GeoMatchConstraint?, to writer: SmithyJSON.Writer) throws {
@@ -10116,6 +10164,64 @@ extension WAFRegionalClientTypes.GeoMatchConstraint {
         var value = WAFRegionalClientTypes.GeoMatchConstraint()
         value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
         value.value = try reader["Value"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension WAFRegionalClientTypes.GeoMatchSet {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFRegionalClientTypes.GeoMatchSet {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFRegionalClientTypes.GeoMatchSet()
+        value.geoMatchSetId = try reader["GeoMatchSetId"].readIfPresent() ?? ""
+        value.name = try reader["Name"].readIfPresent()
+        value.geoMatchConstraints = try reader["GeoMatchConstraints"].readListIfPresent(memberReadingClosure: WAFRegionalClientTypes.GeoMatchConstraint.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension WAFRegionalClientTypes.GeoMatchSetSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFRegionalClientTypes.GeoMatchSetSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFRegionalClientTypes.GeoMatchSetSummary()
+        value.geoMatchSetId = try reader["GeoMatchSetId"].readIfPresent() ?? ""
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension WAFRegionalClientTypes.GeoMatchSetUpdate {
+
+    static func write(value: WAFRegionalClientTypes.GeoMatchSetUpdate?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Action"].write(value.action)
+        try writer["GeoMatchConstraint"].write(value.geoMatchConstraint, with: WAFRegionalClientTypes.GeoMatchConstraint.write(value:to:))
+    }
+}
+
+extension WAFRegionalClientTypes.HTTPHeader {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFRegionalClientTypes.HTTPHeader {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFRegionalClientTypes.HTTPHeader()
+        value.name = try reader["Name"].readIfPresent()
+        value.value = try reader["Value"].readIfPresent()
+        return value
+    }
+}
+
+extension WAFRegionalClientTypes.HTTPRequest {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFRegionalClientTypes.HTTPRequest {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFRegionalClientTypes.HTTPRequest()
+        value.clientIP = try reader["ClientIP"].readIfPresent()
+        value.country = try reader["Country"].readIfPresent()
+        value.uri = try reader["URI"].readIfPresent()
+        value.method = try reader["Method"].readIfPresent()
+        value.httpVersion = try reader["HTTPVersion"].readIfPresent()
+        value.headers = try reader["Headers"].readListIfPresent(memberReadingClosure: WAFRegionalClientTypes.HTTPHeader.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -10149,17 +10255,41 @@ extension WAFRegionalClientTypes.IPSetDescriptor {
     }
 }
 
-extension WAFRegionalClientTypes.RateBasedRule {
+extension WAFRegionalClientTypes.IPSetSummary {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFRegionalClientTypes.RateBasedRule {
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFRegionalClientTypes.IPSetSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFRegionalClientTypes.RateBasedRule()
-        value.ruleId = try reader["RuleId"].readIfPresent() ?? ""
-        value.name = try reader["Name"].readIfPresent()
-        value.metricName = try reader["MetricName"].readIfPresent()
-        value.matchPredicates = try reader["MatchPredicates"].readListIfPresent(memberReadingClosure: WAFRegionalClientTypes.Predicate.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.rateKey = try reader["RateKey"].readIfPresent() ?? .sdkUnknown("")
-        value.rateLimit = try reader["RateLimit"].readIfPresent() ?? 0
+        var value = WAFRegionalClientTypes.IPSetSummary()
+        value.ipSetId = try reader["IPSetId"].readIfPresent() ?? ""
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension WAFRegionalClientTypes.IPSetUpdate {
+
+    static func write(value: WAFRegionalClientTypes.IPSetUpdate?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Action"].write(value.action)
+        try writer["IPSetDescriptor"].write(value.ipSetDescriptor, with: WAFRegionalClientTypes.IPSetDescriptor.write(value:to:))
+    }
+}
+
+extension WAFRegionalClientTypes.LoggingConfiguration {
+
+    static func write(value: WAFRegionalClientTypes.LoggingConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["LogDestinationConfigs"].writeList(value.logDestinationConfigs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["RedactedFields"].writeList(value.redactedFields, memberWritingClosure: WAFRegionalClientTypes.FieldToMatch.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ResourceArn"].write(value.resourceArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFRegionalClientTypes.LoggingConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFRegionalClientTypes.LoggingConfiguration()
+        value.resourceArn = try reader["ResourceArn"].readIfPresent() ?? ""
+        value.logDestinationConfigs = try reader["LogDestinationConfigs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.redactedFields = try reader["RedactedFields"].readListIfPresent(memberReadingClosure: WAFRegionalClientTypes.FieldToMatch.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -10183,6 +10313,21 @@ extension WAFRegionalClientTypes.Predicate {
     }
 }
 
+extension WAFRegionalClientTypes.RateBasedRule {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFRegionalClientTypes.RateBasedRule {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFRegionalClientTypes.RateBasedRule()
+        value.ruleId = try reader["RuleId"].readIfPresent() ?? ""
+        value.name = try reader["Name"].readIfPresent()
+        value.metricName = try reader["MetricName"].readIfPresent()
+        value.matchPredicates = try reader["MatchPredicates"].readListIfPresent(memberReadingClosure: WAFRegionalClientTypes.Predicate.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.rateKey = try reader["RateKey"].readIfPresent() ?? .sdkUnknown("")
+        value.rateLimit = try reader["RateLimit"].readIfPresent() ?? 0
+        return value
+    }
+}
+
 extension WAFRegionalClientTypes.RegexMatchSet {
 
     static func read(from reader: SmithyJSON.Reader) throws -> WAFRegionalClientTypes.RegexMatchSet {
@@ -10192,6 +10337,26 @@ extension WAFRegionalClientTypes.RegexMatchSet {
         value.name = try reader["Name"].readIfPresent()
         value.regexMatchTuples = try reader["RegexMatchTuples"].readListIfPresent(memberReadingClosure: WAFRegionalClientTypes.RegexMatchTuple.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
+    }
+}
+
+extension WAFRegionalClientTypes.RegexMatchSetSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFRegionalClientTypes.RegexMatchSetSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFRegionalClientTypes.RegexMatchSetSummary()
+        value.regexMatchSetId = try reader["RegexMatchSetId"].readIfPresent() ?? ""
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension WAFRegionalClientTypes.RegexMatchSetUpdate {
+
+    static func write(value: WAFRegionalClientTypes.RegexMatchSetUpdate?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Action"].write(value.action)
+        try writer["RegexMatchTuple"].write(value.regexMatchTuple, with: WAFRegionalClientTypes.RegexMatchTuple.write(value:to:))
     }
 }
 
@@ -10226,6 +10391,26 @@ extension WAFRegionalClientTypes.RegexPatternSet {
     }
 }
 
+extension WAFRegionalClientTypes.RegexPatternSetSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFRegionalClientTypes.RegexPatternSetSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFRegionalClientTypes.RegexPatternSetSummary()
+        value.regexPatternSetId = try reader["RegexPatternSetId"].readIfPresent() ?? ""
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension WAFRegionalClientTypes.RegexPatternSetUpdate {
+
+    static func write(value: WAFRegionalClientTypes.RegexPatternSetUpdate?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Action"].write(value.action)
+        try writer["RegexPatternString"].write(value.regexPatternString)
+    }
+}
+
 extension WAFRegionalClientTypes.Rule {
 
     static func read(from reader: SmithyJSON.Reader) throws -> WAFRegionalClientTypes.Rule {
@@ -10251,14 +10436,56 @@ extension WAFRegionalClientTypes.RuleGroup {
     }
 }
 
-extension WAFRegionalClientTypes.SizeConstraintSet {
+extension WAFRegionalClientTypes.RuleGroupSummary {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFRegionalClientTypes.SizeConstraintSet {
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFRegionalClientTypes.RuleGroupSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFRegionalClientTypes.SizeConstraintSet()
-        value.sizeConstraintSetId = try reader["SizeConstraintSetId"].readIfPresent() ?? ""
-        value.name = try reader["Name"].readIfPresent()
-        value.sizeConstraints = try reader["SizeConstraints"].readListIfPresent(memberReadingClosure: WAFRegionalClientTypes.SizeConstraint.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        var value = WAFRegionalClientTypes.RuleGroupSummary()
+        value.ruleGroupId = try reader["RuleGroupId"].readIfPresent() ?? ""
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension WAFRegionalClientTypes.RuleGroupUpdate {
+
+    static func write(value: WAFRegionalClientTypes.RuleGroupUpdate?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Action"].write(value.action)
+        try writer["ActivatedRule"].write(value.activatedRule, with: WAFRegionalClientTypes.ActivatedRule.write(value:to:))
+    }
+}
+
+extension WAFRegionalClientTypes.RuleSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFRegionalClientTypes.RuleSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFRegionalClientTypes.RuleSummary()
+        value.ruleId = try reader["RuleId"].readIfPresent() ?? ""
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension WAFRegionalClientTypes.RuleUpdate {
+
+    static func write(value: WAFRegionalClientTypes.RuleUpdate?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Action"].write(value.action)
+        try writer["Predicate"].write(value.predicate, with: WAFRegionalClientTypes.Predicate.write(value:to:))
+    }
+}
+
+extension WAFRegionalClientTypes.SampledHTTPRequest {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFRegionalClientTypes.SampledHTTPRequest {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFRegionalClientTypes.SampledHTTPRequest()
+        value.request = try reader["Request"].readIfPresent(with: WAFRegionalClientTypes.HTTPRequest.read(from:))
+        value.weight = try reader["Weight"].readIfPresent() ?? 0
+        value.timestamp = try reader["Timestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.action = try reader["Action"].readIfPresent()
+        value.ruleWithinRuleGroup = try reader["RuleWithinRuleGroup"].readIfPresent()
         return value
     }
 }
@@ -10284,6 +10511,38 @@ extension WAFRegionalClientTypes.SizeConstraint {
     }
 }
 
+extension WAFRegionalClientTypes.SizeConstraintSet {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFRegionalClientTypes.SizeConstraintSet {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFRegionalClientTypes.SizeConstraintSet()
+        value.sizeConstraintSetId = try reader["SizeConstraintSetId"].readIfPresent() ?? ""
+        value.name = try reader["Name"].readIfPresent()
+        value.sizeConstraints = try reader["SizeConstraints"].readListIfPresent(memberReadingClosure: WAFRegionalClientTypes.SizeConstraint.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension WAFRegionalClientTypes.SizeConstraintSetSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFRegionalClientTypes.SizeConstraintSetSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFRegionalClientTypes.SizeConstraintSetSummary()
+        value.sizeConstraintSetId = try reader["SizeConstraintSetId"].readIfPresent() ?? ""
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension WAFRegionalClientTypes.SizeConstraintSetUpdate {
+
+    static func write(value: WAFRegionalClientTypes.SizeConstraintSetUpdate?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Action"].write(value.action)
+        try writer["SizeConstraint"].write(value.sizeConstraint, with: WAFRegionalClientTypes.SizeConstraint.write(value:to:))
+    }
+}
+
 extension WAFRegionalClientTypes.SqlInjectionMatchSet {
 
     static func read(from reader: SmithyJSON.Reader) throws -> WAFRegionalClientTypes.SqlInjectionMatchSet {
@@ -10293,6 +10552,26 @@ extension WAFRegionalClientTypes.SqlInjectionMatchSet {
         value.name = try reader["Name"].readIfPresent()
         value.sqlInjectionMatchTuples = try reader["SqlInjectionMatchTuples"].readListIfPresent(memberReadingClosure: WAFRegionalClientTypes.SqlInjectionMatchTuple.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
+    }
+}
+
+extension WAFRegionalClientTypes.SqlInjectionMatchSetSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFRegionalClientTypes.SqlInjectionMatchSetSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFRegionalClientTypes.SqlInjectionMatchSetSummary()
+        value.sqlInjectionMatchSetId = try reader["SqlInjectionMatchSetId"].readIfPresent() ?? ""
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension WAFRegionalClientTypes.SqlInjectionMatchSetUpdate {
+
+    static func write(value: WAFRegionalClientTypes.SqlInjectionMatchSetUpdate?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Action"].write(value.action)
+        try writer["SqlInjectionMatchTuple"].write(value.sqlInjectionMatchTuple, with: WAFRegionalClientTypes.SqlInjectionMatchTuple.write(value:to:))
     }
 }
 
@@ -10313,306 +10592,6 @@ extension WAFRegionalClientTypes.SqlInjectionMatchTuple {
     }
 }
 
-extension WAFRegionalClientTypes.WebACL {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFRegionalClientTypes.WebACL {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFRegionalClientTypes.WebACL()
-        value.webACLId = try reader["WebACLId"].readIfPresent() ?? ""
-        value.name = try reader["Name"].readIfPresent()
-        value.metricName = try reader["MetricName"].readIfPresent()
-        value.defaultAction = try reader["DefaultAction"].readIfPresent(with: WAFRegionalClientTypes.WafAction.read(from:))
-        value.rules = try reader["Rules"].readListIfPresent(memberReadingClosure: WAFRegionalClientTypes.ActivatedRule.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.webACLArn = try reader["WebACLArn"].readIfPresent()
-        return value
-    }
-}
-
-extension WAFRegionalClientTypes.ActivatedRule {
-
-    static func write(value: WAFRegionalClientTypes.ActivatedRule?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Action"].write(value.action, with: WAFRegionalClientTypes.WafAction.write(value:to:))
-        try writer["ExcludedRules"].writeList(value.excludedRules, memberWritingClosure: WAFRegionalClientTypes.ExcludedRule.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["OverrideAction"].write(value.overrideAction, with: WAFRegionalClientTypes.WafOverrideAction.write(value:to:))
-        try writer["Priority"].write(value.priority)
-        try writer["RuleId"].write(value.ruleId)
-        try writer["Type"].write(value.type)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFRegionalClientTypes.ActivatedRule {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFRegionalClientTypes.ActivatedRule()
-        value.priority = try reader["Priority"].readIfPresent() ?? 0
-        value.ruleId = try reader["RuleId"].readIfPresent() ?? ""
-        value.action = try reader["Action"].readIfPresent(with: WAFRegionalClientTypes.WafAction.read(from:))
-        value.overrideAction = try reader["OverrideAction"].readIfPresent(with: WAFRegionalClientTypes.WafOverrideAction.read(from:))
-        value.type = try reader["Type"].readIfPresent()
-        value.excludedRules = try reader["ExcludedRules"].readListIfPresent(memberReadingClosure: WAFRegionalClientTypes.ExcludedRule.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension WAFRegionalClientTypes.ExcludedRule {
-
-    static func write(value: WAFRegionalClientTypes.ExcludedRule?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["RuleId"].write(value.ruleId)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFRegionalClientTypes.ExcludedRule {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFRegionalClientTypes.ExcludedRule()
-        value.ruleId = try reader["RuleId"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension WAFRegionalClientTypes.WafOverrideAction {
-
-    static func write(value: WAFRegionalClientTypes.WafOverrideAction?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Type"].write(value.type)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFRegionalClientTypes.WafOverrideAction {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFRegionalClientTypes.WafOverrideAction()
-        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension WAFRegionalClientTypes.WafAction {
-
-    static func write(value: WAFRegionalClientTypes.WafAction?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Type"].write(value.type)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFRegionalClientTypes.WafAction {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFRegionalClientTypes.WafAction()
-        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension WAFRegionalClientTypes.XssMatchSet {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFRegionalClientTypes.XssMatchSet {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFRegionalClientTypes.XssMatchSet()
-        value.xssMatchSetId = try reader["XssMatchSetId"].readIfPresent() ?? ""
-        value.name = try reader["Name"].readIfPresent()
-        value.xssMatchTuples = try reader["XssMatchTuples"].readListIfPresent(memberReadingClosure: WAFRegionalClientTypes.XssMatchTuple.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension WAFRegionalClientTypes.XssMatchTuple {
-
-    static func write(value: WAFRegionalClientTypes.XssMatchTuple?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["FieldToMatch"].write(value.fieldToMatch, with: WAFRegionalClientTypes.FieldToMatch.write(value:to:))
-        try writer["TextTransformation"].write(value.textTransformation)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFRegionalClientTypes.XssMatchTuple {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFRegionalClientTypes.XssMatchTuple()
-        value.fieldToMatch = try reader["FieldToMatch"].readIfPresent(with: WAFRegionalClientTypes.FieldToMatch.read(from:))
-        value.textTransformation = try reader["TextTransformation"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension WAFRegionalClientTypes.LoggingConfiguration {
-
-    static func write(value: WAFRegionalClientTypes.LoggingConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["LogDestinationConfigs"].writeList(value.logDestinationConfigs, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["RedactedFields"].writeList(value.redactedFields, memberWritingClosure: WAFRegionalClientTypes.FieldToMatch.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ResourceArn"].write(value.resourceArn)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFRegionalClientTypes.LoggingConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFRegionalClientTypes.LoggingConfiguration()
-        value.resourceArn = try reader["ResourceArn"].readIfPresent() ?? ""
-        value.logDestinationConfigs = try reader["LogDestinationConfigs"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.redactedFields = try reader["RedactedFields"].readListIfPresent(memberReadingClosure: WAFRegionalClientTypes.FieldToMatch.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension WAFRegionalClientTypes.SampledHTTPRequest {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFRegionalClientTypes.SampledHTTPRequest {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFRegionalClientTypes.SampledHTTPRequest()
-        value.request = try reader["Request"].readIfPresent(with: WAFRegionalClientTypes.HTTPRequest.read(from:))
-        value.weight = try reader["Weight"].readIfPresent() ?? 0
-        value.timestamp = try reader["Timestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.action = try reader["Action"].readIfPresent()
-        value.ruleWithinRuleGroup = try reader["RuleWithinRuleGroup"].readIfPresent()
-        return value
-    }
-}
-
-extension WAFRegionalClientTypes.HTTPRequest {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFRegionalClientTypes.HTTPRequest {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFRegionalClientTypes.HTTPRequest()
-        value.clientIP = try reader["ClientIP"].readIfPresent()
-        value.country = try reader["Country"].readIfPresent()
-        value.uri = try reader["URI"].readIfPresent()
-        value.method = try reader["Method"].readIfPresent()
-        value.httpVersion = try reader["HTTPVersion"].readIfPresent()
-        value.headers = try reader["Headers"].readListIfPresent(memberReadingClosure: WAFRegionalClientTypes.HTTPHeader.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension WAFRegionalClientTypes.HTTPHeader {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFRegionalClientTypes.HTTPHeader {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFRegionalClientTypes.HTTPHeader()
-        value.name = try reader["Name"].readIfPresent()
-        value.value = try reader["Value"].readIfPresent()
-        return value
-    }
-}
-
-extension WAFRegionalClientTypes.TimeWindow {
-
-    static func write(value: WAFRegionalClientTypes.TimeWindow?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["EndTime"].writeTimestamp(value.endTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        try writer["StartTime"].writeTimestamp(value.startTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFRegionalClientTypes.TimeWindow {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFRegionalClientTypes.TimeWindow()
-        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        return value
-    }
-}
-
-extension WAFRegionalClientTypes.WebACLSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFRegionalClientTypes.WebACLSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFRegionalClientTypes.WebACLSummary()
-        value.webACLId = try reader["WebACLId"].readIfPresent() ?? ""
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension WAFRegionalClientTypes.ByteMatchSetSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFRegionalClientTypes.ByteMatchSetSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFRegionalClientTypes.ByteMatchSetSummary()
-        value.byteMatchSetId = try reader["ByteMatchSetId"].readIfPresent() ?? ""
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension WAFRegionalClientTypes.GeoMatchSetSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFRegionalClientTypes.GeoMatchSetSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFRegionalClientTypes.GeoMatchSetSummary()
-        value.geoMatchSetId = try reader["GeoMatchSetId"].readIfPresent() ?? ""
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension WAFRegionalClientTypes.IPSetSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFRegionalClientTypes.IPSetSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFRegionalClientTypes.IPSetSummary()
-        value.ipSetId = try reader["IPSetId"].readIfPresent() ?? ""
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension WAFRegionalClientTypes.RuleSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFRegionalClientTypes.RuleSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFRegionalClientTypes.RuleSummary()
-        value.ruleId = try reader["RuleId"].readIfPresent() ?? ""
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension WAFRegionalClientTypes.RegexMatchSetSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFRegionalClientTypes.RegexMatchSetSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFRegionalClientTypes.RegexMatchSetSummary()
-        value.regexMatchSetId = try reader["RegexMatchSetId"].readIfPresent() ?? ""
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension WAFRegionalClientTypes.RegexPatternSetSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFRegionalClientTypes.RegexPatternSetSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFRegionalClientTypes.RegexPatternSetSummary()
-        value.regexPatternSetId = try reader["RegexPatternSetId"].readIfPresent() ?? ""
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension WAFRegionalClientTypes.RuleGroupSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFRegionalClientTypes.RuleGroupSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFRegionalClientTypes.RuleGroupSummary()
-        value.ruleGroupId = try reader["RuleGroupId"].readIfPresent() ?? ""
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension WAFRegionalClientTypes.SizeConstraintSetSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFRegionalClientTypes.SizeConstraintSetSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFRegionalClientTypes.SizeConstraintSetSummary()
-        value.sizeConstraintSetId = try reader["SizeConstraintSetId"].readIfPresent() ?? ""
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension WAFRegionalClientTypes.SqlInjectionMatchSetSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFRegionalClientTypes.SqlInjectionMatchSetSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFRegionalClientTypes.SqlInjectionMatchSetSummary()
-        value.sqlInjectionMatchSetId = try reader["SqlInjectionMatchSetId"].readIfPresent() ?? ""
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        return value
-    }
-}
-
 extension WAFRegionalClientTypes.SubscribedRuleGroupSummary {
 
     static func read(from reader: SmithyJSON.Reader) throws -> WAFRegionalClientTypes.SubscribedRuleGroupSummary {
@@ -10621,17 +10600,6 @@ extension WAFRegionalClientTypes.SubscribedRuleGroupSummary {
         value.ruleGroupId = try reader["RuleGroupId"].readIfPresent() ?? ""
         value.name = try reader["Name"].readIfPresent() ?? ""
         value.metricName = try reader["MetricName"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension WAFRegionalClientTypes.TagInfoForResource {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFRegionalClientTypes.TagInfoForResource {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFRegionalClientTypes.TagInfoForResource()
-        value.resourceARN = try reader["ResourceARN"].readIfPresent()
-        value.tagList = try reader["TagList"].readListIfPresent(memberReadingClosure: WAFRegionalClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -10653,95 +10621,87 @@ extension WAFRegionalClientTypes.Tag {
     }
 }
 
-extension WAFRegionalClientTypes.XssMatchSetSummary {
+extension WAFRegionalClientTypes.TagInfoForResource {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> WAFRegionalClientTypes.XssMatchSetSummary {
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFRegionalClientTypes.TagInfoForResource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = WAFRegionalClientTypes.XssMatchSetSummary()
-        value.xssMatchSetId = try reader["XssMatchSetId"].readIfPresent() ?? ""
-        value.name = try reader["Name"].readIfPresent() ?? ""
+        var value = WAFRegionalClientTypes.TagInfoForResource()
+        value.resourceARN = try reader["ResourceARN"].readIfPresent()
+        value.tagList = try reader["TagList"].readListIfPresent(memberReadingClosure: WAFRegionalClientTypes.Tag.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
 
-extension WAFRegionalClientTypes.ByteMatchSetUpdate {
+extension WAFRegionalClientTypes.TimeWindow {
 
-    static func write(value: WAFRegionalClientTypes.ByteMatchSetUpdate?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: WAFRegionalClientTypes.TimeWindow?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["Action"].write(value.action)
-        try writer["ByteMatchTuple"].write(value.byteMatchTuple, with: WAFRegionalClientTypes.ByteMatchTuple.write(value:to:))
+        try writer["EndTime"].writeTimestamp(value.endTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["StartTime"].writeTimestamp(value.startTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFRegionalClientTypes.TimeWindow {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFRegionalClientTypes.TimeWindow()
+        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
     }
 }
 
-extension WAFRegionalClientTypes.GeoMatchSetUpdate {
+extension WAFRegionalClientTypes.WafAction {
 
-    static func write(value: WAFRegionalClientTypes.GeoMatchSetUpdate?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: WAFRegionalClientTypes.WafAction?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["Action"].write(value.action)
-        try writer["GeoMatchConstraint"].write(value.geoMatchConstraint, with: WAFRegionalClientTypes.GeoMatchConstraint.write(value:to:))
+        try writer["Type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFRegionalClientTypes.WafAction {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFRegionalClientTypes.WafAction()
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
+        return value
     }
 }
 
-extension WAFRegionalClientTypes.IPSetUpdate {
+extension WAFRegionalClientTypes.WafOverrideAction {
 
-    static func write(value: WAFRegionalClientTypes.IPSetUpdate?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: WAFRegionalClientTypes.WafOverrideAction?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["Action"].write(value.action)
-        try writer["IPSetDescriptor"].write(value.ipSetDescriptor, with: WAFRegionalClientTypes.IPSetDescriptor.write(value:to:))
+        try writer["Type"].write(value.type)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFRegionalClientTypes.WafOverrideAction {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFRegionalClientTypes.WafOverrideAction()
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
+        return value
     }
 }
 
-extension WAFRegionalClientTypes.RuleUpdate {
+extension WAFRegionalClientTypes.WebACL {
 
-    static func write(value: WAFRegionalClientTypes.RuleUpdate?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Action"].write(value.action)
-        try writer["Predicate"].write(value.predicate, with: WAFRegionalClientTypes.Predicate.write(value:to:))
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFRegionalClientTypes.WebACL {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFRegionalClientTypes.WebACL()
+        value.webACLId = try reader["WebACLId"].readIfPresent() ?? ""
+        value.name = try reader["Name"].readIfPresent()
+        value.metricName = try reader["MetricName"].readIfPresent()
+        value.defaultAction = try reader["DefaultAction"].readIfPresent(with: WAFRegionalClientTypes.WafAction.read(from:))
+        value.rules = try reader["Rules"].readListIfPresent(memberReadingClosure: WAFRegionalClientTypes.ActivatedRule.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.webACLArn = try reader["WebACLArn"].readIfPresent()
+        return value
     }
 }
 
-extension WAFRegionalClientTypes.RegexMatchSetUpdate {
+extension WAFRegionalClientTypes.WebACLSummary {
 
-    static func write(value: WAFRegionalClientTypes.RegexMatchSetUpdate?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Action"].write(value.action)
-        try writer["RegexMatchTuple"].write(value.regexMatchTuple, with: WAFRegionalClientTypes.RegexMatchTuple.write(value:to:))
-    }
-}
-
-extension WAFRegionalClientTypes.RegexPatternSetUpdate {
-
-    static func write(value: WAFRegionalClientTypes.RegexPatternSetUpdate?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Action"].write(value.action)
-        try writer["RegexPatternString"].write(value.regexPatternString)
-    }
-}
-
-extension WAFRegionalClientTypes.RuleGroupUpdate {
-
-    static func write(value: WAFRegionalClientTypes.RuleGroupUpdate?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Action"].write(value.action)
-        try writer["ActivatedRule"].write(value.activatedRule, with: WAFRegionalClientTypes.ActivatedRule.write(value:to:))
-    }
-}
-
-extension WAFRegionalClientTypes.SizeConstraintSetUpdate {
-
-    static func write(value: WAFRegionalClientTypes.SizeConstraintSetUpdate?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Action"].write(value.action)
-        try writer["SizeConstraint"].write(value.sizeConstraint, with: WAFRegionalClientTypes.SizeConstraint.write(value:to:))
-    }
-}
-
-extension WAFRegionalClientTypes.SqlInjectionMatchSetUpdate {
-
-    static func write(value: WAFRegionalClientTypes.SqlInjectionMatchSetUpdate?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Action"].write(value.action)
-        try writer["SqlInjectionMatchTuple"].write(value.sqlInjectionMatchTuple, with: WAFRegionalClientTypes.SqlInjectionMatchTuple.write(value:to:))
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFRegionalClientTypes.WebACLSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFRegionalClientTypes.WebACLSummary()
+        value.webACLId = try reader["WebACLId"].readIfPresent() ?? ""
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        return value
     }
 }
 
@@ -10754,12 +10714,52 @@ extension WAFRegionalClientTypes.WebACLUpdate {
     }
 }
 
+extension WAFRegionalClientTypes.XssMatchSet {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFRegionalClientTypes.XssMatchSet {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFRegionalClientTypes.XssMatchSet()
+        value.xssMatchSetId = try reader["XssMatchSetId"].readIfPresent() ?? ""
+        value.name = try reader["Name"].readIfPresent()
+        value.xssMatchTuples = try reader["XssMatchTuples"].readListIfPresent(memberReadingClosure: WAFRegionalClientTypes.XssMatchTuple.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension WAFRegionalClientTypes.XssMatchSetSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFRegionalClientTypes.XssMatchSetSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFRegionalClientTypes.XssMatchSetSummary()
+        value.xssMatchSetId = try reader["XssMatchSetId"].readIfPresent() ?? ""
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        return value
+    }
+}
+
 extension WAFRegionalClientTypes.XssMatchSetUpdate {
 
     static func write(value: WAFRegionalClientTypes.XssMatchSetUpdate?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Action"].write(value.action)
         try writer["XssMatchTuple"].write(value.xssMatchTuple, with: WAFRegionalClientTypes.XssMatchTuple.write(value:to:))
+    }
+}
+
+extension WAFRegionalClientTypes.XssMatchTuple {
+
+    static func write(value: WAFRegionalClientTypes.XssMatchTuple?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["FieldToMatch"].write(value.fieldToMatch, with: WAFRegionalClientTypes.FieldToMatch.write(value:to:))
+        try writer["TextTransformation"].write(value.textTransformation)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> WAFRegionalClientTypes.XssMatchTuple {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = WAFRegionalClientTypes.XssMatchTuple()
+        value.fieldToMatch = try reader["FieldToMatch"].readIfPresent(with: WAFRegionalClientTypes.FieldToMatch.read(from:))
+        value.textTransformation = try reader["TextTransformation"].readIfPresent() ?? .sdkUnknown("")
+        return value
     }
 }
 

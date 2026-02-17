@@ -4186,24 +4186,28 @@ extension NoDataRetentionException {
     }
 }
 
-extension KinesisVideoClientTypes.EdgeConfig {
+extension KinesisVideoClientTypes.ChannelInfo {
 
-    static func write(value: KinesisVideoClientTypes.EdgeConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DeletionConfig"].write(value.deletionConfig, with: KinesisVideoClientTypes.DeletionConfig.write(value:to:))
-        try writer["HubDeviceArn"].write(value.hubDeviceArn)
-        try writer["RecorderConfig"].write(value.recorderConfig, with: KinesisVideoClientTypes.RecorderConfig.write(value:to:))
-        try writer["UploaderConfig"].write(value.uploaderConfig, with: KinesisVideoClientTypes.UploaderConfig.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KinesisVideoClientTypes.EdgeConfig {
+    static func read(from reader: SmithyJSON.Reader) throws -> KinesisVideoClientTypes.ChannelInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KinesisVideoClientTypes.EdgeConfig()
-        value.hubDeviceArn = try reader["HubDeviceArn"].readIfPresent() ?? ""
-        value.recorderConfig = try reader["RecorderConfig"].readIfPresent(with: KinesisVideoClientTypes.RecorderConfig.read(from:))
-        value.uploaderConfig = try reader["UploaderConfig"].readIfPresent(with: KinesisVideoClientTypes.UploaderConfig.read(from:))
-        value.deletionConfig = try reader["DeletionConfig"].readIfPresent(with: KinesisVideoClientTypes.DeletionConfig.read(from:))
+        var value = KinesisVideoClientTypes.ChannelInfo()
+        value.channelName = try reader["ChannelName"].readIfPresent()
+        value.channelARN = try reader["ChannelARN"].readIfPresent()
+        value.channelType = try reader["ChannelType"].readIfPresent()
+        value.channelStatus = try reader["ChannelStatus"].readIfPresent()
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.singleMasterConfiguration = try reader["SingleMasterConfiguration"].readIfPresent(with: KinesisVideoClientTypes.SingleMasterConfiguration.read(from:))
+        value.version = try reader["Version"].readIfPresent()
         return value
+    }
+}
+
+extension KinesisVideoClientTypes.ChannelNameCondition {
+
+    static func write(value: KinesisVideoClientTypes.ChannelNameCondition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ComparisonOperator"].write(value.comparisonOperator)
+        try writer["ComparisonValue"].write(value.comparisonValue)
     }
 }
 
@@ -4226,89 +4230,6 @@ extension KinesisVideoClientTypes.DeletionConfig {
     }
 }
 
-extension KinesisVideoClientTypes.LocalSizeConfig {
-
-    static func write(value: KinesisVideoClientTypes.LocalSizeConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["MaxLocalMediaSizeInMB"].write(value.maxLocalMediaSizeInMB)
-        try writer["StrategyOnFullSize"].write(value.strategyOnFullSize)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KinesisVideoClientTypes.LocalSizeConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KinesisVideoClientTypes.LocalSizeConfig()
-        value.maxLocalMediaSizeInMB = try reader["MaxLocalMediaSizeInMB"].readIfPresent()
-        value.strategyOnFullSize = try reader["StrategyOnFullSize"].readIfPresent()
-        return value
-    }
-}
-
-extension KinesisVideoClientTypes.UploaderConfig {
-
-    static func write(value: KinesisVideoClientTypes.UploaderConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ScheduleConfig"].write(value.scheduleConfig, with: KinesisVideoClientTypes.ScheduleConfig.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KinesisVideoClientTypes.UploaderConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KinesisVideoClientTypes.UploaderConfig()
-        value.scheduleConfig = try reader["ScheduleConfig"].readIfPresent(with: KinesisVideoClientTypes.ScheduleConfig.read(from:))
-        return value
-    }
-}
-
-extension KinesisVideoClientTypes.ScheduleConfig {
-
-    static func write(value: KinesisVideoClientTypes.ScheduleConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DurationInSeconds"].write(value.durationInSeconds)
-        try writer["ScheduleExpression"].write(value.scheduleExpression)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KinesisVideoClientTypes.ScheduleConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KinesisVideoClientTypes.ScheduleConfig()
-        value.scheduleExpression = try reader["ScheduleExpression"].readIfPresent() ?? ""
-        value.durationInSeconds = try reader["DurationInSeconds"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension KinesisVideoClientTypes.RecorderConfig {
-
-    static func write(value: KinesisVideoClientTypes.RecorderConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["MediaSourceConfig"].write(value.mediaSourceConfig, with: KinesisVideoClientTypes.MediaSourceConfig.write(value:to:))
-        try writer["ScheduleConfig"].write(value.scheduleConfig, with: KinesisVideoClientTypes.ScheduleConfig.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KinesisVideoClientTypes.RecorderConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KinesisVideoClientTypes.RecorderConfig()
-        value.mediaSourceConfig = try reader["MediaSourceConfig"].readIfPresent(with: KinesisVideoClientTypes.MediaSourceConfig.read(from:))
-        value.scheduleConfig = try reader["ScheduleConfig"].readIfPresent(with: KinesisVideoClientTypes.ScheduleConfig.read(from:))
-        return value
-    }
-}
-
-extension KinesisVideoClientTypes.MediaSourceConfig {
-
-    static func write(value: KinesisVideoClientTypes.MediaSourceConfig?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["MediaUriSecretArn"].write(value.mediaUriSecretArn)
-        try writer["MediaUriType"].write(value.mediaUriType)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KinesisVideoClientTypes.MediaSourceConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KinesisVideoClientTypes.MediaSourceConfig()
-        value.mediaUriSecretArn = try reader["MediaUriSecretArn"].readIfPresent() ?? ""
-        value.mediaUriType = try reader["MediaUriType"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
 extension KinesisVideoClientTypes.EdgeAgentStatus {
 
     static func read(from reader: SmithyJSON.Reader) throws -> KinesisVideoClientTypes.EdgeAgentStatus {
@@ -4320,28 +4241,23 @@ extension KinesisVideoClientTypes.EdgeAgentStatus {
     }
 }
 
-extension KinesisVideoClientTypes.LastUploaderStatus {
+extension KinesisVideoClientTypes.EdgeConfig {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> KinesisVideoClientTypes.LastUploaderStatus {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KinesisVideoClientTypes.LastUploaderStatus()
-        value.jobStatusDetails = try reader["JobStatusDetails"].readIfPresent()
-        value.lastCollectedTime = try reader["LastCollectedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastUpdatedTime = try reader["LastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.uploaderStatus = try reader["UploaderStatus"].readIfPresent()
-        return value
+    static func write(value: KinesisVideoClientTypes.EdgeConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DeletionConfig"].write(value.deletionConfig, with: KinesisVideoClientTypes.DeletionConfig.write(value:to:))
+        try writer["HubDeviceArn"].write(value.hubDeviceArn)
+        try writer["RecorderConfig"].write(value.recorderConfig, with: KinesisVideoClientTypes.RecorderConfig.write(value:to:))
+        try writer["UploaderConfig"].write(value.uploaderConfig, with: KinesisVideoClientTypes.UploaderConfig.write(value:to:))
     }
-}
 
-extension KinesisVideoClientTypes.LastRecorderStatus {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KinesisVideoClientTypes.LastRecorderStatus {
+    static func read(from reader: SmithyJSON.Reader) throws -> KinesisVideoClientTypes.EdgeConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KinesisVideoClientTypes.LastRecorderStatus()
-        value.jobStatusDetails = try reader["JobStatusDetails"].readIfPresent()
-        value.lastCollectedTime = try reader["LastCollectedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastUpdatedTime = try reader["LastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.recorderStatus = try reader["RecorderStatus"].readIfPresent()
+        var value = KinesisVideoClientTypes.EdgeConfig()
+        value.hubDeviceArn = try reader["HubDeviceArn"].readIfPresent() ?? ""
+        value.recorderConfig = try reader["RecorderConfig"].readIfPresent(with: KinesisVideoClientTypes.RecorderConfig.read(from:))
+        value.uploaderConfig = try reader["UploaderConfig"].readIfPresent(with: KinesisVideoClientTypes.UploaderConfig.read(from:))
+        value.deletionConfig = try reader["DeletionConfig"].readIfPresent(with: KinesisVideoClientTypes.DeletionConfig.read(from:))
         return value
     }
 }
@@ -4392,6 +4308,65 @@ extension KinesisVideoClientTypes.ImageGenerationDestinationConfig {
     }
 }
 
+extension KinesisVideoClientTypes.LastRecorderStatus {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KinesisVideoClientTypes.LastRecorderStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KinesisVideoClientTypes.LastRecorderStatus()
+        value.jobStatusDetails = try reader["JobStatusDetails"].readIfPresent()
+        value.lastCollectedTime = try reader["LastCollectedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastUpdatedTime = try reader["LastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.recorderStatus = try reader["RecorderStatus"].readIfPresent()
+        return value
+    }
+}
+
+extension KinesisVideoClientTypes.LastUploaderStatus {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KinesisVideoClientTypes.LastUploaderStatus {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KinesisVideoClientTypes.LastUploaderStatus()
+        value.jobStatusDetails = try reader["JobStatusDetails"].readIfPresent()
+        value.lastCollectedTime = try reader["LastCollectedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastUpdatedTime = try reader["LastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.uploaderStatus = try reader["UploaderStatus"].readIfPresent()
+        return value
+    }
+}
+
+extension KinesisVideoClientTypes.ListEdgeAgentConfigurationsEdgeConfig {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KinesisVideoClientTypes.ListEdgeAgentConfigurationsEdgeConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KinesisVideoClientTypes.ListEdgeAgentConfigurationsEdgeConfig()
+        value.streamName = try reader["StreamName"].readIfPresent()
+        value.streamARN = try reader["StreamARN"].readIfPresent()
+        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.lastUpdatedTime = try reader["LastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.syncStatus = try reader["SyncStatus"].readIfPresent()
+        value.failedStatusDetails = try reader["FailedStatusDetails"].readIfPresent()
+        value.edgeConfig = try reader["EdgeConfig"].readIfPresent(with: KinesisVideoClientTypes.EdgeConfig.read(from:))
+        return value
+    }
+}
+
+extension KinesisVideoClientTypes.LocalSizeConfig {
+
+    static func write(value: KinesisVideoClientTypes.LocalSizeConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MaxLocalMediaSizeInMB"].write(value.maxLocalMediaSizeInMB)
+        try writer["StrategyOnFullSize"].write(value.strategyOnFullSize)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KinesisVideoClientTypes.LocalSizeConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KinesisVideoClientTypes.LocalSizeConfig()
+        value.maxLocalMediaSizeInMB = try reader["MaxLocalMediaSizeInMB"].readIfPresent()
+        value.strategyOnFullSize = try reader["StrategyOnFullSize"].readIfPresent()
+        return value
+    }
+}
+
 extension KinesisVideoClientTypes.MappedResourceConfigurationListItem {
 
     static func read(from reader: SmithyJSON.Reader) throws -> KinesisVideoClientTypes.MappedResourceConfigurationListItem {
@@ -4399,6 +4374,23 @@ extension KinesisVideoClientTypes.MappedResourceConfigurationListItem {
         var value = KinesisVideoClientTypes.MappedResourceConfigurationListItem()
         value.type = try reader["Type"].readIfPresent()
         value.arn = try reader["ARN"].readIfPresent()
+        return value
+    }
+}
+
+extension KinesisVideoClientTypes.MediaSourceConfig {
+
+    static func write(value: KinesisVideoClientTypes.MediaSourceConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MediaUriSecretArn"].write(value.mediaUriSecretArn)
+        try writer["MediaUriType"].write(value.mediaUriType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KinesisVideoClientTypes.MediaSourceConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KinesisVideoClientTypes.MediaSourceConfig()
+        value.mediaUriSecretArn = try reader["MediaUriSecretArn"].readIfPresent() ?? ""
+        value.mediaUriType = try reader["MediaUriType"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
@@ -4452,19 +4444,57 @@ extension KinesisVideoClientTypes.NotificationDestinationConfig {
     }
 }
 
-extension KinesisVideoClientTypes.ChannelInfo {
+extension KinesisVideoClientTypes.RecorderConfig {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> KinesisVideoClientTypes.ChannelInfo {
+    static func write(value: KinesisVideoClientTypes.RecorderConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["MediaSourceConfig"].write(value.mediaSourceConfig, with: KinesisVideoClientTypes.MediaSourceConfig.write(value:to:))
+        try writer["ScheduleConfig"].write(value.scheduleConfig, with: KinesisVideoClientTypes.ScheduleConfig.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KinesisVideoClientTypes.RecorderConfig {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KinesisVideoClientTypes.ChannelInfo()
-        value.channelName = try reader["ChannelName"].readIfPresent()
-        value.channelARN = try reader["ChannelARN"].readIfPresent()
-        value.channelType = try reader["ChannelType"].readIfPresent()
-        value.channelStatus = try reader["ChannelStatus"].readIfPresent()
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.singleMasterConfiguration = try reader["SingleMasterConfiguration"].readIfPresent(with: KinesisVideoClientTypes.SingleMasterConfiguration.read(from:))
-        value.version = try reader["Version"].readIfPresent()
+        var value = KinesisVideoClientTypes.RecorderConfig()
+        value.mediaSourceConfig = try reader["MediaSourceConfig"].readIfPresent(with: KinesisVideoClientTypes.MediaSourceConfig.read(from:))
+        value.scheduleConfig = try reader["ScheduleConfig"].readIfPresent(with: KinesisVideoClientTypes.ScheduleConfig.read(from:))
         return value
+    }
+}
+
+extension KinesisVideoClientTypes.ResourceEndpointListItem {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KinesisVideoClientTypes.ResourceEndpointListItem {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KinesisVideoClientTypes.ResourceEndpointListItem()
+        value.`protocol` = try reader["Protocol"].readIfPresent()
+        value.resourceEndpoint = try reader["ResourceEndpoint"].readIfPresent()
+        return value
+    }
+}
+
+extension KinesisVideoClientTypes.ScheduleConfig {
+
+    static func write(value: KinesisVideoClientTypes.ScheduleConfig?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DurationInSeconds"].write(value.durationInSeconds)
+        try writer["ScheduleExpression"].write(value.scheduleExpression)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> KinesisVideoClientTypes.ScheduleConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KinesisVideoClientTypes.ScheduleConfig()
+        value.scheduleExpression = try reader["ScheduleExpression"].readIfPresent() ?? ""
+        value.durationInSeconds = try reader["DurationInSeconds"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension KinesisVideoClientTypes.SingleMasterChannelEndpointConfiguration {
+
+    static func write(value: KinesisVideoClientTypes.SingleMasterChannelEndpointConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Protocols"].writeList(value.protocols, memberWritingClosure: SmithyReadWrite.WritingClosureBox<KinesisVideoClientTypes.ChannelProtocol>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Role"].write(value.role)
     }
 }
 
@@ -4501,6 +4531,15 @@ extension KinesisVideoClientTypes.StreamInfo {
     }
 }
 
+extension KinesisVideoClientTypes.StreamNameCondition {
+
+    static func write(value: KinesisVideoClientTypes.StreamNameCondition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ComparisonOperator"].write(value.comparisonOperator)
+        try writer["ComparisonValue"].write(value.comparisonValue)
+    }
+}
+
 extension KinesisVideoClientTypes.StreamStorageConfiguration {
 
     static func write(value: KinesisVideoClientTypes.StreamStorageConfiguration?, to writer: SmithyJSON.Writer) throws {
@@ -4516,33 +4555,6 @@ extension KinesisVideoClientTypes.StreamStorageConfiguration {
     }
 }
 
-extension KinesisVideoClientTypes.ResourceEndpointListItem {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KinesisVideoClientTypes.ResourceEndpointListItem {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KinesisVideoClientTypes.ResourceEndpointListItem()
-        value.`protocol` = try reader["Protocol"].readIfPresent()
-        value.resourceEndpoint = try reader["ResourceEndpoint"].readIfPresent()
-        return value
-    }
-}
-
-extension KinesisVideoClientTypes.ListEdgeAgentConfigurationsEdgeConfig {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> KinesisVideoClientTypes.ListEdgeAgentConfigurationsEdgeConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = KinesisVideoClientTypes.ListEdgeAgentConfigurationsEdgeConfig()
-        value.streamName = try reader["StreamName"].readIfPresent()
-        value.streamARN = try reader["StreamARN"].readIfPresent()
-        value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.lastUpdatedTime = try reader["LastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.syncStatus = try reader["SyncStatus"].readIfPresent()
-        value.failedStatusDetails = try reader["FailedStatusDetails"].readIfPresent()
-        value.edgeConfig = try reader["EdgeConfig"].readIfPresent(with: KinesisVideoClientTypes.EdgeConfig.read(from:))
-        return value
-    }
-}
-
 extension KinesisVideoClientTypes.Tag {
 
     static func write(value: KinesisVideoClientTypes.Tag?, to writer: SmithyJSON.Writer) throws {
@@ -4552,30 +4564,18 @@ extension KinesisVideoClientTypes.Tag {
     }
 }
 
-extension KinesisVideoClientTypes.SingleMasterChannelEndpointConfiguration {
+extension KinesisVideoClientTypes.UploaderConfig {
 
-    static func write(value: KinesisVideoClientTypes.SingleMasterChannelEndpointConfiguration?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: KinesisVideoClientTypes.UploaderConfig?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["Protocols"].writeList(value.protocols, memberWritingClosure: SmithyReadWrite.WritingClosureBox<KinesisVideoClientTypes.ChannelProtocol>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Role"].write(value.role)
+        try writer["ScheduleConfig"].write(value.scheduleConfig, with: KinesisVideoClientTypes.ScheduleConfig.write(value:to:))
     }
-}
 
-extension KinesisVideoClientTypes.ChannelNameCondition {
-
-    static func write(value: KinesisVideoClientTypes.ChannelNameCondition?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ComparisonOperator"].write(value.comparisonOperator)
-        try writer["ComparisonValue"].write(value.comparisonValue)
-    }
-}
-
-extension KinesisVideoClientTypes.StreamNameCondition {
-
-    static func write(value: KinesisVideoClientTypes.StreamNameCondition?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ComparisonOperator"].write(value.comparisonOperator)
-        try writer["ComparisonValue"].write(value.comparisonValue)
+    static func read(from reader: SmithyJSON.Reader) throws -> KinesisVideoClientTypes.UploaderConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = KinesisVideoClientTypes.UploaderConfig()
+        value.scheduleConfig = try reader["ScheduleConfig"].readIfPresent(with: KinesisVideoClientTypes.ScheduleConfig.read(from:))
+        return value
     }
 }
 

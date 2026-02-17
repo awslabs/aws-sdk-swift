@@ -1874,6 +1874,15 @@ extension ValidationException {
     }
 }
 
+extension BillingClientTypes.ActiveTimeRange {
+
+    static func write(value: BillingClientTypes.ActiveTimeRange?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["activeAfterInclusive"].writeTimestamp(value.activeAfterInclusive, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["activeBeforeInclusive"].writeTimestamp(value.activeBeforeInclusive, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+    }
+}
+
 extension BillingClientTypes.BillingViewElement {
 
     static func read(from reader: SmithyJSON.Reader) throws -> BillingClientTypes.BillingViewElement {
@@ -1907,40 +1916,18 @@ extension BillingClientTypes.BillingViewHealthStatus {
     }
 }
 
-extension BillingClientTypes.Expression {
+extension BillingClientTypes.BillingViewListElement {
 
-    static func write(value: BillingClientTypes.Expression?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["costCategories"].write(value.costCategories, with: BillingClientTypes.CostCategoryValues.write(value:to:))
-        try writer["dimensions"].write(value.dimensions, with: BillingClientTypes.DimensionValues.write(value:to:))
-        try writer["tags"].write(value.tags, with: BillingClientTypes.TagValues.write(value:to:))
-        try writer["timeRange"].write(value.timeRange, with: BillingClientTypes.TimeRange.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BillingClientTypes.Expression {
+    static func read(from reader: SmithyJSON.Reader) throws -> BillingClientTypes.BillingViewListElement {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BillingClientTypes.Expression()
-        value.dimensions = try reader["dimensions"].readIfPresent(with: BillingClientTypes.DimensionValues.read(from:))
-        value.tags = try reader["tags"].readIfPresent(with: BillingClientTypes.TagValues.read(from:))
-        value.costCategories = try reader["costCategories"].readIfPresent(with: BillingClientTypes.CostCategoryValues.read(from:))
-        value.timeRange = try reader["timeRange"].readIfPresent(with: BillingClientTypes.TimeRange.read(from:))
-        return value
-    }
-}
-
-extension BillingClientTypes.TimeRange {
-
-    static func write(value: BillingClientTypes.TimeRange?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["beginDateInclusive"].writeTimestamp(value.beginDateInclusive, format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        try writer["endDateInclusive"].writeTimestamp(value.endDateInclusive, format: SmithyTimestamps.TimestampFormat.epochSeconds)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BillingClientTypes.TimeRange {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BillingClientTypes.TimeRange()
-        value.beginDateInclusive = try reader["beginDateInclusive"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.endDateInclusive = try reader["endDateInclusive"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        var value = BillingClientTypes.BillingViewListElement()
+        value.arn = try reader["arn"].readIfPresent()
+        value.name = try reader["name"].readIfPresent()
+        value.description = try reader["description"].readIfPresent()
+        value.ownerAccountId = try reader["ownerAccountId"].readIfPresent()
+        value.sourceAccountId = try reader["sourceAccountId"].readIfPresent()
+        value.billingViewType = try reader["billingViewType"].readIfPresent()
+        value.healthStatus = try reader["healthStatus"].readIfPresent(with: BillingClientTypes.BillingViewHealthStatus.read(from:))
         return value
     }
 }
@@ -1956,23 +1943,6 @@ extension BillingClientTypes.CostCategoryValues {
     static func read(from reader: SmithyJSON.Reader) throws -> BillingClientTypes.CostCategoryValues {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BillingClientTypes.CostCategoryValues()
-        value.key = try reader["key"].readIfPresent() ?? ""
-        value.values = try reader["values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension BillingClientTypes.TagValues {
-
-    static func write(value: BillingClientTypes.TagValues?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["key"].write(value.key)
-        try writer["values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> BillingClientTypes.TagValues {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BillingClientTypes.TagValues()
         value.key = try reader["key"].readIfPresent() ?? ""
         value.values = try reader["values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
@@ -1996,18 +1966,23 @@ extension BillingClientTypes.DimensionValues {
     }
 }
 
-extension BillingClientTypes.BillingViewListElement {
+extension BillingClientTypes.Expression {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> BillingClientTypes.BillingViewListElement {
+    static func write(value: BillingClientTypes.Expression?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["costCategories"].write(value.costCategories, with: BillingClientTypes.CostCategoryValues.write(value:to:))
+        try writer["dimensions"].write(value.dimensions, with: BillingClientTypes.DimensionValues.write(value:to:))
+        try writer["tags"].write(value.tags, with: BillingClientTypes.TagValues.write(value:to:))
+        try writer["timeRange"].write(value.timeRange, with: BillingClientTypes.TimeRange.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BillingClientTypes.Expression {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = BillingClientTypes.BillingViewListElement()
-        value.arn = try reader["arn"].readIfPresent()
-        value.name = try reader["name"].readIfPresent()
-        value.description = try reader["description"].readIfPresent()
-        value.ownerAccountId = try reader["ownerAccountId"].readIfPresent()
-        value.sourceAccountId = try reader["sourceAccountId"].readIfPresent()
-        value.billingViewType = try reader["billingViewType"].readIfPresent()
-        value.healthStatus = try reader["healthStatus"].readIfPresent(with: BillingClientTypes.BillingViewHealthStatus.read(from:))
+        var value = BillingClientTypes.Expression()
+        value.dimensions = try reader["dimensions"].readIfPresent(with: BillingClientTypes.DimensionValues.read(from:))
+        value.tags = try reader["tags"].readIfPresent(with: BillingClientTypes.TagValues.read(from:))
+        value.costCategories = try reader["costCategories"].readIfPresent(with: BillingClientTypes.CostCategoryValues.read(from:))
+        value.timeRange = try reader["timeRange"].readIfPresent(with: BillingClientTypes.TimeRange.read(from:))
         return value
     }
 }
@@ -2029,6 +2004,49 @@ extension BillingClientTypes.ResourceTag {
     }
 }
 
+extension BillingClientTypes.StringSearch {
+
+    static func write(value: BillingClientTypes.StringSearch?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["searchOption"].write(value.searchOption)
+        try writer["searchValue"].write(value.searchValue)
+    }
+}
+
+extension BillingClientTypes.TagValues {
+
+    static func write(value: BillingClientTypes.TagValues?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["key"].write(value.key)
+        try writer["values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BillingClientTypes.TagValues {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BillingClientTypes.TagValues()
+        value.key = try reader["key"].readIfPresent() ?? ""
+        value.values = try reader["values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension BillingClientTypes.TimeRange {
+
+    static func write(value: BillingClientTypes.TimeRange?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["beginDateInclusive"].writeTimestamp(value.beginDateInclusive, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["endDateInclusive"].writeTimestamp(value.endDateInclusive, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> BillingClientTypes.TimeRange {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = BillingClientTypes.TimeRange()
+        value.beginDateInclusive = try reader["beginDateInclusive"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.endDateInclusive = try reader["endDateInclusive"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
 extension BillingClientTypes.ValidationExceptionField {
 
     static func read(from reader: SmithyJSON.Reader) throws -> BillingClientTypes.ValidationExceptionField {
@@ -2037,24 +2055,6 @@ extension BillingClientTypes.ValidationExceptionField {
         value.name = try reader["name"].readIfPresent() ?? ""
         value.message = try reader["message"].readIfPresent() ?? ""
         return value
-    }
-}
-
-extension BillingClientTypes.ActiveTimeRange {
-
-    static func write(value: BillingClientTypes.ActiveTimeRange?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["activeAfterInclusive"].writeTimestamp(value.activeAfterInclusive, format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        try writer["activeBeforeInclusive"].writeTimestamp(value.activeBeforeInclusive, format: SmithyTimestamps.TimestampFormat.epochSeconds)
-    }
-}
-
-extension BillingClientTypes.StringSearch {
-
-    static func write(value: BillingClientTypes.StringSearch?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["searchOption"].write(value.searchOption)
-        try writer["searchValue"].write(value.searchValue)
     }
 }
 

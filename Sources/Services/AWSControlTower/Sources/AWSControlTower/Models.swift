@@ -3690,6 +3690,18 @@ extension ControlTowerClientTypes.BaselineOperation {
     }
 }
 
+extension ControlTowerClientTypes.BaselineSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ControlTowerClientTypes.BaselineSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ControlTowerClientTypes.BaselineSummary()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.name = try reader["name"].readIfPresent() ?? ""
+        value.description = try reader["description"].readIfPresent()
+        return value
+    }
+}
+
 extension ControlTowerClientTypes.ControlOperation {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ControlTowerClientTypes.ControlOperation {
@@ -3708,6 +3720,47 @@ extension ControlTowerClientTypes.ControlOperation {
     }
 }
 
+extension ControlTowerClientTypes.ControlOperationFilter {
+
+    static func write(value: ControlTowerClientTypes.ControlOperationFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["controlIdentifiers"].writeList(value.controlIdentifiers, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["controlOperationTypes"].writeList(value.controlOperationTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ControlTowerClientTypes.ControlOperationType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["enabledControlIdentifiers"].writeList(value.enabledControlIdentifiers, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["statuses"].writeList(value.statuses, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ControlTowerClientTypes.ControlOperationStatus>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["targetIdentifiers"].writeList(value.targetIdentifiers, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension ControlTowerClientTypes.ControlOperationSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ControlTowerClientTypes.ControlOperationSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ControlTowerClientTypes.ControlOperationSummary()
+        value.operationType = try reader["operationType"].readIfPresent()
+        value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.endTime = try reader["endTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.status = try reader["status"].readIfPresent()
+        value.statusMessage = try reader["statusMessage"].readIfPresent()
+        value.operationIdentifier = try reader["operationIdentifier"].readIfPresent()
+        value.controlIdentifier = try reader["controlIdentifier"].readIfPresent()
+        value.targetIdentifier = try reader["targetIdentifier"].readIfPresent()
+        value.enabledControlIdentifier = try reader["enabledControlIdentifier"].readIfPresent()
+        return value
+    }
+}
+
+extension ControlTowerClientTypes.DriftStatusSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ControlTowerClientTypes.DriftStatusSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ControlTowerClientTypes.DriftStatusSummary()
+        value.driftStatus = try reader["driftStatus"].readIfPresent()
+        value.types = try reader["types"].readIfPresent(with: ControlTowerClientTypes.EnabledControlDriftTypes.read(from:))
+        return value
+    }
+}
+
 extension ControlTowerClientTypes.EnabledBaselineDetails {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ControlTowerClientTypes.EnabledBaselineDetails {
@@ -3721,28 +3774,6 @@ extension ControlTowerClientTypes.EnabledBaselineDetails {
         value.parentIdentifier = try reader["parentIdentifier"].readIfPresent()
         value.statusSummary = try reader["statusSummary"].readIfPresent(with: ControlTowerClientTypes.EnablementStatusSummary.read(from:))
         value.parameters = try reader["parameters"].readListIfPresent(memberReadingClosure: ControlTowerClientTypes.EnabledBaselineParameterSummary.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension ControlTowerClientTypes.EnabledBaselineParameterSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ControlTowerClientTypes.EnabledBaselineParameterSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ControlTowerClientTypes.EnabledBaselineParameterSummary()
-        value.key = try reader["key"].readIfPresent() ?? ""
-        value.value = try reader["value"].readIfPresent() ?? [:]
-        return value
-    }
-}
-
-extension ControlTowerClientTypes.EnablementStatusSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ControlTowerClientTypes.EnablementStatusSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ControlTowerClientTypes.EnablementStatusSummary()
-        value.status = try reader["status"].readIfPresent()
-        value.lastOperationIdentifier = try reader["lastOperationIdentifier"].readIfPresent()
         return value
     }
 }
@@ -3767,12 +3798,60 @@ extension ControlTowerClientTypes.EnabledBaselineDriftTypes {
     }
 }
 
+extension ControlTowerClientTypes.EnabledBaselineFilter {
+
+    static func write(value: ControlTowerClientTypes.EnabledBaselineFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["baselineIdentifiers"].writeList(value.baselineIdentifiers, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["inheritanceDriftStatuses"].writeList(value.inheritanceDriftStatuses, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ControlTowerClientTypes.EnabledBaselineDriftStatus>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["parentIdentifiers"].writeList(value.parentIdentifiers, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["statuses"].writeList(value.statuses, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ControlTowerClientTypes.EnablementStatus>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["targetIdentifiers"].writeList(value.targetIdentifiers, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
 extension ControlTowerClientTypes.EnabledBaselineInheritanceDrift {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ControlTowerClientTypes.EnabledBaselineInheritanceDrift {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = ControlTowerClientTypes.EnabledBaselineInheritanceDrift()
         value.status = try reader["status"].readIfPresent()
+        return value
+    }
+}
+
+extension ControlTowerClientTypes.EnabledBaselineParameter {
+
+    static func write(value: ControlTowerClientTypes.EnabledBaselineParameter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["key"].write(value.key)
+        try writer["value"].write(value.value)
+    }
+}
+
+extension ControlTowerClientTypes.EnabledBaselineParameterSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ControlTowerClientTypes.EnabledBaselineParameterSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ControlTowerClientTypes.EnabledBaselineParameterSummary()
+        value.key = try reader["key"].readIfPresent() ?? ""
+        value.value = try reader["value"].readIfPresent() ?? [:]
+        return value
+    }
+}
+
+extension ControlTowerClientTypes.EnabledBaselineSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ControlTowerClientTypes.EnabledBaselineSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ControlTowerClientTypes.EnabledBaselineSummary()
+        value.arn = try reader["arn"].readIfPresent() ?? ""
+        value.baselineIdentifier = try reader["baselineIdentifier"].readIfPresent() ?? ""
+        value.baselineVersion = try reader["baselineVersion"].readIfPresent()
+        value.driftStatusSummary = try reader["driftStatusSummary"].readIfPresent(with: ControlTowerClientTypes.EnabledBaselineDriftStatusSummary.read(from:))
+        value.targetIdentifier = try reader["targetIdentifier"].readIfPresent() ?? ""
+        value.parentIdentifier = try reader["parentIdentifier"].readIfPresent()
+        value.statusSummary = try reader["statusSummary"].readIfPresent(with: ControlTowerClientTypes.EnablementStatusSummary.read(from:))
         return value
     }
 }
@@ -3794,38 +3873,6 @@ extension ControlTowerClientTypes.EnabledControlDetails {
     }
 }
 
-extension ControlTowerClientTypes.EnabledControlParameterSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ControlTowerClientTypes.EnabledControlParameterSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ControlTowerClientTypes.EnabledControlParameterSummary()
-        value.key = try reader["key"].readIfPresent() ?? ""
-        value.value = try reader["value"].readIfPresent() ?? [:]
-        return value
-    }
-}
-
-extension ControlTowerClientTypes.Region {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ControlTowerClientTypes.Region {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ControlTowerClientTypes.Region()
-        value.name = try reader["name"].readIfPresent()
-        return value
-    }
-}
-
-extension ControlTowerClientTypes.DriftStatusSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ControlTowerClientTypes.DriftStatusSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ControlTowerClientTypes.DriftStatusSummary()
-        value.driftStatus = try reader["driftStatus"].readIfPresent()
-        value.types = try reader["types"].readIfPresent(with: ControlTowerClientTypes.EnabledControlDriftTypes.read(from:))
-        return value
-    }
-}
-
 extension ControlTowerClientTypes.EnabledControlDriftTypes {
 
     static func read(from reader: SmithyJSON.Reader) throws -> ControlTowerClientTypes.EnabledControlDriftTypes {
@@ -3833,6 +3880,49 @@ extension ControlTowerClientTypes.EnabledControlDriftTypes {
         var value = ControlTowerClientTypes.EnabledControlDriftTypes()
         value.inheritance = try reader["inheritance"].readIfPresent(with: ControlTowerClientTypes.EnabledControlInheritanceDrift.read(from:))
         value.resource = try reader["resource"].readIfPresent(with: ControlTowerClientTypes.EnabledControlResourceDrift.read(from:))
+        return value
+    }
+}
+
+extension ControlTowerClientTypes.EnabledControlFilter {
+
+    static func write(value: ControlTowerClientTypes.EnabledControlFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["controlIdentifiers"].writeList(value.controlIdentifiers, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["driftStatuses"].writeList(value.driftStatuses, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ControlTowerClientTypes.DriftStatus>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["inheritanceDriftStatuses"].writeList(value.inheritanceDriftStatuses, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ControlTowerClientTypes.DriftStatus>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["parentIdentifiers"].writeList(value.parentIdentifiers, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["resourceDriftStatuses"].writeList(value.resourceDriftStatuses, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ControlTowerClientTypes.DriftStatus>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["statuses"].writeList(value.statuses, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ControlTowerClientTypes.EnablementStatus>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+}
+
+extension ControlTowerClientTypes.EnabledControlInheritanceDrift {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ControlTowerClientTypes.EnabledControlInheritanceDrift {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ControlTowerClientTypes.EnabledControlInheritanceDrift()
+        value.status = try reader["status"].readIfPresent()
+        return value
+    }
+}
+
+extension ControlTowerClientTypes.EnabledControlParameter {
+
+    static func write(value: ControlTowerClientTypes.EnabledControlParameter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["key"].write(value.key)
+        try writer["value"].write(value.value)
+    }
+}
+
+extension ControlTowerClientTypes.EnabledControlParameterSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ControlTowerClientTypes.EnabledControlParameterSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ControlTowerClientTypes.EnabledControlParameterSummary()
+        value.key = try reader["key"].readIfPresent() ?? ""
+        value.value = try reader["value"].readIfPresent() ?? [:]
         return value
     }
 }
@@ -3847,12 +3937,28 @@ extension ControlTowerClientTypes.EnabledControlResourceDrift {
     }
 }
 
-extension ControlTowerClientTypes.EnabledControlInheritanceDrift {
+extension ControlTowerClientTypes.EnabledControlSummary {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ControlTowerClientTypes.EnabledControlInheritanceDrift {
+    static func read(from reader: SmithyJSON.Reader) throws -> ControlTowerClientTypes.EnabledControlSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ControlTowerClientTypes.EnabledControlInheritanceDrift()
+        var value = ControlTowerClientTypes.EnabledControlSummary()
+        value.arn = try reader["arn"].readIfPresent()
+        value.controlIdentifier = try reader["controlIdentifier"].readIfPresent()
+        value.targetIdentifier = try reader["targetIdentifier"].readIfPresent()
+        value.statusSummary = try reader["statusSummary"].readIfPresent(with: ControlTowerClientTypes.EnablementStatusSummary.read(from:))
+        value.driftStatusSummary = try reader["driftStatusSummary"].readIfPresent(with: ControlTowerClientTypes.DriftStatusSummary.read(from:))
+        value.parentIdentifier = try reader["parentIdentifier"].readIfPresent()
+        return value
+    }
+}
+
+extension ControlTowerClientTypes.EnablementStatusSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> ControlTowerClientTypes.EnablementStatusSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ControlTowerClientTypes.EnablementStatusSummary()
         value.status = try reader["status"].readIfPresent()
+        value.lastOperationIdentifier = try reader["lastOperationIdentifier"].readIfPresent()
         return value
     }
 }
@@ -3898,64 +4004,12 @@ extension ControlTowerClientTypes.LandingZoneOperationDetail {
     }
 }
 
-extension ControlTowerClientTypes.BaselineSummary {
+extension ControlTowerClientTypes.LandingZoneOperationFilter {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> ControlTowerClientTypes.BaselineSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ControlTowerClientTypes.BaselineSummary()
-        value.arn = try reader["arn"].readIfPresent() ?? ""
-        value.name = try reader["name"].readIfPresent() ?? ""
-        value.description = try reader["description"].readIfPresent()
-        return value
-    }
-}
-
-extension ControlTowerClientTypes.ControlOperationSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ControlTowerClientTypes.ControlOperationSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ControlTowerClientTypes.ControlOperationSummary()
-        value.operationType = try reader["operationType"].readIfPresent()
-        value.startTime = try reader["startTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.endTime = try reader["endTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.status = try reader["status"].readIfPresent()
-        value.statusMessage = try reader["statusMessage"].readIfPresent()
-        value.operationIdentifier = try reader["operationIdentifier"].readIfPresent()
-        value.controlIdentifier = try reader["controlIdentifier"].readIfPresent()
-        value.targetIdentifier = try reader["targetIdentifier"].readIfPresent()
-        value.enabledControlIdentifier = try reader["enabledControlIdentifier"].readIfPresent()
-        return value
-    }
-}
-
-extension ControlTowerClientTypes.EnabledBaselineSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ControlTowerClientTypes.EnabledBaselineSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ControlTowerClientTypes.EnabledBaselineSummary()
-        value.arn = try reader["arn"].readIfPresent() ?? ""
-        value.baselineIdentifier = try reader["baselineIdentifier"].readIfPresent() ?? ""
-        value.baselineVersion = try reader["baselineVersion"].readIfPresent()
-        value.driftStatusSummary = try reader["driftStatusSummary"].readIfPresent(with: ControlTowerClientTypes.EnabledBaselineDriftStatusSummary.read(from:))
-        value.targetIdentifier = try reader["targetIdentifier"].readIfPresent() ?? ""
-        value.parentIdentifier = try reader["parentIdentifier"].readIfPresent()
-        value.statusSummary = try reader["statusSummary"].readIfPresent(with: ControlTowerClientTypes.EnablementStatusSummary.read(from:))
-        return value
-    }
-}
-
-extension ControlTowerClientTypes.EnabledControlSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> ControlTowerClientTypes.EnabledControlSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = ControlTowerClientTypes.EnabledControlSummary()
-        value.arn = try reader["arn"].readIfPresent()
-        value.controlIdentifier = try reader["controlIdentifier"].readIfPresent()
-        value.targetIdentifier = try reader["targetIdentifier"].readIfPresent()
-        value.statusSummary = try reader["statusSummary"].readIfPresent(with: ControlTowerClientTypes.EnablementStatusSummary.read(from:))
-        value.driftStatusSummary = try reader["driftStatusSummary"].readIfPresent(with: ControlTowerClientTypes.DriftStatusSummary.read(from:))
-        value.parentIdentifier = try reader["parentIdentifier"].readIfPresent()
-        return value
+    static func write(value: ControlTowerClientTypes.LandingZoneOperationFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["statuses"].writeList(value.statuses, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ControlTowerClientTypes.LandingZoneOperationStatus>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["types"].writeList(value.types, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ControlTowerClientTypes.LandingZoneOperationType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 }
 
@@ -3981,67 +4035,13 @@ extension ControlTowerClientTypes.LandingZoneSummary {
     }
 }
 
-extension ControlTowerClientTypes.EnabledBaselineParameter {
+extension ControlTowerClientTypes.Region {
 
-    static func write(value: ControlTowerClientTypes.EnabledBaselineParameter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["key"].write(value.key)
-        try writer["value"].write(value.value)
-    }
-}
-
-extension ControlTowerClientTypes.EnabledControlParameter {
-
-    static func write(value: ControlTowerClientTypes.EnabledControlParameter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["key"].write(value.key)
-        try writer["value"].write(value.value)
-    }
-}
-
-extension ControlTowerClientTypes.ControlOperationFilter {
-
-    static func write(value: ControlTowerClientTypes.ControlOperationFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["controlIdentifiers"].writeList(value.controlIdentifiers, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["controlOperationTypes"].writeList(value.controlOperationTypes, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ControlTowerClientTypes.ControlOperationType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["enabledControlIdentifiers"].writeList(value.enabledControlIdentifiers, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["statuses"].writeList(value.statuses, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ControlTowerClientTypes.ControlOperationStatus>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["targetIdentifiers"].writeList(value.targetIdentifiers, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension ControlTowerClientTypes.EnabledBaselineFilter {
-
-    static func write(value: ControlTowerClientTypes.EnabledBaselineFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["baselineIdentifiers"].writeList(value.baselineIdentifiers, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["inheritanceDriftStatuses"].writeList(value.inheritanceDriftStatuses, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ControlTowerClientTypes.EnabledBaselineDriftStatus>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["parentIdentifiers"].writeList(value.parentIdentifiers, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["statuses"].writeList(value.statuses, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ControlTowerClientTypes.EnablementStatus>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["targetIdentifiers"].writeList(value.targetIdentifiers, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension ControlTowerClientTypes.EnabledControlFilter {
-
-    static func write(value: ControlTowerClientTypes.EnabledControlFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["controlIdentifiers"].writeList(value.controlIdentifiers, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["driftStatuses"].writeList(value.driftStatuses, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ControlTowerClientTypes.DriftStatus>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["inheritanceDriftStatuses"].writeList(value.inheritanceDriftStatuses, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ControlTowerClientTypes.DriftStatus>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["parentIdentifiers"].writeList(value.parentIdentifiers, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["resourceDriftStatuses"].writeList(value.resourceDriftStatuses, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ControlTowerClientTypes.DriftStatus>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["statuses"].writeList(value.statuses, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ControlTowerClientTypes.EnablementStatus>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-}
-
-extension ControlTowerClientTypes.LandingZoneOperationFilter {
-
-    static func write(value: ControlTowerClientTypes.LandingZoneOperationFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["statuses"].writeList(value.statuses, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ControlTowerClientTypes.LandingZoneOperationStatus>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["types"].writeList(value.types, memberWritingClosure: SmithyReadWrite.WritingClosureBox<ControlTowerClientTypes.LandingZoneOperationType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    static func read(from reader: SmithyJSON.Reader) throws -> ControlTowerClientTypes.Region {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = ControlTowerClientTypes.Region()
+        value.name = try reader["name"].readIfPresent()
+        return value
     }
 }
 

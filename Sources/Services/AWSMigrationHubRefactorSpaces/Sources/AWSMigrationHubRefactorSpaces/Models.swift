@@ -4202,6 +4202,22 @@ extension InvalidResourcePolicyException {
     }
 }
 
+extension MigrationHubRefactorSpacesClientTypes.ApiGatewayProxyConfig {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubRefactorSpacesClientTypes.ApiGatewayProxyConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MigrationHubRefactorSpacesClientTypes.ApiGatewayProxyConfig()
+        value.proxyUrl = try reader["ProxyUrl"].readIfPresent()
+        value.apiGatewayId = try reader["ApiGatewayId"].readIfPresent()
+        value.vpcLinkId = try reader["VpcLinkId"].readIfPresent()
+        value.nlbArn = try reader["NlbArn"].readIfPresent()
+        value.nlbName = try reader["NlbName"].readIfPresent()
+        value.endpointType = try reader["EndpointType"].readIfPresent()
+        value.stageName = try reader["StageName"].readIfPresent()
+        return value
+    }
+}
+
 extension MigrationHubRefactorSpacesClientTypes.ApiGatewayProxyInput {
 
     static func write(value: MigrationHubRefactorSpacesClientTypes.ApiGatewayProxyInput?, to writer: SmithyJSON.Writer) throws {
@@ -4219,66 +4235,11 @@ extension MigrationHubRefactorSpacesClientTypes.ApiGatewayProxyInput {
     }
 }
 
-extension MigrationHubRefactorSpacesClientTypes.UriPathRouteInput {
+extension MigrationHubRefactorSpacesClientTypes.ApiGatewayProxySummary {
 
-    static func write(value: MigrationHubRefactorSpacesClientTypes.UriPathRouteInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ActivationState"].write(value.activationState)
-        try writer["AppendSourcePath"].write(value.appendSourcePath)
-        try writer["IncludeChildPaths"].write(value.includeChildPaths)
-        try writer["Methods"].writeList(value.methods, memberWritingClosure: SmithyReadWrite.WritingClosureBox<MigrationHubRefactorSpacesClientTypes.HttpMethod>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["SourcePath"].write(value.sourcePath)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubRefactorSpacesClientTypes.UriPathRouteInput {
+    static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubRefactorSpacesClientTypes.ApiGatewayProxySummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MigrationHubRefactorSpacesClientTypes.UriPathRouteInput()
-        value.sourcePath = try reader["SourcePath"].readIfPresent() ?? ""
-        value.activationState = try reader["ActivationState"].readIfPresent() ?? .sdkUnknown("")
-        value.methods = try reader["Methods"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<MigrationHubRefactorSpacesClientTypes.HttpMethod>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.includeChildPaths = try reader["IncludeChildPaths"].readIfPresent()
-        value.appendSourcePath = try reader["AppendSourcePath"].readIfPresent()
-        return value
-    }
-}
-
-extension MigrationHubRefactorSpacesClientTypes.UrlEndpointInput {
-
-    static func write(value: MigrationHubRefactorSpacesClientTypes.UrlEndpointInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["HealthUrl"].write(value.healthUrl)
-        try writer["Url"].write(value.url)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubRefactorSpacesClientTypes.UrlEndpointInput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MigrationHubRefactorSpacesClientTypes.UrlEndpointInput()
-        value.url = try reader["Url"].readIfPresent() ?? ""
-        value.healthUrl = try reader["HealthUrl"].readIfPresent()
-        return value
-    }
-}
-
-extension MigrationHubRefactorSpacesClientTypes.LambdaEndpointInput {
-
-    static func write(value: MigrationHubRefactorSpacesClientTypes.LambdaEndpointInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Arn"].write(value.arn)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubRefactorSpacesClientTypes.LambdaEndpointInput {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MigrationHubRefactorSpacesClientTypes.LambdaEndpointInput()
-        value.arn = try reader["Arn"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension MigrationHubRefactorSpacesClientTypes.ApiGatewayProxyConfig {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubRefactorSpacesClientTypes.ApiGatewayProxyConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MigrationHubRefactorSpacesClientTypes.ApiGatewayProxyConfig()
+        var value = MigrationHubRefactorSpacesClientTypes.ApiGatewayProxySummary()
         value.proxyUrl = try reader["ProxyUrl"].readIfPresent()
         value.apiGatewayId = try reader["ApiGatewayId"].readIfPresent()
         value.vpcLinkId = try reader["VpcLinkId"].readIfPresent()
@@ -4286,42 +4247,6 @@ extension MigrationHubRefactorSpacesClientTypes.ApiGatewayProxyConfig {
         value.nlbName = try reader["NlbName"].readIfPresent()
         value.endpointType = try reader["EndpointType"].readIfPresent()
         value.stageName = try reader["StageName"].readIfPresent()
-        return value
-    }
-}
-
-extension MigrationHubRefactorSpacesClientTypes.ErrorResponse {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubRefactorSpacesClientTypes.ErrorResponse {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MigrationHubRefactorSpacesClientTypes.ErrorResponse()
-        value.code = try reader["Code"].readIfPresent()
-        value.message = try reader["Message"].readIfPresent()
-        value.accountId = try reader["AccountId"].readIfPresent()
-        value.resourceIdentifier = try reader["ResourceIdentifier"].readIfPresent()
-        value.resourceType = try reader["ResourceType"].readIfPresent()
-        value.additionalDetails = try reader["AdditionalDetails"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
-        return value
-    }
-}
-
-extension MigrationHubRefactorSpacesClientTypes.UrlEndpointConfig {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubRefactorSpacesClientTypes.UrlEndpointConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MigrationHubRefactorSpacesClientTypes.UrlEndpointConfig()
-        value.url = try reader["Url"].readIfPresent()
-        value.healthUrl = try reader["HealthUrl"].readIfPresent()
-        return value
-    }
-}
-
-extension MigrationHubRefactorSpacesClientTypes.LambdaEndpointConfig {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubRefactorSpacesClientTypes.LambdaEndpointConfig {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MigrationHubRefactorSpacesClientTypes.LambdaEndpointConfig()
-        value.arn = try reader["Arn"].readIfPresent()
         return value
     }
 }
@@ -4349,19 +4274,11 @@ extension MigrationHubRefactorSpacesClientTypes.ApplicationSummary {
     }
 }
 
-extension MigrationHubRefactorSpacesClientTypes.ApiGatewayProxySummary {
+extension MigrationHubRefactorSpacesClientTypes.DefaultRouteInput {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubRefactorSpacesClientTypes.ApiGatewayProxySummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MigrationHubRefactorSpacesClientTypes.ApiGatewayProxySummary()
-        value.proxyUrl = try reader["ProxyUrl"].readIfPresent()
-        value.apiGatewayId = try reader["ApiGatewayId"].readIfPresent()
-        value.vpcLinkId = try reader["VpcLinkId"].readIfPresent()
-        value.nlbArn = try reader["NlbArn"].readIfPresent()
-        value.nlbName = try reader["NlbName"].readIfPresent()
-        value.endpointType = try reader["EndpointType"].readIfPresent()
-        value.stageName = try reader["StageName"].readIfPresent()
-        return value
+    static func write(value: MigrationHubRefactorSpacesClientTypes.DefaultRouteInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ActivationState"].write(value.activationState)
     }
 }
 
@@ -4398,6 +4315,56 @@ extension MigrationHubRefactorSpacesClientTypes.EnvironmentVpc {
         value.vpcName = try reader["VpcName"].readIfPresent()
         value.lastUpdatedTime = try reader["LastUpdatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.createdTime = try reader["CreatedTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension MigrationHubRefactorSpacesClientTypes.ErrorResponse {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubRefactorSpacesClientTypes.ErrorResponse {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MigrationHubRefactorSpacesClientTypes.ErrorResponse()
+        value.code = try reader["Code"].readIfPresent()
+        value.message = try reader["Message"].readIfPresent()
+        value.accountId = try reader["AccountId"].readIfPresent()
+        value.resourceIdentifier = try reader["ResourceIdentifier"].readIfPresent()
+        value.resourceType = try reader["ResourceType"].readIfPresent()
+        value.additionalDetails = try reader["AdditionalDetails"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        return value
+    }
+}
+
+extension MigrationHubRefactorSpacesClientTypes.LambdaEndpointConfig {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubRefactorSpacesClientTypes.LambdaEndpointConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MigrationHubRefactorSpacesClientTypes.LambdaEndpointConfig()
+        value.arn = try reader["Arn"].readIfPresent()
+        return value
+    }
+}
+
+extension MigrationHubRefactorSpacesClientTypes.LambdaEndpointInput {
+
+    static func write(value: MigrationHubRefactorSpacesClientTypes.LambdaEndpointInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Arn"].write(value.arn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubRefactorSpacesClientTypes.LambdaEndpointInput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MigrationHubRefactorSpacesClientTypes.LambdaEndpointInput()
+        value.arn = try reader["Arn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension MigrationHubRefactorSpacesClientTypes.LambdaEndpointSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubRefactorSpacesClientTypes.LambdaEndpointSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MigrationHubRefactorSpacesClientTypes.LambdaEndpointSummary()
+        value.arn = try reader["Arn"].readIfPresent()
         return value
     }
 }
@@ -4455,12 +4422,53 @@ extension MigrationHubRefactorSpacesClientTypes.ServiceSummary {
     }
 }
 
-extension MigrationHubRefactorSpacesClientTypes.LambdaEndpointSummary {
+extension MigrationHubRefactorSpacesClientTypes.UriPathRouteInput {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubRefactorSpacesClientTypes.LambdaEndpointSummary {
+    static func write(value: MigrationHubRefactorSpacesClientTypes.UriPathRouteInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ActivationState"].write(value.activationState)
+        try writer["AppendSourcePath"].write(value.appendSourcePath)
+        try writer["IncludeChildPaths"].write(value.includeChildPaths)
+        try writer["Methods"].writeList(value.methods, memberWritingClosure: SmithyReadWrite.WritingClosureBox<MigrationHubRefactorSpacesClientTypes.HttpMethod>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["SourcePath"].write(value.sourcePath)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubRefactorSpacesClientTypes.UriPathRouteInput {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MigrationHubRefactorSpacesClientTypes.LambdaEndpointSummary()
-        value.arn = try reader["Arn"].readIfPresent()
+        var value = MigrationHubRefactorSpacesClientTypes.UriPathRouteInput()
+        value.sourcePath = try reader["SourcePath"].readIfPresent() ?? ""
+        value.activationState = try reader["ActivationState"].readIfPresent() ?? .sdkUnknown("")
+        value.methods = try reader["Methods"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<MigrationHubRefactorSpacesClientTypes.HttpMethod>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.includeChildPaths = try reader["IncludeChildPaths"].readIfPresent()
+        value.appendSourcePath = try reader["AppendSourcePath"].readIfPresent()
+        return value
+    }
+}
+
+extension MigrationHubRefactorSpacesClientTypes.UrlEndpointConfig {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubRefactorSpacesClientTypes.UrlEndpointConfig {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MigrationHubRefactorSpacesClientTypes.UrlEndpointConfig()
+        value.url = try reader["Url"].readIfPresent()
+        value.healthUrl = try reader["HealthUrl"].readIfPresent()
+        return value
+    }
+}
+
+extension MigrationHubRefactorSpacesClientTypes.UrlEndpointInput {
+
+    static func write(value: MigrationHubRefactorSpacesClientTypes.UrlEndpointInput?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["HealthUrl"].write(value.healthUrl)
+        try writer["Url"].write(value.url)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MigrationHubRefactorSpacesClientTypes.UrlEndpointInput {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MigrationHubRefactorSpacesClientTypes.UrlEndpointInput()
+        value.url = try reader["Url"].readIfPresent() ?? ""
+        value.healthUrl = try reader["HealthUrl"].readIfPresent()
         return value
     }
 }
@@ -4473,14 +4481,6 @@ extension MigrationHubRefactorSpacesClientTypes.UrlEndpointSummary {
         value.url = try reader["Url"].readIfPresent()
         value.healthUrl = try reader["HealthUrl"].readIfPresent()
         return value
-    }
-}
-
-extension MigrationHubRefactorSpacesClientTypes.DefaultRouteInput {
-
-    static func write(value: MigrationHubRefactorSpacesClientTypes.DefaultRouteInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ActivationState"].write(value.activationState)
     }
 }
 

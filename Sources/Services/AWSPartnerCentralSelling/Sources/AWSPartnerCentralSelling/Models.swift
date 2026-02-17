@@ -10671,40 +10671,126 @@ extension ServiceQuotaExceededException {
     }
 }
 
-extension PartnerCentralSellingClientTypes.AwsOpportunityLifeCycle {
+extension PartnerCentralSellingClientTypes.Account {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.AwsOpportunityLifeCycle {
+    static func write(value: PartnerCentralSellingClientTypes.Account?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Address"].write(value.address, with: PartnerCentralSellingClientTypes.Address.write(value:to:))
+        try writer["AwsAccountId"].write(value.awsAccountId)
+        try writer["CompanyName"].write(value.companyName)
+        try writer["Duns"].write(value.duns)
+        try writer["Industry"].write(value.industry)
+        try writer["OtherIndustry"].write(value.otherIndustry)
+        try writer["WebsiteUrl"].write(value.websiteUrl)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.Account {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PartnerCentralSellingClientTypes.AwsOpportunityLifeCycle()
-        value.targetCloseDate = try reader["TargetCloseDate"].readIfPresent()
-        value.closedLostReason = try reader["ClosedLostReason"].readIfPresent()
-        value.stage = try reader["Stage"].readIfPresent()
-        value.nextSteps = try reader["NextSteps"].readIfPresent()
-        value.nextStepsHistory = try reader["NextStepsHistory"].readListIfPresent(memberReadingClosure: PartnerCentralSellingClientTypes.ProfileNextStepsHistory.read(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = PartnerCentralSellingClientTypes.Account()
+        value.industry = try reader["Industry"].readIfPresent()
+        value.otherIndustry = try reader["OtherIndustry"].readIfPresent()
+        value.companyName = try reader["CompanyName"].readIfPresent() ?? ""
+        value.websiteUrl = try reader["WebsiteUrl"].readIfPresent()
+        value.awsAccountId = try reader["AwsAccountId"].readIfPresent()
+        value.address = try reader["Address"].readIfPresent(with: PartnerCentralSellingClientTypes.Address.read(from:))
+        value.duns = try reader["Duns"].readIfPresent()
         return value
     }
 }
 
-extension PartnerCentralSellingClientTypes.ProfileNextStepsHistory {
+extension PartnerCentralSellingClientTypes.AccountReceiver {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.ProfileNextStepsHistory {
+    static func write(value: PartnerCentralSellingClientTypes.AccountReceiver?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Alias"].write(value.alias)
+        try writer["AwsAccountId"].write(value.awsAccountId)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.AccountReceiver {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PartnerCentralSellingClientTypes.ProfileNextStepsHistory()
-        value.value = try reader["Value"].readIfPresent() ?? ""
-        value.time = try reader["Time"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        var value = PartnerCentralSellingClientTypes.AccountReceiver()
+        value.alias = try reader["Alias"].readIfPresent()
+        value.awsAccountId = try reader["AwsAccountId"].readIfPresent() ?? ""
         return value
     }
 }
 
-extension PartnerCentralSellingClientTypes.AwsTeamMember {
+extension PartnerCentralSellingClientTypes.AccountSummary {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.AwsTeamMember {
+    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.AccountSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PartnerCentralSellingClientTypes.AwsTeamMember()
-        value.email = try reader["Email"].readIfPresent()
-        value.firstName = try reader["FirstName"].readIfPresent()
-        value.lastName = try reader["LastName"].readIfPresent()
-        value.businessTitle = try reader["BusinessTitle"].readIfPresent()
+        var value = PartnerCentralSellingClientTypes.AccountSummary()
+        value.industry = try reader["Industry"].readIfPresent()
+        value.otherIndustry = try reader["OtherIndustry"].readIfPresent()
+        value.companyName = try reader["CompanyName"].readIfPresent() ?? ""
+        value.websiteUrl = try reader["WebsiteUrl"].readIfPresent()
+        value.address = try reader["Address"].readIfPresent(with: PartnerCentralSellingClientTypes.AddressSummary.read(from:))
+        return value
+    }
+}
+
+extension PartnerCentralSellingClientTypes.Address {
+
+    static func write(value: PartnerCentralSellingClientTypes.Address?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["City"].write(value.city)
+        try writer["CountryCode"].write(value.countryCode)
+        try writer["PostalCode"].write(value.postalCode)
+        try writer["StateOrRegion"].write(value.stateOrRegion)
+        try writer["StreetAddress"].write(value.streetAddress)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.Address {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PartnerCentralSellingClientTypes.Address()
+        value.city = try reader["City"].readIfPresent()
+        value.postalCode = try reader["PostalCode"].readIfPresent()
+        value.stateOrRegion = try reader["StateOrRegion"].readIfPresent()
+        value.countryCode = try reader["CountryCode"].readIfPresent()
+        value.streetAddress = try reader["StreetAddress"].readIfPresent()
+        return value
+    }
+}
+
+extension PartnerCentralSellingClientTypes.AddressSummary {
+
+    static func write(value: PartnerCentralSellingClientTypes.AddressSummary?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["City"].write(value.city)
+        try writer["CountryCode"].write(value.countryCode)
+        try writer["PostalCode"].write(value.postalCode)
+        try writer["StateOrRegion"].write(value.stateOrRegion)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.AddressSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PartnerCentralSellingClientTypes.AddressSummary()
+        value.city = try reader["City"].readIfPresent()
+        value.postalCode = try reader["PostalCode"].readIfPresent()
+        value.stateOrRegion = try reader["StateOrRegion"].readIfPresent()
+        value.countryCode = try reader["CountryCode"].readIfPresent()
+        return value
+    }
+}
+
+extension PartnerCentralSellingClientTypes.AssigneeContact {
+
+    static func write(value: PartnerCentralSellingClientTypes.AssigneeContact?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["BusinessTitle"].write(value.businessTitle)
+        try writer["Email"].write(value.email)
+        try writer["FirstName"].write(value.firstName)
+        try writer["LastName"].write(value.lastName)
+        try writer["Phone"].write(value.phone)
+    }
+}
+
+extension PartnerCentralSellingClientTypes.AwsOpportunityCustomer {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.AwsOpportunityCustomer {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PartnerCentralSellingClientTypes.AwsOpportunityCustomer()
+        value.contacts = try reader["Contacts"].readListIfPresent(memberReadingClosure: PartnerCentralSellingClientTypes.Contact.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
@@ -10721,29 +10807,58 @@ extension PartnerCentralSellingClientTypes.AwsOpportunityInsights {
     }
 }
 
-extension PartnerCentralSellingClientTypes.AwsProductsSpendInsightsBySource {
+extension PartnerCentralSellingClientTypes.AwsOpportunityLifeCycle {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.AwsProductsSpendInsightsBySource {
+    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.AwsOpportunityLifeCycle {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PartnerCentralSellingClientTypes.AwsProductsSpendInsightsBySource()
-        value.partner = try reader["Partner"].readIfPresent(with: PartnerCentralSellingClientTypes.AwsProductInsights.read(from:))
-        value.aws = try reader["AWS"].readIfPresent(with: PartnerCentralSellingClientTypes.AwsProductInsights.read(from:))
+        var value = PartnerCentralSellingClientTypes.AwsOpportunityLifeCycle()
+        value.targetCloseDate = try reader["TargetCloseDate"].readIfPresent()
+        value.closedLostReason = try reader["ClosedLostReason"].readIfPresent()
+        value.stage = try reader["Stage"].readIfPresent()
+        value.nextSteps = try reader["NextSteps"].readIfPresent()
+        value.nextStepsHistory = try reader["NextStepsHistory"].readListIfPresent(memberReadingClosure: PartnerCentralSellingClientTypes.ProfileNextStepsHistory.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
 
-extension PartnerCentralSellingClientTypes.AwsProductInsights {
+extension PartnerCentralSellingClientTypes.AwsOpportunityProject {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.AwsProductInsights {
+    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.AwsOpportunityProject {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PartnerCentralSellingClientTypes.AwsProductInsights()
-        value.currencyCode = try reader["CurrencyCode"].readIfPresent() ?? .sdkUnknown("")
-        value.frequency = try reader["Frequency"].readIfPresent() ?? .sdkUnknown("")
-        value.totalAmount = try reader["TotalAmount"].readIfPresent()
-        value.totalOptimizedAmount = try reader["TotalOptimizedAmount"].readIfPresent()
-        value.totalPotentialSavingsAmount = try reader["TotalPotentialSavingsAmount"].readIfPresent()
-        value.totalAmountByCategory = try reader["TotalAmountByCategory"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
-        value.awsProducts = try reader["AwsProducts"].readListIfPresent(memberReadingClosure: PartnerCentralSellingClientTypes.AwsProductDetails.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        var value = PartnerCentralSellingClientTypes.AwsOpportunityProject()
+        value.expectedCustomerSpend = try reader["ExpectedCustomerSpend"].readListIfPresent(memberReadingClosure: PartnerCentralSellingClientTypes.ExpectedCustomerSpend.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.awsPartition = try reader["AwsPartition"].readIfPresent()
+        return value
+    }
+}
+
+extension PartnerCentralSellingClientTypes.AwsOpportunityRelatedEntities {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.AwsOpportunityRelatedEntities {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PartnerCentralSellingClientTypes.AwsOpportunityRelatedEntities()
+        value.awsProducts = try reader["AwsProducts"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.solutions = try reader["Solutions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension PartnerCentralSellingClientTypes.AwsOpportunitySummaryFullView {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.AwsOpportunitySummaryFullView {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PartnerCentralSellingClientTypes.AwsOpportunitySummaryFullView()
+        value.relatedOpportunityId = try reader["RelatedOpportunityId"].readIfPresent()
+        value.origin = try reader["Origin"].readIfPresent()
+        value.involvementType = try reader["InvolvementType"].readIfPresent()
+        value.visibility = try reader["Visibility"].readIfPresent()
+        value.lifeCycle = try reader["LifeCycle"].readIfPresent(with: PartnerCentralSellingClientTypes.AwsOpportunityLifeCycle.read(from:))
+        value.opportunityTeam = try reader["OpportunityTeam"].readListIfPresent(memberReadingClosure: PartnerCentralSellingClientTypes.AwsTeamMember.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.insights = try reader["Insights"].readIfPresent(with: PartnerCentralSellingClientTypes.AwsOpportunityInsights.read(from:))
+        value.involvementTypeChangeReason = try reader["InvolvementTypeChangeReason"].readIfPresent()
+        value.relatedEntityIds = try reader["RelatedEntityIds"].readIfPresent(with: PartnerCentralSellingClientTypes.AwsOpportunityRelatedEntities.read(from:))
+        value.customer = try reader["Customer"].readIfPresent(with: PartnerCentralSellingClientTypes.AwsOpportunityCustomer.read(from:))
+        value.project = try reader["Project"].readIfPresent(with: PartnerCentralSellingClientTypes.AwsOpportunityProject.read(from:))
         return value
     }
 }
@@ -10764,6 +10879,22 @@ extension PartnerCentralSellingClientTypes.AwsProductDetails {
     }
 }
 
+extension PartnerCentralSellingClientTypes.AwsProductInsights {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.AwsProductInsights {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PartnerCentralSellingClientTypes.AwsProductInsights()
+        value.currencyCode = try reader["CurrencyCode"].readIfPresent() ?? .sdkUnknown("")
+        value.frequency = try reader["Frequency"].readIfPresent() ?? .sdkUnknown("")
+        value.totalAmount = try reader["TotalAmount"].readIfPresent()
+        value.totalOptimizedAmount = try reader["TotalOptimizedAmount"].readIfPresent()
+        value.totalPotentialSavingsAmount = try reader["TotalPotentialSavingsAmount"].readIfPresent()
+        value.totalAmountByCategory = try reader["TotalAmountByCategory"].readMapIfPresent(valueReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false) ?? [:]
+        value.awsProducts = try reader["AwsProducts"].readListIfPresent(memberReadingClosure: PartnerCentralSellingClientTypes.AwsProductDetails.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
 extension PartnerCentralSellingClientTypes.AwsProductOptimization {
 
     static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.AwsProductOptimization {
@@ -10775,23 +10906,35 @@ extension PartnerCentralSellingClientTypes.AwsProductOptimization {
     }
 }
 
-extension PartnerCentralSellingClientTypes.AwsOpportunityRelatedEntities {
+extension PartnerCentralSellingClientTypes.AwsProductsSpendInsightsBySource {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.AwsOpportunityRelatedEntities {
+    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.AwsProductsSpendInsightsBySource {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PartnerCentralSellingClientTypes.AwsOpportunityRelatedEntities()
-        value.awsProducts = try reader["AwsProducts"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.solutions = try reader["Solutions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = PartnerCentralSellingClientTypes.AwsProductsSpendInsightsBySource()
+        value.partner = try reader["Partner"].readIfPresent(with: PartnerCentralSellingClientTypes.AwsProductInsights.read(from:))
+        value.aws = try reader["AWS"].readIfPresent(with: PartnerCentralSellingClientTypes.AwsProductInsights.read(from:))
         return value
     }
 }
 
-extension PartnerCentralSellingClientTypes.AwsOpportunityCustomer {
+extension PartnerCentralSellingClientTypes.AwsSubmission {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.AwsOpportunityCustomer {
+    static func write(value: PartnerCentralSellingClientTypes.AwsSubmission?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["InvolvementType"].write(value.involvementType)
+        try writer["Visibility"].write(value.visibility)
+    }
+}
+
+extension PartnerCentralSellingClientTypes.AwsTeamMember {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.AwsTeamMember {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PartnerCentralSellingClientTypes.AwsOpportunityCustomer()
-        value.contacts = try reader["Contacts"].readListIfPresent(memberReadingClosure: PartnerCentralSellingClientTypes.Contact.read(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = PartnerCentralSellingClientTypes.AwsTeamMember()
+        value.email = try reader["Email"].readIfPresent()
+        value.firstName = try reader["FirstName"].readIfPresent()
+        value.lastName = try reader["LastName"].readIfPresent()
+        value.businessTitle = try reader["BusinessTitle"].readIfPresent()
         return value
     }
 }
@@ -10819,36 +10962,55 @@ extension PartnerCentralSellingClientTypes.Contact {
     }
 }
 
-extension PartnerCentralSellingClientTypes.AwsOpportunityProject {
+extension PartnerCentralSellingClientTypes.CreatedDateFilter {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.AwsOpportunityProject {
+    static func write(value: PartnerCentralSellingClientTypes.CreatedDateFilter?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AfterCreatedDate"].writeTimestamp(value.afterCreatedDate, format: SmithyTimestamps.TimestampFormat.dateTime)
+        try writer["BeforeCreatedDate"].writeTimestamp(value.beforeCreatedDate, format: SmithyTimestamps.TimestampFormat.dateTime)
+    }
+}
+
+extension PartnerCentralSellingClientTypes.Customer {
+
+    static func write(value: PartnerCentralSellingClientTypes.Customer?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Account"].write(value.account, with: PartnerCentralSellingClientTypes.Account.write(value:to:))
+        try writer["Contacts"].writeList(value.contacts, memberWritingClosure: PartnerCentralSellingClientTypes.Contact.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.Customer {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PartnerCentralSellingClientTypes.AwsOpportunityProject()
-        value.expectedCustomerSpend = try reader["ExpectedCustomerSpend"].readListIfPresent(memberReadingClosure: PartnerCentralSellingClientTypes.ExpectedCustomerSpend.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.awsPartition = try reader["AwsPartition"].readIfPresent()
+        var value = PartnerCentralSellingClientTypes.Customer()
+        value.account = try reader["Account"].readIfPresent(with: PartnerCentralSellingClientTypes.Account.read(from:))
+        value.contacts = try reader["Contacts"].readListIfPresent(memberReadingClosure: PartnerCentralSellingClientTypes.Contact.read(from:), memberNodeInfo: "member", isFlattened: false)
         return value
     }
 }
 
-extension PartnerCentralSellingClientTypes.ExpectedCustomerSpend {
+extension PartnerCentralSellingClientTypes.CustomerProjectsContext {
 
-    static func write(value: PartnerCentralSellingClientTypes.ExpectedCustomerSpend?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: PartnerCentralSellingClientTypes.CustomerProjectsContext?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["Amount"].write(value.amount)
-        try writer["CurrencyCode"].write(value.currencyCode)
-        try writer["EstimationUrl"].write(value.estimationUrl)
-        try writer["Frequency"].write(value.frequency)
-        try writer["TargetCompany"].write(value.targetCompany)
+        try writer["Customer"].write(value.customer, with: PartnerCentralSellingClientTypes.EngagementCustomer.write(value:to:))
+        try writer["Project"].write(value.project, with: PartnerCentralSellingClientTypes.EngagementCustomerProjectDetails.write(value:to:))
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.ExpectedCustomerSpend {
+    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.CustomerProjectsContext {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PartnerCentralSellingClientTypes.ExpectedCustomerSpend()
-        value.amount = try reader["Amount"].readIfPresent() ?? ""
-        value.currencyCode = try reader["CurrencyCode"].readIfPresent() ?? .sdkUnknown("")
-        value.frequency = try reader["Frequency"].readIfPresent() ?? .sdkUnknown("")
-        value.targetCompany = try reader["TargetCompany"].readIfPresent() ?? ""
-        value.estimationUrl = try reader["EstimationUrl"].readIfPresent()
+        var value = PartnerCentralSellingClientTypes.CustomerProjectsContext()
+        value.customer = try reader["Customer"].readIfPresent(with: PartnerCentralSellingClientTypes.EngagementCustomer.read(from:))
+        value.project = try reader["Project"].readIfPresent(with: PartnerCentralSellingClientTypes.EngagementCustomerProjectDetails.read(from:))
+        return value
+    }
+}
+
+extension PartnerCentralSellingClientTypes.CustomerSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.CustomerSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PartnerCentralSellingClientTypes.CustomerSummary()
+        value.account = try reader["Account"].readIfPresent(with: PartnerCentralSellingClientTypes.AccountSummary.read(from:))
         return value
     }
 }
@@ -10900,6 +11062,197 @@ extension PartnerCentralSellingClientTypes.EngagementContextPayload {
     }
 }
 
+extension PartnerCentralSellingClientTypes.EngagementCustomer {
+
+    static func write(value: PartnerCentralSellingClientTypes.EngagementCustomer?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["CompanyName"].write(value.companyName)
+        try writer["CountryCode"].write(value.countryCode)
+        try writer["Industry"].write(value.industry)
+        try writer["WebsiteUrl"].write(value.websiteUrl)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.EngagementCustomer {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PartnerCentralSellingClientTypes.EngagementCustomer()
+        value.industry = try reader["Industry"].readIfPresent() ?? .sdkUnknown("")
+        value.companyName = try reader["CompanyName"].readIfPresent() ?? ""
+        value.websiteUrl = try reader["WebsiteUrl"].readIfPresent() ?? ""
+        value.countryCode = try reader["CountryCode"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension PartnerCentralSellingClientTypes.EngagementCustomerProjectDetails {
+
+    static func write(value: PartnerCentralSellingClientTypes.EngagementCustomerProjectDetails?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["BusinessProblem"].write(value.businessProblem)
+        try writer["TargetCompletionDate"].write(value.targetCompletionDate)
+        try writer["Title"].write(value.title)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.EngagementCustomerProjectDetails {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PartnerCentralSellingClientTypes.EngagementCustomerProjectDetails()
+        value.title = try reader["Title"].readIfPresent() ?? ""
+        value.businessProblem = try reader["BusinessProblem"].readIfPresent() ?? ""
+        value.targetCompletionDate = try reader["TargetCompletionDate"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension PartnerCentralSellingClientTypes.EngagementInvitationSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.EngagementInvitationSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PartnerCentralSellingClientTypes.EngagementInvitationSummary()
+        value.arn = try reader["Arn"].readIfPresent()
+        value.payloadType = try reader["PayloadType"].readIfPresent()
+        value.id = try reader["Id"].readIfPresent() ?? ""
+        value.engagementId = try reader["EngagementId"].readIfPresent()
+        value.engagementTitle = try reader["EngagementTitle"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        value.invitationDate = try reader["InvitationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.expirationDate = try reader["ExpirationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.senderAwsAccountId = try reader["SenderAwsAccountId"].readIfPresent()
+        value.senderCompanyName = try reader["SenderCompanyName"].readIfPresent()
+        value.receiver = try reader["Receiver"].readIfPresent(with: PartnerCentralSellingClientTypes.Receiver.read(from:))
+        value.catalog = try reader["Catalog"].readIfPresent() ?? ""
+        value.participantType = try reader["ParticipantType"].readIfPresent()
+        return value
+    }
+}
+
+extension PartnerCentralSellingClientTypes.EngagementMember {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.EngagementMember {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PartnerCentralSellingClientTypes.EngagementMember()
+        value.companyName = try reader["CompanyName"].readIfPresent()
+        value.websiteUrl = try reader["WebsiteUrl"].readIfPresent()
+        value.accountId = try reader["AccountId"].readIfPresent()
+        return value
+    }
+}
+
+extension PartnerCentralSellingClientTypes.EngagementMemberSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.EngagementMemberSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PartnerCentralSellingClientTypes.EngagementMemberSummary()
+        value.companyName = try reader["CompanyName"].readIfPresent()
+        value.websiteUrl = try reader["WebsiteUrl"].readIfPresent()
+        return value
+    }
+}
+
+extension PartnerCentralSellingClientTypes.EngagementResourceAssociationSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.EngagementResourceAssociationSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PartnerCentralSellingClientTypes.EngagementResourceAssociationSummary()
+        value.catalog = try reader["Catalog"].readIfPresent() ?? ""
+        value.engagementId = try reader["EngagementId"].readIfPresent()
+        value.resourceType = try reader["ResourceType"].readIfPresent()
+        value.resourceId = try reader["ResourceId"].readIfPresent()
+        value.createdBy = try reader["CreatedBy"].readIfPresent()
+        return value
+    }
+}
+
+extension PartnerCentralSellingClientTypes.EngagementSort {
+
+    static func write(value: PartnerCentralSellingClientTypes.EngagementSort?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["SortBy"].write(value.sortBy)
+        try writer["SortOrder"].write(value.sortOrder)
+    }
+}
+
+extension PartnerCentralSellingClientTypes.EngagementSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.EngagementSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PartnerCentralSellingClientTypes.EngagementSummary()
+        value.arn = try reader["Arn"].readIfPresent()
+        value.id = try reader["Id"].readIfPresent()
+        value.title = try reader["Title"].readIfPresent()
+        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.createdBy = try reader["CreatedBy"].readIfPresent()
+        value.memberCount = try reader["MemberCount"].readIfPresent()
+        value.modifiedAt = try reader["ModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.modifiedBy = try reader["ModifiedBy"].readIfPresent()
+        value.contextTypes = try reader["ContextTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<PartnerCentralSellingClientTypes.EngagementContextType>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension PartnerCentralSellingClientTypes.ExpectedCustomerSpend {
+
+    static func write(value: PartnerCentralSellingClientTypes.ExpectedCustomerSpend?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Amount"].write(value.amount)
+        try writer["CurrencyCode"].write(value.currencyCode)
+        try writer["EstimationUrl"].write(value.estimationUrl)
+        try writer["Frequency"].write(value.frequency)
+        try writer["TargetCompany"].write(value.targetCompany)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.ExpectedCustomerSpend {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PartnerCentralSellingClientTypes.ExpectedCustomerSpend()
+        value.amount = try reader["Amount"].readIfPresent() ?? ""
+        value.currencyCode = try reader["CurrencyCode"].readIfPresent() ?? .sdkUnknown("")
+        value.frequency = try reader["Frequency"].readIfPresent() ?? .sdkUnknown("")
+        value.targetCompany = try reader["TargetCompany"].readIfPresent() ?? ""
+        value.estimationUrl = try reader["EstimationUrl"].readIfPresent()
+        return value
+    }
+}
+
+extension PartnerCentralSellingClientTypes.Invitation {
+
+    static func write(value: PartnerCentralSellingClientTypes.Invitation?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Message"].write(value.message)
+        try writer["Payload"].write(value.payload, with: PartnerCentralSellingClientTypes.Payload.write(value:to:))
+        try writer["Receiver"].write(value.receiver, with: PartnerCentralSellingClientTypes.Receiver.write(value:to:))
+    }
+}
+
+extension PartnerCentralSellingClientTypes.LastModifiedDate {
+
+    static func write(value: PartnerCentralSellingClientTypes.LastModifiedDate?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AfterLastModifiedDate"].writeTimestamp(value.afterLastModifiedDate, format: SmithyTimestamps.TimestampFormat.dateTime)
+        try writer["BeforeLastModifiedDate"].writeTimestamp(value.beforeLastModifiedDate, format: SmithyTimestamps.TimestampFormat.dateTime)
+    }
+}
+
+extension PartnerCentralSellingClientTypes.LeadContact {
+
+    static func write(value: PartnerCentralSellingClientTypes.LeadContact?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["BusinessTitle"].write(value.businessTitle)
+        try writer["Email"].write(value.email)
+        try writer["FirstName"].write(value.firstName)
+        try writer["LastName"].write(value.lastName)
+        try writer["Phone"].write(value.phone)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.LeadContact {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PartnerCentralSellingClientTypes.LeadContact()
+        value.businessTitle = try reader["BusinessTitle"].readIfPresent() ?? ""
+        value.email = try reader["Email"].readIfPresent() ?? ""
+        value.firstName = try reader["FirstName"].readIfPresent() ?? ""
+        value.lastName = try reader["LastName"].readIfPresent() ?? ""
+        value.phone = try reader["Phone"].readIfPresent()
+        return value
+    }
+}
+
 extension PartnerCentralSellingClientTypes.LeadContext {
 
     static func write(value: PartnerCentralSellingClientTypes.LeadContext?, to writer: SmithyJSON.Writer) throws {
@@ -10915,6 +11268,31 @@ extension PartnerCentralSellingClientTypes.LeadContext {
         value.qualificationStatus = try reader["QualificationStatus"].readIfPresent() ?? "Unqualified"
         value.customer = try reader["Customer"].readIfPresent(with: PartnerCentralSellingClientTypes.LeadCustomer.read(from:))
         value.interactions = try reader["Interactions"].readListIfPresent(memberReadingClosure: PartnerCentralSellingClientTypes.LeadInteraction.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension PartnerCentralSellingClientTypes.LeadCustomer {
+
+    static func write(value: PartnerCentralSellingClientTypes.LeadCustomer?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Address"].write(value.address, with: PartnerCentralSellingClientTypes.AddressSummary.write(value:to:))
+        try writer["AwsMaturity"].write(value.awsMaturity)
+        try writer["CompanyName"].write(value.companyName)
+        try writer["Industry"].write(value.industry)
+        try writer["MarketSegment"].write(value.marketSegment)
+        try writer["WebsiteUrl"].write(value.websiteUrl)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.LeadCustomer {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PartnerCentralSellingClientTypes.LeadCustomer()
+        value.industry = try reader["Industry"].readIfPresent()
+        value.companyName = try reader["CompanyName"].readIfPresent() ?? ""
+        value.websiteUrl = try reader["WebsiteUrl"].readIfPresent()
+        value.address = try reader["Address"].readIfPresent(with: PartnerCentralSellingClientTypes.AddressSummary.read(from:))
+        value.awsMaturity = try reader["AwsMaturity"].readIfPresent()
+        value.marketSegment = try reader["MarketSegment"].readIfPresent()
         return value
     }
 }
@@ -10948,169 +11326,321 @@ extension PartnerCentralSellingClientTypes.LeadInteraction {
     }
 }
 
-extension PartnerCentralSellingClientTypes.LeadContact {
+extension PartnerCentralSellingClientTypes.LeadInvitationCustomer {
 
-    static func write(value: PartnerCentralSellingClientTypes.LeadContact?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: PartnerCentralSellingClientTypes.LeadInvitationCustomer?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["BusinessTitle"].write(value.businessTitle)
-        try writer["Email"].write(value.email)
-        try writer["FirstName"].write(value.firstName)
-        try writer["LastName"].write(value.lastName)
-        try writer["Phone"].write(value.phone)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.LeadContact {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PartnerCentralSellingClientTypes.LeadContact()
-        value.businessTitle = try reader["BusinessTitle"].readIfPresent() ?? ""
-        value.email = try reader["Email"].readIfPresent() ?? ""
-        value.firstName = try reader["FirstName"].readIfPresent() ?? ""
-        value.lastName = try reader["LastName"].readIfPresent() ?? ""
-        value.phone = try reader["Phone"].readIfPresent()
-        return value
-    }
-}
-
-extension PartnerCentralSellingClientTypes.LeadCustomer {
-
-    static func write(value: PartnerCentralSellingClientTypes.LeadCustomer?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Address"].write(value.address, with: PartnerCentralSellingClientTypes.AddressSummary.write(value:to:))
         try writer["AwsMaturity"].write(value.awsMaturity)
         try writer["CompanyName"].write(value.companyName)
+        try writer["CountryCode"].write(value.countryCode)
         try writer["Industry"].write(value.industry)
         try writer["MarketSegment"].write(value.marketSegment)
         try writer["WebsiteUrl"].write(value.websiteUrl)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.LeadCustomer {
+    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.LeadInvitationCustomer {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PartnerCentralSellingClientTypes.LeadCustomer()
+        var value = PartnerCentralSellingClientTypes.LeadInvitationCustomer()
         value.industry = try reader["Industry"].readIfPresent()
         value.companyName = try reader["CompanyName"].readIfPresent() ?? ""
         value.websiteUrl = try reader["WebsiteUrl"].readIfPresent()
-        value.address = try reader["Address"].readIfPresent(with: PartnerCentralSellingClientTypes.AddressSummary.read(from:))
+        value.countryCode = try reader["CountryCode"].readIfPresent() ?? .sdkUnknown("")
         value.awsMaturity = try reader["AwsMaturity"].readIfPresent()
         value.marketSegment = try reader["MarketSegment"].readIfPresent()
         return value
     }
 }
 
-extension PartnerCentralSellingClientTypes.AddressSummary {
+extension PartnerCentralSellingClientTypes.LeadInvitationInteraction {
 
-    static func write(value: PartnerCentralSellingClientTypes.AddressSummary?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: PartnerCentralSellingClientTypes.LeadInvitationInteraction?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["City"].write(value.city)
-        try writer["CountryCode"].write(value.countryCode)
-        try writer["PostalCode"].write(value.postalCode)
-        try writer["StateOrRegion"].write(value.stateOrRegion)
+        try writer["ContactBusinessTitle"].write(value.contactBusinessTitle)
+        try writer["SourceId"].write(value.sourceId)
+        try writer["SourceName"].write(value.sourceName)
+        try writer["SourceType"].write(value.sourceType)
+        try writer["Usecase"].write(value.usecase)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.AddressSummary {
+    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.LeadInvitationInteraction {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PartnerCentralSellingClientTypes.AddressSummary()
-        value.city = try reader["City"].readIfPresent()
-        value.postalCode = try reader["PostalCode"].readIfPresent()
-        value.stateOrRegion = try reader["StateOrRegion"].readIfPresent()
-        value.countryCode = try reader["CountryCode"].readIfPresent()
+        var value = PartnerCentralSellingClientTypes.LeadInvitationInteraction()
+        value.sourceType = try reader["SourceType"].readIfPresent() ?? ""
+        value.sourceId = try reader["SourceId"].readIfPresent() ?? ""
+        value.sourceName = try reader["SourceName"].readIfPresent() ?? ""
+        value.usecase = try reader["Usecase"].readIfPresent()
+        value.contactBusinessTitle = try reader["ContactBusinessTitle"].readIfPresent() ?? ""
         return value
     }
 }
 
-extension PartnerCentralSellingClientTypes.CustomerProjectsContext {
+extension PartnerCentralSellingClientTypes.LeadInvitationPayload {
 
-    static func write(value: PartnerCentralSellingClientTypes.CustomerProjectsContext?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: PartnerCentralSellingClientTypes.LeadInvitationPayload?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Customer"].write(value.customer, with: PartnerCentralSellingClientTypes.LeadInvitationCustomer.write(value:to:))
+        try writer["Interaction"].write(value.interaction, with: PartnerCentralSellingClientTypes.LeadInvitationInteraction.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.LeadInvitationPayload {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PartnerCentralSellingClientTypes.LeadInvitationPayload()
+        value.customer = try reader["Customer"].readIfPresent(with: PartnerCentralSellingClientTypes.LeadInvitationCustomer.read(from:))
+        value.interaction = try reader["Interaction"].readIfPresent(with: PartnerCentralSellingClientTypes.LeadInvitationInteraction.read(from:))
+        return value
+    }
+}
+
+extension PartnerCentralSellingClientTypes.LifeCycle {
+
+    static func write(value: PartnerCentralSellingClientTypes.LifeCycle?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ClosedLostReason"].write(value.closedLostReason)
+        try writer["NextSteps"].write(value.nextSteps)
+        try writer["NextStepsHistory"].writeList(value.nextStepsHistory, memberWritingClosure: PartnerCentralSellingClientTypes.NextStepsHistory.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ReviewComments"].write(value.reviewComments)
+        try writer["ReviewStatus"].write(value.reviewStatus)
+        try writer["ReviewStatusReason"].write(value.reviewStatusReason)
+        try writer["Stage"].write(value.stage)
+        try writer["TargetCloseDate"].write(value.targetCloseDate)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.LifeCycle {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PartnerCentralSellingClientTypes.LifeCycle()
+        value.stage = try reader["Stage"].readIfPresent()
+        value.closedLostReason = try reader["ClosedLostReason"].readIfPresent()
+        value.nextSteps = try reader["NextSteps"].readIfPresent()
+        value.targetCloseDate = try reader["TargetCloseDate"].readIfPresent()
+        value.reviewStatus = try reader["ReviewStatus"].readIfPresent()
+        value.reviewComments = try reader["ReviewComments"].readIfPresent()
+        value.reviewStatusReason = try reader["ReviewStatusReason"].readIfPresent()
+        value.nextStepsHistory = try reader["NextStepsHistory"].readListIfPresent(memberReadingClosure: PartnerCentralSellingClientTypes.NextStepsHistory.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension PartnerCentralSellingClientTypes.LifeCycleForView {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.LifeCycleForView {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PartnerCentralSellingClientTypes.LifeCycleForView()
+        value.targetCloseDate = try reader["TargetCloseDate"].readIfPresent()
+        value.reviewStatus = try reader["ReviewStatus"].readIfPresent()
+        value.stage = try reader["Stage"].readIfPresent()
+        value.nextSteps = try reader["NextSteps"].readIfPresent()
+        return value
+    }
+}
+
+extension PartnerCentralSellingClientTypes.LifeCycleSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.LifeCycleSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PartnerCentralSellingClientTypes.LifeCycleSummary()
+        value.stage = try reader["Stage"].readIfPresent()
+        value.closedLostReason = try reader["ClosedLostReason"].readIfPresent()
+        value.nextSteps = try reader["NextSteps"].readIfPresent()
+        value.targetCloseDate = try reader["TargetCloseDate"].readIfPresent()
+        value.reviewStatus = try reader["ReviewStatus"].readIfPresent()
+        value.reviewComments = try reader["ReviewComments"].readIfPresent()
+        value.reviewStatusReason = try reader["ReviewStatusReason"].readIfPresent()
+        return value
+    }
+}
+
+extension PartnerCentralSellingClientTypes.ListEngagementByAcceptingInvitationTaskSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.ListEngagementByAcceptingInvitationTaskSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PartnerCentralSellingClientTypes.ListEngagementByAcceptingInvitationTaskSummary()
+        value.taskId = try reader["TaskId"].readIfPresent()
+        value.taskArn = try reader["TaskArn"].readIfPresent()
+        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.taskStatus = try reader["TaskStatus"].readIfPresent()
+        value.message = try reader["Message"].readIfPresent()
+        value.reasonCode = try reader["ReasonCode"].readIfPresent()
+        value.opportunityId = try reader["OpportunityId"].readIfPresent()
+        value.resourceSnapshotJobId = try reader["ResourceSnapshotJobId"].readIfPresent()
+        value.engagementInvitationId = try reader["EngagementInvitationId"].readIfPresent()
+        return value
+    }
+}
+
+extension PartnerCentralSellingClientTypes.ListEngagementFromOpportunityTaskSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.ListEngagementFromOpportunityTaskSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PartnerCentralSellingClientTypes.ListEngagementFromOpportunityTaskSummary()
+        value.taskId = try reader["TaskId"].readIfPresent()
+        value.taskArn = try reader["TaskArn"].readIfPresent()
+        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.taskStatus = try reader["TaskStatus"].readIfPresent()
+        value.message = try reader["Message"].readIfPresent()
+        value.reasonCode = try reader["ReasonCode"].readIfPresent()
+        value.opportunityId = try reader["OpportunityId"].readIfPresent()
+        value.resourceSnapshotJobId = try reader["ResourceSnapshotJobId"].readIfPresent()
+        value.engagementId = try reader["EngagementId"].readIfPresent()
+        value.engagementInvitationId = try reader["EngagementInvitationId"].readIfPresent()
+        return value
+    }
+}
+
+extension PartnerCentralSellingClientTypes.ListOpportunityFromEngagementTaskSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.ListOpportunityFromEngagementTaskSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PartnerCentralSellingClientTypes.ListOpportunityFromEngagementTaskSummary()
+        value.taskId = try reader["TaskId"].readIfPresent()
+        value.taskArn = try reader["TaskArn"].readIfPresent()
+        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.taskStatus = try reader["TaskStatus"].readIfPresent()
+        value.message = try reader["Message"].readIfPresent()
+        value.reasonCode = try reader["ReasonCode"].readIfPresent()
+        value.opportunityId = try reader["OpportunityId"].readIfPresent()
+        value.resourceSnapshotJobId = try reader["ResourceSnapshotJobId"].readIfPresent()
+        value.engagementId = try reader["EngagementId"].readIfPresent()
+        value.contextId = try reader["ContextId"].readIfPresent()
+        return value
+    }
+}
+
+extension PartnerCentralSellingClientTypes.ListTasksSortBase {
+
+    static func write(value: PartnerCentralSellingClientTypes.ListTasksSortBase?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["SortBy"].write(value.sortBy)
+        try writer["SortOrder"].write(value.sortOrder)
+    }
+}
+
+extension PartnerCentralSellingClientTypes.Marketing {
+
+    static func write(value: PartnerCentralSellingClientTypes.Marketing?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AwsFundingUsed"].write(value.awsFundingUsed)
+        try writer["CampaignName"].write(value.campaignName)
+        try writer["Channels"].writeList(value.channels, memberWritingClosure: SmithyReadWrite.WritingClosureBox<PartnerCentralSellingClientTypes.Channel>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Source"].write(value.source)
+        try writer["UseCases"].writeList(value.useCases, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.Marketing {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PartnerCentralSellingClientTypes.Marketing()
+        value.campaignName = try reader["CampaignName"].readIfPresent()
+        value.source = try reader["Source"].readIfPresent()
+        value.useCases = try reader["UseCases"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.channels = try reader["Channels"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<PartnerCentralSellingClientTypes.Channel>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.awsFundingUsed = try reader["AwsFundingUsed"].readIfPresent()
+        return value
+    }
+}
+
+extension PartnerCentralSellingClientTypes.MonetaryValue {
+
+    static func write(value: PartnerCentralSellingClientTypes.MonetaryValue?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Amount"].write(value.amount)
+        try writer["CurrencyCode"].write(value.currencyCode)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.MonetaryValue {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PartnerCentralSellingClientTypes.MonetaryValue()
+        value.amount = try reader["Amount"].readIfPresent() ?? ""
+        value.currencyCode = try reader["CurrencyCode"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension PartnerCentralSellingClientTypes.NextStepsHistory {
+
+    static func write(value: PartnerCentralSellingClientTypes.NextStepsHistory?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Time"].writeTimestamp(value.time, format: SmithyTimestamps.TimestampFormat.dateTime)
+        try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.NextStepsHistory {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PartnerCentralSellingClientTypes.NextStepsHistory()
+        value.value = try reader["Value"].readIfPresent() ?? ""
+        value.time = try reader["Time"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension PartnerCentralSellingClientTypes.OpportunityEngagementInvitationSort {
+
+    static func write(value: PartnerCentralSellingClientTypes.OpportunityEngagementInvitationSort?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["SortBy"].write(value.sortBy)
+        try writer["SortOrder"].write(value.sortOrder)
+    }
+}
+
+extension PartnerCentralSellingClientTypes.OpportunityInvitationPayload {
+
+    static func write(value: PartnerCentralSellingClientTypes.OpportunityInvitationPayload?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         try writer["Customer"].write(value.customer, with: PartnerCentralSellingClientTypes.EngagementCustomer.write(value:to:))
-        try writer["Project"].write(value.project, with: PartnerCentralSellingClientTypes.EngagementCustomerProjectDetails.write(value:to:))
+        try writer["Project"].write(value.project, with: PartnerCentralSellingClientTypes.ProjectDetails.write(value:to:))
+        try writer["ReceiverResponsibilities"].writeList(value.receiverResponsibilities, memberWritingClosure: SmithyReadWrite.WritingClosureBox<PartnerCentralSellingClientTypes.ReceiverResponsibility>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["SenderContacts"].writeList(value.senderContacts, memberWritingClosure: PartnerCentralSellingClientTypes.SenderContact.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.CustomerProjectsContext {
+    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.OpportunityInvitationPayload {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PartnerCentralSellingClientTypes.CustomerProjectsContext()
+        var value = PartnerCentralSellingClientTypes.OpportunityInvitationPayload()
+        value.senderContacts = try reader["SenderContacts"].readListIfPresent(memberReadingClosure: PartnerCentralSellingClientTypes.SenderContact.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.receiverResponsibilities = try reader["ReceiverResponsibilities"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<PartnerCentralSellingClientTypes.ReceiverResponsibility>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         value.customer = try reader["Customer"].readIfPresent(with: PartnerCentralSellingClientTypes.EngagementCustomer.read(from:))
-        value.project = try reader["Project"].readIfPresent(with: PartnerCentralSellingClientTypes.EngagementCustomerProjectDetails.read(from:))
+        value.project = try reader["Project"].readIfPresent(with: PartnerCentralSellingClientTypes.ProjectDetails.read(from:))
         return value
     }
 }
 
-extension PartnerCentralSellingClientTypes.EngagementCustomerProjectDetails {
+extension PartnerCentralSellingClientTypes.OpportunitySort {
 
-    static func write(value: PartnerCentralSellingClientTypes.EngagementCustomerProjectDetails?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: PartnerCentralSellingClientTypes.OpportunitySort?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["BusinessProblem"].write(value.businessProblem)
-        try writer["TargetCompletionDate"].write(value.targetCompletionDate)
-        try writer["Title"].write(value.title)
+        try writer["SortBy"].write(value.sortBy)
+        try writer["SortOrder"].write(value.sortOrder)
     }
+}
 
-    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.EngagementCustomerProjectDetails {
+extension PartnerCentralSellingClientTypes.OpportunitySummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.OpportunitySummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PartnerCentralSellingClientTypes.EngagementCustomerProjectDetails()
-        value.title = try reader["Title"].readIfPresent() ?? ""
-        value.businessProblem = try reader["BusinessProblem"].readIfPresent() ?? ""
-        value.targetCompletionDate = try reader["TargetCompletionDate"].readIfPresent() ?? ""
+        var value = PartnerCentralSellingClientTypes.OpportunitySummary()
+        value.catalog = try reader["Catalog"].readIfPresent() ?? ""
+        value.id = try reader["Id"].readIfPresent()
+        value.arn = try reader["Arn"].readIfPresent()
+        value.partnerOpportunityIdentifier = try reader["PartnerOpportunityIdentifier"].readIfPresent()
+        value.opportunityType = try reader["OpportunityType"].readIfPresent()
+        value.lastModifiedDate = try reader["LastModifiedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.createdDate = try reader["CreatedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
+        value.lifeCycle = try reader["LifeCycle"].readIfPresent(with: PartnerCentralSellingClientTypes.LifeCycleSummary.read(from:))
+        value.customer = try reader["Customer"].readIfPresent(with: PartnerCentralSellingClientTypes.CustomerSummary.read(from:))
+        value.project = try reader["Project"].readIfPresent(with: PartnerCentralSellingClientTypes.ProjectSummary.read(from:))
         return value
     }
 }
 
-extension PartnerCentralSellingClientTypes.EngagementCustomer {
+extension PartnerCentralSellingClientTypes.OpportunitySummaryView {
 
-    static func write(value: PartnerCentralSellingClientTypes.EngagementCustomer?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["CompanyName"].write(value.companyName)
-        try writer["CountryCode"].write(value.countryCode)
-        try writer["Industry"].write(value.industry)
-        try writer["WebsiteUrl"].write(value.websiteUrl)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.EngagementCustomer {
+    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.OpportunitySummaryView {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PartnerCentralSellingClientTypes.EngagementCustomer()
-        value.industry = try reader["Industry"].readIfPresent() ?? .sdkUnknown("")
-        value.companyName = try reader["CompanyName"].readIfPresent() ?? ""
-        value.websiteUrl = try reader["WebsiteUrl"].readIfPresent() ?? ""
-        value.countryCode = try reader["CountryCode"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension PartnerCentralSellingClientTypes.Receiver {
-
-    static func write(value: PartnerCentralSellingClientTypes.Receiver?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .account(account):
-                try writer["Account"].write(account, with: PartnerCentralSellingClientTypes.AccountReceiver.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.Receiver {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "Account":
-                return .account(try reader["Account"].read(with: PartnerCentralSellingClientTypes.AccountReceiver.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension PartnerCentralSellingClientTypes.AccountReceiver {
-
-    static func write(value: PartnerCentralSellingClientTypes.AccountReceiver?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Alias"].write(value.alias)
-        try writer["AwsAccountId"].write(value.awsAccountId)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.AccountReceiver {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PartnerCentralSellingClientTypes.AccountReceiver()
-        value.alias = try reader["Alias"].readIfPresent()
-        value.awsAccountId = try reader["AwsAccountId"].readIfPresent() ?? ""
+        var value = PartnerCentralSellingClientTypes.OpportunitySummaryView()
+        value.opportunityType = try reader["OpportunityType"].readIfPresent()
+        value.lifecycle = try reader["Lifecycle"].readIfPresent(with: PartnerCentralSellingClientTypes.LifeCycleForView.read(from:))
+        value.opportunityTeam = try reader["OpportunityTeam"].readListIfPresent(memberReadingClosure: PartnerCentralSellingClientTypes.Contact.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.primaryNeedsFromAws = try reader["PrimaryNeedsFromAws"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<PartnerCentralSellingClientTypes.PrimaryNeedFromAws>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.customer = try reader["Customer"].readIfPresent(with: PartnerCentralSellingClientTypes.Customer.read(from:))
+        value.project = try reader["Project"].readIfPresent(with: PartnerCentralSellingClientTypes.ProjectView.read(from:))
+        value.relatedEntityIdentifiers = try reader["RelatedEntityIdentifiers"].readIfPresent(with: PartnerCentralSellingClientTypes.RelatedEntityIdentifiers.read(from:))
         return value
     }
 }
@@ -11143,210 +11673,13 @@ extension PartnerCentralSellingClientTypes.Payload {
     }
 }
 
-extension PartnerCentralSellingClientTypes.LeadInvitationPayload {
+extension PartnerCentralSellingClientTypes.ProfileNextStepsHistory {
 
-    static func write(value: PartnerCentralSellingClientTypes.LeadInvitationPayload?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Customer"].write(value.customer, with: PartnerCentralSellingClientTypes.LeadInvitationCustomer.write(value:to:))
-        try writer["Interaction"].write(value.interaction, with: PartnerCentralSellingClientTypes.LeadInvitationInteraction.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.LeadInvitationPayload {
+    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.ProfileNextStepsHistory {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PartnerCentralSellingClientTypes.LeadInvitationPayload()
-        value.customer = try reader["Customer"].readIfPresent(with: PartnerCentralSellingClientTypes.LeadInvitationCustomer.read(from:))
-        value.interaction = try reader["Interaction"].readIfPresent(with: PartnerCentralSellingClientTypes.LeadInvitationInteraction.read(from:))
-        return value
-    }
-}
-
-extension PartnerCentralSellingClientTypes.LeadInvitationInteraction {
-
-    static func write(value: PartnerCentralSellingClientTypes.LeadInvitationInteraction?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ContactBusinessTitle"].write(value.contactBusinessTitle)
-        try writer["SourceId"].write(value.sourceId)
-        try writer["SourceName"].write(value.sourceName)
-        try writer["SourceType"].write(value.sourceType)
-        try writer["Usecase"].write(value.usecase)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.LeadInvitationInteraction {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PartnerCentralSellingClientTypes.LeadInvitationInteraction()
-        value.sourceType = try reader["SourceType"].readIfPresent() ?? ""
-        value.sourceId = try reader["SourceId"].readIfPresent() ?? ""
-        value.sourceName = try reader["SourceName"].readIfPresent() ?? ""
-        value.usecase = try reader["Usecase"].readIfPresent()
-        value.contactBusinessTitle = try reader["ContactBusinessTitle"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension PartnerCentralSellingClientTypes.LeadInvitationCustomer {
-
-    static func write(value: PartnerCentralSellingClientTypes.LeadInvitationCustomer?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AwsMaturity"].write(value.awsMaturity)
-        try writer["CompanyName"].write(value.companyName)
-        try writer["CountryCode"].write(value.countryCode)
-        try writer["Industry"].write(value.industry)
-        try writer["MarketSegment"].write(value.marketSegment)
-        try writer["WebsiteUrl"].write(value.websiteUrl)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.LeadInvitationCustomer {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PartnerCentralSellingClientTypes.LeadInvitationCustomer()
-        value.industry = try reader["Industry"].readIfPresent()
-        value.companyName = try reader["CompanyName"].readIfPresent() ?? ""
-        value.websiteUrl = try reader["WebsiteUrl"].readIfPresent()
-        value.countryCode = try reader["CountryCode"].readIfPresent() ?? .sdkUnknown("")
-        value.awsMaturity = try reader["AwsMaturity"].readIfPresent()
-        value.marketSegment = try reader["MarketSegment"].readIfPresent()
-        return value
-    }
-}
-
-extension PartnerCentralSellingClientTypes.OpportunityInvitationPayload {
-
-    static func write(value: PartnerCentralSellingClientTypes.OpportunityInvitationPayload?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Customer"].write(value.customer, with: PartnerCentralSellingClientTypes.EngagementCustomer.write(value:to:))
-        try writer["Project"].write(value.project, with: PartnerCentralSellingClientTypes.ProjectDetails.write(value:to:))
-        try writer["ReceiverResponsibilities"].writeList(value.receiverResponsibilities, memberWritingClosure: SmithyReadWrite.WritingClosureBox<PartnerCentralSellingClientTypes.ReceiverResponsibility>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["SenderContacts"].writeList(value.senderContacts, memberWritingClosure: PartnerCentralSellingClientTypes.SenderContact.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.OpportunityInvitationPayload {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PartnerCentralSellingClientTypes.OpportunityInvitationPayload()
-        value.senderContacts = try reader["SenderContacts"].readListIfPresent(memberReadingClosure: PartnerCentralSellingClientTypes.SenderContact.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.receiverResponsibilities = try reader["ReceiverResponsibilities"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<PartnerCentralSellingClientTypes.ReceiverResponsibility>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.customer = try reader["Customer"].readIfPresent(with: PartnerCentralSellingClientTypes.EngagementCustomer.read(from:))
-        value.project = try reader["Project"].readIfPresent(with: PartnerCentralSellingClientTypes.ProjectDetails.read(from:))
-        return value
-    }
-}
-
-extension PartnerCentralSellingClientTypes.ProjectDetails {
-
-    static func write(value: PartnerCentralSellingClientTypes.ProjectDetails?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BusinessProblem"].write(value.businessProblem)
-        try writer["ExpectedCustomerSpend"].writeList(value.expectedCustomerSpend, memberWritingClosure: PartnerCentralSellingClientTypes.ExpectedCustomerSpend.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["TargetCompletionDate"].write(value.targetCompletionDate)
-        try writer["Title"].write(value.title)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.ProjectDetails {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PartnerCentralSellingClientTypes.ProjectDetails()
-        value.businessProblem = try reader["BusinessProblem"].readIfPresent() ?? ""
-        value.title = try reader["Title"].readIfPresent() ?? ""
-        value.targetCompletionDate = try reader["TargetCompletionDate"].readIfPresent() ?? ""
-        value.expectedCustomerSpend = try reader["ExpectedCustomerSpend"].readListIfPresent(memberReadingClosure: PartnerCentralSellingClientTypes.ExpectedCustomerSpend.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension PartnerCentralSellingClientTypes.SenderContact {
-
-    static func write(value: PartnerCentralSellingClientTypes.SenderContact?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BusinessTitle"].write(value.businessTitle)
-        try writer["Email"].write(value.email)
-        try writer["FirstName"].write(value.firstName)
-        try writer["LastName"].write(value.lastName)
-        try writer["Phone"].write(value.phone)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.SenderContact {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PartnerCentralSellingClientTypes.SenderContact()
-        value.email = try reader["Email"].readIfPresent() ?? ""
-        value.firstName = try reader["FirstName"].readIfPresent()
-        value.lastName = try reader["LastName"].readIfPresent()
-        value.businessTitle = try reader["BusinessTitle"].readIfPresent()
-        value.phone = try reader["Phone"].readIfPresent()
-        return value
-    }
-}
-
-extension PartnerCentralSellingClientTypes.EngagementMemberSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.EngagementMemberSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PartnerCentralSellingClientTypes.EngagementMemberSummary()
-        value.companyName = try reader["CompanyName"].readIfPresent()
-        value.websiteUrl = try reader["WebsiteUrl"].readIfPresent()
-        return value
-    }
-}
-
-extension PartnerCentralSellingClientTypes.Customer {
-
-    static func write(value: PartnerCentralSellingClientTypes.Customer?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Account"].write(value.account, with: PartnerCentralSellingClientTypes.Account.write(value:to:))
-        try writer["Contacts"].writeList(value.contacts, memberWritingClosure: PartnerCentralSellingClientTypes.Contact.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.Customer {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PartnerCentralSellingClientTypes.Customer()
-        value.account = try reader["Account"].readIfPresent(with: PartnerCentralSellingClientTypes.Account.read(from:))
-        value.contacts = try reader["Contacts"].readListIfPresent(memberReadingClosure: PartnerCentralSellingClientTypes.Contact.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension PartnerCentralSellingClientTypes.Account {
-
-    static func write(value: PartnerCentralSellingClientTypes.Account?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Address"].write(value.address, with: PartnerCentralSellingClientTypes.Address.write(value:to:))
-        try writer["AwsAccountId"].write(value.awsAccountId)
-        try writer["CompanyName"].write(value.companyName)
-        try writer["Duns"].write(value.duns)
-        try writer["Industry"].write(value.industry)
-        try writer["OtherIndustry"].write(value.otherIndustry)
-        try writer["WebsiteUrl"].write(value.websiteUrl)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.Account {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PartnerCentralSellingClientTypes.Account()
-        value.industry = try reader["Industry"].readIfPresent()
-        value.otherIndustry = try reader["OtherIndustry"].readIfPresent()
-        value.companyName = try reader["CompanyName"].readIfPresent() ?? ""
-        value.websiteUrl = try reader["WebsiteUrl"].readIfPresent()
-        value.awsAccountId = try reader["AwsAccountId"].readIfPresent()
-        value.address = try reader["Address"].readIfPresent(with: PartnerCentralSellingClientTypes.Address.read(from:))
-        value.duns = try reader["Duns"].readIfPresent()
-        return value
-    }
-}
-
-extension PartnerCentralSellingClientTypes.Address {
-
-    static func write(value: PartnerCentralSellingClientTypes.Address?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["City"].write(value.city)
-        try writer["CountryCode"].write(value.countryCode)
-        try writer["PostalCode"].write(value.postalCode)
-        try writer["StateOrRegion"].write(value.stateOrRegion)
-        try writer["StreetAddress"].write(value.streetAddress)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.Address {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PartnerCentralSellingClientTypes.Address()
-        value.city = try reader["City"].readIfPresent()
-        value.postalCode = try reader["PostalCode"].readIfPresent()
-        value.stateOrRegion = try reader["StateOrRegion"].readIfPresent()
-        value.countryCode = try reader["CountryCode"].readIfPresent()
-        value.streetAddress = try reader["StreetAddress"].readIfPresent()
+        var value = PartnerCentralSellingClientTypes.ProfileNextStepsHistory()
+        value.value = try reader["Value"].readIfPresent() ?? ""
+        value.time = try reader["Time"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -11390,25 +11723,152 @@ extension PartnerCentralSellingClientTypes.Project {
     }
 }
 
-extension PartnerCentralSellingClientTypes.Marketing {
+extension PartnerCentralSellingClientTypes.ProjectDetails {
 
-    static func write(value: PartnerCentralSellingClientTypes.Marketing?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: PartnerCentralSellingClientTypes.ProjectDetails?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["AwsFundingUsed"].write(value.awsFundingUsed)
-        try writer["CampaignName"].write(value.campaignName)
-        try writer["Channels"].writeList(value.channels, memberWritingClosure: SmithyReadWrite.WritingClosureBox<PartnerCentralSellingClientTypes.Channel>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Source"].write(value.source)
-        try writer["UseCases"].writeList(value.useCases, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["BusinessProblem"].write(value.businessProblem)
+        try writer["ExpectedCustomerSpend"].writeList(value.expectedCustomerSpend, memberWritingClosure: PartnerCentralSellingClientTypes.ExpectedCustomerSpend.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["TargetCompletionDate"].write(value.targetCompletionDate)
+        try writer["Title"].write(value.title)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.Marketing {
+    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.ProjectDetails {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PartnerCentralSellingClientTypes.Marketing()
-        value.campaignName = try reader["CampaignName"].readIfPresent()
-        value.source = try reader["Source"].readIfPresent()
-        value.useCases = try reader["UseCases"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.channels = try reader["Channels"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<PartnerCentralSellingClientTypes.Channel>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.awsFundingUsed = try reader["AwsFundingUsed"].readIfPresent()
+        var value = PartnerCentralSellingClientTypes.ProjectDetails()
+        value.businessProblem = try reader["BusinessProblem"].readIfPresent() ?? ""
+        value.title = try reader["Title"].readIfPresent() ?? ""
+        value.targetCompletionDate = try reader["TargetCompletionDate"].readIfPresent() ?? ""
+        value.expectedCustomerSpend = try reader["ExpectedCustomerSpend"].readListIfPresent(memberReadingClosure: PartnerCentralSellingClientTypes.ExpectedCustomerSpend.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension PartnerCentralSellingClientTypes.ProjectSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.ProjectSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PartnerCentralSellingClientTypes.ProjectSummary()
+        value.deliveryModels = try reader["DeliveryModels"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<PartnerCentralSellingClientTypes.DeliveryModel>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.expectedCustomerSpend = try reader["ExpectedCustomerSpend"].readListIfPresent(memberReadingClosure: PartnerCentralSellingClientTypes.ExpectedCustomerSpend.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension PartnerCentralSellingClientTypes.ProjectView {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.ProjectView {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PartnerCentralSellingClientTypes.ProjectView()
+        value.deliveryModels = try reader["DeliveryModels"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<PartnerCentralSellingClientTypes.DeliveryModel>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.expectedCustomerSpend = try reader["ExpectedCustomerSpend"].readListIfPresent(memberReadingClosure: PartnerCentralSellingClientTypes.ExpectedCustomerSpend.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.customerUseCase = try reader["CustomerUseCase"].readIfPresent()
+        value.salesActivities = try reader["SalesActivities"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<PartnerCentralSellingClientTypes.SalesActivity>().read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.otherSolutionDescription = try reader["OtherSolutionDescription"].readIfPresent()
+        return value
+    }
+}
+
+extension PartnerCentralSellingClientTypes.Receiver {
+
+    static func write(value: PartnerCentralSellingClientTypes.Receiver?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .account(account):
+                try writer["Account"].write(account, with: PartnerCentralSellingClientTypes.AccountReceiver.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.Receiver {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "Account":
+                return .account(try reader["Account"].read(with: PartnerCentralSellingClientTypes.AccountReceiver.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension PartnerCentralSellingClientTypes.RelatedEntityIdentifiers {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.RelatedEntityIdentifiers {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PartnerCentralSellingClientTypes.RelatedEntityIdentifiers()
+        value.awsMarketplaceOffers = try reader["AwsMarketplaceOffers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.awsMarketplaceOfferSets = try reader["AwsMarketplaceOfferSets"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.solutions = try reader["Solutions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.awsProducts = try reader["AwsProducts"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension PartnerCentralSellingClientTypes.ResourceSnapshotJobSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.ResourceSnapshotJobSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PartnerCentralSellingClientTypes.ResourceSnapshotJobSummary()
+        value.id = try reader["Id"].readIfPresent()
+        value.arn = try reader["Arn"].readIfPresent()
+        value.engagementId = try reader["EngagementId"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent()
+        return value
+    }
+}
+
+extension PartnerCentralSellingClientTypes.ResourceSnapshotPayload {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.ResourceSnapshotPayload {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "OpportunitySummary":
+                return .opportunitysummary(try reader["OpportunitySummary"].read(with: PartnerCentralSellingClientTypes.OpportunitySummaryView.read(from:)))
+            case "AwsOpportunitySummaryFullView":
+                return .awsopportunitysummaryfullview(try reader["AwsOpportunitySummaryFullView"].read(with: PartnerCentralSellingClientTypes.AwsOpportunitySummaryFullView.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension PartnerCentralSellingClientTypes.ResourceSnapshotSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.ResourceSnapshotSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PartnerCentralSellingClientTypes.ResourceSnapshotSummary()
+        value.arn = try reader["Arn"].readIfPresent()
+        value.revision = try reader["Revision"].readIfPresent()
+        value.resourceType = try reader["ResourceType"].readIfPresent()
+        value.resourceId = try reader["ResourceId"].readIfPresent()
+        value.resourceSnapshotTemplateName = try reader["ResourceSnapshotTemplateName"].readIfPresent()
+        value.createdBy = try reader["CreatedBy"].readIfPresent()
+        return value
+    }
+}
+
+extension PartnerCentralSellingClientTypes.SenderContact {
+
+    static func write(value: PartnerCentralSellingClientTypes.SenderContact?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["BusinessTitle"].write(value.businessTitle)
+        try writer["Email"].write(value.email)
+        try writer["FirstName"].write(value.firstName)
+        try writer["LastName"].write(value.lastName)
+        try writer["Phone"].write(value.phone)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.SenderContact {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PartnerCentralSellingClientTypes.SenderContact()
+        value.email = try reader["Email"].readIfPresent() ?? ""
+        value.firstName = try reader["FirstName"].readIfPresent()
+        value.lastName = try reader["LastName"].readIfPresent()
+        value.businessTitle = try reader["BusinessTitle"].readIfPresent()
+        value.phone = try reader["Phone"].readIfPresent()
         return value
     }
 }
@@ -11434,381 +11894,6 @@ extension PartnerCentralSellingClientTypes.SoftwareRevenue {
     }
 }
 
-extension PartnerCentralSellingClientTypes.MonetaryValue {
-
-    static func write(value: PartnerCentralSellingClientTypes.MonetaryValue?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Amount"].write(value.amount)
-        try writer["CurrencyCode"].write(value.currencyCode)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.MonetaryValue {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PartnerCentralSellingClientTypes.MonetaryValue()
-        value.amount = try reader["Amount"].readIfPresent() ?? ""
-        value.currencyCode = try reader["CurrencyCode"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension PartnerCentralSellingClientTypes.RelatedEntityIdentifiers {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.RelatedEntityIdentifiers {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PartnerCentralSellingClientTypes.RelatedEntityIdentifiers()
-        value.awsMarketplaceOffers = try reader["AwsMarketplaceOffers"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.awsMarketplaceOfferSets = try reader["AwsMarketplaceOfferSets"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.solutions = try reader["Solutions"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.awsProducts = try reader["AwsProducts"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension PartnerCentralSellingClientTypes.LifeCycle {
-
-    static func write(value: PartnerCentralSellingClientTypes.LifeCycle?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ClosedLostReason"].write(value.closedLostReason)
-        try writer["NextSteps"].write(value.nextSteps)
-        try writer["NextStepsHistory"].writeList(value.nextStepsHistory, memberWritingClosure: PartnerCentralSellingClientTypes.NextStepsHistory.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["ReviewComments"].write(value.reviewComments)
-        try writer["ReviewStatus"].write(value.reviewStatus)
-        try writer["ReviewStatusReason"].write(value.reviewStatusReason)
-        try writer["Stage"].write(value.stage)
-        try writer["TargetCloseDate"].write(value.targetCloseDate)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.LifeCycle {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PartnerCentralSellingClientTypes.LifeCycle()
-        value.stage = try reader["Stage"].readIfPresent()
-        value.closedLostReason = try reader["ClosedLostReason"].readIfPresent()
-        value.nextSteps = try reader["NextSteps"].readIfPresent()
-        value.targetCloseDate = try reader["TargetCloseDate"].readIfPresent()
-        value.reviewStatus = try reader["ReviewStatus"].readIfPresent()
-        value.reviewComments = try reader["ReviewComments"].readIfPresent()
-        value.reviewStatusReason = try reader["ReviewStatusReason"].readIfPresent()
-        value.nextStepsHistory = try reader["NextStepsHistory"].readListIfPresent(memberReadingClosure: PartnerCentralSellingClientTypes.NextStepsHistory.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension PartnerCentralSellingClientTypes.NextStepsHistory {
-
-    static func write(value: PartnerCentralSellingClientTypes.NextStepsHistory?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Time"].writeTimestamp(value.time, format: SmithyTimestamps.TimestampFormat.dateTime)
-        try writer["Value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.NextStepsHistory {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PartnerCentralSellingClientTypes.NextStepsHistory()
-        value.value = try reader["Value"].readIfPresent() ?? ""
-        value.time = try reader["Time"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        return value
-    }
-}
-
-extension PartnerCentralSellingClientTypes.ResourceSnapshotPayload {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.ResourceSnapshotPayload {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "OpportunitySummary":
-                return .opportunitysummary(try reader["OpportunitySummary"].read(with: PartnerCentralSellingClientTypes.OpportunitySummaryView.read(from:)))
-            case "AwsOpportunitySummaryFullView":
-                return .awsopportunitysummaryfullview(try reader["AwsOpportunitySummaryFullView"].read(with: PartnerCentralSellingClientTypes.AwsOpportunitySummaryFullView.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension PartnerCentralSellingClientTypes.AwsOpportunitySummaryFullView {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.AwsOpportunitySummaryFullView {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PartnerCentralSellingClientTypes.AwsOpportunitySummaryFullView()
-        value.relatedOpportunityId = try reader["RelatedOpportunityId"].readIfPresent()
-        value.origin = try reader["Origin"].readIfPresent()
-        value.involvementType = try reader["InvolvementType"].readIfPresent()
-        value.visibility = try reader["Visibility"].readIfPresent()
-        value.lifeCycle = try reader["LifeCycle"].readIfPresent(with: PartnerCentralSellingClientTypes.AwsOpportunityLifeCycle.read(from:))
-        value.opportunityTeam = try reader["OpportunityTeam"].readListIfPresent(memberReadingClosure: PartnerCentralSellingClientTypes.AwsTeamMember.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.insights = try reader["Insights"].readIfPresent(with: PartnerCentralSellingClientTypes.AwsOpportunityInsights.read(from:))
-        value.involvementTypeChangeReason = try reader["InvolvementTypeChangeReason"].readIfPresent()
-        value.relatedEntityIds = try reader["RelatedEntityIds"].readIfPresent(with: PartnerCentralSellingClientTypes.AwsOpportunityRelatedEntities.read(from:))
-        value.customer = try reader["Customer"].readIfPresent(with: PartnerCentralSellingClientTypes.AwsOpportunityCustomer.read(from:))
-        value.project = try reader["Project"].readIfPresent(with: PartnerCentralSellingClientTypes.AwsOpportunityProject.read(from:))
-        return value
-    }
-}
-
-extension PartnerCentralSellingClientTypes.OpportunitySummaryView {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.OpportunitySummaryView {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PartnerCentralSellingClientTypes.OpportunitySummaryView()
-        value.opportunityType = try reader["OpportunityType"].readIfPresent()
-        value.lifecycle = try reader["Lifecycle"].readIfPresent(with: PartnerCentralSellingClientTypes.LifeCycleForView.read(from:))
-        value.opportunityTeam = try reader["OpportunityTeam"].readListIfPresent(memberReadingClosure: PartnerCentralSellingClientTypes.Contact.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.primaryNeedsFromAws = try reader["PrimaryNeedsFromAws"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<PartnerCentralSellingClientTypes.PrimaryNeedFromAws>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.customer = try reader["Customer"].readIfPresent(with: PartnerCentralSellingClientTypes.Customer.read(from:))
-        value.project = try reader["Project"].readIfPresent(with: PartnerCentralSellingClientTypes.ProjectView.read(from:))
-        value.relatedEntityIdentifiers = try reader["RelatedEntityIdentifiers"].readIfPresent(with: PartnerCentralSellingClientTypes.RelatedEntityIdentifiers.read(from:))
-        return value
-    }
-}
-
-extension PartnerCentralSellingClientTypes.ProjectView {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.ProjectView {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PartnerCentralSellingClientTypes.ProjectView()
-        value.deliveryModels = try reader["DeliveryModels"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<PartnerCentralSellingClientTypes.DeliveryModel>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.expectedCustomerSpend = try reader["ExpectedCustomerSpend"].readListIfPresent(memberReadingClosure: PartnerCentralSellingClientTypes.ExpectedCustomerSpend.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.customerUseCase = try reader["CustomerUseCase"].readIfPresent()
-        value.salesActivities = try reader["SalesActivities"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<PartnerCentralSellingClientTypes.SalesActivity>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.otherSolutionDescription = try reader["OtherSolutionDescription"].readIfPresent()
-        return value
-    }
-}
-
-extension PartnerCentralSellingClientTypes.LifeCycleForView {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.LifeCycleForView {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PartnerCentralSellingClientTypes.LifeCycleForView()
-        value.targetCloseDate = try reader["TargetCloseDate"].readIfPresent()
-        value.reviewStatus = try reader["ReviewStatus"].readIfPresent()
-        value.stage = try reader["Stage"].readIfPresent()
-        value.nextSteps = try reader["NextSteps"].readIfPresent()
-        return value
-    }
-}
-
-extension PartnerCentralSellingClientTypes.ListEngagementByAcceptingInvitationTaskSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.ListEngagementByAcceptingInvitationTaskSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PartnerCentralSellingClientTypes.ListEngagementByAcceptingInvitationTaskSummary()
-        value.taskId = try reader["TaskId"].readIfPresent()
-        value.taskArn = try reader["TaskArn"].readIfPresent()
-        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.taskStatus = try reader["TaskStatus"].readIfPresent()
-        value.message = try reader["Message"].readIfPresent()
-        value.reasonCode = try reader["ReasonCode"].readIfPresent()
-        value.opportunityId = try reader["OpportunityId"].readIfPresent()
-        value.resourceSnapshotJobId = try reader["ResourceSnapshotJobId"].readIfPresent()
-        value.engagementInvitationId = try reader["EngagementInvitationId"].readIfPresent()
-        return value
-    }
-}
-
-extension PartnerCentralSellingClientTypes.ListEngagementFromOpportunityTaskSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.ListEngagementFromOpportunityTaskSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PartnerCentralSellingClientTypes.ListEngagementFromOpportunityTaskSummary()
-        value.taskId = try reader["TaskId"].readIfPresent()
-        value.taskArn = try reader["TaskArn"].readIfPresent()
-        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.taskStatus = try reader["TaskStatus"].readIfPresent()
-        value.message = try reader["Message"].readIfPresent()
-        value.reasonCode = try reader["ReasonCode"].readIfPresent()
-        value.opportunityId = try reader["OpportunityId"].readIfPresent()
-        value.resourceSnapshotJobId = try reader["ResourceSnapshotJobId"].readIfPresent()
-        value.engagementId = try reader["EngagementId"].readIfPresent()
-        value.engagementInvitationId = try reader["EngagementInvitationId"].readIfPresent()
-        return value
-    }
-}
-
-extension PartnerCentralSellingClientTypes.EngagementInvitationSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.EngagementInvitationSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PartnerCentralSellingClientTypes.EngagementInvitationSummary()
-        value.arn = try reader["Arn"].readIfPresent()
-        value.payloadType = try reader["PayloadType"].readIfPresent()
-        value.id = try reader["Id"].readIfPresent() ?? ""
-        value.engagementId = try reader["EngagementId"].readIfPresent()
-        value.engagementTitle = try reader["EngagementTitle"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        value.invitationDate = try reader["InvitationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.expirationDate = try reader["ExpirationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.senderAwsAccountId = try reader["SenderAwsAccountId"].readIfPresent()
-        value.senderCompanyName = try reader["SenderCompanyName"].readIfPresent()
-        value.receiver = try reader["Receiver"].readIfPresent(with: PartnerCentralSellingClientTypes.Receiver.read(from:))
-        value.catalog = try reader["Catalog"].readIfPresent() ?? ""
-        value.participantType = try reader["ParticipantType"].readIfPresent()
-        return value
-    }
-}
-
-extension PartnerCentralSellingClientTypes.EngagementMember {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.EngagementMember {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PartnerCentralSellingClientTypes.EngagementMember()
-        value.companyName = try reader["CompanyName"].readIfPresent()
-        value.websiteUrl = try reader["WebsiteUrl"].readIfPresent()
-        value.accountId = try reader["AccountId"].readIfPresent()
-        return value
-    }
-}
-
-extension PartnerCentralSellingClientTypes.EngagementResourceAssociationSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.EngagementResourceAssociationSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PartnerCentralSellingClientTypes.EngagementResourceAssociationSummary()
-        value.catalog = try reader["Catalog"].readIfPresent() ?? ""
-        value.engagementId = try reader["EngagementId"].readIfPresent()
-        value.resourceType = try reader["ResourceType"].readIfPresent()
-        value.resourceId = try reader["ResourceId"].readIfPresent()
-        value.createdBy = try reader["CreatedBy"].readIfPresent()
-        return value
-    }
-}
-
-extension PartnerCentralSellingClientTypes.EngagementSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.EngagementSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PartnerCentralSellingClientTypes.EngagementSummary()
-        value.arn = try reader["Arn"].readIfPresent()
-        value.id = try reader["Id"].readIfPresent()
-        value.title = try reader["Title"].readIfPresent()
-        value.createdAt = try reader["CreatedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.createdBy = try reader["CreatedBy"].readIfPresent()
-        value.memberCount = try reader["MemberCount"].readIfPresent()
-        value.modifiedAt = try reader["ModifiedAt"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.modifiedBy = try reader["ModifiedBy"].readIfPresent()
-        value.contextTypes = try reader["ContextTypes"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<PartnerCentralSellingClientTypes.EngagementContextType>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension PartnerCentralSellingClientTypes.OpportunitySummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.OpportunitySummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PartnerCentralSellingClientTypes.OpportunitySummary()
-        value.catalog = try reader["Catalog"].readIfPresent() ?? ""
-        value.id = try reader["Id"].readIfPresent()
-        value.arn = try reader["Arn"].readIfPresent()
-        value.partnerOpportunityIdentifier = try reader["PartnerOpportunityIdentifier"].readIfPresent()
-        value.opportunityType = try reader["OpportunityType"].readIfPresent()
-        value.lastModifiedDate = try reader["LastModifiedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.createdDate = try reader["CreatedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.lifeCycle = try reader["LifeCycle"].readIfPresent(with: PartnerCentralSellingClientTypes.LifeCycleSummary.read(from:))
-        value.customer = try reader["Customer"].readIfPresent(with: PartnerCentralSellingClientTypes.CustomerSummary.read(from:))
-        value.project = try reader["Project"].readIfPresent(with: PartnerCentralSellingClientTypes.ProjectSummary.read(from:))
-        return value
-    }
-}
-
-extension PartnerCentralSellingClientTypes.ProjectSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.ProjectSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PartnerCentralSellingClientTypes.ProjectSummary()
-        value.deliveryModels = try reader["DeliveryModels"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<PartnerCentralSellingClientTypes.DeliveryModel>().read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.expectedCustomerSpend = try reader["ExpectedCustomerSpend"].readListIfPresent(memberReadingClosure: PartnerCentralSellingClientTypes.ExpectedCustomerSpend.read(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension PartnerCentralSellingClientTypes.CustomerSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.CustomerSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PartnerCentralSellingClientTypes.CustomerSummary()
-        value.account = try reader["Account"].readIfPresent(with: PartnerCentralSellingClientTypes.AccountSummary.read(from:))
-        return value
-    }
-}
-
-extension PartnerCentralSellingClientTypes.AccountSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.AccountSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PartnerCentralSellingClientTypes.AccountSummary()
-        value.industry = try reader["Industry"].readIfPresent()
-        value.otherIndustry = try reader["OtherIndustry"].readIfPresent()
-        value.companyName = try reader["CompanyName"].readIfPresent() ?? ""
-        value.websiteUrl = try reader["WebsiteUrl"].readIfPresent()
-        value.address = try reader["Address"].readIfPresent(with: PartnerCentralSellingClientTypes.AddressSummary.read(from:))
-        return value
-    }
-}
-
-extension PartnerCentralSellingClientTypes.LifeCycleSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.LifeCycleSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PartnerCentralSellingClientTypes.LifeCycleSummary()
-        value.stage = try reader["Stage"].readIfPresent()
-        value.closedLostReason = try reader["ClosedLostReason"].readIfPresent()
-        value.nextSteps = try reader["NextSteps"].readIfPresent()
-        value.targetCloseDate = try reader["TargetCloseDate"].readIfPresent()
-        value.reviewStatus = try reader["ReviewStatus"].readIfPresent()
-        value.reviewComments = try reader["ReviewComments"].readIfPresent()
-        value.reviewStatusReason = try reader["ReviewStatusReason"].readIfPresent()
-        return value
-    }
-}
-
-extension PartnerCentralSellingClientTypes.ListOpportunityFromEngagementTaskSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.ListOpportunityFromEngagementTaskSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PartnerCentralSellingClientTypes.ListOpportunityFromEngagementTaskSummary()
-        value.taskId = try reader["TaskId"].readIfPresent()
-        value.taskArn = try reader["TaskArn"].readIfPresent()
-        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
-        value.taskStatus = try reader["TaskStatus"].readIfPresent()
-        value.message = try reader["Message"].readIfPresent()
-        value.reasonCode = try reader["ReasonCode"].readIfPresent()
-        value.opportunityId = try reader["OpportunityId"].readIfPresent()
-        value.resourceSnapshotJobId = try reader["ResourceSnapshotJobId"].readIfPresent()
-        value.engagementId = try reader["EngagementId"].readIfPresent()
-        value.contextId = try reader["ContextId"].readIfPresent()
-        return value
-    }
-}
-
-extension PartnerCentralSellingClientTypes.ResourceSnapshotJobSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.ResourceSnapshotJobSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PartnerCentralSellingClientTypes.ResourceSnapshotJobSummary()
-        value.id = try reader["Id"].readIfPresent()
-        value.arn = try reader["Arn"].readIfPresent()
-        value.engagementId = try reader["EngagementId"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent()
-        return value
-    }
-}
-
-extension PartnerCentralSellingClientTypes.ResourceSnapshotSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.ResourceSnapshotSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PartnerCentralSellingClientTypes.ResourceSnapshotSummary()
-        value.arn = try reader["Arn"].readIfPresent()
-        value.revision = try reader["Revision"].readIfPresent()
-        value.resourceType = try reader["ResourceType"].readIfPresent()
-        value.resourceId = try reader["ResourceId"].readIfPresent()
-        value.resourceSnapshotTemplateName = try reader["ResourceSnapshotTemplateName"].readIfPresent()
-        value.createdBy = try reader["CreatedBy"].readIfPresent()
-        return value
-    }
-}
-
 extension PartnerCentralSellingClientTypes.SolutionBase {
 
     static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.SolutionBase {
@@ -11822,6 +11907,24 @@ extension PartnerCentralSellingClientTypes.SolutionBase {
         value.category = try reader["Category"].readIfPresent() ?? ""
         value.createdDate = try reader["CreatedDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
+    }
+}
+
+extension PartnerCentralSellingClientTypes.SolutionSort {
+
+    static func write(value: PartnerCentralSellingClientTypes.SolutionSort?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["SortBy"].write(value.sortBy)
+        try writer["SortOrder"].write(value.sortOrder)
+    }
+}
+
+extension PartnerCentralSellingClientTypes.SortObject {
+
+    static func write(value: PartnerCentralSellingClientTypes.SortObject?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["SortBy"].write(value.sortBy)
+        try writer["SortOrder"].write(value.sortOrder)
     }
 }
 
@@ -11839,121 +11942,6 @@ extension PartnerCentralSellingClientTypes.Tag {
         value.key = try reader["Key"].readIfPresent() ?? ""
         value.value = try reader["Value"].readIfPresent() ?? ""
         return value
-    }
-}
-
-extension PartnerCentralSellingClientTypes.ValidationExceptionError {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.ValidationExceptionError {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = PartnerCentralSellingClientTypes.ValidationExceptionError()
-        value.fieldName = try reader["FieldName"].readIfPresent()
-        value.message = try reader["Message"].readIfPresent() ?? ""
-        value.code = try reader["Code"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension PartnerCentralSellingClientTypes.AssigneeContact {
-
-    static func write(value: PartnerCentralSellingClientTypes.AssigneeContact?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["BusinessTitle"].write(value.businessTitle)
-        try writer["Email"].write(value.email)
-        try writer["FirstName"].write(value.firstName)
-        try writer["LastName"].write(value.lastName)
-        try writer["Phone"].write(value.phone)
-    }
-}
-
-extension PartnerCentralSellingClientTypes.Invitation {
-
-    static func write(value: PartnerCentralSellingClientTypes.Invitation?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Message"].write(value.message)
-        try writer["Payload"].write(value.payload, with: PartnerCentralSellingClientTypes.Payload.write(value:to:))
-        try writer["Receiver"].write(value.receiver, with: PartnerCentralSellingClientTypes.Receiver.write(value:to:))
-    }
-}
-
-extension PartnerCentralSellingClientTypes.ListTasksSortBase {
-
-    static func write(value: PartnerCentralSellingClientTypes.ListTasksSortBase?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["SortBy"].write(value.sortBy)
-        try writer["SortOrder"].write(value.sortOrder)
-    }
-}
-
-extension PartnerCentralSellingClientTypes.OpportunityEngagementInvitationSort {
-
-    static func write(value: PartnerCentralSellingClientTypes.OpportunityEngagementInvitationSort?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["SortBy"].write(value.sortBy)
-        try writer["SortOrder"].write(value.sortOrder)
-    }
-}
-
-extension PartnerCentralSellingClientTypes.EngagementSort {
-
-    static func write(value: PartnerCentralSellingClientTypes.EngagementSort?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["SortBy"].write(value.sortBy)
-        try writer["SortOrder"].write(value.sortOrder)
-    }
-}
-
-extension PartnerCentralSellingClientTypes.OpportunitySort {
-
-    static func write(value: PartnerCentralSellingClientTypes.OpportunitySort?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["SortBy"].write(value.sortBy)
-        try writer["SortOrder"].write(value.sortOrder)
-    }
-}
-
-extension PartnerCentralSellingClientTypes.LastModifiedDate {
-
-    static func write(value: PartnerCentralSellingClientTypes.LastModifiedDate?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AfterLastModifiedDate"].writeTimestamp(value.afterLastModifiedDate, format: SmithyTimestamps.TimestampFormat.dateTime)
-        try writer["BeforeLastModifiedDate"].writeTimestamp(value.beforeLastModifiedDate, format: SmithyTimestamps.TimestampFormat.dateTime)
-    }
-}
-
-extension PartnerCentralSellingClientTypes.CreatedDateFilter {
-
-    static func write(value: PartnerCentralSellingClientTypes.CreatedDateFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AfterCreatedDate"].writeTimestamp(value.afterCreatedDate, format: SmithyTimestamps.TimestampFormat.dateTime)
-        try writer["BeforeCreatedDate"].writeTimestamp(value.beforeCreatedDate, format: SmithyTimestamps.TimestampFormat.dateTime)
-    }
-}
-
-extension PartnerCentralSellingClientTypes.SortObject {
-
-    static func write(value: PartnerCentralSellingClientTypes.SortObject?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["SortBy"].write(value.sortBy)
-        try writer["SortOrder"].write(value.sortOrder)
-    }
-}
-
-extension PartnerCentralSellingClientTypes.SolutionSort {
-
-    static func write(value: PartnerCentralSellingClientTypes.SolutionSort?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["SortBy"].write(value.sortBy)
-        try writer["SortOrder"].write(value.sortOrder)
-    }
-}
-
-extension PartnerCentralSellingClientTypes.AwsSubmission {
-
-    static func write(value: PartnerCentralSellingClientTypes.AwsSubmission?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["InvolvementType"].write(value.involvementType)
-        try writer["Visibility"].write(value.visibility)
     }
 }
 
@@ -11979,6 +11967,18 @@ extension PartnerCentralSellingClientTypes.UpdateLeadContext {
         try writer["Customer"].write(value.customer, with: PartnerCentralSellingClientTypes.LeadCustomer.write(value:to:))
         try writer["Interaction"].write(value.interaction, with: PartnerCentralSellingClientTypes.LeadInteraction.write(value:to:))
         try writer["QualificationStatus"].write(value.qualificationStatus)
+    }
+}
+
+extension PartnerCentralSellingClientTypes.ValidationExceptionError {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> PartnerCentralSellingClientTypes.ValidationExceptionError {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = PartnerCentralSellingClientTypes.ValidationExceptionError()
+        value.fieldName = try reader["FieldName"].readIfPresent()
+        value.message = try reader["Message"].readIfPresent() ?? ""
+        value.code = try reader["Code"].readIfPresent() ?? .sdkUnknown("")
+        return value
     }
 }
 

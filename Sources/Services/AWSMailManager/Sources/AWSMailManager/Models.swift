@@ -8087,87 +8087,116 @@ extension ThrottlingException {
     }
 }
 
-extension MailManagerClientTypes.ImportDataFormat {
+extension MailManagerClientTypes.AddHeaderAction {
 
-    static func write(value: MailManagerClientTypes.ImportDataFormat?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: MailManagerClientTypes.AddHeaderAction?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["ImportDataType"].write(value.importDataType)
+        try writer["HeaderName"].write(value.headerName)
+        try writer["HeaderValue"].write(value.headerValue)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.ImportDataFormat {
+    static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.AddHeaderAction {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MailManagerClientTypes.ImportDataFormat()
-        value.importDataType = try reader["ImportDataType"].readIfPresent() ?? .sdkUnknown("")
+        var value = MailManagerClientTypes.AddHeaderAction()
+        value.headerName = try reader["HeaderName"].readIfPresent() ?? ""
+        value.headerValue = try reader["HeaderValue"].readIfPresent() ?? ""
         return value
     }
 }
 
-extension MailManagerClientTypes.ArchiveRetention {
+extension MailManagerClientTypes.AddonInstance {
 
-    static func write(value: MailManagerClientTypes.ArchiveRetention?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .retentionperiod(retentionperiod):
-                try writer["RetentionPeriod"].write(retentionperiod)
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.ArchiveRetention {
+    static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.AddonInstance {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "RetentionPeriod":
-                return .retentionperiod(try reader["RetentionPeriod"].read())
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension MailManagerClientTypes.ArchiveFilters {
-
-    static func write(value: MailManagerClientTypes.ArchiveFilters?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Include"].writeList(value.include, memberWritingClosure: MailManagerClientTypes.ArchiveFilterCondition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Unless"].writeList(value.unless, memberWritingClosure: MailManagerClientTypes.ArchiveFilterCondition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.ArchiveFilters {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MailManagerClientTypes.ArchiveFilters()
-        value.include = try reader["Include"].readListIfPresent(memberReadingClosure: MailManagerClientTypes.ArchiveFilterCondition.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.unless = try reader["Unless"].readListIfPresent(memberReadingClosure: MailManagerClientTypes.ArchiveFilterCondition.read(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = MailManagerClientTypes.AddonInstance()
+        value.addonInstanceId = try reader["AddonInstanceId"].readIfPresent()
+        value.addonSubscriptionId = try reader["AddonSubscriptionId"].readIfPresent()
+        value.addonName = try reader["AddonName"].readIfPresent()
+        value.addonInstanceArn = try reader["AddonInstanceArn"].readIfPresent()
+        value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }
 
-extension MailManagerClientTypes.ArchiveFilterCondition {
+extension MailManagerClientTypes.AddonSubscription {
 
-    static func write(value: MailManagerClientTypes.ArchiveFilterCondition?, to writer: SmithyJSON.Writer) throws {
+    static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.AddonSubscription {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MailManagerClientTypes.AddonSubscription()
+        value.addonSubscriptionId = try reader["AddonSubscriptionId"].readIfPresent()
+        value.addonName = try reader["AddonName"].readIfPresent()
+        value.addonSubscriptionArn = try reader["AddonSubscriptionArn"].readIfPresent()
+        value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension MailManagerClientTypes.AddressFilter {
+
+    static func write(value: MailManagerClientTypes.AddressFilter?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        switch value {
-            case let .booleanexpression(booleanexpression):
-                try writer["BooleanExpression"].write(booleanexpression, with: MailManagerClientTypes.ArchiveBooleanExpression.write(value:to:))
-            case let .stringexpression(stringexpression):
-                try writer["StringExpression"].write(stringexpression, with: MailManagerClientTypes.ArchiveStringExpression.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
+        try writer["AddressPrefix"].write(value.addressPrefix)
+    }
+}
+
+extension MailManagerClientTypes.AddressList {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.AddressList {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MailManagerClientTypes.AddressList()
+        value.addressListId = try reader["AddressListId"].readIfPresent() ?? ""
+        value.addressListArn = try reader["AddressListArn"].readIfPresent() ?? ""
+        value.addressListName = try reader["AddressListName"].readIfPresent() ?? ""
+        value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.lastUpdatedTimestamp = try reader["LastUpdatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        return value
+    }
+}
+
+extension MailManagerClientTypes.Analysis {
+
+    static func write(value: MailManagerClientTypes.Analysis?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Analyzer"].write(value.analyzer)
+        try writer["ResultField"].write(value.resultField)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.ArchiveFilterCondition {
+    static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.Analysis {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "StringExpression":
-                return .stringexpression(try reader["StringExpression"].read(with: MailManagerClientTypes.ArchiveStringExpression.read(from:)))
-            case "BooleanExpression":
-                return .booleanexpression(try reader["BooleanExpression"].read(with: MailManagerClientTypes.ArchiveBooleanExpression.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
+        var value = MailManagerClientTypes.Analysis()
+        value.analyzer = try reader["Analyzer"].readIfPresent() ?? ""
+        value.resultField = try reader["ResultField"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension MailManagerClientTypes.Archive {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.Archive {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MailManagerClientTypes.Archive()
+        value.archiveId = try reader["ArchiveId"].readIfPresent() ?? ""
+        value.archiveName = try reader["ArchiveName"].readIfPresent()
+        value.archiveState = try reader["ArchiveState"].readIfPresent()
+        value.lastUpdatedTimestamp = try reader["LastUpdatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension MailManagerClientTypes.ArchiveAction {
+
+    static func write(value: MailManagerClientTypes.ArchiveAction?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ActionFailurePolicy"].write(value.actionFailurePolicy)
+        try writer["TargetArchive"].write(value.targetArchive)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.ArchiveAction {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MailManagerClientTypes.ArchiveAction()
+        value.actionFailurePolicy = try reader["ActionFailurePolicy"].readIfPresent()
+        value.targetArchive = try reader["TargetArchive"].readIfPresent() ?? ""
+        return value
     }
 }
 
@@ -8206,6 +8235,75 @@ extension MailManagerClientTypes.ArchiveBooleanToEvaluate {
         switch name {
             case "Attribute":
                 return .attribute(try reader["Attribute"].read())
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension MailManagerClientTypes.ArchiveFilterCondition {
+
+    static func write(value: MailManagerClientTypes.ArchiveFilterCondition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .booleanexpression(booleanexpression):
+                try writer["BooleanExpression"].write(booleanexpression, with: MailManagerClientTypes.ArchiveBooleanExpression.write(value:to:))
+            case let .stringexpression(stringexpression):
+                try writer["StringExpression"].write(stringexpression, with: MailManagerClientTypes.ArchiveStringExpression.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.ArchiveFilterCondition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "StringExpression":
+                return .stringexpression(try reader["StringExpression"].read(with: MailManagerClientTypes.ArchiveStringExpression.read(from:)))
+            case "BooleanExpression":
+                return .booleanexpression(try reader["BooleanExpression"].read(with: MailManagerClientTypes.ArchiveBooleanExpression.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension MailManagerClientTypes.ArchiveFilters {
+
+    static func write(value: MailManagerClientTypes.ArchiveFilters?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Include"].writeList(value.include, memberWritingClosure: MailManagerClientTypes.ArchiveFilterCondition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Unless"].writeList(value.unless, memberWritingClosure: MailManagerClientTypes.ArchiveFilterCondition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.ArchiveFilters {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MailManagerClientTypes.ArchiveFilters()
+        value.include = try reader["Include"].readListIfPresent(memberReadingClosure: MailManagerClientTypes.ArchiveFilterCondition.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.unless = try reader["Unless"].readListIfPresent(memberReadingClosure: MailManagerClientTypes.ArchiveFilterCondition.read(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension MailManagerClientTypes.ArchiveRetention {
+
+    static func write(value: MailManagerClientTypes.ArchiveRetention?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .retentionperiod(retentionperiod):
+                try writer["RetentionPeriod"].write(retentionperiod)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.ArchiveRetention {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "RetentionPeriod":
+                return .retentionperiod(try reader["RetentionPeriod"].read())
             default:
                 return .sdkUnknown(name ?? "")
         }
@@ -8255,6 +8353,71 @@ extension MailManagerClientTypes.ArchiveStringToEvaluate {
     }
 }
 
+extension MailManagerClientTypes.DeliverToMailboxAction {
+
+    static func write(value: MailManagerClientTypes.DeliverToMailboxAction?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ActionFailurePolicy"].write(value.actionFailurePolicy)
+        try writer["MailboxArn"].write(value.mailboxArn)
+        try writer["RoleArn"].write(value.roleArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.DeliverToMailboxAction {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MailManagerClientTypes.DeliverToMailboxAction()
+        value.actionFailurePolicy = try reader["ActionFailurePolicy"].readIfPresent()
+        value.mailboxArn = try reader["MailboxArn"].readIfPresent() ?? ""
+        value.roleArn = try reader["RoleArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension MailManagerClientTypes.DeliverToQBusinessAction {
+
+    static func write(value: MailManagerClientTypes.DeliverToQBusinessAction?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ActionFailurePolicy"].write(value.actionFailurePolicy)
+        try writer["ApplicationId"].write(value.applicationId)
+        try writer["IndexId"].write(value.indexId)
+        try writer["RoleArn"].write(value.roleArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.DeliverToQBusinessAction {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MailManagerClientTypes.DeliverToQBusinessAction()
+        value.actionFailurePolicy = try reader["ActionFailurePolicy"].readIfPresent()
+        value.applicationId = try reader["ApplicationId"].readIfPresent() ?? ""
+        value.indexId = try reader["IndexId"].readIfPresent() ?? ""
+        value.roleArn = try reader["RoleArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension MailManagerClientTypes.DropAction {
+
+    static func write(value: MailManagerClientTypes.DropAction?, to writer: SmithyJSON.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.DropAction {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        return MailManagerClientTypes.DropAction()
+    }
+}
+
+extension MailManagerClientTypes.Envelope {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.Envelope {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MailManagerClientTypes.Envelope()
+        value.helo = try reader["Helo"].readIfPresent()
+        value.from = try reader["From"].readIfPresent()
+        value.to = try reader["To"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
 extension MailManagerClientTypes.ExportDestinationConfiguration {
 
     static func write(value: MailManagerClientTypes.ExportDestinationConfiguration?, to writer: SmithyJSON.Writer) throws {
@@ -8279,21 +8442,6 @@ extension MailManagerClientTypes.ExportDestinationConfiguration {
     }
 }
 
-extension MailManagerClientTypes.S3ExportDestinationConfiguration {
-
-    static func write(value: MailManagerClientTypes.S3ExportDestinationConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["S3Location"].write(value.s3Location)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.S3ExportDestinationConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MailManagerClientTypes.S3ExportDestinationConfiguration()
-        value.s3Location = try reader["S3Location"].readIfPresent()
-        return value
-    }
-}
-
 extension MailManagerClientTypes.ExportStatus {
 
     static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.ExportStatus {
@@ -8303,6 +8451,372 @@ extension MailManagerClientTypes.ExportStatus {
         value.completionTimestamp = try reader["CompletionTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         value.state = try reader["State"].readIfPresent()
         value.errorMessage = try reader["ErrorMessage"].readIfPresent()
+        return value
+    }
+}
+
+extension MailManagerClientTypes.ExportSummary {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.ExportSummary {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MailManagerClientTypes.ExportSummary()
+        value.exportId = try reader["ExportId"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent(with: MailManagerClientTypes.ExportStatus.read(from:))
+        return value
+    }
+}
+
+extension MailManagerClientTypes.ImportDataFormat {
+
+    static func write(value: MailManagerClientTypes.ImportDataFormat?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ImportDataType"].write(value.importDataType)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.ImportDataFormat {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MailManagerClientTypes.ImportDataFormat()
+        value.importDataType = try reader["ImportDataType"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension MailManagerClientTypes.ImportJob {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.ImportJob {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MailManagerClientTypes.ImportJob()
+        value.jobId = try reader["JobId"].readIfPresent() ?? ""
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.preSignedUrl = try reader["PreSignedUrl"].readIfPresent() ?? ""
+        value.importedItemsCount = try reader["ImportedItemsCount"].readIfPresent()
+        value.failedItemsCount = try reader["FailedItemsCount"].readIfPresent()
+        value.importDataFormat = try reader["ImportDataFormat"].readIfPresent(with: MailManagerClientTypes.ImportDataFormat.read(from:))
+        value.addressListId = try reader["AddressListId"].readIfPresent() ?? ""
+        value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.startTimestamp = try reader["StartTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.completedTimestamp = try reader["CompletedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.error = try reader["Error"].readIfPresent()
+        return value
+    }
+}
+
+extension MailManagerClientTypes.IngressAnalysis {
+
+    static func write(value: MailManagerClientTypes.IngressAnalysis?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Analyzer"].write(value.analyzer)
+        try writer["ResultField"].write(value.resultField)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.IngressAnalysis {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MailManagerClientTypes.IngressAnalysis()
+        value.analyzer = try reader["Analyzer"].readIfPresent() ?? ""
+        value.resultField = try reader["ResultField"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension MailManagerClientTypes.IngressBooleanExpression {
+
+    static func write(value: MailManagerClientTypes.IngressBooleanExpression?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Evaluate"].write(value.evaluate, with: MailManagerClientTypes.IngressBooleanToEvaluate.write(value:to:))
+        try writer["Operator"].write(value.`operator`)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.IngressBooleanExpression {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MailManagerClientTypes.IngressBooleanExpression()
+        value.evaluate = try reader["Evaluate"].readIfPresent(with: MailManagerClientTypes.IngressBooleanToEvaluate.read(from:))
+        value.`operator` = try reader["Operator"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension MailManagerClientTypes.IngressBooleanToEvaluate {
+
+    static func write(value: MailManagerClientTypes.IngressBooleanToEvaluate?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .analysis(analysis):
+                try writer["Analysis"].write(analysis, with: MailManagerClientTypes.IngressAnalysis.write(value:to:))
+            case let .isinaddresslist(isinaddresslist):
+                try writer["IsInAddressList"].write(isinaddresslist, with: MailManagerClientTypes.IngressIsInAddressList.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.IngressBooleanToEvaluate {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "Analysis":
+                return .analysis(try reader["Analysis"].read(with: MailManagerClientTypes.IngressAnalysis.read(from:)))
+            case "IsInAddressList":
+                return .isinaddresslist(try reader["IsInAddressList"].read(with: MailManagerClientTypes.IngressIsInAddressList.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension MailManagerClientTypes.IngressIpToEvaluate {
+
+    static func write(value: MailManagerClientTypes.IngressIpToEvaluate?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .attribute(attribute):
+                try writer["Attribute"].write(attribute)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.IngressIpToEvaluate {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "Attribute":
+                return .attribute(try reader["Attribute"].read())
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension MailManagerClientTypes.IngressIpv4Expression {
+
+    static func write(value: MailManagerClientTypes.IngressIpv4Expression?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Evaluate"].write(value.evaluate, with: MailManagerClientTypes.IngressIpToEvaluate.write(value:to:))
+        try writer["Operator"].write(value.`operator`)
+        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.IngressIpv4Expression {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MailManagerClientTypes.IngressIpv4Expression()
+        value.evaluate = try reader["Evaluate"].readIfPresent(with: MailManagerClientTypes.IngressIpToEvaluate.read(from:))
+        value.`operator` = try reader["Operator"].readIfPresent() ?? .sdkUnknown("")
+        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension MailManagerClientTypes.IngressIpv6Expression {
+
+    static func write(value: MailManagerClientTypes.IngressIpv6Expression?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Evaluate"].write(value.evaluate, with: MailManagerClientTypes.IngressIpv6ToEvaluate.write(value:to:))
+        try writer["Operator"].write(value.`operator`)
+        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.IngressIpv6Expression {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MailManagerClientTypes.IngressIpv6Expression()
+        value.evaluate = try reader["Evaluate"].readIfPresent(with: MailManagerClientTypes.IngressIpv6ToEvaluate.read(from:))
+        value.`operator` = try reader["Operator"].readIfPresent() ?? .sdkUnknown("")
+        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension MailManagerClientTypes.IngressIpv6ToEvaluate {
+
+    static func write(value: MailManagerClientTypes.IngressIpv6ToEvaluate?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .attribute(attribute):
+                try writer["Attribute"].write(attribute)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.IngressIpv6ToEvaluate {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "Attribute":
+                return .attribute(try reader["Attribute"].read())
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension MailManagerClientTypes.IngressIsInAddressList {
+
+    static func write(value: MailManagerClientTypes.IngressIsInAddressList?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AddressLists"].writeList(value.addressLists, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Attribute"].write(value.attribute)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.IngressIsInAddressList {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MailManagerClientTypes.IngressIsInAddressList()
+        value.attribute = try reader["Attribute"].readIfPresent() ?? .sdkUnknown("")
+        value.addressLists = try reader["AddressLists"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension MailManagerClientTypes.IngressPoint {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.IngressPoint {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MailManagerClientTypes.IngressPoint()
+        value.ingressPointName = try reader["IngressPointName"].readIfPresent() ?? ""
+        value.ingressPointId = try reader["IngressPointId"].readIfPresent() ?? ""
+        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
+        value.aRecord = try reader["ARecord"].readIfPresent()
+        return value
+    }
+}
+
+extension MailManagerClientTypes.IngressPointAuthConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.IngressPointAuthConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MailManagerClientTypes.IngressPointAuthConfiguration()
+        value.ingressPointPasswordConfiguration = try reader["IngressPointPasswordConfiguration"].readIfPresent(with: MailManagerClientTypes.IngressPointPasswordConfiguration.read(from:))
+        value.secretArn = try reader["SecretArn"].readIfPresent()
+        return value
+    }
+}
+
+extension MailManagerClientTypes.IngressPointConfiguration {
+
+    static func write(value: MailManagerClientTypes.IngressPointConfiguration?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .secretarn(secretarn):
+                try writer["SecretArn"].write(secretarn)
+            case let .smtppassword(smtppassword):
+                try writer["SmtpPassword"].write(smtppassword)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+}
+
+extension MailManagerClientTypes.IngressPointPasswordConfiguration {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.IngressPointPasswordConfiguration {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MailManagerClientTypes.IngressPointPasswordConfiguration()
+        value.smtpPasswordVersion = try reader["SmtpPasswordVersion"].readIfPresent()
+        value.previousSmtpPasswordVersion = try reader["PreviousSmtpPasswordVersion"].readIfPresent()
+        value.previousSmtpPasswordExpiryTimestamp = try reader["PreviousSmtpPasswordExpiryTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension MailManagerClientTypes.IngressStringExpression {
+
+    static func write(value: MailManagerClientTypes.IngressStringExpression?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Evaluate"].write(value.evaluate, with: MailManagerClientTypes.IngressStringToEvaluate.write(value:to:))
+        try writer["Operator"].write(value.`operator`)
+        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.IngressStringExpression {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MailManagerClientTypes.IngressStringExpression()
+        value.evaluate = try reader["Evaluate"].readIfPresent(with: MailManagerClientTypes.IngressStringToEvaluate.read(from:))
+        value.`operator` = try reader["Operator"].readIfPresent() ?? .sdkUnknown("")
+        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension MailManagerClientTypes.IngressStringToEvaluate {
+
+    static func write(value: MailManagerClientTypes.IngressStringToEvaluate?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .analysis(analysis):
+                try writer["Analysis"].write(analysis, with: MailManagerClientTypes.IngressAnalysis.write(value:to:))
+            case let .attribute(attribute):
+                try writer["Attribute"].write(attribute)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.IngressStringToEvaluate {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "Attribute":
+                return .attribute(try reader["Attribute"].read())
+            case "Analysis":
+                return .analysis(try reader["Analysis"].read(with: MailManagerClientTypes.IngressAnalysis.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension MailManagerClientTypes.IngressTlsProtocolExpression {
+
+    static func write(value: MailManagerClientTypes.IngressTlsProtocolExpression?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Evaluate"].write(value.evaluate, with: MailManagerClientTypes.IngressTlsProtocolToEvaluate.write(value:to:))
+        try writer["Operator"].write(value.`operator`)
+        try writer["Value"].write(value.value)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.IngressTlsProtocolExpression {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MailManagerClientTypes.IngressTlsProtocolExpression()
+        value.evaluate = try reader["Evaluate"].readIfPresent(with: MailManagerClientTypes.IngressTlsProtocolToEvaluate.read(from:))
+        value.`operator` = try reader["Operator"].readIfPresent() ?? .sdkUnknown("")
+        value.value = try reader["Value"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension MailManagerClientTypes.IngressTlsProtocolToEvaluate {
+
+    static func write(value: MailManagerClientTypes.IngressTlsProtocolToEvaluate?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .attribute(attribute):
+                try writer["Attribute"].write(attribute)
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.IngressTlsProtocolToEvaluate {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "Attribute":
+                return .attribute(try reader["Attribute"].read())
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension MailManagerClientTypes.MessageBody {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.MessageBody {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MailManagerClientTypes.MessageBody()
+        value.text = try reader["Text"].readIfPresent()
+        value.html = try reader["Html"].readIfPresent()
+        value.messageMalformed = try reader["MessageMalformed"].readIfPresent()
         return value
     }
 }
@@ -8325,94 +8839,6 @@ extension MailManagerClientTypes.Metadata {
         value.sendingPool = try reader["SendingPool"].readIfPresent()
         value.configurationSet = try reader["ConfigurationSet"].readIfPresent()
         value.sourceArn = try reader["SourceArn"].readIfPresent()
-        return value
-    }
-}
-
-extension MailManagerClientTypes.Envelope {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.Envelope {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MailManagerClientTypes.Envelope()
-        value.helo = try reader["Helo"].readIfPresent()
-        value.from = try reader["From"].readIfPresent()
-        value.to = try reader["To"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension MailManagerClientTypes.MessageBody {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.MessageBody {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MailManagerClientTypes.MessageBody()
-        value.text = try reader["Text"].readIfPresent()
-        value.html = try reader["Html"].readIfPresent()
-        value.messageMalformed = try reader["MessageMalformed"].readIfPresent()
-        return value
-    }
-}
-
-extension MailManagerClientTypes.SearchStatus {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.SearchStatus {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MailManagerClientTypes.SearchStatus()
-        value.submissionTimestamp = try reader["SubmissionTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.completionTimestamp = try reader["CompletionTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.state = try reader["State"].readIfPresent()
-        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
-        return value
-    }
-}
-
-extension MailManagerClientTypes.Row {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.Row {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MailManagerClientTypes.Row()
-        value.archivedMessageId = try reader["ArchivedMessageId"].readIfPresent()
-        value.receivedTimestamp = try reader["ReceivedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.date = try reader["Date"].readIfPresent()
-        value.to = try reader["To"].readIfPresent()
-        value.from = try reader["From"].readIfPresent()
-        value.cc = try reader["Cc"].readIfPresent()
-        value.subject = try reader["Subject"].readIfPresent()
-        value.messageId = try reader["MessageId"].readIfPresent()
-        value.hasAttachments = try reader["HasAttachments"].readIfPresent()
-        value.receivedHeaders = try reader["ReceivedHeaders"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.inReplyTo = try reader["InReplyTo"].readIfPresent()
-        value.xMailer = try reader["XMailer"].readIfPresent()
-        value.xOriginalMailer = try reader["XOriginalMailer"].readIfPresent()
-        value.xPriority = try reader["XPriority"].readIfPresent()
-        value.ingressPointId = try reader["IngressPointId"].readIfPresent()
-        value.senderHostname = try reader["SenderHostname"].readIfPresent()
-        value.senderIpAddress = try reader["SenderIpAddress"].readIfPresent()
-        value.envelope = try reader["Envelope"].readIfPresent(with: MailManagerClientTypes.Envelope.read(from:))
-        value.sourceArn = try reader["SourceArn"].readIfPresent()
-        return value
-    }
-}
-
-extension MailManagerClientTypes.IngressPointAuthConfiguration {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.IngressPointAuthConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MailManagerClientTypes.IngressPointAuthConfiguration()
-        value.ingressPointPasswordConfiguration = try reader["IngressPointPasswordConfiguration"].readIfPresent(with: MailManagerClientTypes.IngressPointPasswordConfiguration.read(from:))
-        value.secretArn = try reader["SecretArn"].readIfPresent()
-        return value
-    }
-}
-
-extension MailManagerClientTypes.IngressPointPasswordConfiguration {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.IngressPointPasswordConfiguration {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MailManagerClientTypes.IngressPointPasswordConfiguration()
-        value.smtpPasswordVersion = try reader["SmtpPasswordVersion"].readIfPresent()
-        value.previousSmtpPasswordVersion = try reader["PreviousSmtpPasswordVersion"].readIfPresent()
-        value.previousSmtpPasswordExpiryTimestamp = try reader["PreviousSmtpPasswordExpiryTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
         return value
     }
 }
@@ -8442,6 +8868,76 @@ extension MailManagerClientTypes.NetworkConfiguration {
             default:
                 return .sdkUnknown(name ?? "")
         }
+    }
+}
+
+extension MailManagerClientTypes.NoAuthentication {
+
+    static func write(value: MailManagerClientTypes.NoAuthentication?, to writer: SmithyJSON.Writer) throws {
+        guard value != nil else { return }
+        _ = writer[""]  // create an empty structure
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.NoAuthentication {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        return MailManagerClientTypes.NoAuthentication()
+    }
+}
+
+extension MailManagerClientTypes.PolicyCondition {
+
+    static func write(value: MailManagerClientTypes.PolicyCondition?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        switch value {
+            case let .booleanexpression(booleanexpression):
+                try writer["BooleanExpression"].write(booleanexpression, with: MailManagerClientTypes.IngressBooleanExpression.write(value:to:))
+            case let .ipexpression(ipexpression):
+                try writer["IpExpression"].write(ipexpression, with: MailManagerClientTypes.IngressIpv4Expression.write(value:to:))
+            case let .ipv6expression(ipv6expression):
+                try writer["Ipv6Expression"].write(ipv6expression, with: MailManagerClientTypes.IngressIpv6Expression.write(value:to:))
+            case let .stringexpression(stringexpression):
+                try writer["StringExpression"].write(stringexpression, with: MailManagerClientTypes.IngressStringExpression.write(value:to:))
+            case let .tlsexpression(tlsexpression):
+                try writer["TlsExpression"].write(tlsexpression, with: MailManagerClientTypes.IngressTlsProtocolExpression.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.PolicyCondition {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "StringExpression":
+                return .stringexpression(try reader["StringExpression"].read(with: MailManagerClientTypes.IngressStringExpression.read(from:)))
+            case "IpExpression":
+                return .ipexpression(try reader["IpExpression"].read(with: MailManagerClientTypes.IngressIpv4Expression.read(from:)))
+            case "Ipv6Expression":
+                return .ipv6expression(try reader["Ipv6Expression"].read(with: MailManagerClientTypes.IngressIpv6Expression.read(from:)))
+            case "TlsExpression":
+                return .tlsexpression(try reader["TlsExpression"].read(with: MailManagerClientTypes.IngressTlsProtocolExpression.read(from:)))
+            case "BooleanExpression":
+                return .booleanexpression(try reader["BooleanExpression"].read(with: MailManagerClientTypes.IngressBooleanExpression.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
+    }
+}
+
+extension MailManagerClientTypes.PolicyStatement {
+
+    static func write(value: MailManagerClientTypes.PolicyStatement?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["Action"].write(value.action)
+        try writer["Conditions"].writeList(value.conditions, memberWritingClosure: MailManagerClientTypes.PolicyCondition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.PolicyStatement {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MailManagerClientTypes.PolicyStatement()
+        value.conditions = try reader["Conditions"].readListIfPresent(memberReadingClosure: MailManagerClientTypes.PolicyCondition.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.action = try reader["Action"].readIfPresent() ?? .sdkUnknown("")
+        return value
     }
 }
 
@@ -8475,6 +8971,37 @@ extension MailManagerClientTypes.PublicNetworkConfiguration {
     }
 }
 
+extension MailManagerClientTypes.Relay {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.Relay {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MailManagerClientTypes.Relay()
+        value.relayId = try reader["RelayId"].readIfPresent()
+        value.relayName = try reader["RelayName"].readIfPresent()
+        value.lastModifiedTimestamp = try reader["LastModifiedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension MailManagerClientTypes.RelayAction {
+
+    static func write(value: MailManagerClientTypes.RelayAction?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ActionFailurePolicy"].write(value.actionFailurePolicy)
+        try writer["MailFrom"].write(value.mailFrom)
+        try writer["Relay"].write(value.relay)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.RelayAction {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MailManagerClientTypes.RelayAction()
+        value.actionFailurePolicy = try reader["ActionFailurePolicy"].readIfPresent()
+        value.relay = try reader["Relay"].readIfPresent() ?? ""
+        value.mailFrom = try reader["MailFrom"].readIfPresent()
+        return value
+    }
+}
+
 extension MailManagerClientTypes.RelayAuthentication {
 
     static func write(value: MailManagerClientTypes.RelayAuthentication?, to writer: SmithyJSON.Writer) throws {
@@ -8503,16 +9030,46 @@ extension MailManagerClientTypes.RelayAuthentication {
     }
 }
 
-extension MailManagerClientTypes.NoAuthentication {
+extension MailManagerClientTypes.ReplaceRecipientAction {
 
-    static func write(value: MailManagerClientTypes.NoAuthentication?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
+    static func write(value: MailManagerClientTypes.ReplaceRecipientAction?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ReplaceWith"].writeList(value.replaceWith, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.NoAuthentication {
+    static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.ReplaceRecipientAction {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        return MailManagerClientTypes.NoAuthentication()
+        var value = MailManagerClientTypes.ReplaceRecipientAction()
+        value.replaceWith = try reader["ReplaceWith"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension MailManagerClientTypes.Row {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.Row {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MailManagerClientTypes.Row()
+        value.archivedMessageId = try reader["ArchivedMessageId"].readIfPresent()
+        value.receivedTimestamp = try reader["ReceivedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.date = try reader["Date"].readIfPresent()
+        value.to = try reader["To"].readIfPresent()
+        value.from = try reader["From"].readIfPresent()
+        value.cc = try reader["Cc"].readIfPresent()
+        value.subject = try reader["Subject"].readIfPresent()
+        value.messageId = try reader["MessageId"].readIfPresent()
+        value.hasAttachments = try reader["HasAttachments"].readIfPresent()
+        value.receivedHeaders = try reader["ReceivedHeaders"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.inReplyTo = try reader["InReplyTo"].readIfPresent()
+        value.xMailer = try reader["XMailer"].readIfPresent()
+        value.xOriginalMailer = try reader["XOriginalMailer"].readIfPresent()
+        value.xPriority = try reader["XPriority"].readIfPresent()
+        value.ingressPointId = try reader["IngressPointId"].readIfPresent()
+        value.senderHostname = try reader["SenderHostname"].readIfPresent()
+        value.senderIpAddress = try reader["SenderIpAddress"].readIfPresent()
+        value.envelope = try reader["Envelope"].readIfPresent(with: MailManagerClientTypes.Envelope.read(from:))
+        value.sourceArn = try reader["SourceArn"].readIfPresent()
+        return value
     }
 }
 
@@ -8597,187 +9154,52 @@ extension MailManagerClientTypes.RuleAction {
     }
 }
 
-extension MailManagerClientTypes.SnsAction {
+extension MailManagerClientTypes.RuleBooleanExpression {
 
-    static func write(value: MailManagerClientTypes.SnsAction?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: MailManagerClientTypes.RuleBooleanExpression?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["ActionFailurePolicy"].write(value.actionFailurePolicy)
-        try writer["Encoding"].write(value.encoding)
-        try writer["PayloadType"].write(value.payloadType)
-        try writer["RoleArn"].write(value.roleArn)
-        try writer["TopicArn"].write(value.topicArn)
+        try writer["Evaluate"].write(value.evaluate, with: MailManagerClientTypes.RuleBooleanToEvaluate.write(value:to:))
+        try writer["Operator"].write(value.`operator`)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.SnsAction {
+    static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.RuleBooleanExpression {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MailManagerClientTypes.SnsAction()
-        value.actionFailurePolicy = try reader["ActionFailurePolicy"].readIfPresent()
-        value.topicArn = try reader["TopicArn"].readIfPresent() ?? ""
-        value.roleArn = try reader["RoleArn"].readIfPresent() ?? ""
-        value.encoding = try reader["Encoding"].readIfPresent() ?? MailManagerClientTypes.SnsNotificationEncoding.utf8
-        value.payloadType = try reader["PayloadType"].readIfPresent() ?? MailManagerClientTypes.SnsNotificationPayloadType.content
+        var value = MailManagerClientTypes.RuleBooleanExpression()
+        value.evaluate = try reader["Evaluate"].readIfPresent(with: MailManagerClientTypes.RuleBooleanToEvaluate.read(from:))
+        value.`operator` = try reader["Operator"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
 
-extension MailManagerClientTypes.DeliverToQBusinessAction {
+extension MailManagerClientTypes.RuleBooleanToEvaluate {
 
-    static func write(value: MailManagerClientTypes.DeliverToQBusinessAction?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: MailManagerClientTypes.RuleBooleanToEvaluate?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["ActionFailurePolicy"].write(value.actionFailurePolicy)
-        try writer["ApplicationId"].write(value.applicationId)
-        try writer["IndexId"].write(value.indexId)
-        try writer["RoleArn"].write(value.roleArn)
+        switch value {
+            case let .analysis(analysis):
+                try writer["Analysis"].write(analysis, with: MailManagerClientTypes.Analysis.write(value:to:))
+            case let .attribute(attribute):
+                try writer["Attribute"].write(attribute)
+            case let .isinaddresslist(isinaddresslist):
+                try writer["IsInAddressList"].write(isinaddresslist, with: MailManagerClientTypes.RuleIsInAddressList.write(value:to:))
+            case let .sdkUnknown(sdkUnknown):
+                try writer["sdkUnknown"].write(sdkUnknown)
+        }
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.DeliverToQBusinessAction {
+    static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.RuleBooleanToEvaluate {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MailManagerClientTypes.DeliverToQBusinessAction()
-        value.actionFailurePolicy = try reader["ActionFailurePolicy"].readIfPresent()
-        value.applicationId = try reader["ApplicationId"].readIfPresent() ?? ""
-        value.indexId = try reader["IndexId"].readIfPresent() ?? ""
-        value.roleArn = try reader["RoleArn"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension MailManagerClientTypes.DeliverToMailboxAction {
-
-    static func write(value: MailManagerClientTypes.DeliverToMailboxAction?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ActionFailurePolicy"].write(value.actionFailurePolicy)
-        try writer["MailboxArn"].write(value.mailboxArn)
-        try writer["RoleArn"].write(value.roleArn)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.DeliverToMailboxAction {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MailManagerClientTypes.DeliverToMailboxAction()
-        value.actionFailurePolicy = try reader["ActionFailurePolicy"].readIfPresent()
-        value.mailboxArn = try reader["MailboxArn"].readIfPresent() ?? ""
-        value.roleArn = try reader["RoleArn"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension MailManagerClientTypes.ReplaceRecipientAction {
-
-    static func write(value: MailManagerClientTypes.ReplaceRecipientAction?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ReplaceWith"].writeList(value.replaceWith, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.ReplaceRecipientAction {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MailManagerClientTypes.ReplaceRecipientAction()
-        value.replaceWith = try reader["ReplaceWith"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        return value
-    }
-}
-
-extension MailManagerClientTypes.AddHeaderAction {
-
-    static func write(value: MailManagerClientTypes.AddHeaderAction?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["HeaderName"].write(value.headerName)
-        try writer["HeaderValue"].write(value.headerValue)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.AddHeaderAction {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MailManagerClientTypes.AddHeaderAction()
-        value.headerName = try reader["HeaderName"].readIfPresent() ?? ""
-        value.headerValue = try reader["HeaderValue"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension MailManagerClientTypes.SendAction {
-
-    static func write(value: MailManagerClientTypes.SendAction?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ActionFailurePolicy"].write(value.actionFailurePolicy)
-        try writer["RoleArn"].write(value.roleArn)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.SendAction {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MailManagerClientTypes.SendAction()
-        value.actionFailurePolicy = try reader["ActionFailurePolicy"].readIfPresent()
-        value.roleArn = try reader["RoleArn"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension MailManagerClientTypes.S3Action {
-
-    static func write(value: MailManagerClientTypes.S3Action?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ActionFailurePolicy"].write(value.actionFailurePolicy)
-        try writer["RoleArn"].write(value.roleArn)
-        try writer["S3Bucket"].write(value.s3Bucket)
-        try writer["S3Prefix"].write(value.s3Prefix)
-        try writer["S3SseKmsKeyId"].write(value.s3SseKmsKeyId)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.S3Action {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MailManagerClientTypes.S3Action()
-        value.actionFailurePolicy = try reader["ActionFailurePolicy"].readIfPresent()
-        value.roleArn = try reader["RoleArn"].readIfPresent() ?? ""
-        value.s3Bucket = try reader["S3Bucket"].readIfPresent() ?? ""
-        value.s3Prefix = try reader["S3Prefix"].readIfPresent()
-        value.s3SseKmsKeyId = try reader["S3SseKmsKeyId"].readIfPresent()
-        return value
-    }
-}
-
-extension MailManagerClientTypes.ArchiveAction {
-
-    static func write(value: MailManagerClientTypes.ArchiveAction?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ActionFailurePolicy"].write(value.actionFailurePolicy)
-        try writer["TargetArchive"].write(value.targetArchive)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.ArchiveAction {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MailManagerClientTypes.ArchiveAction()
-        value.actionFailurePolicy = try reader["ActionFailurePolicy"].readIfPresent()
-        value.targetArchive = try reader["TargetArchive"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension MailManagerClientTypes.RelayAction {
-
-    static func write(value: MailManagerClientTypes.RelayAction?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["ActionFailurePolicy"].write(value.actionFailurePolicy)
-        try writer["MailFrom"].write(value.mailFrom)
-        try writer["Relay"].write(value.relay)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.RelayAction {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MailManagerClientTypes.RelayAction()
-        value.actionFailurePolicy = try reader["ActionFailurePolicy"].readIfPresent()
-        value.relay = try reader["Relay"].readIfPresent() ?? ""
-        value.mailFrom = try reader["MailFrom"].readIfPresent()
-        return value
-    }
-}
-
-extension MailManagerClientTypes.DropAction {
-
-    static func write(value: MailManagerClientTypes.DropAction?, to writer: SmithyJSON.Writer) throws {
-        guard value != nil else { return }
-        _ = writer[""]  // create an empty structure
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.DropAction {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        return MailManagerClientTypes.DropAction()
+        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
+        switch name {
+            case "Attribute":
+                return .attribute(try reader["Attribute"].read())
+            case "Analysis":
+                return .analysis(try reader["Analysis"].read(with: MailManagerClientTypes.Analysis.read(from:)))
+            case "IsInAddressList":
+                return .isinaddresslist(try reader["IsInAddressList"].read(with: MailManagerClientTypes.RuleIsInAddressList.read(from:)))
+            default:
+                return .sdkUnknown(name ?? "")
+        }
     }
 }
 
@@ -8842,70 +9264,6 @@ extension MailManagerClientTypes.RuleDmarcExpression {
     }
 }
 
-extension MailManagerClientTypes.RuleVerdictExpression {
-
-    static func write(value: MailManagerClientTypes.RuleVerdictExpression?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Evaluate"].write(value.evaluate, with: MailManagerClientTypes.RuleVerdictToEvaluate.write(value:to:))
-        try writer["Operator"].write(value.`operator`)
-        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosureBox<MailManagerClientTypes.RuleVerdict>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.RuleVerdictExpression {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MailManagerClientTypes.RuleVerdictExpression()
-        value.evaluate = try reader["Evaluate"].readIfPresent(with: MailManagerClientTypes.RuleVerdictToEvaluate.read(from:))
-        value.`operator` = try reader["Operator"].readIfPresent() ?? .sdkUnknown("")
-        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<MailManagerClientTypes.RuleVerdict>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension MailManagerClientTypes.RuleVerdictToEvaluate {
-
-    static func write(value: MailManagerClientTypes.RuleVerdictToEvaluate?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .analysis(analysis):
-                try writer["Analysis"].write(analysis, with: MailManagerClientTypes.Analysis.write(value:to:))
-            case let .attribute(attribute):
-                try writer["Attribute"].write(attribute)
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.RuleVerdictToEvaluate {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "Attribute":
-                return .attribute(try reader["Attribute"].read())
-            case "Analysis":
-                return .analysis(try reader["Analysis"].read(with: MailManagerClientTypes.Analysis.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension MailManagerClientTypes.Analysis {
-
-    static func write(value: MailManagerClientTypes.Analysis?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Analyzer"].write(value.analyzer)
-        try writer["ResultField"].write(value.resultField)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.Analysis {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MailManagerClientTypes.Analysis()
-        value.analyzer = try reader["Analyzer"].readIfPresent() ?? ""
-        value.resultField = try reader["ResultField"].readIfPresent() ?? ""
-        return value
-    }
-}
-
 extension MailManagerClientTypes.RuleIpExpression {
 
     static func write(value: MailManagerClientTypes.RuleIpExpression?, to writer: SmithyJSON.Writer) throws {
@@ -8949,6 +9307,23 @@ extension MailManagerClientTypes.RuleIpToEvaluate {
     }
 }
 
+extension MailManagerClientTypes.RuleIsInAddressList {
+
+    static func write(value: MailManagerClientTypes.RuleIsInAddressList?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["AddressLists"].writeList(value.addressLists, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Attribute"].write(value.attribute)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.RuleIsInAddressList {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MailManagerClientTypes.RuleIsInAddressList()
+        value.attribute = try reader["Attribute"].readIfPresent() ?? .sdkUnknown("")
+        value.addressLists = try reader["AddressLists"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
 extension MailManagerClientTypes.RuleNumberExpression {
 
     static func write(value: MailManagerClientTypes.RuleNumberExpression?, to writer: SmithyJSON.Writer) throws {
@@ -8989,6 +9364,18 @@ extension MailManagerClientTypes.RuleNumberToEvaluate {
             default:
                 return .sdkUnknown(name ?? "")
         }
+    }
+}
+
+extension MailManagerClientTypes.RuleSet {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.RuleSet {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MailManagerClientTypes.RuleSet()
+        value.ruleSetId = try reader["RuleSetId"].readIfPresent()
+        value.ruleSetName = try reader["RuleSetName"].readIfPresent()
+        value.lastModificationDate = try reader["LastModificationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
     }
 }
 
@@ -9043,40 +9430,40 @@ extension MailManagerClientTypes.RuleStringToEvaluate {
     }
 }
 
-extension MailManagerClientTypes.RuleBooleanExpression {
+extension MailManagerClientTypes.RuleVerdictExpression {
 
-    static func write(value: MailManagerClientTypes.RuleBooleanExpression?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: MailManagerClientTypes.RuleVerdictExpression?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["Evaluate"].write(value.evaluate, with: MailManagerClientTypes.RuleBooleanToEvaluate.write(value:to:))
+        try writer["Evaluate"].write(value.evaluate, with: MailManagerClientTypes.RuleVerdictToEvaluate.write(value:to:))
         try writer["Operator"].write(value.`operator`)
+        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosureBox<MailManagerClientTypes.RuleVerdict>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.RuleBooleanExpression {
+    static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.RuleVerdictExpression {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MailManagerClientTypes.RuleBooleanExpression()
-        value.evaluate = try reader["Evaluate"].readIfPresent(with: MailManagerClientTypes.RuleBooleanToEvaluate.read(from:))
+        var value = MailManagerClientTypes.RuleVerdictExpression()
+        value.evaluate = try reader["Evaluate"].readIfPresent(with: MailManagerClientTypes.RuleVerdictToEvaluate.read(from:))
         value.`operator` = try reader["Operator"].readIfPresent() ?? .sdkUnknown("")
+        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosureBox<MailManagerClientTypes.RuleVerdict>().read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
 
-extension MailManagerClientTypes.RuleBooleanToEvaluate {
+extension MailManagerClientTypes.RuleVerdictToEvaluate {
 
-    static func write(value: MailManagerClientTypes.RuleBooleanToEvaluate?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: MailManagerClientTypes.RuleVerdictToEvaluate?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
         switch value {
             case let .analysis(analysis):
                 try writer["Analysis"].write(analysis, with: MailManagerClientTypes.Analysis.write(value:to:))
             case let .attribute(attribute):
                 try writer["Attribute"].write(attribute)
-            case let .isinaddresslist(isinaddresslist):
-                try writer["IsInAddressList"].write(isinaddresslist, with: MailManagerClientTypes.RuleIsInAddressList.write(value:to:))
             case let .sdkUnknown(sdkUnknown):
                 try writer["sdkUnknown"].write(sdkUnknown)
         }
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.RuleBooleanToEvaluate {
+    static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.RuleVerdictToEvaluate {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
         switch name {
@@ -9084,450 +9471,46 @@ extension MailManagerClientTypes.RuleBooleanToEvaluate {
                 return .attribute(try reader["Attribute"].read())
             case "Analysis":
                 return .analysis(try reader["Analysis"].read(with: MailManagerClientTypes.Analysis.read(from:)))
-            case "IsInAddressList":
-                return .isinaddresslist(try reader["IsInAddressList"].read(with: MailManagerClientTypes.RuleIsInAddressList.read(from:)))
             default:
                 return .sdkUnknown(name ?? "")
         }
     }
 }
 
-extension MailManagerClientTypes.RuleIsInAddressList {
+extension MailManagerClientTypes.S3Action {
 
-    static func write(value: MailManagerClientTypes.RuleIsInAddressList?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: MailManagerClientTypes.S3Action?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["AddressLists"].writeList(value.addressLists, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Attribute"].write(value.attribute)
+        try writer["ActionFailurePolicy"].write(value.actionFailurePolicy)
+        try writer["RoleArn"].write(value.roleArn)
+        try writer["S3Bucket"].write(value.s3Bucket)
+        try writer["S3Prefix"].write(value.s3Prefix)
+        try writer["S3SseKmsKeyId"].write(value.s3SseKmsKeyId)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.RuleIsInAddressList {
+    static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.S3Action {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MailManagerClientTypes.RuleIsInAddressList()
-        value.attribute = try reader["Attribute"].readIfPresent() ?? .sdkUnknown("")
-        value.addressLists = try reader["AddressLists"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        var value = MailManagerClientTypes.S3Action()
+        value.actionFailurePolicy = try reader["ActionFailurePolicy"].readIfPresent()
+        value.roleArn = try reader["RoleArn"].readIfPresent() ?? ""
+        value.s3Bucket = try reader["S3Bucket"].readIfPresent() ?? ""
+        value.s3Prefix = try reader["S3Prefix"].readIfPresent()
+        value.s3SseKmsKeyId = try reader["S3SseKmsKeyId"].readIfPresent()
         return value
     }
 }
 
-extension MailManagerClientTypes.PolicyStatement {
+extension MailManagerClientTypes.S3ExportDestinationConfiguration {
 
-    static func write(value: MailManagerClientTypes.PolicyStatement?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: MailManagerClientTypes.S3ExportDestinationConfiguration?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["Action"].write(value.action)
-        try writer["Conditions"].writeList(value.conditions, memberWritingClosure: MailManagerClientTypes.PolicyCondition.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["S3Location"].write(value.s3Location)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.PolicyStatement {
+    static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.S3ExportDestinationConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MailManagerClientTypes.PolicyStatement()
-        value.conditions = try reader["Conditions"].readListIfPresent(memberReadingClosure: MailManagerClientTypes.PolicyCondition.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.action = try reader["Action"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension MailManagerClientTypes.PolicyCondition {
-
-    static func write(value: MailManagerClientTypes.PolicyCondition?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .booleanexpression(booleanexpression):
-                try writer["BooleanExpression"].write(booleanexpression, with: MailManagerClientTypes.IngressBooleanExpression.write(value:to:))
-            case let .ipexpression(ipexpression):
-                try writer["IpExpression"].write(ipexpression, with: MailManagerClientTypes.IngressIpv4Expression.write(value:to:))
-            case let .ipv6expression(ipv6expression):
-                try writer["Ipv6Expression"].write(ipv6expression, with: MailManagerClientTypes.IngressIpv6Expression.write(value:to:))
-            case let .stringexpression(stringexpression):
-                try writer["StringExpression"].write(stringexpression, with: MailManagerClientTypes.IngressStringExpression.write(value:to:))
-            case let .tlsexpression(tlsexpression):
-                try writer["TlsExpression"].write(tlsexpression, with: MailManagerClientTypes.IngressTlsProtocolExpression.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.PolicyCondition {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "StringExpression":
-                return .stringexpression(try reader["StringExpression"].read(with: MailManagerClientTypes.IngressStringExpression.read(from:)))
-            case "IpExpression":
-                return .ipexpression(try reader["IpExpression"].read(with: MailManagerClientTypes.IngressIpv4Expression.read(from:)))
-            case "Ipv6Expression":
-                return .ipv6expression(try reader["Ipv6Expression"].read(with: MailManagerClientTypes.IngressIpv6Expression.read(from:)))
-            case "TlsExpression":
-                return .tlsexpression(try reader["TlsExpression"].read(with: MailManagerClientTypes.IngressTlsProtocolExpression.read(from:)))
-            case "BooleanExpression":
-                return .booleanexpression(try reader["BooleanExpression"].read(with: MailManagerClientTypes.IngressBooleanExpression.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension MailManagerClientTypes.IngressBooleanExpression {
-
-    static func write(value: MailManagerClientTypes.IngressBooleanExpression?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Evaluate"].write(value.evaluate, with: MailManagerClientTypes.IngressBooleanToEvaluate.write(value:to:))
-        try writer["Operator"].write(value.`operator`)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.IngressBooleanExpression {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MailManagerClientTypes.IngressBooleanExpression()
-        value.evaluate = try reader["Evaluate"].readIfPresent(with: MailManagerClientTypes.IngressBooleanToEvaluate.read(from:))
-        value.`operator` = try reader["Operator"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension MailManagerClientTypes.IngressBooleanToEvaluate {
-
-    static func write(value: MailManagerClientTypes.IngressBooleanToEvaluate?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .analysis(analysis):
-                try writer["Analysis"].write(analysis, with: MailManagerClientTypes.IngressAnalysis.write(value:to:))
-            case let .isinaddresslist(isinaddresslist):
-                try writer["IsInAddressList"].write(isinaddresslist, with: MailManagerClientTypes.IngressIsInAddressList.write(value:to:))
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.IngressBooleanToEvaluate {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "Analysis":
-                return .analysis(try reader["Analysis"].read(with: MailManagerClientTypes.IngressAnalysis.read(from:)))
-            case "IsInAddressList":
-                return .isinaddresslist(try reader["IsInAddressList"].read(with: MailManagerClientTypes.IngressIsInAddressList.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension MailManagerClientTypes.IngressIsInAddressList {
-
-    static func write(value: MailManagerClientTypes.IngressIsInAddressList?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AddressLists"].writeList(value.addressLists, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Attribute"].write(value.attribute)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.IngressIsInAddressList {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MailManagerClientTypes.IngressIsInAddressList()
-        value.attribute = try reader["Attribute"].readIfPresent() ?? .sdkUnknown("")
-        value.addressLists = try reader["AddressLists"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension MailManagerClientTypes.IngressAnalysis {
-
-    static func write(value: MailManagerClientTypes.IngressAnalysis?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Analyzer"].write(value.analyzer)
-        try writer["ResultField"].write(value.resultField)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.IngressAnalysis {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MailManagerClientTypes.IngressAnalysis()
-        value.analyzer = try reader["Analyzer"].readIfPresent() ?? ""
-        value.resultField = try reader["ResultField"].readIfPresent() ?? ""
-        return value
-    }
-}
-
-extension MailManagerClientTypes.IngressTlsProtocolExpression {
-
-    static func write(value: MailManagerClientTypes.IngressTlsProtocolExpression?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Evaluate"].write(value.evaluate, with: MailManagerClientTypes.IngressTlsProtocolToEvaluate.write(value:to:))
-        try writer["Operator"].write(value.`operator`)
-        try writer["Value"].write(value.value)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.IngressTlsProtocolExpression {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MailManagerClientTypes.IngressTlsProtocolExpression()
-        value.evaluate = try reader["Evaluate"].readIfPresent(with: MailManagerClientTypes.IngressTlsProtocolToEvaluate.read(from:))
-        value.`operator` = try reader["Operator"].readIfPresent() ?? .sdkUnknown("")
-        value.value = try reader["Value"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension MailManagerClientTypes.IngressTlsProtocolToEvaluate {
-
-    static func write(value: MailManagerClientTypes.IngressTlsProtocolToEvaluate?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .attribute(attribute):
-                try writer["Attribute"].write(attribute)
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.IngressTlsProtocolToEvaluate {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "Attribute":
-                return .attribute(try reader["Attribute"].read())
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension MailManagerClientTypes.IngressIpv6Expression {
-
-    static func write(value: MailManagerClientTypes.IngressIpv6Expression?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Evaluate"].write(value.evaluate, with: MailManagerClientTypes.IngressIpv6ToEvaluate.write(value:to:))
-        try writer["Operator"].write(value.`operator`)
-        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.IngressIpv6Expression {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MailManagerClientTypes.IngressIpv6Expression()
-        value.evaluate = try reader["Evaluate"].readIfPresent(with: MailManagerClientTypes.IngressIpv6ToEvaluate.read(from:))
-        value.`operator` = try reader["Operator"].readIfPresent() ?? .sdkUnknown("")
-        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension MailManagerClientTypes.IngressIpv6ToEvaluate {
-
-    static func write(value: MailManagerClientTypes.IngressIpv6ToEvaluate?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .attribute(attribute):
-                try writer["Attribute"].write(attribute)
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.IngressIpv6ToEvaluate {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "Attribute":
-                return .attribute(try reader["Attribute"].read())
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension MailManagerClientTypes.IngressIpv4Expression {
-
-    static func write(value: MailManagerClientTypes.IngressIpv4Expression?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Evaluate"].write(value.evaluate, with: MailManagerClientTypes.IngressIpToEvaluate.write(value:to:))
-        try writer["Operator"].write(value.`operator`)
-        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.IngressIpv4Expression {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MailManagerClientTypes.IngressIpv4Expression()
-        value.evaluate = try reader["Evaluate"].readIfPresent(with: MailManagerClientTypes.IngressIpToEvaluate.read(from:))
-        value.`operator` = try reader["Operator"].readIfPresent() ?? .sdkUnknown("")
-        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension MailManagerClientTypes.IngressIpToEvaluate {
-
-    static func write(value: MailManagerClientTypes.IngressIpToEvaluate?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .attribute(attribute):
-                try writer["Attribute"].write(attribute)
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.IngressIpToEvaluate {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "Attribute":
-                return .attribute(try reader["Attribute"].read())
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension MailManagerClientTypes.IngressStringExpression {
-
-    static func write(value: MailManagerClientTypes.IngressStringExpression?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["Evaluate"].write(value.evaluate, with: MailManagerClientTypes.IngressStringToEvaluate.write(value:to:))
-        try writer["Operator"].write(value.`operator`)
-        try writer["Values"].writeList(value.values, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.IngressStringExpression {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MailManagerClientTypes.IngressStringExpression()
-        value.evaluate = try reader["Evaluate"].readIfPresent(with: MailManagerClientTypes.IngressStringToEvaluate.read(from:))
-        value.`operator` = try reader["Operator"].readIfPresent() ?? .sdkUnknown("")
-        value.values = try reader["Values"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        return value
-    }
-}
-
-extension MailManagerClientTypes.IngressStringToEvaluate {
-
-    static func write(value: MailManagerClientTypes.IngressStringToEvaluate?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .analysis(analysis):
-                try writer["Analysis"].write(analysis, with: MailManagerClientTypes.IngressAnalysis.write(value:to:))
-            case let .attribute(attribute):
-                try writer["Attribute"].write(attribute)
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.IngressStringToEvaluate {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        let name = reader.children.filter { $0.hasContent && $0.nodeInfo.name != "__type" }.first?.nodeInfo.name
-        switch name {
-            case "Attribute":
-                return .attribute(try reader["Attribute"].read())
-            case "Analysis":
-                return .analysis(try reader["Analysis"].read(with: MailManagerClientTypes.IngressAnalysis.read(from:)))
-            default:
-                return .sdkUnknown(name ?? "")
-        }
-    }
-}
-
-extension MailManagerClientTypes.AddonInstance {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.AddonInstance {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MailManagerClientTypes.AddonInstance()
-        value.addonInstanceId = try reader["AddonInstanceId"].readIfPresent()
-        value.addonSubscriptionId = try reader["AddonSubscriptionId"].readIfPresent()
-        value.addonName = try reader["AddonName"].readIfPresent()
-        value.addonInstanceArn = try reader["AddonInstanceArn"].readIfPresent()
-        value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension MailManagerClientTypes.AddonSubscription {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.AddonSubscription {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MailManagerClientTypes.AddonSubscription()
-        value.addonSubscriptionId = try reader["AddonSubscriptionId"].readIfPresent()
-        value.addonName = try reader["AddonName"].readIfPresent()
-        value.addonSubscriptionArn = try reader["AddonSubscriptionArn"].readIfPresent()
-        value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension MailManagerClientTypes.ImportJob {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.ImportJob {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MailManagerClientTypes.ImportJob()
-        value.jobId = try reader["JobId"].readIfPresent() ?? ""
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
-        value.preSignedUrl = try reader["PreSignedUrl"].readIfPresent() ?? ""
-        value.importedItemsCount = try reader["ImportedItemsCount"].readIfPresent()
-        value.failedItemsCount = try reader["FailedItemsCount"].readIfPresent()
-        value.importDataFormat = try reader["ImportDataFormat"].readIfPresent(with: MailManagerClientTypes.ImportDataFormat.read(from:))
-        value.addressListId = try reader["AddressListId"].readIfPresent() ?? ""
-        value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.startTimestamp = try reader["StartTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.completedTimestamp = try reader["CompletedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.error = try reader["Error"].readIfPresent()
-        return value
-    }
-}
-
-extension MailManagerClientTypes.AddressList {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.AddressList {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MailManagerClientTypes.AddressList()
-        value.addressListId = try reader["AddressListId"].readIfPresent() ?? ""
-        value.addressListArn = try reader["AddressListArn"].readIfPresent() ?? ""
-        value.addressListName = try reader["AddressListName"].readIfPresent() ?? ""
-        value.createdTimestamp = try reader["CreatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.lastUpdatedTimestamp = try reader["LastUpdatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        return value
-    }
-}
-
-extension MailManagerClientTypes.ExportSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.ExportSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MailManagerClientTypes.ExportSummary()
-        value.exportId = try reader["ExportId"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent(with: MailManagerClientTypes.ExportStatus.read(from:))
-        return value
-    }
-}
-
-extension MailManagerClientTypes.Archive {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.Archive {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MailManagerClientTypes.Archive()
-        value.archiveId = try reader["ArchiveId"].readIfPresent() ?? ""
-        value.archiveName = try reader["ArchiveName"].readIfPresent()
-        value.archiveState = try reader["ArchiveState"].readIfPresent()
-        value.lastUpdatedTimestamp = try reader["LastUpdatedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension MailManagerClientTypes.SearchSummary {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.SearchSummary {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MailManagerClientTypes.SearchSummary()
-        value.searchId = try reader["SearchId"].readIfPresent()
-        value.status = try reader["Status"].readIfPresent(with: MailManagerClientTypes.SearchStatus.read(from:))
-        return value
-    }
-}
-
-extension MailManagerClientTypes.IngressPoint {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.IngressPoint {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MailManagerClientTypes.IngressPoint()
-        value.ingressPointName = try reader["IngressPointName"].readIfPresent() ?? ""
-        value.ingressPointId = try reader["IngressPointId"].readIfPresent() ?? ""
-        value.status = try reader["Status"].readIfPresent() ?? .sdkUnknown("")
-        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
-        value.aRecord = try reader["ARecord"].readIfPresent()
+        var value = MailManagerClientTypes.S3ExportDestinationConfiguration()
+        value.s3Location = try reader["S3Location"].readIfPresent()
         return value
     }
 }
@@ -9543,26 +9526,66 @@ extension MailManagerClientTypes.SavedAddress {
     }
 }
 
-extension MailManagerClientTypes.Relay {
+extension MailManagerClientTypes.SearchStatus {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.Relay {
+    static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.SearchStatus {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MailManagerClientTypes.Relay()
-        value.relayId = try reader["RelayId"].readIfPresent()
-        value.relayName = try reader["RelayName"].readIfPresent()
-        value.lastModifiedTimestamp = try reader["LastModifiedTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        var value = MailManagerClientTypes.SearchStatus()
+        value.submissionTimestamp = try reader["SubmissionTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.completionTimestamp = try reader["CompletionTimestamp"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.state = try reader["State"].readIfPresent()
+        value.errorMessage = try reader["ErrorMessage"].readIfPresent()
         return value
     }
 }
 
-extension MailManagerClientTypes.RuleSet {
+extension MailManagerClientTypes.SearchSummary {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.RuleSet {
+    static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.SearchSummary {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = MailManagerClientTypes.RuleSet()
-        value.ruleSetId = try reader["RuleSetId"].readIfPresent()
-        value.ruleSetName = try reader["RuleSetName"].readIfPresent()
-        value.lastModificationDate = try reader["LastModificationDate"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        var value = MailManagerClientTypes.SearchSummary()
+        value.searchId = try reader["SearchId"].readIfPresent()
+        value.status = try reader["Status"].readIfPresent(with: MailManagerClientTypes.SearchStatus.read(from:))
+        return value
+    }
+}
+
+extension MailManagerClientTypes.SendAction {
+
+    static func write(value: MailManagerClientTypes.SendAction?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ActionFailurePolicy"].write(value.actionFailurePolicy)
+        try writer["RoleArn"].write(value.roleArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.SendAction {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MailManagerClientTypes.SendAction()
+        value.actionFailurePolicy = try reader["ActionFailurePolicy"].readIfPresent()
+        value.roleArn = try reader["RoleArn"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension MailManagerClientTypes.SnsAction {
+
+    static func write(value: MailManagerClientTypes.SnsAction?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ActionFailurePolicy"].write(value.actionFailurePolicy)
+        try writer["Encoding"].write(value.encoding)
+        try writer["PayloadType"].write(value.payloadType)
+        try writer["RoleArn"].write(value.roleArn)
+        try writer["TopicArn"].write(value.topicArn)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> MailManagerClientTypes.SnsAction {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = MailManagerClientTypes.SnsAction()
+        value.actionFailurePolicy = try reader["ActionFailurePolicy"].readIfPresent()
+        value.topicArn = try reader["TopicArn"].readIfPresent() ?? ""
+        value.roleArn = try reader["RoleArn"].readIfPresent() ?? ""
+        value.encoding = try reader["Encoding"].readIfPresent() ?? MailManagerClientTypes.SnsNotificationEncoding.utf8
+        value.payloadType = try reader["PayloadType"].readIfPresent() ?? MailManagerClientTypes.SnsNotificationPayloadType.content
         return value
     }
 }
@@ -9593,29 +9616,6 @@ extension MailManagerClientTypes.TrafficPolicy {
         value.trafficPolicyId = try reader["TrafficPolicyId"].readIfPresent() ?? ""
         value.defaultAction = try reader["DefaultAction"].readIfPresent() ?? .sdkUnknown("")
         return value
-    }
-}
-
-extension MailManagerClientTypes.IngressPointConfiguration {
-
-    static func write(value: MailManagerClientTypes.IngressPointConfiguration?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        switch value {
-            case let .secretarn(secretarn):
-                try writer["SecretArn"].write(secretarn)
-            case let .smtppassword(smtppassword):
-                try writer["SmtpPassword"].write(smtppassword)
-            case let .sdkUnknown(sdkUnknown):
-                try writer["sdkUnknown"].write(sdkUnknown)
-        }
-    }
-}
-
-extension MailManagerClientTypes.AddressFilter {
-
-    static func write(value: MailManagerClientTypes.AddressFilter?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["AddressPrefix"].write(value.addressPrefix)
     }
 }
 

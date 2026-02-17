@@ -4636,53 +4636,62 @@ extension ServiceQuotaExceededException {
     }
 }
 
-extension SSMContactsClientTypes.Plan {
+extension SSMContactsClientTypes.ChannelTargetInfo {
 
-    static func write(value: SSMContactsClientTypes.Plan?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: SSMContactsClientTypes.ChannelTargetInfo?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["RotationIds"].writeList(value.rotationIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["Stages"].writeList(value.stages, memberWritingClosure: SSMContactsClientTypes.Stage.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ContactChannelId"].write(value.contactChannelId)
+        try writer["RetryIntervalInMinutes"].write(value.retryIntervalInMinutes)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SSMContactsClientTypes.Plan {
+    static func read(from reader: SmithyJSON.Reader) throws -> SSMContactsClientTypes.ChannelTargetInfo {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SSMContactsClientTypes.Plan()
-        value.stages = try reader["Stages"].readListIfPresent(memberReadingClosure: SSMContactsClientTypes.Stage.read(from:), memberNodeInfo: "member", isFlattened: false)
-        value.rotationIds = try reader["RotationIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        var value = SSMContactsClientTypes.ChannelTargetInfo()
+        value.contactChannelId = try reader["ContactChannelId"].readIfPresent() ?? ""
+        value.retryIntervalInMinutes = try reader["RetryIntervalInMinutes"].readIfPresent()
         return value
     }
 }
 
-extension SSMContactsClientTypes.Stage {
+extension SSMContactsClientTypes.Contact {
 
-    static func write(value: SSMContactsClientTypes.Stage?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DurationInMinutes"].write(value.durationInMinutes)
-        try writer["Targets"].writeList(value.targets, memberWritingClosure: SSMContactsClientTypes.Target.write(value:to:), memberNodeInfo: "member", isFlattened: false)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SSMContactsClientTypes.Stage {
+    static func read(from reader: SmithyJSON.Reader) throws -> SSMContactsClientTypes.Contact {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SSMContactsClientTypes.Stage()
-        value.durationInMinutes = try reader["DurationInMinutes"].readIfPresent() ?? 0
-        value.targets = try reader["Targets"].readListIfPresent(memberReadingClosure: SSMContactsClientTypes.Target.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        var value = SSMContactsClientTypes.Contact()
+        value.contactArn = try reader["ContactArn"].readIfPresent() ?? ""
+        value.alias = try reader["Alias"].readIfPresent() ?? ""
+        value.displayName = try reader["DisplayName"].readIfPresent()
+        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
         return value
     }
 }
 
-extension SSMContactsClientTypes.Target {
+extension SSMContactsClientTypes.ContactChannel {
 
-    static func write(value: SSMContactsClientTypes.Target?, to writer: SmithyJSON.Writer) throws {
+    static func read(from reader: SmithyJSON.Reader) throws -> SSMContactsClientTypes.ContactChannel {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SSMContactsClientTypes.ContactChannel()
+        value.contactChannelArn = try reader["ContactChannelArn"].readIfPresent() ?? ""
+        value.contactArn = try reader["ContactArn"].readIfPresent() ?? ""
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.type = try reader["Type"].readIfPresent()
+        value.deliveryAddress = try reader["DeliveryAddress"].readIfPresent(with: SSMContactsClientTypes.ContactChannelAddress.read(from:))
+        value.activationStatus = try reader["ActivationStatus"].readIfPresent() ?? .sdkUnknown("")
+        return value
+    }
+}
+
+extension SSMContactsClientTypes.ContactChannelAddress {
+
+    static func write(value: SSMContactsClientTypes.ContactChannelAddress?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["ChannelTargetInfo"].write(value.channelTargetInfo, with: SSMContactsClientTypes.ChannelTargetInfo.write(value:to:))
-        try writer["ContactTargetInfo"].write(value.contactTargetInfo, with: SSMContactsClientTypes.ContactTargetInfo.write(value:to:))
+        try writer["SimpleAddress"].write(value.simpleAddress)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SSMContactsClientTypes.Target {
+    static func read(from reader: SmithyJSON.Reader) throws -> SSMContactsClientTypes.ContactChannelAddress {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SSMContactsClientTypes.Target()
-        value.channelTargetInfo = try reader["ChannelTargetInfo"].readIfPresent(with: SSMContactsClientTypes.ChannelTargetInfo.read(from:))
-        value.contactTargetInfo = try reader["ContactTargetInfo"].readIfPresent(with: SSMContactsClientTypes.ContactTargetInfo.read(from:))
+        var value = SSMContactsClientTypes.ContactChannelAddress()
+        value.simpleAddress = try reader["SimpleAddress"].readIfPresent()
         return value
     }
 }
@@ -4704,34 +4713,136 @@ extension SSMContactsClientTypes.ContactTargetInfo {
     }
 }
 
-extension SSMContactsClientTypes.ChannelTargetInfo {
+extension SSMContactsClientTypes.CoverageTime {
 
-    static func write(value: SSMContactsClientTypes.ChannelTargetInfo?, to writer: SmithyJSON.Writer) throws {
+    static func write(value: SSMContactsClientTypes.CoverageTime?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["ContactChannelId"].write(value.contactChannelId)
-        try writer["RetryIntervalInMinutes"].write(value.retryIntervalInMinutes)
+        try writer["End"].write(value.end, with: SSMContactsClientTypes.HandOffTime.write(value:to:))
+        try writer["Start"].write(value.start, with: SSMContactsClientTypes.HandOffTime.write(value:to:))
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SSMContactsClientTypes.ChannelTargetInfo {
+    static func read(from reader: SmithyJSON.Reader) throws -> SSMContactsClientTypes.CoverageTime {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SSMContactsClientTypes.ChannelTargetInfo()
-        value.contactChannelId = try reader["ContactChannelId"].readIfPresent() ?? ""
-        value.retryIntervalInMinutes = try reader["RetryIntervalInMinutes"].readIfPresent()
+        var value = SSMContactsClientTypes.CoverageTime()
+        value.start = try reader["Start"].readIfPresent(with: SSMContactsClientTypes.HandOffTime.read(from:))
+        value.end = try reader["End"].readIfPresent(with: SSMContactsClientTypes.HandOffTime.read(from:))
         return value
     }
 }
 
-extension SSMContactsClientTypes.ContactChannelAddress {
+extension SSMContactsClientTypes.DependentEntity {
 
-    static func write(value: SSMContactsClientTypes.ContactChannelAddress?, to writer: SmithyJSON.Writer) throws {
+    static func read(from reader: SmithyJSON.Reader) throws -> SSMContactsClientTypes.DependentEntity {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SSMContactsClientTypes.DependentEntity()
+        value.relationType = try reader["RelationType"].readIfPresent() ?? ""
+        value.dependentResourceIds = try reader["DependentResourceIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        return value
+    }
+}
+
+extension SSMContactsClientTypes.Engagement {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SSMContactsClientTypes.Engagement {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SSMContactsClientTypes.Engagement()
+        value.engagementArn = try reader["EngagementArn"].readIfPresent() ?? ""
+        value.contactArn = try reader["ContactArn"].readIfPresent() ?? ""
+        value.sender = try reader["Sender"].readIfPresent() ?? ""
+        value.incidentId = try reader["IncidentId"].readIfPresent()
+        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.stopTime = try reader["StopTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension SSMContactsClientTypes.HandOffTime {
+
+    static func write(value: SSMContactsClientTypes.HandOffTime?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["SimpleAddress"].write(value.simpleAddress)
+        try writer["HourOfDay"].write(value.hourOfDay)
+        try writer["MinuteOfHour"].write(value.minuteOfHour)
     }
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SSMContactsClientTypes.ContactChannelAddress {
+    static func read(from reader: SmithyJSON.Reader) throws -> SSMContactsClientTypes.HandOffTime {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SSMContactsClientTypes.ContactChannelAddress()
-        value.simpleAddress = try reader["SimpleAddress"].readIfPresent()
+        var value = SSMContactsClientTypes.HandOffTime()
+        value.hourOfDay = try reader["HourOfDay"].readIfPresent() ?? 0
+        value.minuteOfHour = try reader["MinuteOfHour"].readIfPresent() ?? 0
+        return value
+    }
+}
+
+extension SSMContactsClientTypes.MonthlySetting {
+
+    static func write(value: SSMContactsClientTypes.MonthlySetting?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DayOfMonth"].write(value.dayOfMonth)
+        try writer["HandOffTime"].write(value.handOffTime, with: SSMContactsClientTypes.HandOffTime.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SSMContactsClientTypes.MonthlySetting {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SSMContactsClientTypes.MonthlySetting()
+        value.dayOfMonth = try reader["DayOfMonth"].readIfPresent() ?? 0
+        value.handOffTime = try reader["HandOffTime"].readIfPresent(with: SSMContactsClientTypes.HandOffTime.read(from:))
+        return value
+    }
+}
+
+extension SSMContactsClientTypes.Page {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SSMContactsClientTypes.Page {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SSMContactsClientTypes.Page()
+        value.pageArn = try reader["PageArn"].readIfPresent() ?? ""
+        value.engagementArn = try reader["EngagementArn"].readIfPresent() ?? ""
+        value.contactArn = try reader["ContactArn"].readIfPresent() ?? ""
+        value.sender = try reader["Sender"].readIfPresent() ?? ""
+        value.incidentId = try reader["IncidentId"].readIfPresent()
+        value.sentTime = try reader["SentTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.deliveryTime = try reader["DeliveryTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.readTime = try reader["ReadTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        return value
+    }
+}
+
+extension SSMContactsClientTypes.Plan {
+
+    static func write(value: SSMContactsClientTypes.Plan?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["RotationIds"].writeList(value.rotationIds, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["Stages"].writeList(value.stages, memberWritingClosure: SSMContactsClientTypes.Stage.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SSMContactsClientTypes.Plan {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SSMContactsClientTypes.Plan()
+        value.stages = try reader["Stages"].readListIfPresent(memberReadingClosure: SSMContactsClientTypes.Stage.read(from:), memberNodeInfo: "member", isFlattened: false)
+        value.rotationIds = try reader["RotationIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        return value
+    }
+}
+
+extension SSMContactsClientTypes.PreviewOverride {
+
+    static func write(value: SSMContactsClientTypes.PreviewOverride?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["EndTime"].writeTimestamp(value.endTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["NewMembers"].writeList(value.newMembers, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["StartTime"].writeTimestamp(value.startTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+    }
+}
+
+extension SSMContactsClientTypes.Receipt {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SSMContactsClientTypes.Receipt {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SSMContactsClientTypes.Receipt()
+        value.contactChannelArn = try reader["ContactChannelArn"].readIfPresent()
+        value.receiptType = try reader["ReceiptType"].readIfPresent() ?? .sdkUnknown("")
+        value.receiptInfo = try reader["ReceiptInfo"].readIfPresent()
+        value.receiptTime = try reader["ReceiptTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -4761,130 +4872,6 @@ extension SSMContactsClientTypes.RecurrenceSettings {
     }
 }
 
-extension SSMContactsClientTypes.CoverageTime {
-
-    static func write(value: SSMContactsClientTypes.CoverageTime?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["End"].write(value.end, with: SSMContactsClientTypes.HandOffTime.write(value:to:))
-        try writer["Start"].write(value.start, with: SSMContactsClientTypes.HandOffTime.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SSMContactsClientTypes.CoverageTime {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SSMContactsClientTypes.CoverageTime()
-        value.start = try reader["Start"].readIfPresent(with: SSMContactsClientTypes.HandOffTime.read(from:))
-        value.end = try reader["End"].readIfPresent(with: SSMContactsClientTypes.HandOffTime.read(from:))
-        return value
-    }
-}
-
-extension SSMContactsClientTypes.HandOffTime {
-
-    static func write(value: SSMContactsClientTypes.HandOffTime?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["HourOfDay"].write(value.hourOfDay)
-        try writer["MinuteOfHour"].write(value.minuteOfHour)
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SSMContactsClientTypes.HandOffTime {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SSMContactsClientTypes.HandOffTime()
-        value.hourOfDay = try reader["HourOfDay"].readIfPresent() ?? 0
-        value.minuteOfHour = try reader["MinuteOfHour"].readIfPresent() ?? 0
-        return value
-    }
-}
-
-extension SSMContactsClientTypes.WeeklySetting {
-
-    static func write(value: SSMContactsClientTypes.WeeklySetting?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DayOfWeek"].write(value.dayOfWeek)
-        try writer["HandOffTime"].write(value.handOffTime, with: SSMContactsClientTypes.HandOffTime.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SSMContactsClientTypes.WeeklySetting {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SSMContactsClientTypes.WeeklySetting()
-        value.dayOfWeek = try reader["DayOfWeek"].readIfPresent() ?? .sdkUnknown("")
-        value.handOffTime = try reader["HandOffTime"].readIfPresent(with: SSMContactsClientTypes.HandOffTime.read(from:))
-        return value
-    }
-}
-
-extension SSMContactsClientTypes.MonthlySetting {
-
-    static func write(value: SSMContactsClientTypes.MonthlySetting?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { return }
-        try writer["DayOfMonth"].write(value.dayOfMonth)
-        try writer["HandOffTime"].write(value.handOffTime, with: SSMContactsClientTypes.HandOffTime.write(value:to:))
-    }
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SSMContactsClientTypes.MonthlySetting {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SSMContactsClientTypes.MonthlySetting()
-        value.dayOfMonth = try reader["DayOfMonth"].readIfPresent() ?? 0
-        value.handOffTime = try reader["HandOffTime"].readIfPresent(with: SSMContactsClientTypes.HandOffTime.read(from:))
-        return value
-    }
-}
-
-extension SSMContactsClientTypes.ContactChannel {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SSMContactsClientTypes.ContactChannel {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SSMContactsClientTypes.ContactChannel()
-        value.contactChannelArn = try reader["ContactChannelArn"].readIfPresent() ?? ""
-        value.contactArn = try reader["ContactArn"].readIfPresent() ?? ""
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.type = try reader["Type"].readIfPresent()
-        value.deliveryAddress = try reader["DeliveryAddress"].readIfPresent(with: SSMContactsClientTypes.ContactChannelAddress.read(from:))
-        value.activationStatus = try reader["ActivationStatus"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension SSMContactsClientTypes.Contact {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SSMContactsClientTypes.Contact {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SSMContactsClientTypes.Contact()
-        value.contactArn = try reader["ContactArn"].readIfPresent() ?? ""
-        value.alias = try reader["Alias"].readIfPresent() ?? ""
-        value.displayName = try reader["DisplayName"].readIfPresent()
-        value.type = try reader["Type"].readIfPresent() ?? .sdkUnknown("")
-        return value
-    }
-}
-
-extension SSMContactsClientTypes.Engagement {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SSMContactsClientTypes.Engagement {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SSMContactsClientTypes.Engagement()
-        value.engagementArn = try reader["EngagementArn"].readIfPresent() ?? ""
-        value.contactArn = try reader["ContactArn"].readIfPresent() ?? ""
-        value.sender = try reader["Sender"].readIfPresent() ?? ""
-        value.incidentId = try reader["IncidentId"].readIfPresent()
-        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.stopTime = try reader["StopTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        return value
-    }
-}
-
-extension SSMContactsClientTypes.Receipt {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SSMContactsClientTypes.Receipt {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SSMContactsClientTypes.Receipt()
-        value.contactChannelArn = try reader["ContactChannelArn"].readIfPresent()
-        value.receiptType = try reader["ReceiptType"].readIfPresent() ?? .sdkUnknown("")
-        value.receiptInfo = try reader["ReceiptInfo"].readIfPresent()
-        value.receiptTime = try reader["ReceiptTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        return value
-    }
-}
-
 extension SSMContactsClientTypes.ResolutionContact {
 
     static func read(from reader: SmithyJSON.Reader) throws -> SSMContactsClientTypes.ResolutionContact {
@@ -4897,19 +4884,31 @@ extension SSMContactsClientTypes.ResolutionContact {
     }
 }
 
-extension SSMContactsClientTypes.Page {
+extension SSMContactsClientTypes.Rotation {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SSMContactsClientTypes.Page {
+    static func read(from reader: SmithyJSON.Reader) throws -> SSMContactsClientTypes.Rotation {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SSMContactsClientTypes.Page()
-        value.pageArn = try reader["PageArn"].readIfPresent() ?? ""
-        value.engagementArn = try reader["EngagementArn"].readIfPresent() ?? ""
-        value.contactArn = try reader["ContactArn"].readIfPresent() ?? ""
-        value.sender = try reader["Sender"].readIfPresent() ?? ""
-        value.incidentId = try reader["IncidentId"].readIfPresent()
-        value.sentTime = try reader["SentTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.deliveryTime = try reader["DeliveryTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.readTime = try reader["ReadTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        var value = SSMContactsClientTypes.Rotation()
+        value.rotationArn = try reader["RotationArn"].readIfPresent() ?? ""
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.contactIds = try reader["ContactIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
+        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        value.timeZoneId = try reader["TimeZoneId"].readIfPresent()
+        value.recurrence = try reader["Recurrence"].readIfPresent(with: SSMContactsClientTypes.RecurrenceSettings.read(from:))
+        return value
+    }
+}
+
+extension SSMContactsClientTypes.RotationOverride {
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SSMContactsClientTypes.RotationOverride {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SSMContactsClientTypes.RotationOverride()
+        value.rotationOverrideId = try reader["RotationOverrideId"].readIfPresent() ?? ""
+        value.newContactIds = try reader["NewContactIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
+        value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
         return value
     }
 }
@@ -4938,31 +4937,19 @@ extension SSMContactsClientTypes.ShiftDetails {
     }
 }
 
-extension SSMContactsClientTypes.RotationOverride {
+extension SSMContactsClientTypes.Stage {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SSMContactsClientTypes.RotationOverride {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SSMContactsClientTypes.RotationOverride()
-        value.rotationOverrideId = try reader["RotationOverrideId"].readIfPresent() ?? ""
-        value.newContactIds = try reader["NewContactIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
-        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.endTime = try reader["EndTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds) ?? SmithyTimestamps.TimestampFormatter(format: .dateTime).date(from: "1970-01-01T00:00:00Z")
-        return value
+    static func write(value: SSMContactsClientTypes.Stage?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["DurationInMinutes"].write(value.durationInMinutes)
+        try writer["Targets"].writeList(value.targets, memberWritingClosure: SSMContactsClientTypes.Target.write(value:to:), memberNodeInfo: "member", isFlattened: false)
     }
-}
 
-extension SSMContactsClientTypes.Rotation {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SSMContactsClientTypes.Rotation {
+    static func read(from reader: SmithyJSON.Reader) throws -> SSMContactsClientTypes.Stage {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SSMContactsClientTypes.Rotation()
-        value.rotationArn = try reader["RotationArn"].readIfPresent() ?? ""
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.contactIds = try reader["ContactIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false)
-        value.startTime = try reader["StartTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        value.timeZoneId = try reader["TimeZoneId"].readIfPresent()
-        value.recurrence = try reader["Recurrence"].readIfPresent(with: SSMContactsClientTypes.RecurrenceSettings.read(from:))
+        var value = SSMContactsClientTypes.Stage()
+        value.durationInMinutes = try reader["DurationInMinutes"].readIfPresent() ?? 0
+        value.targets = try reader["Targets"].readListIfPresent(memberReadingClosure: SSMContactsClientTypes.Target.read(from:), memberNodeInfo: "member", isFlattened: false) ?? []
         return value
     }
 }
@@ -4984,24 +4971,19 @@ extension SSMContactsClientTypes.Tag {
     }
 }
 
-extension SSMContactsClientTypes.ValidationExceptionField {
+extension SSMContactsClientTypes.Target {
 
-    static func read(from reader: SmithyJSON.Reader) throws -> SSMContactsClientTypes.ValidationExceptionField {
-        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SSMContactsClientTypes.ValidationExceptionField()
-        value.name = try reader["Name"].readIfPresent() ?? ""
-        value.message = try reader["Message"].readIfPresent() ?? ""
-        return value
+    static func write(value: SSMContactsClientTypes.Target?, to writer: SmithyJSON.Writer) throws {
+        guard let value else { return }
+        try writer["ChannelTargetInfo"].write(value.channelTargetInfo, with: SSMContactsClientTypes.ChannelTargetInfo.write(value:to:))
+        try writer["ContactTargetInfo"].write(value.contactTargetInfo, with: SSMContactsClientTypes.ContactTargetInfo.write(value:to:))
     }
-}
 
-extension SSMContactsClientTypes.DependentEntity {
-
-    static func read(from reader: SmithyJSON.Reader) throws -> SSMContactsClientTypes.DependentEntity {
+    static func read(from reader: SmithyJSON.Reader) throws -> SSMContactsClientTypes.Target {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
-        var value = SSMContactsClientTypes.DependentEntity()
-        value.relationType = try reader["RelationType"].readIfPresent() ?? ""
-        value.dependentResourceIds = try reader["DependentResourceIds"].readListIfPresent(memberReadingClosure: SmithyReadWrite.ReadingClosures.readString(from:), memberNodeInfo: "member", isFlattened: false) ?? []
+        var value = SSMContactsClientTypes.Target()
+        value.channelTargetInfo = try reader["ChannelTargetInfo"].readIfPresent(with: SSMContactsClientTypes.ChannelTargetInfo.read(from:))
+        value.contactTargetInfo = try reader["ContactTargetInfo"].readIfPresent(with: SSMContactsClientTypes.ContactTargetInfo.read(from:))
         return value
     }
 }
@@ -5015,13 +4997,31 @@ extension SSMContactsClientTypes.TimeRange {
     }
 }
 
-extension SSMContactsClientTypes.PreviewOverride {
+extension SSMContactsClientTypes.ValidationExceptionField {
 
-    static func write(value: SSMContactsClientTypes.PreviewOverride?, to writer: SmithyJSON.Writer) throws {
+    static func read(from reader: SmithyJSON.Reader) throws -> SSMContactsClientTypes.ValidationExceptionField {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SSMContactsClientTypes.ValidationExceptionField()
+        value.name = try reader["Name"].readIfPresent() ?? ""
+        value.message = try reader["Message"].readIfPresent() ?? ""
+        return value
+    }
+}
+
+extension SSMContactsClientTypes.WeeklySetting {
+
+    static func write(value: SSMContactsClientTypes.WeeklySetting?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
-        try writer["EndTime"].writeTimestamp(value.endTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
-        try writer["NewMembers"].writeList(value.newMembers, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
-        try writer["StartTime"].writeTimestamp(value.startTime, format: SmithyTimestamps.TimestampFormat.epochSeconds)
+        try writer["DayOfWeek"].write(value.dayOfWeek)
+        try writer["HandOffTime"].write(value.handOffTime, with: SSMContactsClientTypes.HandOffTime.write(value:to:))
+    }
+
+    static func read(from reader: SmithyJSON.Reader) throws -> SSMContactsClientTypes.WeeklySetting {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = SSMContactsClientTypes.WeeklySetting()
+        value.dayOfWeek = try reader["DayOfWeek"].readIfPresent() ?? .sdkUnknown("")
+        value.handOffTime = try reader["HandOffTime"].readIfPresent(with: SSMContactsClientTypes.HandOffTime.read(from:))
+        return value
     }
 }
 
