@@ -11,12 +11,10 @@ import AWSSTS
 import AWSIAM
 import AWSSDKIdentity
 import ClientRuntime
-#if canImport(InMemoryExporter)
+#if os(macOS) || os(iOS) || os(watchOS) || os(tvOS)
+import SmithyOpenTelemetry
 import InMemoryExporter
 #endif
-//#if os(Linux)
-//import OpenTelemetryConcurrency
-//#endif
 
 class STSAssumeRoleAWSCredentialIdentityResolverTests: XCTestCase {
     private let region = "us-east-1"
