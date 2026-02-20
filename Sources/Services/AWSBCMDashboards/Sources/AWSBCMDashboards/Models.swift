@@ -1183,6 +1183,8 @@ extension BCMDashboardsClientTypes {
         public var height: Swift.Int?
         /// Specifies the starting column position of the widget in the dashboard's grid layout. Used to control widget placement.
         public var horizontalOffset: Swift.Int
+        /// The unique identifier for the widget.
+        public var id: Swift.String?
         /// The title of the widget.
         /// This member is required.
         public var title: Swift.String?
@@ -1194,6 +1196,7 @@ extension BCMDashboardsClientTypes {
             description: Swift.String? = nil,
             height: Swift.Int? = 7,
             horizontalOffset: Swift.Int = 0,
+            id: Swift.String? = nil,
             title: Swift.String? = nil,
             width: Swift.Int? = 4
         ) {
@@ -1201,6 +1204,7 @@ extension BCMDashboardsClientTypes {
             self.description = description
             self.height = height
             self.horizontalOffset = horizontalOffset
+            self.id = id
             self.title = title
             self.width = width
         }
@@ -2160,6 +2164,7 @@ extension BCMDashboardsClientTypes.Widget {
         try writer["description"].write(value.description)
         try writer["height"].write(value.height)
         try writer["horizontalOffset"].write(value.horizontalOffset)
+        try writer["id"].write(value.id)
         try writer["title"].write(value.title)
         try writer["width"].write(value.width)
     }
@@ -2167,6 +2172,7 @@ extension BCMDashboardsClientTypes.Widget {
     static func read(from reader: SmithyJSON.Reader) throws -> BCMDashboardsClientTypes.Widget {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = BCMDashboardsClientTypes.Widget()
+        value.id = try reader["id"].readIfPresent()
         value.title = try reader["title"].readIfPresent() ?? ""
         value.description = try reader["description"].readIfPresent()
         value.width = try reader["width"].readIfPresent() ?? 4
