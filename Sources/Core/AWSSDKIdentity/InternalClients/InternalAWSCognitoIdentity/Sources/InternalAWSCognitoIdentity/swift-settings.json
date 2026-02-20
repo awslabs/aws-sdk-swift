@@ -1,0 +1,12 @@
+{
+    "service": "com.amazonaws.cognitoidentity#AWSCognitoIdentityService",
+    "module": "InternalAWSCognitoIdentity",
+    "moduleVersion": "1.6.60",
+    "sdkId": "Cognito Identity",
+    "internalClient": true,
+    "operations": [
+        "com.amazonaws.cognitoidentity#GetId",
+        "com.amazonaws.cognitoidentity#GetCredentialsForIdentity"
+    ],
+    "modelPath": "codegen/sdk-codegen/aws-models/cognito-identity.json"
+}

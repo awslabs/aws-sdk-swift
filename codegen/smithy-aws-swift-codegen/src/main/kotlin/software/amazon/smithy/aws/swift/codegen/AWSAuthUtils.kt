@@ -14,7 +14,6 @@ import software.amazon.smithy.model.knowledge.ServiceIndex
 import software.amazon.smithy.model.shapes.OperationShape
 import software.amazon.smithy.model.shapes.ServiceShape
 import software.amazon.smithy.model.traits.OptionalAuthTrait
-import software.amazon.smithy.swift.codegen.AuthSchemeResolverGenerator
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.model.expectTrait
@@ -77,14 +76,13 @@ open class AWSAuthUtils(
     ): List<String> {
         val effectiveAuthSchemes = ServiceIndex(ctx.model).getEffectiveAuthSchemes(ctx.service)
 
-        val sdkId = AuthSchemeResolverGenerator.getSdkId(ctx)
-        val servicesUsingSigV4A = arrayOf("S3", "EventBridge", "CloudFrontKeyValueStore", "SESv2")
-        var updatedAuthSchemeList = authSchemeList
+        val servicesUsingSigV4A = arrayOf("S3", "EventBridge", "CloudFront KeyValueStore", "SESv2")
+        val updatedAuthSchemeList = authSchemeList
 
         if (effectiveAuthSchemes.contains(SigV4Trait.ID)) {
             updatedAuthSchemeList += writer.format("\$N()", AWSSDKHTTPAuthTypes.SigV4AuthScheme)
         }
-        if (effectiveAuthSchemes.contains(SigV4ATrait.ID) || servicesUsingSigV4A.contains(sdkId)) {
+        if (effectiveAuthSchemes.contains(SigV4ATrait.ID) || servicesUsingSigV4A.contains(ctx.service.sdkId)) {
             updatedAuthSchemeList += writer.format("\$N()", AWSSDKHTTPAuthTypes.SigV4AAuthScheme)
         }
         if (ctx.service.isS3) {

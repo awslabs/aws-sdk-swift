@@ -16,7 +16,6 @@ import software.amazon.smithy.swift.codegen.integration.HttpBindingResolver
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.isEventStreaming
 import software.amazon.smithy.swift.codegen.integration.middlewares.ContentTypeMiddleware
-import software.amazon.smithy.swift.codegen.integration.middlewares.OperationInputBodyMiddleware
 import software.amazon.smithy.swift.codegen.model.targetOrSelf
 
 @Suppress("ktlint:standard:class-naming")
@@ -42,10 +41,15 @@ class AWSJSON1_1ProtocolGenerator : AWSHTTPBindingProtocolGenerator(AWSJSONCusto
         super.addProtocolSpecificMiddleware(ctx, operation)
 
         operationMiddleware.appendMiddleware(operation, AWSXAmzTargetMiddleware(ctx.model, ctx.symbolProvider, ctx.service))
-        // Original instance of OperationInputBodyMiddleware checks if there is an HTTP Body, but for AWSJson protocols
-        // we always need to have an InputBodyMiddleware
+
+        // Remove these middlewares, they are handled by applying the ClientProtocol & Operation
+        // to the orchestrator
         operationMiddleware.removeMiddleware(operation, "OperationInputBodyMiddleware")
-        operationMiddleware.appendMiddleware(operation, OperationInputBodyMiddleware(ctx.model, ctx.symbolProvider, true))
+        operationMiddleware.removeMiddleware(operation, "DeserializeMiddleware")
+
+        // Remove this middleware as it will be handled by a plugin
+        operationMiddleware.removeMiddleware(operation, "OperationInputUrlPathMiddleware")
+        operationMiddleware.removeMiddleware(operation, "OperationInputQueryItemMiddleware")
 
         val resolver = getProtocolHttpBindingResolver(ctx, defaultContentType)
         operationMiddleware.removeMiddleware(operation, "ContentTypeMiddleware")
