@@ -2718,6 +2718,8 @@ extension CleanRoomsClientTypes {
 
     /// A reference to a table within Athena.
     public struct AthenaTableReference: Swift.Sendable {
+        /// The catalog name.
+        public var catalogName: Swift.String?
         /// The database name.
         /// This member is required.
         public var databaseName: Swift.String?
@@ -2733,12 +2735,14 @@ extension CleanRoomsClientTypes {
         public var workGroup: Swift.String?
 
         public init(
+            catalogName: Swift.String? = nil,
             databaseName: Swift.String? = nil,
             outputLocation: Swift.String? = nil,
             region: CleanRoomsClientTypes.CommercialRegion? = nil,
             tableName: Swift.String? = nil,
             workGroup: Swift.String? = nil
         ) {
+            self.catalogName = catalogName
             self.databaseName = databaseName
             self.outputLocation = outputLocation
             self.region = region
@@ -8266,6 +8270,7 @@ extension CleanRoomsClientTypes {
 
 extension CleanRoomsClientTypes {
 
+    /// File format of the returned data.
     public enum ResultFormat: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case csv
         case parquet
@@ -15892,6 +15897,7 @@ extension CleanRoomsClientTypes.AthenaTableReference {
 
     static func write(value: CleanRoomsClientTypes.AthenaTableReference?, to writer: SmithyJSON.Writer) throws {
         guard let value else { return }
+        try writer["catalogName"].write(value.catalogName)
         try writer["databaseName"].write(value.databaseName)
         try writer["outputLocation"].write(value.outputLocation)
         try writer["region"].write(value.region)
@@ -15907,6 +15913,7 @@ extension CleanRoomsClientTypes.AthenaTableReference {
         value.outputLocation = try reader["outputLocation"].readIfPresent()
         value.databaseName = try reader["databaseName"].readIfPresent() ?? ""
         value.tableName = try reader["tableName"].readIfPresent() ?? ""
+        value.catalogName = try reader["catalogName"].readIfPresent()
         return value
     }
 }
@@ -18612,8 +18619,8 @@ extension CleanRoomsClientTypes.WorkerComputeConfiguration {
     static func read(from reader: SmithyJSON.Reader) throws -> CleanRoomsClientTypes.WorkerComputeConfiguration {
         guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
         var value = CleanRoomsClientTypes.WorkerComputeConfiguration()
-        value.type = try reader["type"].readIfPresent()
-        value.number = try reader["number"].readIfPresent()
+        value.type = try reader["type"].readIfPresent() ?? CleanRoomsClientTypes.WorkerComputeType.cr1x
+        value.number = try reader["number"].readIfPresent() ?? 16
         value.properties = try reader["properties"].readIfPresent(with: CleanRoomsClientTypes.WorkerComputeConfigurationProperties.read(from:))
         return value
     }

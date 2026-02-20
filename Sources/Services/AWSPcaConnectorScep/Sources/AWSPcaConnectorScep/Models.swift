@@ -161,7 +161,7 @@ extension PcaConnectorScepClientTypes {
 
 extension PcaConnectorScepClientTypes {
 
-    /// Details about the specified challenge, returned by the [GetChallengeMetadata](https://docs.aws.amazon.com/C4SCEP_API/pca-connector-scep/latest/APIReference/API_GetChallengeMetadata.html) action.
+    /// Details about the specified challenge, returned by the [GetChallengeMetadata](https://docs.aws.amazon.com/pca-connector-scep/latest/APIReference/API_GetChallengeMetadata.html) action.
     public struct ChallengeMetadataSummary: Swift.Sendable {
         /// The Amazon Resource Name (ARN) of the challenge.
         public var arn: Swift.String?
@@ -414,7 +414,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
 }
 
 public struct CreateChallengeInput: Swift.Sendable {
-    /// Custom string that can be used to distinguish between calls to the [CreateChallenge](https://docs.aws.amazon.com/C4SCEP_API/pca-connector-scep/latest/APIReference/API_CreateChallenge.html) action. Client tokens for CreateChallenge time out after five minutes. Therefore, if you call CreateChallenge multiple times with the same client token within five minutes, Connector for SCEP recognizes that you are requesting only one challenge and will only respond with one. If you change the client token for each call, Connector for SCEP recognizes that you are requesting multiple challenge passwords.
+    /// Custom string that can be used to distinguish between calls to the [CreateChallenge](https://docs.aws.amazon.com/pca-connector-scep/latest/APIReference/API_CreateChallenge.html) action. Client tokens for CreateChallenge time out after five minutes. Therefore, if you call CreateChallenge multiple times with the same client token within five minutes, Connector for SCEP recognizes that you are requesting only one challenge and will only respond with one. If you change the client token for each call, Connector for SCEP recognizes that you are requesting multiple challenge passwords.
     public var clientToken: Swift.String?
     /// The Amazon Resource Name (ARN) of the connector that you want to create a challenge for.
     /// This member is required.
@@ -638,6 +638,8 @@ extension PcaConnectorScepClientTypes {
         case privatecaAccessDenied
         case privatecaInvalidState
         case privatecaResourceNotFound
+        case vpcEndpointDnsEntriesNotFound
+        case vpcEndpointResourceNotFound
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ConnectorStatusReason] {
@@ -645,7 +647,9 @@ extension PcaConnectorScepClientTypes {
                 .internalFailure,
                 .privatecaAccessDenied,
                 .privatecaInvalidState,
-                .privatecaResourceNotFound
+                .privatecaResourceNotFound,
+                .vpcEndpointDnsEntriesNotFound,
+                .vpcEndpointResourceNotFound
             ]
         }
 
@@ -660,6 +664,8 @@ extension PcaConnectorScepClientTypes {
             case .privatecaAccessDenied: return "PRIVATECA_ACCESS_DENIED"
             case .privatecaInvalidState: return "PRIVATECA_INVALID_STATE"
             case .privatecaResourceNotFound: return "PRIVATECA_RESOURCE_NOT_FOUND"
+            case .vpcEndpointDnsEntriesNotFound: return "VPC_ENDPOINT_DNS_ENTRIES_NOT_FOUND"
+            case .vpcEndpointResourceNotFound: return "VPC_ENDPOINT_RESOURCE_NOT_FOUND"
             case let .sdkUnknown(s): return s
             }
         }
@@ -801,23 +807,27 @@ public struct CreateConnectorInput: Swift.Sendable {
     /// The Amazon Resource Name (ARN) of the Amazon Web Services Private Certificate Authority certificate authority to use with this connector. Due to security vulnerabilities present in the SCEP protocol, we recommend using a private CA that's dedicated for use with the connector. To retrieve the private CAs associated with your account, you can call [ListCertificateAuthorities](https://docs.aws.amazon.com/privateca/latest/APIReference/API_ListCertificateAuthorities.html) using the Amazon Web Services Private CA API.
     /// This member is required.
     public var certificateAuthorityArn: Swift.String?
-    /// Custom string that can be used to distinguish between calls to the [CreateChallenge](https://docs.aws.amazon.com/C4SCEP_API/pca-connector-scep/latest/APIReference/API_CreateChallenge.html) action. Client tokens for CreateChallenge time out after five minutes. Therefore, if you call CreateChallenge multiple times with the same client token within five minutes, Connector for SCEP recognizes that you are requesting only one challenge and will only respond with one. If you change the client token for each call, Connector for SCEP recognizes that you are requesting multiple challenge passwords.
+    /// Custom string that can be used to distinguish between calls to the [CreateChallenge](https://docs.aws.amazon.com/pca-connector-scep/latest/APIReference/API_CreateChallenge.html) action. Client tokens for CreateChallenge time out after five minutes. Therefore, if you call CreateChallenge multiple times with the same client token within five minutes, Connector for SCEP recognizes that you are requesting only one challenge and will only respond with one. If you change the client token for each call, Connector for SCEP recognizes that you are requesting multiple challenge passwords.
     public var clientToken: Swift.String?
     /// If you don't supply a value, by default Connector for SCEP creates a connector for general-purpose use. A general-purpose connector is designed to work with clients or endpoints that support the SCEP protocol, except Connector for SCEP for Microsoft Intune. With connectors for general-purpose use, you manage SCEP challenge passwords using Connector for SCEP. For information about considerations and limitations with using Connector for SCEP, see [Considerations and Limitations](https://docs.aws.amazon.com/privateca/latest/userguide/scep-connector.htmlc4scep-considerations-limitations.html). If you provide an IntuneConfiguration, Connector for SCEP creates a connector for use with Microsoft Intune, and you manage the challenge passwords using Microsoft Intune. For more information, see [Using Connector for SCEP for Microsoft Intune](https://docs.aws.amazon.com/privateca/latest/userguide/scep-connector.htmlconnector-for-scep-intune.html).
     public var mobileDeviceManagement: PcaConnectorScepClientTypes.MobileDeviceManagement?
     /// The key-value pairs to associate with the resource.
     public var tags: [Swift.String: Swift.String]?
+    /// If you don't supply a value, by default Connector for SCEP creates a connector accessible over the public internet. If you provide a VPC endpoint ID, creates a connector accessible only through that specific VPC endpoint.
+    public var vpcEndpointId: Swift.String?
 
     public init(
         certificateAuthorityArn: Swift.String? = nil,
         clientToken: Swift.String? = nil,
         mobileDeviceManagement: PcaConnectorScepClientTypes.MobileDeviceManagement? = nil,
-        tags: [Swift.String: Swift.String]? = nil
+        tags: [Swift.String: Swift.String]? = nil,
+        vpcEndpointId: Swift.String? = nil
     ) {
         self.certificateAuthorityArn = certificateAuthorityArn
         self.clientToken = clientToken
         self.mobileDeviceManagement = mobileDeviceManagement
         self.tags = tags
+        self.vpcEndpointId = vpcEndpointId
     }
 }
 
@@ -1134,6 +1144,7 @@ extension CreateConnectorInput {
         try writer["ClientToken"].write(value.clientToken)
         try writer["MobileDeviceManagement"].write(value.mobileDeviceManagement, with: PcaConnectorScepClientTypes.MobileDeviceManagement.write(value:to:))
         try writer["Tags"].writeMap(value.tags, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+        try writer["VpcEndpointId"].write(value.vpcEndpointId)
     }
 }
 

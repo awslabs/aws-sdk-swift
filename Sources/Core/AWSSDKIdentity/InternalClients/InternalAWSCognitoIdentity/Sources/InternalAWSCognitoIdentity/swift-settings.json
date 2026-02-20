@@ -1,7 +1,7 @@
 {
     "service": "com.amazonaws.cognitoidentity#AWSCognitoIdentityService",
     "module": "InternalAWSCognitoIdentity",
-    "moduleVersion": "1.6.56",
+    "moduleVersion": "1.6.60",
     "sdkId": "Cognito Identity",
     "internalClient": true,
     "operations": [

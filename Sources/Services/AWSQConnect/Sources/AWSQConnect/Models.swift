@@ -6418,11 +6418,13 @@ extension QConnectClientTypes {
 
     public enum MessageType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case text
+        case toolUseResult
         case sdkUnknown(Swift.String)
 
         public static var allCases: [MessageType] {
             return [
-                .text
+                .text,
+                .toolUseResult
             ]
         }
 
@@ -6434,6 +6436,7 @@ extension QConnectClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .text: return "TEXT"
+            case .toolUseResult: return "TOOL_USE_RESULT"
             case let .sdkUnknown(s): return s
             }
         }

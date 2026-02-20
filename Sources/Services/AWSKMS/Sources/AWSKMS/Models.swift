@@ -2732,6 +2732,32 @@ public struct KeyUnavailableException: ClientRuntime.ModeledError, AWSClientRunt
 
 extension KMSClientTypes {
 
+    public enum DryRunModifierType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case ignoreCiphertext
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DryRunModifierType] {
+            return [
+                .ignoreCiphertext
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .ignoreCiphertext: return "IGNORE_CIPHERTEXT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension KMSClientTypes {
+
     public enum KeyEncryptionMechanism: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
         case rsaesOaepSha256
         case sdkUnknown(Swift.String)
@@ -2776,18 +2802,19 @@ extension KMSClientTypes {
 }
 
 public struct DecryptInput: Swift.Sendable {
-    /// Ciphertext to be decrypted. The blob includes metadata.
-    /// This member is required.
+    /// Ciphertext to be decrypted. The blob includes metadata. This parameter is required in all cases except when DryRun is true and DryRunModifiers is set to IGNORE_CIPHERTEXT.
     public var ciphertextBlob: Foundation.Data?
     /// Checks if your request will succeed. DryRun is an optional parameter. To learn more about how to use this parameter, see [Testing your permissions](https://docs.aws.amazon.com/kms/latest/developerguide/testing-permissions.html) in the Key Management Service Developer Guide.
     public var dryRun: Swift.Bool?
+    /// Specifies the modifiers to apply to the dry run operation. DryRunModifiers is an optional parameter that only applies when DryRun is set to true. When set to IGNORE_CIPHERTEXT, KMS performs only authorization validation without ciphertext validation. This allows you to test permissions without requiring a valid ciphertext blob. To learn more about how to use this parameter, see [Testing your permissions](https://docs.aws.amazon.com/kms/latest/developerguide/testing-permissions.html) in the Key Management Service Developer Guide.
+    public var dryRunModifiers: [KMSClientTypes.DryRunModifierType]?
     /// Specifies the encryption algorithm that will be used to decrypt the ciphertext. Specify the same algorithm that was used to encrypt the data. If you specify a different algorithm, the Decrypt operation fails. This parameter is required only when the ciphertext was encrypted under an asymmetric KMS key. The default value, SYMMETRIC_DEFAULT, represents the only supported algorithm that is valid for symmetric encryption KMS keys.
     public var encryptionAlgorithm: KMSClientTypes.EncryptionAlgorithmSpec?
     /// Specifies the encryption context to use when decrypting the data. An encryption context is valid only for [cryptographic operations](https://docs.aws.amazon.com/kms/latest/developerguide/kms-cryptography.html#cryptographic-operations) with a symmetric encryption KMS key. The standard asymmetric encryption algorithms and HMAC algorithms that KMS uses do not support an encryption context. An encryption context is a collection of non-secret key-value pairs that represent additional authenticated data. When you use an encryption context to encrypt data, you must specify the same (an exact case-sensitive match) encryption context to decrypt the data. An encryption context is supported only on operations with symmetric encryption KMS keys. On operations with symmetric encryption KMS keys, an encryption context is optional, but it is strongly recommended. For more information, see [Encryption context](https://docs.aws.amazon.com/kms/latest/developerguide/encrypt_context.html) in the Key Management Service Developer Guide.
     public var encryptionContext: [Swift.String: Swift.String]?
     /// A list of grant tokens. Use a grant token when your permission to call this operation comes from a new grant that has not yet achieved eventual consistency. For more information, see [Grant token](https://docs.aws.amazon.com/kms/latest/developerguide/grants.html#grant_token) and [Using a grant token](https://docs.aws.amazon.com/kms/latest/developerguide/using-grant-token.html) in the Key Management Service Developer Guide.
     public var grantTokens: [Swift.String]?
-    /// Specifies the KMS key that KMS uses to decrypt the ciphertext. Enter a key ID of the KMS key that was used to encrypt the ciphertext. If you identify a different KMS key, the Decrypt operation throws an IncorrectKeyException. This parameter is required only when the ciphertext was encrypted under an asymmetric KMS key. If you used a symmetric encryption KMS key, KMS can get the KMS key from metadata that it adds to the symmetric ciphertext blob. However, it is always recommended as a best practice. This practice ensures that you use the KMS key that you intend. To specify a KMS key, use its key ID, key ARN, alias name, or alias ARN. When using an alias name, prefix it with "alias/". To specify a KMS key in a different Amazon Web Services account, you must use the key ARN or alias ARN. For example:
+    /// Specifies the KMS key that KMS uses to decrypt the ciphertext. Enter a key ID of the KMS key that was used to encrypt the ciphertext. If you identify a different KMS key, the Decrypt operation throws an IncorrectKeyException. This parameter is required only when the ciphertext was encrypted under an asymmetric KMS key or when DryRun is true and DryRunModifiers is set to IGNORE_CIPHERTEXT. If you used a symmetric encryption KMS key, KMS can get the KMS key from metadata that it adds to the symmetric ciphertext blob. However, it is always recommended as a best practice. This practice ensures that you use the KMS key that you intend. To specify a KMS key, use its key ID, key ARN, alias name, or alias ARN. When using an alias name, prefix it with "alias/". To specify a KMS key in a different Amazon Web Services account, you must use the key ARN or alias ARN. For example:
     ///
     /// * Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab
     ///
@@ -2806,6 +2833,7 @@ public struct DecryptInput: Swift.Sendable {
     public init(
         ciphertextBlob: Foundation.Data? = nil,
         dryRun: Swift.Bool? = nil,
+        dryRunModifiers: [KMSClientTypes.DryRunModifierType]? = nil,
         encryptionAlgorithm: KMSClientTypes.EncryptionAlgorithmSpec? = nil,
         encryptionContext: [Swift.String: Swift.String]? = nil,
         grantTokens: [Swift.String]? = nil,
@@ -2814,6 +2842,7 @@ public struct DecryptInput: Swift.Sendable {
     ) {
         self.ciphertextBlob = ciphertextBlob
         self.dryRun = dryRun
+        self.dryRunModifiers = dryRunModifiers
         self.encryptionAlgorithm = encryptionAlgorithm
         self.encryptionContext = encryptionContext
         self.grantTokens = grantTokens
@@ -4774,8 +4803,7 @@ public struct PutKeyPolicyInput: Swift.Sendable {
 }
 
 public struct ReEncryptInput: Swift.Sendable {
-    /// Ciphertext of the data to reencrypt.
-    /// This member is required.
+    /// Ciphertext of the data to reencrypt. This parameter is required in all cases except when DryRun is true and DryRunModifiers is set to IGNORE_CIPHERTEXT.
     public var ciphertextBlob: Foundation.Data?
     /// Specifies the encryption algorithm that KMS will use to reecrypt the data after it has decrypted it. The default value, SYMMETRIC_DEFAULT, represents the encryption algorithm used for symmetric encryption KMS keys. This parameter is required only when the destination KMS key is an asymmetric KMS key.
     public var destinationEncryptionAlgorithm: KMSClientTypes.EncryptionAlgorithmSpec?
@@ -4797,13 +4825,15 @@ public struct ReEncryptInput: Swift.Sendable {
     public var destinationKeyId: Swift.String?
     /// Checks if your request will succeed. DryRun is an optional parameter. To learn more about how to use this parameter, see [Testing your permissions](https://docs.aws.amazon.com/kms/latest/developerguide/testing-permissions.html) in the Key Management Service Developer Guide.
     public var dryRun: Swift.Bool?
+    /// Specifies the modifiers to apply to the dry run operation. DryRunModifiers is an optional parameter that only applies when DryRun is set to true. When set to IGNORE_CIPHERTEXT, KMS performs only authorization validation without ciphertext validation. This allows you to test permissions without requiring a valid ciphertext blob. To learn more about how to use this parameter, see [Testing your permissions](https://docs.aws.amazon.com/kms/latest/developerguide/testing-permissions.html) in the Key Management Service Developer Guide.
+    public var dryRunModifiers: [KMSClientTypes.DryRunModifierType]?
     /// A list of grant tokens. Use a grant token when your permission to call this operation comes from a new grant that has not yet achieved eventual consistency. For more information, see [Grant token](https://docs.aws.amazon.com/kms/latest/developerguide/grants.html#grant_token) and [Using a grant token](https://docs.aws.amazon.com/kms/latest/developerguide/using-grant-token.html) in the Key Management Service Developer Guide.
     public var grantTokens: [Swift.String]?
     /// Specifies the encryption algorithm that KMS will use to decrypt the ciphertext before it is reencrypted. The default value, SYMMETRIC_DEFAULT, represents the algorithm used for symmetric encryption KMS keys. Specify the same algorithm that was used to encrypt the ciphertext. If you specify a different algorithm, the decrypt attempt fails. This parameter is required only when the ciphertext was encrypted under an asymmetric KMS key.
     public var sourceEncryptionAlgorithm: KMSClientTypes.EncryptionAlgorithmSpec?
     /// Specifies the encryption context to use to decrypt the ciphertext. Enter the same encryption context that was used to encrypt the ciphertext. An encryption context is a collection of non-secret key-value pairs that represent additional authenticated data. When you use an encryption context to encrypt data, you must specify the same (an exact case-sensitive match) encryption context to decrypt the data. An encryption context is supported only on operations with symmetric encryption KMS keys. On operations with symmetric encryption KMS keys, an encryption context is optional, but it is strongly recommended. For more information, see [Encryption context](https://docs.aws.amazon.com/kms/latest/developerguide/encrypt_context.html) in the Key Management Service Developer Guide.
     public var sourceEncryptionContext: [Swift.String: Swift.String]?
-    /// Specifies the KMS key that KMS will use to decrypt the ciphertext before it is re-encrypted. Enter a key ID of the KMS key that was used to encrypt the ciphertext. If you identify a different KMS key, the ReEncrypt operation throws an IncorrectKeyException. This parameter is required only when the ciphertext was encrypted under an asymmetric KMS key. If you used a symmetric encryption KMS key, KMS can get the KMS key from metadata that it adds to the symmetric ciphertext blob. However, it is always recommended as a best practice. This practice ensures that you use the KMS key that you intend. To specify a KMS key, use its key ID, key ARN, alias name, or alias ARN. When using an alias name, prefix it with "alias/". To specify a KMS key in a different Amazon Web Services account, you must use the key ARN or alias ARN. For example:
+    /// Specifies the KMS key that KMS will use to decrypt the ciphertext before it is re-encrypted. Enter a key ID of the KMS key that was used to encrypt the ciphertext. If you identify a different KMS key, the ReEncrypt operation throws an IncorrectKeyException. This parameter is required only when the ciphertext was encrypted under an asymmetric KMS key or when DryRun is true and DryRunModifiers is set to IGNORE_CIPHERTEXT. If you used a symmetric encryption KMS key, KMS can get the KMS key from metadata that it adds to the symmetric ciphertext blob. However, it is always recommended as a best practice. This practice ensures that you use the KMS key that you intend. To specify a KMS key, use its key ID, key ARN, alias name, or alias ARN. When using an alias name, prefix it with "alias/". To specify a KMS key in a different Amazon Web Services account, you must use the key ARN or alias ARN. For example:
     ///
     /// * Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab
     ///
@@ -4823,6 +4853,7 @@ public struct ReEncryptInput: Swift.Sendable {
         destinationEncryptionContext: [Swift.String: Swift.String]? = nil,
         destinationKeyId: Swift.String? = nil,
         dryRun: Swift.Bool? = nil,
+        dryRunModifiers: [KMSClientTypes.DryRunModifierType]? = nil,
         grantTokens: [Swift.String]? = nil,
         sourceEncryptionAlgorithm: KMSClientTypes.EncryptionAlgorithmSpec? = nil,
         sourceEncryptionContext: [Swift.String: Swift.String]? = nil,
@@ -4833,6 +4864,7 @@ public struct ReEncryptInput: Swift.Sendable {
         self.destinationEncryptionContext = destinationEncryptionContext
         self.destinationKeyId = destinationKeyId
         self.dryRun = dryRun
+        self.dryRunModifiers = dryRunModifiers
         self.grantTokens = grantTokens
         self.sourceEncryptionAlgorithm = sourceEncryptionAlgorithm
         self.sourceEncryptionContext = sourceEncryptionContext
@@ -5953,6 +5985,7 @@ extension DecryptInput {
         guard let value else { return }
         try writer["CiphertextBlob"].write(value.ciphertextBlob)
         try writer["DryRun"].write(value.dryRun)
+        try writer["DryRunModifiers"].writeList(value.dryRunModifiers, memberWritingClosure: SmithyReadWrite.WritingClosureBox<KMSClientTypes.DryRunModifierType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["EncryptionAlgorithm"].write(value.encryptionAlgorithm)
         try writer["EncryptionContext"].writeMap(value.encryptionContext, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["GrantTokens"].writeList(value.grantTokens, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
@@ -6290,6 +6323,7 @@ extension ReEncryptInput {
         try writer["DestinationEncryptionContext"].writeMap(value.destinationEncryptionContext, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
         try writer["DestinationKeyId"].write(value.destinationKeyId)
         try writer["DryRun"].write(value.dryRun)
+        try writer["DryRunModifiers"].writeList(value.dryRunModifiers, memberWritingClosure: SmithyReadWrite.WritingClosureBox<KMSClientTypes.DryRunModifierType>().write(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["GrantTokens"].writeList(value.grantTokens, memberWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), memberNodeInfo: "member", isFlattened: false)
         try writer["SourceEncryptionAlgorithm"].write(value.sourceEncryptionAlgorithm)
         try writer["SourceEncryptionContext"].writeMap(value.sourceEncryptionContext, valueWritingClosure: SmithyReadWrite.WritingClosures.writeString(value:to:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)

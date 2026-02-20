@@ -7584,7 +7584,7 @@ extension ConnectClientTypes {
 public struct CreateNotificationInput: Swift.Sendable {
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
     public var clientToken: Swift.String?
-    /// The localized content of the notification. A map where keys are locale codes and values are the notification text in that locale. Content supports markdown formatting and embedded links. Maximum 250 characters per locale.
+    /// The localized content of the notification. A map where keys are locale codes and values are the notification text in that locale. Content supports links. Maximum 250 characters per locale.
     /// This member is required.
     public var content: [Swift.String: Swift.String]?
     /// The timestamp when the notification should expire and no longer be displayed to users. If not specified, defaults to one week from creation.

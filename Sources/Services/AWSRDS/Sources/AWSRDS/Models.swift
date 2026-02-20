@@ -1908,6 +1908,38 @@ extension CopyDBClusterSnapshotInput: Swift.CustomDebugStringConvertible {
 
 extension RDSClientTypes {
 
+    public enum StorageEncryptionType: Swift.Sendable, Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Hashable {
+        case cmk
+        case sse
+        case unencrypted
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [StorageEncryptionType] {
+            return [
+                .cmk,
+                .sse,
+                .unencrypted
+            ]
+        }
+
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+
+        public var rawValue: Swift.String {
+            switch self {
+            case .cmk: return "sse-kms"
+            case .sse: return "sse-rds"
+            case .unencrypted: return "none"
+            case let .sdkUnknown(s): return s
+            }
+        }
+    }
+}
+
+extension RDSClientTypes {
+
     /// Contains the details for an Amazon RDS DB cluster snapshot This data type is used as a response element in the DescribeDBClusterSnapshots action.
     public struct DBClusterSnapshot: Swift.Sendable {
         /// The allocated storage size of the DB cluster snapshot in gibibytes (GiB).
@@ -1964,6 +1996,14 @@ extension RDSClientTypes {
         public var status: Swift.String?
         /// Indicates whether the DB cluster snapshot is encrypted.
         public var storageEncrypted: Swift.Bool?
+        /// The type of encryption used to protect data at rest in the DB cluster snapshot. Possible values:
+        ///
+        /// * none - The DB cluster snapshot is not encrypted.
+        ///
+        /// * sse-rds - The DB cluster snapshot is encrypted using an Amazon Web Services owned KMS key.
+        ///
+        /// * sse-kms - The DB cluster snapshot is encrypted using a customer managed KMS key or Amazon Web Services managed KMS key.
+        public var storageEncryptionType: RDSClientTypes.StorageEncryptionType?
         /// The storage throughput for the DB cluster snapshot. The throughput is automatically set based on the IOPS that you provision, and is not configurable. This setting is only for non-Aurora Multi-AZ DB clusters.
         public var storageThroughput: Swift.Int?
         /// The storage type associated with the DB cluster snapshot. This setting is only for Aurora DB clusters.
@@ -1998,6 +2038,7 @@ extension RDSClientTypes {
             sourceDBClusterSnapshotArn: Swift.String? = nil,
             status: Swift.String? = nil,
             storageEncrypted: Swift.Bool? = nil,
+            storageEncryptionType: RDSClientTypes.StorageEncryptionType? = nil,
             storageThroughput: Swift.Int? = nil,
             storageType: Swift.String? = nil,
             tagList: [RDSClientTypes.Tag]? = nil,
@@ -2027,6 +2068,7 @@ extension RDSClientTypes {
             self.sourceDBClusterSnapshotArn = sourceDBClusterSnapshotArn
             self.status = status
             self.storageEncrypted = storageEncrypted
+            self.storageEncryptionType = storageEncryptionType
             self.storageThroughput = storageThroughput
             self.storageType = storageType
             self.tagList = tagList
@@ -2405,6 +2447,14 @@ extension RDSClientTypes {
         public var sourceRegion: Swift.String?
         /// Specifies the status of this DB snapshot.
         public var status: Swift.String?
+        /// The type of encryption used to protect data at rest in the DB snapshot. Possible values:
+        ///
+        /// * none - The DB snapshot is not encrypted.
+        ///
+        /// * sse-rds - The DB snapshot is encrypted using an Amazon Web Services owned KMS key.
+        ///
+        /// * sse-kms - The DB snapshot is encrypted using a customer managed KMS key or Amazon Web Services managed KMS key.
+        public var storageEncryptionType: RDSClientTypes.StorageEncryptionType?
         /// Specifies the storage throughput for the DB snapshot.
         public var storageThroughput: Swift.Int?
         /// Specifies the storage type associated with DB snapshot.
@@ -2453,6 +2503,7 @@ extension RDSClientTypes {
             sourceDBSnapshotIdentifier: Swift.String? = nil,
             sourceRegion: Swift.String? = nil,
             status: Swift.String? = nil,
+            storageEncryptionType: RDSClientTypes.StorageEncryptionType? = nil,
             storageThroughput: Swift.Int? = nil,
             storageType: Swift.String? = nil,
             tagList: [RDSClientTypes.Tag]? = nil,
@@ -2494,6 +2545,7 @@ extension RDSClientTypes {
             self.sourceDBSnapshotIdentifier = sourceDBSnapshotIdentifier
             self.sourceRegion = sourceRegion
             self.status = status
+            self.storageEncryptionType = storageEncryptionType
             self.storageThroughput = storageThroughput
             self.storageType = storageType
             self.tagList = tagList
@@ -5342,6 +5394,14 @@ extension RDSClientTypes {
         public var statusInfos: [RDSClientTypes.DBClusterStatusInfo]?
         /// Indicates whether the DB cluster is encrypted.
         public var storageEncrypted: Swift.Bool?
+        /// The type of encryption used to protect data at rest in the DB cluster. Possible values:
+        ///
+        /// * none - The DB cluster is not encrypted.
+        ///
+        /// * sse-rds - The DB cluster is encrypted using an Amazon Web Services owned KMS key.
+        ///
+        /// * sse-kms - The DB cluster is encrypted using a customer managed KMS key or Amazon Web Services managed KMS key.
+        public var storageEncryptionType: RDSClientTypes.StorageEncryptionType?
         /// The storage throughput for the DB cluster. The throughput is automatically set based on the IOPS that you provision, and is not configurable. This setting is only for non-Aurora Multi-AZ DB clusters.
         public var storageThroughput: Swift.Int?
         /// The storage type associated with the DB cluster.
@@ -5440,6 +5500,7 @@ extension RDSClientTypes {
             status: Swift.String? = nil,
             statusInfos: [RDSClientTypes.DBClusterStatusInfo]? = nil,
             storageEncrypted: Swift.Bool? = nil,
+            storageEncryptionType: RDSClientTypes.StorageEncryptionType? = nil,
             storageThroughput: Swift.Int? = nil,
             storageType: Swift.String? = nil,
             tagList: [RDSClientTypes.Tag]? = nil,
@@ -5526,6 +5587,7 @@ extension RDSClientTypes {
             self.status = status
             self.statusInfos = statusInfos
             self.storageEncrypted = storageEncrypted
+            self.storageEncryptionType = storageEncryptionType
             self.storageThroughput = storageThroughput
             self.storageType = storageType
             self.tagList = tagList
@@ -7192,6 +7254,14 @@ extension RDSClientTypes {
         public var statusInfos: [RDSClientTypes.DBInstanceStatusInfo]?
         /// Indicates whether the DB instance is encrypted.
         public var storageEncrypted: Swift.Bool?
+        /// The type of encryption used to protect data at rest in the DB instance. Possible values:
+        ///
+        /// * none - The DB instance is not encrypted.
+        ///
+        /// * sse-rds - The DB instance is encrypted using an Amazon Web Services owned KMS key.
+        ///
+        /// * sse-kms - The DB instance is encrypted using a customer managed KMS key or Amazon Web Services managed KMS key.
+        public var storageEncryptionType: RDSClientTypes.StorageEncryptionType?
         /// The storage throughput for the DB instance. This setting applies only to the gp3 storage type.
         public var storageThroughput: Swift.Int?
         /// The storage type associated with the DB instance.
@@ -7298,6 +7368,7 @@ extension RDSClientTypes {
             secondaryAvailabilityZone: Swift.String? = nil,
             statusInfos: [RDSClientTypes.DBInstanceStatusInfo]? = nil,
             storageEncrypted: Swift.Bool? = nil,
+            storageEncryptionType: RDSClientTypes.StorageEncryptionType? = nil,
             storageThroughput: Swift.Int? = nil,
             storageType: Swift.String? = nil,
             storageVolumeStatus: Swift.String? = nil,
@@ -7389,6 +7460,7 @@ extension RDSClientTypes {
             self.secondaryAvailabilityZone = secondaryAvailabilityZone
             self.statusInfos = statusInfos
             self.storageEncrypted = storageEncrypted
+            self.storageEncryptionType = storageEncryptionType
             self.storageThroughput = storageThroughput
             self.storageType = storageType
             self.storageVolumeStatus = storageVolumeStatus
@@ -9634,6 +9706,14 @@ extension RDSClientTypes {
         public var status: Swift.String?
         /// The storage encryption setting for the global database cluster.
         public var storageEncrypted: Swift.Bool?
+        /// The type of encryption used to protect data at rest in the global database cluster. Possible values:
+        ///
+        /// * none - The global database cluster is not encrypted.
+        ///
+        /// * sse-rds - The global database cluster is encrypted using an Amazon Web Services owned KMS key.
+        ///
+        /// * sse-kms - The global database cluster is encrypted using a customer managed KMS key or Amazon Web Services managed KMS key.
+        public var storageEncryptionType: RDSClientTypes.StorageEncryptionType?
         /// A list of tags. For more information, see [Tagging Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide or [Tagging Amazon Aurora and Amazon RDS resources](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_Tagging.html) in the Amazon Aurora User Guide.
         public var tagList: [RDSClientTypes.Tag]?
 
@@ -9651,6 +9731,7 @@ extension RDSClientTypes {
             globalClusterResourceId: Swift.String? = nil,
             status: Swift.String? = nil,
             storageEncrypted: Swift.Bool? = nil,
+            storageEncryptionType: RDSClientTypes.StorageEncryptionType? = nil,
             tagList: [RDSClientTypes.Tag]? = nil
         ) {
             self.databaseName = databaseName
@@ -9666,6 +9747,7 @@ extension RDSClientTypes {
             self.globalClusterResourceId = globalClusterResourceId
             self.status = status
             self.storageEncrypted = storageEncrypted
+            self.storageEncryptionType = storageEncryptionType
             self.tagList = tagList
         }
     }
@@ -10624,6 +10706,14 @@ extension RDSClientTypes {
         public var status: Swift.String?
         /// Indicates whether the source DB cluster is encrypted.
         public var storageEncrypted: Swift.Bool?
+        /// The type of encryption used to protect data at rest in the automated backup. Possible values:
+        ///
+        /// * none - The automated backup is not encrypted.
+        ///
+        /// * sse-rds - The automated backup is encrypted using an Amazon Web Services owned KMS key.
+        ///
+        /// * sse-kms - The automated backup is encrypted using a customer managed KMS key or Amazon Web Services managed KMS key.
+        public var storageEncryptionType: RDSClientTypes.StorageEncryptionType?
         /// The storage throughput for the automated backup. The throughput is automatically set based on the IOPS that you provision, and is not configurable. This setting is only for non-Aurora Multi-AZ DB clusters.
         public var storageThroughput: Swift.Int?
         /// The storage type associated with the DB cluster. This setting is only for non-Aurora Multi-AZ DB clusters.
@@ -10657,6 +10747,7 @@ extension RDSClientTypes {
             restoreWindow: RDSClientTypes.RestoreWindow? = nil,
             status: Swift.String? = nil,
             storageEncrypted: Swift.Bool? = nil,
+            storageEncryptionType: RDSClientTypes.StorageEncryptionType? = nil,
             storageThroughput: Swift.Int? = nil,
             storageType: Swift.String? = nil,
             tagList: [RDSClientTypes.Tag]? = nil,
@@ -10685,6 +10776,7 @@ extension RDSClientTypes {
             self.restoreWindow = restoreWindow
             self.status = status
             self.storageEncrypted = storageEncrypted
+            self.storageEncryptionType = storageEncryptionType
             self.storageThroughput = storageThroughput
             self.storageType = storageType
             self.tagList = tagList
@@ -11061,6 +11153,14 @@ extension RDSClientTypes {
         ///
         /// * creating - Automated backups that are waiting for the first automated snapshot to be available.
         public var status: Swift.String?
+        /// The type of encryption used to protect data at rest in the automated backup. Possible values:
+        ///
+        /// * none - The automated backup is not encrypted.
+        ///
+        /// * sse-rds - The automated backup is encrypted using an Amazon Web Services owned KMS key.
+        ///
+        /// * sse-kms - The automated backup is encrypted using a customer managed KMS key or Amazon Web Services managed KMS key.
+        public var storageEncryptionType: RDSClientTypes.StorageEncryptionType?
         /// The storage throughput for the automated backup.
         public var storageThroughput: Swift.Int?
         /// The storage type associated with the automated backup.
@@ -11103,6 +11203,7 @@ extension RDSClientTypes {
             region: Swift.String? = nil,
             restoreWindow: RDSClientTypes.RestoreWindow? = nil,
             status: Swift.String? = nil,
+            storageEncryptionType: RDSClientTypes.StorageEncryptionType? = nil,
             storageThroughput: Swift.Int? = nil,
             storageType: Swift.String? = nil,
             tagList: [RDSClientTypes.Tag]? = nil,
@@ -11138,6 +11239,7 @@ extension RDSClientTypes {
             self.region = region
             self.restoreWindow = restoreWindow
             self.status = status
+            self.storageEncryptionType = storageEncryptionType
             self.storageThroughput = storageThroughput
             self.storageType = storageType
             self.tagList = tagList
@@ -33626,6 +33728,7 @@ extension RDSClientTypes.DBCluster {
         value.vpcSecurityGroups = try reader["VpcSecurityGroups"].readListIfPresent(memberReadingClosure: RDSClientTypes.VpcSecurityGroupMembership.read(from:), memberNodeInfo: "VpcSecurityGroupMembership", isFlattened: false)
         value.hostedZoneId = try reader["HostedZoneId"].readIfPresent()
         value.storageEncrypted = try reader["StorageEncrypted"].readIfPresent()
+        value.storageEncryptionType = try reader["StorageEncryptionType"].readIfPresent()
         value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
         value.dbClusterResourceId = try reader["DbClusterResourceId"].readIfPresent()
         value.dbClusterArn = try reader["DBClusterArn"].readIfPresent()
@@ -33702,6 +33805,7 @@ extension RDSClientTypes.DBClusterAutomatedBackup {
         value.iamDatabaseAuthenticationEnabled = try reader["IAMDatabaseAuthenticationEnabled"].readIfPresent()
         value.clusterCreateTime = try reader["ClusterCreateTime"].readTimestampIfPresent(format: SmithyTimestamps.TimestampFormat.dateTime)
         value.storageEncrypted = try reader["StorageEncrypted"].readIfPresent()
+        value.storageEncryptionType = try reader["StorageEncryptionType"].readIfPresent()
         value.allocatedStorage = try reader["AllocatedStorage"].readIfPresent()
         value.engineVersion = try reader["EngineVersion"].readIfPresent()
         value.dbClusterArn = try reader["DBClusterArn"].readIfPresent()
@@ -33825,6 +33929,7 @@ extension RDSClientTypes.DBClusterSnapshot {
         value.snapshotType = try reader["SnapshotType"].readIfPresent()
         value.percentProgress = try reader["PercentProgress"].readIfPresent()
         value.storageEncrypted = try reader["StorageEncrypted"].readIfPresent()
+        value.storageEncryptionType = try reader["StorageEncryptionType"].readIfPresent()
         value.backupRetentionPeriod = try reader["BackupRetentionPeriod"].readIfPresent()
         value.preferredBackupWindow = try reader["PreferredBackupWindow"].readIfPresent()
         value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
@@ -33963,6 +34068,7 @@ extension RDSClientTypes.DBInstance {
         value.publiclyAccessible = try reader["PubliclyAccessible"].readIfPresent()
         value.statusInfos = try reader["StatusInfos"].readListIfPresent(memberReadingClosure: RDSClientTypes.DBInstanceStatusInfo.read(from:), memberNodeInfo: "DBInstanceStatusInfo", isFlattened: false)
         value.storageType = try reader["StorageType"].readIfPresent()
+        value.storageEncryptionType = try reader["StorageEncryptionType"].readIfPresent()
         value.tdeCredentialArn = try reader["TdeCredentialArn"].readIfPresent()
         value.dbInstancePort = try reader["DbInstancePort"].readIfPresent()
         value.dbClusterIdentifier = try reader["DBClusterIdentifier"].readIfPresent()
@@ -34045,6 +34151,7 @@ extension RDSClientTypes.DBInstanceAutomatedBackup {
         value.optionGroupName = try reader["OptionGroupName"].readIfPresent()
         value.tdeCredentialArn = try reader["TdeCredentialArn"].readIfPresent()
         value.encrypted = try reader["Encrypted"].readIfPresent()
+        value.storageEncryptionType = try reader["StorageEncryptionType"].readIfPresent()
         value.storageType = try reader["StorageType"].readIfPresent()
         value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
         value.timezone = try reader["Timezone"].readIfPresent()
@@ -34320,6 +34427,7 @@ extension RDSClientTypes.DBSnapshot {
         value.storageType = try reader["StorageType"].readIfPresent()
         value.tdeCredentialArn = try reader["TdeCredentialArn"].readIfPresent()
         value.encrypted = try reader["Encrypted"].readIfPresent()
+        value.storageEncryptionType = try reader["StorageEncryptionType"].readIfPresent()
         value.backupRetentionPeriod = try reader["BackupRetentionPeriod"].readIfPresent()
         value.preferredBackupWindow = try reader["PreferredBackupWindow"].readIfPresent()
         value.kmsKeyId = try reader["KmsKeyId"].readIfPresent()
@@ -34594,6 +34702,7 @@ extension RDSClientTypes.GlobalCluster {
         value.engineLifecycleSupport = try reader["EngineLifecycleSupport"].readIfPresent()
         value.databaseName = try reader["DatabaseName"].readIfPresent()
         value.storageEncrypted = try reader["StorageEncrypted"].readIfPresent()
+        value.storageEncryptionType = try reader["StorageEncryptionType"].readIfPresent()
         value.deletionProtection = try reader["DeletionProtection"].readIfPresent()
         value.globalClusterMembers = try reader["GlobalClusterMembers"].readListIfPresent(memberReadingClosure: RDSClientTypes.GlobalClusterMember.read(from:), memberNodeInfo: "GlobalClusterMember", isFlattened: false)
         value.endpoint = try reader["Endpoint"].readIfPresent()
