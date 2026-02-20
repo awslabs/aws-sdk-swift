@@ -837,6 +837,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSSigner](/sdk-for-swift/latest/api/awssigner/documentation/awssigner)
 
+[AWSSignerData](/sdk-for-swift/latest/api/awssignerdata/documentation/awssignerdata)
+
 [AWSSignin](/sdk-for-swift/latest/api/awssignin/documentation/awssignin)
 
 [AWSSimSpaceWeaver](/sdk-for-swift/latest/api/awssimspaceweaver/documentation/awssimspaceweaver)

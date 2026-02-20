@@ -614,7 +614,7 @@ extension TrustedAdvisorClient {
 extension TrustedAdvisorClient {
     /// Performs the `BatchUpdateRecommendationResourceExclusion` operation on the `TrustedAdvisor` service.
     ///
-    /// Update one or more exclusion status for a list of recommendation resources
+    /// Update one or more exclusion statuses for a list of recommendation resources. This API supports up to 25 unique recommendation resource ARNs per request. This API currently doesn't support prioritized recommendation resources. This API updates global recommendations, eliminating the need to call the API in each AWS Region. After submitting an exclusion update, note that it might take a few minutes for the changes to be reflected in the system.
     ///
     /// - Parameter input: [no documentation found] (Type: `BatchUpdateRecommendationResourceExclusionInput`)
     ///
@@ -686,7 +686,7 @@ extension TrustedAdvisorClient {
 
     /// Performs the `GetOrganizationRecommendation` operation on the `TrustedAdvisor` service.
     ///
-    /// Get a specific recommendation within an AWS Organizations organization. This API supports only prioritized recommendations.
+    /// Get a specific recommendation within an AWS Organizations organization. This API supports only prioritized recommendations and provides global priority recommendations, eliminating the need to call the API in each AWS Region.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetOrganizationRecommendationInput`)
     ///
@@ -755,7 +755,7 @@ extension TrustedAdvisorClient {
 
     /// Performs the `GetRecommendation` operation on the `TrustedAdvisor` service.
     ///
-    /// Get a specific Recommendation
+    /// Get a specific Recommendation. This API provides global recommendations, eliminating the need to call the API in each AWS Region.
     ///
     /// - Parameter input: [no documentation found] (Type: `GetRecommendationInput`)
     ///
@@ -792,6 +792,7 @@ extension TrustedAdvisorClient {
         }
         builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetRecommendationInput, GetRecommendationOutput>(GetRecommendationInput.urlPathProvider(_:)))
         builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetRecommendationInput, GetRecommendationOutput>())
+        builder.serialize(ClientRuntime.QueryItemMiddleware<GetRecommendationInput, GetRecommendationOutput>(GetRecommendationInput.queryItemProvider(_:)))
         builder.deserialize(ClientRuntime.DeserializeMiddleware<GetRecommendationOutput>(GetRecommendationOutput.httpOutput(from:), GetRecommendationOutputError.httpError(from:)))
         builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetRecommendationInput, GetRecommendationOutput>(clientLogMode: config.clientLogMode))
         builder.clockSkewProvider(AWSClientRuntime.AWSClockSkewProvider.provider())
@@ -824,7 +825,7 @@ extension TrustedAdvisorClient {
 
     /// Performs the `ListChecks` operation on the `TrustedAdvisor` service.
     ///
-    /// List a filterable set of Checks
+    /// List a filterable set of Checks. This API provides global recommendations, eliminating the need to call the API in each AWS Region.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListChecksInput`)
     ///
@@ -893,7 +894,7 @@ extension TrustedAdvisorClient {
 
     /// Performs the `ListOrganizationRecommendationAccounts` operation on the `TrustedAdvisor` service.
     ///
-    /// Lists the accounts that own the resources for an organization aggregate recommendation. This API only supports prioritized recommendations.
+    /// Lists the accounts that own the resources for an organization aggregate recommendation. This API only supports prioritized recommendations and provides global priority recommendations, eliminating the need to call the API in each AWS Region.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListOrganizationRecommendationAccountsInput`)
     ///
@@ -963,7 +964,7 @@ extension TrustedAdvisorClient {
 
     /// Performs the `ListOrganizationRecommendationResources` operation on the `TrustedAdvisor` service.
     ///
-    /// List Resources of a Recommendation within an Organization. This API only supports prioritized recommendations.
+    /// List Resources of a Recommendation within an Organization. This API only supports prioritized recommendations and provides global priority recommendations, eliminating the need to call the API in each AWS Region.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListOrganizationRecommendationResourcesInput`)
     ///
@@ -1033,7 +1034,7 @@ extension TrustedAdvisorClient {
 
     /// Performs the `ListOrganizationRecommendations` operation on the `TrustedAdvisor` service.
     ///
-    /// List a filterable set of Recommendations within an Organization. This API only supports prioritized recommendations.
+    /// List a filterable set of Recommendations within an Organization. This API only supports prioritized recommendations and provides global priority recommendations, eliminating the need to call the API in each AWS Region.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListOrganizationRecommendationsInput`)
     ///
@@ -1102,7 +1103,7 @@ extension TrustedAdvisorClient {
 
     /// Performs the `ListRecommendationResources` operation on the `TrustedAdvisor` service.
     ///
-    /// List Resources of a Recommendation
+    /// List Resources of a Recommendation. This API provides global recommendations, eliminating the need to call the API in each AWS Region.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListRecommendationResourcesInput`)
     ///
@@ -1172,7 +1173,7 @@ extension TrustedAdvisorClient {
 
     /// Performs the `ListRecommendations` operation on the `TrustedAdvisor` service.
     ///
-    /// List a filterable set of Recommendations
+    /// List a filterable set of Recommendations. This API provides global recommendations, eliminating the need to call the API in each AWS Region.
     ///
     /// - Parameter input: [no documentation found] (Type: `ListRecommendationsInput`)
     ///
@@ -1241,7 +1242,7 @@ extension TrustedAdvisorClient {
 
     /// Performs the `UpdateOrganizationRecommendationLifecycle` operation on the `TrustedAdvisor` service.
     ///
-    /// Update the lifecycle of a Recommendation within an Organization. This API only supports prioritized recommendations.
+    /// Update the lifecycle of a Recommendation within an Organization. This API only supports prioritized recommendations and updates global priority recommendations, eliminating the need to call the API in each AWS Region.
     ///
     /// - Parameter input: [no documentation found] (Type: `UpdateOrganizationRecommendationLifecycleInput`)
     ///
@@ -1314,7 +1315,7 @@ extension TrustedAdvisorClient {
 
     /// Performs the `UpdateRecommendationLifecycle` operation on the `TrustedAdvisor` service.
     ///
-    /// Update the lifecyle of a Recommendation. This API only supports prioritized recommendations.
+    /// Update the lifecyle of a Recommendation. This API only supports prioritized recommendations and updates global priority recommendations, eliminating the need to call the API in each AWS Region.
     ///
     /// - Parameter input: [no documentation found] (Type: `UpdateRecommendationLifecycleInput`)
     ///
